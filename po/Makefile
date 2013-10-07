@@ -1,0 +1,275 @@
+# Makefile for program source directory in GNU NLS utilities package.
+# Copyright (C) 1995, 1996, 1997 by Ulrich Drepper <drepper@gnu.ai.mit.edu>
+#
+# This file file be copied and used freely without restrictions.  It can
+# be used in projects which are not available under the GNU Public License
+# but which still want to provide support for the GNU gettext functionality.
+# Please note that the actual code is *not* freely available.
+#
+# - Modified by Owen Taylor <otaylor@redhat.com> to use GETTEXT_PACKAGE
+#   instead of PACKAGE and to look for po2tbl in ./ not in intl/
+#
+# - Modified by jacob berkman <jacob@ximian.com> to install
+#   Makefile.in.in and po2tbl.sed.in for use with glib-gettextize
+
+GETTEXT_PACKAGE = griffon
+PACKAGE = griffon
+VERSION = 1.6.3
+
+SHELL = /bin/bash
+
+
+srcdir = .
+top_srcdir = ..
+
+
+prefix = /usr/local
+exec_prefix = ${prefix}
+datarootdir = ${prefix}/share
+datadir = ${datarootdir}
+libdir = ${exec_prefix}/lib
+localedir = $(libdir)/locale
+gnulocaledir = $(datadir)/locale
+gettextsrcdir = $(datadir)/glib-2.0/gettext/po
+subdir = po
+
+INSTALL = /usr/bin/install -c
+INSTALL_DATA = ${INSTALL} -m 644
+MKINSTALLDIRS = mkdir -p
+
+CC = gcc
+GENCAT = @GENCAT@
+GMSGFMT = /usr/bin/msgfmt
+MSGFMT = /usr/bin/msgfmt
+MSGFMT_OPTS = -c
+XGETTEXT = /usr/bin/xgettext
+MSGMERGE = msgmerge
+
+DEFS = -DHAVE_CONFIG_H
+CFLAGS = -g -O2 -w -s -pipe
+CPPFLAGS = 
+
+INCLUDES = -I.. -I$(top_srcdir)/intl
+
+COMPILE = $(CC) -c $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS) $(XCFLAGS)
+
+SOURCES = 
+POFILES =  af.po am.po an.po ar.po ar_OM.po ar_SA.po ar_SY.po as.po ast.po ay.po az.po be.po bg.po bg_BG.po bi.po bn.po bn_BD.po bn_IN.po bo.po br.po bs.po byn.po ca.po ca_ES.po crh.po cs.po csb.po cs_CZ.po cv.po cy.po cy_GB.po da.po da_DK.po de.po de_AT.po de_CH.po de_DE.po dz.po el.po el_GR.po en.po en_AU.po en_CA.po en_GB.po en_US.po eo.po es.po es_AR.po es_CL.po es_CO.po es_ES.po es_MX.po es_VE.po et.po et_EE.po eu.po eu_ES.po fa.po fa_AF.po fa_IR.po fi.po fi_FI.po fil.po fo.po fo_FO.po frp.po fur.po fy.po ga.po gd.po gez.po gl.po gl_ES.po gn.po gu.po gv.po ha.po he.po he_IL.po hi.po hne.po hr.po hr_HR.po ht.po hu.po hu_HU.po hy.po ia.po id.po id_ID.po ig.po io.po is.po is_IS.po it.po it_IT.po ja.po ja_JP.po jv.po ka.po kk.po kk_KZ.po km.po kn.po ko.po ko_KR.po ku.po ky.po la.po lb.po lg.po li.po ln.po lo.po lt.po lt_LT.po lv.po lv_LV.po mai.po mg.po mi.po mk.po ml.po ml_IN.po mn.po mr.po ms.po ms_MY.po mt.po my.po my_MM.po na.po nb.po nb_NO.po nds.po ne.po new.po nl.po nl_BE.po nl_NL.po nn.po nn_NO.po no.po no_NO.po nso.po oc.po or.po os.po pa.po pl.po pl_PL.po pms.po ps.po pt.po pt_BR.po pt_PT.po qu.po rm.po ro.po ro_RO.po ru.po ru_RU.po rw.po sc.po sd.po se.po si.po sk.po sk_SK.po sl.po sl_SI.po sm.po so.po sp.po sq.po sr.po sr_YU.po st.po su.po sv.po sv_SE.po sw.po ta.po ta_LK.po te.po tg.po th.po ti.po tig.po tk.po tl.po to.po tr.po tr_TR.po tt.po tt_RU.po ug.po uk.po uk_UA.po ur.po ur_PK.po uz.po ve.po vi.po vi_VN.po wa.po wal.po wo.po xh.po yi.po yo.po zh.po zh_CN.po zh_HK.po zh_TW.po zu.po
+GMOFILES =  af.gmo am.gmo an.gmo ar.gmo ar_OM.gmo ar_SA.gmo ar_SY.gmo as.gmo ast.gmo ay.gmo az.gmo be.gmo bg.gmo bg_BG.gmo bi.gmo bn.gmo bn_BD.gmo bn_IN.gmo bo.gmo br.gmo bs.gmo byn.gmo ca.gmo ca_ES.gmo crh.gmo cs.gmo csb.gmo cs_CZ.gmo cv.gmo cy.gmo cy_GB.gmo da.gmo da_DK.gmo de.gmo de_AT.gmo de_CH.gmo de_DE.gmo dz.gmo el.gmo el_GR.gmo en.gmo en_AU.gmo en_CA.gmo en_GB.gmo en_US.gmo eo.gmo es.gmo es_AR.gmo es_CL.gmo es_CO.gmo es_ES.gmo es_MX.gmo es_VE.gmo et.gmo et_EE.gmo eu.gmo eu_ES.gmo fa.gmo fa_AF.gmo fa_IR.gmo fi.gmo fi_FI.gmo fil.gmo fo.gmo fo_FO.gmo frp.gmo fur.gmo fy.gmo ga.gmo gd.gmo gez.gmo gl.gmo gl_ES.gmo gn.gmo gu.gmo gv.gmo ha.gmo he.gmo he_IL.gmo hi.gmo hne.gmo hr.gmo hr_HR.gmo ht.gmo hu.gmo hu_HU.gmo hy.gmo ia.gmo id.gmo id_ID.gmo ig.gmo io.gmo is.gmo is_IS.gmo it.gmo it_IT.gmo ja.gmo ja_JP.gmo jv.gmo ka.gmo kk.gmo kk_KZ.gmo km.gmo kn.gmo ko.gmo ko_KR.gmo ku.gmo ky.gmo la.gmo lb.gmo lg.gmo li.gmo ln.gmo lo.gmo lt.gmo lt_LT.gmo lv.gmo lv_LV.gmo mai.gmo mg.gmo mi.gmo mk.gmo ml.gmo ml_IN.gmo mn.gmo mr.gmo ms.gmo ms_MY.gmo mt.gmo my.gmo my_MM.gmo na.gmo nb.gmo nb_NO.gmo nds.gmo ne.gmo new.gmo nl.gmo nl_BE.gmo nl_NL.gmo nn.gmo nn_NO.gmo no.gmo no_NO.gmo nso.gmo oc.gmo or.gmo os.gmo pa.gmo pl.gmo pl_PL.gmo pms.gmo ps.gmo pt.gmo pt_BR.gmo pt_PT.gmo qu.gmo rm.gmo ro.gmo ro_RO.gmo ru.gmo ru_RU.gmo rw.gmo sc.gmo sd.gmo se.gmo si.gmo sk.gmo sk_SK.gmo sl.gmo sl_SI.gmo sm.gmo so.gmo sp.gmo sq.gmo sr.gmo sr_YU.gmo st.gmo su.gmo sv.gmo sv_SE.gmo sw.gmo ta.gmo ta_LK.gmo te.gmo tg.gmo th.gmo ti.gmo tig.gmo tk.gmo tl.gmo to.gmo tr.gmo tr_TR.gmo tt.gmo tt_RU.gmo ug.gmo uk.gmo uk_UA.gmo ur.gmo ur_PK.gmo uz.gmo ve.gmo vi.gmo vi_VN.gmo wa.gmo wal.gmo wo.gmo xh.gmo yi.gmo yo.gmo zh.gmo zh_CN.gmo zh_HK.gmo zh_TW.gmo zu.gmo
+DISTFILES = LINGUAS ChangeLog Makefile.in.in POTFILES.in $(GETTEXT_PACKAGE).pot \
+$(POFILES) $(GMOFILES) $(SOURCES)
+
+POTFILES = \
+	../src/interface.c \
+	../src/callbacks.c \
+	../src/minido.c \
+	../src/help_def.c \
+	../src/griffon_defs.c \
+	../src/griffon_text_document.c \
+	../src/griffon_options.c
+
+CATALOGS =  af.gmo am.gmo an.gmo ar.gmo ar_OM.gmo ar_SA.gmo ar_SY.gmo as.gmo ast.gmo ay.gmo az.gmo be.gmo bg.gmo bg_BG.gmo bi.gmo bn.gmo bn_BD.gmo bn_IN.gmo bo.gmo br.gmo bs.gmo byn.gmo ca.gmo ca_ES.gmo crh.gmo cs.gmo csb.gmo cs_CZ.gmo cv.gmo cy.gmo cy_GB.gmo da.gmo da_DK.gmo de.gmo de_AT.gmo de_CH.gmo de_DE.gmo dz.gmo el.gmo el_GR.gmo en.gmo en_AU.gmo en_CA.gmo en_GB.gmo en_US.gmo eo.gmo es.gmo es_AR.gmo es_CL.gmo es_CO.gmo es_ES.gmo es_MX.gmo es_VE.gmo et.gmo et_EE.gmo eu.gmo eu_ES.gmo fa.gmo fa_AF.gmo fa_IR.gmo fi.gmo fi_FI.gmo fil.gmo fo.gmo fo_FO.gmo frp.gmo fur.gmo fy.gmo ga.gmo gd.gmo gez.gmo gl.gmo gl_ES.gmo gn.gmo gu.gmo gv.gmo ha.gmo he.gmo he_IL.gmo hi.gmo hne.gmo hr.gmo hr_HR.gmo ht.gmo hu.gmo hu_HU.gmo hy.gmo ia.gmo id.gmo id_ID.gmo ig.gmo io.gmo is.gmo is_IS.gmo it.gmo it_IT.gmo ja.gmo ja_JP.gmo jv.gmo ka.gmo kk.gmo kk_KZ.gmo km.gmo kn.gmo ko.gmo ko_KR.gmo ku.gmo ky.gmo la.gmo lb.gmo lg.gmo li.gmo ln.gmo lo.gmo lt.gmo lt_LT.gmo lv.gmo lv_LV.gmo mai.gmo mg.gmo mi.gmo mk.gmo ml.gmo ml_IN.gmo mn.gmo mr.gmo ms.gmo ms_MY.gmo mt.gmo my.gmo my_MM.gmo na.gmo nb.gmo nb_NO.gmo nds.gmo ne.gmo new.gmo nl.gmo nl_BE.gmo nl_NL.gmo nn.gmo nn_NO.gmo no.gmo no_NO.gmo nso.gmo oc.gmo or.gmo os.gmo pa.gmo pl.gmo pl_PL.gmo pms.gmo ps.gmo pt.gmo pt_BR.gmo pt_PT.gmo qu.gmo rm.gmo ro.gmo ro_RO.gmo ru.gmo ru_RU.gmo rw.gmo sc.gmo sd.gmo se.gmo si.gmo sk.gmo sk_SK.gmo sl.gmo sl_SI.gmo sm.gmo so.gmo sp.gmo sq.gmo sr.gmo sr_YU.gmo st.gmo su.gmo sv.gmo sv_SE.gmo sw.gmo ta.gmo ta_LK.gmo te.gmo tg.gmo th.gmo ti.gmo tig.gmo tk.gmo tl.gmo to.gmo tr.gmo tr_TR.gmo tt.gmo tt_RU.gmo ug.gmo uk.gmo uk_UA.gmo ur.gmo ur_PK.gmo uz.gmo ve.gmo vi.gmo vi_VN.gmo wa.gmo wal.gmo wo.gmo xh.gmo yi.gmo yo.gmo zh.gmo zh_CN.gmo zh_HK.gmo zh_TW.gmo zu.gmo
+CATOBJEXT = .gmo
+INSTOBJEXT = .mo
+
+.SUFFIXES:
+.SUFFIXES: .c .o .po .pox .gmo .mo .msg .cat
+
+.c.o:
+	$(COMPILE) $<
+
+.po.pox:
+	$(MAKE) $(GETTEXT_PACKAGE).pot
+	$(MSGMERGE) $< $(srcdir)/$(GETTEXT_PACKAGE).pot -o $*.pox
+
+.po.mo:
+	$(MSGFMT) -o $@ $<
+
+.po.gmo:
+	$(AM_V_GEN) file=$(srcdir)/`echo $* | sed 's,.*/,,'`.gmo \
+	  && rm -f $$file && $(GMSGFMT) $(MSGFMT_OPTS) -o $$file $<
+
+.po.cat:
+	sed -f ../intl/po2msg.sed < $< > $*.msg \
+	  && rm -f $@ && $(GENCAT) $@ $*.msg
+
+
+all: all-yes
+
+all-yes: $(CATALOGS)
+all-no:
+
+$(srcdir)/$(GETTEXT_PACKAGE).pot: $(POTFILES)
+	$(XGETTEXT) --default-domain=$(GETTEXT_PACKAGE) \
+	  --msgid-bugs-address='http://bugzilla.gnome.org/enter_bug.cgi?product=glib&keywords=I18N+L10N&component=general' \
+	  --add-comments --keyword=_ --keyword=N_ \
+	  --keyword=C_:1c,2 \
+	  --keyword=NC_:1c,2 \
+	  --keyword=g_dcgettext:2 \
+	  --keyword=g_dngettext:2,3 \
+	  --keyword=g_dpgettext2:2c,3 \
+	  --flag=N_:1:pass-c-format \
+	  --flag=C_:2:pass-c-format \
+	  --flag=NC_:2:pass-c-format \
+	  --flag=g_dngettext:2:pass-c-format \
+          --flag=g_strdup_printf:1:c-format \
+          --flag=g_string_printf:2:c-format \
+          --flag=g_string_append_printf:2:c-format \
+          --flag=g_error_new:3:c-format \
+          --flag=g_set_error:4:c-format \
+          --flag=g_markup_printf_escaped:1:c-format \
+          --flag=g_log:3:c-format \
+          --flag=g_print:1:c-format \
+          --flag=g_printerr:1:c-format \
+          --flag=g_printf:1:c-format \
+          --flag=g_fprintf:2:c-format \
+          --flag=g_sprintf:2:c-format \
+          --flag=g_snprintf:3:c-format \
+          --flag=g_scanner_error:2:c-format \
+          --flag=g_scanner_warn:2:c-format \
+	  $(POTFILES) \
+	&& test ! -f $(GETTEXT_PACKAGE).po \
+	   || ( rm -f $(srcdir)/$(GETTEXT_PACKAGE).pot \
+		&& mv $(GETTEXT_PACKAGE).po $(srcdir)/$(GETTEXT_PACKAGE).pot )
+
+install: install-exec install-data
+install-exec:
+install-data: install-data-yes
+install-data-no: all
+install-data-yes: all
+	$(MKINSTALLDIRS) $(DESTDIR)$(datadir); \
+	catalogs='$(CATALOGS)'; \
+	for cat in $$catalogs; do \
+	  cat=`basename $$cat`; \
+	  case "$$cat" in \
+	    *.gmo) destdir=$(gnulocaledir);; \
+	    *)     destdir=$(localedir);; \
+	  esac; \
+	  lang=`echo $$cat | sed 's/\$(CATOBJEXT)$$//'`; \
+	  dir=$(DESTDIR)$$destdir/$$lang/LC_MESSAGES; \
+	  $(MKINSTALLDIRS) $$dir; \
+	  if test -r $$cat; then \
+	    $(INSTALL_DATA) $$cat $$dir/$(GETTEXT_PACKAGE)$(INSTOBJEXT); \
+	    echo "installing $$cat as $$dir/$(GETTEXT_PACKAGE)$(INSTOBJEXT)"; \
+	  else \
+	    $(INSTALL_DATA) $(srcdir)/$$cat $$dir/$(GETTEXT_PACKAGE)$(INSTOBJEXT); \
+	    echo "installing $(srcdir)/$$cat as" \
+		 "$$dir/$(GETTEXT_PACKAGE)$(INSTOBJEXT)"; \
+	  fi; \
+	  if test -r $$cat.m; then \
+	    $(INSTALL_DATA) $$cat.m $$dir/$(GETTEXT_PACKAGE)$(INSTOBJEXT).m; \
+	    echo "installing $$cat.m as $$dir/$(GETTEXT_PACKAGE)$(INSTOBJEXT).m"; \
+	  else \
+	    if test -r $(srcdir)/$$cat.m ; then \
+	      $(INSTALL_DATA) $(srcdir)/$$cat.m \
+		$$dir/$(GETTEXT_PACKAGE)$(INSTOBJEXT).m; \
+	      echo "installing $(srcdir)/$$cat as" \
+		   "$$dir/$(GETTEXT_PACKAGE)$(INSTOBJEXT).m"; \
+	    else \
+	      true; \
+	    fi; \
+	  fi; \
+	done
+	if test "$(PACKAGE)" = "glib"; then \
+	  $(MKINSTALLDIRS) $(DESTDIR)$(gettextsrcdir); \
+	  $(INSTALL_DATA) $(srcdir)/Makefile.in.in \
+			  $(DESTDIR)$(gettextsrcdir)/Makefile.in.in; \
+	else \
+	  : ; \
+	fi
+
+# Define this as empty until I found a useful application.
+installcheck:
+
+uninstall:
+	catalogs='$(CATALOGS)'; \
+	for cat in $$catalogs; do \
+	  cat=`basename $$cat`; \
+	  lang=`echo $$cat | sed 's/\$(CATOBJEXT)$$//'`; \
+	  rm -f $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/$(GETTEXT_PACKAGE)$(INSTOBJEXT); \
+	  rm -f $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/$(GETTEXT_PACKAGE)$(INSTOBJEXT).m; \
+	  rm -f $(DESTDIR)$(gnulocaledir)/$$lang/LC_MESSAGES/$(GETTEXT_PACKAGE)$(INSTOBJEXT); \
+	  rm -f $(DESTDIR)$(gnulocaledir)/$$lang/LC_MESSAGES/$(GETTEXT_PACKAGE)$(INSTOBJEXT).m; \
+	done
+	if test "$(PACKAGE)" = "glib"; then \
+	  rm -f $(DESTDIR)$(gettextsrcdir)/Makefile.in.in; \
+	fi
+
+check: all
+
+dvi info tags TAGS ID:
+
+mostlyclean:
+	rm -f core core.* *.pox $(GETTEXT_PACKAGE).po *.old.po cat-id-tbl.tmp
+	rm -fr *.o
+
+clean: mostlyclean
+
+distclean: clean
+	rm -f Makefile Makefile.in POTFILES *.mo *.msg *.cat *.cat.m
+
+maintainer-clean: distclean
+	@echo "This command is intended for maintainers to use;"
+	@echo "it deletes files that may require special tools to rebuild."
+	rm -f $(GMOFILES)
+
+distdir = ../$(GETTEXT_PACKAGE)-$(VERSION)/$(subdir)
+dist distdir: $(DISTFILES)
+	dists="$(DISTFILES)"; \
+	for file in $$dists; do \
+	  ln $(srcdir)/$$file $(distdir) 2> /dev/null \
+	    || cp -p $(srcdir)/$$file $(distdir); \
+	done
+
+update-po: Makefile
+	$(MAKE) $(GETTEXT_PACKAGE).pot
+	tmpdir=`pwd`; \
+	cd $(srcdir); \
+	catalogs='$(CATALOGS)'; \
+	for cat in $$catalogs; do \
+	  cat=`basename $$cat`; \
+	  lang=`echo $$cat | sed 's/\$(CATOBJEXT)$$//'`; \
+	  echo "$$lang:"; \
+	  if $(MSGMERGE) $$lang.po $(GETTEXT_PACKAGE).pot -o $$tmpdir/$$lang.new.po; then \
+	    if cmp $$lang.po $$tmpdir/$$lang.new.po >/dev/null 2>&1; then \
+	      rm -f $$tmpdir/$$lang.new.po; \
+            else \
+	      if mv -f $$tmpdir/$$lang.new.po $$lang.po; then \
+	        :; \
+	      else \
+	        echo "msgmerge for $$lang.po failed: cannot move $$tmpdir/$$lang.new.po to $$lang.po" 1>&2; \
+	        rm -f $$tmpdir/$$lang.new.po; \
+	        exit 1; \
+	      fi; \
+	    fi; \
+	  else \
+	    echo "msgmerge for $$cat failed!"; \
+	    rm -f $$tmpdir/$$lang.new.po; \
+	  fi; \
+	done
+
+# POTFILES is created from POTFILES.in by stripping comments, empty lines
+# and Intltool tags (enclosed in square brackets), and appending a full
+# relative path to them
+POTFILES: POTFILES.in
+	( if test 'x$(srcdir)' != 'x.'; then \
+	    posrcprefix='$(top_srcdir)/'; \
+	  else \
+	    posrcprefix="../"; \
+	  fi; \
+	  rm -f $@-t $@ \
+	    && (sed -e '/^#/d' 						\
+		    -e "s/^\[.*\] +//" 					\
+		    -e '/^[ 	]*$$/d' 				\
+		    -e "s@.*@	$$posrcprefix& \\\\@" < $(srcdir)/$@.in	\
+		| sed -e '$$s/\\$$//') > $@-t \
+	    && chmod a-w $@-t \
+	    && mv $@-t $@ )
+
+Makefile: Makefile.in.in ../config.status POTFILES
+	cd .. \
+	  && $(SHELL) ./config.status $(subdir)/$@.in
+
+# Tell versions [3.59,3.63) of GNU make not to export all variables.
+# Otherwise a system limit (for SysV at least) may be exceeded.
+.NOEXPORT:

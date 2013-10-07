@@ -1,0 +1,46 @@
+dnl Process this file with autoconf to produce a configure script.
+
+AC_INIT(configure.in)
+AM_INIT_AUTOMAKE(griffon, 1.6.4)
+AM_CONFIG_HEADER(config.h)
+AM_MAINTAINER_MODE
+
+AC_ISC_POSIX
+AC_PROG_CC
+AM_PROG_CC_STDC
+AC_HEADER_STDC
+
+AC_ARG_WITH(for_debian,
+[  --with-for-debian Build GRIFFON for Debian],[
+   echo "Build Griffon for Debian",
+AC_DEFINE([FOR_DEBIAN],[],[description])],)
+
+
+
+AC_CHECK_HEADER(aspell.h, 
+               AC_CHECK_LIB(aspell, new_aspell_config, 
+               LIBS="$LIBS -laspell"
+               AC_DEFINE(HAVE_LIBASPELL, 1, [use aspell])
+               ))
+
+CFLAGS="$CFLAGS -w -s -pipe"
+LIBS="-lxml2"
+pkg_modules="gtk+-3.0 vte-2.90 webkitgtk-3.0 gtksourceview-3.0 libnotify"
+PKG_CHECK_MODULES(PACKAGE, [$pkg_modules])
+AC_SUBST(PACKAGE_CFLAGS)
+AC_SUBST(PACKAGE_LIBS)
+
+GETTEXT_PACKAGE=griffon
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE")
+
+dnl Add the languages which your application supports here.
+ALL_LINGUAS="af am an ar ar_OM ar_SA ar_SY as ast ay az be bg bg_BG bi bn bn_BD bn_IN bo br bs byn ca ca_ES crh cs csb cs_CZ cv cy cy_GB da da_DK de de_AT de_CH de_DE dz el el_GR en en_AU en_CA en_GB en_US eo es es_AR es_CL es_CO es_ES es_MX es_VE et et_EE eu eu_ES fa fa_AF fa_IR fi fi_FI fil fo fo_FO frp fur fy ga gd gez gl gl_ES gn gu gv ha he he_IL hi hne hr hr_HR ht hu hu_HU hy ia id id_ID ig io is is_IS it it_IT ja ja_JP jv ka kk kk_KZ km kn ko ko_KR ku ky la lb lg li ln lo lt lt_LT lv lv_LV mai mg mi mk ml ml_IN mn mr ms ms_MY mt my my_MM na nb nb_NO nds ne new nl nl_BE nl_NL nn nn_NO no no_NO nso oc or os pa pl pl_PL pms ps pt pt_BR pt_PT qu rm ro ro_RO ru ru_RU rw sc sd se si sk sk_SK sl sl_SI sm so sp sq sr sr_YU st su sv sv_SE sw ta ta_LK te tg th ti tig tk tl to tr tr_TR tt tt_RU ug uk uk_UA ur ur_PK uz ve vi vi_VN wa wal wo xh yi yo zh zh_CN zh_HK zh_TW zu"
+AM_GLIB_GNU_GETTEXT
+
+AC_OUTPUT([
+Makefile
+src/Makefile
+po/Makefile.in
+])
+

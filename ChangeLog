@@ -1,0 +1,724 @@
+pour la version 1.6.4 =================
+
+06/10/2013 15:29:22:
++Ajout d'une notification à l'ouverture d'un fichier
++Ajout de la limit de la fonction background pour recherche et en mode edition à 1000 lignes pour éviter les problèmes de lenteur sur les gros fichiers
++Ajout d'un controle sur le scan_include
+
+05/10/2013 20:46:45:
++Ajout d'un webkit si aucun onglet de fichier n'est ouvert
+
+05/10/2013 13:43:01:
++Modification pour les fichier de grande taille
++Modification des droits à la création d'un répertoire
+
+04/10/2013 09:01:35:
++Modification de l'interface pour les petits écran
++Recherche d'une fuite mémoire dans la fonction void do_hl_c (t_note_page *doc)
++Ajout du scan des include en focus du sourceview principal
+
+03/10/2013 13:04:36:
++Modification de la taille des icons pour les petits écran
++Modification de l'interface pour les petits écran
++Déplacement de l'entrée pour la création des répertoires et fichiers
+
+02/10/2013 11:57:38:
++Ajout d'un système d'historique pour la ligne de commande
++Ajout d'un système d'historique pour l'onglet miniweb
++Ajout d'un système d'historique pour l'onglet myadmin
+
+pour la version 1.6.3 =================
+
+30/09/2013 16:08:21:
++Ajout de fonction autocomp sur l'onglet note
++Amélioration de l'autocomplementation
+
+18/09/2013 10:44:15:
++Ajout d'aide pour terminaux
+
+17/09/2013 09:06:52:
++Modification de la toolbar principale
++Possibilité d'ouvrir un fichier en ligne de comande
+-Correction de l'affichage des toolbars
+-La fonction de correction d'orthographe est retirée pour des problème de compatibilité entre Debian/Ubuntu
++Amélioration de création de fichier html
++Compatibilité des sources avec la distribution Debian
+
+11/09/2013 10:03:51:
++Rédaction d'une documentation
++Ajout d'aide pour terminaux
+
+10/09/2013 09:22:01:
++Ajout d'aide pour les terminaux
++Gestion du téléchargement sur les webkit avec un click droit
+
+09/09/2013 15:28:44:
+-Correction de la fonction de recherche google
++Test de la version de Griffon au démarrage.
+
+04/09/2013 08:59:17:
++Mise en place du graphique de téléchargement sur le site web
+-Correction du package Debian pour l'emplacement des fichiers autocomp
++Ajout de la fonction nouvelle fenêtre dans la partie documentation
+
+03/09/2013 12:42:50:
++Modification du site web pour la version 1.6.3
+
+02/09/2013 11:07:09:
++Ajout de la fonction chmod pour la création d'un nouveau fichier pour le rendre exécutable directement
++Rédaction d'une documentation pour création de script bash
++Création d'un template de base pour les documentations
+
+pour la version 1.6.2 =================
+
+26/08/2013 10:23:10:
++Ajout de la fonction aspiration de site web via wget dans l'aide pour terminaux
++Ajout de la fonction rm sur un grand nombre de fichier dans l'aide terminaux
++Ajout de la fonction find recherche de fichier par nom dans l'aide terminaux
++Ajout de la fonction nombre de lignes d'un fichier dans l'aide pour terminaux
++Ajout de la fonction lancer ou récupérer un screen dans l'aide pour terminaux
++Ajout de la fonction téléchargement de page web avec wget dans l'aide pour terminaux
+
+08/08/2013 14:35:31:
+-Correction bug raccourcis clavier
+
+31/07/2013 19:14:32:
++Ajout d'un système d'aide pour les terminaux
+
+31/07/2013 12:46:04:
++Ajout la génération de documentation dans le menu fichier
++Ajout des bookmark dans le menu Rechercher
++Ajout colonne et ligne dans la status barre
+
+30/07/2013 12:05:37:
++Ajout de la fonction background sur un mot précédent
+-Correction de la fonction BG word backward
++Amélioration de la fonction de recherche
+
+29/07/2013 15:47:34:
++Ajout aide PHP
+
+pour la version 1.6.1 =================
+
+17/07/2013 12:28:30:
+-Correction du mouvement des onglets
+
+16/07/2013 12:15:12:
++Ajout des err et fonctions dans l'onglet "In"
+
+15/07/2013 12:58:12:
++Amélioration de la fonction check de fin de ligne
+
+12/07/2013 12:58:58:
++Ajout de la fonction détéction des err en fin de ligne
+-Correction ouverture de fichier pour le bug de spell check
+
+11/07/2013 12:55:09:
++Traduction des nouvelles fonctions
+
+09/07/2013 13:02:48:
++Ajout de la fonction griffon_notify
+-Correction des icons en gouttière
++Modification des icons en gouttière
+
+04/07/2013 12:37:20:
++Ajout de la libnotify-dev
++Test de notifications début de mise en place
+
+03/07/2013 12:11:40:
++Ajout de la fonction de recherche google sur terminale
++Ajout de bgcolor pour un texte recherché
++Modification du comportement des bookmarks
+
+02/07/2013 12:08:34:
++Ajout de l'instruction last pour perl en gouttière
++Ajout de tooltips pour la gouttière
++Ajout de tooltips sur les bookmark
+
+01/07/2013 18:01:54:
++Mise en place des fonction tooltip sur les icon de la gouttière
+
+pour la version 1.6.0 =================
+
+27/06/2013 12:36:51:
+-Correction du package Debian pour les autocomps (répertoire /usr/local/share/griffon/doc/)
+
+24/06/2013 12:37:28:
++Ajout aide perl
+
+14/06/2013 12:05:55:
+-Correction de l'autocomp
+
+12/06/2013 12:02:01:
++Ajout d'onglet dans la partie Myadmin pour la traduction et les aides
+-Correction d'un bug d'affichage dans le logmemo
++Mise en place du système d'onglet détachable sur l'onglet Terminal et MyAdmin
+
+10/06/2013 12:26:47:
++Quand une aide est sélectionnée une recherche google est automatiquement lancée dans l'onglet Myadmin 
+
+07/06/2013 12:23:43:
++Amélioration de la navigation web avec ajout undo/redo/source/reload/entry pour chaque fenêtre
+
+06/06/2013 12:11:57:
++Augmentation du nombre de lignes pour les terminaux
++Amélioration des navigateurs web miniweb et myadmin pour l'ouverture de nouvelle fenêtre type link blank
++Amélioration des navigateurs web pour le click droit "Open link in new window"
+
+05/06/2013 10:56:18:
+-Correction buffer logmemo
+
+04/06/2013 12:08:01:
++Ajout de la date en début de log
++Ajout de la possibilité d'éditer les log d'édition directement dans un nouveau fichier
++Ajout de la possibilité d'éditer les log d'un terminale directement dans un nouveau fichier
+
+pour la version 1.5.9 =================
+
+23/05/2013 12:46:24:
++Ajout d'aide Php et javascript
++Ajout du système autocomp personalisé
+
+21/05/2013 13:20:49:
++Ajout d'un button pour ouvrir une fenêtre dans l'onglet miniweb myadmin
+
+14/05/2013 12:59:15:
++Ajout aide PHP
++Ajout aide perl (ftp)
++Ajout de la lib gtkspell-3.0 pour la correction d'orthographe
++Ajout de l'option dans les préférences pour la correction d'orthographe
+
+12/05/2013 10:52:04:
++Ajout aide php
+
+09/05/2013 14:02:05:
+-Correction de la fonction delete page pour terminale
++Ajout du signal pour la fermeture d'un terminale en cas de commande exit
+
+09/05/2013 08:46:01:
+-Correction pour la coloration syntaxique PERL/PHP
+-Correction si un type de coloration est séléctioné 
++Ajout de coloration pour C++/CSS/XML/javascript/ruby/python/java
+
+08/05/2013 09:26:12:
++Mise en place de la fonction copie coller pour terminale ssh et fenêtre de debug
++Ajout de controle pour l'affichage du menu copie coller
++Ajout d'icon pour le menu copie coller
+
+07/05/2013 12:00:38:
++Mise en place du système de menu dans les VTE
+
+06/05/2013 12:09:44:
+-Correction de la modification de ligne pour la partie todo liste
++Début de mise en place de la fonction copy/paste pour terminale VTE
+
+pour la version 1.5.8 =================
+
+*** Passage en GTK3 ***
+
+27/04/2013 07:54:49:
++Au channgement d'onglet la position du selecteur de fichier change pour se placer dans le bon répértoire
++Modification du comportement de l'autocomp pour les bloc et tag HTML suivant l'extension du fichier
+
+26/04/2013 12:05:43:
++Modification du système de montage SFTP/FTP
+-Le système de focus d'onglets est retiré
++Mise en place de l'option ON/OFF pour les informations de tabulation espace retour chariot...
++Mise en place ON/OFF de la complementation des balise et bloc type {}()...
+
+25/04/2013 12:45:24:
+-Modification affichage des notebooks (toujours le problème d'affichage de labels)
++Le run de projet utilise la fenêtre de debug
++Le comportement des selécteurs de fichier est amélioré
++Ajout du boutton find next sur la toolbar de commande
+
+23/04/2013 19:59:15:
++A l'ouverture de fichier le titre de la fenêtre prend le path du fichier ouvert
+
+22/04/2013 12:33:41:
+-Test et debug du package debian pour la version gtk3
++Ajout de l'icon find~replace
++Ajout d'icon go to line
+
+21/04/2013 10:21:42:
+-Correction de la fonction recherche ALL pour supprimer le bug du freez
+-Correction de page notebook a vérifier
+
+20/04/2013 10:36:36:
+-Correction de traduction
+-Correction du package Debian pour la version 1.5.7 en ligne suite à un rapport de bug
++Début de mise en place de la page contribution pour les traductions
+
+18/04/2013 07:20:21:
++Ajout de code pour la création d'un fichier
+
+17/04/2013 19:26:12:
++A la création d'un répertoire ou fichier le sélécteur suit la création
++Ajout d'une toolbar pour les commandes
+
+17/04/2013 12:38:24:
++Les themes sont utilisés pour les notes,projets et logs
++Création de répertoire directement par ligne de commande dans le répertoire courrant en séléction dans le navigateur de fichier
++Création de fichier directement par ligne de commande dans le répertoire courrant en séléction dans le navigateur de fichier
+
+16/04/2013 13:02:58:
++Ajout de la fonction sauvegarde d'un theme utilisé
+-Correction des tooltips autocomp avec focus i/o
+-Correction de l'onglet terminal
+-le splash screen est supprimé pour une ouverture plus rapide
+-Correction de la présentation de la fenêtre Run/Debug
+
+pour la version 1.5.7 =================
+
+12/04/2013 12:16:17:
++Ajout de themes
++Ajout de fichier de base pour autocomplémentation à l'ouverture de fichier (/usr/local/share/griffon/doc/[c,php,html,perl,bash])
++Limitation du nombre de proposition pour l'autocomp fixé à 15 pour la touche SHIFT_right
++Les bulles d'information se base sur l'autocomplementation et les fichiers doc/
++Purge du code
+
+11/04/2013 12:56:38:
++Affichage des info pour autocomplémentation dans un tooltips 
+
+10/04/2013 12:06:16:
+-Correction de l'autocomplementation pour l'ouverture de fichiers
++Modification de l'autocomplementation
+
+09/04/2013 21:22:28:
++Modification de l'affichage de la fenêtre de debug
+
+09/04/2013 07:13:00:
++Modification de l'execution de script/bin avec debug
++Ajout de la compilation de projet avant debug
++Ouverture d'une session ssh directement quand un serveur est monté
++Ajout de la fonction Shuffle lines qui permet de trier les lignes de façon aléatoire
+-Correction de la fonction umount
+
+08/04/2013 19:40:35:
++Mise en place d'une fenêtre de debug et exécution de script ou projet
+
+08/04/2013 12:40:35:
++Modification du crapbook
+-Correction de la génération de doc
+-Correction de la détéction des variables PHP
+-Correction de l'onglet include
++Modification de la génération de doc
+
+07/04/2013 18:43:55:
++Mise en place d'un nouveau splash screen et création
++Traduction des modification de la version 1.5.7 en.po
++Correction des fonctions undo/redo
++Correction du fichier README
+
+07/04/2013 08:55:19:
++Si un onglet est détaché la fenêtre n'est plus férmable (évite de pérdre des onglets)
+
+06/04/2013 11:50:52:
++Modification de la présentation de la génération de doc 
++Ajout de mot clef pour la génération de doc
+
+05/04/2013 16:10:08:
++Gestion des commentaires dans la génération de doc pour les script perl et bash
+
+05/04/2013 11:59:31:
++Ajout de la fonction documentation 
++Mise à jour de la documentation FR et EN
++Le système de génération de doc est placé dans un nouveau fichier 
++Amélioration de la génération de doc
+
+04/04/2013 12:20:32:
++Mise en place de la fenêtre d'aide pour les htaccess
++Ajout aide pour htaccess + mise à jour de griffon.pot
++Début de conception de la fonction documentation de code source 
+
+pour la version 1.5.6 =================
+
+02/04/2013 12:31:39:
++Modification de l'interface Projet
++Ajout de la fonction cacher les bookmark pour l'onglet MyAdmin
+-Correction du focus à la création d'un terminale
+
+01/04/2013 12:51:49:
+-Correction du nombre de caractère pour les recherches et traduction google
++Modification de l'ajout de terminaux
++Modification de l'orientation des bouton pour l'onglet projet
++Ajout de la fonction détacher sur un terminale
++Ajout de la fonction supprimer un terminale
+
+31/03/2013 08:37:22:
++Possibilité d'ouvrir plusieurs terminales
+
+29/03/2013 14:32:41:
++Ajout de fonction sur les webview et corrections
+-L'onglet API get URl et supprimé la fonction est ajoutée dans le miniweb et myadmin
+
+28/03/2013 08:32:23:
+-Correction du bug Miniweb seg fault
+-Correction seg fault sur ouverture d'un fichier sans extension
+
+27/03/2013 12:11:00:
+-Correction de la coloration de syntaxe à l'ouverture de fichier
++Ajout de l'autovalidation du Miniweb pour la consultation de page
++Ajout d'une toolbar pour le miniweb et myadmin (fonctions undo,redo,stop,reload)
+
+26/03/2013 13:39:08:
++Traduction total de Griffon en.po
++Ajout de la fonction recherche sur google dans le MiniWeb (F8)
++Ajout de la fonction traduction EN FR avec Google (F6 et F7)
+
+24/03/2013 08:57:47:
+-Correction source pour traduction (_())
++Modification des aides pour faciliter la traduction
++ReGénération du fichier griffon.pot
+
+22/03/2013 10:41:10:
++Ajout du système d'onglet détachable
++Ajout de la fonction Effacer les BookMark
+
+21/03/2013 15:38:53:
++Modification interface projet
+
+pour la version 1.5.5 =================
+
+19/03/2013 12:34:26:
++Ajout d'icon dans les notebooks
+
+17/03/2013 10:03:35:
++Ajout d'un système de bookmark l'ancien est supprimé
++Les log ne sont plus limité en nombre de ligne
++Les log sont séparés par des lignes
+
+16/03/2013 17:40:48:
+-Correction ouverture d'image avec gimp
+-Correction du problème d'ouverture des fichier sans nom
++Ajout de la possibilité d'inserer le nom d'un fichier après visu dans le web view
+
+12/03/2013 15:52:35:
++Ajout du pars de variable GET REQUEST POST pour le php
+
+11/03/2013 12:55:31:
+-Correction de la fonction affichage d'une image dans le mini web
++Modification de la partie scan include
++Ajout de la fonction aller sur la ligne d'un fichier en include
++Les fonctions sont également visible dans la partie include (pour php mot clef "function")
++Modification de la ligne de commande qui prend directement le texte en séléction avec un  [Ctrl + W]
+-Correction problème d'affichage de l'icon dans l'onglet de fichier
+
+10/03/2013 12:28:30:
++Modification du sourceview pour les get par un webkit mode source (la lib curl est retirée de Griffon)
+-Correction de seg fault pour un nouveau fichier
++Ajout d'un icon de sauvegarde dans l'onglet de fichier
+
+10/03/2013 08:56:32:
++Ajout de la fonction ouvrir les fichiers en include 
++Ajout du switch de page dans le mini web pour les page html
++Quand un fichier html ou php est sauvegardé on focus sur le mini web avec un reload
+
+09/03/2013 10:39:40:
++Ajout de visu d'image si le fichier ouvert et une image
++Ajout de la fonction ouverture d'image avec gimp depuis le mini web
+-Correction icons en marge
+
+08/03/2013 09:47:43:
++Pour un démontage FTP/SFTP la séléction dans le treeview est retirée
++Ajout d'icon dans la barre de numéro ligne
+-Correction de lenteur sur les icons mark
++Activation du scan include à la sauvegarde d'un fichier
+
+06/03/2013 11:21:48:
++Ajout aide javascript/jquery
+
+pour la version 1.5.4 =================
+
+04/03/2013 10:47:22:
+-Correction pour la visu des fichier include.
++Ajout du scan des fichiers require pour php
++Lancement du scan include à l'ouverture d'un fichier
++Ajout de markers dans la marge
++Si le fichier ouvert est une page web on l'affiche également dans le mini web
+
+03/03/2013 09:59:50:
++Ajout et test d'un gtksourceview dans la partie API et Get URL
++Ajout de la dependence via commande ldd src/griffon
++Ajout gtk sourceview pour le scan et crapbook
++Remplacement du gtk text en source view pour les onglet avec application de la coloration syntaxique par language.
+-Correction de lenteur sur la sauvegarde de gros fichier
+
+01/03/2013 08:25:38:
++Ajout de documentation DOC/site web
++Ajout d'une partie rapport de bug
+
+28/02/2013 12:23:22:
++Ajout de documentation DOC/site web
+
+27/02/2013 16:48:30:
++Début de traduction "en"
++Mise en place des fichiers de langues pour le package Debian .pot disponnible via les source dans le répertoire po
+
+25/02/2013 23:01:15:
++Mise en place du fichier de traduction griffon.pot
+
+25/02/2013 12:56:37:
+-Traduction des préferences
+-Remise en ordre des sources
+
+24/02/2013 16:13:03:
++Ajout de la fonction effacer l'historique FTP/SFTP
++Ajout du bouton Monter un serveur dans la partie droite
+
+24/02/2013 11:28:58:
++Mise en place de l'historique des montage SFTP
++Mise en place de l'historique des montage FTP
+
+23/02/2013 20:06:15:
++Mise en place de la documentation sur le site et pour Griffon + screen
+
+23/02/2013 08:53:08:
+-Correction de la présentation de la window de vérification de vérsion
++Début de mise en place de la doc (pour le logiciel seulement pas sur le site pour le moment)
+
+22/02/2013 19:40:33:
+-Rectification du focus sur l'onglet Informations pour les messages d'erreur
++Mise en place du système de verification de version
++Début d'écriture de doc
+
+21/02/2013 21:14:38:
++Ajout de fonction montage de serveur FTP via curlftpfs
+
+21/02/2013 12:05:06:
++Ajout de l'icon de sauvegarde de fichier et de la gestion du status du fichier 
++Ajout du focus pour l'execution d'un script perl/bash
+
+pour la version 1.5.3 =================
+
+18/02/2013 12:32:46:
++Ajout aide Css
++Ajout d'icon dans le logmemo et traduction logmemo
+
+17/02/2013 13:55:39:
++Création du template de base pour la documentation de Griffon
++Mise en place d'une window pour la documentation (menu "Aide")
++Traduction menu des caractères spéciaux HTML
++Ajout aide CSS
++Ajout de la fonction "Charge la page courante" pour le mini web
++Ajout d'icon dans la zone autocomp
+
+16/02/2013 14:19:26:
+-Correction de l'insert d'image HTML
+-Correction des balilses ALIGNE
++Ajout aide HTML + CSS
++Ajout de fonction correction et amélioration
+
+15/02/2013 06:54:03:
++Modification de l'affichage sans onglet
++Début de mise en place de l'aide HTML et aide CSS
++Modification du comportement de la ligne de commande
++Modification graphique présentation
+
+14/02/2013 06:59:55:
++Modification du background terminal
++Modification main window
+
+13/02/2013 08:43:54:
++Ajout aide perl
+-Correction menu coloration syntaxique PERL
++Ajout aide php
+
+12/02/2013 11:14:27:
+-Correction d'une aide perl
+-Correction de mise en page de l'onglet MyAdmin
++Ajout aide perl
+
+11/02/2013 22:31:00:
++Ajout de la partie MyAdmin qui permet d'ajouter des sites ou des liens pour la gestion de bdd via phpmyadm, pgmyadmin...
+
+11/02/2013 13:59:55:
++Ajout de fonction rechercher dans les aides
++Dépliage des aide à l'ouverture et focus directement sur le treeview pour recherche
++Mise en place d'une taille fixe pour les aide avec scroll
++Window aide unique
++Modification de la window "A-propos de Griffon"
++Ajout de la fonction scan des liens html dans une page
+
+08/02/2013 08:47:17:
++Modification du splashscreen avec status et défilement
++Modification de l'organisation des sources (help/callbacks)
++Ajout de commentaire dans les sources
++Ajout de raccourci clavier Ctrl+page up / Ctrl+page down pour passer d'un onglet a l'autre
++Correction d'un gros bug sur la todo liste seg fault
+
+07/02/2013 17:01:43:
++Mise en place des fichier pour la version 1.5.3
++Modification de la présentation des textview
+
+07/02/2013 08:02:45:
++Mise en place de la todo liste dans le notebook du bas
+-Correction des bug de la todo liste et test
++Amélioration du bloc todo
++Possibilité d'éditer le fichier xml de configuration de la todo liste
++Amélioration du fichier de configuration de la todo liste
+
+06/02/2013 17:56:47:
++Debut d'ajout de la window todo liste
+
+06/02/2013 11:51:27:
++Mise en place de l'onglet Mini Web (mini navigateur web pour tester des pages)
++Mise en place des lib webkit-1.0 webkitgtk-1.0
++Mise en place du mini web viewer
++Mise en place du raccourci clavier Ctrl+R pour le reload de la page web
+
+06/02/2013 10:17:38:
++Mise en place de l'onglet "API get url" pour les tests de get sur des api ou pour voir les sources d'une page web
++Mise en place de la fonction get URL
++Mise en place du raccourci clavier Ctrl+G pour le reload du GET
+
+05/02/2013 16:50:28:
++Debut de recherche lib curl pour mise en place d'une zone de test pour api ou page html en mode source
+
+pour la version 1.5.2 =================
+
+25/01/2013 07:16:19:
++Changement dans le comportement du notebook du bas avec autofocus en cas d'info
++Ajout du reccourci clavier Ctrl+T pour le terminal
+
+24/01/2013 09:32:10:
++Modification interface pour la partie du bas (notebook)
+
+23/01/2013 12:29:22:
++Modification du fichier configure.in pour la lib vte
++Debut de mise en place des test pour VTE gtk2 term
++Modification de l'interface avec notebook pour section du bas
+
+22/01/2013 14:42:56:
++Ajout aide php
+
+21/01/2013 09:36:56:
++Préparation des fichiers pour la version 1.5.2
++Changement du splash screen
+-Correction autocomp
+
+18/01/2013 15:02:29:
+-Correction auto complementation
+
+17/01/2013 09:16:26:
++Ajout aide php
++Ajout de tips
+-Correction auto complementation
+
+14/01/2013 14:34:18:
++Ajout/Modification de l'aide perl
+
+13/01/2013 09:31:05:
+-Correction problème de charge avec le système de background CHARGE CUP
+
+11/01/2013 10:18:04:
+-Correction autocomp
++Ajout aides php
++Ajout aides perl
+-Correction bug mise en valeur de texte
++Ajout du système de visualisation du cursor avec background gris
+
+09/01/2013 08:36:55:
++Ajout aides Perl
+
+08/01/2013 13:26:46:
+-Correction de la fonction autoremplace
+-Correction de l'auto complémentation
++Gestion des mots/variable/fonction dans l'auto complémentation
++Ajout aide Perl et PHP
+-Correction sur les tips
+
+07/01/2013 11:57:39:
++Ajout aides PHP
++Ajout d'un message si pas de fichier quand une aide est demandée
+-Suppr des aides non utilisées dans la séléction
++Ajout aides Perl
++Ajout du double CR sur le 3/4 des aides
+
+04/01/2013 19:40:19:
++Ajout de la fonction exectuer un script perl ou bash et avoir le résultat dans la zone d'info
+
+04/01/2013 07:20:11:
++Ajout de controle pour le montage sshfs pour éviter les problèmes
++Ajout d'aides php
+-Correction de bugs Segmentation fault sur les inserts aide, l'auto complementation, scan include 
+
+03/01/2013 09:58:34:
+-Correction du bug de séléction treeview sur la partie droite d'aide
++début de mise en place fonction montage SFTP
++mise en place fonction démontage SFTP
+
+pour la version 1.5.1 =================
+
+31/12/2012 11:16:58:
++Ajout d'aide php
+
+27/12/2012 15:23:50:
++Ajout d'aide perl et Mysql
+
+26/12/2012 15:19:44: 
++Ajout d'aide pour le perl
++Ajout de la partie aide base de données (MYSQL)
+
+23/12/2012 21:12:20:
++Refonte de l'aide bash en mode treeview
++Refonte de l'aide perl en) mode treeview
+
+21/12/2012 08:59:17:
++Ajout du file selector à gauche avec possibilité de fermeture en même temps que la partie droite
++Correction de la visu du crapbook
++Quand le crapbook est utilisé l'onglet note est automatiquement mis en valeur
++Ajout d'un hpaned pour jouer avec la taile du sélecteur de fichier de gauche
++Refonte de l'onglet Aide avec des trivew et préparation pour les futurs pages d'aide
+
+20/12/2012 12:46:08:
++Ajout dans les menu Perl et Bash de la fonction rendre executable un script
++Ajout de logmemo
+
+19/12/2012 12:26:03:
++Ajout du double [ avec remplacement du cursor automatique
++Quand une nouvelle variable ou fonction est déclaré l'onglet Scan Auto Comp est automatiquement séléctioné
+-Correction raccourci clavier rechercher/crapbook insert, select ALL
+-Correction rendre executable un script bash
++logmemo non editable et cursor invisible
+
+18/12/2012 12:20:35:
++La zone de texte projets n'est plus éditable et cursor non visible
++La zone de texte include n'est plus éditable et cursor non visible
+-Delete de la fonction debugage qui était bugé à remplacer plus tard
+-Delete de la fonction détail d'un script bash qui était bugé à remplacer plus tard
+-Delete de l'onglet outils qui ne sert plus a rien sans les scan bugs...
++Correction du crapbook en lecture pour l'onglet Note
+
+18/12/2012 07:28:17:
+-Fonction scan de variables retiré via boutton ou menu
++La zone de texte de scan n'est plus editable et cursor non visible
+
+17/12/2012 12:11:20:
++Ajout du double \' avec reposition du cursor au milieu
++Ajout du double < avec reposition du cursor au milieu
++Ajout du double ( avec reposition du cursor au milieu
++Les variables et fonctions d'une session sont disponnible dans l'onglet "Scan"
+-Correction de l'affichage du projet à l'ouverture
+
+17/12/2012 07:33:43:
++Ajout du double \" avec reposition du cursor au milieu 
++Ajout de double { avec reposition du cursor au milieu
+
+16/12/2012 17:43:40:  
+-Correction de raccourcis clavier
+
+16/12/2012 10:58:06: 
++Ajout de l'autocomplementation via la touche "SHIFT droit" les variables et les fonctions sont prise en compte pour l'autocomplementation
+
+15/12/2012 10:16:48: 
++Mise en place du boutton "Mise en valeur du texte
++Mise en place de la suppression de la mise en valeur du texte via la touche F5
+
+13/12/2012 21:36: 
++Mise en place de la coloration de la syntaxe pour le perl
++Mise en place des tooltips pour les fonction C/PERL/PHP et commande BASH
++Agrandissement de la partie droite (navigation de fichier...)
+
+13/12/2012 21:30:48 Remise en place du ChangeLog
+

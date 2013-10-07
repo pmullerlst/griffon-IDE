@@ -1,0 +1,22 @@
+static GtkTreeModel *create_and_fill_model_php (void);
+static GtkTreeModel *create_and_fill_model_mysql (void);
+static GtkTreeModel *create_and_fill_model_perl (void);
+static GtkTreeModel *create_and_fill_model_bash (void);
+static GtkTreeModel *create_and_fill_model_javascript (void);
+static GtkTreeModel *create_and_fill_model_htaccess (void);
+static GtkTreeModel *create_and_fill_model_term (void);
+static GtkWidget *create_view_and_model (char clef[50]);
+void  on_changed(GtkWidget *widget, gpointer statusbar);
+GtkWidget *help_php_window (void);
+GtkWidget *help_mysql (void);
+GtkWidget *help_html (void);
+GtkWidget *help_css (void);
+GtkWidget *help_javascript (void);
+GtkWidget *Aide_BASH (void);
+GtkWidget *centre_perl (void);
+GtkWidget *centre_htaccess (void);
+gboolean util_treeview_match_all_words_callback(GtkTreeModel *pTreeModel, gint nColumn, const gchar *pszSearchText, GtkTreeIter* pIter, gpointer _unused);
+gboolean util_match_all_words_in_sentence(gchar* pszWords, gchar* pszSentence);
+gboolean util_match_word_in_sentence(gchar* pszWord, gchar* pszSentence);
+void term_help(GtkWidget *tv,GdkEventButton *event,  gpointer user_data);
+

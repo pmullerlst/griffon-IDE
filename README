@@ -1,0 +1,17 @@
+
+INSTALLATION DE GRIFFON
+
+================================================
+
+Installation par les sources :
+
+	# apt-get install vte-2.90-dev webkitgtk-3.0-dev gtksourceview-3.0-dev libgtk-3-dev 
+	# ./configure	
+	# make clean	
+	# make	
+	# make install	
+
+Pour installer Griffon dans le menu utilisateur :
+
+	# ./install-griffon	
+

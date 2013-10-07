@@ -1,0 +1,34 @@
+#!/bin/bash
+
+#
+# Script d'installation de griffon 
+#
+
+[ ! -e /usr/local/bin/griffon ] || rm -rf /usr/local/bin/griffon
+
+echo ""
+echo "Installation de Griffon 1.6.4"
+mv src/griffon src/griffon-bin 2> /dev/null
+cp -rf src/griffon-bin /usr/local/bin/griffon
+mkdir -p /usr/local/share/griffon/pixmaps/ 
+cp -rf pixmaps/*.png /usr/local/share/griffon/pixmaps/
+mkdir -p /usr/local/share/griffon/doc/ 
+cp -rf doc/* /usr/local/share/griffon/doc/
+cp -rf griffon.desktop /usr/share/applications/ 
+chmod -R 777 /usr/local/share/griffon
+
+# install fr
+mkdir -p /usr/local/share/locale/fr/LC_MESSAGES/
+mkdir -p /usr/share/locale/fr/LC_MESSAGES/
+cp po/fr.gmo /usr/share/locale/fr/LC_MESSAGES/griffon.mo
+cp po/fr.gmo /usr/local/share/locale/fr/LC_MESSAGES/griffon.mo
+
+# install en
+mkdir -p /usr/local/share/locale/en/LC_MESSAGES/
+mkdir -p /usr/share/locale/en/LC_MESSAGES/
+cp po/en.gmo /usr/share/locale/en/LC_MESSAGES/griffon.mo
+cp po/en.gmo /usr/local/share/locale/en/LC_MESSAGES/griffon.mo
+echo ""
+
+
+
