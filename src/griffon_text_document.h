@@ -6,7 +6,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
+
 typedef struct
 {
   gint position;
@@ -55,7 +56,7 @@ t_note_page* doc_open_file (gchar *a_filename);
 
 //cur_text_doc points to current text document (in any case)
 t_note_page *cur_text_doc;
-
+gchar* get_c_url (t_note_page *doc) ;
 gchar* doc_get_buf (GtkTextBuffer *text_buffer);
 int doc_is_sel (GtkTextBuffer *text_buffer);
 gboolean doc_get_selection (GtkTextBuffer *text_buffer, gint *start, gint *end);
@@ -90,10 +91,10 @@ gchar* doc_get_word_at_left (t_note_page *doc, GtkTextIter *itstart, GtkTextIter
 void doc_move_cursor_backw (t_note_page *doc, gint i); 
 void doc_move_cursor_forw (t_note_page *doc, gint i); 
 void doc_move_cursor_backw_middle_tags (t_note_page *doc); 
-
+gchar* doc_get_current_word (t_note_page *doc, GtkTextIter *itstart, GtkTextIter *itend);
 void indent_real(GtkWidget *text_view);
 void doc_header_source_switch (t_note_page *doc);
-
+gchar* doc_get_sel (t_note_page *doc);
 gint cb_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data);
 void test_save_onglet ();
 void auto_hl_griffon_perl           (void);	
@@ -115,3 +116,9 @@ void theme_classic ();
 void theme_kate ();
 void theme_oblivion ();
 void theme_tango ();
+void doc_set_new_text (t_note_page *doc, GtkTextIter *itstart, GtkTextIter *itend, gchar *text);
+void doc_move_to_pos_bw_quote (t_note_page* doc);
+gint find_index_by_page (t_note_page *page);
+gboolean doc_search_f (t_note_page *doc, const gchar *text);
+gboolean doc_search_f_next (t_note_page *doc);
+void doc_indent_selection (t_note_page *doc, gboolean unindent);

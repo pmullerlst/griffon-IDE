@@ -13,10 +13,6 @@ t_tea_project *cur_tea_project;
 
 GtkWidget *wnd_proj_props;
 
-static GtkEntry *ent_project_name;
-static GtkEntry *ent_dir_makefile;
-static GtkEntry *ent_dir_source;
-static GtkEntry *ent_file_executable;
 
 GtkWidget* create_proj_props_window (t_tea_project *p);
 

@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+void tea_start (void);
+void bmx_reload (void);
+
 typedef struct
 {
   GList *confdata;
@@ -240,6 +243,7 @@ char **g_argv;
 
 void confile_reload (void);
 void confile_free (void);
+void tabs_reload (void);
 
 GList* parse_conf_file_to_list (gchar *filename);
 gchar* conf_get_char_value (GList *confdata, gchar *key, gchar *def);
@@ -253,14 +257,18 @@ void get_iconv_sup (void);
 void autocomp_done (void);
 void autocomp_init (void);
 
-void execute_recent_item (gchar *item);
+void execute_recent_item (gchar const *item);
 
 void update_enc_menu (void);
 void reload_snippets (void);
-static GtkWidget* lookup_widget (GtkContainer *widget, gchar *widget_name);
+GtkWidget* lookup_widget (GtkContainer *widget, gchar *widget_name);
 
 void  hash_remove_cb (gpointer data);
 gchar* get_tmp_file_string (void);
 void reload_usermenu (void);
 void reload_sessions (void);
 void reload_autoreplace (void);
+void reload_templates (void);
+void update_recent_list_menu (gboolean load_from_file);
+void tea_done (void);
+

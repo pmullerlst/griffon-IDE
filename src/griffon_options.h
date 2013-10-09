@@ -140,5 +140,5 @@ GtkEntry *ent_rtf_enc;
 GtkEntry *ent_default_charset;
 GtkEntry *ent_def_filesave_charset;
 
-
+GtkWidget* wnd_options_create (void);
 GtkWidget* create_wnd_about (void);

@@ -10,9 +10,6 @@
 typedef struct _TestProvider TestProvider;
 typedef struct _TestProviderClass TestProviderClass;
 
-static GtkSourceCompletionWords *word_provider,*word_provider2,*word_provider3;
-static TestProvider *fixed_provider;
-static TestProvider *random_provider;
 
 struct _TestProvider
 {
@@ -82,9 +79,9 @@ GtkWidget *scrolledWindow_editor;
 GtkWidget *tea_main_window;
 GtkWidget *mainvbox,*filechooserwidget2;
 GtkWidget *cmb_famous, *hbox_bar;   
-GtkWidget *ent_search;
-GtkWidget *cmb_famous2;   
-GtkWidget *ent_search2;
+GtkEntry *ent_search;
+GtkEntry *cmb_famous2;   
+GtkEntry *ent_search2;
 GtkWidget *dlg_colorsel;
 GtkNotebook *notebook1;
 GtkNotebook *notebook3;
@@ -181,8 +178,8 @@ GtkWidget* file_ok_sel (void);
 GtkWidget* create_about1 (void);
 GtkWidget* create_custom_win (void);
 void start_custom (void);
-static GtkWidget * create_view_and_model_help (void);
-static GtkWidget * create_view_and_model_myadmin (void);
+GtkWidget * create_view_and_model_help (void);
+GtkWidget * create_view_and_model_myadmin (void);
 void focus_term ();
 void focus_web ();
 void todo_list ();
@@ -208,15 +205,15 @@ void  controle_save() ;
 void  icon_save_logmemo();
 void  icon_nosave_logmemo();
 GtkWidget* version_window (void);
-static GtkTreeModel * create_and_fill_model_sftp (void);
-static GtkWidget * create_view_and_model_sftp (void);
+GtkTreeModel * create_and_fill_model_sftp (void);
+GtkWidget * create_view_and_model_sftp (void);
 void  on_changed_sftp(GtkWidget *widget, gpointer statusbar);
 gchar *sshadd;
 void  sftp_reload();
 void  ftp_reload();
 void  on_changed_ftp(GtkWidget *widget, gpointer statusbar);
-static GtkTreeModel * create_and_fill_model_ftp (void);
-static GtkWidget * create_view_and_model_ftp (void);
+GtkTreeModel * create_and_fill_model_ftp (void);
+GtkWidget * create_view_and_model_ftp (void);
 void  vide_configuration_ftp();
 void  vide_configuration_sftp();
 GtkWidget* rapport_window (void);
@@ -235,8 +232,7 @@ void insert_image_web();
 GtkListStore *create_liststore_book();
 void add_to_list_book(gchar *str,gchar *str2);
 void on_changed_book (GtkWidget *widget);
-static GtkNotebook*
-window_creation_function (GtkNotebook *source_notebook,GtkWidget   *child,gint         x,gint         y,gpointer     data);
+GtkNotebook* window_creation_function (GtkNotebook *source_notebook,GtkWidget   *child,gint         x,gint         y,gpointer     data);
 //GtkWidget* window_creation_function ();
 GtkWidget* close_tools2 (void);
 void del_book() ;
@@ -275,13 +271,13 @@ void new_web_window ();
 void new_web_window_mini ();
 void new_file_log_edit ();
 void new_file_term_edit (GtkWidget *tv,GdkEventButton *event,  gpointer user_data);
-static gboolean myadmin_new_window (WebKitWebView             *web_view,
+gboolean myadmin_new_window (WebKitWebView             *web_view,
                                                         WebKitWebFrame            *frame,
                                                         WebKitNetworkRequest      *request,
                                                         WebKitWebNavigationAction *navigation_action,
                                                         WebKitWebPolicyDecision   *policy_decision,
                                                         gpointer                   user_data);
-static gboolean web_new_w_click(WebKitWebView *web_view,gpointer       user_data);
+gboolean web_new_w_click(WebKitWebView *web_view,gpointer       user_data);
 WebKitWebView * web_new_w_click_go(WebKitWebView  *web_view,
                                                         WebKitWebFrame *frame,
                                                         gpointer        user_data);
@@ -296,13 +292,12 @@ void enter_myweb_win (GtkWidget* entry, gpointer user_data);
 void myadmin_get_url_win (WebKitWebView  *web, WebKitWebFrame *frame,gpointer user_data);
 void griffon_notify (gchar* txt);
 void add_to_list_err(gchar *str,gchar *str2);
-static void download_requested_cb(WebKitWebView *web_view, WebKitDownload *download, gpointer user_data);
-static void download_status_cb(GObject* object, GParamSpec* pspec, gpointer data);
-static gboolean
-navigation_policy_decision_requested_cb(WebKitWebView* web_view,
+void download_requested_cb(WebKitWebView *web_view, WebKitDownload *download, gpointer user_data);
+void download_status_cb(GObject* object, GParamSpec* pspec, gpointer data);
+/*gboolean navigation_policy_decision_requested_cb(WebKitWebView* web_view,
                                         WebKitWebFrame* web_frame,
                                         WebKitNetworkRequest* request,
                                         WebKitWebNavigationAction* action,
                                         WebKitWebPolicyDecision* decision,
-                                        gpointer data);
+                                        gpointer data);*/
 
