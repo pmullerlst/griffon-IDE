@@ -35,6 +35,9 @@
 #include "griffon_hl.h"
 #include "griffon_gtk_utils.h"
 
+static GtkSourceCompletionWords *word_provider,*word_provider2,*word_provider3;
+static TestProvider *fixed_provider;
+static TestProvider *random_provider;
 GtkSourceCompletion *completion;
 
 static gchar *compute_indentation(GtkTextBuffer *buffer, gint line) // from gedit

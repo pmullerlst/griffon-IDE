@@ -18,10 +18,14 @@
 #include <time.h>
 #include <stdio.h>
 #include <signal.h>
-
+#include <stdlib.h>
+#include <string.h>
+#include "griffon_text_document.h"
 #include "callbacks.h"
 #include "griffon_config.h"
-
+#include "interface.h"
+#include "griffon_hl.h"
+#include "griffon_funx.h"
 
 void sig_handler (int i)
 {
@@ -88,7 +92,8 @@ int main (int argc, char *argv[])
 		{
 
 			char cwd[956];
-			getcwd(cwd, sizeof(cwd));
+			char *systemRet2 =getcwd(cwd, sizeof(cwd));
+			if(systemRet2 == NULL){printf("\n");}
 			strcat(cwd,"/");
 			strcat(cwd,argv[1]);
 
@@ -96,8 +101,9 @@ int main (int argc, char *argv[])
 			doc_open_file (cwd);
 
 			char *extension;
-			if(extension = strrchr(argv[1],'.'))
+			if(strrchr(argv[1],'.'))
 			{
+				extension = strrchr(argv[1],'.');
 				if (strcmp(".pl", extension) == 0){start_perl_script();}
 				if (strcmp(".sh", extension) == 0){print_bash();}
 				if (strcmp(".php", extension) == 0){start_php_script();}
@@ -108,7 +114,8 @@ int main (int argc, char *argv[])
 					char commande[150];
 					strcpy(commande,"chmod u+x ");
 					strcat(commande,cwd);
-					system(commande);
+					int systemRet =system(commande);
+					if(systemRet == -1){printf("WARN : chmod impossible\n");}
 		}
 		else
 		{

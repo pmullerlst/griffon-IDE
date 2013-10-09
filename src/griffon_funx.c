@@ -314,7 +314,7 @@ gchar *create_relative_link_to(gchar * current_filepath, gchar * link_to_filepat
  **/
 
 
-gchar *create_full_path(gchar * filename, gchar *basedir) {
+gchar *create_full_path(gchar const * filename, gchar *basedir) {
 	gchar *absolute_filename;
 	gchar *tmpcdir;
 
@@ -455,7 +455,7 @@ void goto_local_label (const gchar *l)
 }
 
 
-void handle_file (gchar *filename, gint mode)
+void handle_file (gchar const *filename, gint mode)
 {
   if (! filename)
      return;
@@ -1044,7 +1044,7 @@ gchar* compose_browser_cmd (gchar *filename)
 }
 
 
-gchar* get_tea_doc_compose_name (gchar *f)
+gchar* get_tea_doc_compose_name (gchar const *f)
 {
   return g_strconcat (TEA_DOC_DIR, f, NULL);
 } 

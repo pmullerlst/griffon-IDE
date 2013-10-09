@@ -26,6 +26,19 @@
 #include "griffon_text_document.h"
 #include "interface.h"
 
+static GtkWidget *vbox1;
+static GtkWidget *hbox1;
+static GtkWidget *l_text_to_find;
+static  GtkWidget *ent_text_to_find;
+static  GtkWidget *hbox2;
+static   GtkWidget *l_text_to_replace;
+static   GtkWidget *ent_text_to_replace;
+static   GtkWidget *hbox3;
+static   GtkCheckButton *chb_case_insensetive;
+static   GtkWidget *chb_whole_words;
+static   GtkWidget *tb_control;
+
+
 
 static void on_button_find (GtkWidget *wid, gpointer data)
 {

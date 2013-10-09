@@ -24,10 +24,10 @@
 #include <gtksourceview/gtksourcelanguage.h>
 //#include <gtkspell/gtkspell.h>
 
+#include "griffon_text_document.h"
 #include "callbacks.h"
 #include "interface.h"
 #include "griffon_defs.h"
-#include "griffon_text_document.h"
 #include "griffon_config.h"
 #include "griffon_hl.h"
 #include "griffon_proj.h"
@@ -330,7 +330,7 @@ GList* add_recent_item_composed (GList *list, t_note_page *doc)
 }
 
 
-void execute_recent_item (gchar *item)
+void execute_recent_item (gchar const *item)
 {
   if (! item) return;
   
@@ -571,7 +571,7 @@ void lookup_widget_cb (GtkWidget *widget, gpointer data)
 }
 
 
-static GtkWidget* lookup_widget (GtkContainer *widget, gchar *widget_name)
+GtkWidget* lookup_widget (GtkContainer *widget, gchar *widget_name)
 {
   if (widget)
      gtk_container_foreach (widget, lookup_widget_cb, widget_name);

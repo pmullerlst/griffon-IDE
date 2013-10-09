@@ -42,8 +42,7 @@ enum
 	  GtkWidget *window1;
 
 //******************************* template tree aide php
-static GtkTreeModel *
-create_and_fill_model_php (void)
+GtkTreeModel *create_and_fill_model_php (void)
 {
   GtkTreeStore *treestore;
   GtkTreeIter toplevel, child;
@@ -178,8 +177,7 @@ create_and_fill_model_php (void)
 }
 
 //******************************* template tree aide HTML
-static GtkTreeModel *
-create_and_fill_model_html (void)
+GtkTreeModel *create_and_fill_model_html (void)
 {
   GtkTreeStore *treestore;
   GtkTreeIter toplevel, child;
@@ -246,8 +244,7 @@ create_and_fill_model_html (void)
 }
 
 //******************************* template tree aide css
-static GtkTreeModel *
-create_and_fill_model_css (void)
+GtkTreeModel *create_and_fill_model_css (void)
 {
   GtkTreeStore *treestore;
   GtkTreeIter toplevel, child;
@@ -344,8 +341,7 @@ create_and_fill_model_css (void)
 }
 
 //******************************* template tree aide mysql
-static GtkTreeModel *
-create_and_fill_model_mysql (void)
+GtkTreeModel *create_and_fill_model_mysql (void)
 {
   GtkTreeStore *treestore;
   GtkTreeIter toplevel, child;
@@ -371,8 +367,7 @@ create_and_fill_model_mysql (void)
 }
 
 //******************************* template tree aide javascript
-static GtkTreeModel *
-create_and_fill_model_javascript (void)
+GtkTreeModel *create_and_fill_model_javascript (void)
 {
   GtkTreeStore *treestore;
   GtkTreeIter toplevel, child;
@@ -449,8 +444,7 @@ create_and_fill_model_javascript (void)
 
 
 //******************************* template tree aide htaccess
-static GtkTreeModel *
-create_and_fill_model_htaccess (void)
+GtkTreeModel *create_and_fill_model_htaccess (void)
 {
   GtkTreeStore *treestore;
   GtkTreeIter toplevel, child;
@@ -482,8 +476,7 @@ create_and_fill_model_htaccess (void)
 }
 
 //******************************* template tree aide perl
-static GtkTreeModel *
-create_and_fill_model_perl (void)
+GtkTreeModel *create_and_fill_model_perl (void)
 {
   GtkTreeStore *treestore;
   GtkTreeIter toplevel, child, child2;
@@ -659,8 +652,7 @@ create_and_fill_model_perl (void)
 }
 
 //******************************* template tree aide bash
-static GtkTreeModel *
-create_and_fill_model_bash (void)
+GtkTreeModel *create_and_fill_model_bash (void)
 {
   GtkTreeStore *treestore;
   GtkTreeIter toplevel, child;
@@ -1122,7 +1114,7 @@ gboolean util_treeview_match_all_words_callback(GtkTreeModel *pTreeModel, gint n
 }
 
 //******************************* creation des models pour toutes les fenetres aide
-static GtkWidget * create_view_and_model (char clef[50])
+GtkWidget * create_view_and_model (char clef[50])
 {
   GtkTreeViewColumn *col;
   GtkCellRenderer *renderer;
@@ -1599,8 +1591,7 @@ GtkWidget* centre_htaccess (void)
 }
 
 //******************************* template tree aide term
-static GtkTreeModel *
-create_and_fill_model_term (void)
+GtkTreeModel *create_and_fill_model_term (void)
 {
   GtkTreeStore *treestore;
   GtkTreeIter toplevel, child;

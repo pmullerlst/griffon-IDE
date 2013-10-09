@@ -467,7 +467,7 @@ void glist_save_to_file (GList *list, gchar *filename)
 }
 
 
-GList* filter_exclude_from_list (const GList *list, gchar *phrase)
+GList* filter_exclude_from_list (const GList *list, gchar const *phrase)
 {
   if (! phrase)
      return list;
@@ -486,7 +486,7 @@ GList* filter_exclude_from_list (const GList *list, gchar *phrase)
 }
 
 
-GList* filter_antiexclude_from_list (const GList *list, gchar *phrase)
+GList* filter_antiexclude_from_list (const GList *list, gchar const *phrase)
 {
   if (! phrase)
       return list;
@@ -505,7 +505,7 @@ GList* filter_antiexclude_from_list (const GList *list, gchar *phrase)
 }
 
 
-GList* find_item_by_data (GList *list, gchar *s)
+GList* find_item_by_data (GList *list, gchar const *s)
 {
   if (! s)
       return NULL;
@@ -844,7 +844,7 @@ void str_walk_extract_word (gpointer key,
 }
 
 
-void run_extract_words (t_note_page *page)
+void run_extract_words ( t_note_page *page)
 {
   GList *list = NULL;
   GtkTextIter a;
@@ -917,7 +917,7 @@ void walk_by_words (gpointer key,
 }
 
 
-void run_unitaz (t_note_page *page, gint sort_type, gboolean case_insensetive)
+void run_unitaz ( t_note_page *page, gint sort_type, gboolean case_insensetive)
 {
   GList *list = NULL;
   GtkTextIter a;
@@ -1526,7 +1526,7 @@ GList* add_to_list_with_limit2 (GList *list, gchar *s, gint limit)
 } 
 
 
-GList* glist_repl (GList* list, gchar *format)
+GList* glist_repl (GList* list, gchar const *format)
 {
   if (! format)
      return NULL;
@@ -1546,7 +1546,7 @@ GList* glist_repl (GList* list, gchar *format)
 }
 
 
-gchar* glist_enum (gchar *buf, gchar *format_str)
+gchar* glist_enum (gchar *buf, gchar const *format_str)
 {
   if (! buf || ! format_str)
     return NULL;
@@ -1952,7 +1952,7 @@ GList* ht_to_glist (GHashTable *hash_table, gint option)
 }
 
 
-gchar* ch_str (gchar *s, gchar *new_val)
+gchar* ch_str (gchar *s, gchar const *new_val)
 {
    if (! s)
       return g_strdup (new_val);

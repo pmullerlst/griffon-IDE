@@ -28,6 +28,10 @@
 #include "rox_strings.h"
 #include "griffon_config.h"
 
+static GtkEntry *ent_project_name;
+static GtkEntry *ent_dir_makefile;
+static GtkEntry *ent_dir_source;
+static GtkEntry *ent_file_executable;
 
 static void cb_proj_on_bt_apply (GObject *object, gpointer user_data) 
 {

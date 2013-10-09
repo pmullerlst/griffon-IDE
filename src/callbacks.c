@@ -12,12 +12,14 @@
 #  include <config.h>
 #endif
 
+#include <stdlib.h>
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
 #include <gdk/gdkkeysyms.h>
 
 #include <errno.h>
 #include <sys/stat.h>
+#include <ctype.h>
 #include <glib.h>
 #include <time.h>
 #include <stdio.h>
@@ -33,12 +35,14 @@
 #include "griffon_funx.h"
 #include "callbacks.h"
 #include "interface.h"
+#include "rox_strings.h"
 #include "griffon_config.h"
 #include "griffon_defs.h"
 #include "griffon_hl.h"
 #include "griffon_fr.h"
 #include "griffon_proj.h"
 #include "griffon_gtk_utils.h"
+#include "griffon_options.h"
 #include "help_def.h"
 
 #define MAX_BUF 165536
@@ -61,11 +65,9 @@ icon_affiche_ok();
       icon_man_logmemo(); 
      log_to_memo (_("La documentation est disponible dans le menu \"Aide->Lire le manuel/documentation de Griffon IDE\""), NULL, LM_ERROR);
      } 
-
-  gl_famous = add_to_list_with_limit (gl_famous, gtk_entry_get_text (ent_search), confile.famous_history_max);
 }
 
-void on_mni_file_open_at_cursor (GtkMenuItem *menuitem, gpointer user_data)
+void on_mni_file_open_at_cursor ()
 {
 icon_affiche_ok();
   if (! get_page_text()) return;
@@ -73,8 +75,6 @@ icon_affiche_ok();
   gchar *w = get_c_url (cur_text_doc);
   handle_file (w, 0);
   g_free (w);
-
-	//gtk_notebook_set_current_page(notebook3,1);
 }
 
 
@@ -113,7 +113,7 @@ icon_affiche_ok();
     }
 }
 
-gboolean tea_init (gpointer data)
+gboolean tea_init ()
 {
   gint i; 
   gchar *fn;
@@ -141,6 +141,7 @@ icon_affiche_ok();
     }
 
   aliens_init ();
+	return TRUE;
 }  
 
 void file_new (void)
@@ -149,97 +150,23 @@ void file_new (void)
  
 	icon_affiche_ok(); 
   gtk_window_set_title (GTK_WINDOW (tea_main_window), cur_text_doc->file_name);
-  gtk_widget_grab_focus (cur_text_doc->text_view);
+  gtk_widget_grab_focus (GTK_WIDGET(cur_text_doc->text_view));
   tabs_reload ();
 	no_onglet_open();
 	statusbar_msg (_("New File [OK]"));
 		//gtk_notebook_set_current_page(notebook3,1);
 }
 
-void on_mni_new_file_activate (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_new_file_activate ()
 {
-icon_affiche_ok();
-  file_new ();
-no_onglet_open();
-		//gtk_notebook_set_current_page(notebook3,1);
+	icon_affiche_ok();
+	file_new ();
+	no_onglet_open();
 }
 
-static void on_mni_dialog_control_box_bookmarks_goto (GtkMenuItem *menuitem, gpointer user_data)
+void on_mni_new_file_open_select_enc (GtkMenuItem *menuitem)
 {
-  gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (user_data), gtk_widget_get_name (menuitem));
-icon_affiche_ok();
-}
-
-static GtkWidget* create_dialog_control_box_bookmarks_menu (gpointer parent)
-{
-return FALSE;
-}
-
-static void on_dialog_control_box_add_bookmark (GtkButton *button,gpointer user_data)
-{
-icon_affiche_ok();
-}
-
-static GtkWidget* create_dialog_control_box (t_ppair *p, gint mode)
-{
-  GtkWidget *label; 
-  GtkWidget *vb = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vb);
-
-icon_affiche_ok();
-  gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (p->a), vb);
- 
-  GtkWidget *hb1 = gtk_hbox_new (FALSE, 0);
-  gtk_widget_show (hb1);
-
-  GtkWidget *hb2 = gtk_hbox_new (FALSE, 0);
-  gtk_widget_show (hb2);
-
-  GtkWidget *bookmarks = create_dialog_control_box_bookmarks_menu (p->a);
-
-  gtk_box_pack_start (GTK_BOX (vb), hb1, FALSE, FALSE, 0);
-  gtk_box_pack_start (GTK_BOX (vb), hb2, FALSE, FALSE, 0);
-
-  label = gtk_label_new (_("Marque page"));
-  gtk_widget_show (label);
-
-  gtk_box_pack_start (GTK_BOX (hb1), label, FALSE, FALSE, 0);
-  gtk_box_pack_start (GTK_BOX (hb1), bookmarks, FALSE, FALSE, 0);
-
-  GtkWidget *bt_add_bookmark = gtk_button_new_with_label ("+");
-  gtk_widget_show (bt_add_bookmark);
-
-  g_signal_connect ((gpointer) bt_add_bookmark, "clicked",
-                    G_CALLBACK (on_dialog_control_box_add_bookmark),
-                    p->a);
-
-  gtk_box_pack_start (GTK_BOX (hb1), bt_add_bookmark, FALSE, FALSE, 0);
-
-  GtkWidget *mni_m = gtk_menu_new ();
-
-  if (mode == 0 )
-     {
-      cur_settings.selected_enc = ch_str (cur_settings.selected_enc, confile.default_charset); 
-      build_menu_from_glist (confile.iconv_encs, mni_m, on_mni_new_file_open_select_enc);
-     } 
-
-  if (mode == 1)
-     {
-      cur_settings.selected_enc = ch_str (cur_settings.selected_enc, confile.def_filesave_charset); 
-      build_menu_from_glist (confile.gl_save_charsets, mni_m, on_mni_new_file_open_select_enc);
-     } 
-
-  label = gtk_label_new (_("Encodage: "));
-  gtk_widget_show (label);
-
-  gtk_box_pack_start (GTK_BOX (hb2), label, FALSE, FALSE, 0);
-
-  return vb;
-}
-
-void on_mni_new_file_open_select_enc (GtkMenuItem *menuitem, gpointer user_data)
-{
-  cur_settings.selected_enc = ch_str (cur_settings.selected_enc, gtk_widget_get_name (menuitem));
+  cur_settings.selected_enc = ch_str (cur_settings.selected_enc, gtk_widget_get_name (GTK_WIDGET(menuitem)));
 icon_affiche_ok();
 }
 
@@ -249,7 +176,7 @@ void file_open (void)
  
 icon_affiche_ok();
   GtkWidget *file_dialog = gtk_file_chooser_dialog_new (_("File open"),
-                                                        tea_main_window,
+                                                        GTK_WINDOW(tea_main_window),
                                                         GTK_FILE_CHOOSER_ACTION_OPEN,
                                                         GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                                                         GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
@@ -270,7 +197,6 @@ icon_affiche_ok();
 
   t_ppair *p = g_malloc (sizeof (t_ppair));
   p->a = file_dialog;
-  GtkWidget *w = create_dialog_control_box (p, 0);
   g_free (p);
 
   gtk_file_chooser_set_select_multiple (GTK_FILE_CHOOSER (file_dialog), TRUE);
@@ -296,11 +222,11 @@ icon_affiche_ok();
         }
     }
 
-  gtk_widget_destroy (file_dialog);
+  gtk_widget_destroy (GTK_WIDGET(file_dialog));
 
 }
 
-void on_mni_file_open_activate (GtkMenuItem *menuitem, gpointer user_data){icon_affiche_ok();file_open ();}
+void on_mni_file_open_activate (){icon_affiche_ok();file_open ();}
 
 void file_save (void)
 {
@@ -323,7 +249,7 @@ icon_affiche_ok();
          icon_affiche_save (); 
 }
 
-void on_mni_file_save_activate (GtkMenuItem *menuitem,gpointer user_data){icon_affiche_ok();file_save ();}
+void on_mni_file_save_activate (){icon_affiche_ok();file_save ();}
 
 void file_save_as (void)
 {
@@ -332,11 +258,11 @@ void file_save_as (void)
      show_save_as_dlg (0);
 }
 
-void on_mni_file_save_as_activate (GtkMenuItem *menuitem,gpointer user_data){icon_affiche_ok();file_save_as ();}
+void on_mni_file_save_as_activate (){icon_affiche_ok();file_save_as ();}
 
-void on_mni_out_activate (GtkMenuItem *menuitem,gpointer user_data){  ui_done();  gtk_main_quit ();}
+void on_mni_out_activate (){  ui_done();  gtk_main_quit ();}
 
-void on_mni_case_upcase_activate (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_case_upcase_activate ()
 {
 
 icon_affiche_ok();
@@ -370,7 +296,7 @@ icon_affiche_ok();
       }
 }
 
-void on_mni_case_locase_activate (GtkMenuItem *menuitem,gpointer user_data) 
+void on_mni_case_locase_activate () 
 {
 
 icon_affiche_ok();
@@ -404,7 +330,7 @@ icon_affiche_ok();
       }
 }
 
-void on_mni_reverse (GtkMenuItem *menuitem,gpointer user_data) 
+void on_mni_reverse () 
 {
 
 icon_affiche_ok();
@@ -420,7 +346,7 @@ icon_affiche_ok();
   g_free (t);
 }
 
-void on_mni_file_save_version (GtkMenuItem *menuitem,gpointer user_data) 
+void on_mni_file_save_version () 
 {
 icon_affiche_ok();
   if (! get_page_text()) return;
@@ -441,7 +367,7 @@ icon_affiche_ok();
   g_free (s);
 }
 
-void on_mni_Markup_bold_activate (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_Markup_bold_activate ()
 {
 icon_affiche_ok();
   if (! get_page_text()) return;
@@ -465,7 +391,7 @@ icon_affiche_ok();
 }
 
 
-void on_mni_Markup_link_activate (GtkMenuItem *menuitem,gpointer user_data) 
+void on_mni_Markup_link_activate () 
 {
 	icon_affiche_ok();
   if (! get_page_text()) return;
@@ -490,7 +416,7 @@ void on_mni_Markup_link_activate (GtkMenuItem *menuitem,gpointer user_data)
 }
 
 
-void on_mni_Markup_italic_activate (GtkMenuItem *menuitem,gpointer user_data) 
+void on_mni_Markup_italic_activate () 
 {
 	icon_affiche_ok();
   if (! get_page_text()) return;
@@ -513,7 +439,7 @@ void on_mni_Markup_italic_activate (GtkMenuItem *menuitem,gpointer user_data)
   g_free (buf);
 }
 
-void on_mni_Markup_underline_activate (GtkMenuItem *menuitem,gpointer user_data) 
+void on_mni_Markup_underline_activate () 
 {
   if (! get_page_text()) return;
   
@@ -531,7 +457,7 @@ void on_mni_Markup_underline_activate (GtkMenuItem *menuitem,gpointer user_data)
   g_free (t);
 }
 
-void on_mni_Markup_para_activate (GtkMenuItem *menuitem,gpointer user_data) 
+void on_mni_Markup_para_activate () 
 {
   if (! get_page_text()) return;
   
@@ -553,7 +479,7 @@ void on_mni_Markup_para_activate (GtkMenuItem *menuitem,gpointer user_data)
   g_free (buf);
 }
 
-void on_mni_Markup_header_activate (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_Markup_header_activate (GtkMenuItem *menuitem)
 {
   if (! get_page_text()) return;
   
@@ -562,17 +488,17 @@ void on_mni_Markup_header_activate (GtkMenuItem *menuitem,gpointer user_data)
 
   if (! buf)
      {
-      t = g_strconcat ("<", gtk_widget_get_name (menuitem), ">",
-                       "</", gtk_widget_get_name (menuitem), ">",
+      t = g_strconcat ("<", gtk_widget_get_name (GTK_WIDGET(menuitem)), ">",
+                       "</", gtk_widget_get_name (GTK_WIDGET(menuitem)), ">",
                        NULL);
       doc_insert_at_cursor (cur_text_doc, t);
       doc_move_cursor_backw_middle_tags (cur_text_doc);
      }
   else
       {
-       t = g_strconcat ("<", gtk_widget_get_name (menuitem), ">",
+       t = g_strconcat ("<", gtk_widget_get_name (GTK_WIDGET(menuitem)), ">",
                         buf,
-                        "</", gtk_widget_get_name (menuitem), ">",
+                        "</", gtk_widget_get_name (GTK_WIDGET(menuitem)), ">",
                         NULL);
        doc_rep_sel (cur_text_doc, t);
       }
@@ -584,7 +510,7 @@ void on_mni_Markup_header_activate (GtkMenuItem *menuitem,gpointer user_data)
 
 static gint last_page = -1;
 
-void on_notebook1_switch_page (GtkNotebook *notebook,GtkWidget* page,guint page_num,gpointer user_data)
+void on_notebook1_switch_page (GtkNotebook *notebook,guint page_num)
 {
   t_note_page *dc = get_page_by_index (page_num);
   
@@ -592,19 +518,19 @@ void on_notebook1_switch_page (GtkNotebook *notebook,GtkWidget* page,guint page_
   if (dc)
      {
       set_title (dc);
-      gtk_widget_grab_focus (dc->text_view);
+      gtk_widget_grab_focus (GTK_WIDGET(dc->text_view));
       last_page = gtk_notebook_get_current_page (notebook);
      }
 }
 
-void on_mni_file_close_current (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_file_close_current ()
 {
 	icon_affiche_ok();
    page_del_by_index (gtk_notebook_get_current_page ((GtkNotebook *) notebook1));
 	no_onglet_open();
 }
 
-void on_mni_view_wrap (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_view_wrap ()
 {
 	icon_affiche_ok();
   if (! get_page_text()) return;
@@ -615,7 +541,7 @@ void on_mni_view_wrap (GtkMenuItem *menuitem,gpointer user_data)
       gtk_text_view_set_wrap_mode (cur_text_doc->text_view, GTK_WRAP_NONE);
 }
 
-void on_mni_Markup_br (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_Markup_br ()
 {
   if (! get_page_text()) return;
   if (! confile.xhtml_mode)
@@ -624,7 +550,7 @@ void on_mni_Markup_br (GtkMenuItem *menuitem,gpointer user_data)
       doc_insert_at_cursor (cur_text_doc, "<br />"); 
 }
                        
-void on_mni_Functions_number_arabian2roman (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_Functions_number_arabian2roman ()
 {
 	icon_affiche_ok();
   if (! get_page_text()) return;
@@ -643,7 +569,7 @@ void on_mni_Functions_number_arabian2roman (GtkMenuItem *menuitem,gpointer user_
   g_free (buf);
 }
 
-void on_mni_view_show_line_numbers (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_view_show_line_numbers ()
 {
 	icon_affiche_ok();
   if (! get_page_text()) return;
@@ -654,7 +580,7 @@ void on_mni_view_show_line_numbers (GtkMenuItem *menuitem,gpointer user_data)
        document_set_line_numbers (cur_text_doc, FALSE);
 }
 
-void on_button_close (GtkWidget *wid, gpointer data)
+void on_button_close ( gpointer data)
 {
 	icon_affiche_ok();
   page_del_by_index (find_index_by_page (data));
@@ -682,11 +608,11 @@ void on_mni_html_default_template ()
   g_free (t);
 }
 
-void on_mni_file_save_session (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_file_save_session ()
 {
 	icon_affiche_ok();
   GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Sauvegarde de la session sous:"),
-                                                   tea_main_window,
+                                                   GTK_WINDOW(tea_main_window),
                                                    GTK_FILE_CHOOSER_ACTION_SAVE,
                                                    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                                                    GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
@@ -713,13 +639,13 @@ void on_mni_file_save_session (GtkMenuItem *menuitem,gpointer user_data)
      g_free (filename);
     }
 
-  gtk_widget_destroy (dialog);
+  gtk_widget_destroy (GTK_WIDGET(dialog));
 }
 
-void on_mni_session_file_open_activate (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_session_file_open_activate ()
 {
   GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Ouverture du fichier de session:"),
-                                                   tea_main_window,
+                                                   GTK_WINDOW(tea_main_window),
                                                    GTK_FILE_CHOOSER_ACTION_OPEN,
                                                    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                                                    GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
@@ -735,10 +661,10 @@ void on_mni_session_file_open_activate (GtkMenuItem *menuitem,gpointer user_data
       g_free (filename);
      }
 
-   gtk_widget_destroy (dialog);
+   gtk_widget_destroy (GTK_WIDGET(dialog));
 }
 
-void on_mni_antispam (GtkMenuItem *menuitem, gpointer user_data)
+void on_mni_antispam ()
 {
   if (! get_page_text()) return;
  
@@ -759,14 +685,14 @@ void on_mni_antispam (GtkMenuItem *menuitem, gpointer user_data)
   g_string_free (result, TRUE);
 }
 
-void on_mni_Functions_number_hex2dec (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_Functions_number_hex2dec ()
 {
   if (! get_page_text()) return;
   
   gchar *buf = doc_get_sel (cur_text_doc);
   if (! buf) return;
 
-  gchar *t = g_strdup_printf ("%d", strtol (buf, NULL, 16));  
+  gchar *t = g_strdup_printf ("%ld", strtol (buf, NULL, 16));  
 
   doc_rep_sel (cur_text_doc, t);
 
@@ -774,19 +700,19 @@ void on_mni_Functions_number_hex2dec (GtkMenuItem *menuitem,gpointer user_data)
   g_free (buf);
 }
 
-void on_mni_config_open (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_config_open ()
 {
   cur_settings.selected_enc = ch_str (cur_settings.selected_enc, "UTF-8");
   open_file_std (confile.tea_rc);
 }
 
-void on_mni_open_in_browser (GtkMenuItem *menuitem, gpointer user_data)
+void on_mni_open_in_browser (GtkMenuItem *menuitem)
 {
 icon_affiche_ok();
   if (! get_page_text()) return;
   
-  gchar *cmd;
-  gchar *wn = gtk_widget_get_name (menuitem);
+  gchar *cmd="";
+  gchar const *wn = gtk_widget_get_name (GTK_WIDGET(menuitem));
 
   if (g_ascii_strncasecmp (wn, "opera", 33) == 0)
      cmd = rep_all_s (confile.cmd_Opera, cur_text_doc->file_name);
@@ -821,31 +747,33 @@ icon_affiche_ok();
   if (g_ascii_strncasecmp (wn, "Other browser", 33) == 0)
      cmd = rep_all_s (confile.cmd_Other, cur_text_doc->file_name);
 
-  system (cmd);
+  int systemRet =system (cmd);
+	if(systemRet == -1){return;}
+
   g_free(cmd);
 }
 
-void on_mni_utils_stats (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_utils_stats ()
 {
 	icon_affiche_ok();
   if (! get_page_text()) return;
   make_stats (cur_text_doc);
 }
 
-void on_mni_utils_add_encodings_activate (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_utils_add_encodings_activate ()
 {
   cur_settings.selected_enc = ch_str (cur_settings.selected_enc, "UTF-8");
   open_file_std (confile.iconv_file);
 }
 
-void on_mni_Functions_number_bin2dec (GtkMenuItem *menuitem, gpointer user_data)
+void on_mni_Functions_number_bin2dec ()
 {
   if (! get_page_text()) return;
   
   gchar *buf = doc_get_sel (cur_text_doc);
   if (! buf) return;
   
-  gchar *t = g_strdup_printf ("%d", strtol (buf, NULL, 2)); 
+  gchar *t = g_strdup_printf ("%ld", strtol (buf, NULL, 2)); 
 
   doc_rep_sel (cur_text_doc, t);
 
@@ -853,46 +781,27 @@ void on_mni_Functions_number_bin2dec (GtkMenuItem *menuitem, gpointer user_data)
   g_free (buf);
 }
                                      
-void on_mni_Markup_nbsp (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_Markup_nbsp ()
 {
   if (! get_page_text()) return;
   doc_insert_at_cursor (cur_text_doc, "&nbsp;");
 }
 
-void on_mni_undo (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_undo ()
 {
 	icon_affiche_ok();
   if (! get_page_text()) return;
-	gtk_source_buffer_undo(cur_text_doc->text_buffer);
+	gtk_source_buffer_undo(GTK_SOURCE_BUFFER(cur_text_doc->text_buffer));
 }
 
-void on_mni_redo (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_redo ()
 {
 	icon_affiche_ok();
   if (! get_page_text()) return;
-	gtk_source_buffer_redo(cur_text_doc->text_buffer);
+	gtk_source_buffer_redo(GTK_SOURCE_BUFFER(cur_text_doc->text_buffer));
 }
 
-static void update_preview_cb (GtkFileChooser *file_chooser, gpointer data)
-{
-  GtkWidget *preview = GTK_WIDGET (data);
-  gchar *filename = gtk_file_chooser_get_preview_filename (file_chooser);
-  if (! filename)
-     return;
-
-  GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_size (filename, confile.thumb_width, confile.thumb_height, NULL);
-  gboolean have_preview = (pixbuf != NULL);
-  g_free (filename);
-
-  gtk_image_set_from_pixbuf (GTK_IMAGE (preview), pixbuf);
-
-  if (pixbuf)
-    gdk_pixbuf_unref (pixbuf);
-
-  gtk_file_chooser_set_preview_widget_active (file_chooser, have_preview);
-}
-
-void on_mni_image_activate (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_image_activate ()
 {
   if (! get_page_text()) return;
   
@@ -930,7 +839,7 @@ void on_mni_html_enclose_link ()
   free (t);
 }
 
-gboolean on_ent_search_key_press_event (GtkWidget *widget,GdkEventKey *event,gpointer user_data)
+gboolean on_ent_search_key_press_event (GdkEventKey *event)
 {
 icon_affiche_ok();
   if (event->keyval != GDK_KEY_Return)
@@ -938,7 +847,7 @@ icon_affiche_ok();
 
   if (get_page_text())
      {
-      doc_search_f (cur_text_doc, gtk_entry_get_text (ent_search));gtk_widget_grab_focus (cur_text_doc->text_view);
+      doc_search_f (cur_text_doc, gtk_entry_get_text (ent_search));gtk_widget_grab_focus (GTK_WIDGET(cur_text_doc->text_view));
 
 				GtkTreeIter iter_entry;
       gtk_list_store_append(model_entry, &iter_entry);
@@ -949,7 +858,7 @@ icon_affiche_ok();
   return FALSE;
 }
 
-void on_mni_func_strings_removeblanks (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_func_strings_removeblanks ()
 {
 icon_affiche_ok();
   if (! get_page_text()) return;
@@ -970,7 +879,7 @@ icon_affiche_ok();
   glist_strings_free (temp2);
 }
 
-void on_mni_func_strings_enclose (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_func_strings_enclose ()
 {
   if (! get_page_text()) return;
   
@@ -986,10 +895,10 @@ void on_mni_func_strings_enclose (GtkMenuItem* menuitem,gpointer user_data)
       return;
      }
 
-  GList *temp = glist_from_string (buf);
-
-  temp = glist_repl (temp, gtk_entry_get_text (ent_search));
-  gchar *t = string_from_glist (temp);
+  GList  *temp = glist_from_string (buf);
+	gchar const *zz=gtk_entry_get_text (ent_search);
+  temp = glist_repl (temp, zz);
+  gchar  *t = string_from_glist (temp);
 
   doc_rep_sel (cur_text_doc, t);
 
@@ -998,7 +907,7 @@ void on_mni_func_strings_enclose (GtkMenuItem* menuitem,gpointer user_data)
   glist_strings_free (temp);
 }
 
-void on_mni_func_strings_rev (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_func_strings_rev ()
 {
   if (! get_page_text()) return;
   
@@ -1016,12 +925,12 @@ void on_mni_func_strings_rev (GtkMenuItem* menuitem,gpointer user_data)
   glist_strings_free (temp);
 }
 
-void on_mni_search_repall (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_search_repall ()
 {
   if (! get_page_text()) return;
   
   set_fam_text ((_("Texte pour trouver le texte à remplacer")));
-  gchar *s = gtk_entry_get_text (ent_search);
+  gchar const *s = gtk_entry_get_text (ent_search);
 
 				GtkTreeIter iter_entry;
       gtk_list_store_append(model_entry, &iter_entry);
@@ -1062,16 +971,16 @@ void on_mni_search_repall (GtkMenuItem* menuitem,gpointer user_data)
   g_strfreev (a);
 }
 
-void on_mni_recent_activate (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_recent_activate (GtkMenuItem *menuitem)
 {
 	icon_affiche_ok();
-  execute_recent_item (gtk_widget_get_name (menuitem));
+  execute_recent_item (gtk_widget_get_name (GTK_WIDGET(menuitem)));
 }
 
 void show_save_as_dlg (int mode)
 {
   GtkWidget *file_dialog = gtk_file_chooser_dialog_new (_("Sauvegarde sous..."),
-                                                        tea_main_window,
+                                                        GTK_WINDOW(tea_main_window),
                                                         GTK_FILE_CHOOSER_ACTION_SAVE,
                                                         GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                                                         GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
@@ -1081,7 +990,6 @@ void show_save_as_dlg (int mode)
 
   t_ppair *p = g_malloc (sizeof (t_ppair));
   p->a = file_dialog;
-  GtkWidget *w = create_dialog_control_box (p, 1);
   g_free (p);
 
   if (mode == 0)
@@ -1124,7 +1032,7 @@ void show_save_as_dlg (int mode)
         }
       
       cur_text_doc->b_saved = TRUE;
-      gtk_label_set_label (cur_text_doc->tab_label, basename (cur_text_doc->file_name));
+      gtk_label_set_label (GTK_LABEL(cur_text_doc->tab_label),cur_text_doc->file_name);
       set_title (cur_text_doc);
 
      if (strstr (cur_text_doc->file_name, confile.snippets_dir))
@@ -1137,12 +1045,12 @@ void show_save_as_dlg (int mode)
      g_free (filename);
     }
 
-   gtk_widget_destroy (file_dialog);
+   gtk_widget_destroy (GTK_WIDGET(file_dialog));
 }
 
-void on_mni_file_save_as_template_activate (GtkMenuItem *menuitem, gpointer user_data){  show_save_as_dlg (1);}
+void on_mni_file_save_as_template_activate (){  show_save_as_dlg (1);}
 
-void on_mni_file_edit_at_cursor (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_file_edit_at_cursor ()
 {
   if (! get_page_text()) return;
   
@@ -1151,7 +1059,7 @@ void on_mni_file_edit_at_cursor (GtkMenuItem* menuitem,gpointer user_data)
   g_free (w);
 }
 
-void on_mni_new_link_select (GtkMenuItem *menuitem,gpointer user_data){  handle_file (gtk_widget_get_name (menuitem), 0);}
+void on_mni_new_link_select (GtkMenuItem *menuitem){  handle_file (gtk_widget_get_name (GTK_WIDGET(menuitem)), 0);}
 
 void add_link_item (const gchar *fname, const gchar *linkname)
 {
@@ -1159,7 +1067,7 @@ void add_link_item (const gchar *fname, const gchar *linkname)
   gchar *filename = create_full_path (linkname, dir);
 
   if (g_file_test (filename, G_FILE_TEST_EXISTS))
-      mni_temp = new_menu_item (filename, mni_links_menu, on_mni_new_link_select);
+      mni_temp = new_menu_item (filename, GTK_WIDGET(mni_links_menu), on_mni_new_link_select);
 
   g_free (dir);
   g_free (filename);
@@ -1173,9 +1081,9 @@ void scan_links (void)
   GtkTextIter match_start;
   GtkTextIter match_end;
 
-  gtk_widget_destroy(mni_links_menu);
-  mni_links_menu = new_menu_submenu (mni_links);
-  mni_temp = new_menu_item (cur_text_doc->file_name, mni_links_menu, on_mni_new_link_select);
+  gtk_widget_destroy(GTK_WIDGET(mni_links_menu));
+	 mni_links_menu = new_menu_submenu (GTK_WIDGET(mni_links));
+  mni_temp = new_menu_item (cur_text_doc->file_name, GTK_WIDGET(mni_links_menu), on_mni_new_link_select);
   gtk_text_buffer_get_start_iter (cur_text_doc->text_buffer, &match_start); 
   gtk_text_buffer_get_end_iter (cur_text_doc->text_buffer, &match_end); 
 
@@ -1207,7 +1115,7 @@ void scan_links (void)
        }
 }
 
-void on_mni_get_links (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_get_links ()
 {
   scan_links ();
   icon_log_logmemo();
@@ -1215,14 +1123,14 @@ void on_mni_get_links (GtkMenuItem* menuitem,gpointer user_data)
 	statusbar_msg (_("Scan links HTML [OK]"));
 }
 
-void on_mni_co_select (GtkMenuItem *menuitem, gpointer user_data)
+void on_mni_co_select (GtkMenuItem *menuitem)
 {
   if (! get_page_text()) return;
   
   if (! g_file_test (cur_text_doc->file_name, G_FILE_TEST_EXISTS))
      return;
 
-  cur_settings.selected_enc = ch_str (cur_settings.selected_enc, gtk_widget_get_name (menuitem));
+  cur_settings.selected_enc = ch_str (cur_settings.selected_enc, gtk_widget_get_name (GTK_WIDGET(menuitem)));
 
   if (! doc_reload_text (cur_text_doc, cur_text_doc->file_name, cur_settings.selected_enc))
 	{	  icon_stop_logmemo();
@@ -1232,7 +1140,7 @@ void on_mni_co_select (GtkMenuItem *menuitem, gpointer user_data)
       }
 }
 
-void on_mni_html_strip_tags (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_html_strip_tags ()
 {
   if (! get_page_text()) return;
   
@@ -1246,25 +1154,25 @@ void on_mni_html_strip_tags (GtkMenuItem* menuitem,gpointer user_data)
   g_free (t);
 }
 
-void on_mni_markup_align (GtkMenuItem *menuitem, gpointer user_data)
+void on_mni_markup_align (GtkMenuItem *menuitem)
 {
   if (! get_page_text()) return;
   
-  gchar *t;
+  gchar *t="";
   gchar *buf = doc_get_sel (cur_text_doc);
 
   if (! buf)
      {
-      if (strcmp (gtk_widget_get_name (menuitem), "Centrer") == 0)
+      if (strcmp (gtk_widget_get_name (GTK_WIDGET(menuitem)), "Centrer") == 0)
           doc_insert_at_cursor (cur_text_doc, "<div align=\"center\"></div>");
       else
-      if (strcmp (gtk_widget_get_name (menuitem), "Gauche") == 0)
+      if (strcmp (gtk_widget_get_name (GTK_WIDGET(menuitem)), "Gauche") == 0)
           doc_insert_at_cursor (cur_text_doc, "<div align=\"left\"></div>");
       else
-      if (strcmp (gtk_widget_get_name (menuitem), "Droite") == 0)
+      if (strcmp (gtk_widget_get_name (GTK_WIDGET(menuitem)), "Droite") == 0)
           doc_insert_at_cursor (cur_text_doc, "<div align=\"right\"></div>");
       else
-      if (strcmp (gtk_widget_get_name (menuitem), "Justifier") == 0)
+      if (strcmp (gtk_widget_get_name (GTK_WIDGET(menuitem)), "Justifier") == 0)
           doc_insert_at_cursor (cur_text_doc, "<div align=\"justify\"></div>");
 
       g_free (buf);
@@ -1274,16 +1182,16 @@ void on_mni_markup_align (GtkMenuItem *menuitem, gpointer user_data)
      }
   else
      {  
-      if (strcmp (gtk_widget_get_name (menuitem), "Centrer") == 0)
+      if (strcmp (gtk_widget_get_name (GTK_WIDGET(menuitem)), "Centrer") == 0)
           t = g_strconcat ("<div align=\"center\">", buf, "</div>", NULL);
       else
-      if (strcmp (gtk_widget_get_name (menuitem), "Gauche") == 0)
+      if (strcmp (gtk_widget_get_name (GTK_WIDGET(menuitem)), "Gauche") == 0)
          t =  g_strconcat ("<div align=\"left\">", buf, "</div>", NULL);
       else
-      if (strcmp (gtk_widget_get_name (menuitem), "Droite") == 0)
+      if (strcmp (gtk_widget_get_name (GTK_WIDGET(menuitem)), "Droite") == 0)
          t =  g_strconcat ("<div align=\"right\">", buf, "</div>", NULL);
       else
-      if (strcmp (gtk_widget_get_name (menuitem), "Justifier") == 0)
+      if (strcmp (gtk_widget_get_name (GTK_WIDGET(menuitem)), "Justifier") == 0)
          t =  g_strconcat ("<div align=\"justify\">", buf, "</div>", NULL);
       }
   
@@ -1298,7 +1206,7 @@ void on_mni_html_make_table ()
   if (! get_page_text()) return;
   
   set_fam_text ("2~2"); 
-  gchar *table = gtk_entry_get_text (ent_search);
+  gchar const *table = gtk_entry_get_text (ent_search);
    icon_man_logmemo();
 	log_to_memo (_("[INFO] Vous poouvez indiquer le nombre de ligne (TR) et le nombre de colonne (TD) dans la ligne de commande\nExemple :2~2\nPour 2 TR et 2 TD\n\n"), NULL, LM_GREET);
 	statusbar_msg (_("Make table HTML"));
@@ -1307,7 +1215,6 @@ void on_mni_html_make_table ()
 
   if (! a)
      {
-      g_free (table);
       return;
      }
 
@@ -1344,7 +1251,7 @@ void on_mni_html_make_table ()
   g_free (buf);
 }
 
-void on_mni_file_revert_to_saved (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_file_revert_to_saved ()
 {
   if (! get_page_text()) return;
   
@@ -1362,7 +1269,7 @@ void on_mni_file_revert_to_saved (GtkMenuItem* menuitem,gpointer user_data)
       }
 }
 
-void on_mni_funx_ins_time (GtkMenuItem *menuitem, gpointer user_data)
+void on_mni_funx_ins_time ()
 {
   if (! get_page_text()) return;
   
@@ -1371,7 +1278,7 @@ void on_mni_funx_ins_time (GtkMenuItem *menuitem, gpointer user_data)
   g_free (buf);
 }
 
-void on_mni_goto_line (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_goto_line ()
 {
   if (! get_page_text()) return;
   set_fam_text ("0");
@@ -1382,7 +1289,7 @@ void on_mni_goto_line (GtkMenuItem* menuitem,gpointer user_data)
       gtk_list_store_set(model_entry, &iter_entry, CONTACT_NAME, gtk_entry_get_text (ent_search),  -1);
 }
 
-void on_mni_convert_ascii_2_html (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_convert_ascii_2_html ()
 {
   if (! get_page_text()) return;
   
@@ -1396,7 +1303,7 @@ void on_mni_convert_ascii_2_html (GtkMenuItem *menuitem,gpointer user_data)
   g_free (t);
 }
 
-void on_mni_func_filter_exclude_from_list (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_func_filter_exclude_from_list ()
 {
   if (! get_page_text()) return;
   
@@ -1417,12 +1324,12 @@ void on_mni_func_filter_exclude_from_list (GtkMenuItem* menuitem,gpointer user_d
   glist_strings_free (temp2);
 }
 
-void on_mni_func_filter_antiexclude_from_list (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_func_filter_antiexclude_from_list ()
 {
   if (! get_page_text()) return;
   
   set_fam_text ("Tantum possumus, quantum scimus.");  
-  gchar *s = gtk_entry_get_text (ent_search);
+  gchar const *s = gtk_entry_get_text (ent_search);
   gchar *buf = doc_get_sel (cur_text_doc);
 
   if (! buf) return;
@@ -1441,7 +1348,7 @@ void on_mni_func_filter_antiexclude_from_list (GtkMenuItem* menuitem,gpointer us
 
 GList *common_temp_list = NULL;
 
-void on_mni_html_calc_weight (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_html_calc_weight ()
 {
   if (! get_page_text()) return;
   
@@ -1454,9 +1361,9 @@ void on_mni_html_calc_weight (GtkMenuItem *menuitem,gpointer user_data)
   GtkTextIter match_start;
   GtkTextIter match_end;
 
-  gtk_widget_destroy (mni_links_menu);
-  mni_links_menu = new_menu_submenu (mni_links);
-  mni_temp = new_menu_item (cur_text_doc->file_name, mni_links_menu, on_mni_new_link_select);
+  gtk_widget_destroy (GTK_WIDGET(mni_links_menu));
+  mni_links_menu = new_menu_submenu (GTK_WIDGET(mni_links));
+  mni_temp = new_menu_item (cur_text_doc->file_name, GTK_WIDGET(mni_links_menu), on_mni_new_link_select);
   gtk_text_buffer_get_start_iter (cur_text_doc->text_buffer, &match_start); 
   gtk_text_buffer_get_end_iter (cur_text_doc->text_buffer, &match_end); 
 
@@ -1514,7 +1421,7 @@ void on_mni_html_calc_weight (GtkMenuItem *menuitem,gpointer user_data)
   g_free (t);
 }
 
-void on_mni_get_src (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_get_src ()
 {
   if (! get_page_text()) return;
   
@@ -1525,9 +1432,9 @@ void on_mni_get_src (GtkMenuItem* menuitem,gpointer user_data)
   GtkTextIter match_start;
   GtkTextIter match_end;
 
-  gtk_widget_destroy(mni_links_menu);
-  mni_links_menu = new_menu_submenu (mni_links);
-  mni_temp = new_menu_item (cur_text_doc->file_name, mni_links_menu, on_mni_new_link_select);
+  gtk_widget_destroy(GTK_WIDGET(mni_links_menu));
+  mni_links_menu = new_menu_submenu (GTK_WIDGET(mni_links));
+  mni_temp = new_menu_item (cur_text_doc->file_name, GTK_WIDGET(mni_links_menu), on_mni_new_link_select);
   gtk_text_buffer_get_start_iter (cur_text_doc->text_buffer, &match_start); 
   gtk_text_buffer_get_end_iter (cur_text_doc->text_buffer, &match_end); 
 
@@ -1559,10 +1466,12 @@ void on_mni_get_src (GtkMenuItem* menuitem,gpointer user_data)
 	statusbar_msg (_("Scan links [OK]"));
 }
 
-void select_color_cb (GtkWidget *widget,gpointer user_data)
+void select_color_cb ()
 {
+/***** A CORRIGER
+
   GdkColor color;
-  GtkColorSelection *colorsel;
+  GtkColorChooser *colorsel;
 colorsel=gtk_color_selection_dialog_get_color_selection (user_data);
   gtk_color_selection_get_current_color (colorsel, &color);
   gchar *s = g_strdup_printf("#%02x%02x%02x", color.red / 256, color.green / 256, color.blue / 256);
@@ -1595,16 +1504,18 @@ colorsel=gtk_color_selection_dialog_get_color_selection (user_data);
        g_free (cm);
        g_free (buf);
       }
-	gtk_widget_destroy (user_data);
-  g_free (s);
+	gtk_widget_destroy (GTK_WIDGET(user_data));
+  g_free (s);*/
 }
 
-void select_color_cb_delete (GtkWidget *widget,gpointer user_data){	gtk_widget_destroy (user_data);}
+void select_color_cb_delete (gpointer user_data){	gtk_widget_destroy (GTK_WIDGET(user_data));}
 
-void on_mni_markup_select_color_activate (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_markup_select_color_activate ()
 {
   if (! get_page_text()) return;
   
+/**** A CORRIGER
+
   dlg_colorsel = gtk_color_selection_dialog_new (_("Séléctionnez une couleur"));
 
 GtkWidget *ok_button, *cancel_button;
@@ -1624,47 +1535,47 @@ g_object_get (dlg_colorsel,
                             G_CALLBACK (select_color_cb_delete),
                             (gpointer) dlg_colorsel);
 
-  gtk_widget_show (dlg_colorsel);
+  gtk_widget_show (dlg_colorsel);*/
 }
 
-void on_mni_file_backup (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_file_backup ()
 {
   if (! get_page_text()) return;
   do_backup (cur_text_doc->file_name, FALSE);
 }
 
-void on_mni_file_add_bookmark (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_file_add_bookmark ()
 {
   if (! get_page_text()) return;
 
-  bookmarks = add_recent_item_composed (bookmarks, cur_text_doc);
-  glist_save_to_file (bookmarks, confile.bmx_file);
-  bmx_reload ();
+  //bookmarks = add_recent_item_composed (bookmarks, cur_text_doc);
+  //glist_save_to_file (bookmarks, confile.bmx_file);
+  //bmx_reload ();
 }
 
-void on_mni_file_open_bookmark (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_file_open_bookmark ()
 {
   cur_settings.selected_enc = ch_str (cur_settings.selected_enc, "UTF-8");
   open_file_std (confile.bmx_file);
 }
 
-void on_mni_file_todo (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_file_todo ()
 {
   cur_settings.selected_enc = ch_str (cur_settings.selected_enc, "UTF-8");
   open_file_std (confile.tea_todo);
 }
 
-void on_mni_file_myadmin (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_file_myadmin ()
 {
   cur_settings.selected_enc = ch_str (cur_settings.selected_enc, "UTF-8");
   open_file_std (confile.tea_myadmin);
 }
 
-void on_mni_real_recent_activate (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_real_recent_activate (GtkMenuItem *menuitem)
 {
-  execute_recent_item (gtk_widget_get_name (menuitem));
+  execute_recent_item (gtk_widget_get_name (GTK_WIDGET(menuitem)));
 
-  GList *p = find_item_by_data (recent_list, gtk_widget_get_name (menuitem));
+  GList *p = find_item_by_data (recent_list, gtk_widget_get_name (GTK_WIDGET(menuitem)));
   if (p)
      {
       g_free (p->data);
@@ -1673,17 +1584,17 @@ void on_mni_real_recent_activate (GtkMenuItem *menuitem,gpointer user_data)
      }
 }
 
-void on_mni_refresh_hl (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_refresh_hl ()
 {
   if (! get_page_text()) return;
   clear_remove_tags (cur_text_doc);
 }
 
-void on_mni_make_numbering (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_make_numbering ()
 {
   if (! get_page_text()) return;
   set_fam_text ("1~5~10");
-  gchar *s = gtk_entry_get_text (ent_search);
+  gchar const *s = gtk_entry_get_text (ent_search);
   
   gchar *buf = doc_get_sel (cur_text_doc);
   if (buf) //exit if selected
@@ -1728,7 +1639,7 @@ void on_mni_make_numbering (GtkMenuItem *menuitem,gpointer user_data)
   glist_strings_free (list);
 }
 
-void on_mni_nav_block_start (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_nav_block_start ()
 {
   if (! get_page_text()) return;
 
@@ -1741,6 +1652,7 @@ void on_mni_nav_block_start (GtkMenuItem *menuitem,gpointer user_data)
   while (c != -1)
         {
          if (gtk_text_iter_backward_char (&iter))
+						{
          if (gtk_text_iter_get_char (&iter) == '}')
             c++;
          else
@@ -1755,9 +1667,10 @@ void on_mni_nav_block_start (GtkMenuItem *menuitem,gpointer user_data)
                     }
                 }
         }
+					}
 }
 
-void on_mni_nav_block_end (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_nav_block_end ()
 {
   if (! get_page_text()) return;
 
@@ -1770,6 +1683,7 @@ void on_mni_nav_block_end (GtkMenuItem *menuitem,gpointer user_data)
   while (c != -1)
         {
          if (gtk_text_iter_forward_char (&iter))
+						{
          if (gtk_text_iter_get_char (&iter) == '{')
             c++;
             else
@@ -1783,9 +1697,10 @@ void on_mni_nav_block_end (GtkMenuItem *menuitem,gpointer user_data)
                        }
                    }
         }
+					}
 }
 
-void on_mni_open_hotkeys (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_open_hotkeys ()
 {
   cur_settings.selected_enc = ch_str (cur_settings.selected_enc, "UTF-8");
   open_file_std (confile.tea_hotkeys);
@@ -1799,8 +1714,6 @@ enum
 static const GtkTargetEntry drag_types[] = {
                                             {"text/uri-list", 0, TARGET_URILIST}
                                            };
-
-static gint inner_dnd_switch = 0;
 
 void open_files_list (const gchar *s)
 {
@@ -1851,7 +1764,7 @@ void open_files_list (const gchar *s)
    glist_strings_free (l);
 }
 
-void tea_win_on_drag_data_cb (GtkWidget *widget,GdkDragContext *context,gint x, gint y, GtkSelectionData *data, guint info, guint time) 
+/*void tea_win_on_drag_data_cb ( GtkSelectionData *data, guint time) 
 {
   if (inner_dnd_switch == 1)
      {
@@ -1876,18 +1789,19 @@ void set_dnd_accept (GtkWidget *widget)
 
   g_signal_connect (G_OBJECT (widget), "drag_data_received", G_CALLBACK (tea_win_on_drag_data_cb), widget);
 }
+*/
 
-gboolean on_tea_window_delete_event (GtkWidget *widget, GdkEvent *event, gpointer user_data)
+gboolean on_tea_window_delete_event ()
 {
   ui_done ();
   return FALSE;
 }
 
-void on_mni_snippet_click (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_snippet_click (GtkMenuItem *menuitem)
 {
   if (! get_page_text()) return;
 
-  gchar *f = g_strconcat (confile.snippets_dir, gtk_widget_get_name (menuitem), NULL);
+  gchar *f = g_strconcat (confile.snippets_dir, gtk_widget_get_name (GTK_WIDGET(menuitem)), NULL);
 
   gsize length;
   GError *error;
@@ -1929,10 +1843,10 @@ void on_mni_snippet_click (GtkMenuItem *menuitem,gpointer user_data)
   g_free (buf);
 }
 
-void on_mni_snippet_file_open_activate (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_snippet_file_open_activate ()
 {
   GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Open file:"),
-                                                   tea_main_window,
+                                                   GTK_WINDOW(tea_main_window),
                                                    GTK_FILE_CHOOSER_ACTION_OPEN,
                                                    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                                                    GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
@@ -1948,10 +1862,10 @@ void on_mni_snippet_file_open_activate (GtkMenuItem *menuitem,gpointer user_data
       g_free (filename);
      }
 
-  gtk_widget_destroy (dialog);
+  gtk_widget_destroy (GTK_WIDGET(dialog));
 }
 
-void on_mni_file_save_as_snippet_activate (GtkMenuItem *menuitem, gpointer user_data){show_save_as_dlg (2);}
+void on_mni_file_save_as_snippet_activate (){show_save_as_dlg (2);}
 
 static GList *gl_menu_item_names;
 
@@ -1959,24 +1873,24 @@ static void lookup_widget_cb_2 (GtkWidget *widget, gpointer data)
 {
   if (! widget) return;
    
-  gchar *s = gtk_widget_get_name (widget);
+  gchar *s = gtk_widget_get_name (GTK_WIDGET(widget));
   if (strcmp ("-x-", s) != 0)
      {
       gl_menu_item_names = g_list_append (gl_menu_item_names, s);
 
       if (GTK_IS_MENU_ITEM (widget))
-         lookup_widget2 (gtk_menu_item_get_submenu (widget), data);      
+         lookup_widget2 (GTK_CONTAINER(gtk_menu_item_get_submenu (GTK_MENU_ITEM(widget))), data);      
      }   
 }
 
-static GtkWidget* lookup_widget2 (GtkContainer *widget, const gchar *widget_name)
+GtkWidget* lookup_widget2 (GtkContainer *widget, const gchar *widget_name)
 {
   if (widget)
      gtk_container_foreach (widget, lookup_widget_cb_2, NULL);
   return NULL;
 }
 
-void on_mni_dump_menu (GtkMenuItem *menuitem, gpointer user_data)
+void on_mni_dump_menu ()
 {
   cur_text_doc = doc_clear_new ();
   if (! get_page_text()) return;
@@ -2001,47 +1915,47 @@ GtkWidget* create_wnd_imgviewer (gchar *f)
 
   GtkWidget *image = gtk_image_new_from_file (f);
   gtk_container_add (GTK_CONTAINER (wnd_imgviewer), image);
-  gtk_widget_show (image);
-  gtk_widget_show (wnd_imgviewer);
+  gtk_widget_show (GTK_WIDGET(image));
+  gtk_widget_show (GTK_WIDGET(wnd_imgviewer));
   gchar *t = g_path_get_basename (f);
-  gtk_window_set_title (wnd_imgviewer, t);
+  gtk_window_set_title (GTK_WINDOW(wnd_imgviewer), t);
   g_free (t);
   return wnd_imgviewer;
 }
 
-void on_mni_nav_focus_to_famous (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_nav_focus_to_famous ()
 { 
 	if (! get_page_text()) return;
 	gtk_entry_set_text (ent_search,"");
 	gtk_entry_set_text (ent_search, doc_get_sel (cur_text_doc)); 
-  gtk_widget_grab_focus (ent_search);
+  gtk_widget_grab_focus (GTK_WIDGET(ent_search));
 }
 
-void on_mni_nav_focus_to_text (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_nav_focus_to_text ()
 {
   if (! get_page_text()) return;
-  gtk_widget_grab_focus (cur_text_doc->text_view);    
+  gtk_widget_grab_focus (GTK_WIDGET(cur_text_doc->text_view));    
 }
 
-void on_mni_tools_unitaz_sort (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_tools_unitaz_sort ()
 {
   if (! get_page_text()) return;
   run_unitaz (cur_text_doc, 0, FALSE);
 }
 
-void on_mni_tools_unitaz_sort_by_count (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_tools_unitaz_sort_by_count ()
 {
   if (! get_page_text()) return;
   run_unitaz (cur_text_doc, 1, FALSE);
 }
 
-void on_mni_tools_unitaz_plain (GtkMenuItem* menuitem, gpointer user_data)
+void on_mni_tools_unitaz_plain ()
 {
   if (! get_page_text()) return;
-  run_unitaz (cur_text_doc, -1);
+  run_unitaz (cur_text_doc, -1,TRUE);
 }
 
-void on_mni_str_kill_dups (GtkMenuItem *menuitem, gpointer user_data)
+void on_mni_str_kill_dups ()
 {
   if (! get_page_text()) return;
 
@@ -2055,7 +1969,7 @@ void on_mni_str_kill_dups (GtkMenuItem *menuitem, gpointer user_data)
   g_free (t);
 }
 
-void on_mni_func_strings_sort (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_func_strings_sort ()
 {
   if (! get_page_text()) return;
 
@@ -2074,13 +1988,13 @@ void on_mni_func_strings_sort (GtkMenuItem* menuitem,gpointer user_data)
   glist_strings_free (temp);
 }
 
-void on_mni_extract_words (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_extract_words ()
 {
   if (! get_page_text()) return;
   run_extract_words (cur_text_doc);
 }
 
-void on_mni_edit_copy_all (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_edit_copy_all ()
 {
 icon_affiche_ok();
   if (! get_page_text()) return;
@@ -2097,7 +2011,7 @@ icon_affiche_ok();
   g_free (buf);
 }
 
-void on_mni_edit_copy_current_url (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_edit_copy_current_url ()
 {
   if (! get_page_text()) return;
   
@@ -2113,7 +2027,7 @@ void on_mni_edit_copy_current_url (GtkMenuItem *menuitem,gpointer user_data)
   g_free (buf);
 }
 
-void on_mni_edit_replace_with_clipboard (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_edit_replace_with_clipboard ()
 {
   if (! get_page_text()) return;
   
@@ -2136,7 +2050,7 @@ void on_mni_edit_replace_with_clipboard (GtkMenuItem *menuitem,gpointer user_dat
   g_free (t);
 }
 
-void on_mni_count_string_list (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_count_string_list ()
 {
   if (! get_page_text()) return;
 
@@ -2154,7 +2068,7 @@ void on_mni_count_string_list (GtkMenuItem *menuitem,gpointer user_data)
   g_free (t);
 }
 
-void on_mni_paste_to_new (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_paste_to_new ()
 {
 	icon_affiche_ok();
   GtkClipboard *c = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
@@ -2166,14 +2080,14 @@ void on_mni_paste_to_new (GtkMenuItem *menuitem,gpointer user_data)
 
   cur_text_doc = doc_clear_new ();
   gtk_window_set_title (GTK_WINDOW (tea_main_window), cur_text_doc->file_name);
-  gtk_widget_grab_focus (cur_text_doc->text_view);
+  gtk_widget_grab_focus (GTK_WIDGET(cur_text_doc->text_view));
 
   gchar *t = gtk_clipboard_wait_for_text (c); 
   doc_insert_at_cursor (cur_text_doc, t);
   g_free (t); 
 }
 
-void on_mni_copy_to_new (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_copy_to_new ()
 {
 	icon_affiche_ok();
   if (! get_page_text()) return;
@@ -2184,13 +2098,13 @@ void on_mni_copy_to_new (GtkMenuItem *menuitem,gpointer user_data)
  
   cur_text_doc = doc_clear_new ();
   gtk_window_set_title (GTK_WINDOW (tea_main_window), cur_text_doc->file_name);
-  gtk_widget_grab_focus (cur_text_doc->text_view);
+  gtk_widget_grab_focus (GTK_WIDGET(cur_text_doc->text_view));
 
   doc_insert_at_cursor (cur_text_doc, t);
   g_free (t); 
 }
 
-void on_mni_cut_to_new (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_cut_to_new ()
 {
 	icon_affiche_ok();
   if (! get_page_text()) return;
@@ -2204,7 +2118,7 @@ void on_mni_cut_to_new (GtkMenuItem *menuitem,gpointer user_data)
   g_free (t); 
 }
 
-void on_mni_shuffle_strings (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_shuffle_strings ()
 {
   if (! get_page_text()) return;
 
@@ -2222,38 +2136,38 @@ void on_mni_shuffle_strings (GtkMenuItem *menuitem,gpointer user_data)
   glist_strings_free (temp);
 }
 
-void on_mni_tools_unitaz_sort_caseinsens (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_tools_unitaz_sort_caseinsens ()
 {
   if (! get_page_text()) return;
   run_unitaz (cur_text_doc, 0, TRUE);
 }
 
-void on_mni_tools_unitaz_sort_by_count_caseinsens (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_tools_unitaz_sort_by_count_caseinsens ()
 {
   if (! get_page_text()) return;
   run_unitaz (cur_text_doc, 1, TRUE);
 }
 
-void on_mni_cure (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_cure ()
 {
   log_to_memo (_("That is the question!"), NULL, LM_ERROR);  
 }
 
-void on_mni_tabs_to_spaces (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_tabs_to_spaces ()
 {
   if (! get_page_text()) return;
   set_fam_text ("1");
   doc_tabs_to_spaces (cur_text_doc, strtol (gtk_entry_get_text (ent_search), NULL, 10));  
 }
 
-void on_mni_spaces_to_tabs (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_spaces_to_tabs ()
 {
   if (! get_page_text()) return;
   set_fam_text ("2");
   doc_spaces_to_tabs (cur_text_doc, strtol (gtk_entry_get_text (ent_search), NULL, 10));  
 }
 
-void on_mni_edit_delete_current_line (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_edit_delete_current_line ()
 {
 icon_affiche_ok();
   if (! get_page_text()) return;
@@ -2271,12 +2185,12 @@ icon_affiche_ok();
      while (! gtk_text_iter_starts_line (&ittemp))
            gtk_text_iter_backward_char (&ittemp); 
 
-  if (gtk_text_iter_forward_char (&itend));
+  if (gtk_text_iter_forward_char (&itend))
      gtk_text_buffer_delete (cur_text_doc->text_buffer, &ittemp, &itend);
 
 }
 
-void on_mni_Markup_comment (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_Markup_comment ()
 {
   if (! get_page_text()) return;
 
@@ -2346,7 +2260,7 @@ icon_affiche_ok();
   g_free (t); 
 }
 
-void on_mni_paste (GtkMenuItem *menuitem,gpointer user_data){edit_paste ();}
+void on_mni_paste (){edit_paste ();}
 
 void edit_copy (void)
 {
@@ -2364,7 +2278,7 @@ void edit_copy (void)
   g_free (buf);
 }
 
-void on_mni_edit_copy (GtkMenuItem *menuitem,gpointer user_data){  edit_copy ();}
+void on_mni_edit_copy (){  edit_copy ();}
 
 void edit_cut (void)
 {
@@ -2386,16 +2300,16 @@ icon_affiche_ok();
   g_free (buf);
 }
 
-void on_mni_edit_cut (GtkMenuItem *menuitem,gpointer user_data){icon_affiche_ok();  edit_cut ();}
+void on_mni_edit_cut (){icon_affiche_ok();  edit_cut ();}
 
-void on_mni_edit_delete (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_edit_delete ()
 {
 icon_affiche_ok();
   if (! get_page_text()) return;
   doc_rep_sel (cur_text_doc, "");
 }
 
-void on_mni_edit_select_all (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_edit_select_all ()
 {
   if (! get_page_text()) return;
 
@@ -2414,7 +2328,7 @@ void on_mni_edit_select_all (GtkMenuItem *menuitem,gpointer user_data)
                                      &end_iter);
 }
 
-void on_mni_sort_case_insensetive (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_sort_case_insensetive ()
 {
   if (! get_page_text()) return;
 
@@ -2433,7 +2347,7 @@ void on_mni_sort_case_insensetive (GtkMenuItem *menuitem,gpointer user_data)
   glist_strings_free (temp);
 }
 
-void on_mni_kill_formatting (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_kill_formatting ()
 {
   if (! get_page_text()) return;
   
@@ -2441,14 +2355,14 @@ void on_mni_kill_formatting (GtkMenuItem *menuitem,gpointer user_data)
 
   if (buf)
      {
-      gchar *temp = kill_formatting (buf, -1);
+      gchar *temp = kill_formatting (buf);
       doc_rep_sel (cur_text_doc, temp);
       g_free (buf);
       g_free (temp);
      }
 }
 
-void on_mni_wrap_raw (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_wrap_raw ()
 {
   if (! get_page_text()) return;
 
@@ -2464,7 +2378,7 @@ void on_mni_wrap_raw (GtkMenuItem *menuitem,gpointer user_data)
      }
 }
 
-void on_mni_wrap_on_spaces (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_wrap_on_spaces ()
 {
   if (! get_page_text()) return;
 
@@ -2479,14 +2393,14 @@ void on_mni_wrap_on_spaces (GtkMenuItem *menuitem,gpointer user_data)
      }
 }
 
-void on_doit_button (GtkButton *button,gpointer user_data)
+void on_doit_button ()
 {
   if (! get_page_text())
      return;
   doc_search_f (cur_text_doc, gtk_entry_get_text (ent_search));
 }
 
-void on_mni_kill_formatting_on_each_line (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_kill_formatting_on_each_line ()
 {
   if (! get_page_text()) return;
   
@@ -2494,23 +2408,22 @@ void on_mni_kill_formatting_on_each_line (GtkMenuItem *menuitem,gpointer user_da
 
   if (buf)
      {
-      gchar *temp = kill_formatting_on_each_line (buf, -1);
+      gchar *temp = kill_formatting_on_each_line (buf);
       doc_rep_sel (cur_text_doc, temp);
       g_free (buf);
       g_free (temp);
      }
 }
 
-void on_mni_file_crapbook (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_file_crapbook ()
 {
-gint num;
 
   if (! g_file_test (confile.crapbook_file, G_FILE_TEST_EXISTS))
      create_empty_file (confile.crapbook_file, _((_("Déposez vos séléctions ici..."))));
 
-		gtk_text_buffer_set_text(buffer_note, "", -1);
-		gtk_text_buffer_insert_at_cursor(buffer_note, (_("\nPour afficher les notes [ALT+M]\n")), -1);
-		gtk_text_buffer_insert_at_cursor(buffer_note, (_("Pour integrer une séléction dans la note [CTR+E]\n\n____________________________________________________________________________________________________________________________________________________\n\n")), -1);
+		gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer_note), "", -1);
+		gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("\nPour afficher les notes [ALT+M]\n")), -1);
+		gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("Pour integrer une séléction dans la note [CTR+E]\n\n____________________________________________________________________________________________________________________________________________________\n\n")), -1);
 				
 		//**************** OUVERTURE DU FICHIER PROJET
 		gchar lecture[1024];
@@ -2518,7 +2431,7 @@ gint num;
 		fichier = fopen(confile.crapbook_file,"rt");
 		while(fgets(lecture, 1024, fichier))
 		{
-			gtk_text_buffer_insert_at_cursor(buffer_note,g_locale_to_utf8(lecture, -1, NULL, NULL, NULL) , -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note),g_locale_to_utf8(lecture, -1, NULL, NULL, NULL) , -1);
 		}
 
 		fclose(fichier);
@@ -2526,13 +2439,13 @@ gint num;
  handle_file_enc (confile.crapbook_file, 0);
 }
 
-void on_mni_spellcheck (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_spellcheck (GtkMenuItem *menuitem)
 {
   if (! get_page_text()) return;
-  do_hl_spell_check2 (cur_text_doc, gtk_widget_get_name (menuitem));
+  do_hl_spell_check2 (cur_text_doc, gtk_widget_get_name (GTK_WIDGET(menuitem)));
 }
 
-void on_mni_filter_kill_lesser (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_filter_kill_lesser ()
 {
   if (! get_page_text()) return;
   
@@ -2549,7 +2462,7 @@ void on_mni_filter_kill_lesser (GtkMenuItem *menuitem,gpointer user_data)
      }
 }
 
-void on_mni_filter_kill_more_than (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_filter_kill_more_than ()
 {
   if (! get_page_text()) return;
   
@@ -2566,7 +2479,7 @@ void on_mni_filter_kill_more_than (GtkMenuItem *menuitem,gpointer user_data)
      }
 }
 
-void on_mni_func_strings_sort_by_q (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_func_strings_sort_by_q ()
 {
   if (! get_page_text()) return;
 
@@ -2585,7 +2498,7 @@ void on_mni_func_strings_sort_by_q (GtkMenuItem* menuitem,gpointer user_data)
   glist_strings_free (temp);
 }
 
-void on_mni_tabs_menuitem_click (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_tabs_menuitem_click (gpointer user_data)
 {
   t_note_page *doc = user_data;
   if (doc) 
@@ -2600,7 +2513,7 @@ gchar* get_full_fname (const gchar *fname, const gchar *linkname)
   return filename;
 }
 
-void on_mni_show_images_in_text (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_show_images_in_text ()
 {
   if (! get_page_text()) return;
   
@@ -2631,12 +2544,12 @@ void on_mni_show_images_in_text (GtkMenuItem *menuitem,gpointer user_data)
                {
                 p = gdk_pixbuf_new_from_file_at_size (t, confile.thumb_width, confile.thumb_height, NULL);
                 image = gtk_image_new_from_pixbuf (p);  
-                gtk_widget_show (image);
+                gtk_widget_show (GTK_WIDGET(image));
                 gtk_text_buffer_insert_pixbuf (cur_text_doc->text_buffer,
                                                &match_end,
                                                gtk_image_get_pixbuf (image));
                 gtk_text_buffer_set_modified (cur_text_doc->text_buffer, FALSE);  
-                gtk_widget_destroy (image); 
+                gtk_widget_destroy (GTK_WIDGET(image)); 
                }
 
             g_free (f);
@@ -2656,12 +2569,12 @@ void on_mni_show_images_in_text (GtkMenuItem *menuitem,gpointer user_data)
             if (is_image (t))
                {
                 image = gtk_image_new_from_file (t);
-                gtk_widget_show (image);
+                gtk_widget_show (GTK_WIDGET(image));
                 gtk_text_buffer_insert_pixbuf (cur_text_doc->text_buffer,
                                                &match_end,
                                                gtk_image_get_pixbuf (image));
 
-                gtk_widget_destroy (image); 
+                gtk_widget_destroy (GTK_WIDGET(image)); 
                }
 
             g_free (f);
@@ -2671,7 +2584,7 @@ void on_mni_show_images_in_text (GtkMenuItem *menuitem,gpointer user_data)
        }
 }
 
-void on_mni_nav_goto_recent_tab (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_nav_goto_recent_tab ()
 {
   gint t = gtk_notebook_get_current_page (notebook1);
 
@@ -2681,43 +2594,43 @@ void on_mni_nav_goto_recent_tab (GtkMenuItem* menuitem,gpointer user_data)
   last_page = t;
 }
 
-void on_mni_nav_goto_selection (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_nav_goto_selection ()
 {
   last_page = gtk_notebook_get_current_page (notebook1);
   gtk_notebook_prev_page (notebook1);
 }
 
-void on_mni_nav_goto_prev_tab (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_nav_goto_prev_tab ()
 {
   last_page = gtk_notebook_get_current_page (notebook1);
   gtk_notebook_prev_page (notebook1);
 }
 
-void on_mni_nav_goto_next_tab (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_nav_goto_next_tab ()
 {
   last_page = gtk_notebook_get_current_page (notebook1);
   gtk_notebook_next_page (notebook1);
 }
 
-void on_mni_view_hide_highlighting (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_view_hide_highlighting ()
 {
   if (! get_page_text()) return;
   remove_tags (cur_text_doc);
 }
 
-void on_mni_nav_goto_first_tab (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_nav_goto_first_tab ()
 {
   last_page = gtk_notebook_get_current_page (notebook1);
   gtk_notebook_set_current_page (notebook1, 0);
 }
 
-void on_mni_nav_goto_last_tab (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_nav_goto_last_tab ()
 {
   last_page = gtk_notebook_get_current_page (notebook1);
   gtk_notebook_set_current_page (notebook1, -1);
 }
 
-void on_mni_quest_find (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_quest_find ()
 {
   if (! get_page_text()) return;
   doc_search_f (cur_text_doc, gtk_entry_get_text (ent_search));
@@ -2727,27 +2640,27 @@ void on_mni_quest_find (GtkMenuItem* menuitem,gpointer user_data)
       gtk_list_store_set(model_entry, &iter_entry, CONTACT_NAME, gtk_entry_get_text (ent_search),  -1);
 }
 
-void on_mni_quest_find_next (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_quest_find_next ()
 {
   if (! get_page_text()) return;
   doc_search_f_next (cur_text_doc);
 }
 
-void on_mni_quest_find_ncase (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_quest_find_ncase ()
 {
   if (! get_page_text()) return;
   doc_search_f_ncase (cur_text_doc, gtk_entry_get_text (ent_search));
 }
 
-void on_mni_quest_find_next_ncase (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_quest_find_next_ncase ()
 {
   if (! get_page_text()) return;
   doc_search_f_next_ncase (cur_text_doc);
 }
 
-void on_mni_user_menu_item (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_user_menu_item (GtkMenuItem *menuitem)
 {
-  gchar *t = g_hash_table_lookup (ht_user_menu, gtk_widget_get_name (menuitem));
+  gchar *t = g_hash_table_lookup (ht_user_menu, gtk_widget_get_name (GTK_WIDGET(menuitem)));
   if (! t) 
      return;
 
@@ -2757,14 +2670,15 @@ void on_mni_user_menu_item (GtkMenuItem *menuitem,gpointer user_data)
   if (get_page_text()) 
      {
       cmd = str_replace_all (s, "%s", cur_text_doc->file_name);       
-      system (cmd);
+      int systemRet =system (cmd);
+				if(systemRet == -1){return;}
       g_free (cmd);
      }
 
   g_free (s);
 }
 
-void on_mni_user_menu_open (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_user_menu_open ()
 {
   if (! g_file_test (confile.user_menu_file, G_FILE_TEST_EXISTS))
      create_empty_file (confile.user_menu_file, "kwrite=kwrite %s &");
@@ -2773,16 +2687,16 @@ void on_mni_user_menu_open (GtkMenuItem *menuitem,gpointer user_data)
   open_file_std (confile.user_menu_file);
 }
 
-void on_mni_find_and_replace_wnd (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_find_and_replace_wnd ()
 {
   if (! get_page_text()) return;
 
   create_fr ();
 }
 
-void on_mni_rtfm (GtkMenuItem *menuitem,gpointer user_data){run_doc_in_browser ();}
+void on_mni_rtfm (){run_doc_in_browser ();}
 
-void on_mni_crackerize (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_crackerize ()
 {
   if (! get_page_text()) return;
 
@@ -2798,11 +2712,11 @@ void on_mni_crackerize (GtkMenuItem *menuitem,gpointer user_data)
   g_free (x);
 }
 
-void on_mni_markup_stuff (GtkMenuItem *menuitem,gpointer user_data) 
+void on_mni_markup_stuff (GtkMenuItem *menuitem) 
 {
   if (! get_page_text()) return;
   
-  gchar *n = gtk_widget_get_name (menuitem);
+  gchar const *n = gtk_widget_get_name (GTK_WIDGET(menuitem));
 
   gchar *t = NULL;
   gchar *buf = doc_get_sel (cur_text_doc);
@@ -2825,9 +2739,9 @@ void on_mni_markup_stuff (GtkMenuItem *menuitem,gpointer user_data)
 
 void show_options (void){  wnd_options_create ();}
 
-void on_mni_show_options (GtkMenuItem *menuitem,gpointer user_data){  wnd_options_create ();}
+void on_mni_show_options (){  wnd_options_create ();}
 
-void on_mni_eol_to_crlf (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_eol_to_crlf ()
 {
   if (! get_page_text()) return;
   
@@ -2840,7 +2754,7 @@ void on_mni_eol_to_crlf (GtkMenuItem* menuitem,gpointer user_data)
   g_free (buf); 
 }
 
-void on_mni_eol_to_lf (GtkMenuItem* menuitem,gpointer user_data)
+void on_mni_eol_to_lf ()
 {
   if (! get_page_text()) return;
   
@@ -2854,10 +2768,10 @@ void on_mni_eol_to_lf (GtkMenuItem* menuitem,gpointer user_data)
   
 }
 
-void on_mni_templ_file_open_activate (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_templ_file_open_activate ()
 {
   GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Open file:"),
-                                                   tea_main_window,
+                                                   GTK_WINDOW(tea_main_window),
                                                    GTK_FILE_CHOOSER_ACTION_OPEN,
                                                    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                                                    GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
@@ -2873,10 +2787,10 @@ void on_mni_templ_file_open_activate (GtkMenuItem *menuitem,gpointer user_data)
      g_free (filename);
     }
 
-  gtk_widget_destroy (dialog);
+  gtk_widget_destroy (GTK_WIDGET(dialog));
 }
 
-void on_mni_upcase_each_first_letter_ofw (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_upcase_each_first_letter_ofw ()
 {
   if (! get_page_text()) return;
   
@@ -2887,7 +2801,7 @@ void on_mni_upcase_each_first_letter_ofw (GtkMenuItem *menuitem,gpointer user_da
   g_free (z);
 }
 
-void on_mni_nav_mplayer_jump (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_nav_mplayer_jump ()
 {
   if (! confile.cm_mplayer)
      return;    
@@ -2925,8 +2839,6 @@ void on_mni_nav_mplayer_jump (GtkMenuItem *menuitem,gpointer user_data)
   t = g_strstrip (t);
 
   gchar *s;
-  gchar *m1;
-  gchar *m2;
 
   gchar *cm = g_strdup (confile.cm_mplayer);
 
@@ -2958,24 +2870,23 @@ void on_mni_nav_mplayer_jump (GtkMenuItem *menuitem,gpointer user_data)
       cm = s;
      }
   
-  system (cm);
+  int systemRet =system (cm);
+	if(systemRet == -1){return;}
 
   g_free (t);
   g_free (cm);
 }
 
-void on_mni_open_open_movie (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_open_open_movie ()
 {
   GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Open a movie:"),
-                                                   tea_main_window,
+                                                   GTK_WINDOW(tea_main_window),
                                                    GTK_FILE_CHOOSER_ACTION_OPEN,
                                                    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                                                    GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
                                                    NULL);
 
-
   gchar *t;
-  gchar *dir;
 
   if (get_page_text())
   if (g_file_test (cur_text_doc->file_name, G_FILE_TEST_EXISTS))
@@ -2993,23 +2904,23 @@ void on_mni_open_open_movie (GtkMenuItem *menuitem,gpointer user_data)
      g_free (filename);
     }
 
-  gtk_widget_destroy (dialog);
+  gtk_widget_destroy (GTK_WIDGET(dialog));
 }
 
-void on_mni_help_item (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_help_item (GtkMenuItem *menuitem)
 {
   cur_settings.selected_enc = ch_str (cur_settings.selected_enc, "UTF-8");
-  gchar *f = get_tea_doc_compose_name (gtk_widget_get_name (menuitem));
+  gchar *f = get_tea_doc_compose_name (gtk_widget_get_name (GTK_WIDGET(menuitem)));
   open_file_std (f);
   g_free (f);
 }
 
-void on_mni_insert_doctype (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_insert_doctype (GtkMenuItem *menuitem)
 {
   if (! get_page_text()) return;
 
-  gchar *n = gtk_widget_get_name (menuitem);
-  gchar *t;
+  gchar const *n = gtk_widget_get_name (GTK_WIDGET(menuitem));
+  gchar *t="";
 
   if (strcmp (n, "HTML 4.1 Transitional") == 0)
      t = g_strdup ("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd\">");
@@ -3037,12 +2948,12 @@ void on_mni_insert_doctype (GtkMenuItem *menuitem,gpointer user_data)
   g_free (t);
 }
 
-void on_mni_entity (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_entity (GtkMenuItem *menuitem)
 {
   if (! get_page_text()) return;
 
   gchar *t = NULL;
-  gchar *n = gtk_widget_get_name (menuitem);
+  gchar const *n = gtk_widget_get_name (GTK_WIDGET(menuitem));
   gchar *x = g_hash_table_lookup (ht_entities, n);
   if (x)
      t = g_strdup_printf ("&#%s;", x);
@@ -3052,9 +2963,9 @@ void on_mni_entity (GtkMenuItem *menuitem,gpointer user_data)
   g_free (t);    
 }
 
-void on_mni_sessions_click (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_sessions_click (GtkMenuItem *menuitem)
 {
-  gchar *f = g_strconcat (confile.sessions_dir, gtk_widget_get_name (menuitem), NULL);
+  gchar *f = g_strconcat (confile.sessions_dir, gtk_widget_get_name (GTK_WIDGET(menuitem)), NULL);
 
   GList *list = load_file_to_glist (f);
   GList *t = g_list_first (list);
@@ -3069,16 +2980,16 @@ void on_mni_sessions_click (GtkMenuItem *menuitem,gpointer user_data)
   g_free (f);
 }
 
-void on_mni_templates_click (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_templates_click (GtkMenuItem *menuitem)
 {
-  gchar *f = g_strconcat (confile.templates_dir, gtk_widget_get_name (menuitem), NULL);
+  gchar *f = g_strconcat (confile.templates_dir, gtk_widget_get_name (GTK_WIDGET(menuitem)), NULL);
   gchar *t = str_file_read (f);
   doc_ins_to_new (t);
   g_free (f);
   g_free (t);
 }
 
-void on_mni_morse_encode (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_morse_encode ()
 {
   if (! get_page_text()) return;
 
@@ -3094,7 +3005,7 @@ void on_mni_morse_encode (GtkMenuItem *menuitem,gpointer user_data)
   g_free (x);
 }
 
-void on_mni_morse_decode (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_morse_decode ()
 {
   if (! get_page_text()) return;
 
@@ -3110,10 +3021,10 @@ void on_mni_morse_decode (GtkMenuItem *menuitem,gpointer user_data)
   g_free (x);
 }
 
-void on_mni_set_hl_mode (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_set_hl_mode (GtkMenuItem *menuitem)
 {
   if (! get_page_text()) return;
-  cur_text_doc->hl_mode = ch_str (cur_text_doc->hl_mode, gtk_widget_get_name (menuitem));
+  cur_text_doc->hl_mode = ch_str (cur_text_doc->hl_mode, gtk_widget_get_name (GTK_WIDGET(menuitem)));
   apply_hl (cur_text_doc);
 }
 
@@ -3126,210 +3037,11 @@ typedef struct
              } t_text_part;
 
 
-//***************** CORRECTION AUTOCOMPLEMENTATION PAR PMULLER
-static void on_mni_select_autocomp_item (GtkMenuItem *menuitem,gpointer user_data)
-{
-  if (! get_page_text()) return;
-  t_text_part *p = user_data;
-
-  gchar *t = gtk_widget_get_name (menuitem);
-
-	GtkTextIter itstart;
-   GdkRectangle cursor_rect;
-	gtk_text_view_get_iter_location (p->page->text_view,
-                                   &p->itstart,
-                                   &cursor_rect);
-
-  gtk_text_buffer_delete (p->page->text_buffer,
-                          &p->itstart,
-                          &p->itend);
-
-			gchar **a = g_strsplit (t, " ", -1);
-
-  gtk_text_buffer_insert (p->page->text_buffer,
-                          &p->itstart,
-                          a[0],
-                          -1);
-    
-	//doc_insert_at_cursor (cur_text_doc," ");
-
-  g_free (p->prefix);
-  g_free (p);
-}
 //******************************* DELETE autocomp tips
-void delete_autocomp_tips(){if (win_tips_autocomp != NULL){gtk_widget_destroy (win_tips_autocomp);win_tips_autocomp=NULL;}}
-
-//******************************* POsition du menu autocomp
-static void set_autocomp_menu_pos (GtkMenu *menu,gint *x,gint *y,gboolean *push_in,gpointer user_data)
-{
-  t_text_part *p = user_data;
-
-  GtkWidget *widget;
-  GdkRectangle cursor_rect;
-  GdkRectangle onscreen_rect;
-  gint root_x, root_y;
-  GtkTextIter iter;
-  GtkRequisition req;      
-  GdkScreen *screen;
-  
-  widget = GTK_WIDGET (p->page->text_view);
-  screen = gtk_widget_get_screen (widget);
-
-  gdk_window_get_origin (gtk_widget_get_parent_window(widget), &root_x, &root_y);
-
-  gtk_text_view_get_iter_location (p->page->text_view,
-                                   &p->itstart,
-                                   //&iter,
-                                   &cursor_rect);
-
-  gtk_text_view_get_visible_rect (p->page->text_view, &onscreen_rect);
-  
-  gtk_widget_size_request (menu, &req);
-
-  /* can't use rectangle_intersect since cursor rect can have 0 width */
-  if (cursor_rect.x >= onscreen_rect.x && cursor_rect.x < onscreen_rect.x + onscreen_rect.width && cursor_rect.y >= onscreen_rect.y && cursor_rect.y < onscreen_rect.y + onscreen_rect.height)
-    {    
-      gtk_text_view_buffer_to_window_coords (p->page->text_view,
-                                             GTK_TEXT_WINDOW_WIDGET,
-                                             cursor_rect.x, cursor_rect.y,
-                                             &cursor_rect.x, &cursor_rect.y);
-
-      *x = root_x + cursor_rect.x + cursor_rect.width;
-      *y = root_y + cursor_rect.y + cursor_rect.height;
-    }
-  else
-    {
-      /* Just center the menu, since cursor is offscreen. */      
-      *x = root_x + (gtk_widget_get_allocated_width(widget) / 2 - req.width / 1);
-      *y = root_y + (gtk_widget_get_allocated_height(widget) / 2 - req.height / 1);      
-    }
-
-  /* Ensure sanity */
-  *x = CLAMP (*x, root_x, (root_x + gtk_widget_get_allocated_width(widget)));
-  *y = CLAMP (*y, root_y, (root_y + gtk_widget_get_allocated_height(widget)));
-
-  *x = CLAMP (*x, 0, MAX (0, gdk_screen_get_width (screen) - req.width));
-  *y = CLAMP (*y, 0, MAX (0, gdk_screen_get_height (screen) - req.height));
-}
-
-//******************************* 
-static gint keypress_autocomp( GtkWidget *widget, GdkEventKey *event, gpointer func_data)
-{
-//gtk_widget_grab_focus (cur_text_doc->text_view);
-//	if(event->keyval!=GDK_Up && event->keyval!=GDK_Down && event->keyval!=GDK_Shift_R)
-//	{
-	//gtk_widget_destroy (widget);
-	/*gchar *carac;
-	carac=gdk_keyval_name(event->keyval);
-	if(strcmp("space", carac) == 0){carac=" ";}	
-	if(strcmp("comma", carac) == 0){carac=",";}
-	if(strcmp("parenleft", carac) == 0){carac="(";}
-	if(strcmp("parenright", carac) == 0){carac=")";}*/
-//	if(strcmp("Return", carac) == 0){on_mni_select_autocomp_item (widget,);}
-
-	//	if(strlen(carac)==1){doc_insert_at_cursor (cur_text_doc,carac);}
-	//else{doc_insert_at_cursor (cur_text_doc,gdk_keyval_name(event->keyval));}
-	//********** TEST Key
-	//	doc_insert_at_cursor (cur_text_doc,gdk_keyval_name(event->keyval));}	
-	//}
-	/*else{gtk_widget_grab_focus (widget);gtk_menu_item_select (widget);}*/
-
-//gtk_text_view_set_editable (cur_text_doc->text_view, FALSE);
-//gtk_text_view_set_editable (cur_text_doc->text_view, TRUE);
-}
-
-//******************************* Construction du menu pour autocomp
-static void make_autocomp_menu (t_text_part *p)
-{
-
-	if (win_tips_autocomp != NULL){gtk_widget_destroy (GTK_WIDGET (win_tips_autocomp));win_tips_autocomp=NULL;}
-
-   if (mni_autocomp)
-      gtk_widget_destroy (mni_autocomp);   
-		    gtk_widget_grab_focus (cur_text_doc->text_view);   
-   mni_autocomp = gtk_menu_new ();    
-
-   GList *l = g_completion_complete (at_editor, p->prefix, NULL);
- 
-   if (l)
-       {
-        build_menu_wudata_from_glist (l, mni_autocomp, on_mni_select_autocomp_item, p);
-        gtk_menu_popup (mni_autocomp, NULL, NULL, set_autocomp_menu_pos, p, 0, 0);
-		    gtk_widget_grab_focus (cur_text_doc->text_view);
-       }  
-
-	if (win_tips_autocomp != NULL){gtk_widget_destroy (win_tips_autocomp);win_tips_autocomp=NULL;}   
-}
-
-//******************************* Construction du listing pour les tips
-static void make_autocomp_menu_tips (t_text_part *p)
-{
-
-    gtk_widget_grab_focus (cur_text_doc->text_view);   
-
-   GList *l = g_completion_complete (at_editor, p->prefix, NULL);
-  
-   if (l)
-       {
-		    gtk_widget_grab_focus (cur_text_doc->text_view);
-
-			//*****************
-			 if (win_tips_autocomp != NULL){gtk_widget_destroy (win_tips_autocomp);win_tips_autocomp=NULL;}
-
-		   GdkWindow *win;
-		   GtkTextIter end,start;
-		   GdkRectangle buf_loc;
-         gint x, y;
-         gint win_x, win_y;
-  
-  /* Get the word at cursor. */
-	gtk_text_buffer_get_selection_bounds (
-   cur_text_doc->text_buffer, & start, & end);
-  
-  /* Calculate the tool tip window location. */
-  gtk_text_view_get_iter_location (GTK_TEXT_VIEW (cur_text_doc->text_view), &start, 
-                                   &buf_loc);
-
-  gtk_text_view_buffer_to_window_coords (GTK_TEXT_VIEW (cur_text_doc->text_view),
-                                         GTK_TEXT_WINDOW_WIDGET,
-                                         buf_loc.x, buf_loc.y,
-                                         &win_x, &win_y);
-
-  win = gtk_text_view_get_window (GTK_TEXT_VIEW (cur_text_doc->text_view), 
-                                  GTK_TEXT_WINDOW_WIDGET);
-  gdk_window_get_origin (win, &x, &y);
-
-			char text[9900];text[0]='\0';
-	      strcat(text,"\n");
-		   g_list_first (l);
-		   while (l)
-        {
-         if (l->data)
-					{
-         			if (strlen (l->data) >= 1)
-							{
-	      			strcat(text," ");
-         			strcat(text,l->data);
-         			strcat(text,"\t\n");
-							}
-	    
-         l = g_list_next (l);
-
-        }
-			}
-
-					win_tips_autocomp=tip_window_new_autocomp  (text);			
-				  gtk_window_move (win_tips_autocomp, win_x + x, 
-                   win_y + y + buf_loc.height);
-
-					gtk_widget_show_all (win_tips_autocomp);
-
-    }     
-
-}
+void delete_autocomp_tips(){if (win_tips_autocomp != NULL){gtk_widget_destroy (GTK_WIDGET(win_tips_autocomp));win_tips_autocomp=NULL;}}
 
 //******************************* Lance la construction des tips au relachement de touche clavier
-gboolean on_editor_keyrelease (GtkWidget *widget, GdkEventKey *event, gpointer data)
+gboolean on_editor_keyrelease ()
 {
 
 	if (! get_page_text()) return FALSE;
@@ -3351,31 +3063,13 @@ gboolean on_editor_keyrelease (GtkWidget *widget, GdkEventKey *event, gpointer d
 	statusbar_msg(msg);
 
   gchar *t;
-  t_note_page *page = data;
 
-  gchar *s;
+  //gchar *s;
   GtkTextIter itstart;
   GtkTextIter itend;  
 
-  t_text_part *p;
+  //t_text_part *p;
 
-/*
-	if (win_tips_autocomp != NULL){gtk_widget_destroy (win_tips_autocomp);win_tips_autocomp=NULL;}
-
-
-         t = doc_get_word_at_left (cur_text_doc, &itstart, &itend);
-         if (! t || t==NULL || strlen(t)<2){
-            return FALSE;}
-							else{
-         p = g_malloc (sizeof (t_text_part));
-         p->page = page;
-         p->itstart = itstart; 
-         p->itend = itend; 
-         p->prefix = g_strdup (t);
-         make_autocomp_menu_tips (p);
-						}
-         g_free (t);
-*/
 	//****************************** bg word backward
 	if(row2<1000)
 	{
@@ -3383,30 +3077,33 @@ gboolean on_editor_keyrelease (GtkWidget *widget, GdkEventKey *event, gpointer d
 	GtkTextIter start_match, end_match;
 
 	t = doc_get_word_at_left (cur_text_doc, &itstart, &itend);
-	gtk_text_buffer_get_start_iter(page->text_buffer, &start_find);
-	gtk_text_buffer_get_end_iter(page->text_buffer, &end_find);
+	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &start_find);
+	gtk_text_buffer_get_end_iter(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &end_find);
 
-	gtk_text_buffer_remove_tag_by_name(page->text_buffer, "gray_bg", &start_find, &end_find);
+	gtk_text_buffer_remove_tag_by_name(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), "gray_bg", &start_find, &end_find);
 
      if (! t){return FALSE;}else{
 	while ( gtk_text_iter_forward_search(&start_find, t, GTK_TEXT_SEARCH_TEXT_ONLY | GTK_TEXT_SEARCH_VISIBLE_ONLY, &start_match, &end_match, NULL) )
 					{
-          gtk_text_buffer_apply_tag_by_name(page->text_buffer, "gray_bg", 
+          gtk_text_buffer_apply_tag_by_name(cur_text_doc->text_buffer, "gray_bg", 
               &start_match, &end_match);
           int offset = gtk_text_iter_get_offset(&end_match);
-          gtk_text_buffer_get_iter_at_offset(page->text_buffer, 
+          gtk_text_buffer_get_iter_at_offset(cur_text_doc->text_buffer, 
               &start_find, offset);
 					}
 			}
 
      g_free (t);
 	}
+
+	return TRUE;
 }
+
 //******************************* à la pression d'une touche
-gboolean on_editor_keypress (GtkWidget *widget, GdkEventKey *event, gpointer data)
+gboolean on_editor_keypress ( GdkEventKey *event, gpointer data)
 {
 
-	if (! get_page_text()) return;
+	if (! get_page_text()) return FALSE;
 
 
   t_note_page *page = data;
@@ -3463,53 +3160,10 @@ doc_insert_at_cursor (cur_text_doc, ")");
 doc_move_cursor_backw(cur_text_doc,1);
 }
 
-		//*************** SHIFT RIGHT pour afficher le menu autocomplementation
-		 /*if(event->keyval ==  GDK_KEY_Shift_R)
-        {
-         t = doc_get_word_at_left (cur_text_doc, &itstart, &itend);
-         if (! t){ return FALSE;}else{
-         p = g_malloc (sizeof (t_text_part));
-         p->page = page;
-         p->itstart = itstart; 
-         p->itend = itend; 
-         p->prefix = g_strdup (t);
-         make_autocomp_menu (p);
-         g_free (t); 
-         return FALSE;}
-        }   */         
-         
-       //************* on mémorise les variable et fonction appelé  
-/*       if (event->keyval == '=' || event->keyval == '(' || g_unichar_isspace (k)) 
-         {
-
-
-          //gl_autocomp = glist_add_not_dup (gl_autocomp, t, confile.autocomp_wordlen_min);
-          
-          //******* INSERT DANS LE SCAN
-/*			if(strlen(t)>2)
-			{					
-          if (event->keyval == '='){insert_img_autoconf_var();gtk_text_buffer_insert_at_cursor(buffer_scan,(_("  [VARIABLE]\t: ")) , -1);}
-          if (event->keyval == '('){insert_img_autoconf_fonc();gtk_text_buffer_insert_at_cursor(buffer_scan,(_("  [FONCTION]\t: ")) , -1);}
-         if (g_unichar_isspace (k)){insert_img_autoconf_mot();gtk_text_buffer_insert_at_cursor(buffer_scan,(_("  [MOT_CLEF]\t: ")) , -1);}
-          gtk_text_buffer_insert_at_cursor(buffer_scan,t , -1);
-          gtk_text_buffer_insert_at_cursor(buffer_scan,"\n" , -1);
-			 fin_de_scroll_pos();
-			statusbar_msg (_("Add Autocomp [OK]"));
-			}
-
-          if (gl_autocomp)
-             {
-              g_completion_clear_items (at_editor);
-              g_completion_add_items (at_editor, gl_autocomp);
-             }
-
-          g_free (t); 
-          return FALSE;
-        }              */
-
 	   char *extension;
-	if(extension = strrchr(cur_text_doc->file_name,'.'))
+	if(strrchr(cur_text_doc->file_name,'.'))
 	{
+	extension = strrchr(cur_text_doc->file_name,'.');
 if (event->keyval == '\"' && confile.use_textcompbloc == 1 && strcmp(".txt", extension) != 0)
 {
 doc_insert_at_cursor (cur_text_doc, "\"");
@@ -3546,7 +3200,7 @@ doc_move_cursor_backw(cur_text_doc,1);
   if (event->keyval == GDK_KEY_Return)
      if (confile.use_auto_indent) 
         {
-         indent_real(page->text_view);
+         indent_real(GTK_WIDGET(page->text_view));
          return TRUE;
         }
 
@@ -3561,33 +3215,33 @@ doc_move_cursor_backw(cur_text_doc,1);
  return FALSE;
 }
 
-void on_mni_unindent (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_unindent ()
 {
   if (! get_page_text()) return;
   doc_indent_selection (cur_text_doc, TRUE);
 }
 
 
-void on_mni_indent (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_indent ()
 {
   if (! get_page_text()) return;
   doc_indent_selection (cur_text_doc, FALSE);
 }
 
-void on_mni_autorep_file_open (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_autorep_file_open ()
 {
   cur_settings.selected_enc = ch_str (cur_settings.selected_enc, "UTF-8");
   open_file_std (confile.tea_autoreplace);
 }
 
-void on_mni_autocomp_file_open (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_autocomp_file_open ()
 {
   cur_settings.selected_enc = ch_str (cur_settings.selected_enc, "UTF-8");
   open_file_std (confile.tea_autocomp);
 }
 
 
-void on_mni_strings_remove_leading_whitespaces (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_strings_remove_leading_whitespaces ()
 {
   if (! get_page_text()) return;
   
@@ -3607,7 +3261,7 @@ void on_mni_strings_remove_leading_whitespaces (GtkMenuItem *menuitem,gpointer u
   glist_strings_free (temp2);
 }
 
-void on_mni_strings_remove_trailing_whitespaces (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_strings_remove_trailing_whitespaces ()
 {
   if (! get_page_text()) return;
   
@@ -3628,7 +3282,7 @@ void on_mni_strings_remove_trailing_whitespaces (GtkMenuItem *menuitem,gpointer 
 }
 
 //********************* Editer le crapbook
-void on_mni_edit_append_to_crapbook (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_edit_append_to_crapbook ()
 {
   if (! get_page_text()) return;
   
@@ -3643,7 +3297,7 @@ void on_mni_edit_append_to_crapbook (GtkMenuItem *menuitem,gpointer user_data)
 
   gint i = get_n_page_by_filename (confile.crapbook_file);
 
-gtk_text_buffer_insert_at_cursor(buffer_note, t, -1);
+gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), t, -1);
 
   if (i != -1)
      {
@@ -3664,7 +3318,7 @@ gtk_text_buffer_insert_at_cursor(buffer_note, t, -1);
   glist_strings_free (l);
 }
 
-void on_mni_load_last_file (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_load_last_file ()
 {
   if (! recent_list)
     return;
@@ -3673,20 +3327,20 @@ void on_mni_load_last_file (GtkMenuItem *menuitem,gpointer user_data)
 }
 
 //******************************* ouvrir un fichier header .h
-void on_source_header_switch (GtkMenuItem *menuitem,gpointer user_data)
+void on_source_header_switch ()
 {
   if (! get_page_text()) return;
   doc_header_source_switch (cur_text_doc);
 }
 
-void on_mni_show_project_props (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_show_project_props ()
 {
   if (cur_tea_project)
      create_proj_props_window (cur_tea_project);  
 }
 
 //******************************* Ouvrir un nouveau projet
-void on_mni_project_new (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_project_new ()
 {
   cur_tea_project = tea_proj_clear_new (cur_tea_project);
   if (cur_tea_project)
@@ -3694,7 +3348,7 @@ void on_mni_project_new (GtkMenuItem *menuitem,gpointer user_data)
 }
 
 //******************************* sauvegarder sous un projet
-void on_mni_project_save_as (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_project_save_as ()
 {
   if (! cur_tea_project)
      return;
@@ -3702,7 +3356,7 @@ void on_mni_project_save_as (GtkMenuItem *menuitem,gpointer user_data)
   gchar *filename;
 
   GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Save a project"),
-                                                   tea_main_window,
+                                                   GTK_WINDOW(tea_main_window),
                                                    GTK_FILE_CHOOSER_ACTION_SAVE,
                                                    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                                                    GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
@@ -3715,10 +3369,10 @@ void on_mni_project_save_as (GtkMenuItem *menuitem,gpointer user_data)
       g_free (filename);
      }
 
-   gtk_widget_destroy (dialog);
+   gtk_widget_destroy (GTK_WIDGET(dialog));
 }
 
-void on_mni_show_project_save (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_show_project_save ()
 {
   if (! cur_tea_project)
      return;
@@ -3733,14 +3387,12 @@ void on_mni_show_project_save (GtkMenuItem *menuitem,gpointer user_data)
 }
 
 //******************************* Ouvrir un projet
-void on_mni_project_open (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_project_open ()
 {
   gchar *filename;
-  gint num;
-  FILE *fichier;
 
   GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Open a project"),
-                                                   tea_main_window,
+                                                   GTK_WINDOW(tea_main_window),
                                                    GTK_FILE_CHOOSER_ACTION_OPEN,
                                                    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                                                   GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
@@ -3759,13 +3411,13 @@ if (confile.use_def_open_dir){gtk_file_chooser_set_current_folder (GTK_FILE_CHOO
 	GdkPixbuf *pixbuf;
 	GtkTextIter itFin;
 	pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_button.png", NULL);
-	gtk_text_buffer_get_end_iter(buffer_projet, &itFin);
-	gtk_text_buffer_insert_pixbuf (buffer_projet,&itFin,pixbuf);
+	gtk_text_buffer_get_end_iter(GTK_TEXT_BUFFER(buffer_projet), &itFin);
+	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_projet),&itFin,pixbuf);
 
 
-	gtk_text_buffer_insert_at_cursor(buffer_projet, (_("   FICHIER PROJET : ")), -1);
-	gtk_text_buffer_insert_at_cursor(buffer_projet, filename, -1);
-	gtk_text_buffer_insert_at_cursor(buffer_projet, "\n\n________________________________________________________________________________________________\n\n", -1);
+	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), (_("   FICHIER PROJET : ")), -1);
+	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), filename, -1);
+	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), "\n\n________________________________________________________________________________________________\n\n", -1);
 		
 		//**************** OUVERTURE DU FICHIER PROJET
 		gchar lecture[1024];
@@ -3773,7 +3425,7 @@ if (confile.use_def_open_dir){gtk_file_chooser_set_current_folder (GTK_FILE_CHOO
 		fichier = fopen(filename,"rt");
 		while(fgets(lecture, 1024, fichier))
 		{
-			gtk_text_buffer_insert_at_cursor(buffer_projet,g_locale_to_utf8(lecture, -1, NULL, NULL, NULL) , -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet),g_locale_to_utf8(lecture, -1, NULL, NULL, NULL) , -1);
 		}
 
 		fclose(fichier);
@@ -3781,11 +3433,11 @@ if (confile.use_def_open_dir){gtk_file_chooser_set_current_folder (GTK_FILE_CHOO
       g_free (filename);
      }
 
-   gtk_widget_destroy (dialog);
+   gtk_widget_destroy (GTK_WIDGET(dialog));
 }
 
 //******************************* compiler un projet
-void on_mni_project_make (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_project_make ()
 {
 icon_affiche_bug();
 
@@ -3798,12 +3450,12 @@ icon_affiche_bug();
   if (! g_file_test (cur_tea_project->dir_makefile, G_FILE_TEST_EXISTS))
      return;
  
-  chdir (cur_tea_project->dir_makefile);
+  int systemRet =chdir (cur_tea_project->dir_makefile);
+		if(systemRet == -1){return;}
 
   gchar *standard_output = NULL;
   gchar *standard_error = NULL;
                                                    
-  gint exit_status;
   GError *err = NULL;
 
   gchar *cmd = g_strconcat ("make", NULL); 
@@ -3829,7 +3481,7 @@ icon_affiche_bug();
 
       g_free (x);
   
-      do_errors_hl (tv_logmemo);
+      do_errors_hl (GTK_TEXT_VIEW(tv_logmemo));
       }   
 	statusbar_msg (_("Make [OK]"));
   g_free (cmd);
@@ -3839,12 +3491,12 @@ icon_affiche_bug();
 }
 
 //******************************* executer un projet
-void on_mni_show_project_run (GtkMenuItem *menuitem,gpointer user_data){tea_proj_run (cur_tea_project);  }
+void on_mni_show_project_run (){tea_proj_run (cur_tea_project);  }
 
-void on_mni_test (GtkMenuItem *menuitem,gpointer user_data)
+void on_mni_test ()
 {
   mni_temp = NULL;
-  GtkMenuItem *m = find_menuitem (GTK_CONTAINER (menubar1), "BR");
+  GtkWidget *m = find_menuitem (GTK_CONTAINER (menubar1), "BR");
   if (m)
      //dbm (gtk_widget_get_name (m));
       gtk_menu_item_activate (GTK_MENU_ITEM (m));
@@ -3902,7 +3554,7 @@ void skeleton             (void){	  doc_insert_at_cursor (cur_text_doc,(_("#! /b
 GtkWidget* window_grep (void)
 {
   GtkWidget *window1,*vbox1,*hbox2,*vbox2,*alignment4,*hbox6,*image5,*label4,*alignment3,*hbox5,*image4,*label3,*alignment2,*hbox4,*image3,*label2,*alignment1;
-  GtkWidget *hbox3,*image2,*label1,*vbox3,*vbox4,*label5,*label6,*label7,*hseparator1,*hbox1,*button1,*button2;
+  GtkWidget *hbox3,*image2,*label1,*vbox3,*vbox4,*label5,*label6,*label7,*hbox1,*button1,*button2;
 
 	icon_affiche_stop();
 
@@ -3910,148 +3562,148 @@ GtkWidget* window_grep (void)
   gtk_window_set_title (GTK_WINDOW (window1), _((_("Aide pour Grep"))));
     gtk_window_set_position (GTK_WINDOW (window1), GTK_WIN_POS_CENTER);
   gtk_window_set_resizable (GTK_WINDOW (window1), FALSE);
-  gtk_widget_show(window1);
+  gtk_widget_show(GTK_WIDGET(window1));
 
-  vbox1 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox1);
+  vbox1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_widget_show (GTK_WIDGET(vbox1));
   gtk_container_add (GTK_CONTAINER (window1), vbox1);
 
-  hbox2 = gtk_hbox_new (FALSE, 0);
-  gtk_widget_show (hbox2);
+  hbox2 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_show (GTK_WIDGET(hbox2));
   gtk_box_pack_start (GTK_BOX (vbox1), hbox2, TRUE, TRUE, 0);
 
-  vbox2 = gtk_vbox_new (TRUE, 0);
-  gtk_widget_show (vbox2);
+  vbox2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_widget_show (GTK_WIDGET(vbox2));
   gtk_box_pack_start (GTK_BOX (hbox2), vbox2, TRUE, TRUE, 0);
   gtk_container_set_border_width (GTK_CONTAINER (vbox2), 12);
 
   checkbutton1_grep = gtk_check_button_new ();
-  gtk_widget_show (checkbutton1_grep);
+  gtk_widget_show (GTK_WIDGET(checkbutton1_grep));
   gtk_box_pack_start (GTK_BOX (vbox2), checkbutton1_grep, FALSE, FALSE, 0);
 
   alignment4 = gtk_alignment_new (0.5, 0.5, 0, 0);
-  gtk_widget_show (alignment4);
+  gtk_widget_show (GTK_WIDGET(alignment4));
   gtk_container_add (GTK_CONTAINER (checkbutton1_grep), alignment4);
 
-  hbox6 = gtk_hbox_new (FALSE, 2);
-  gtk_widget_show (hbox6);
+  hbox6 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_show (GTK_WIDGET(hbox6));
   gtk_container_add (GTK_CONTAINER (alignment4), hbox6);
 
   image5 = gtk_image_new_from_stock ("gtk-bold", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show (image5);
+  gtk_widget_show (GTK_WIDGET(image5));
   gtk_box_pack_start (GTK_BOX (hbox6), image5, FALSE, FALSE, 0);
 
   label4 = gtk_label_new_with_mnemonic (_("Indiff\303\251rence Maj/Min"));
-  gtk_widget_show (label4);
+  gtk_widget_show (GTK_WIDGET(label4));
   gtk_box_pack_start (GTK_BOX (hbox6), label4, FALSE, FALSE, 0);
 
   checkbutton2_grep = gtk_check_button_new ();
-  gtk_widget_show (checkbutton2_grep);
+  gtk_widget_show (GTK_WIDGET(checkbutton2_grep));
   gtk_box_pack_start (GTK_BOX (vbox2), checkbutton2_grep, FALSE, FALSE, 0);
 
   alignment3 = gtk_alignment_new (0.5, 0.5, 0, 0);
-  gtk_widget_show (alignment3);
+  gtk_widget_show (GTK_WIDGET(alignment3));
   gtk_container_add (GTK_CONTAINER (checkbutton2_grep), alignment3);
 
-  hbox5 = gtk_hbox_new (FALSE, 2);
-  gtk_widget_show (hbox5);
+  hbox5 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_show (GTK_WIDGET(hbox5));
   gtk_container_add (GTK_CONTAINER (alignment3), hbox5);
 
   image4 = gtk_image_new_from_stock ("gtk-select-font", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show (image4);
+  gtk_widget_show (GTK_WIDGET(image4));
   gtk_box_pack_start (GTK_BOX (hbox5), image4, FALSE, FALSE, 0);
 
   label3 = gtk_label_new_with_mnemonic (_("Mot complet"));
-  gtk_widget_show (label3);
+  gtk_widget_show (GTK_WIDGET(label3));
   gtk_box_pack_start (GTK_BOX (hbox5), label3, FALSE, FALSE, 0);
 
   checkbutton3_grep = gtk_check_button_new ();
-  gtk_widget_show (checkbutton3_grep);
+  gtk_widget_show (GTK_WIDGET(checkbutton3_grep));
   gtk_box_pack_start (GTK_BOX (vbox2), checkbutton3_grep, FALSE, FALSE, 0);
 
   alignment2 = gtk_alignment_new (0.5, 0.5, 0, 0);
-  gtk_widget_show (alignment2);
+  gtk_widget_show (GTK_WIDGET(alignment2));
   gtk_container_add (GTK_CONTAINER (checkbutton3_grep), alignment2);
 
-  hbox4 = gtk_hbox_new (FALSE, 2);
-  gtk_widget_show (hbox4);
+  hbox4 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_show (GTK_WIDGET(hbox4));
   gtk_container_add (GTK_CONTAINER (alignment2), hbox4);
 
   image3 = gtk_image_new_from_stock ("gtk-refresh", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show (image3);
+  gtk_widget_show (GTK_WIDGET(image3));
   gtk_box_pack_start (GTK_BOX (hbox4), image3, FALSE, FALSE, 0);
 
   label2 = gtk_label_new_with_mnemonic (_("Inverser la sortie"));
-  gtk_widget_show (label2);
+  gtk_widget_show (GTK_WIDGET(label2));
   gtk_box_pack_start (GTK_BOX (hbox4), label2, FALSE, FALSE, 0);
 
   checkbutton4_grep = gtk_check_button_new ();
-  gtk_widget_show (checkbutton4_grep);
+  gtk_widget_show (GTK_WIDGET(checkbutton4_grep));
   gtk_box_pack_start (GTK_BOX (vbox2), checkbutton4_grep, FALSE, FALSE, 0);
 
   alignment1 = gtk_alignment_new (0.5, 0.5, 0, 0);
-  gtk_widget_show (alignment1);
+  gtk_widget_show (GTK_WIDGET(alignment1));
   gtk_container_add (GTK_CONTAINER (checkbutton4_grep), alignment1);
 
-  hbox3 = gtk_hbox_new (FALSE, 2);
-  gtk_widget_show (hbox3);
+  hbox3 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_show (GTK_WIDGET(hbox3));
   gtk_container_add (GTK_CONTAINER (alignment1), hbox3);
 
   image2 = gtk_image_new_from_stock ("gtk-new", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show (image2);
+  gtk_widget_show (GTK_WIDGET(image2));
   gtk_box_pack_start (GTK_BOX (hbox3), image2, FALSE, FALSE, 0);
 
   label1 = gtk_label_new_with_mnemonic (_("Redirection"));
-  gtk_widget_show (label1);
+  gtk_widget_show (GTK_WIDGET(label1));
   gtk_box_pack_start (GTK_BOX (hbox3), label1, FALSE, FALSE, 0);
 
-  vbox3 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox3);
+  vbox3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_widget_show (GTK_WIDGET(vbox3));
   gtk_box_pack_start (GTK_BOX (hbox2), vbox3, TRUE, TRUE, 14);
 
-  vbox4 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox4);
+  vbox4 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_widget_show (GTK_WIDGET(vbox4));
   gtk_box_pack_start (GTK_BOX (vbox3), vbox4, FALSE, FALSE, 0);
 
   label5 = gtk_label_new (_("Fichier"));
-  gtk_widget_show (label5);
+  gtk_widget_show (GTK_WIDGET(label5));
   gtk_box_pack_start (GTK_BOX (vbox4), label5, FALSE, FALSE, 0);
 
   entry_grep1 = gtk_entry_new ();
-  gtk_widget_show (entry_grep1);
+  gtk_widget_show (GTK_WIDGET(entry_grep1));
   gtk_box_pack_start (GTK_BOX (vbox4), entry_grep1, FALSE, FALSE, 0);
 
   label6 = gtk_label_new (_("Mot recherch\303\251"));
-  gtk_widget_show (label6);
+  gtk_widget_show (GTK_WIDGET(label6));
   gtk_box_pack_start (GTK_BOX (vbox4), label6, FALSE, FALSE, 0);
 
   entry_grep2 = gtk_entry_new ();
-  gtk_widget_show (entry_grep2);
+  gtk_widget_show (GTK_WIDGET(entry_grep2));
   gtk_box_pack_start (GTK_BOX (vbox4), entry_grep2, FALSE, FALSE, 0);
 
   label7 = gtk_label_new (_("Fichier de redirection"));
-  gtk_widget_show (label7);
+  gtk_widget_show (GTK_WIDGET(label7));
   gtk_box_pack_start (GTK_BOX (vbox4), label7, FALSE, FALSE, 0);
 
   entry_grep3 = gtk_entry_new ();
-  gtk_widget_show (entry_grep3);
+  gtk_widget_show (GTK_WIDGET(entry_grep3));
   gtk_box_pack_start (GTK_BOX (vbox4), entry_grep3, FALSE, FALSE, 0);
 
-  hseparator1 = gtk_hseparator_new ();
-  gtk_widget_show (hseparator1);
-  gtk_box_pack_start (GTK_BOX (vbox1), hseparator1, TRUE, TRUE, 3);
+  /*hseparator1 = gtk_hseparator_new ();
+  gtk_widget_show (GTK_WIDGET(hseparator1));
+  gtk_box_pack_start (GTK_BOX (vbox1), hseparator1, TRUE, TRUE, 3);*/
 
-  hbox1 = gtk_hbox_new (TRUE, 0);
-  gtk_widget_show (hbox1);
+  hbox1 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_show (GTK_WIDGET(hbox1));
   gtk_box_pack_start (GTK_BOX (vbox1), hbox1, TRUE, TRUE, 0);
 
   button1 = gtk_button_new_from_stock ("gtk-cancel");
-  gtk_widget_show (button1);
+  gtk_widget_show (GTK_WIDGET(button1));
   gtk_box_pack_start (GTK_BOX (hbox1), button1, FALSE, TRUE, 23);
   gtk_button_set_relief (GTK_BUTTON (button1), GTK_RELIEF_NONE);
 
   button2 = gtk_button_new_from_stock ("gtk-apply");
-  gtk_widget_show (button2);
+  gtk_widget_show (GTK_WIDGET(button2));
   gtk_box_pack_start (GTK_BOX (hbox1), button2, TRUE, TRUE, 23);
   gtk_button_set_relief (GTK_BUTTON (button2), GTK_RELIEF_NONE);
   
@@ -4124,7 +3776,7 @@ if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton4_grep)))
 GtkWidget* sed (void)
 {
 	GtkWidget *window1,*vbox1,*hbox2,*vbox5,*notebook1,*vbox6,*label15,*label16,*hbox3,*image2,*label17,*vbox7,*hbox5,*label19,*label20;
-  GtkWidget *hseparator2,*hbox4,*image3,*label18,*vbox8,*hbox6,*image4,*label21,*vbox3,*vbox4,*label5,*label6,*hseparator1,*hbox1,*button1,*button2;
+  GtkWidget *hbox4,*image3,*label18,*vbox8,*hbox6,*image4,*label21,*vbox3,*vbox4,*label5,*label6,*hbox1,*button1,*button2;
 
 icon_affiche_stop();
 
@@ -4132,186 +3784,186 @@ icon_affiche_stop();
   gtk_window_set_title (GTK_WINDOW (window1), _((_("Aide Sed"))));
   gtk_window_set_position (GTK_WINDOW (window1), GTK_WIN_POS_CENTER);
   gtk_window_set_resizable (GTK_WINDOW (window1), FALSE);
-  gtk_widget_show(window1);
+  gtk_widget_show(GTK_WIDGET(window1));
 
-  vbox1 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox1);
+  vbox1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_widget_show (GTK_WIDGET(vbox1));
   gtk_container_add (GTK_CONTAINER (window1), vbox1);
 
-  hbox2 = gtk_hbox_new (FALSE, 0);
-  gtk_widget_show (hbox2);
+  hbox2 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_show (GTK_WIDGET(hbox2));
   gtk_box_pack_start (GTK_BOX (vbox1), hbox2, TRUE, TRUE, 0);
 
-  vbox5 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox5);
+  vbox5 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_widget_show (GTK_WIDGET(vbox5));
   gtk_box_pack_start (GTK_BOX (hbox2), vbox5, TRUE, TRUE, 0);
 
   notebook1 = gtk_notebook_new ();
-  gtk_widget_show (notebook1);
+  gtk_widget_show (GTK_WIDGET(notebook1));
   gtk_box_pack_start (GTK_BOX (vbox5), notebook1, TRUE, TRUE, 0);
 
-  vbox6 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox6);
+  vbox6 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_widget_show (GTK_WIDGET(vbox6));
   gtk_container_add (GTK_CONTAINER (notebook1), vbox6);
 
   checkbutton_sed1 = gtk_check_button_new_with_mnemonic (_("Substitution"));
-  gtk_widget_show (checkbutton_sed1);
+  gtk_widget_show (GTK_WIDGET(checkbutton_sed1));
   gtk_box_pack_start (GTK_BOX (vbox6), checkbutton_sed1, FALSE, FALSE, 0);
 
   label15 = gtk_label_new (_("Remplacer par "));
-  gtk_widget_show (label15);
+  gtk_widget_show (GTK_WIDGET(label15));
   gtk_box_pack_start (GTK_BOX (vbox6), label15, FALSE, FALSE, 0);
 
   entry_sed4 = gtk_entry_new ();
-  gtk_widget_show (entry_sed4);
+  gtk_widget_show (GTK_WIDGET(entry_sed4));
   gtk_box_pack_start (GTK_BOX (vbox6), entry_sed4, FALSE, FALSE, 0);
 
   label16 = gtk_label_new (_("N\302\260 Occurence (g = toutes)"));
-  gtk_widget_show (label16);
+  gtk_widget_show (GTK_WIDGET(label16));
   gtk_box_pack_start (GTK_BOX (vbox6), label16, FALSE, FALSE, 0);
 
   entry_sed5 = gtk_entry_new ();
-  gtk_widget_show (entry_sed5);
+  gtk_widget_show (GTK_WIDGET(entry_sed5));
   gtk_box_pack_start (GTK_BOX (vbox6), entry_sed5, FALSE, FALSE, 0);
 
-  hbox3 = gtk_hbox_new (FALSE, 0);
-  gtk_widget_show (hbox3);
+  hbox3 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_show (GTK_WIDGET(hbox3));
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook1), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook1), 0), hbox3);
 
   image2 = gtk_image_new_from_stock ("gtk-find-and-replace", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show (image2);
+  gtk_widget_show (GTK_WIDGET(image2));
   gtk_box_pack_start (GTK_BOX (hbox3), image2, TRUE, TRUE, 0);
 
   label17 = gtk_label_new (_("Substitution"));
-  gtk_widget_show (label17);
+  gtk_widget_show (GTK_WIDGET(label17));
   gtk_box_pack_start (GTK_BOX (hbox3), label17, FALSE, FALSE, 0);
 
-  vbox7 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox7);
+  vbox7 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_widget_show (GTK_WIDGET(vbox7));
   gtk_container_add (GTK_CONTAINER (notebook1), vbox7);
 
   checkbutton_sed2 = gtk_check_button_new_with_mnemonic (_("Supprimer les lignes"));
-  gtk_widget_show (checkbutton_sed2);
+  gtk_widget_show (GTK_WIDGET(checkbutton_sed2));
   gtk_box_pack_start (GTK_BOX (vbox7), checkbutton_sed2, FALSE, FALSE, 0);
 
-  hbox5 = gtk_hbox_new (FALSE, 0);
-  gtk_widget_show (hbox5);
+  hbox5 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_show (GTK_WIDGET(hbox5));
   gtk_box_pack_start (GTK_BOX (vbox7), hbox5, TRUE, TRUE, 0);
 
   label19 = gtk_label_new (_("de "));
-  gtk_widget_show (label19);
+  gtk_widget_show (GTK_WIDGET(label19));
   gtk_box_pack_start (GTK_BOX (hbox5), label19, FALSE, FALSE, 0);
 
   entry_sed6 = gtk_entry_new ();
-  gtk_widget_show (entry_sed6);
+  gtk_widget_show (GTK_WIDGET(entry_sed6));
   gtk_box_pack_start (GTK_BOX (hbox5), entry_sed6, TRUE, TRUE, 0);
   gtk_widget_set_size_request (entry_sed6, 4, -1);
 
   label20 = gtk_label_new (_(" \303\240 "));
-  gtk_widget_show (label20);
+  gtk_widget_show (GTK_WIDGET(label20));
   gtk_box_pack_start (GTK_BOX (hbox5), label20, FALSE, FALSE, 0);
 
   entry_sed7 = gtk_entry_new ();
-  gtk_widget_show (entry_sed7);
+  gtk_widget_show (GTK_WIDGET(entry_sed7));
   gtk_box_pack_start (GTK_BOX (hbox5), entry_sed7, TRUE, TRUE, 0);
   gtk_widget_set_size_request (entry_sed7, 2, -1);
 
-  hseparator2 = gtk_hseparator_new ();
-  gtk_widget_show (hseparator2);
-  gtk_box_pack_start (GTK_BOX (vbox7), hseparator2, TRUE, TRUE, 0);
+  /*hseparator2 = gtk_hseparator_new ();
+  gtk_widget_show (GTK_WIDGET(hseparator2));
+  gtk_box_pack_start (GTK_BOX (vbox7), hseparator2, TRUE, TRUE, 0);*/
 
   checkbutton_sed3 = gtk_check_button_new_with_mnemonic (_("Supprimer les lignes avec le mot recherch\303\251"));
-  gtk_widget_show (checkbutton_sed3);
+  gtk_widget_show (GTK_WIDGET(checkbutton_sed3));
   gtk_box_pack_start (GTK_BOX (vbox7), checkbutton_sed3, FALSE, FALSE, 0);
 
   checkbutton_sed4 = gtk_check_button_new_with_mnemonic (_("Inversser la suppression"));
-  gtk_widget_show (checkbutton_sed4);
+  gtk_widget_show (GTK_WIDGET(checkbutton_sed4));
   gtk_box_pack_start (GTK_BOX (vbox7), checkbutton_sed4, FALSE, FALSE, 0);
 
-  hbox4 = gtk_hbox_new (FALSE, 0);
-  gtk_widget_show (hbox4);
+  hbox4 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_show (GTK_WIDGET(hbox4));
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook1), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook1), 1), hbox4);
 
   image3 = gtk_image_new_from_stock ("gtk-clear", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show (image3);
+  gtk_widget_show (GTK_WIDGET(image3));
   gtk_box_pack_start (GTK_BOX (hbox4), image3, TRUE, TRUE, 0);
 
   label18 = gtk_label_new (_("Suppression"));
-  gtk_widget_show (label18);
+  gtk_widget_show (GTK_WIDGET(label18));
   gtk_box_pack_start (GTK_BOX (hbox4), label18, FALSE, FALSE, 0);
 
-  vbox8 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox8);
+  vbox8 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_widget_show (GTK_WIDGET(vbox8));
   gtk_container_add (GTK_CONTAINER (notebook1), vbox8);
 
   checkbutton_sed5 = gtk_check_button_new_with_mnemonic (_("Afiche le resultat sur la sortie standare"));
-  gtk_widget_show (checkbutton_sed5);
+  gtk_widget_show (GTK_WIDGET(checkbutton_sed5));
   gtk_box_pack_start (GTK_BOX (vbox8), checkbutton_sed5, FALSE, FALSE, 0);
 
   checkbutton_sed6 = gtk_check_button_new_with_mnemonic (_("Donne le numero des lignes"));
-  gtk_widget_show (checkbutton_sed6);
+  gtk_widget_show (GTK_WIDGET(checkbutton_sed6));
   gtk_box_pack_start (GTK_BOX (vbox8), checkbutton_sed6, FALSE, FALSE, 0);
 
-  hbox6 = gtk_hbox_new (FALSE, 0);
-  gtk_widget_show (hbox6);
+  hbox6 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_show (GTK_WIDGET(hbox6));
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook1), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook1), 2), hbox6);
 
   image4 = gtk_image_new_from_stock ("gtk-add", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show (image4);
+  gtk_widget_show (GTK_WIDGET(image4));
   gtk_box_pack_start (GTK_BOX (hbox6), image4, TRUE, TRUE, 0);
 
   label21 = gtk_label_new (_("Fonctions"));
-  gtk_widget_show (label21);
+  gtk_widget_show (GTK_WIDGET(label21));
   gtk_box_pack_start (GTK_BOX (hbox6), label21, FALSE, FALSE, 0);
 
-  vbox3 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox3);
+  vbox3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_widget_show (GTK_WIDGET(vbox3));
   gtk_box_pack_start (GTK_BOX (hbox2), vbox3, TRUE, TRUE, 14);
 
-  vbox4 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox4);
+  vbox4 =gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_widget_show (GTK_WIDGET(vbox4));
   gtk_box_pack_start (GTK_BOX (vbox3), vbox4, FALSE, FALSE, 0);
 
   label5 = gtk_label_new (_("Fichier"));
-  gtk_widget_show (label5);
+  gtk_widget_show (GTK_WIDGET(label5));
   gtk_box_pack_start (GTK_BOX (vbox4), label5, FALSE, FALSE, 0);
   gtk_misc_set_alignment (GTK_MISC (label5), 0.48, 0.5);
 
   entry_sed1 = gtk_entry_new ();
-  gtk_widget_show (entry_sed1);
+  gtk_widget_show (GTK_WIDGET(entry_sed1));
   gtk_box_pack_start (GTK_BOX (vbox4), entry_sed1, FALSE, FALSE, 0);
 
   label6 = gtk_label_new (_("Mot recherch\303\251"));
-  gtk_widget_show (label6);
+  gtk_widget_show (GTK_WIDGET(label6));
   gtk_box_pack_start (GTK_BOX (vbox4), label6, FALSE, FALSE, 0);
 
   entry_sed2 = gtk_entry_new ();
-  gtk_widget_show (entry_sed2);
+  gtk_widget_show (GTK_WIDGET(entry_sed2));
   gtk_box_pack_start (GTK_BOX (vbox4), entry_sed2, FALSE, FALSE, 0);
 
   checkbutton_sed7 = gtk_check_button_new_with_mnemonic (_("Fichier de redirection"));
-  gtk_widget_show (checkbutton_sed7);
+  gtk_widget_show (GTK_WIDGET(checkbutton_sed7));
   gtk_box_pack_start (GTK_BOX (vbox4), checkbutton_sed7, FALSE, FALSE, 0);
 
   entry_sed3 = gtk_entry_new ();
-  gtk_widget_show (entry_sed3);
+  gtk_widget_show (GTK_WIDGET(entry_sed3));
   gtk_box_pack_start (GTK_BOX (vbox4), entry_sed3, FALSE, FALSE, 0);
 
-  hseparator1 = gtk_hseparator_new ();
-  gtk_widget_show (hseparator1);
-  gtk_box_pack_start (GTK_BOX (vbox1), hseparator1, TRUE, TRUE, 3);
+  /*hseparator1 = gtk_hseparator_new ();
+  gtk_widget_show (GTK_WIDGET(hseparator1));
+  gtk_box_pack_start (GTK_BOX (vbox1), hseparator1, TRUE, TRUE, 3);*/
 
-  hbox1 = gtk_hbox_new (TRUE, 0);
-  gtk_widget_show (hbox1);
+  hbox1 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_show (GTK_WIDGET(hbox1));
   gtk_box_pack_start (GTK_BOX (vbox1), hbox1, TRUE, TRUE, 0);
 
   button1 = gtk_button_new_from_stock ("gtk-cancel");
-  gtk_widget_show (button1);
+  gtk_widget_show (GTK_WIDGET(button1));
   gtk_box_pack_start (GTK_BOX (hbox1), button1, FALSE, TRUE, 23);
   gtk_button_set_relief (GTK_BUTTON (button1), GTK_RELIEF_NONE);
 
   button2 = gtk_button_new_from_stock ("gtk-apply");
-  gtk_widget_show (button2);
+  gtk_widget_show (GTK_WIDGET(button2));
   gtk_box_pack_start (GTK_BOX (hbox1), button2, TRUE, TRUE, 23);
   gtk_button_set_relief (GTK_BUTTON (button2), GTK_RELIEF_NONE);
 
@@ -4421,8 +4073,8 @@ doc_insert_at_cursor (cur_text_doc, tampon_redi);
 //******************************* fenetre de construction instruction case en bash
 GtkWidget* case_window (void)
 {	
-  GtkWidget *window1,*frame1,*vbox1,*hbox1,*image1,*label2,*hseparator1,*button1,*label1;
-  GObject *spinbutton1_adj;
+  GtkWidget *window1,*frame1,*vbox1,*hbox1,*image1,*label2,*button1,*label1;
+  GtkAdjustment *spinbutton1_adj;
 
 icon_affiche_stop();
 	
@@ -4430,45 +4082,45 @@ icon_affiche_stop();
   gtk_window_set_title (GTK_WINDOW (window1), _((_("Nombre d'options"))));
   gtk_window_set_position (GTK_WINDOW (window1), GTK_WIN_POS_CENTER);
   gtk_window_set_resizable (GTK_WINDOW (window1), FALSE);
-  gtk_widget_show(window1);
+  gtk_widget_show(GTK_WIDGET(window1));
 
   frame1 = gtk_frame_new (NULL);
-  gtk_widget_show (frame1);
+  gtk_widget_show (GTK_WIDGET(frame1));
   gtk_container_add (GTK_CONTAINER (window1), frame1);
 
-  vbox1 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox1);
+  vbox1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_widget_show (GTK_WIDGET(vbox1));
   gtk_container_add (GTK_CONTAINER (frame1), vbox1);
 
-  hbox1 = gtk_hbox_new (FALSE, 0);
-  gtk_widget_show (hbox1);
+  hbox1 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_show (GTK_WIDGET(hbox1));
   gtk_box_pack_start (GTK_BOX (vbox1), hbox1, FALSE, TRUE, 0);
 
   image1 = gtk_image_new_from_stock ("gtk-properties", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show (image1);
+  gtk_widget_show (GTK_WIDGET(image1));
   gtk_box_pack_start (GTK_BOX (hbox1), image1, TRUE, TRUE, 7);
 
   label2 = gtk_label_new (_("Nombre d'options du script : "));
-  gtk_widget_show (label2);
+  gtk_widget_show (GTK_WIDGET(label2));
   gtk_box_pack_start (GTK_BOX (hbox1), label2, TRUE, FALSE, 0);
 
   spinbutton1_adj = gtk_adjustment_new (1, 0, 100, 1, 10, 10);
   spinbutton1 = gtk_spin_button_new (GTK_ADJUSTMENT (spinbutton1_adj), 1, 0);
-  gtk_widget_show (spinbutton1);
+  gtk_widget_show (GTK_WIDGET(spinbutton1));
   gtk_box_pack_start (GTK_BOX (hbox1), spinbutton1, FALSE, TRUE, 4);
   gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (spinbutton1), TRUE);
 
-  hseparator1 = gtk_hseparator_new ();
-  gtk_widget_show (hseparator1);
-  gtk_box_pack_start (GTK_BOX (vbox1), hseparator1, FALSE, TRUE, 3);
+  /*hseparator1 = gtk_hseparator_new ();
+  gtk_widget_show (GTK_WIDGET(hseparator1));
+  gtk_box_pack_start (GTK_BOX (vbox1), hseparator1, FALSE, TRUE, 3);*/
 
   button1 = gtk_button_new_from_stock ("gtk-apply");
-  gtk_widget_show (button1);
+  gtk_widget_show (GTK_WIDGET(button1));
   gtk_box_pack_start (GTK_BOX (vbox1), button1, FALSE, FALSE, 0);
   gtk_button_set_relief (GTK_BUTTON (button1), GTK_RELIEF_NONE);
 
   label1 = gtk_label_new (_("Case"));
-  gtk_widget_show (label1);
+  gtk_widget_show (GTK_WIDGET(label1));
   gtk_frame_set_label_widget (GTK_FRAME (frame1), label1);
   
     g_signal_connect_swapped ((gpointer) button1, "clicked",
@@ -4504,113 +4156,113 @@ doc_insert_at_cursor (cur_text_doc,"\nesac\n");
 //******************************* fenetre de construction commande awk
 GtkWidget* awk (void)
 {
-  GtkWidget *window1,*vbox1,*hbox2,*vbox5,*vbox6,*alignment1,*hbox3,*image1,*label9,*label29,*label8,*vbox3,*vbox4,*label5,*label7,*hseparator1,*hbox1,*button1,*button2,*image2;
-
+  GtkWidget *window1,*vbox1,*hbox2,*vbox5,*vbox6,*hbox3,*image1,*label9,*label29,*label8,*vbox3,*vbox4,*label5,*label7,*hbox1,*button1,*button2,*image2;
+	GtkWidget *alignment1;
 	icon_affiche_stop();
 
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (window1), _((_("Aide Awk"))));
   gtk_window_set_position (GTK_WINDOW (window1), GTK_WIN_POS_CENTER);
   gtk_window_set_resizable (GTK_WINDOW (window1), FALSE);
-  gtk_widget_show(window1);
+  gtk_widget_show(GTK_WIDGET(window1));
 
-  vbox1 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox1);
+  vbox1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_widget_show (GTK_WIDGET(vbox1));
   gtk_container_add (GTK_CONTAINER (window1), vbox1);
 
-  hbox2 = gtk_hbox_new (FALSE, 0);
-  gtk_widget_show (hbox2);
+  hbox2 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_show (GTK_WIDGET(hbox2));
   gtk_box_pack_start (GTK_BOX (vbox1), hbox2, TRUE, TRUE, 0);
 
-  vbox5 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox5);
+  vbox5 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_widget_show (GTK_WIDGET(vbox5));
   gtk_box_pack_start (GTK_BOX (hbox2), vbox5, TRUE, TRUE, 0);
 
-  vbox6 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox6);
+  vbox6 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_widget_show (GTK_WIDGET(vbox6));
   gtk_box_pack_start (GTK_BOX (vbox5), vbox6, TRUE, TRUE, 0);
 
   checkbutton_awk1 = gtk_check_button_new ();
-  gtk_widget_show (checkbutton_awk1);
+  gtk_widget_show (GTK_WIDGET(checkbutton_awk1));
   gtk_box_pack_start (GTK_BOX (vbox6), checkbutton_awk1, FALSE, FALSE, 0);
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_awk1), TRUE);
 
   alignment1 = gtk_alignment_new (0.5, 0.5, 0, 0);
-  gtk_widget_show (alignment1);
+  gtk_widget_show (GTK_WIDGET(alignment1));
   gtk_container_add (GTK_CONTAINER (checkbutton_awk1), alignment1);
 
-  hbox3 = gtk_hbox_new (FALSE, 2);
-  gtk_widget_show (hbox3);
+  hbox3 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_show (GTK_WIDGET(hbox3));
   gtk_container_add (GTK_CONTAINER (alignment1), hbox3);
 
   image1 = gtk_image_new_from_stock ("gtk-zoom-100", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show (image1);
+  gtk_widget_show (GTK_WIDGET(image1));
   gtk_box_pack_start (GTK_BOX (hbox3), image1, FALSE, FALSE, 0);
 
   label9 = gtk_label_new_with_mnemonic (_("Redirection"));
-  gtk_widget_show (label9);
+  gtk_widget_show (GTK_WIDGET(label9));
   gtk_box_pack_start (GTK_BOX (hbox3), label9, FALSE, FALSE, 0);
 
     label29 = gtk_label_new_with_mnemonic (_("Separateur"));
-     gtk_widget_show (label29);
+     gtk_widget_show (GTK_WIDGET(label29));
      gtk_box_pack_start (GTK_BOX (vbox6), label29, FALSE, FALSE, 0);
    
   entry_awk4 = gtk_entry_new ();
-  gtk_widget_show (entry_awk4);
+  gtk_widget_show (GTK_WIDGET(entry_awk4));
   gtk_box_pack_start (GTK_BOX (vbox6), entry_awk4, FALSE, FALSE, 0);
 
   label8 = gtk_label_new (_("Colonne"));
-  gtk_widget_show (label8);
+  gtk_widget_show (GTK_WIDGET(label8));
   gtk_box_pack_start (GTK_BOX (vbox6), label8, FALSE, FALSE, 0);
 
   entry_awk5 = gtk_entry_new ();
-  gtk_widget_show (entry_awk5);
+  gtk_widget_show (GTK_WIDGET(entry_awk5));
   gtk_box_pack_start (GTK_BOX (vbox6), entry_awk5, FALSE, FALSE, 0);
 
-  vbox3 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox3);
+  vbox3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_widget_show (GTK_WIDGET(vbox3));
   gtk_box_pack_start (GTK_BOX (hbox2), vbox3, TRUE, TRUE, 14);
 
-  vbox4 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox4);
+  vbox4 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_widget_show (GTK_WIDGET(vbox4));
   gtk_box_pack_start (GTK_BOX (vbox3), vbox4, FALSE, FALSE, 0);
 
   image2 = gtk_image_new_from_stock ("gtk-copy", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show (image2);
+  gtk_widget_show (GTK_WIDGET(image2));
   gtk_container_add (GTK_CONTAINER (vbox4), image2);
 
   label5 = gtk_label_new (_("Fichier"));
-  gtk_widget_show (label5);
+  gtk_widget_show (GTK_WIDGET(label5));
   gtk_box_pack_start (GTK_BOX (vbox4), label5, FALSE, FALSE, 0);
   gtk_misc_set_alignment (GTK_MISC (label5), 0.48, 0.5);
 
   entry_awk1 = gtk_entry_new ();
-  gtk_widget_show (entry_awk1);
+  gtk_widget_show (GTK_WIDGET(entry_awk1));
   gtk_box_pack_start (GTK_BOX (vbox4), entry_awk1, FALSE, FALSE, 0);
 
   label7 = gtk_label_new (_("Fichier de redirection"));
-  gtk_widget_show (label7);
+  gtk_widget_show (GTK_WIDGET(label7));
   gtk_box_pack_start (GTK_BOX (vbox4), label7, FALSE, FALSE, 0);
 
   entry_awk3 = gtk_entry_new ();
-  gtk_widget_show (entry_awk3);
+  gtk_widget_show (GTK_WIDGET(entry_awk3));
   gtk_box_pack_start (GTK_BOX (vbox4), entry_awk3, FALSE, FALSE, 0);
 
-  hseparator1 = gtk_hseparator_new ();
-  gtk_widget_show (hseparator1);
-  gtk_box_pack_start (GTK_BOX (vbox1), hseparator1, TRUE, TRUE, 3);
+  /*hseparator1 = gtk_hseparator_new ();
+  gtk_widget_show (GTK_WIDGET(hseparator1));
+  gtk_box_pack_start (GTK_BOX (vbox1), hseparator1, TRUE, TRUE, 3);*/
 
-  hbox1 = gtk_hbox_new (TRUE, 0);
-  gtk_widget_show (hbox1);
+  hbox1 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_show (GTK_WIDGET(hbox1));
   gtk_box_pack_start (GTK_BOX (vbox1), hbox1, TRUE, TRUE, 0);
 
   button1 = gtk_button_new_from_stock ("gtk-cancel");
-  gtk_widget_show (button1);
+  gtk_widget_show (GTK_WIDGET(button1));
   gtk_box_pack_start (GTK_BOX (hbox1), button1, FALSE, TRUE, 23);
   gtk_button_set_relief (GTK_BUTTON (button1), GTK_RELIEF_NONE);
 
   button2 = gtk_button_new_from_stock ("gtk-apply");
-  gtk_widget_show (button2);
+  gtk_widget_show (GTK_WIDGET(button2));
   gtk_box_pack_start (GTK_BOX (hbox1), button2, TRUE, TRUE, 23);
   gtk_button_set_relief (GTK_BUTTON (button2), GTK_RELIEF_NONE);
 
@@ -4680,19 +4332,17 @@ void file_save_bug (void)
 GtkWidget* selection_path (void)
 {
   GtkWidget *pFileSelection;
-  gchar *sUtf8;
-  const gchar *sChemin;
   icon_affiche_stop();
 
 	 icon_man_logmemo();
   log_to_memo (_("[Séléctionnez un  PATH] pour inserer dans le fichier"), NULL, LM_NORMAL);  
   /* Creation du titre de la fenetre */
-  sUtf8 = g_locale_to_utf8("Sélectionnez un fichier", -1,
-			   NULL, NULL, NULL);
+  //gchar *sUtf8 = g_locale_to_utf8("Sélectionnez un fichier", -1,
+		//	   NULL, NULL, NULL);
 
   /* Creation de la fenetre de selection */
- /* pFileSelection = gtk_file_selection_new(sUtf8);
-  gtk_window_set_modal(GTK_WINDOW(pFileSelection), TRUE);
+  //pFileSelection = gtk_file_selection_new();
+  /*gtk_window_set_modal(GTK_WINDOW(pFileSelection), TRUE);
 
   g_free(sUtf8);
   sUtf8 = NULL;
@@ -4711,43 +4361,46 @@ GtkWidget* selection_path (void)
   gtk_widget_destroy(pFileSelection);
    icon_affiche_ok();*/
 
+	//*** pour debug
+	pFileSelection=gtk_window_new(GTK_WINDOW_TOPLEVEL);
   return pFileSelection;
 }
 
 //******************************* fenetre de construction scp
 GtkWidget* win_scp (void)
 {
-  GtkWidget *window1,*frame1,*vbox4,*vbox5,*table1,*label15,*label16,*label17,*label18,*hseparator1,*hbox14,*button3,*button4,*label14;
+  GtkWidget *window1;
+	//GtkWidget *frame1,*vbox4,*vbox5,*table1,*label15,*label16,*label17,*label18,*hbox14,*button3,*button4,*label14;
 
 icon_affiche_net();	
 	
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (window1), _((_("Style de variable"))));
   gtk_window_set_position (GTK_WINDOW (window1), GTK_WIN_POS_CENTER);
-  gtk_widget_show(window1);
+  gtk_widget_show(GTK_WIDGET(window1));
   gtk_window_set_resizable (GTK_WINDOW (window1), FALSE);
   gtk_window_set_modal (GTK_WINDOW (window1), TRUE);
-
+/*
   frame1 = gtk_frame_new (NULL);
-  gtk_widget_show (frame1);
+  gtk_widget_show (GTK_WIDGET(frame1));
   gtk_container_add (GTK_CONTAINER (window1), frame1);
   gtk_container_set_border_width (GTK_CONTAINER (frame1), 3);
   gtk_frame_set_label_align (GTK_FRAME (frame1), 0.06, 0.71);
 
-  vbox4 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox4);
+  vbox4 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_widget_show (GTK_WIDGET(vbox4));
   gtk_container_add (GTK_CONTAINER (frame1), vbox4);
 
-  vbox5 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox5);
+  vbox5 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_widget_show (GTK_WIDGET(vbox5));
   gtk_box_pack_start (GTK_BOX (vbox4), vbox5, TRUE, TRUE, 0);
 
   table1 = gtk_table_new (4, 2, FALSE);
-  gtk_widget_show (table1);
+  gtk_widget_show (GTK_WIDGET(table1));
   gtk_box_pack_start (GTK_BOX (vbox5), table1, TRUE, TRUE, 0);
 
   label15 = gtk_label_new (_("Utilisateur : "));
-  gtk_widget_show (label15);
+  gtk_widget_show (GTK_WIDGET(label15));
   gtk_table_attach (GTK_TABLE (table1), label15, 0, 1, 0, 1,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
@@ -4755,7 +4408,7 @@ icon_affiche_net();
   gtk_misc_set_alignment (GTK_MISC (label15), 0, 0.5);
 
   label16 = gtk_label_new (_("IP Host :"));
-  gtk_widget_show (label16);
+  gtk_widget_show (GTK_WIDGET(label16));
   gtk_table_attach (GTK_TABLE (table1), label16, 0, 1, 1, 2,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
@@ -4763,19 +4416,19 @@ icon_affiche_net();
   gtk_misc_set_alignment (GTK_MISC (label16), 0, 0.5);
 
   entry_scp1 = gtk_entry_new ();
-  gtk_widget_show (entry_scp1);
+  gtk_widget_show (GTK_WIDGET(entry_scp1));
   gtk_table_attach (GTK_TABLE (table1), entry_scp1, 1, 2, 0, 1,
                     (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
 
   entry_scp2 = gtk_entry_new ();
-  gtk_widget_show (entry_scp2);
+  gtk_widget_show (GTK_WIDGET(entry_scp2));
   gtk_table_attach (GTK_TABLE (table1), entry_scp2, 1, 2, 1, 2,
                     (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
 
   label17 = gtk_label_new (_("Fichier source sur le host distant : "));
-  gtk_widget_show (label17);
+  gtk_widget_show (GTK_WIDGET(label17));
   gtk_table_attach (GTK_TABLE (table1), label17, 0, 1, 2, 3,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
@@ -4783,7 +4436,7 @@ icon_affiche_net();
   gtk_misc_set_alignment (GTK_MISC (label17), 0, 0.5);
 
   label18 = gtk_label_new (_("Fichier destination : "));
-  gtk_widget_show (label18);
+  gtk_widget_show (GTK_WIDGET(label18));
   gtk_table_attach (GTK_TABLE (table1), label18, 0, 1, 3, 4,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
@@ -4791,37 +4444,33 @@ icon_affiche_net();
   gtk_misc_set_alignment (GTK_MISC (label18), 0, 0.5);
 
   entry_scp3 = gtk_entry_new ();
-  gtk_widget_show (entry_scp3);
+  gtk_widget_show (GTK_WIDGET(entry_scp3));
   gtk_table_attach (GTK_TABLE (table1), entry_scp3, 1, 2, 2, 3,
                     (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
 
   entry_scp4 = gtk_entry_new ();
-  gtk_widget_show (entry_scp4);
+  gtk_widget_show (GTK_WIDGET(entry_scp4));
   gtk_table_attach (GTK_TABLE (table1), entry_scp4, 1, 2, 3, 4,
                     (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
 
-  hseparator1 = gtk_hseparator_new ();
-  gtk_widget_show (hseparator1);
-  gtk_box_pack_start (GTK_BOX (vbox4), hseparator1, FALSE, TRUE, 0);
-
-  hbox14 = gtk_hbox_new (TRUE, 0);
-  gtk_widget_show (hbox14);
+  hbox14 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_show (GTK_WIDGET(hbox14));
   gtk_box_pack_start (GTK_BOX (vbox4), hbox14, FALSE, FALSE, 0);
 
   button3 = gtk_button_new_from_stock ("gtk-cancel");
-  gtk_widget_show (button3);
+  gtk_widget_show (GTK_WIDGET(button3));
   gtk_box_pack_start (GTK_BOX (hbox14), button3, FALSE, TRUE, 0);
   gtk_button_set_relief (GTK_BUTTON (button3), GTK_RELIEF_NONE);
 
   button4 = gtk_button_new_from_stock ("gtk-apply");
-  gtk_widget_show (button4);
+  gtk_widget_show (GTK_WIDGET(button4));
   gtk_box_pack_start (GTK_BOX (hbox14), button4, FALSE, TRUE, 0);
   gtk_button_set_relief (GTK_BUTTON (button4), GTK_RELIEF_NONE);
 
   label14 = gtk_label_new (_("Commande SCP"));
-  gtk_widget_show (label14);
+  gtk_widget_show (GTK_WIDGET(label14));
   gtk_frame_set_label_widget (GTK_FRAME (frame1), label14);
   gtk_label_set_justify (GTK_LABEL (label14), GTK_JUSTIFY_LEFT);	
 	
@@ -4845,7 +4494,7 @@ g_signal_connect_swapped ((gpointer) button3, "clicked",
     g_signal_connect_swapped ((gpointer) button3, "clicked",
                             G_CALLBACK (gtk_widget_destroy),
                             window1);
-
+*/
 return window1;	
 }	
 
@@ -4917,7 +4566,10 @@ void exe(void)
 char commande[150];
 strcpy(commande,"chmod u+x ");
 strcat(commande,cur_text_doc->file_name);
-system(commande);
+
+int systemRet =system(commande);
+if(systemRet == -1){return;}
+
 icon_ok_logmemo();
  log_to_memo (_("[chmod] %s executable script OK"), cur_text_doc->file_name, LM_NORMAL);
 	statusbar_msg (_("Chmod [OK]"));
@@ -4938,12 +4590,12 @@ void scan_include             (void)
 	if (! get_page_text()) return;
   FILE *fich;
   char carac;
-  int position;
+
   char motrch[100],motrch2[100],motrch3[100],motrch4[100],motrch5[100],motrch6[100],motrch7[100],motrch8[100],motrch9[100],motrch10[100],motrch11[100],motrch12[100],mot_autocomp[500],mot[1000],mot2[1000],ligne[10],mot3[1000];
   int nbapparition=0,nbcarac=0,nbmot=0,counter=0;
   int nbligne=1;
 	char *extension;
-	int instruction=1,check=0;
+	int instruction=1;
   if (! get_page_text()) return;
 	
      icon_affiche_bug();
@@ -5003,7 +4655,7 @@ void scan_include             (void)
 		}
 	}*/
 
-	if (carac !='\n' && carac !='\r' && carac !='\t' && carac !=' ' && carac !='\'' && carac !='\"' && carac !='#'  && carac !='(' && carac !=')' && carac !='{' && carac !='}' && carac !=';' && carac !=',' && carac !=':' && carac !='\/'){strncat(mot_autocomp,&carac,1);}else{mot_autocomp[0]='\0';}
+	if (carac !='\n' && carac !='\r' && carac !='\t' && carac !=' ' && carac !='\'' && carac !='\"' && carac !='#'  && carac !='(' && carac !=')' && carac !='{' && carac !='}' && carac !=';' && carac !=',' && carac !=':' && carac !='/'){strncat(mot_autocomp,&carac,1);}else{mot_autocomp[0]='\0';}
 	//******************************* pour include ou require     
   if(counter==1)
   {
@@ -5101,8 +4753,9 @@ if (counter==0)
     {   
 
 //********************************* TEST ĈHECK FIN DE LIGNE
-	if(extension = strrchr(cur_text_doc->file_name,'.'))
+	if(strrchr(cur_text_doc->file_name,'.'))
 	{
+		extension = strrchr(cur_text_doc->file_name,'.');
 		if(strcmp(".pl", extension) == 0 || strcmp(".php", extension) == 0 || strcmp(".c", extension) == 0 || strcmp(".h", extension) == 0)
 		{
 								size_t len = strlen(mot);
@@ -5110,7 +4763,7 @@ if (counter==0)
 								{
 										if(instruction==1 && mot[len-1]==')')
 										{
-										check=1;
+										
 											gtk_text_buffer_get_iter_at_line (cur_text_doc->text_buffer, &itstart, nbligne);
 											gtk_text_buffer_get_iter_at_line (cur_text_doc->text_buffer, &itend, nbligne-1);
 										 gtk_text_buffer_apply_tag_by_name (cur_text_doc->text_buffer, "err2", &itstart, &itend);
@@ -5127,7 +4780,7 @@ if (counter==0)
 								}
 		}
 	}
-			check=0;
+		
 			instruction=1;
     mot[0]='\0';
 	 		mot2[0]='\0';
@@ -5234,9 +4887,9 @@ void start_php_script            (void)
 time_t date;
 date = time(NULL);
 
-  doc_insert_at_cursor (cur_text_doc, (_("<?\n\n\/* \n * Script PHP Griffon: http://griffon.lasotel.fr\n * Date start script : "))); 
+  doc_insert_at_cursor (cur_text_doc, (_("<?\n\n/* \n * Script PHP Griffon: http://griffon.lasotel.fr\n * Date start script : "))); 
   doc_insert_at_cursor (cur_text_doc, ctime(&date)); 
-  doc_insert_at_cursor (cur_text_doc, " *\n *\/\n\n?>");   
+  doc_insert_at_cursor (cur_text_doc, " *\n */\n\n?>");   
 }
 
 //******************************* Perl insert help
@@ -5250,9 +4903,9 @@ void perl_dbi_connexion (void){doc_insert_at_cursor (cur_text_doc, (_("# Charger
 void perl_dbi_select_while (void){doc_insert_at_cursor (cur_text_doc, (_("# Boucle sur une requete MySql\n$query = \"SELECT groupe_attribut FROM table WHERE condition\";\n$sth = $dbh->prepare($query);\n$sth->execute;\n\nwhile($row = $sth->fetchrow_hashref)\n{\n\n\t# Récuperation des valeurs  \n\t$champs_mysql = \"$row->{champs_mysql}\";\n\n}"))); }
 void perl_dbi_query (void){doc_insert_at_cursor (cur_text_doc, (_("# simple requete MySql\n$query = \"\";\n$sth = $dbh->do($query);\n\n"))); }
 void perl_chop (void){doc_insert_at_cursor (cur_text_doc, (_("chop($chaine);\n\n"))); }
-void perl_mime_mail_simple (void){doc_insert_at_cursor (cur_text_doc, (_("use MIME::Lite;\n\n####### ENVOI EMAIL\nmy $Message = new MIME::Lite\nFrom =>\"NOM FROM <from\@from.net>\",\nTo =>$email_destination,\nSubject =>$sujet,\nType    =>\'TEXT\',\nData =>\"$message\",\nContent-Transfer-Encoding => \'quoted-printable\';\n\n$Message->send;\n\n"))); }
+void perl_mime_mail_simple (void){doc_insert_at_cursor (cur_text_doc, (_("use MIME::Lite;\n\n####### ENVOI EMAIL\nmy $Message = new MIME::Lite\nFrom =>\"NOM FROM <from\\@from.net>\",\nTo =>$email_destination,\nSubject =>$sujet,\nType    =>\'TEXT\',\nData =>\"$message\",\nContent-Transfer-Encoding => \'quoted-printable\';\n\n$Message->send;\n\n"))); }
 void perl_date (void){doc_insert_at_cursor (cur_text_doc, (_("($sec,$min,$heure,$mjour,$mois,$annee,$sjour,$ajour,$isdst) = localtime(time);\n$mois=$mois+1;\nif($mois<10){$mois=\"0\".$mois;}\nif($mjour<10){$mjour=\"0\".$mjour;}\n$annee=1900+$annee;\n\n$date_sql=$annee.\"-\".$mois.\"-\".$mjour;\n\n"))); }
-void perl_mime_mail_pj (void){doc_insert_at_cursor (cur_text_doc, (_("use MIME::Lite;\n\n####### ENVOI EMAIL AVEC PJ\nmy $Message = new MIME::Lite\nFrom =>\"NOM_FROM <from\@from.net>\",\nTo =>$email_destination,\nSubject =>$sujet,\nType =>\'multipart/mixed\';\n\nattach $Message\nType =>'TEXT',\nData =>$message;\n\nattach $Message\nType =>\'application/txt\',\nPath =>$chemin_local_du_fichier,\nFilename =>$nom_fichier_txt;\n\n$Message->send;\n\n"))); }
+void perl_mime_mail_pj (void){doc_insert_at_cursor (cur_text_doc, (_("use MIME::Lite;\n\n####### ENVOI EMAIL AVEC PJ\nmy $Message = new MIME::Lite\nFrom =>\"NOM_FROM <from\\@from.net>\",\nTo =>$email_destination,\nSubject =>$sujet,\nType =>\'multipart/mixed\';\n\nattach $Message\nType =>'TEXT',\nData =>$message;\n\nattach $Message\nType =>\'application/txt\',\nPath =>$chemin_local_du_fichier,\nFilename =>$nom_fichier_txt;\n\n$Message->send;\n\n"))); }
 void perl_dbi_query_select (void){doc_insert_at_cursor (cur_text_doc, (_("$query2 = \"SELECT groupe_attribut FROM table WHERE condition\";\n$sth2 = $dbh->prepare($query2);\n$sth2->execute;\n\n$row2 = $sth2->fetchrow_hashref;\n$champs_mysql = \"$row2->{champs_mysql}\";\n\n"))); }
 void perl_uri_encode (void){doc_insert_at_cursor (cur_text_doc, (_("use URI::Escape;\n\n$url_encode = uri_escape($url_a_encoder);\n\n"))); }
 void perl_url_get (void){doc_insert_at_cursor (cur_text_doc, (_("use LWP::Simple;\n\n$doc_retour = get($url);\n\n"))); }
@@ -5279,12 +4932,12 @@ void mysql_select (void){doc_insert_at_cursor (cur_text_doc, (_("SELECT groupe_a
 void mysql_delete (void){doc_insert_at_cursor (cur_text_doc, (_("DELETE attributN FROM nomdetable WHERE condition"))); }
 
 //******************************* PHP insert help
-void php_commentaire (void){doc_insert_at_cursor (cur_text_doc, "\/*\n *\n *\n *\n *\/\n\n"); }
+void php_commentaire (void){doc_insert_at_cursor (cur_text_doc, "/*\n *\n *\n *\n */\n\n"); }
 void php_mysql_connexion (void){doc_insert_at_cursor (cur_text_doc, "$dbhost=\"ip_host_name\";\n$dblogin=\"login\";\n$dbpassword=\"password\";\n$dbname=\"nom_de_base\";\n\n$db=mysql_connect($dbhost,$dblogin,$dbpassword);\nmysql_selectdb($dbname,$db);\n\nmysql_query(\"SET NAMES 'utf8'\");\n\n"); }
 void php_mysql_while (void){doc_insert_at_cursor (cur_text_doc, (_("$inforeq = \"SELECT champs FROM tables WHERE conditions\";\n$infoq = mysql_query($inforeq);\n\nwhile($ligne = mysql_fetch_object($infoq))\n{\n\t$champs=$ligne->champs;\n\n}\n\n"))); }
 void php_mysql_query (void){doc_insert_at_cursor (cur_text_doc, "$requete = \"\";\n$result = mysql_query($requete);\n\n"); }
 void php_foreach (void){doc_insert_at_cursor (cur_text_doc, (_("foreach ($tableau as $ligne_num => $ligne)\n{\n\n\n}\n\n"))); }
-void php_split (void){doc_insert_at_cursor (cur_text_doc, (_("$tableau = preg_split(\"\/[;]+\/\", $variable);\n\n"))); }
+void php_split (void){doc_insert_at_cursor (cur_text_doc, (_("$tableau = preg_split(\"/[;]+/\", $variable);\n\n"))); }
 void php_replace (void){doc_insert_at_cursor (cur_text_doc, (_("$chaine = eregi_replace (\"chaine à remplacer\",\"chaine de remplacement\",$chaine);\n\n"))); }
 void php_file (void){doc_insert_at_cursor (cur_text_doc, (_("$tableau = file(\"http://url ou fichier\");\n\n"))); }
 void php_find (void){doc_insert_at_cursor (cur_text_doc, (_("if(strstr($chaine, $chaine_recherche))\n{\n\n\n}\n\n"))); }
@@ -5292,12 +4945,12 @@ void php_function (void){doc_insert_at_cursor (cur_text_doc, (_("function nom_de
 void php_stripslashes (void){doc_insert_at_cursor (cur_text_doc, (_("$chaine=stripslashes($chaine);\n\n"))); }
 void php_mail (void){doc_insert_at_cursor (cur_text_doc, (_("mail(\"email\",\"sujet\",\"message\",\"From: nom <email@qui-envoi.net>\\nContent-Type: text;\\n\");\n\n"))); }
 void php_insert_id (void){doc_insert_at_cursor (cur_text_doc, (_("$id_insert=mysql_insert_id();\n"))); }
-void php_ftp_connect (void){doc_insert_at_cursor (cur_text_doc, (_("\/\/****** Connexion serveur FTP\n$ftp_connexion = ftp_connect(\"$ip_serveur\");\n$ftp_login = ftp_login($ftp_connexion,\"$login\", \"$password\");\n$ftp_repertoire = ftp_chdir($ftp_connexion,\"/\");\n\n"))); }
+void php_ftp_connect (void){doc_insert_at_cursor (cur_text_doc, (_("//****** Connexion serveur FTP\n$ftp_connexion = ftp_connect(\"$ip_serveur\");\n$ftp_login = ftp_login($ftp_connexion,\"$login\", \"$password\");\n$ftp_repertoire = ftp_chdir($ftp_connexion,\"/\");\n\n"))); }
 void php_ftp_list_rep (void){doc_insert_at_cursor (cur_text_doc, (_("//******* Liste les fichiers de $repertoire dans un tableau\n$tableau = ftp_nlist($ftp_connexion,\"$repertoire\");\n\n"))); }
 void php_ftp_put (void){doc_insert_at_cursor (cur_text_doc, (_("ftp_put($ftp_connexion,$path_fichier,$nom_fichier_depose, FTP_BINARY);\n\n"))); }
 void php_ftp_delete (void){doc_insert_at_cursor (cur_text_doc, (_("ftp_delete($ftp_connexion, $fichier_supprime);\n\n"))); }
 void php_h_utf8 (void){doc_insert_at_cursor (cur_text_doc, "header(\'Content-type: text/plain; charset=UTF-8\');\n\n"); }
-void php_h_png (void){doc_insert_at_cursor (cur_text_doc, "Header(\"Content-type: image\/png\");\n\n"); }
+void php_h_png (void){doc_insert_at_cursor (cur_text_doc, "Header(\"Content-type: image/png\");\n\n"); }
 void php_date_mysql (void){doc_insert_at_cursor (cur_text_doc, (_("$now = date(\"Y-m-d H:i:s\");\n\n"))); }
 void php_mysql_query_select (void){doc_insert_at_cursor (cur_text_doc, (_("$inforeq2 = \"SELECT champs FROM tables WHERE conditions\";\n$infoq2 = mysql_query($inforeq2);\n$ligne2 = mysql_fetch_object($infoq2);\n$champs=$ligne2->champs;\n\n"))); }
 void php_strlen (void){doc_insert_at_cursor (cur_text_doc, (_("$nbr_caracteres=strlen($chaine);\n\n"))); }
@@ -5353,7 +5006,7 @@ void htaccess_accept_ip (void){doc_insert_at_cursor (cur_text_doc, "Allow from 1
 void htaccess_redirection_erreur (void){doc_insert_at_cursor (cur_text_doc, "ErrorDocument 403 http://griffon.lasotel.fr\nErrorDocument 404 http://griffon.lasotel.fr\n"); }
 void htaccess_urlrw_on (void){doc_insert_at_cursor (cur_text_doc, "RewriteEngine on\n"); }
 void htaccess_urlrw (void){doc_insert_at_cursor (cur_text_doc, (_("RewriteRule ^source.html$  destination.php?id=1  [L]\n"))); }
-void htaccess_urlrw_exp (void){doc_insert_at_cursor (cur_text_doc, (_("RewriteRule ^source/([a-zA-Z0-9\_]+)-([0-9]+).html$  destination.php?option1=$1&option2=$2  [L]\n"))); }
+void htaccess_urlrw_exp (void){doc_insert_at_cursor (cur_text_doc, (_("RewriteRule ^source/([a-zA-Z0-9_]+)-([0-9]+).html$  destination.php?option1=$1&option2=$2  [L]\n"))); }
 
 //********************************* HTML insert css
 void css_body (void){doc_insert_at_cursor (cur_text_doc, "body\n{\n\n}\n"); }
@@ -5407,22 +5060,21 @@ void javascript_file_contenu (void){doc_insert_at_cursor (cur_text_doc, (_("var 
 void javascript_urlencode (void){doc_insert_at_cursor (cur_text_doc, "Url = \"http://example.com/index.html?url=\" + encodeURIComponent(myUrl);\n"); }
 
 //******************************* BookMark tooltips
-tooltip_bookmark (GtkSourceMarkAttributes *attributes,GtkSourceMark *mark,gpointer user_data)
+/*tooltip_bookmark (GtkSourceMarkAttributes *attributes,GtkSourceMark *mark,gpointer user_data)
 {
 		gchar *text=g_strconcat ("______________________________________________\n\n",user_data," \n",NULL);return text;
-}
+}*/
 
 //******************************* surlignement style stabylo jaune fluo
-void on_format_button_clicked (GtkWidget *button, GtkTextBuffer *buffer)
+void on_format_button_clicked ()
 {	 
 	if (! get_page_text()) return;
 
-	gboolean ret = FALSE;
 	GtkTextIter start;
 	GtkTextIter end;
 	gchar * txt;
 	
-	ret = gtk_text_buffer_get_selection_bounds (cur_text_doc->text_buffer, & start, & end);
+ gtk_text_buffer_get_selection_bounds (cur_text_doc->text_buffer, & start, & end);
 	
 	txt=gtk_text_buffer_get_text(cur_text_doc->text_buffer,&start,&end,FALSE);
 
@@ -5447,16 +5099,15 @@ gtk_text_buffer_get_iter_at_line (cur_text_doc->text_buffer, &itend, line + 1);
 	gtk_text_buffer_apply_tag_by_name (cur_text_doc->text_buffer, txt, &end, &itend); 
 
 	GdkPixbuf *pixbuf_mark;
-	GtkSourceMark * mark, *mark2;
 
 	pixbuf_mark = gdk_pixbuf_new_from_file ("/usr/local/share/griffon/pixmaps/griffon_note.png", NULL);
 
 GtkSourceMarkAttributes *attribu=gtk_source_mark_attributes_new();
 gtk_source_mark_attributes_set_pixbuf(attribu,pixbuf_mark );
-gtk_source_view_set_mark_attributes(cur_text_doc->text_view,"icon_note",attribu,1);
-gtk_source_buffer_create_source_mark(cur_text_doc->text_buffer,txt,"icon_note",&itstart);
+gtk_source_view_set_mark_attributes(GTK_SOURCE_VIEW(cur_text_doc->text_view),"icon_note",attribu,1);
+gtk_source_buffer_create_source_mark(GTK_SOURCE_BUFFER(cur_text_doc->text_buffer),txt,"icon_note",&itstart);
 
-g_signal_connect(attribu, "query-tooltip-text",G_CALLBACK(tooltip_bookmark),"BookMark");
+//g_signal_connect(attribu, "query-tooltip-text",G_CALLBACK(tooltip_bookmark),"BookMark");
 
 	add_to_list_book("",txt);
 	statusbar_msg (_("BookMark [OK]"));
@@ -5490,15 +5141,18 @@ void mount_sftp (void)
 		tampon_utilisateur = gtk_editable_get_chars(GTK_EDITABLE(entry_utilisateur),0, -1);
 		tampon_chemin = gtk_editable_get_chars(GTK_EDITABLE(entry_chemin),0, -1);
 
-		if(sshadd==NULL){system ("ssh-add");sshadd="ok";}
+		int systemRet=0;
+		if(sshadd==NULL){systemRet =system ("ssh-add");sshadd="ok";}
+		if(systemRet == -1){return;}
 
 		strcpy(mot2,"mkdir -p ");
 		strcat(mot2,home_dir);
-		strcat(mot2,"\/MOUNT\/");
+		strcat(mot2,"/MOUNT/");
 
 		strcat(mot2,tampon_sftp);
-		system (mot2);
-	
+	 systemRet =system (mot2);
+		if(systemRet == -1){return;}
+
 		strcpy(mot,"sshfs ");
 		strcat(mot,tampon_utilisateur);
 		strcat(mot,"@");				
@@ -5508,7 +5162,7 @@ void mount_sftp (void)
 
 		strcat(liste_mount,"fusermount -u ");
 		strcat(liste_mount,home_dir);
-		strcat(liste_mount,"\/MOUNT\/");
+		strcat(liste_mount,"/MOUNT/");
 		strcat(liste_mount,tampon_sftp);
 		strcat(liste_mount," ; ");
 		
@@ -5524,16 +5178,17 @@ void mount_sftp (void)
 									
 		strcat(mot," ");
 		strcat(mot,home_dir);
-		strcat(mot,"\/MOUNT\/");
+		strcat(mot,"/MOUNT/");
 
 		strcat(mot,tampon_sftp);	
-	  	system (mot);
+	  	systemRet =system (mot);
+			if(systemRet == -1){return;}
 
 	char total_path[300];total_path[0]='\0';
 		strcat(total_path,home_dir);
-		strcat(total_path,"\/MOUNT\/");
+		strcat(total_path,"/MOUNT/");
 		strcat(total_path,tampon_sftp);		
-	gtk_file_chooser_set_current_folder(filechooserwidget2 ,total_path);
+	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,total_path);
 
 		 icon_log_logmemo();
 		log_to_memo (_("%s montage SFTP dans le répertoire Griffon_MONTAGE_SFTP"), tampon_sftp, LM_NORMAL);
@@ -5576,9 +5231,10 @@ void mount_ftp (void)
 
 		strcpy(mot2,"mkdir -p ");
 		strcat(mot2,home_dir);
-		strcat(mot2,"\/MOUNT\/");
+		strcat(mot2,"/MOUNT/");
 		strcat(mot2,tampon_sftp);
-		system (mot2);
+		int systemRet =system (mot2);
+		if(systemRet == -1){return;}
 
 		strcpy(mot,"curlftpfs ");
 		strcat(mot,tampon_utilisateur_ftp);
@@ -5589,12 +5245,12 @@ void mount_ftp (void)
 
 		strcat(mot," ");
 		strcat(mot,home_dir);
-		strcat(mot,"\/MOUNT\/");
+		strcat(mot,"/MOUNT/");
 		strcat(mot,tampon_sftp);
 		
 		strcat(liste_mount,"fusermount -u ");
 		strcat(liste_mount,home_dir);
-		strcat(liste_mount,"\/MOUNT\/");
+		strcat(liste_mount,"/MOUNT/");
 		strcat(liste_mount,tampon_sftp);
 		strcat(liste_mount," ; ");
 
@@ -5606,13 +5262,14 @@ void mount_ftp (void)
 		save_string_to_file_add(confile.tea_ftp,tampon_passwd_ftp);
 		save_string_to_file_add(confile.tea_ftp," \n");		
 		
-	  	system (mot);
+	  systemRet =system (mot);
+		if(systemRet == -1){return;}
 
 	char total_path[300];total_path[0]='\0';
 		strcat(total_path,home_dir);
-		strcat(total_path,"\/MOUNT\/");
+		strcat(total_path,"/MOUNT/");
 		strcat(total_path,tampon_sftp);		
-	gtk_file_chooser_set_current_folder(filechooserwidget2 ,total_path);
+	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,total_path);
 
 		 icon_log_logmemo();
 		log_to_memo (_("%s montage FTP dans le répertoire Griffon_MONTAGE_SFTP"), tampon_sftp, LM_NORMAL);
@@ -5632,11 +5289,11 @@ void mount_ftp (void)
 //******************************* Umount pour montage SFTP
 void umount_sftp (void)
 {
-	char mot[150];
-
 	if(tampon_sftp!=NULL)
 	{
-	system (liste_mount);
+	int systemRet =system (liste_mount);
+	if(systemRet == -1){return;}
+
 	liste_mount[0]='\0';
 
 	icon_log_logmemo();
@@ -5661,7 +5318,7 @@ void umount_sftp (void)
 //******************************* fenetre de configuration SFTP
 GtkWidget* w_sftp_mount (void)
 {
-  GtkWidget *window1,*frame1,*vbox1,*hbox2,*label2,*hseparator1,*hbox1,*button1,*button2,*label1,*hbox3,*label3,*hbox4,*label4;  
+  GtkWidget *window1,*frame1,*vbox1,*hbox2,*label2,*hbox1,*button1,*button2,*label1,*hbox3,*label3,*hbox4,*label4;  
   
 	icon_affiche_stop();
 	
@@ -5669,81 +5326,77 @@ GtkWidget* w_sftp_mount (void)
   gtk_window_set_title (GTK_WINDOW (window1), _((_("Monter un serveur en SFTP"))));
   gtk_window_set_position (GTK_WINDOW (window1), GTK_WIN_POS_CENTER);
   gtk_window_set_resizable (GTK_WINDOW (window1), FALSE);
-  gtk_widget_show(window1);
+  gtk_widget_show(GTK_WIDGET(window1));
 
   frame1 = gtk_frame_new (NULL);
-  gtk_widget_show (frame1);
+  gtk_widget_show (GTK_WIDGET(frame1));
   gtk_container_add (GTK_CONTAINER (window1), frame1);
   gtk_container_set_border_width (GTK_CONTAINER (frame1), 4);
   gtk_frame_set_label_align (GTK_FRAME (frame1), 0.02, 0.55);
 
-  vbox1 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox1);
+  vbox1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_widget_show (GTK_WIDGET(vbox1));
   gtk_container_add (GTK_CONTAINER (frame1), vbox1);
 
-  hbox2 = gtk_hbox_new (TRUE, 0);
-  gtk_widget_show (hbox2);
+  hbox2 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_show (GTK_WIDGET(hbox2));
   gtk_box_pack_start (GTK_BOX (vbox1), hbox2, TRUE, TRUE, 0);
 
   label2 = gtk_label_new (_("Nom du serveur ou ip : "));
-  gtk_widget_show (label2);
+  gtk_widget_show (GTK_WIDGET(label2));
   gtk_box_pack_start (GTK_BOX (hbox2), label2, FALSE, FALSE, 0);
   gtk_label_set_justify (GTK_LABEL (label2), GTK_JUSTIFY_LEFT);
 
   entry_sftp = gtk_entry_new ();
-  gtk_widget_show (entry_sftp);
+  gtk_widget_show (GTK_WIDGET(entry_sftp));
   gtk_box_pack_start (GTK_BOX (hbox2), entry_sftp, FALSE, FALSE, 0);
-  gtk_widget_grab_focus(entry_sftp);
+  gtk_widget_grab_focus(GTK_WIDGET(entry_sftp));
 
-  hbox3 = gtk_hbox_new (TRUE, 0);
-  gtk_widget_show (hbox3);
+  hbox3 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_show (GTK_WIDGET(hbox3));
   gtk_box_pack_start (GTK_BOX (vbox1), hbox3, TRUE, TRUE, 0);
 
   label3 = gtk_label_new (_("Utilisateur : "));
-  gtk_widget_show (label3);
+  gtk_widget_show (GTK_WIDGET(label3));
   gtk_box_pack_start (GTK_BOX (hbox3), label3, FALSE, FALSE, 0);
   gtk_label_set_justify (GTK_LABEL (label3), GTK_JUSTIFY_LEFT);
 
   entry_utilisateur = gtk_entry_new ();
-  gtk_widget_show (entry_utilisateur);
+  gtk_widget_show (GTK_WIDGET(entry_utilisateur));
   gtk_box_pack_start (GTK_BOX (hbox3), entry_utilisateur, FALSE, FALSE, 0);
 	gtk_entry_set_text (GTK_ENTRY (entry_utilisateur), _("root"));
 
-  hbox4 = gtk_hbox_new (TRUE, 0);
-  gtk_widget_show (hbox4);
+  hbox4 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_show (GTK_WIDGET(hbox4));
   gtk_box_pack_start (GTK_BOX (vbox1), hbox4, TRUE, TRUE, 0);
 
   label4 = gtk_label_new (_("Chemin sur le serveur : "));
-  gtk_widget_show (label4);
+  gtk_widget_show (GTK_WIDGET(label4));
   gtk_box_pack_start (GTK_BOX (hbox4), label4, FALSE, FALSE, 0);
   gtk_label_set_justify (GTK_LABEL (label4), GTK_JUSTIFY_LEFT);
 
   entry_chemin = gtk_entry_new ();
-  gtk_widget_show (entry_chemin);
+  gtk_widget_show (GTK_WIDGET(entry_chemin));
   gtk_box_pack_start (GTK_BOX (hbox4), entry_chemin, FALSE, FALSE, 0);
-	gtk_entry_set_text (GTK_ENTRY (entry_chemin), _("\/"));
+	gtk_entry_set_text (GTK_ENTRY (entry_chemin), _("/"));
 
-  hseparator1 = gtk_hseparator_new ();
-  gtk_widget_show (hseparator1);
-  gtk_box_pack_start (GTK_BOX (vbox1), hseparator1, FALSE, FALSE, 0);
-
-  hbox1 = gtk_hbox_new (TRUE, 0);
-  gtk_widget_show (hbox1);
+  hbox1 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_show (GTK_WIDGET(hbox1));
   gtk_box_pack_start (GTK_BOX (vbox1), hbox1, FALSE, FALSE, 0);
 
   button1 = gtk_button_new_from_stock ("gtk-cancel");
-  gtk_widget_show (button1);
+  gtk_widget_show (GTK_WIDGET(button1));
   gtk_box_pack_start (GTK_BOX (hbox1), button1, TRUE, TRUE, 0);
   gtk_button_set_relief (GTK_BUTTON (button1), GTK_RELIEF_NONE);
 
 
   button2 = gtk_button_new_from_stock ("gtk-apply");
-  gtk_widget_show (button2);
+  gtk_widget_show (GTK_WIDGET(button2));
   gtk_box_pack_start (GTK_BOX (hbox1), button2, TRUE, TRUE, 0);
   gtk_button_set_relief (GTK_BUTTON (button2), GTK_RELIEF_NONE);
 
   label1 = gtk_label_new (_("Montage SFTP"));
-  gtk_widget_show (label1);
+  gtk_widget_show (GTK_WIDGET(label1));
   gtk_frame_set_label_widget (GTK_FRAME (frame1), label1);
   gtk_label_set_justify (GTK_LABEL (label1), GTK_JUSTIFY_LEFT);
 
@@ -5776,7 +5429,7 @@ g_signal_connect_swapped ((gpointer) button2, "clicked",
 //******************************* fenetre de configuration FTP
 GtkWidget* w_ftp_mount (void)
 {
-  GtkWidget *window1,*frame1,*vbox1,*hbox2,*label2,*hseparator1,*hbox1,*button1,*button2,*label1,*hbox3,*label3,*hbox4,*label4;  
+  GtkWidget *window1,*frame1,*vbox1,*hbox2,*label2,*hbox1,*button1,*button2,*label1,*hbox3,*label3,*hbox4,*label4;  
   
 	icon_affiche_stop();
 	
@@ -5784,79 +5437,75 @@ GtkWidget* w_ftp_mount (void)
   gtk_window_set_title (GTK_WINDOW (window1), _((_("Monter un serveur en FTP"))));
   gtk_window_set_position (GTK_WINDOW (window1), GTK_WIN_POS_CENTER);
   gtk_window_set_resizable (GTK_WINDOW (window1), FALSE);
-  gtk_widget_show(window1);
+  gtk_widget_show(GTK_WIDGET(window1));
 
   frame1 = gtk_frame_new (NULL);
-  gtk_widget_show (frame1);
+  gtk_widget_show (GTK_WIDGET(frame1));
   gtk_container_add (GTK_CONTAINER (window1), frame1);
   gtk_container_set_border_width (GTK_CONTAINER (frame1), 4);
   gtk_frame_set_label_align (GTK_FRAME (frame1), 0.02, 0.55);
 
-  vbox1 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox1);
+  vbox1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_widget_show (GTK_WIDGET(vbox1));
   gtk_container_add (GTK_CONTAINER (frame1), vbox1);
 
-  hbox2 = gtk_hbox_new (TRUE, 0);
-  gtk_widget_show (hbox2);
+  hbox2 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_show (GTK_WIDGET(hbox2));
   gtk_box_pack_start (GTK_BOX (vbox1), hbox2, TRUE, TRUE, 0);
 
   label2 = gtk_label_new (_("Nom du serveur ou ip : "));
-  gtk_widget_show (label2);
+  gtk_widget_show (GTK_WIDGET(label2));
   gtk_box_pack_start (GTK_BOX (hbox2), label2, FALSE, FALSE, 0);
   gtk_label_set_justify (GTK_LABEL (label2), GTK_JUSTIFY_LEFT);
 
   entry_ftp = gtk_entry_new ();
-  gtk_widget_show (entry_ftp);
+  gtk_widget_show (GTK_WIDGET(entry_ftp));
   gtk_box_pack_start (GTK_BOX (hbox2), entry_ftp, FALSE, FALSE, 0);
-  gtk_widget_grab_focus(entry_ftp);
+  gtk_widget_grab_focus(GTK_WIDGET(entry_ftp));
 
-  hbox3 = gtk_hbox_new (TRUE, 0);
-  gtk_widget_show (hbox3);
+  hbox3 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_show (GTK_WIDGET(hbox3));
   gtk_box_pack_start (GTK_BOX (vbox1), hbox3, TRUE, TRUE, 0);
 
   label3 = gtk_label_new (_("Utilisateur : "));
-  gtk_widget_show (label3);
+  gtk_widget_show (GTK_WIDGET(label3));
   gtk_box_pack_start (GTK_BOX (hbox3), label3, FALSE, FALSE, 0);
   gtk_label_set_justify (GTK_LABEL (label3), GTK_JUSTIFY_LEFT);
 
   entry_utilisateur_ftp = gtk_entry_new ();
-  gtk_widget_show (entry_utilisateur_ftp);
+  gtk_widget_show (GTK_WIDGET(entry_utilisateur_ftp));
   gtk_box_pack_start (GTK_BOX (hbox3), entry_utilisateur_ftp, FALSE, FALSE, 0);
 
-  hbox4 = gtk_hbox_new (TRUE, 0);
-  gtk_widget_show (hbox4);
+  hbox4 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_show (GTK_WIDGET(hbox4));
   gtk_box_pack_start (GTK_BOX (vbox1), hbox4, TRUE, TRUE, 0);
 
   label4 = gtk_label_new (_("Password : "));
-  gtk_widget_show (label4);
+  gtk_widget_show (GTK_WIDGET(label4));
   gtk_box_pack_start (GTK_BOX (hbox4), label4, FALSE, FALSE, 0);
   gtk_label_set_justify (GTK_LABEL (label4), GTK_JUSTIFY_LEFT);
 
   entry_passwd_ftp = gtk_entry_new ();
-  gtk_widget_show (entry_passwd_ftp);
+  gtk_widget_show (GTK_WIDGET(entry_passwd_ftp));
   gtk_box_pack_start (GTK_BOX (hbox4), entry_passwd_ftp, FALSE, FALSE, 0);
 
-  hseparator1 = gtk_hseparator_new ();
-  gtk_widget_show (hseparator1);
-  gtk_box_pack_start (GTK_BOX (vbox1), hseparator1, FALSE, FALSE, 0);
-
-  hbox1 = gtk_hbox_new (TRUE, 0);
-  gtk_widget_show (hbox1);
+  hbox1 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_show (GTK_WIDGET(hbox1));
   gtk_box_pack_start (GTK_BOX (vbox1), hbox1, FALSE, FALSE, 0);
 
   button1 = gtk_button_new_from_stock ("gtk-cancel");
-  gtk_widget_show (button1);
+  gtk_widget_show (GTK_WIDGET(button1));
   gtk_box_pack_start (GTK_BOX (hbox1), button1, TRUE, TRUE, 0);
   gtk_button_set_relief (GTK_BUTTON (button1), GTK_RELIEF_NONE);
 
 
   button2 = gtk_button_new_from_stock ("gtk-apply");
-  gtk_widget_show (button2);
+  gtk_widget_show (GTK_WIDGET(button2));
   gtk_box_pack_start (GTK_BOX (hbox1), button2, TRUE, TRUE, 0);
   gtk_button_set_relief (GTK_BUTTON (button2), GTK_RELIEF_NONE);
 
   label1 = gtk_label_new (_("Montage FTP"));
-  gtk_widget_show (label1);
+  gtk_widget_show (GTK_WIDGET(label1));
   gtk_frame_set_label_widget (GTK_FRAME (frame1), label1);
   gtk_label_set_justify (GTK_LABEL (label1), GTK_JUSTIFY_LEFT);
 
@@ -5908,7 +5557,6 @@ void on_execut_script (void)
   gchar *standard_output = NULL;
   gchar *standard_error = NULL;
                                                    
-  gint exit_status;
   GError *err = NULL;
 
   gchar *cmd = g_strconcat (cur_text_doc->file_name, NULL); 
@@ -5934,7 +5582,7 @@ void on_execut_script (void)
 
       g_free (x);
   
-      do_errors_hl (tv_logmemo);
+      do_errors_hl (GTK_TEXT_VIEW(tv_logmemo));
       }   
 
   g_free (cmd);
@@ -5944,11 +5592,10 @@ void on_execut_script (void)
 }
 
 //******************************* mise en valeur du texte après le cursor
-void on_format_line_bg (GtkWidget *button, GtkTextBuffer *buffer)
+void on_format_line_bg ()
 {
 	if (! get_page_text()) return;
 
-	gboolean ret = FALSE;
 	GtkTextIter end,start;
 	
 	if(tag_on==0)
@@ -5998,9 +5645,9 @@ void open_gimp (void)
 	strcpy(mot,"gimp ");
 	strcat(mot,tampon_web);
 	strcat(mot," &");
-	system (mot);
-
 	fclose(fichier);
+	int systemRet =system (mot);
+		if(systemRet == -1){return;}
 	}
 }
 
@@ -6011,8 +5658,8 @@ void open_include             (void)
 
   FILE *fich;
   char carac;
-  int position;
-  char motrch[100],motrch2[100], mot[2000],ligne[10],path[100];
+
+  char motrch[100],motrch2[100], mot[2000],path[100];
   int nbapparition=0,nbcarac=0,nbmot=0,counter=0;
   int nbligne=1;	
 	gchar *t;
@@ -6047,7 +5694,6 @@ void open_include             (void)
 
 	    path[0]='\0';
 	    mot[0]='\0';
-	    ligne[0]='\0';
 	    counter=0;		  
     }   
   }  
@@ -6086,13 +5732,14 @@ void open_include             (void)
 void add_word_autocomp_file(void)
 {
 
-	if (! get_page_text()) return;
-	gchar* file_autocomp="";
+/*	if (! get_page_text()) return;
+	gchar* file_autocomp=NULL;
  
    char *extension;
 
-   if(extension = strrchr(cur_text_doc->file_name,'.'))
+   if(strrchr(cur_text_doc->file_name,'.'))
 	{
+	extension = strrchr(cur_text_doc->file_name,'.');
 	if (strcmp(".pl", extension) == 0){file_autocomp="/usr/local/share/griffon/doc/perl";}
 	if (strcmp(".sh", extension) == 0){file_autocomp="/usr/local/share/griffon/doc/bash";}
 	if (strcmp(".c", extension) == 0 || strcmp(".h", extension) == 0){file_autocomp="/usr/local/share/griffon/doc/c";}
@@ -6100,7 +5747,7 @@ void add_word_autocomp_file(void)
 	if (strcmp(".php", extension) == 0){file_autocomp="/usr/local/share/griffon/doc/php";}
 	}
 
-	if(file_autocomp!="")
+	if(file_autocomp!=NULL)
 	{
 	  FILE *fich;
 	  char carac;
@@ -6137,14 +5784,14 @@ void add_word_autocomp_file(void)
 
 	fclose(fich);
 
-	}
+	}*/
 }
 
 //******************************* Keyrelase for search
 void keyrelase_search(void)
 {
 	 if (! get_page_text()) return;
-	gchar *text=gtk_entry_get_text (ent_search);
+	gchar const *text=gtk_entry_get_text (ent_search);
 
 	GtkTextIter start_find, end_find;
 	GtkTextIter start_match, end_match;
@@ -6157,7 +5804,7 @@ void keyrelase_search(void)
 	{
 	gtk_text_buffer_remove_tag_by_name(cur_text_doc->text_buffer, "search", &start_find, &end_find);
 
-     if (! text){return FALSE;}else{
+     if (! text){return;}else{
 	while ( gtk_text_iter_forward_search(&start_find, text, GTK_TEXT_SEARCH_TEXT_ONLY | GTK_TEXT_SEARCH_VISIBLE_ONLY, &start_match, &end_match, NULL) )
 					{
           gtk_text_buffer_apply_tag_by_name(cur_text_doc->text_buffer, "search", 
