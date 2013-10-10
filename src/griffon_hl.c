@@ -91,7 +91,7 @@ tooltip_instruction (GtkSourceMarkAttributes *attributes,GtkSourceMark *mark,gpo
 
 void assign_tags (t_note_page *doc)
 {
-  GtkTextTagTable *t = gtk_text_buffer_get_tag_table (doc->text_buffer);
+  GtkTextTagTable *t = gtk_text_buffer_get_tag_table (GTK_TEXT_BUFFER(doc->text_buffer));
 
   gtk_text_tag_table_add (t, tag_comment);
   gtk_text_tag_table_add (t, tag_identifier);
@@ -140,8 +140,8 @@ void create_tags (void)
 void remove_tags (t_note_page *doc)
 {
   GtkTextIter itstart, itend;
-  gtk_text_buffer_get_iter_at_offset (doc->text_buffer, &itstart, 0);
-  gtk_text_buffer_get_iter_at_offset (doc->text_buffer, &itend, gtk_text_buffer_get_char_count (doc->text_buffer));
+  gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &itstart, 0);
+  gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &itend, gtk_text_buffer_get_char_count (GTK_TEXT_BUFFER(doc->text_buffer)));
   //gtk_text_buffer_remove_all_tags (doc->text_buffer, &itstart, &itend);
 }                   
 
@@ -149,9 +149,9 @@ void remove_tags (t_note_page *doc)
 void clear_remove_tags (t_note_page *doc)
 {
   GtkTextIter itstart, itend;
-  gtk_text_buffer_get_iter_at_offset (doc->text_buffer, &itstart, 0);
-  gtk_text_buffer_get_iter_at_offset (doc->text_buffer, &itend, gtk_text_buffer_get_char_count (doc->text_buffer));
-  gtk_text_buffer_remove_all_tags (doc->text_buffer, &itstart, &itend);
+  gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &itstart, 0);
+  gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &itend, gtk_text_buffer_get_char_count (GTK_TEXT_BUFFER(doc->text_buffer)));
+  gtk_text_buffer_remove_all_tags (GTK_TEXT_BUFFER(doc->text_buffer), &itstart, &itend);
   apply_hl (doc);
 } 
 
@@ -175,12 +175,12 @@ void apply_html_hl (t_note_page *doc)
          i++;
          
          if (u == 60) //<
-            gtk_text_buffer_get_iter_at_offset (doc->text_buffer, &it_start, i);
+            gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &it_start, i);
 
          if (u == 62) //>
             {
-             gtk_text_buffer_get_iter_at_offset (doc->text_buffer, &it_end, i+1);
-             gtk_text_buffer_apply_tag (doc->text_buffer, tag_html_tag, &it_start, &it_end);
+             gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &it_end, i+1);
+             gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_html_tag, &it_start, &it_end);
             }
          
          p = g_utf8_next_char(p);
@@ -532,502 +532,6 @@ gboolean is_word_number (gchar *s)
 }
 
 
-	GdkPixbuf *pixbuf_mark;
-
-
-void do_hl_c (t_note_page *doc)
-{
-//**************************** FAIRE CORRECTION POUR BUG MEMOIR	
-return;
-
-//	auto_hl_griffon_c ();
-   GtkTextIter iter;
-   GtkTextIter a;
-   GtkTextIter b;
-   GtkTextIter c;
-   GtkTextIter d,start,stop;
-	GtkTextIter itstart;
-	gint lineit;
-	gchar *text2;
-
-	GtkSourceMark * mark;
-	GtkSourceMarkAttributes *attribu;
-
-	gtk_text_buffer_get_bounds(cur_text_doc->text_buffer,&start,&stop);
-gtk_source_buffer_remove_source_marks(cur_text_doc->text_buffer,&start,&stop,"icon_function");
-gtk_source_buffer_remove_source_marks(cur_text_doc->text_buffer,&start,&stop,"icon_sub");
-gtk_source_buffer_remove_source_marks(cur_text_doc->text_buffer,&start,&stop,"icon_include");
-gtk_source_buffer_remove_source_marks(cur_text_doc->text_buffer,&start,&stop,"icon_require");
-gtk_source_buffer_remove_source_marks(cur_text_doc->text_buffer,&start,&stop,"icon_exit");
-gtk_source_buffer_remove_source_marks(cur_text_doc->text_buffer,&start,&stop,"icon_last");
-gtk_source_buffer_remove_source_marks(cur_text_doc->text_buffer,&start,&stop,"icon_break");
-gtk_source_buffer_remove_source_marks(cur_text_doc->text_buffer,&start,&stop,"icon_sleep");
-gtk_source_buffer_remove_source_marks(cur_text_doc->text_buffer,&start,&stop,"icon_if");
-gtk_source_buffer_remove_source_marks(cur_text_doc->text_buffer,&start,&stop,"icon_else");
-gtk_source_buffer_remove_source_marks(cur_text_doc->text_buffer,&start,&stop,"icon_while");
-gtk_source_buffer_remove_source_marks(cur_text_doc->text_buffer,&start,&stop,"icon_for");
-gtk_source_buffer_remove_source_marks(cur_text_doc->text_buffer,&start,&stop,"icon_unless");
-gtk_source_buffer_remove_source_marks(cur_text_doc->text_buffer,&start,&stop,"icon_foreach");
-gtk_source_buffer_remove_source_marks(cur_text_doc->text_buffer,&start,&stop,"icon_down");
-gtk_source_buffer_remove_source_marks(cur_text_doc->text_buffer,&start,&stop,"icon_down2");
-gtk_source_buffer_remove_source_marks(cur_text_doc->text_buffer,&start,&stop,"icon_up");
-gtk_source_buffer_remove_source_marks(cur_text_doc->text_buffer,&start,&stop,"icon_up2");
-gtk_source_buffer_remove_source_marks(cur_text_doc->text_buffer,&start,&stop,"icon_com");
-gtk_text_buffer_remove_tag_by_name  (cur_text_doc->text_buffer,"err2",&start,&stop);
-
-	//*********************************
-  gchar *text;
-
-   gtk_text_buffer_get_iter_at_offset (doc->text_buffer, &iter, 0);
-
-   if (gtk_text_iter_starts_word (&iter))
-      {
-       a = iter;
-       c = iter;
-      }
-
-
-   do
-     {
-      if (gtk_text_iter_starts_word (&iter))
-         {  
-          b = iter;
-          if (gtk_text_iter_backward_char (&b))
-             if (gtk_text_iter_get_char (&b) != '_')
-                a = iter;
-              
-          if (gtk_text_iter_forward_word_end (&iter))
-             if (gtk_text_iter_ends_word (&iter))
-                {
-                 if (gtk_text_iter_get_char (&iter) != '_')
-                    {
-                     text = gtk_text_iter_get_slice (&a, &iter);
-                     if (text)
-                        {
-
-								
-                         if (strcmp("function", text) == 0 || strcmp("sub", text) == 0) 
-                         {
-																					//*********** prise en compte de iter de debut de ligne
-																					
-																					gint lineit=gtk_text_iter_get_line(&a);
-																					gtk_text_buffer_get_iter_at_line (cur_text_doc->text_buffer, &itstart, lineit);
-
-																						pixbuf_mark = gdk_pixbuf_new_from_file ("/usr/local/share/griffon/pixmaps/griffon_exe.png", NULL);
-																						GtkSourceMarkAttributes *attribu=gtk_source_mark_attributes_new();
-																						gtk_source_mark_attributes_set_pixbuf(attribu,pixbuf_mark );
-																						gtk_source_view_set_mark_attributes(cur_text_doc->text_view,"icon_function",attribu,0);
-																						gtk_source_buffer_create_source_mark(cur_text_doc->text_buffer,NULL,"icon_function",&itstart);
-
-																						//text2=g_strconcat ("",text,NULL);
-																						//g_signal_connect(attribu, "query-tooltip-text",G_CALLBACK(tooltip_instruction),text2);
-
-                             g_free (text);gdk_pixbuf_unref( pixbuf_mark);g_free (text2);
-                             continue;
-                          }
-
-
-                         if (strcmp("sub", text) == 0) 
-                         {
-																					//*********** prise en compte de iter de debut de ligne
-																				
-																				 lineit=gtk_text_iter_get_line(&a);
-																					gtk_text_buffer_get_iter_at_line (cur_text_doc->text_buffer, &itstart, lineit);
-
-																						pixbuf_mark = gdk_pixbuf_new_from_file ("/usr/local/share/griffon/pixmaps/griffon_exe.png", NULL);
-																						attribu=gtk_source_mark_attributes_new();
-																						gtk_source_mark_attributes_set_pixbuf(attribu,pixbuf_mark );
-																						gtk_source_view_set_mark_attributes(cur_text_doc->text_view,"icon_sub",attribu,0);
-																						gtk_source_buffer_create_source_mark(cur_text_doc->text_buffer,NULL,"icon_sub",&itstart);
-
-																						//text2=g_strconcat ("",text,NULL);
-																						//g_signal_connect(attribu, "query-tooltip-text",G_CALLBACK(tooltip_instruction),text2);
-
-                             g_free (text);gdk_pixbuf_unref( pixbuf_mark);g_free (text2);
-                             continue;
-                          }
-
-								
-                         if (strcmp("include", text) == 0) 
-                         {
-
-																					//*********** prise en compte de iter de debut de ligne
-																					
-																					 lineit=gtk_text_iter_get_line(&a);
-																					gtk_text_buffer_get_iter_at_line (cur_text_doc->text_buffer, &itstart, lineit);
-
-																						pixbuf_mark = gdk_pixbuf_new_from_file ("/usr/local/share/griffon/pixmaps/griffon_log.png", NULL);
-																						attribu=gtk_source_mark_attributes_new();
-																						gtk_source_mark_attributes_set_pixbuf(attribu,pixbuf_mark );
-																						gtk_source_view_set_mark_attributes(cur_text_doc->text_view,"icon_include",attribu,0);
-																						gtk_source_buffer_create_source_mark(cur_text_doc->text_buffer,NULL,"icon_include",&itstart);
-							
-																						//text2=g_strconcat ("",text,NULL);
-																						//g_signal_connect(attribu, "query-tooltip-text",G_CALLBACK(tooltip_instruction),text2);
-
-                             g_free (text);gdk_pixbuf_unref( pixbuf_mark);g_free (text2);
-                             continue;
-                          }
-
-
-                         if (strcmp("require", text) == 0) 
-                         {
-
-																					//*********** prise en compte de iter de debut de ligne
-																					
-																					 lineit=gtk_text_iter_get_line(&a);
-																					gtk_text_buffer_get_iter_at_line (cur_text_doc->text_buffer, &itstart, lineit);
-
-																						pixbuf_mark = gdk_pixbuf_new_from_file ("/usr/local/share/griffon/pixmaps/griffon_log.png", NULL);
-																						attribu=gtk_source_mark_attributes_new();
-																						gtk_source_mark_attributes_set_pixbuf(attribu,pixbuf_mark );
-																						gtk_source_view_set_mark_attributes(cur_text_doc->text_view,"icon_sub",attribu,0);
-																						gtk_source_buffer_create_source_mark(cur_text_doc->text_buffer,NULL,"icon_sub",&itstart);
-							
-																						//text2=g_strconcat ("",text,NULL);
-																						//g_signal_connect(attribu, "query-tooltip-text",G_CALLBACK(tooltip_instruction),text2);
-
-                             g_free (text);gdk_pixbuf_unref( pixbuf_mark);g_free (text2);
-                             continue;
-                          }
-
-								
-                         if (strcmp("exit", text) == 0) 
-                          {
-																					//*********** prise en compte de iter de debut de ligne
-																					
-																					 lineit=gtk_text_iter_get_line(&a);
-																					gtk_text_buffer_get_iter_at_line (cur_text_doc->text_buffer, &itstart, lineit);
-
-																					pixbuf_mark = gdk_pixbuf_new_from_file ("/usr/local/share/griffon/pixmaps/griffon_stop.png", NULL);
-																					attribu=gtk_source_mark_attributes_new();
-																					gtk_source_mark_attributes_set_pixbuf(attribu,pixbuf_mark );
-																					gtk_source_view_set_mark_attributes(cur_text_doc->text_view,"icon_exit",attribu,0);
-																					gtk_source_buffer_create_source_mark(cur_text_doc->text_buffer,NULL,"icon_exit",&itstart);	
-							
-																					//text2=g_strconcat ("",text,NULL);
-																					//g_signal_connect(attribu, "query-tooltip-text",G_CALLBACK(tooltip_instruction),text2);
-
-                             g_free (text);gdk_pixbuf_unref( pixbuf_mark);g_free (text2);
-                             continue;
-                           }
-
-
-                         if (strcmp("last", text) == 0) 
-                          {
-
-																					//*********** prise en compte de iter de debut de ligne
-																					
-																					 lineit=gtk_text_iter_get_line(&a);
-																					gtk_text_buffer_get_iter_at_line (cur_text_doc->text_buffer, &itstart, lineit);
-
-																					pixbuf_mark = gdk_pixbuf_new_from_file ("/usr/local/share/griffon/pixmaps/griffon_stop.png", NULL);
-																					attribu=gtk_source_mark_attributes_new();
-																					gtk_source_mark_attributes_set_pixbuf(attribu,pixbuf_mark );
-																					gtk_source_view_set_mark_attributes(cur_text_doc->text_view,"icon_last",attribu,0);
-																					gtk_source_buffer_create_source_mark(cur_text_doc->text_buffer,NULL,"icon_last",&itstart);	
-							
-																					//text2=g_strconcat ("",text,NULL);
-																					//g_signal_connect(attribu, "query-tooltip-text",G_CALLBACK(tooltip_instruction),text2);
-
-                             g_free (text);gdk_pixbuf_unref( pixbuf_mark);g_free (text2);
-                             continue;
-                           }
-
-                         if (strcmp("break", text) == 0) 
-                          {
-																					//*********** prise en compte de iter de debut de ligne
-																					
-																					 lineit=gtk_text_iter_get_line(&a);
-																					gtk_text_buffer_get_iter_at_line (cur_text_doc->text_buffer, &itstart, lineit);
-
-																					pixbuf_mark = gdk_pixbuf_new_from_file ("/usr/local/share/griffon/pixmaps/griffon_stop.png", NULL);
-																					attribu=gtk_source_mark_attributes_new();
-																					gtk_source_mark_attributes_set_pixbuf(attribu,pixbuf_mark );
-																					gtk_source_view_set_mark_attributes(cur_text_doc->text_view,"icon_break",attribu,0);
-																					gtk_source_buffer_create_source_mark(cur_text_doc->text_buffer,NULL,"icon_break",&itstart);	
-							
-																					//text2=g_strconcat ("",text,NULL);
-																					//g_signal_connect(attribu, "query-tooltip-text",G_CALLBACK(tooltip_instruction),text2);
-
-                             g_free (text);gdk_pixbuf_unref( pixbuf_mark);g_free (text2);
-                             continue;
-                           }
-
-                         if (strcmp("sleep", text) == 0) 
-                          {
-
-																					//*********** prise en compte de iter de debut de ligne
-																					
-																					 lineit=gtk_text_iter_get_line(&a);
-																					gtk_text_buffer_get_iter_at_line (cur_text_doc->text_buffer, &itstart, lineit);
-
-																					pixbuf_mark = gdk_pixbuf_new_from_file ("/usr/local/share/griffon/pixmaps/griffon_stop.png", NULL);
-																					attribu=gtk_source_mark_attributes_new();
-																					gtk_source_mark_attributes_set_pixbuf(attribu,pixbuf_mark );
-																					gtk_source_view_set_mark_attributes(cur_text_doc->text_view,"icon_sleep",attribu,0);
-																					gtk_source_buffer_create_source_mark(cur_text_doc->text_buffer,NULL,"icon_sleep",&itstart);	
-							
-																				//	text2=g_strconcat ("",text,NULL);
-																				//	g_signal_connect(attribu, "query-tooltip-text",G_CALLBACK(tooltip_instruction),text2);
-
-                             g_free (text);gdk_pixbuf_unref( pixbuf_mark);g_free (text2);
-                             continue;
-                           }
-
-
-								
-                         if (strcmp("if", text) == 0) 
-                         {
-
-																					//*********** prise en compte de iter de debut de ligne
-																					
-																					 lineit=gtk_text_iter_get_line(&a);
-																					gtk_text_buffer_get_iter_at_line (cur_text_doc->text_buffer, &itstart, lineit);
-
-																				pixbuf_mark = gdk_pixbuf_new_from_file ("/usr/local/share/griffon/pixmaps/griffon_list.png", NULL);
-																				attribu=gtk_source_mark_attributes_new();
-																				gtk_source_mark_attributes_set_pixbuf(attribu,pixbuf_mark );
-																				gtk_source_view_set_mark_attributes(cur_text_doc->text_view,"icon_if",attribu,0);
-																				gtk_source_buffer_create_source_mark(cur_text_doc->text_buffer,NULL,"icon_if",&itstart);
-
-																			//	text2=g_strconcat ("",text,NULL);
-																			//	g_signal_connect(attribu, "query-tooltip-text",G_CALLBACK(tooltip_instruction),text2); 
-
-                             g_free (text);gdk_pixbuf_unref( pixbuf_mark);g_free (text2);
-                             continue;
-                         }
-
-
-                         if (strcmp("else", text) == 0) 
-                         {
-
-																					//*********** prise en compte de iter de debut de ligne
-																					
-																					 lineit=gtk_text_iter_get_line(&a);
-																					gtk_text_buffer_get_iter_at_line (cur_text_doc->text_buffer, &itstart, lineit);
-
-																				pixbuf_mark = gdk_pixbuf_new_from_file ("/usr/local/share/griffon/pixmaps/griffon_list.png", NULL);
-																				attribu=gtk_source_mark_attributes_new();
-																				gtk_source_mark_attributes_set_pixbuf(attribu,pixbuf_mark );
-																				gtk_source_view_set_mark_attributes(cur_text_doc->text_view,"icon_else",attribu,0);
-																				gtk_source_buffer_create_source_mark(cur_text_doc->text_buffer,NULL,"icon_else",&itstart);
-
-																			//text2=g_strconcat ("",text,NULL);
-																			//	g_signal_connect(attribu, "query-tooltip-text",G_CALLBACK(tooltip_instruction),text2); 
-
-                             g_free (text);gdk_pixbuf_unref( pixbuf_mark);g_free (text2);
-                             continue;
-                         }
-
-
-                         if (strcmp("while", text) == 0 ) 
-                         {
-
-																					//*********** prise en compte de iter de debut de ligne
-																					
-																					gint lineit=gtk_text_iter_get_line(&a);
-																					gtk_text_buffer_get_iter_at_line (cur_text_doc->text_buffer, &itstart, lineit);
-
-																				pixbuf_mark = gdk_pixbuf_new_from_file ("/usr/local/share/griffon/pixmaps/griffon_list.png", NULL);
-																				attribu=gtk_source_mark_attributes_new();
-																				gtk_source_mark_attributes_set_pixbuf(attribu,pixbuf_mark );
-																				gtk_source_view_set_mark_attributes(cur_text_doc->text_view,"icon_while",attribu,0);
-																				gtk_source_buffer_create_source_mark(cur_text_doc->text_buffer,NULL,"icon_while",&itstart);
-
-																			//	text2=g_strconcat ("",text,NULL);
-																			//	g_signal_connect(attribu, "query-tooltip-text",G_CALLBACK(tooltip_instruction),text2); 
-
-                             g_free (text);gdk_pixbuf_unref( pixbuf_mark);g_free (text2);
-                             continue;
-                         }
-
-
-                         if (strcmp("for", text) == 0) 
-                         {
-
-																					//*********** prise en compte de iter de debut de ligne
-																					
-																					 lineit=gtk_text_iter_get_line(&a);
-																					gtk_text_buffer_get_iter_at_line (cur_text_doc->text_buffer, &itstart, lineit);
-
-																				pixbuf_mark = gdk_pixbuf_new_from_file ("/usr/local/share/griffon/pixmaps/griffon_list.png", NULL);
-																				attribu=gtk_source_mark_attributes_new();
-																				gtk_source_mark_attributes_set_pixbuf(attribu,pixbuf_mark );
-																				gtk_source_view_set_mark_attributes(cur_text_doc->text_view,"icon_for",attribu,0);
-																				gtk_source_buffer_create_source_mark(cur_text_doc->text_buffer,NULL,"icon_for",&itstart);
-
-																			//	text2=g_strconcat ("",text,NULL);
-																			//	g_signal_connect(attribu, "query-tooltip-text",G_CALLBACK(tooltip_instruction),text2); 
-
-                             g_free (text);gdk_pixbuf_unref( pixbuf_mark); g_free (text2);
-                             continue;
-                         }
-
-
-                         if (strcmp("unless", text) == 0) 
-                         {
-
-																					//*********** prise en compte de iter de debut de ligne
-																					
-																					 lineit=gtk_text_iter_get_line(&a);
-																					gtk_text_buffer_get_iter_at_line (cur_text_doc->text_buffer, &itstart, lineit);
-
-																				pixbuf_mark = gdk_pixbuf_new_from_file ("/usr/local/share/griffon/pixmaps/griffon_list.png", NULL);
-																				attribu=gtk_source_mark_attributes_new();
-																				gtk_source_mark_attributes_set_pixbuf(attribu,pixbuf_mark );
-																				gtk_source_view_set_mark_attributes(cur_text_doc->text_view,"icon_unless",attribu,0);
-																				gtk_source_buffer_create_source_mark(cur_text_doc->text_buffer,NULL,"icon_unless",&itstart);
-
-																			//	text2=g_strconcat ("",text,NULL);
-																			//	g_signal_connect(attribu, "query-tooltip-text",G_CALLBACK(tooltip_instruction),text2); 
-
-                             g_free (text);gdk_pixbuf_unref( pixbuf_mark);g_free (text2);
-                             continue;
-                         }
-
-
-                         if (strcmp("foreach", text) == 0) 
-                         {
-
-																					//*********** prise en compte de iter de debut de ligne
-																					
-																					 lineit=gtk_text_iter_get_line(&a);
-																					gtk_text_buffer_get_iter_at_line (cur_text_doc->text_buffer, &itstart, lineit);
-
-																				pixbuf_mark = gdk_pixbuf_new_from_file ("/usr/local/share/griffon/pixmaps/griffon_list.png", NULL);
-																				attribu=gtk_source_mark_attributes_new();
-																				gtk_source_mark_attributes_set_pixbuf(attribu,pixbuf_mark );
-																				gtk_source_view_set_mark_attributes(cur_text_doc->text_view,"icon_foreach",attribu,0);
-																				gtk_source_buffer_create_source_mark(cur_text_doc->text_buffer,NULL,"icon_foreach",&itstart);
-
-																			//	text2=g_strconcat ("",text,NULL);
-																			//	g_signal_connect(attribu, "query-tooltip-text",G_CALLBACK(tooltip_instruction),text2); 
-
-                             g_free (text);gdk_pixbuf_unref( pixbuf_mark);g_free (text2);
-                             continue;
-                         }
-
-
-
-
-
-
-
-                        }
-                }
-              }
-          }
-        }
-
-  while ( gtk_text_iter_forward_char (&iter));
-
-  gtk_text_buffer_get_iter_at_offset (doc->text_buffer, &iter, 0);
-  a = iter;
-  c = iter;
- 
-  do
-    {
-  
-     a = iter;
-        
-     switch (gtk_text_iter_get_char (&iter))
-            {
-
-				//********************************* Debut de bloque
-             case '{':  
-                      {
-	                       a = iter;
-	                       if (gtk_text_iter_forward_line (&iter))
-                          if (gtk_text_iter_backward_char (&iter)) 
-                             { 
-
-																					//*********** prise en compte de iter de debut de ligne
-																					
-																					 lineit=gtk_text_iter_get_line(&a);
-																					gtk_text_buffer_get_iter_at_line (cur_text_doc->text_buffer, &itstart, lineit);
-
-									if(gtk_text_iter_equal(&a,&itstart)==TRUE)
-									{
-									pixbuf_mark = gdk_pixbuf_new_from_file ("/usr/local/share/griffon/pixmaps/griffon_down.png", NULL);
-										attribu=gtk_source_mark_attributes_new();
-										gtk_source_mark_attributes_set_pixbuf(attribu,pixbuf_mark );
-										gtk_source_view_set_mark_attributes(cur_text_doc->text_view,"icon_down",attribu,0);
-										gtk_source_buffer_create_source_mark(cur_text_doc->text_buffer,NULL,"icon_down",&itstart);gdk_pixbuf_unref( pixbuf_mark);
-									}
-									else
-									{
-									pixbuf_mark = gdk_pixbuf_new_from_file ("/usr/local/share/griffon/pixmaps/griffon_down2.png", NULL);
-										attribu=gtk_source_mark_attributes_new();
-										gtk_source_mark_attributes_set_pixbuf(attribu,pixbuf_mark );
-										gtk_source_view_set_mark_attributes(cur_text_doc->text_view,"icon_down2",attribu,0);
-										gtk_source_buffer_create_source_mark(cur_text_doc->text_buffer,NULL,"icon_down2",&itstart);gdk_pixbuf_unref( pixbuf_mark);
-									}
-
-                             }
-	                       break;
-	                      }
-
-				//********************************* FIn de bloque
-             case '}':  
-                      {
-	                       a = iter;
-	                       if (gtk_text_iter_forward_line (&iter))
-                          if (gtk_text_iter_backward_char (&iter)) 
-                             { 
-
-																					//*********** prise en compte de iter de debut de ligne
-																					
-																					 lineit=gtk_text_iter_get_line(&a);
-																					gtk_text_buffer_get_iter_at_line (cur_text_doc->text_buffer, &itstart, lineit);
-
-									if(gtk_text_iter_equal(&a,&itstart)==TRUE)
-									{
-									pixbuf_mark = gdk_pixbuf_new_from_file ("/usr/local/share/griffon/pixmaps/griffon_up.png", NULL);
-										attribu=gtk_source_mark_attributes_new();
-										gtk_source_mark_attributes_set_pixbuf(attribu,pixbuf_mark );
-										gtk_source_view_set_mark_attributes(cur_text_doc->text_view,"icon_up",attribu,0);
-										gtk_source_buffer_create_source_mark(cur_text_doc->text_buffer,NULL,"icon_up",&itstart);gdk_pixbuf_unref( pixbuf_mark);
-									}
-									else
-									{
-									pixbuf_mark = gdk_pixbuf_new_from_file ("/usr/local/share/griffon/pixmaps/griffon_up2.png", NULL);
-										attribu=gtk_source_mark_attributes_new();
-										gtk_source_mark_attributes_set_pixbuf(attribu,pixbuf_mark );
-										gtk_source_view_set_mark_attributes(cur_text_doc->text_view,"icon_up2",attribu,0);
-										gtk_source_buffer_create_source_mark(cur_text_doc->text_buffer,NULL,"icon_up2",&itstart);gdk_pixbuf_unref( pixbuf_mark);
-									}
-
-                             }
-	                      break;
-	                      }
-
-				//********************************* Commentaire
-             /*case '#':  
-                      {
-	                       a = iter;
-	                       if (gtk_text_iter_forward_line (&iter))
-                          if (gtk_text_iter_backward_char (&iter)) 
-                             { 
-																					GtkTextIter itstart;
-																					gint lineit=gtk_text_iter_get_line(&a);
-																					gtk_text_buffer_get_iter_at_line (cur_text_doc->text_buffer, &itstart, lineit);
-
-										pixbuf_mark = gdk_pixbuf_new_from_file ("/usr/local/share/griffon/pixmaps/griffon_man.png", NULL);
-										GtkSourceMarkAttributes *attribu=gtk_source_mark_attributes_new();
-										gtk_source_mark_attributes_set_pixbuf(attribu,pixbuf_mark );
-										gtk_source_view_set_mark_attributes(cur_text_doc->text_view,"icon_com",attribu,0);
-										gtk_source_buffer_create_source_mark(cur_text_doc->text_buffer,NULL,"icon_com",&itstart);
-                             }
-	                       break;
-	                      }*/
-            }  
-        }        
-
-    while ( gtk_text_iter_forward_char (&iter) );
-}
-
-
 void do_hl_php (t_note_page *doc)
 {
 	auto_hl_griffon_perl ();
@@ -1041,7 +545,7 @@ void do_hl_php (t_note_page *doc)
 
    gchar *text;
 
-   gtk_text_buffer_get_iter_at_offset (doc->text_buffer, &iter, 0);
+   gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &iter, 0);
 
    if (gtk_text_iter_starts_word (&iter))
       {
@@ -1069,14 +573,14 @@ void do_hl_php (t_note_page *doc)
                         {
                          if (g_unichar_isdigit (g_utf8_get_char (text))) 
                             {
-                             gtk_text_buffer_apply_tag (doc->text_buffer, tag_digit, &a, &iter);
+                             gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_digit, &a, &iter);
                              g_free (text);
                              continue;
                             }
 
                          if (g_hash_table_lookup (php_t_keywords, text))  
                             {
-                             gtk_text_buffer_apply_tag (doc->text_buffer, tag_identifier, &a, &iter);
+                             gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_identifier, &a, &iter);
                              g_free (text);
                              continue;
                             }
@@ -1090,7 +594,7 @@ void do_hl_php (t_note_page *doc)
 
   //end keywords
 
-  gtk_text_buffer_get_iter_at_offset (doc->text_buffer, &iter, 0);
+  gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &iter, 0);
   a = iter;
   c = iter;
  
@@ -1107,8 +611,8 @@ void do_hl_php (t_note_page *doc)
                        if (gtk_text_iter_forward_line (&iter))
                           if (gtk_text_iter_backward_char (&iter)) 
                              { 
-                              gtk_text_buffer_remove_all_tags (doc->text_buffer, &a, &iter);
-                              gtk_text_buffer_apply_tag (doc->text_buffer, tag_comment, &a, &iter);
+                              gtk_text_buffer_remove_all_tags (GTK_TEXT_BUFFER(doc->text_buffer), &a, &iter);
+                              gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_comment, &a, &iter);
                              }
                        break;
                       }
@@ -1130,8 +634,8 @@ void do_hl_php (t_note_page *doc)
                                      if (gtk_text_iter_backward_char (&b))
                                         if (gtk_text_iter_get_char (&b) == '*')
                                            {
-                                            gtk_text_buffer_remove_all_tags (doc->text_buffer, &c, &iter);                
-                                            gtk_text_buffer_apply_tag (doc->text_buffer, tag_comment, &c, &iter);
+                                            gtk_text_buffer_remove_all_tags (GTK_TEXT_BUFFER(doc->text_buffer), &c, &iter);                
+                                            gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_comment, &c, &iter);
                                            }
                                      }          
                                  } 
@@ -1145,8 +649,8 @@ void do_hl_php (t_note_page *doc)
                                      {
                                       a = iter;
                                       gtk_text_iter_forward_line (&iter);
-                                      gtk_text_buffer_remove_all_tags (doc->text_buffer, &a, &iter);                
-                                      gtk_text_buffer_apply_tag (doc->text_buffer, tag_comment, &a, &iter);
+                                      gtk_text_buffer_remove_all_tags (GTK_TEXT_BUFFER(doc->text_buffer), &a, &iter);                
+                                      gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_comment, &a, &iter);
                                      }
                               }
                        break;   
@@ -1156,7 +660,7 @@ void do_hl_php (t_note_page *doc)
                       {
                        if (gtk_text_iter_forward_find_char (&iter, find_q, NULL, NULL))
                           if (gtk_text_iter_forward_char (&iter)) 
-                             gtk_text_buffer_apply_tag (doc->text_buffer, tag_string, &a, &iter);
+                             gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_string, &a, &iter);
                        break;
                       }
  
@@ -1164,7 +668,7 @@ void do_hl_php (t_note_page *doc)
                        {
                         if (gtk_text_iter_forward_find_char (&iter, find_q2, NULL, NULL))
                            if (gtk_text_iter_forward_char (&iter))
-                              gtk_text_buffer_apply_tag (doc->text_buffer, tag_string, &a, &iter);
+                              gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_string, &a, &iter);
                         break;
                        }  
         }        
@@ -1188,7 +692,7 @@ void do_hl_bash (t_note_page *doc)
 
    gchar *text;
 
-   gtk_text_buffer_get_iter_at_offset (doc->text_buffer, &iter, 0);
+   gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &iter, 0);
 
    if (gtk_text_iter_starts_word (&iter))
       {
@@ -1216,14 +720,14 @@ void do_hl_bash (t_note_page *doc)
                         {
                          if (g_unichar_isdigit (g_utf8_get_char (text))) 
                             {
-                             gtk_text_buffer_apply_tag (doc->text_buffer, tag_digit, &a, &iter);
+                             gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_digit, &a, &iter);
                              g_free (text);
                              continue;
                             }
 
                          if (g_hash_table_lookup (bash_t_keywords, text))  
                             {
-                             gtk_text_buffer_apply_tag (doc->text_buffer, tag_identifier, &a, &iter);
+                             gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_identifier, &a, &iter);
                              g_free (text);
                              continue;
                             }
@@ -1238,7 +742,7 @@ void do_hl_bash (t_note_page *doc)
 
   //end keywords
 
-  gtk_text_buffer_get_iter_at_offset (doc->text_buffer, &iter, 0);
+  gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &iter, 0);
   a = iter;
   c = iter;
  
@@ -1254,8 +758,8 @@ void do_hl_bash (t_note_page *doc)
                       if (gtk_text_iter_forward_line (&iter))
                          if (gtk_text_iter_backward_char (&iter)) 
                             { 
-                             gtk_text_buffer_remove_all_tags (doc->text_buffer, &a, &iter);
-                             gtk_text_buffer_apply_tag (doc->text_buffer, tag_comment, &a, &iter);
+                             gtk_text_buffer_remove_all_tags (GTK_TEXT_BUFFER(doc->text_buffer), &a, &iter);
+                             gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_comment, &a, &iter);
                             }
                       break;
                      }
@@ -1265,8 +769,8 @@ void do_hl_bash (t_note_page *doc)
                        if (gtk_text_iter_forward_find_char (&iter, find_q, NULL, NULL))
                           if (gtk_text_iter_forward_char (&iter)) 
                             {
-                             gtk_text_buffer_remove_all_tags (doc->text_buffer, &a, &iter);
-                             gtk_text_buffer_apply_tag (doc->text_buffer, tag_string, &a, &iter);
+                             gtk_text_buffer_remove_all_tags (GTK_TEXT_BUFFER(doc->text_buffer), &a, &iter);
+                             gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_string, &a, &iter);
                             }
                        break;
                       }
@@ -1276,8 +780,8 @@ void do_hl_bash (t_note_page *doc)
                         if (gtk_text_iter_forward_find_char (&iter, find_q2, NULL, NULL))
                            if (gtk_text_iter_forward_char (&iter))
                               {
-                               gtk_text_buffer_apply_tag (doc->text_buffer, tag_string, &a, &iter);
-                               gtk_text_buffer_apply_tag (doc->text_buffer, tag_string, &a, &iter);
+                               gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_string, &a, &iter);
+                               gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_string, &a, &iter);
                               } 
                         break;
                        }  
@@ -1303,7 +807,7 @@ void do_hl_po (t_note_page *doc)
 
    gchar *text;
 
-   gtk_text_buffer_get_iter_at_offset (doc->text_buffer, &iter, 0);
+   gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &iter, 0);
 
    if (gtk_text_iter_starts_word (&iter))
       {
@@ -1331,14 +835,14 @@ void do_hl_po (t_note_page *doc)
                         {
                          if (g_unichar_isdigit (g_utf8_get_char (text))) 
                             {
-                             gtk_text_buffer_apply_tag (doc->text_buffer, tag_digit, &a, &iter);
+                             gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_digit, &a, &iter);
                              g_free (text);
                              continue;
                             }
 
                          if (g_hash_table_lookup (po_t_keywords, text))  
                             {
-                             gtk_text_buffer_apply_tag (doc->text_buffer, tag_identifier, &a, &iter);
+                             gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_identifier, &a, &iter);
                              g_free (text);
                              continue;
                             }
@@ -1353,7 +857,7 @@ void do_hl_po (t_note_page *doc)
 
   //end keywords
 
-  gtk_text_buffer_get_iter_at_offset (doc->text_buffer, &iter, 0);
+  gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &iter, 0);
   a = iter;
   c = iter;
  
@@ -1369,8 +873,8 @@ void do_hl_po (t_note_page *doc)
                        if (gtk_text_iter_forward_line (&iter))
                           if (gtk_text_iter_backward_char (&iter)) 
                              { 
-                              gtk_text_buffer_remove_all_tags (doc->text_buffer, &a, &iter);
-                              gtk_text_buffer_apply_tag (doc->text_buffer, tag_comment, &a, &iter);
+                              gtk_text_buffer_remove_all_tags (GTK_TEXT_BUFFER(doc->text_buffer), &a, &iter);
+                              gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_comment, &a, &iter);
                              }
                        break;
                       }
@@ -1380,8 +884,8 @@ void do_hl_po (t_note_page *doc)
                        if (gtk_text_iter_forward_find_char (&iter, find_q, NULL, NULL))
                           if (gtk_text_iter_forward_char (&iter)) 
                             {
-                             gtk_text_buffer_remove_all_tags (doc->text_buffer, &a, &iter);
-                             gtk_text_buffer_apply_tag (doc->text_buffer, tag_string, &a, &iter);
+                             gtk_text_buffer_remove_all_tags (GTK_TEXT_BUFFER(doc->text_buffer), &a, &iter);
+                             gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_string, &a, &iter);
                             }
                        break;
                       }
@@ -1391,8 +895,8 @@ void do_hl_po (t_note_page *doc)
                         if (gtk_text_iter_forward_find_char (&iter, find_q2, NULL, NULL))
                            if (gtk_text_iter_forward_char (&iter))
                               {
-                               gtk_text_buffer_apply_tag (doc->text_buffer, tag_string, &a, &iter);
-                               gtk_text_buffer_apply_tag (doc->text_buffer, tag_string, &a, &iter);
+                               gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_string, &a, &iter);
+                               gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_string, &a, &iter);
                               } 
                         break;
                        }  
@@ -1416,7 +920,7 @@ void do_hl_pascal (t_note_page *doc)
 
    gchar *text;
    gchar *text2;
-   gtk_text_buffer_get_iter_at_offset (doc->text_buffer, &iter, 0);
+   gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &iter, 0);
 
    if (gtk_text_iter_starts_word (&iter))
       {
@@ -1446,7 +950,7 @@ void do_hl_pascal (t_note_page *doc)
                        {
                         if (g_unichar_isdigit (g_utf8_get_char (text))) 
                            {
-                            gtk_text_buffer_apply_tag (doc->text_buffer, tag_digit, &a, &iter);
+                            gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_digit, &a, &iter);
                             g_free (text);
                             g_free (text2);
                             continue;
@@ -1454,7 +958,7 @@ void do_hl_pascal (t_note_page *doc)
 
                          if (g_hash_table_lookup (pas_t_keywords, text) != NULL)  
                            {
-                            gtk_text_buffer_apply_tag (doc->text_buffer, tag_identifier, &a, &iter);
+                            gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_identifier, &a, &iter);
                             g_free (text);
                             g_free (text2);   
                             continue;
@@ -1462,7 +966,7 @@ void do_hl_pascal (t_note_page *doc)
 
                          if (g_hash_table_lookup (pas_t_types, text) != NULL)  
                             {
-                             gtk_text_buffer_apply_tag (doc->text_buffer, tag_type, &a, &iter);
+                             gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_type, &a, &iter);
                              g_free (text);
                              g_free (text2);
                              continue;
@@ -1477,7 +981,7 @@ void do_hl_pascal (t_note_page *doc)
 
   //end keywords
 
-  gtk_text_buffer_get_iter_at_offset (doc->text_buffer, &iter, 0);
+  gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &iter, 0);
   a = iter;
   c = iter;
  
@@ -1492,7 +996,7 @@ void do_hl_pascal (t_note_page *doc)
                       {
                        if (gtk_text_iter_forward_find_char (&iter, find_q, NULL, NULL))
                           if (gtk_text_iter_forward_char (&iter)) 
-                             gtk_text_buffer_apply_tag (doc->text_buffer, tag_string, &a, &iter);
+                             gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_string, &a, &iter);
                        break;
                       }
  
@@ -1500,7 +1004,7 @@ void do_hl_pascal (t_note_page *doc)
                        {
                         if (gtk_text_iter_forward_find_char (&iter, find_q2, NULL, NULL))
                            if (gtk_text_iter_forward_char (&iter))
-                              gtk_text_buffer_apply_tag (doc->text_buffer, tag_string, &a, &iter);
+                              gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_string, &a, &iter);
                         break;
                        } 
 
@@ -1515,8 +1019,8 @@ void do_hl_pascal (t_note_page *doc)
                                   {
                                    a = iter;
                                    gtk_text_iter_forward_line (&iter);
-                                      gtk_text_buffer_remove_all_tags (doc->text_buffer, &a, &iter);                
-                                      gtk_text_buffer_apply_tag (doc->text_buffer, tag_comment, &a, &iter);
+                                      gtk_text_buffer_remove_all_tags (GTK_TEXT_BUFFER(doc->text_buffer), &a, &iter);                
+                                      gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_comment, &a, &iter);
                                   }
                             }
                         break;   
@@ -1540,7 +1044,7 @@ void do_python_hl (t_note_page *doc)
 
    gchar *text;
 
-   gtk_text_buffer_get_iter_at_offset (doc->text_buffer, &iter, 0);
+   gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &iter, 0);
 
    if (gtk_text_iter_starts_word (&iter))
       {
@@ -1568,14 +1072,14 @@ void do_python_hl (t_note_page *doc)
                         {
                          if (g_unichar_isdigit (g_utf8_get_char (text))) 
                             {
-                             gtk_text_buffer_apply_tag (doc->text_buffer, tag_digit, &a, &iter);
+                             gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_digit, &a, &iter);
                              g_free (text);
                              continue;
                             }
 
                          if (g_hash_table_lookup (py_t_keywords, text) != NULL)  
                             {
-                             gtk_text_buffer_apply_tag (doc->text_buffer, tag_identifier, &a, &iter);
+                             gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_identifier, &a, &iter);
                              g_free (text);
                              continue;
                             }
@@ -1589,7 +1093,7 @@ void do_python_hl (t_note_page *doc)
 
   //end keywords
 
-  gtk_text_buffer_get_iter_at_offset (doc->text_buffer, &iter, 0);
+  gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &iter, 0);
   a = iter;
   c = iter;
  
@@ -1606,8 +1110,8 @@ void do_python_hl (t_note_page *doc)
                        if (gtk_text_iter_forward_line (&iter))
                           if (gtk_text_iter_backward_char (&iter)) 
                              { 
-                              gtk_text_buffer_remove_all_tags (doc->text_buffer, &a, &iter);
-                              gtk_text_buffer_apply_tag (doc->text_buffer, tag_comment, &a, &iter);
+                              gtk_text_buffer_remove_all_tags (GTK_TEXT_BUFFER(doc->text_buffer), &a, &iter);
+                              gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_comment, &a, &iter);
                              }
                        break;
                       }
@@ -1616,7 +1120,7 @@ void do_python_hl (t_note_page *doc)
                       {
                        if (gtk_text_iter_forward_find_char (&iter, find_q, NULL, NULL))
                           if (gtk_text_iter_forward_char (&iter)) 
-                             gtk_text_buffer_apply_tag (doc->text_buffer, tag_string, &a, &iter);
+                             gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_string, &a, &iter);
                        break;
                       }
  
@@ -1624,7 +1128,7 @@ void do_python_hl (t_note_page *doc)
                        {
                         if (gtk_text_iter_forward_find_char (&iter, find_q2, NULL, NULL))
                            if (gtk_text_iter_forward_char (&iter))
-                              gtk_text_buffer_apply_tag (doc->text_buffer, tag_string, &a, &iter);
+                              gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_string, &a, &iter);
                         break;
                        }  
         }        
@@ -1714,88 +1218,7 @@ static gboolean find_tag_end (gunichar ch, gpointer user_data)
 //n.p. Public Image Limited "Another"
 void do_hl_spell_check2 (t_note_page *doc, gchar *lang)
 {
-/*#ifdef HAVE_LIBASPELL
-
-  AspellConfig *spell_config = new_aspell_config(); 
-
-  AspellCanHaveError *ret;
-  AspellSpeller *speller;
-  
-  aspell_config_replace (spell_config, "lang", lang); 
-  aspell_config_replace (spell_config, "encoding", "UTF-8"); 
-
-  ret = new_aspell_speller(spell_config);
-  if (aspell_error (ret) != 0)
-     {
-      g_print ("Error: %s\n", aspell_error_message(ret));
-      delete_aspell_config (spell_config); 
-      delete_aspell_can_have_error(ret);
-      return;
-     }
-
-  speller = to_aspell_speller (ret);
-
-  GtkTextIter iter;
-  GtkTextIter a;
-  GtkTextIter b;
-  GtkTextIter c;
-  GtkTextIter d;
-
-  gchar *p = NULL; 
-
-  remove_tags (doc);
-
-  gchar *text;
-  gchar *text2;
-  gtk_text_buffer_get_iter_at_offset (doc->text_buffer, &iter, 0);
-
-  if (gtk_text_iter_starts_word (&iter))
-     {
-      a = iter;
-      c = iter;
-     }
-
-   //keywords
-  do
-    {
-     if (gtk_text_iter_starts_word (&iter))
-        {  
-         b = iter;
-         if (gtk_text_iter_backward_char (&b))
-            if (gtk_text_iter_get_char (&b) != '_')
-               a = iter;
-              
-         if (gtk_text_iter_forward_word_end (&iter))
-            if (gtk_text_iter_ends_word (&iter))
-               {
-                if (gtk_text_iter_get_char (&iter) != '_')
-                   {
-                    text2 = gtk_text_iter_get_slice (&a, &iter);
-                    text = g_utf8_strdown (text2, -1); 
-
-                    if (g_utf8_strlen (text, -1) > 1) 
-                    if (text)
-                       {
-                        if (aspell_speller_check (speller, text, -1) == 0)
-                            {
-                             gtk_text_buffer_apply_tag (doc->text_buffer, tag_spell_err, &a, &iter);
-                             g_free (text);
-                             g_free (text2);   
-                             continue;
-                            }
-                       } 
-                   }
-              }
-          }
-        }
-
-  while ( gtk_text_iter_forward_char (&iter));
- 
-  delete_aspell_speller (speller);
-  delete_aspell_config (spell_config);
-
- #endif
- */
+	printf("\n");
 }
 
 
@@ -1810,10 +1233,10 @@ void do_errors_hl (GtkTextView *text_view)
 
   gchar *text;
 
-  gint c = gtk_text_buffer_get_line_count (text_buffer);
+  gint c = gtk_text_buffer_get_line_count (GTK_TEXT_BUFFER(text_buffer));
   gint i;
 
-  gtk_text_buffer_get_start_iter (text_buffer, &iter); 
+  gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(text_buffer), &iter); 
 
   for (i = 0; i <= c; i++)
       {
@@ -1826,8 +1249,8 @@ void do_errors_hl (GtkTextView *text_view)
              
            if (parse_error_line (text, &filename, &lineno))
               {
-               gtk_text_buffer_remove_all_tags (text_buffer, &iter, &a);
-               gtk_text_buffer_apply_tag_by_name (text_buffer, "lm_error", &iter, &a);
+               gtk_text_buffer_remove_all_tags (GTK_TEXT_BUFFER(text_buffer), &iter, &a);
+               gtk_text_buffer_apply_tag_by_name (GTK_TEXT_BUFFER(text_buffer), "lm_error", &iter, &a);
                g_free (filename); 
               } 
            

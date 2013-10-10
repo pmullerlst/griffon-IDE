@@ -18,13 +18,15 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <errno.h>
 #include <sys/stat.h>
+#include <stdio.h>
+#include <string.h>
 #include <time.h>
 #include <stdio.h>
 #include <gtksourceview/gtksourceview.h>
 #include <gtksourceview/gtksourcebuffer.h>
 #include <gtksourceview/gtksourcelanguage.h>
 //#include <gtkspell/gtkspell.h>
-
+#include<stdlib.h>
 #include "griffon_defs.h"
 #include "griffon_config.h"
 #include "rox_strings.h"
@@ -33,6 +35,7 @@
 #include "griffon_funx.h"
 #include "griffon_proj.h"
 #include "griffon_gtk_utils.h"
+#include "callbacks.h"
 
 
 /* from:
@@ -417,7 +420,8 @@ GtkWidget* new_menu_sep (GtkWidget *parent)
 
 GtkWidget* new_menu_tof (GtkWidget *parent)
 {
-  GtkWidget *mni_tof = gtk_tearoff_menu_item_new();
+//  GtkWidget *mni_tof = gtk_tearoff_menu_item_new();
+	  GtkWidget *mni_tof = gtk_menu_item_new();
   gtk_widget_set_name (mni_tof, "-x-");
   gtk_widget_show (mni_tof);
   gtk_container_add (GTK_CONTAINER (parent), mni_tof);
@@ -441,13 +445,13 @@ void goto_local_label (const gchar *l)
   GtkTextIter iter;
   GtkTextIter match_start;
 
-  GtkTextMark *m = gtk_text_buffer_get_insert (cur_text_doc->text_buffer); 
-  gtk_text_buffer_get_iter_at_mark (cur_text_doc->text_buffer, &iter, m);
+  GtkTextMark *m = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(cur_text_doc->text_buffer)); 
+  gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &iter, m);
 
   if (gtk_text_iter_forward_search  (&iter, s, GTK_TEXT_SEARCH_TEXT_ONLY, &match_start, NULL, NULL))
      {
-      gtk_text_buffer_place_cursor (cur_text_doc->text_buffer, &match_start );
-      gtk_text_view_scroll_to_iter (cur_text_doc->text_view, &match_start, 0.0, TRUE, 0.0, 0.0 );
+      gtk_text_buffer_place_cursor (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &match_start );
+      gtk_text_view_scroll_to_iter (GTK_TEXT_VIEW(cur_text_doc->text_view), &match_start, 0.0, TRUE, 0.0, 0.0 );
       gtk_text_view_place_cursor_onscreen (GTK_TEXT_VIEW (cur_text_doc->text_view));
      }
 
@@ -466,7 +470,7 @@ void handle_file (gchar const *filename, gint mode)
 
   if (i != -1)
      {
-      gtk_notebook_set_current_page (notebook1, i);
+      gtk_notebook_set_current_page (GTK_NOTEBOOK(notebook1), i);
       return;
      } 
 
@@ -510,13 +514,12 @@ void handle_file_enc (gchar *filename, gchar *enc)
   if (! filename)
      return;
  
-  gchar *cmd = NULL;
   
   gint i = get_n_page_by_filename (filename);
 
   if (i != -1)
      {
-      gtk_notebook_set_current_page (notebook1, i);
+      gtk_notebook_set_current_page (GTK_NOTEBOOK(notebook1), i);
       return;
      } 
 
@@ -542,7 +545,7 @@ void kwas_handle_file (gchar *filename, int mode)
 
   if (i != -1)
      {
-      gtk_notebook_set_current_page (notebook1, i);
+      gtk_notebook_set_current_page (GTK_NOTEBOOK(notebook1), i);
       return;
      } 
 
@@ -638,7 +641,7 @@ void create_empty_file (gchar *filename, gchar *first_line)
   FILE *out = fopen (filename, "w");
   
   if (! out) 
-     return FALSE;                     
+     return;                     
 
   if (first_line)
      fprintf (out, "%s", first_line);
@@ -655,7 +658,7 @@ gint get_file_size (const gchar *filename)
 }
 
 
-gboolean check_ext (gchar *filename, gchar *ext)
+gboolean check_ext (gchar const *filename, gchar *ext)
 {
   if (! filename || ! ext)
      return FALSE;
@@ -903,12 +906,11 @@ void make_stats (t_note_page *doc)
   gint lines = 0;
   gint bytes = 0;
   gint i;
-  gchar *tmp_str;
 
-  selected = doc_is_sel (doc->text_buffer);
+  selected = doc_is_sel (GTK_TEXT_BUFFER(doc->text_buffer));
 
   if (! selected)
-      text = doc_get_buf (doc->text_buffer);
+      text = doc_get_buf (GTK_TEXT_BUFFER(doc->text_buffer));
   else
       text = doc_get_sel (doc);
 
@@ -918,7 +920,7 @@ void make_stats (t_note_page *doc)
   if (! g_utf8_validate (text, -1, NULL))
      return;
 
-  lines = gtk_text_buffer_get_line_count (doc->text_buffer);
+  lines = gtk_text_buffer_get_line_count (GTK_TEXT_BUFFER(doc->text_buffer));
 
   chars = g_utf8_strlen (text, -1);
   attrs = g_new0 (PangoLogAttr, chars + 1);
@@ -1211,9 +1213,7 @@ gboolean is_css (const gchar *filename)
 }
 
 
-static build_menu_from_ht_cb (gpointer key,
-                              gpointer value,
-                              gpointer user_data)
+void build_menu_from_ht_cb (gpointer key,gpointer user_data)
 {
   t_ppair *t = user_data;
   new_menu_item (key, t->a, t->b);
@@ -1229,7 +1229,7 @@ void build_menu_from_ht (GHashTable *hash_table, gpointer menu, gpointer callbac
    t.a = menu;
    t.b = callback; 
 
-   g_hash_table_foreach (hash_table,
+   g_hash_table_foreach (hash_table,(GHFunc)
                          build_menu_from_ht_cb,
                          &t);
 }
@@ -1279,7 +1279,7 @@ GList* read_dir_files (gchar *path)
   GList *l = NULL;
 
   GDir *d = g_dir_open (path, 0, NULL);  
-  gchar *t;
+  gchar const *t;
 
   while (t = g_dir_read_name (d))
         {
@@ -1303,7 +1303,7 @@ void handle_file_ide (gchar *filename, gint line)
 
   if (i != -1)
      {
-      gtk_notebook_set_current_page (notebook1, i);
+      gtk_notebook_set_current_page (GTK_NOTEBOOK(notebook1), i);
       if (get_page_text ())
           doc_select_line (cur_text_doc, line); 
       return;

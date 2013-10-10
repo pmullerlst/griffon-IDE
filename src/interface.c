@@ -13,6 +13,9 @@
 #  include <config.h>
 #endif
 
+#include <time.h>
+#include <signal.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -34,19 +37,20 @@
 #include "griffon_text_document.h"
 #include "callbacks.h"
 #include "griffon_defs.h"
+#include "griffon_hl.h"
 #include "griffon_config.h"
 #include "griffon_funx.h"
 #include "griffon_gtk_utils.h"
 #include "interface.h"
 #include "griffon_proj.h"
 #include "help_def.h"
+#include "rox_strings.h"
+#include "minido.h"
 
 #define MAXI 500
 
 #define REFRESH_INTERVAL 15
 
-static TestProvider *fixed_provider;
-static TestProvider *random_provider;
 GtkSourceCompletionWords *word_provider;
 //**************** STRUCTURE
   enum
@@ -74,17 +78,6 @@ WebKitWebView *webView_w;
 GtkWidget *scrolledWindow;
 GtkWidget *entry_myadmin;
 } win_web;
-
-//**************** autocomp entry
-
-
-static gboolean on_match_select(GtkTreeModel       *model,  GtkTreeIter        *iter)
-{  
-  GValue value = {0, };
-  gtk_tree_model_get_value(model, iter, CONTACT_NAME, &value);
-  g_value_unset(&value);
-  return FALSE;
-}    
 
 //**********************
 
@@ -172,18 +165,6 @@ static void test_provider_populate (GtkSourceCompletionProvider *completion_prov
 						     TRUE);
 }
 
-static GdkPixbuf * test_provider_get_icon (GtkSourceCompletionProvider *provider)
-{
-	TestProvider *tp = (TestProvider *)provider;
-
-	if (tp->icon == NULL)
-	{
-		GtkIconTheme *theme = gtk_icon_theme_get_default ();
-		tp->icon = gtk_icon_theme_load_icon (theme, "dialog-information", 16, 0, NULL);
-	}
-
-	return tp->icon;
-}
 
 static void test_provider_iface_init (GtkSourceCompletionProviderIface *iface)
 {
@@ -231,44 +212,6 @@ static void test_provider_init (TestProvider *self)
        self->proposals = proposals;
 }
 
-static void test_provider_set_fixed (TestProvider *provider,			 gint          nb_proposals)
-{
-	GList *proposals = NULL;
-	gint i;
-	
-	g_list_free_full (provider->proposals, g_object_unref);
-
-	for (i = nb_proposals - 1; i > 0; i--)
-	{
-		gchar *name = g_strdup_printf ("Proposal %d", i);
-		g_free (name);
-	}
-
-	provider->proposals = proposals;
-	provider->is_random = 0;
-}
-
-static void test_provider_set_random (TestProvider *provider,			  gint          nb_proposals)
-{
-	GList *proposals = NULL;
-	gint i;
-
-	g_list_free_full (provider->proposals, g_object_unref);
-
-	for (i = 0; i < nb_proposals; i++)
-	{
-		gchar *padding = g_strnfill ((i * 3) % 10, 'o');
-		gchar *name = g_strdup_printf ("Propo%ssal %d", padding, i);
-
-		g_free (padding);
-		g_free (name);
-	}
-
-	provider->proposals = proposals;
-	provider->is_random = 1;
-}
-
-
 static void create_completion (GtkSourceView       *source_view,		   GtkSourceCompletion *completion)
 {
 	/* Words completion provider */
@@ -287,7 +230,7 @@ static void create_completion (GtkSourceView       *source_view,		   GtkSourceCo
 //********************************************* FIN AUTOCOMPLETION
 
 //******************************** Ouverture de link pour navigateur web en mode link blank
-gboolean myadmin_new_window (WebKitWebView *web_view,WebKitWebFrame *frame,WebKitNetworkRequest      *request, WebKitWebNavigationAction *navigation_action,WebKitWebPolicyDecision   *policy_decision,gpointer                   user_data)
+gboolean myadmin_new_window (WebKitNetworkRequest      *request)
 {
 	gchar const *uri = webkit_network_request_get_uri (request);
 
@@ -299,7 +242,7 @@ gboolean myadmin_new_window (WebKitWebView *web_view,WebKitWebFrame *frame,WebKi
 	gtk_window_maximize (GTK_WINDOW(web_win->window_web));
 
   web_win->vbox3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-  gtk_container_add (GTK_CONTAINER (web_win->window_web), web_win->vbox3);
+  gtk_container_add (GTK_CONTAINER (web_win->window_web), GTK_WIDGET(web_win->vbox3));
   gtk_widget_show (GTK_WIDGET(web_win->vbox3));  
 
   web_win->hbox3 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
@@ -354,11 +297,11 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   gtk_tool_item_set_tooltip_text(tool_myadmin_view,_("Web view"));
 
 
-	gtk_box_pack_start (web_win->hbox3, toolbar_myadmin, TRUE, TRUE, 0);
-	gtk_toolbar_set_style (toolbar_myadmin, GTK_TOOLBAR_ICONS);
+	gtk_box_pack_start (GTK_BOX(web_win->hbox3), toolbar_myadmin, TRUE, TRUE, 0);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_myadmin), GTK_TOOLBAR_ICONS);
 	gtk_widget_show (GTK_WIDGET(toolbar_myadmin)); 
 
-	gtk_toolbar_set_icon_size(toolbar_myadmin,GTK_ICON_SIZE_SMALL_TOOLBAR);
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_myadmin),GTK_ICON_SIZE_SMALL_TOOLBAR);
 
   web_win->entry_myadmin = gtk_entry_new ();
   gtk_widget_show (GTK_WIDGET(web_win->entry_myadmin));
@@ -372,7 +315,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add(GTK_CONTAINER(web_win->scrolledWindow), GTK_WIDGET(web_win->webView_w));
 
-    gtk_container_add(GTK_CONTAINER(web_win->vbox3), web_win->scrolledWindow);
+    gtk_container_add(GTK_CONTAINER(web_win->vbox3), GTK_WIDGET(web_win->scrolledWindow));
 
 		gtk_widget_show_all(GTK_WIDGET(web_win->window_web)); 
 
@@ -395,26 +338,26 @@ return TRUE;
 }
 
 //******************************** AFFICHAGE DUN NAVIGATEUR WEB APRES CLIQUE DROIT
-gboolean web_new_w_click(WebKitWebView *web_view,gpointer       user_data)
+gboolean web_new_w_click(gpointer       user_data)
 {
 	gtk_widget_show_all (GTK_WIDGET(user_data));
 	return TRUE;
 }
 
 //******************************** PREPARATION DUN NAVIGATEUR WEB APRES CLIQUE DROIT
-WebKitWebView * web_new_w_click_go(WebKitWebView  *web_view, WebKitWebFrame *frame, gpointer        user_data)
+WebKitWebView * web_new_w_click_go()
 {
 	win_web *web_win = (win_web *) g_malloc (sizeof (win_web));
 
   web_win->window_web = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_transient_for(GTK_WINDOW(web_win->window_web),GTK_WINDOW(tea_main_window));
 	gtk_window_resize (GTK_WINDOW (web_win->window_web), 900, 500);
-	gtk_window_maximize (web_win->window_web);
+	gtk_window_maximize (GTK_WINDOW(web_win->window_web));
 
-  web_win->vbox3 = gtk_vbox_new (FALSE, 0);
-  gtk_container_add (GTK_CONTAINER (web_win->window_web), web_win->vbox3);
+  web_win->vbox3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_container_add (GTK_CONTAINER (web_win->window_web), GTK_WIDGET(web_win->vbox3));
 
-  web_win->hbox3 = gtk_hbox_new (TRUE, 0);
+  web_win->hbox3 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_box_pack_start (GTK_BOX (web_win->vbox3), web_win->hbox3, FALSE, TRUE, 0);
 
 	    web_win->webView_w = WEBKIT_WEB_VIEW(webkit_web_view_new());
@@ -457,8 +400,8 @@ gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin ), tool_sep, -1);
   gtk_tool_item_set_tooltip_text(tool_myadmin_view,_("Web view"));
 
 
-	gtk_box_pack_start (web_win->hbox3, toolbar_myadmin, TRUE, TRUE, 0);
-	gtk_toolbar_set_style (toolbar_myadmin, GTK_TOOLBAR_ICONS);
+	gtk_box_pack_start (GTK_BOX(web_win->hbox3), toolbar_myadmin, TRUE, TRUE, 0);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_myadmin), GTK_TOOLBAR_ICONS);
 
   web_win->entry_myadmin = gtk_entry_new ();
   gtk_box_pack_start (GTK_BOX (web_win->hbox3), web_win->entry_myadmin, TRUE, TRUE, 0);
@@ -469,7 +412,7 @@ gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin ), tool_sep, -1);
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add(GTK_CONTAINER(web_win->scrolledWindow), GTK_WIDGET(web_win->webView_w));
 
-    gtk_container_add(GTK_CONTAINER(web_win->vbox3), web_win->scrolledWindow);
+    gtk_container_add(GTK_CONTAINER(web_win->vbox3), GTK_WIDGET(web_win->scrolledWindow));
 
   g_signal_connect ((gpointer) web_win->entry_myadmin, "activate",
                     G_CALLBACK (enter_myweb_win),
@@ -609,7 +552,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   gtk_widget_show(GTK_WIDGET(tool_book));
   g_signal_connect ((gpointer) tool_book, "clicked",G_CALLBACK (on_format_button_clicked),NULL);
   gtk_tool_item_set_tooltip_text(tool_book,(_("Mise en valeur de la séléction et BookMark (F5 pour supprimer)")));
-  gtk_tool_button_set_label(tool_book,"+BookMark");
+  gtk_tool_button_set_label(GTK_TOOL_BUTTON(tool_book),"+BookMark");
 
 tool_sep=gtk_separator_tool_item_new();
 gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_sep, -1);
@@ -620,22 +563,22 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   gtk_widget_show(GTK_WIDGET(tool_doc));
   g_signal_connect ((gpointer) tool_doc, "clicked",G_CALLBACK (gen_doc_html),NULL);
   gtk_tool_item_set_tooltip_text(tool_doc,(_("Génération d'un template de documentation du code en HTML")));
-  gtk_tool_button_set_label(tool_doc,"Doc Gen");
+  gtk_tool_button_set_label(GTK_TOOL_BUTTON(tool_doc),"Doc Gen");
 
 tool_sep=gtk_separator_tool_item_new();
 gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_sep, -1);
 gtk_widget_show(GTK_WIDGET(tool_sep));
 
 //   gtk_toolbar_set_style (toolbar, GTK_TOOLBAR_BOTH); 
-   gtk_toolbar_set_style (toolbar, GTK_TOOLBAR_ICONS); 
+   gtk_toolbar_set_style (GTK_TOOLBAR(toolbar), GTK_TOOLBAR_ICONS); 
 	 gtk_style_context_add_class (gtk_widget_get_style_context (toolbar),
                                                 "primary-toolbar");
-  gtk_toolbar_set_icon_size(toolbar,GTK_ICON_SIZE_SMALL_TOOLBAR);
+  gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar),GTK_ICON_SIZE_SMALL_TOOLBAR);
 
  if (confile.do_show_main_toolbar)
      gtk_widget_show (GTK_WIDGET(toolbar));
   else
-      gtk_widget_hide (toolbar);
+      gtk_widget_hide (GTK_WIDGET(toolbar));
    
   return toolbar;
 }
@@ -643,7 +586,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
 void statusbar_msg (const gchar *s)
 {
   if (s)
-     gtk_statusbar_push (statusbar1, gtk_statusbar_get_context_id (statusbar1, s), s);
+     gtk_statusbar_push (GTK_STATUSBAR(statusbar1), gtk_statusbar_get_context_id (GTK_STATUSBAR(statusbar1), s), s);
 }
 
 void fill_entities_special_menu (void)
@@ -667,9 +610,10 @@ GtkWidget* create_tea_main_window (void)
   char carac;
 	char mot[100];
 	mot[0]='\0';
-	int tag=0;
-  if(fich=fopen(confile.tea_theme,"r"))
+
+  if(fopen(confile.tea_theme,"r"))
 	{
+		fich=fopen(confile.tea_theme,"r");
   	while ((carac =fgetc(fich)) != EOF)
   	{    
 	  	if (carac =='\n')
@@ -683,21 +627,19 @@ GtkWidget* create_tea_main_window (void)
 		}   
 	fclose(fich);
 	}
-	else{mot[0]="classic";}
+	else{strcpy(mot, "classic");}
 
-	confile.theme;
 
-  GtkWidget *hbox_help2, *vbox_help, *button_web_current;
-  GtkWidget *script1, *script1_menu, *bash1, *script_perl, *perl1, *perl_menu, *bash2, *bash3, *perl2, *perl3;
-  GtkWidget *hbox_help, *image_bash, *image_perl, *image_php, *image_html, *image_c, *button_help3, *button_help4, *button_help5;
+  GtkWidget *button_web_current;
+
   accel_group = gtk_accel_group_new ();
 
   tea_main_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	gtk_window_maximize (tea_main_window);
+	gtk_window_maximize (GTK_WINDOW(tea_main_window));
   gtk_widget_set_name (tea_main_window, "tea_main_window");
   gtk_window_set_title (GTK_WINDOW (tea_main_window), _("Griffon 1.6.4"));
 
-  gtk_window_set_icon_from_file (tea_main_window,"/usr/local/share/griffon/pixmaps/griffon_button.png",NULL);
+  gtk_window_set_icon_from_file (GTK_WINDOW(tea_main_window),"/usr/local/share/griffon/pixmaps/griffon_button.png",NULL);
 
   g_signal_connect (tea_main_window, "destroy",
                     G_CALLBACK (gtk_main_quit), NULL);
@@ -710,10 +652,10 @@ GtkWidget* create_tea_main_window (void)
                     G_CALLBACK (on_tea_window_delete_event),
                     tea_main_window);
 
-  mainvbox = gtk_vbox_new (FALSE, 0);
+  mainvbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_set_name (mainvbox, "mainvbox");
   gtk_widget_show (GTK_WIDGET(mainvbox));
-  gtk_container_add (GTK_CONTAINER (tea_main_window), mainvbox);
+  gtk_container_add (GTK_CONTAINER (tea_main_window), GTK_WIDGET(mainvbox));
 
   menubar1 = gtk_menu_bar_new ();
 
@@ -723,7 +665,7 @@ GtkWidget* create_tea_main_window (void)
 
 
   mni_temp = new_menu_item (_("Fichier"), menubar1, NULL);
-  mni_file_menu = new_menu_submenu (mni_temp);
+  mni_file_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_file_menu);
 
   mni_temp = new_menu_item (_("Nouveau"), mni_file_menu, on_mni_new_file_activate);
@@ -750,7 +692,7 @@ GtkWidget* create_tea_main_window (void)
   mni_temp = new_menu_item (_("Dérniers fichiers ouvert"), mni_file_menu, on_mni_load_last_file);
   
   mni_temp = new_menu_item (_("Ouvrir different fichiers"), mni_file_menu, NULL);
-  mni_opendifferent_menu = new_menu_submenu (mni_temp);
+  mni_opendifferent_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_item (_("Ouvrir un snippet"), mni_opendifferent_menu, on_mni_snippet_file_open_activate);
   mni_temp = new_menu_item (_("Ouvrir un template"), mni_opendifferent_menu, on_mni_templ_file_open_activate);
   mni_temp = new_menu_item (_("Ouvrir un fichier de session"), mni_opendifferent_menu, on_mni_session_file_open_activate);
@@ -758,16 +700,16 @@ GtkWidget* create_tea_main_window (void)
   mni_temp = new_menu_sep (mni_file_menu);
 
   mni_recent_list = new_menu_item (_("Fichier recents"), mni_file_menu, NULL);
-  mni_recent_menu = new_menu_submenu (mni_recent_list);
+  mni_recent_menu = new_menu_submenu (GTK_WIDGET(mni_recent_list));
 
   mni_bookmarks_root = new_menu_item (_("Marque page"), mni_file_menu, NULL);
-  mni_bookmarks_menu = new_menu_submenu (mni_bookmarks_root);
+  mni_bookmarks_menu = new_menu_submenu (GTK_WIDGET(mni_bookmarks_root));
  
   mni_sessions = new_menu_item (_("Sessions"), mni_file_menu, NULL); 
-  mni_sessions_menu = new_menu_submenu (mni_sessions);
+  mni_sessions_menu = new_menu_submenu (GTK_WIDGET(mni_sessions));
 
   mni_templates = new_menu_item (_("Templates"), mni_file_menu, NULL); 
-  mni_templates_menu = new_menu_submenu (mni_templates);
+  mni_templates_menu = new_menu_submenu (GTK_WIDGET(mni_templates));
     
   mni_temp = new_menu_sep (mni_file_menu);
 
@@ -779,7 +721,7 @@ GtkWidget* create_tea_main_window (void)
   mni_temp = new_menu_item (_("Sauvegarder sous"), mni_file_menu, on_mni_file_save_as_activate);
 
   mni_temp = new_menu_item (_("Sauvegarder different fichiers"), mni_file_menu, NULL);
-  mni_savedifferent_menu = new_menu_submenu (mni_temp);
+  mni_savedifferent_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
  
   mni_temp = new_menu_item (_("Sauvegarder session"), mni_savedifferent_menu, on_mni_file_save_session);
   
@@ -798,7 +740,7 @@ GtkWidget* create_tea_main_window (void)
   mni_temp = new_menu_sep (mni_file_menu);
 
   mni_temp = new_menu_item (_("Manager le fichier de configuration"), mni_file_menu, NULL);
-  mni_file_configs_menu = new_menu_submenu (mni_temp);
+  mni_file_configs_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_item (_("Fichier autoremplacement"), mni_file_configs_menu, on_mni_autorep_file_open);
   mni_temp = new_menu_item (_("File autocomp"), mni_file_configs_menu, on_mni_autocomp_file_open);
   mni_temp = new_menu_item (_("Configuration principale"), mni_file_configs_menu , on_mni_config_open);
@@ -828,7 +770,7 @@ GtkWidget* create_tea_main_window (void)
   mni_temp = new_menu_item (_("Quiter Griffon"), mni_file_menu, on_mni_out_activate); 
 
   mni_temp = new_menu_item (_("Editer"), menubar1, NULL);
-  mni_edit_menu =  new_menu_submenu (mni_temp);
+  mni_edit_menu =  new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_edit_menu);
 
   mni_temp = new_menu_item (_("Indent"), mni_edit_menu, on_mni_indent);
@@ -881,7 +823,7 @@ GtkWidget* create_tea_main_window (void)
 
   mni_temp = new_menu_item (_("Rechercher"), menubar1, NULL);
 
-  mni_quest_menu =  new_menu_submenu (mni_temp);
+  mni_quest_menu =  new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_quest_menu);
 
   mni_temp = new_menu_item (_("BookMark"), mni_quest_menu, on_format_button_clicked);
@@ -929,13 +871,13 @@ GtkWidget* create_tea_main_window (void)
                               GTK_ACCEL_VISIBLE); 
 
   mni_temp = new_menu_item (_("Fonctions"), menubar1, NULL);
-  mni_functions_menu = new_menu_submenu (mni_temp);
+  mni_functions_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_functions_menu);
 
   mni_temp = new_menu_item (_("Insert un chemin de fichier PATH"), mni_functions_menu, selection_path);
 
   mni_temp = new_menu_item (_("Analyser de texte UNIversal"), mni_functions_menu, NULL);
-  mni_utils_unitaz_menu = new_menu_submenu (mni_temp);
+  mni_utils_unitaz_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_utils_unitaz_menu);
   mni_temp = new_menu_item (_("UNITAZ avec trie abc"), mni_utils_unitaz_menu, on_mni_tools_unitaz_sort);
   mni_temp = new_menu_item (_("UNITAZ avec trie par compte"), mni_utils_unitaz_menu, on_mni_tools_unitaz_sort_by_count);
@@ -947,22 +889,22 @@ GtkWidget* create_tea_main_window (void)
   mni_temp = new_menu_sep (mni_functions_menu);
 
   mni_snippets = new_menu_item (_("Snippets"), mni_functions_menu, NULL);
-  mni_snippets_menu = new_menu_submenu (mni_snippets);
+  mni_snippets_menu = new_menu_submenu (GTK_WIDGET(mni_snippets));
 
   mni_user_menu = new_menu_item (_("Menu utilisateur"), mni_functions_menu, NULL);
-  mni_user_menu_menu = new_menu_submenu (mni_user_menu);
+  mni_user_menu_menu = new_menu_submenu (GTK_WIDGET(mni_user_menu));
 
   mni_temp = new_menu_sep (mni_functions_menu);
 
   mni_temp = new_menu_item (_("Inserer"), mni_functions_menu, NULL);
-  mni_ins_menu = new_menu_submenu (mni_temp);
+  mni_ins_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_ins_menu);
 
   mni_temp = new_menu_item (_("Date/Time"), mni_ins_menu, on_mni_funx_ins_time);
   mni_temp = new_menu_item (_("Dump menu"), mni_ins_menu, on_mni_dump_menu);
 
   mni_temp = new_menu_item (_("Caractères"), mni_functions_menu, NULL);
-  mni_functions_case_menu = new_menu_submenu (mni_temp);
+  mni_functions_case_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_functions_case_menu);
                         
   mni_temp = new_menu_item (_("Majuscule"), mni_functions_case_menu, on_mni_case_upcase_activate);
@@ -978,7 +920,7 @@ GtkWidget* create_tea_main_window (void)
   mni_temp = new_menu_item (_("Majuscule sur la première lettre de chaque mot"), mni_functions_case_menu, on_mni_upcase_each_first_letter_ofw);
  
   mni_temp = new_menu_item (_("Nombres"), mni_functions_menu, NULL);
-  mni_functions_number_menu = new_menu_submenu (mni_temp);
+  mni_functions_number_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_functions_number_menu);
 
   mni_temp = new_menu_item (_("Arabe à Roman"), mni_functions_number_menu, on_mni_Functions_number_arabian2roman);
@@ -987,7 +929,7 @@ GtkWidget* create_tea_main_window (void)
   mni_temp = new_menu_item (_("Compteur"), mni_functions_number_menu, on_mni_make_numbering);
   
   mni_temp = new_menu_item (_("Format"), mni_functions_menu, NULL);
-  mni_format_menu = new_menu_submenu (mni_temp);
+  mni_format_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_format_menu);
 
   mni_temp = new_menu_item (_("Tuez le formatage"), mni_format_menu, on_mni_kill_formatting);
@@ -1004,7 +946,7 @@ GtkWidget* create_tea_main_window (void)
   mni_temp = new_menu_item (_("Tuez espaces à la fin de chaque ligne"), mni_format_menu, on_mni_strings_remove_trailing_whitespaces);
 
   mni_temp = new_menu_item (_("Trier"), mni_functions_menu, NULL);
-  mni_sort_menu = new_menu_submenu (mni_temp);
+  mni_sort_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_sort_menu);
 
   mni_temp = new_menu_item (_("Trier les lignes"), mni_sort_menu, on_mni_func_strings_sort);
@@ -1013,7 +955,7 @@ GtkWidget* create_tea_main_window (void)
   mni_temp = new_menu_item (_("Inverser l'ordre des lignes"), mni_sort_menu, on_mni_func_strings_rev);
 
   mni_temp = new_menu_item (_("Chaîne"), mni_functions_menu, NULL);
-  mni_functions_string_menu = new_menu_submenu (mni_temp);
+  mni_functions_string_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_functions_string_menu);
 
   mni_temp = new_menu_item (_("Inerser"), mni_functions_string_menu, on_mni_reverse);
@@ -1030,7 +972,7 @@ GtkWidget* create_tea_main_window (void)
                               GTK_ACCEL_VISIBLE);
 
   mni_temp = new_menu_item (_("Filtrer"), mni_functions_menu, NULL);
-  mni_filter_menu = new_menu_submenu (mni_temp);
+  mni_filter_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_filter_menu);
 
   mni_temp = new_menu_item (_("Tuez les lignes qui contiennent une expression"), mni_filter_menu, on_mni_func_filter_exclude_from_list);
@@ -1040,7 +982,7 @@ GtkWidget* create_tea_main_window (void)
   mni_temp = new_menu_item (_("Tuez toutes les lignes > N caractères"), mni_filter_menu, on_mni_filter_kill_more_than);
 
   mni_temp = new_menu_item (_("Fin de ligne"), mni_functions_menu, NULL);
-  mni_eol_menu = new_menu_submenu (mni_temp);
+  mni_eol_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_item (_("CR/LF to LF"), mni_eol_menu, on_mni_eol_to_lf);
   mni_temp = new_menu_item (_("LF to CR/LF"), mni_eol_menu, on_mni_eol_to_crlf);
 
@@ -1060,11 +1002,11 @@ GtkWidget* create_tea_main_window (void)
                               GTK_ACCEL_VISIBLE);
 
   mni_temp = new_menu_item (_("Html"), menubar1, NULL);
-  mni_markup_menu = new_menu_submenu (mni_temp);
+  mni_markup_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_markup_menu);
   
   mni_temp = new_menu_item (_("HTML outils"), mni_markup_menu, NULL);
-  mni_html_menu = new_menu_submenu (mni_temp);
+  mni_html_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_html_menu);
 
   mni_temp = new_menu_item (_("Template de base"), mni_html_menu, on_mni_html_default_template);
@@ -1080,7 +1022,7 @@ GtkWidget* create_tea_main_window (void)
   mni_temp = new_menu_item (_("Afficher le poids du document"), mni_html_menu, on_mni_html_calc_weight);
 
   mni_temp = new_menu_item (_("Inserer un DOCTYPE"), mni_markup_menu, NULL);
-  mni_insert_doctype_menu = new_menu_submenu (mni_temp);
+  mni_insert_doctype_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_insert_doctype_menu);
 
   mni_temp = new_menu_item ("HTML 4.1 Transitional", mni_insert_doctype_menu, on_mni_insert_doctype);
@@ -1092,7 +1034,7 @@ GtkWidget* create_tea_main_window (void)
   mni_temp = new_menu_item ("WML 1.1", mni_insert_doctype_menu, on_mni_insert_doctype);
 
   mni_temp = new_menu_item (_("Caractères spéciaux HTML"), mni_markup_menu, NULL);
-  mni_insert_char_entities_menu = new_menu_submenu (mni_temp);
+  mni_insert_char_entities_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_insert_char_entities_menu);
 
   fill_entities_special_menu ();
@@ -1148,7 +1090,7 @@ GtkWidget* create_tea_main_window (void)
   mni_temp = new_menu_sep (mni_markup_menu);
 
   mni_temp = new_menu_item (_("Eléments de tableau"), mni_markup_menu, NULL);
-  mni_table_menu = new_menu_submenu (mni_temp);
+  mni_table_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_table_menu);
 
   mni_temp = new_menu_item ("table", mni_table_menu, on_mni_markup_stuff);
@@ -1156,7 +1098,7 @@ GtkWidget* create_tea_main_window (void)
   mni_temp = new_menu_item ("td", mni_table_menu, on_mni_markup_stuff);
   
   mni_temp = new_menu_item (_("H"), mni_markup_menu, NULL);
-  mni_markup_header_menu = new_menu_submenu (mni_temp);
+  mni_markup_header_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_markup_header_menu);
 
   gint c;
@@ -1170,7 +1112,7 @@ GtkWidget* create_tea_main_window (void)
       }
 
   mni_temp = new_menu_item (_("Aligner"), mni_markup_menu, NULL);
-  mni_align_menu = new_menu_submenu (mni_temp);
+  mni_align_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_align_menu);
 
   mni_temp = new_menu_item ((_("Centrer")), mni_align_menu, on_mni_markup_align);
@@ -1179,7 +1121,7 @@ GtkWidget* create_tea_main_window (void)
   mni_temp = new_menu_item ((_("Justifier")), mni_align_menu, on_mni_markup_align);
 
   mni_ide = new_menu_item (_("Projets"), menubar1, NULL);
-  mni_ide_menu = new_menu_submenu (mni_ide);
+  mni_ide_menu = new_menu_submenu (GTK_WIDGET(mni_ide));
   mni_temp = new_menu_tof (mni_ide_menu);
 
   mni_temp = new_menu_item (_("Nouveau projet"), mni_ide_menu, on_mni_project_new);
@@ -1210,10 +1152,10 @@ GtkWidget* create_tea_main_window (void)
                               GTK_ACCEL_VISIBLE);
 
   mni_tabs = new_menu_item (_("Onglets"), menubar1, NULL);
-  mni_tabs_menu = new_menu_submenu (mni_tabs);
+  mni_tabs_menu = new_menu_submenu (GTK_WIDGET(mni_tabs));
 
   mni_temp = new_menu_item (_("Navigateurs"), menubar1, NULL);
-  mni_bro_menu = new_menu_submenu (mni_temp);
+  mni_bro_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
 
   mni_temp = new_menu_tof (mni_bro_menu);
   mni_temp = new_menu_item ("Opera", mni_bro_menu, on_mni_open_in_browser);
@@ -1228,13 +1170,13 @@ GtkWidget* create_tea_main_window (void)
   mni_temp = new_menu_item ("Epiphany", mni_bro_menu, on_mni_open_in_browser);
   
   mni_temp = new_menu_item (_("Navigation"), menubar1, NULL);
-  mni_nav_menu = new_menu_submenu (mni_temp);
+  mni_nav_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_nav_menu);
 
   mni_temp = new_menu_item (_("Scan des liens dans la page"), mni_nav_menu,scan_links);
 
   mni_links = new_menu_item (_("Liens"), mni_nav_menu, NULL);
-  mni_links_menu = new_menu_submenu (mni_links);
+  mni_links_menu = new_menu_submenu (GTK_WIDGET(mni_links));
 
   mni_temp = new_menu_item (_("Aller au début du bloque {"), mni_nav_menu, on_mni_nav_block_start);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
@@ -1286,14 +1228,14 @@ GtkWidget* create_tea_main_window (void)
   mni_temp = new_menu_item (_("Editer au cursor"), mni_nav_menu, on_mni_file_edit_at_cursor );
   
   mni_temp = new_menu_item (_("Vue"), menubar1, NULL);
-  mni_view_menu = new_menu_submenu (mni_temp);
+  mni_view_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_view_menu);
  
   mni_co = new_menu_item (_("Co"), mni_view_menu, NULL);
-  mni_co_menu = new_menu_submenu (mni_co);
+  mni_co_menu = new_menu_submenu (GTK_WIDGET(mni_co));
 
   mni_temp = new_menu_item (_("Coloration syntaxique"), mni_view_menu, NULL);
-  mni_hl_mode_menu = new_menu_submenu (mni_temp);
+  mni_hl_mode_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_item (HL_NONE, mni_hl_mode_menu, on_mni_set_hl_mode);
   mni_temp = new_menu_item (HL_MARKUP, mni_hl_mode_menu, on_mni_set_hl_mode);
   mni_temp = new_menu_item (HL_JAVASCRIPT, mni_hl_mode_menu, on_mni_set_hl_mode);
@@ -1326,7 +1268,7 @@ GtkWidget* create_tea_main_window (void)
                               GTK_ACCEL_VISIBLE);
 
   mni_temp = new_menu_item (_("Themes"), mni_view_menu, NULL);
-  mni_theme_menu = new_menu_submenu (mni_temp);
+  mni_theme_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
 	mni_temp = new_menu_item (_("Theme Classic (Default)"), mni_theme_menu, theme_classic  );   
 	mni_temp = new_menu_item (_("Theme Cobalt"), mni_theme_menu, theme_cobalt );
 	mni_temp = new_menu_item (_("Theme Kate"), mni_theme_menu, theme_kate  );
@@ -1334,7 +1276,7 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("Theme Tango"), mni_theme_menu, theme_tango  );
 
   mni_temp = new_menu_item (_("Aide"), menubar1, NULL);
-  mni_what_menu = new_menu_submenu (mni_temp);
+  mni_what_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_what_menu);
 
   mni_temp = new_menu_item (_("Vérifiez votre version de Griffon IDE"), mni_what_menu, version_window);    
@@ -1346,20 +1288,20 @@ GtkWidget* create_tea_main_window (void)
   
 
   //***************************** FAMOUS CMB
-  fam_hbox = gtk_hbox_new (FALSE, 0);
+  fam_hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(fam_hbox));
   gtk_box_pack_start (GTK_BOX (mainvbox), fam_hbox, FALSE, FALSE, 0);
 
 
 
-  vpaned1 = gtk_vpaned_new ();
+  vpaned1 = gtk_paned_new(GTK_ORIENTATION_VERTICAL);
   gtk_widget_show (GTK_WIDGET(vpaned1));
-  gtk_box_pack_start (GTK_BOX (mainvbox), vpaned1, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (mainvbox), GTK_WIDGET(vpaned1), TRUE, TRUE, 0);
   gtk_paned_set_position (GTK_PANED (vpaned1), 0);
 
-  hbox2 = gtk_hbox_new (FALSE, 0);
+  hbox2 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(hbox2));
-   hpaned1 = gtk_hpaned_new ();
+   hpaned1 = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
    gtk_widget_show (GTK_WIDGET(hpaned1));
    gtk_box_pack_start (GTK_BOX (hbox2), hpaned1, TRUE, TRUE, 0);
 
@@ -1375,8 +1317,8 @@ GtkWidget* create_tea_main_window (void)
 	gtk_notebook_set_group_name (GTK_NOTEBOOK (notebook3), "wnote");	
 
   //********************** FILE CHOSE 
-  vbox4 = gtk_vbox_new (TRUE, 0);
-  gtk_container_add (GTK_CONTAINER (notebook3), vbox4);
+  vbox4 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_container_add (GTK_CONTAINER (notebook3), GTK_WIDGET(vbox4));
   gtk_widget_show (GTK_WIDGET(vbox4));  
 
 //***************** ONGLET FILE  
@@ -1388,13 +1330,13 @@ GtkWidget* create_tea_main_window (void)
 	gtk_notebook_set_group_name (GTK_NOTEBOOK (notebook2), "wnote");	
 
   //********************** FILE CHOSE 
-  GtkWidget* vbox10 = gtk_vbox_new (FALSE, 0);
-  gtk_container_add (GTK_CONTAINER (notebook2), vbox10);
+  GtkWidget* vbox10 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_container_add (GTK_CONTAINER (notebook2), GTK_WIDGET(vbox10));
   gtk_widget_show (GTK_WIDGET(vbox10));  
 
  GtkWidget* toolbar_manager2 = gtk_toolbar_new ();
-	gtk_toolbar_set_style (toolbar_manager2, GTK_TOOLBAR_ICONS); 
-	gtk_toolbar_set_icon_size(toolbar_manager2,GTK_ICON_SIZE_SMALL_TOOLBAR);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_manager2), GTK_TOOLBAR_ICONS); 
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_manager2),GTK_ICON_SIZE_SMALL_TOOLBAR);
 
   GtkToolItem *tool_mkdir = gtk_tool_button_new_from_stock(GTK_STOCK_DIRECTORY);
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar_manager2), tool_mkdir, -1);
@@ -1414,14 +1356,14 @@ GtkWidget* create_tea_main_window (void)
   ent_search2 = cmb_famous2;
   gtk_widget_show (GTK_WIDGET(cmb_famous2));
 
-	gtk_entry_set_width_chars (cmb_famous2,50);
+	gtk_entry_set_width_chars (GTK_ENTRY(cmb_famous2),50);
 
 	gtk_container_add( GTK_CONTAINER(item_entry2), GTK_WIDGET(cmb_famous2) );
 	gtk_toolbar_insert( GTK_TOOLBAR(toolbar_manager2), GTK_TOOL_ITEM(item_entry2), -1 );
   gtk_widget_show (GTK_WIDGET(item_entry2));
 
-	gtk_toolbar_set_show_arrow (toolbar_manager2,FALSE);
-   gtk_toolbar_set_style (toolbar_manager2, GTK_TOOLBAR_ICONS); 
+	gtk_toolbar_set_show_arrow (GTK_TOOLBAR(toolbar_manager2),FALSE);
+   gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_manager2), GTK_TOOLBAR_ICONS); 
 	gtk_box_pack_start (GTK_BOX (vbox10), toolbar_manager2, FALSE , FALSE, 0);
 	gtk_widget_show(GTK_WIDGET(toolbar_manager2));
 
@@ -1431,14 +1373,14 @@ GtkWidget* create_tea_main_window (void)
 
   g_signal_connect ((gpointer) filechooserwidget2,"file-activated",G_CALLBACK (file_ok_sel),NULL);
  
-	if (confile.use_def_open_dir){gtk_file_chooser_set_current_folder(filechooserwidget2 ,confile.def_open_dir);}
+	if (confile.use_def_open_dir){gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,confile.def_open_dir);}
 
    label_note4 = gtk_label_new (_("Files"));
    gtk_widget_show (GTK_WIDGET(label_note4));
 
 	gtk_widget_set_size_request (label_note4, 50, 20);
 
-  GtkWidget *hbox_note = gtk_hbox_new (FALSE, 0);
+  GtkWidget *hbox_note = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(hbox_note));
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook2), 0), hbox_note);
 
@@ -1451,13 +1393,13 @@ GtkWidget* create_tea_main_window (void)
 
 	//***********************
 
-  vbox4 = gtk_vbox_new (FALSE, 0);
-  gtk_container_add (GTK_CONTAINER (notebook2), vbox4);
+  vbox4 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_container_add (GTK_CONTAINER (notebook2), GTK_WIDGET(vbox4));
   gtk_widget_show (GTK_WIDGET(vbox4));  
 
   scrolledwindow5 = gtk_scrolled_window_new (NULL, NULL);
   gtk_widget_show (GTK_WIDGET(scrolledwindow5));
-  gtk_container_add (GTK_CONTAINER (vbox4), scrolledwindow5);
+  gtk_container_add (GTK_CONTAINER (vbox4), GTK_WIDGET(scrolledwindow5));
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_CORNER_TOP_LEFT);
 
@@ -1498,10 +1440,10 @@ GtkWidget* create_tea_main_window (void)
     gtk_tree_view_append_column(GTK_TREE_VIEW(view_list), col);
     gtk_tree_view_append_column(GTK_TREE_VIEW(view_list), col2);
     gtk_widget_show(GTK_WIDGET(view_list));
-	gtk_container_add (GTK_CONTAINER (scrolledwindow5), view_list);
+	gtk_container_add (GTK_CONTAINER (scrolledwindow5), GTK_WIDGET(view_list));
 
-	gtk_tree_view_set_grid_lines (view_list,GTK_TREE_VIEW_GRID_LINES_BOTH);
-	gtk_tree_view_set_rules_hint (view_list,TRUE);
+	gtk_tree_view_set_grid_lines (GTK_TREE_VIEW(view_list),GTK_TREE_VIEW_GRID_LINES_BOTH);
+	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view_list),TRUE);
 
 	selection_scan = gtk_tree_view_get_selection(GTK_TREE_VIEW(view_list));
 
@@ -1527,7 +1469,7 @@ GtkWidget* create_tea_main_window (void)
 
 	gtk_widget_set_size_request (label_note4, 50, 20);
 
-  hbox_note = gtk_hbox_new (FALSE, 0);
+  hbox_note = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(hbox_note));
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook2), 1), hbox_note);
 
@@ -1538,8 +1480,8 @@ GtkWidget* create_tea_main_window (void)
 
 gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook2), 1), TRUE);
 
-  vbox5 = gtk_vbox_new (FALSE, 0);
-  gtk_container_add (GTK_CONTAINER (notebook2), vbox5);
+  vbox5 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_container_add (GTK_CONTAINER (notebook2), GTK_WIDGET(vbox5));
   gtk_widget_show (GTK_WIDGET(vbox5));  
 
   GtkWidget *view;
@@ -1547,8 +1489,8 @@ gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_
   GtkWidget *vbox;
   GtkWidget *statusbar;
 
-  vbox = gtk_vbox_new(FALSE, 2);
-  gtk_container_add(GTK_CONTAINER(vbox5), vbox);
+  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_container_add(GTK_CONTAINER(vbox5), GTK_WIDGET(vbox));
   gtk_widget_show (GTK_WIDGET(vbox));
 
   view = create_view_and_model_help();
@@ -1568,7 +1510,7 @@ gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_
 
 	gtk_widget_set_size_request (label_note5, 50, 20);
 
-  hbox_note = gtk_hbox_new (FALSE, 0);
+  hbox_note = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(hbox_note));
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook2), 2), hbox_note);
 
@@ -1580,8 +1522,8 @@ gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_
   gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook2), 2), TRUE);
         
 	//*********MONTAGED HISTORIQUE SFTP                                    
-     vbox_sftp = gtk_vbox_new (FALSE, 0);
-	  gtk_container_add (GTK_CONTAINER (notebook2), vbox_sftp);
+     vbox_sftp = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	  gtk_container_add (GTK_CONTAINER (notebook2), GTK_WIDGET(vbox_sftp));
 	  gtk_widget_show (GTK_WIDGET(vbox_sftp)); 
       
     scrolledWindow_sftp = gtk_scrolled_window_new(NULL, NULL);
@@ -1627,7 +1569,7 @@ gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_
 	
 	gtk_widget_set_size_request (label_note6, 50, 20);
 
-  hbox_note = gtk_hbox_new (FALSE, 0);
+  hbox_note = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(hbox_note));
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook2), 3), hbox_note);
 
@@ -1639,8 +1581,8 @@ gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_
   gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook2), 3), TRUE);
 
 	//*********MONTAGED HISTORIQUE FTP                                    
-     vbox_ftp = gtk_vbox_new (FALSE, 0);
-	  gtk_container_add (GTK_CONTAINER (notebook2), vbox_ftp);
+     vbox_ftp = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	  gtk_container_add (GTK_CONTAINER (notebook2), GTK_WIDGET(vbox_ftp));
 	  gtk_widget_show (GTK_WIDGET(vbox_ftp)); 
       
     scrolledWindow_ftp = gtk_scrolled_window_new(NULL, NULL);
@@ -1685,7 +1627,7 @@ gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_
   gtk_widget_show (GTK_WIDGET(label_note6));
   gtk_widget_set_size_request (label_note6, 50, 20);
 
-  hbox_note = gtk_hbox_new (FALSE, 0);
+  hbox_note = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(hbox_note));
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook2), 4), hbox_note);
 
@@ -1697,13 +1639,13 @@ gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_
   gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook2), 4), TRUE);
 
 	//**************************** Include FC Variables LIST 
-  GtkWidget* vbox_book = gtk_vbox_new (FALSE, 0);
-  gtk_container_add (GTK_CONTAINER (notebook2), vbox_book);
+  GtkWidget* vbox_book = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_container_add (GTK_CONTAINER (notebook2), GTK_WIDGET(vbox_book));
   gtk_widget_show (GTK_WIDGET(vbox_book));  
 
   GtkWidget* scrolledwindow_book = gtk_scrolled_window_new (NULL, NULL);
   gtk_widget_show (GTK_WIDGET(scrolledwindow_book));
-  gtk_container_add (GTK_CONTAINER (vbox_book), scrolledwindow_book);
+  gtk_container_add (GTK_CONTAINER (vbox_book), GTK_WIDGET(scrolledwindow_book));
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow_book), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow_book), GTK_CORNER_TOP_LEFT);
 
@@ -1743,12 +1685,12 @@ gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_
     gtk_tree_view_append_column(GTK_TREE_VIEW(view_list_book), col_book);
     gtk_tree_view_append_column(GTK_TREE_VIEW(view_list_book), col_book2);
     gtk_widget_show(GTK_WIDGET(view_list_book));
-	 gtk_container_add (GTK_CONTAINER (scrolledwindow_book), view_list_book);
+	 gtk_container_add (GTK_CONTAINER (scrolledwindow_book), GTK_WIDGET(view_list_book));
 
 	GtkTreeSelection *selection_book;
 
-	gtk_tree_view_set_grid_lines (view_list_book,GTK_TREE_VIEW_GRID_LINES_BOTH);
-	gtk_tree_view_set_rules_hint (view_list_book,TRUE);
+	gtk_tree_view_set_grid_lines (GTK_TREE_VIEW(view_list_book),GTK_TREE_VIEW_GRID_LINES_BOTH);
+	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view_list_book),TRUE);
 
 
 	selection_book = gtk_tree_view_get_selection(GTK_TREE_VIEW(view_list_book));
@@ -1769,7 +1711,7 @@ gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_
 
 	gtk_widget_set_size_request (label_note4, 50, 20);
 
-  hbox_note = gtk_hbox_new (FALSE, 0);
+  hbox_note = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(hbox_note));
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook2), 5), hbox_note);
 
@@ -1785,7 +1727,7 @@ gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_
 
 	gtk_widget_set_size_request (label_note4, 50, 20);
 
-  hbox_note = gtk_hbox_new (FALSE, 0);
+  hbox_note = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(hbox_note));
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook3), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook3), 0), hbox_note);
 
@@ -1797,11 +1739,11 @@ gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_
 	gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook3), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook3), 0), TRUE);
 
 //*************** ONGLET EDITOR
-  vbox = gtk_vbox_new(FALSE, 0);
-  gtk_container_add(GTK_CONTAINER(notebook3), vbox);
+  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_container_add(GTK_CONTAINER(notebook3), GTK_WIDGET(vbox));
   gtk_widget_show (GTK_WIDGET(vbox));
 
-  hbox_bar = gtk_hbox_new(FALSE, 0);
+  hbox_bar = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox_bar, FALSE, TRUE, 0);
   gtk_widget_show (GTK_WIDGET(hbox_bar));
 
@@ -1810,8 +1752,8 @@ gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_
 
 //**************
  GtkWidget* toolbar_manager = gtk_toolbar_new ();
-	gtk_toolbar_set_style (toolbar_manager, GTK_TOOLBAR_ICONS); 
-	gtk_toolbar_set_icon_size(toolbar_manager,GTK_ICON_SIZE_SMALL_TOOLBAR);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_manager), GTK_TOOLBAR_ICONS); 
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_manager),GTK_ICON_SIZE_SMALL_TOOLBAR);
 
 
   GtkToolItem *tool_find = gtk_tool_button_new_from_stock(GTK_STOCK_FIND);
@@ -1844,8 +1786,8 @@ gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_
   g_signal_connect ((gpointer) tool_goline, "clicked",G_CALLBACK (on_mni_goto_line),NULL);
   gtk_tool_item_set_tooltip_text(tool_goline,(_("Go To Line")));
 
-	gtk_toolbar_set_show_arrow (toolbar_manager,FALSE);
-   gtk_toolbar_set_style (toolbar_manager, GTK_TOOLBAR_ICONS); 
+	gtk_toolbar_set_show_arrow (GTK_TOOLBAR(toolbar_manager),FALSE);
+   gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_manager), GTK_TOOLBAR_ICONS); 
 	gtk_box_pack_start (GTK_BOX (hbox_bar), toolbar_manager, TRUE , TRUE, 0);
 	gtk_widget_show(GTK_WIDGET(toolbar_manager));
 
@@ -1861,12 +1803,10 @@ gtk_widget_show(GTK_WIDGET(tool_sep2));
   ent_search = cmb_famous;
   gtk_widget_show (GTK_WIDGET(cmb_famous));
 
-	gtk_entry_set_width_chars (cmb_famous,50);
+	gtk_entry_set_width_chars (GTK_ENTRY(cmb_famous),50);
 
 	//**************************** Autocomp
     GtkEntryCompletion *completion_entry;
-    GtkTreeIter iter_entry; 
-			contact *l;
 			completion_entry = gtk_entry_completion_new();
 
     gtk_entry_completion_set_text_column(completion_entry, CONTACT_NAME);
@@ -1895,8 +1835,6 @@ gtk_widget_show(GTK_WIDGET(tool_sep2));
 
 
   //*************Icon de status
-	GtkToolItem *item_icon  = gtk_tool_item_new();
-
   icon_ok = gtk_image_new_from_file("/usr/local/share/griffon/pixmaps/griffon_ok.png");
   gtk_widget_set_size_request (icon_ok, 35, 10);
   gtk_box_pack_start (GTK_BOX (hbox_bar), icon_ok, FALSE, FALSE, 0);
@@ -1929,7 +1867,7 @@ gtk_box_pack_start (GTK_BOX (vbox), notebook1, TRUE, TRUE, 0);
 
 	gtk_widget_set_size_request (label_note4, 50, 20);
 
-  hbox_note = gtk_hbox_new (FALSE, 0);
+  hbox_note = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(hbox_note));
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook3), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook3), 1), hbox_note);
 
@@ -1939,8 +1877,8 @@ gtk_box_pack_start (GTK_BOX (vbox), notebook1, TRUE, TRUE, 0);
   gtk_box_pack_start (GTK_BOX (hbox_note), label_note4, TRUE, TRUE, 0);	
 
 	//*********************** NOTEBOOK TOOLS
-  vbox = gtk_vbox_new(TRUE, 2);
-  gtk_container_add(GTK_CONTAINER(notebook3), vbox);
+  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_container_add(GTK_CONTAINER(notebook3), GTK_WIDGET(vbox));
   gtk_widget_show (GTK_WIDGET(vbox));
 
 
@@ -1951,9 +1889,9 @@ gtk_box_pack_start (GTK_BOX (vbox), notebook1, TRUE, TRUE, 0);
 
 	gtk_notebook_set_group_name (GTK_NOTEBOOK (notebook_down), "wnote");	
 	//*********************** ZONE INFORMATION
-  vbox2 = gtk_vbox_new (FALSE, 0);
+  vbox2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (GTK_WIDGET(vbox2));
-  gtk_container_add (GTK_CONTAINER (notebook_down), vbox2);
+  gtk_container_add (GTK_CONTAINER (notebook_down), GTK_WIDGET(vbox2));
 
 	//**************************** TOOLBAR INFO
 	GtkWidget *toolbar_info;
@@ -1962,13 +1900,13 @@ gtk_box_pack_start (GTK_BOX (vbox), notebook1, TRUE, TRUE, 0);
   GtkToolItem *tool_info_new = gtk_tool_button_new_from_stock(GTK_STOCK_SAVE_AS  );
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar_info ), tool_info_new, -1);
   gtk_widget_show(GTK_WIDGET(tool_info_new));
-	gtk_toolbar_set_style (toolbar_info, GTK_TOOLBAR_ICONS);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_info), GTK_TOOLBAR_ICONS);
   g_signal_connect ((gpointer) tool_info_new, "clicked",G_CALLBACK (new_file_log_edit),NULL);
   gtk_tool_item_set_tooltip_text(tool_info_new,_("Ouvrir les logs dans un fichier"));
 
-	gtk_toolbar_set_icon_size(toolbar_info,GTK_ICON_SIZE_SMALL_TOOLBAR);
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_info),GTK_ICON_SIZE_SMALL_TOOLBAR);
 
-	gtk_box_pack_start (vbox2, toolbar_info, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox2), toolbar_info, FALSE, FALSE, 0);
   gtk_widget_show(GTK_WIDGET(toolbar_info));
 
   scrolledwindow3 = gtk_scrolled_window_new (NULL, NULL);
@@ -1981,19 +1919,19 @@ gtk_box_pack_start (GTK_BOX (vbox), notebook1, TRUE, TRUE, 0);
   gtk_widget_modify_font (tv_logmemo, font_desc_logmemo);
   pango_font_description_free (font_desc_logmemo);
 
- gtk_source_view_set_show_right_margin(tv_logmemo,TRUE);
- gtk_source_view_set_show_line_numbers(tv_logmemo,TRUE);
- gtk_source_view_set_show_line_marks(tv_logmemo,TRUE);
+ gtk_source_view_set_show_right_margin(GTK_SOURCE_VIEW(tv_logmemo),TRUE);
+ gtk_source_view_set_show_line_numbers(GTK_SOURCE_VIEW(tv_logmemo),TRUE);
+ gtk_source_view_set_show_line_marks(GTK_SOURCE_VIEW(tv_logmemo),TRUE);
 
 	GtkSourceStyleSchemeManager* sm = gtk_source_style_scheme_manager_new();
  	GtkSourceStyleScheme* scheme = gtk_source_style_scheme_manager_get_scheme(sm, mot);
  	gtk_source_buffer_set_style_scheme(log_memo_textbuffer  , scheme);
 
-  gtk_container_add (GTK_CONTAINER (scrolledwindow3), tv_logmemo);
+  gtk_container_add (GTK_CONTAINER (scrolledwindow3), GTK_WIDGET(tv_logmemo));
   gtk_widget_show_all (GTK_WIDGET(scrolledwindow3));
 
-  gtk_text_view_set_editable (tv_logmemo, FALSE);
-  gtk_text_view_set_cursor_visible(tv_logmemo,FALSE);
+  gtk_text_view_set_editable (GTK_TEXT_VIEW(tv_logmemo), FALSE);
+  gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(tv_logmemo),FALSE);
 
   gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (tv_logmemo), GTK_WRAP_WORD);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow3), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
@@ -2003,7 +1941,7 @@ gtk_box_pack_start (GTK_BOX (vbox), notebook1, TRUE, TRUE, 0);
 
 	gtk_widget_set_size_request (label_note5, 100, 20);
 
-  hbox_note = gtk_hbox_new (FALSE, 0);
+  hbox_note =gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(hbox_note));
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_down), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_down), 0), hbox_note);
   gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook_down), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_down), 0), TRUE);
@@ -2014,15 +1952,15 @@ gtk_box_pack_start (GTK_BOX (vbox), notebook1, TRUE, TRUE, 0);
   gtk_box_pack_start (GTK_BOX (hbox_note), label_note5, TRUE, TRUE, 0);	
 
 	//*********************** ZONE TERMINALE
-  vbox2 = gtk_vbox_new (FALSE, 0);
+  vbox2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (GTK_WIDGET(vbox2));
-  gtk_container_add (GTK_CONTAINER (notebook_down), vbox2);
+  gtk_container_add (GTK_CONTAINER (notebook_down), GTK_WIDGET(vbox2));
 
 	//**************************** TOOLBAR TERMINALE
 	GtkWidget *toolbar_term;
 	toolbar_term = gtk_toolbar_new ();
-	gtk_toolbar_set_style (toolbar_term, GTK_TOOLBAR_ICONS);
-	gtk_toolbar_set_icon_size(toolbar_term,GTK_ICON_SIZE_SMALL_TOOLBAR);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_term), GTK_TOOLBAR_ICONS);
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_term),GTK_ICON_SIZE_SMALL_TOOLBAR);
 
 GtkToolItem *tool_sep;
 
@@ -2054,17 +1992,17 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   g_signal_connect ((gpointer) tool_term_next, "clicked",G_CALLBACK (next_term),NULL);
   gtk_tool_item_set_tooltip_text(tool_term_next,_("Next Terminal"));
 
-	gtk_box_pack_start (vbox2, toolbar_term, FALSE, FALSE, 0);
-	gtk_toolbar_set_style (toolbar_term, GTK_TOOLBAR_ICONS);
+	gtk_box_pack_start (GTK_BOX (vbox2), toolbar_term, FALSE, FALSE, 0);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_term), GTK_TOOLBAR_ICONS);
 	gtk_widget_show (GTK_WIDGET(toolbar_term)); 
   
-	gtk_toolbar_set_icon_size(toolbar_term,GTK_ICON_SIZE_SMALL_TOOLBAR);
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_term),GTK_ICON_SIZE_SMALL_TOOLBAR);
 	//****************************
   notebook_term = gtk_notebook_new ();  
   gtk_widget_show (GTK_WIDGET(notebook_term));  
   gtk_box_pack_start (GTK_BOX (vbox2), notebook_term, TRUE, TRUE, 0); 
   gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook_term), GTK_POS_TOP);
-  gtk_notebook_set_scrollable(notebook_term,TRUE);
+  gtk_notebook_set_scrollable(GTK_NOTEBOOK (notebook_term),TRUE);
   gtk_notebook_set_group_name (GTK_NOTEBOOK (notebook_term), "wnote");
 	
 	new_terminal ();
@@ -2073,7 +2011,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   gtk_widget_show (GTK_WIDGET(label_note5));
   gtk_widget_set_size_request (label_note5, 100, 20);
 
-  hbox_note = gtk_hbox_new (FALSE, 0);
+  hbox_note = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(hbox_note));
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_down), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_down), 1), hbox_note);
 
@@ -2085,24 +2023,24 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook_down), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_down), 1), TRUE);
 
 //********************************* PROJET TAB
-  vbox_proj = gtk_hbox_new (FALSE, 0);
-  gtk_container_add (GTK_CONTAINER (notebook_down), vbox_proj);
+  vbox_proj = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_container_add (GTK_CONTAINER (notebook_down), GTK_WIDGET(vbox_proj));
   gtk_widget_show (GTK_WIDGET(vbox_proj)); 
 
 //********* Button project
-  hbox_proj = gtk_vbox_new (TRUE, 0);
+  hbox_proj = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_box_pack_start (GTK_BOX (vbox_proj), hbox_proj, FALSE, TRUE, 0);
   gtk_widget_show (GTK_WIDGET(hbox_proj));  
 
-  vbox2_proj = gtk_vbox_new (FALSE, 0);
+  vbox2_proj = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_box_pack_start (GTK_BOX (hbox_proj), vbox2_proj, TRUE, TRUE, 0);
   gtk_widget_show (GTK_WIDGET(vbox2_proj)); 
 
 	//**************************** TOOLBAR MINIWEB
 	GtkWidget *toolbar_projet;
 	toolbar_projet = gtk_toolbar_new ();
-	gtk_toolbar_set_style (toolbar_projet, GTK_TOOLBAR_ICONS);
-	gtk_toolbar_set_icon_size(toolbar_projet,GTK_ICON_SIZE_SMALL_TOOLBAR);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_projet), GTK_TOOLBAR_ICONS);
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_projet),GTK_ICON_SIZE_SMALL_TOOLBAR);
 
   GtkToolItem *tool_projet_new = gtk_tool_button_new_from_stock(GTK_STOCK_NEW  );
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar_projet ), tool_projet_new, -1);
@@ -2138,8 +2076,8 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   g_signal_connect ((gpointer) tool_projet_run, "clicked",G_CALLBACK (on_mni_show_project_run),NULL);
   gtk_tool_item_set_tooltip_text(tool_projet_run,_("Executer le projet"));
 
-	gtk_box_pack_start (vbox2_proj, toolbar_projet, FALSE, FALSE, 0);
-	gtk_toolbar_set_style (toolbar_projet, GTK_TOOLBAR_ICONS);
+	gtk_box_pack_start (GTK_BOX (vbox2_proj), toolbar_projet, FALSE, FALSE, 0);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_projet), GTK_TOOLBAR_ICONS);
 	gtk_widget_show (GTK_WIDGET(toolbar_projet)); 
   
 	//****************************
@@ -2183,11 +2121,11 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   gtk_widget_modify_font (sView_projet, font_desc_projet);
   pango_font_description_free (font_desc_projet);
 
-  gtk_text_view_set_editable (sView_projet, FALSE);
-  gtk_text_view_set_cursor_visible(sView_projet,FALSE);
+  gtk_text_view_set_editable (GTK_TEXT_VIEW(sView_projet), FALSE);
+  gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(sView_projet),FALSE);
 
-  gtk_source_view_set_show_right_margin(sView_projet,TRUE);
-  gtk_source_view_set_show_line_marks(sView_projet,TRUE);
+  gtk_source_view_set_show_right_margin(GTK_SOURCE_VIEW(sView_projet),TRUE);
+  gtk_source_view_set_show_line_marks(GTK_SOURCE_VIEW(sView_projet),TRUE);
  	gtk_source_buffer_set_style_scheme(buffer_projet , scheme);
 	lm_projet = gtk_source_language_manager_new();
 	g_object_ref (lm_projet);
@@ -2198,14 +2136,14 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
 	language_projet = gtk_source_language_manager_get_language (lm_projet,"sh");
 	gtk_source_buffer_set_language (buffer_projet, language_projet);
 
-  gtk_container_add (GTK_CONTAINER (scrolledwindow3), sView_projet);
+  gtk_container_add (GTK_CONTAINER (scrolledwindow3), GTK_WIDGET(sView_projet));
   gtk_widget_show_all (GTK_WIDGET(scrolledwindow3));
 
   label_note2 = gtk_label_new (_("Projets"));
   gtk_widget_show (GTK_WIDGET(label_note2));
 	gtk_widget_set_size_request (label_note2, 100, 20);
 
-  hbox_note = gtk_hbox_new (FALSE, 0);
+  hbox_note = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(hbox_note));
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_down), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_down), 2), hbox_note);
 
@@ -2216,13 +2154,13 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
 
   gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook_down), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_down), 2), TRUE);
 
-  vbox3 = gtk_vbox_new (FALSE, 0);
-  gtk_container_add (GTK_CONTAINER (notebook_down), vbox3);
+  vbox3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_container_add (GTK_CONTAINER (notebook_down), GTK_WIDGET(vbox3));
   gtk_widget_show (GTK_WIDGET(vbox3));  
 
   scrolledwindow4 = gtk_scrolled_window_new (NULL, NULL);
   gtk_widget_show (GTK_WIDGET(scrolledwindow4));
-  gtk_container_add (GTK_CONTAINER (vbox3), scrolledwindow4);
+  gtk_container_add (GTK_CONTAINER (vbox3), GTK_WIDGET(scrolledwindow4));
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow4), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow4), GTK_CORNER_TOP_LEFT);
 
@@ -2245,14 +2183,14 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
 //********************
 
 
- gtk_source_view_set_show_right_margin(sView_note,TRUE);
- gtk_source_view_set_show_line_numbers(sView_note,TRUE);
- gtk_source_view_set_highlight_current_line(sView_note,TRUE);
- gtk_source_view_set_show_line_marks(sView_note,TRUE);
+ gtk_source_view_set_show_right_margin(GTK_SOURCE_VIEW(sView_note),TRUE);
+ gtk_source_view_set_show_line_numbers(GTK_SOURCE_VIEW(sView_note),TRUE);
+ gtk_source_view_set_highlight_current_line(GTK_SOURCE_VIEW(sView_note),TRUE);
+ gtk_source_view_set_show_line_marks(GTK_SOURCE_VIEW(sView_note),TRUE);
 
 	//TEST AUTOCOMPLETION
-	GtkSourceCompletion *completion = gtk_source_view_get_completion (sView_note);
- 	create_completion (sView_note, completion);
+	GtkSourceCompletion *completion = gtk_source_view_get_completion (GTK_SOURCE_VIEW(sView_note));
+ 	create_completion (GTK_SOURCE_VIEW(sView_note), completion);
 
 
 	lm_note = gtk_source_language_manager_new();
@@ -2266,21 +2204,21 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
 
  	gtk_source_buffer_set_style_scheme(buffer_note, scheme);
 
-  gtk_container_add (GTK_CONTAINER (scrolledwindow4), sView_note);
+  gtk_container_add (GTK_CONTAINER (scrolledwindow4), GTK_WIDGET(sView_note));
   gtk_widget_show_all (GTK_WIDGET(scrolledwindow4));
 
     button_note1 = gtk_button_new_with_label (_("Effacer"));
     gtk_widget_show(GTK_WIDGET(button_note1));
     gtk_box_pack_start(GTK_BOX(vbox3), button_note1, FALSE, FALSE, 0);
 
-	gtk_text_buffer_insert_at_cursor(buffer_note, (_("\nPour afficher les notes [ALT+M]\n")), -1);
-	gtk_text_buffer_insert_at_cursor(buffer_note, (_("Pour integrer une séléction dans la note [CTR+E]\n\n____________________________________________________________________________________________________________________________________________________\n\n")), -1);
+	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("\nPour afficher les notes [ALT+M]\n")), -1);
+	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("Pour integrer une séléction dans la note [CTR+E]\n\n____________________________________________________________________________________________________________________________________________________\n\n")), -1);
 
   label_note3 = gtk_label_new (_("Note"));
   gtk_widget_show (GTK_WIDGET(label_note3));
   gtk_widget_set_size_request (label_note3, 100, 20);
 
-  hbox_note = gtk_hbox_new (FALSE, 0);
+  hbox_note = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(hbox_note));
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_down), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_down), 3), hbox_note);
 
@@ -2291,19 +2229,19 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
 
 	gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook_down), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_down), 3), TRUE);
 
-	GtkWidget *hbox3, *label3, *button2;
+	GtkWidget *hbox3, *button2;
 
-  vbox3 = gtk_vbox_new (FALSE, 0);
-  gtk_container_add (GTK_CONTAINER (notebook_down), vbox3);
+  vbox3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_container_add (GTK_CONTAINER (notebook_down), GTK_WIDGET(vbox3));
   gtk_widget_show (GTK_WIDGET(vbox3));  
 
 	//**************************** TOOLBAR MINIWEB
 	GtkWidget *toolbar_miniweb;
 	toolbar_miniweb = gtk_toolbar_new ();
 
-	gtk_toolbar_set_style (toolbar_miniweb, GTK_TOOLBAR_ICONS);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_miniweb), GTK_TOOLBAR_ICONS);
 
-	gtk_toolbar_set_icon_size(toolbar_miniweb,GTK_ICON_SIZE_SMALL_TOOLBAR);
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_miniweb),GTK_ICON_SIZE_SMALL_TOOLBAR);
 
   GtkToolItem *tool_miniweb_reload = gtk_tool_button_new_from_stock(GTK_STOCK_REFRESH  );
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar_miniweb ), tool_miniweb_reload, -1);
@@ -2355,12 +2293,12 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   g_signal_connect ((gpointer) tool_miniweb_new, "clicked",G_CALLBACK (new_web_window_mini),NULL);
   gtk_tool_item_set_tooltip_text(tool_miniweb_new,_("New window Web"));
 
-	gtk_box_pack_start (vbox3, toolbar_miniweb, FALSE, FALSE, 0);
-	gtk_toolbar_set_style (toolbar_miniweb, GTK_TOOLBAR_ICONS);
+	gtk_box_pack_start (GTK_BOX (vbox3), toolbar_miniweb, FALSE, FALSE, 0);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_miniweb), GTK_TOOLBAR_ICONS);
 	gtk_widget_show (GTK_WIDGET(toolbar_miniweb)); 
   
 	//****************************
-  hbox3 = gtk_hbox_new (TRUE, 0);
+  hbox3 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(hbox3));
   gtk_box_pack_start (GTK_BOX (vbox3), hbox3, FALSE, TRUE, 0);
 
@@ -2412,7 +2350,7 @@ gtk_entry_set_text (GTK_ENTRY (entry_web), _("http://griffon.lasotel.fr/main.php
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(webView));
 
-    gtk_container_add(GTK_CONTAINER(vbox3), scrolledWindow);
+    gtk_container_add(GTK_CONTAINER(vbox3), GTK_WIDGET(scrolledWindow));
 
   g_signal_connect ((gpointer) button2, "clicked",
                     G_CALLBACK (focus_web),
@@ -2428,7 +2366,7 @@ gtk_entry_set_text (GTK_ENTRY (entry_web), _("http://griffon.lasotel.fr/main.php
   button_web_image = gtk_button_new_from_stock ((_(" Ouvrir avec Gimp ")));
   gtk_widget_show (GTK_WIDGET(button_web_image));
   gtk_box_pack_start (GTK_BOX (vbox3), button_web_image, FALSE, TRUE, 0);
-  gtk_widget_hide (button_web_image);
+  gtk_widget_hide (GTK_WIDGET(button_web_image));
 
   g_signal_connect ((gpointer) button_web_image, "clicked",
                     G_CALLBACK (open_gimp),
@@ -2437,7 +2375,7 @@ gtk_entry_set_text (GTK_ENTRY (entry_web), _("http://griffon.lasotel.fr/main.php
   button_web_image2 = gtk_button_new_from_stock ((_(" Inserer le nom du fichier image dans la page courrante ")));
   gtk_widget_show (GTK_WIDGET(button_web_image2));
   gtk_box_pack_start (GTK_BOX (vbox3), button_web_image2, FALSE, TRUE, 0);
-	gtk_widget_hide (button_web_image2);
+	gtk_widget_hide (GTK_WIDGET(button_web_image2));
 
   g_signal_connect ((gpointer) button_web_image2, "clicked",
                     G_CALLBACK (insert_image_web),
@@ -2447,7 +2385,7 @@ gtk_entry_set_text (GTK_ENTRY (entry_web), _("http://griffon.lasotel.fr/main.php
   gtk_widget_show (GTK_WIDGET(label_note3));
 	gtk_widget_set_size_request (label_note3, 100, 20);
 
-  hbox_note = gtk_hbox_new (FALSE, 0);
+  hbox_note = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(hbox_note));
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_down), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_down), 4), hbox_note);
 
@@ -2465,7 +2403,7 @@ gtk_entry_set_text (GTK_ENTRY (entry_web), _("http://griffon.lasotel.fr/main.php
 
 	gtk_widget_set_size_request (label_note3, 100, 20);
 
-  hbox_note = gtk_hbox_new (FALSE, 0);
+  hbox_note = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(hbox_note));
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_down), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_down), 5), hbox_note);
 
@@ -2476,8 +2414,8 @@ gtk_entry_set_text (GTK_ENTRY (entry_web), _("http://griffon.lasotel.fr/main.php
   gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook_down), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_down), 5), TRUE);
 
 	//*************************** Notebook myadmin
-   GtkWidget *hbox_myadmin1 = gtk_vbox_new (FALSE, 0);
-		gtk_container_add (GTK_CONTAINER (notebook_down), hbox_myadmin1);
+   GtkWidget *hbox_myadmin1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+		gtk_container_add (GTK_CONTAINER (notebook_down), GTK_WIDGET(hbox_myadmin1));
 	 gtk_widget_show (GTK_WIDGET(hbox_myadmin1)); 
 
 
@@ -2485,19 +2423,19 @@ gtk_entry_set_text (GTK_ENTRY (entry_web), _("http://griffon.lasotel.fr/main.php
   gtk_widget_show (GTK_WIDGET(notebook_myadmin));  
   gtk_box_pack_start (GTK_BOX (hbox_myadmin1), notebook_myadmin, TRUE, TRUE, 0); 
   gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook_myadmin), GTK_POS_TOP);
-  gtk_notebook_set_scrollable(notebook_myadmin,TRUE);
+  gtk_notebook_set_scrollable(GTK_NOTEBOOK (notebook_myadmin),TRUE);
   gtk_notebook_set_group_name (GTK_NOTEBOOK (notebook_myadmin), "wnote");
 
-   GtkWidget *hbox_myadmin = gtk_vbox_new (FALSE, 0);
-		gtk_container_add (GTK_CONTAINER (notebook_myadmin), hbox_myadmin);
+   GtkWidget *hbox_myadmin = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+		gtk_container_add (GTK_CONTAINER (notebook_myadmin), GTK_WIDGET(hbox_myadmin));
 	 gtk_widget_show (GTK_WIDGET(hbox_myadmin)); 
 
 	//**************************** TOOLBAR MYADMIN
 	GtkWidget *toolbar_myadmin;
 	toolbar_myadmin = gtk_toolbar_new ();
-	gtk_toolbar_set_style (toolbar_myadmin, GTK_TOOLBAR_ICONS);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_myadmin), GTK_TOOLBAR_ICONS);
 
-	gtk_toolbar_set_icon_size(toolbar_myadmin,GTK_ICON_SIZE_SMALL_TOOLBAR);
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_myadmin),GTK_ICON_SIZE_SMALL_TOOLBAR);
 
   GtkToolItem *tool_myadmin_reload = gtk_tool_button_new_from_stock(GTK_STOCK_REFRESH  );
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_myadmin_reload, -1);
@@ -2561,8 +2499,8 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   g_signal_connect ((gpointer) tool_myadmin_new, "clicked",G_CALLBACK (new_web_window),NULL);
   gtk_tool_item_set_tooltip_text(tool_myadmin_new,_("New window Web"));
 
-	gtk_box_pack_start (hbox_myadmin, toolbar_myadmin, FALSE, FALSE, 0);
-	gtk_toolbar_set_style (toolbar_myadmin, GTK_TOOLBAR_ICONS);
+	gtk_box_pack_start (GTK_BOX (hbox_myadmin), toolbar_myadmin, FALSE, FALSE, 0);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_myadmin), GTK_TOOLBAR_ICONS);
 	gtk_widget_show (GTK_WIDGET(toolbar_myadmin)); 
 
   entry_myadmin = gtk_entry_new ();
@@ -2588,8 +2526,8 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
                     NULL);
 
 	//****************************
-   vbox_myadmin = gtk_hbox_new (FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (hbox_myadmin), vbox_myadmin);
+   vbox_myadmin = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_container_add (GTK_CONTAINER (hbox_myadmin), GTK_WIDGET(vbox_myadmin));
 	gtk_widget_show (GTK_WIDGET(vbox_myadmin)); 
       
     webView_myadmin = WEBKIT_WEB_VIEW(webkit_web_view_new());
@@ -2604,7 +2542,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add(GTK_CONTAINER(scrolledWindow_myadmin), GTK_WIDGET(webView_myadmin));
 
-    gtk_container_add(GTK_CONTAINER(vbox_myadmin), scrolledWindow_myadmin);  
+    gtk_container_add(GTK_CONTAINER(vbox_myadmin), GTK_WIDGET(scrolledWindow_myadmin));  
         
   view_a = create_view_and_model_myadmin();
   gtk_widget_show (GTK_WIDGET(view_a));
@@ -2629,7 +2567,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
 
 	gtk_widget_set_size_request (label_note3, 150, 20);
 
-  hbox_note = gtk_hbox_new (FALSE, 0);
+  hbox_note = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(hbox_note));
 
   image2 = gtk_image_new_from_stock ("gtk-apply", GTK_ICON_SIZE_SMALL_TOOLBAR);
@@ -2650,7 +2588,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add(GTK_CONTAINER(scrolledWindow_myadmin_traduc), GTK_WIDGET(webView_myadmin_traduc));
 
-    gtk_container_add(GTK_CONTAINER(notebook_myadmin), scrolledWindow_myadmin_traduc);  
+    gtk_container_add(GTK_CONTAINER(notebook_myadmin), GTK_WIDGET(scrolledWindow_myadmin_traduc));  
 
 			//******************************** SIGNALE WEBKIT
 
@@ -2668,7 +2606,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
 
 	gtk_widget_set_size_request (label_note3, 150, 20);
 
-  hbox_note = gtk_hbox_new (FALSE, 0);
+  hbox_note = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(hbox_note));
 
   image2 = gtk_image_new_from_stock ("gtk-convert", GTK_ICON_SIZE_SMALL_TOOLBAR);
@@ -2688,7 +2626,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add(GTK_CONTAINER(scrolledWindow_myadmin_aide), GTK_WIDGET(webView_myadmin_aide));
 
-    gtk_container_add(GTK_CONTAINER(notebook_myadmin), scrolledWindow_myadmin_aide);  
+    gtk_container_add(GTK_CONTAINER(notebook_myadmin), GTK_WIDGET(scrolledWindow_myadmin_aide));  
 
   	 g_signal_connect(webView_myadmin, "new-window-policy-decision-requested",  
       G_CALLBACK(myadmin_new_window), webView_myadmin_aide);
@@ -2702,7 +2640,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
 
 	gtk_widget_set_size_request (label_note3, 150, 20);
 
-  hbox_note = gtk_hbox_new (FALSE, 0);
+  hbox_note = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(hbox_note));
 
   image2 = gtk_image_new_from_stock ("gtk-help", GTK_ICON_SIZE_SMALL_TOOLBAR);
@@ -2713,14 +2651,14 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
  gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_myadmin), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_myadmin), 2), hbox_note);
  gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook_myadmin), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_myadmin), 2), TRUE);
 
-	gtk_notebook_set_current_page(notebook_myadmin,0);
+	gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_myadmin),0);
 //***************************
 
   label_note3 = gtk_label_new (_("MyAdmin"));
   gtk_widget_show (GTK_WIDGET(label_note3));
   gtk_widget_set_size_request (label_note3, 100, 20);
 
-  hbox_note = gtk_hbox_new (FALSE, 0);
+  hbox_note = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(hbox_note));
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_down), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_down), 6), hbox_note);
 
@@ -2737,7 +2675,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
 
 	gtk_widget_set_size_request (label_note4, 50, 20);
 
-  hbox_note = gtk_hbox_new (FALSE, 0);
+  hbox_note = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(hbox_note));
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook3), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook3), 2), hbox_note);
 
@@ -2780,19 +2718,19 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   
   gtk_window_add_accel_group (GTK_WINDOW (tea_main_window), accel_group);
 
-  gtk_text_buffer_create_tag (log_memo_textbuffer, "lm_greet",
+  gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(log_memo_textbuffer), "lm_greet",
                               "foreground", "#6c0606", NULL);
 
-  gtk_text_buffer_create_tag (log_memo_textbuffer, "gray_bg",
+  gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(log_memo_textbuffer), "gray_bg",
                               "background", "gray", NULL);
 
-  tag_lm_error = gtk_text_buffer_create_tag (log_memo_textbuffer, "lm_error",
+  tag_lm_error = gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(log_memo_textbuffer), "lm_error",
                                              "foreground", "red", NULL);
 
-  gtk_text_buffer_create_tag (log_memo_textbuffer, "lm_normal",
+  gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(log_memo_textbuffer), "lm_normal",
                               "foreground", "black", NULL);
 
-  gtk_text_buffer_create_tag (log_memo_textbuffer, "lm_advice",
+  gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(log_memo_textbuffer), "lm_advice",
                               "foreground", "navy", NULL);
 
   set_lm_colors ();
@@ -2805,9 +2743,9 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
 	GtkTextIter itFin;
 	pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_start.png", NULL);
 	buffer_img = gtk_text_view_get_buffer(GTK_TEXT_VIEW(tv_logmemo));
-	gtk_text_buffer_get_start_iter(buffer_img, &itFin);
-	gtk_text_buffer_get_start_iter(buffer_img, &itFin);
-	gtk_text_buffer_insert_pixbuf (buffer_img,&itFin,pixbuf);
+	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
+	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
+	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);
 	tv_logmemo_set_pos (0);
   log_to_memo ("\n\n(C)2013 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.6.4 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
 	tv_logmemo_set_pos (0);
@@ -2861,55 +2799,20 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   g_signal_connect (notebook3, "create-window",
                     G_CALLBACK (window_creation_function), NULL);
 
-		gtk_notebook_set_current_page(notebook_down,4);
-		gtk_notebook_set_current_page(notebook2,0);
+		gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_down),4);
+		gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook2),0);
   no_onglet_open() ;  
 
 	webkit_web_view_load_uri(webView, "http://griffon.lasotel.fr/main.php?version=1.6.4");
 	webkit_web_view_load_uri(webView_myadmin, "https://www.google.fr/");
 	webkit_web_view_load_uri(webView_myadmin_traduc, "https://translate.google.fr/?hl=fr&tab=wT");
 	webkit_web_view_load_uri(webView_myadmin_aide, "https://www.google.fr/");
-	gtk_notebook_set_current_page(notebook3,1);
+	gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook3),1);
              
 	window_run = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 
   return tea_main_window;
 }
-
-//******************************* splash screen de griffon
-void OnButton(GtkWidget *pWidget);
-
-GtkWidget* splash_screen (void)
-{
-  GtkWidget *pVBox;
-  GtkWidget *pImage;
-  GtkWidget *pQuitImage, *pProgress, *spinner, *label_note3;
-
-  gdouble dFraction;
-  gint i;
-  gint iTotal = 80000;
-
-  pWindow = gtk_window_new(GTK_WINDOW_POPUP);
-  gtk_window_set_title(GTK_WINDOW(pWindow), "Splash Griffon 1.6.4");
-  gtk_window_set_position (GTK_WINDOW (pWindow), GTK_WIN_POS_CENTER);
-
-  pVBox = gtk_vbox_new(FALSE, 0);
-  gtk_container_add(GTK_CONTAINER(pWindow), pVBox);
-
-  pImage = gtk_image_new_from_file("/usr/local/share/griffon/pixmaps/splash_griffon.png");
-  gtk_box_pack_start(GTK_BOX(pVBox), pImage, FALSE, FALSE, 5);
-	splash_bar=gtk_statusbar_new();
-	gtk_box_pack_start(GTK_BOX(pVBox), splash_bar, TRUE, FALSE, 0);
-
-	gtk_statusbar_push(splash_bar,1,(_("\t[Griffon 1.6.4 start] :\t Free software IDE")));
-
-  pQuitImage = gtk_image_new_from_stock(GTK_STOCK_QUIT, GTK_ICON_SIZE_LARGE_TOOLBAR);
-
-      gtk_widget_show_all(GTK_WIDGET(pWindow));
-
-  return pWindow;
-}
-
 
 //******************************* affichage d'icon en status
 GtkWidget* icon_affiche_ok (void)
@@ -2980,45 +2883,6 @@ GtkWidget* icon_affiche_nosave (void)
   return window_center;
 }
 
-//******************************* fonction barre de progression sur le splash screen
-void OnButton(GtkWidget *pWidget)
-{
-  gdouble dFraction;
-  gint i;
-  gint iTotal = 3700;
-
-  /* Initialisation */
-  gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(pWidget), 0.0);
-  gtk_grab_add(pWidget);
-
-  for(i = 0 ; i < iTotal ; ++i)
-    {
-      dFraction = (gdouble)i / (gdouble)iTotal;
-
-      /* Modification de la valeur de la barre de progression */
-      gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(pWidget), dFraction);
-
-		if(i==300){gtk_statusbar_push(splash_bar,1,(_(" [Griffon 1.6.4 start] :\tInitialisation des préférences utilisateur et fichier de configuration...")));}
-		if(i==600){gtk_statusbar_push(splash_bar,1,(_(" [Griffon 1.6.4 start] :\tInitialisation de l'autocomp...")));}
-		if(i==900){gtk_statusbar_push(splash_bar,1,(_(" [Griffon 1.6.4 start] :\tInitialisation du crapbook...")));}
-		if(i==1200){gtk_statusbar_push(splash_bar,1,(_(" [Griffon 1.6.4 start] :\tInitialisation du terminal...")));}
-		if(i==1500){gtk_statusbar_push(splash_bar,1,(_(" [Griffon 1.6.4 start] :\tInitialisation des aides Perl,Php,BASH,MySql...")));}
-		if(i==1800){gtk_statusbar_push(splash_bar,1,(_(" [Griffon 1.6.4 start] :\tInitialisation de la todo liste...")));}
-		if(i==2100){gtk_statusbar_push(splash_bar,1,(_(" [Griffon 1.6.4 start] :\tInitialisation des fichiers récents...")));}
-		if(i==2400){gtk_statusbar_push(splash_bar,1,(_(" [Griffon 1.6.4 start] :\tInitialisation view source...")));}
-		if(i==2700){gtk_statusbar_push(splash_bar,1,(_(" [Griffon 1.6.4 start] :\tInitialisation view web...")));}
-		if(i==3000){gtk_statusbar_push(splash_bar,1,(_(" [Griffon 1.6.4 start] :\tInitialisation du file manager...")));}
-		if(i==3300){gtk_statusbar_push(splash_bar,1,(_(" [Griffon 1.6.4 start] :\tLancement de Griffon IDE 1.6.4")));}
-
-      /* On donne la main a GTK+ */
-      gtk_main_iteration ();
-    }
-
-  /* On supprime le grab sur la barre de progression */
-  gtk_grab_remove(pWidget);
-  gtk_widget_destroy(pWindow);
-}
-
 //******************************* recherche via devhelp
 GtkWidget* man_page (void)
 {
@@ -3042,11 +2906,13 @@ GtkWidget* man_page (void)
 		strcat(mot,titre);
 		strcat(mot," &");
 
-		system (mot);
+		int systemRet =system (mot);
+		if(systemRet == -1){return NULL;}
 		log_to_memo (_("%s Recherche dans DevHelp"), titre, LM_NORMAL);
 			statusbar_msg (_("Search DevHelp [OK]"));
 		fclose(fichier);
 		}
+	return NULL;
 }	
 
 //******************************* afficher les voltes droit et gauche
@@ -3054,28 +2920,32 @@ GtkWidget* open_tools (void)
 {
 gtk_widget_show(GTK_WIDGET(notebook2));
 gtk_widget_show(GTK_WIDGET(filechooserwidget2));
+return NULL;
 }
 
 //******************************* cacher les volets droit et gauche
 GtkWidget* close_tools (void)
 {
-gtk_widget_hide(notebook2);
-gtk_widget_hide(filechooserwidget2);
+gtk_widget_hide(GTK_WIDGET(notebook2));
+gtk_widget_hide(GTK_WIDGET(filechooserwidget2));
+return NULL;
 }
 
 //******************************* cacher les volets droit
 GtkWidget* close_tools2 (void)
 {
-gtk_widget_hide(notebook2);
+gtk_widget_hide(GTK_WIDGET(notebook2));
 gtk_widget_show(GTK_WIDGET(filechooserwidget2));
+return NULL;
 }
 
 //******************************* effacer les notes
 GtkWidget* clear_note (void)
 {
-gtk_text_buffer_set_text(buffer_note, "", -1);
-gtk_text_buffer_insert_at_cursor(buffer_note, (_("\nPour afficher les notes [ALT+M]\n")), -1);
-gtk_text_buffer_insert_at_cursor(buffer_note, (_("Pour integrer une séléction dans la note [CTR+E]\n\n____________________________________________________________________________________________________________________________________________________\n\n")), -1);
+gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer_note), "", -1);
+gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("\nPour afficher les notes [ALT+M]\n")), -1);
+gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("Pour integrer une séléction dans la note [CTR+E]\n\n____________________________________________________________________________________________________________________________________________________\n\n")), -1);
+return NULL;
 }
 
 //******************************* fichier selectionné 
@@ -3084,6 +2954,7 @@ GtkWidget* file_ok_sel (void)
 gchar *file_selected;
 file_selected = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER( filechooserwidget2));
 doc_open_file (file_selected);
+return NULL;
 }
 
 //******************************* fenetre a propos de griffon....
@@ -3092,7 +2963,6 @@ GtkWidget* create_about1 (void)
   GtkWidget *window1;
   GtkWidget *vbox1;
   GtkWidget *image1;
-  GtkWidget *hseparator1;
   GtkWidget *label1;
   GtkWidget *button1;
   GtkWidget *alignment1;
@@ -3105,17 +2975,13 @@ GtkWidget* create_about1 (void)
   gtk_window_set_title (GTK_WINDOW (window1), _((_("A-propos de Griffon IDE"))));
   gtk_widget_show (GTK_WIDGET(window1));
 
-  vbox1 = gtk_vbox_new (FALSE, 0);
+  vbox1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (GTK_WIDGET(vbox1));
-  gtk_container_add (GTK_CONTAINER (window1), vbox1);
+  gtk_container_add (GTK_CONTAINER (window1), GTK_WIDGET(vbox1));
 
   image1 = gtk_image_new_from_file("/usr/local/share/griffon/pixmaps/splash_griffon.png");
   gtk_widget_show (GTK_WIDGET(image1));
   gtk_box_pack_start (GTK_BOX (vbox1), image1, TRUE, TRUE, 0);
-
-  hseparator1 = gtk_hseparator_new ();
-  gtk_widget_show (GTK_WIDGET(hseparator1));
-  gtk_box_pack_start (GTK_BOX (vbox1), hseparator1, TRUE, TRUE, 0);
 
   label1 = gtk_label_new (_("\nGriffon IDE 1.6.4 \n\nAuteur \t: Philippe Muller \nEmail \t\t: pmuller@lasotel.fr\n\nDéveloppeur et Administrateur système GNU/Linux pour Lasotel ( Lyon ).\n\n"));
   gtk_widget_show (GTK_WIDGET(label1));
@@ -3131,11 +2997,11 @@ GtkWidget* create_about1 (void)
 
   alignment1 = gtk_alignment_new (0.5, 0.5, 0, 0);
   gtk_widget_show (GTK_WIDGET(alignment1));
-  gtk_container_add (GTK_CONTAINER (button1), alignment1);
+  gtk_container_add (GTK_CONTAINER (button1), GTK_WIDGET(alignment1));
 
-  hbox1 = gtk_hbox_new (FALSE, 2);
+  hbox1 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(hbox1));
-  gtk_container_add (GTK_CONTAINER (alignment1), hbox1);
+  gtk_container_add (GTK_CONTAINER (alignment1), GTK_WIDGET(hbox1));
 
   image2 = gtk_image_new_from_stock ("gtk-close", GTK_ICON_SIZE_SMALL_TOOLBAR);
   gtk_widget_show (GTK_WIDGET(image2));
@@ -3233,14 +3099,14 @@ GtkWidget * create_view_and_model_help (void)
   gtk_tree_view_column_add_attribute(col, renderer, 
       "text", COLUMN);
 
-	gtk_tree_view_set_rules_hint (view,TRUE);
-	gtk_tree_view_set_enable_tree_lines (view,TRUE);
+	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view),TRUE);
+	gtk_tree_view_set_enable_tree_lines (GTK_TREE_VIEW(view),TRUE);
 
   model = create_and_fill_model_help();
   gtk_tree_view_set_model(GTK_TREE_VIEW(view), model);
   g_object_unref(model); 
 
-		gtk_tree_view_expand_all (view);
+		gtk_tree_view_expand_all (GTK_TREE_VIEW(view));
 
   return view;
 }
@@ -3258,15 +3124,16 @@ gchar *tampon_web;
 tampon_web = gtk_editable_get_chars(GTK_EDITABLE(entry_web),0, -1);
 
 	   char *extension;
-	   if(extension = strrchr(tampon_web,'.'))
+	   if(strrchr(tampon_web,'.'))
 		{
+			extension = strrchr(tampon_web,'.');
 		if (strcmp(".jpg", extension) == 0 || strcmp(".png", extension) == 0 || strcmp(".gif", extension) == 0  || strcmp(".jpeg", extension) == 0)
 		{
 		  gtk_widget_show (GTK_WIDGET(button_web_image));
 		  gtk_widget_show (GTK_WIDGET(button_web_image2));
 		}else{
-				gtk_widget_hide (button_web_image);
-				gtk_widget_hide (button_web_image2);
+				gtk_widget_hide (GTK_WIDGET(button_web_image));
+				gtk_widget_hide (GTK_WIDGET(button_web_image2));
 
 		}
 		}
@@ -3338,18 +3205,18 @@ GtkWidget * create_view_and_model_myadmin (void)
       "text", COLUMN);
 
   model = create_and_fill_model_myadmin();
-  gtk_tree_view_set_rules_hint (view_myadmin,TRUE);
-	gtk_tree_view_set_enable_tree_lines (view_myadmin,TRUE);
+  gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view_myadmin),TRUE);
+	gtk_tree_view_set_enable_tree_lines (GTK_TREE_VIEW(view_myadmin),TRUE);
   gtk_tree_view_set_model(GTK_TREE_VIEW(view_myadmin), model);
   g_object_unref(model); 
 
-		gtk_tree_view_expand_all (view_myadmin);
+		gtk_tree_view_expand_all (GTK_TREE_VIEW(view_myadmin));
 
   return view_myadmin;
 }
 
 //******************************* match et envoi des fonction d'aide insert
-void  on_changed_myadmin(GtkWidget *widget, gpointer statusbar) 
+void  on_changed_myadmin(GtkWidget *widget) 
 {
   GtkTreeIter iter;
   GtkTreeModel *model;
@@ -3384,14 +3251,14 @@ void  no_onglet_open()
 {
 	if (! get_page_text())
 	{
-	gtk_widget_hide(notebook1);	
+	gtk_widget_hide(GTK_WIDGET(notebook1));	
 	gtk_widget_show(GTK_WIDGET(scrolledWindow_editor));
 	gtk_widget_show(GTK_WIDGET(webView_editor));
 	}
 	else
 	{
-	gtk_widget_hide(scrolledWindow_editor);	
-	gtk_widget_hide(webView_editor);	
+	gtk_widget_hide(GTK_WIDGET(scrolledWindow_editor));	
+	gtk_widget_hide(GTK_WIDGET(webView_editor));	
 	gtk_widget_show(GTK_WIDGET(notebook1));
 	}
 }
@@ -3409,9 +3276,9 @@ GtkWidget* doc_window (void)
   gtk_window_resize (GTK_WINDOW (window1), 930, 600);
   gtk_widget_show (GTK_WIDGET(window1));
 
-  vbox1 = gtk_vbox_new (FALSE, 0);
+  vbox1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (GTK_WIDGET(vbox1));
-  gtk_container_add (GTK_CONTAINER (window1), vbox1);
+  gtk_container_add (GTK_CONTAINER (window1), GTK_WIDGET(vbox1));
 
     webView_doc = WEBKIT_WEB_VIEW(webkit_web_view_new());
 	 gtk_widget_show (GTK_WIDGET(webView_doc));
@@ -3428,7 +3295,7 @@ GtkWidget* doc_window (void)
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add(GTK_CONTAINER(scrolledWindow_doc), GTK_WIDGET(webView_doc));
 
-    gtk_container_add(GTK_CONTAINER(vbox1), scrolledWindow_doc);
+    gtk_container_add(GTK_CONTAINER(vbox1), GTK_WIDGET(scrolledWindow_doc));
 
    webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/DOC/doc.html");
 
@@ -3448,14 +3315,14 @@ GtkWidget* version_window (void)
   gtk_window_resize (GTK_WINDOW (window1), 670, 255);
   gtk_widget_show (GTK_WIDGET(window1));
 
-  vbox1 = gtk_vbox_new (FALSE, 0);
+  vbox1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (GTK_WIDGET(vbox1));
-  gtk_container_add (GTK_CONTAINER (window1), vbox1);
+  gtk_container_add (GTK_CONTAINER (window1), GTK_WIDGET(vbox1));
 
    webView_doc = WEBKIT_WEB_VIEW(webkit_web_view_new());
 	gtk_widget_show (GTK_WIDGET(webView_doc));
 
-    gtk_container_add(GTK_CONTAINER(vbox1), webView_doc);
+    gtk_container_add(GTK_CONTAINER(vbox1), GTK_WIDGET(webView_doc));
 
    webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/version.php?version=1.6.4");
 
@@ -3475,14 +3342,14 @@ GtkWidget* rapport_window (void)
   gtk_window_resize (GTK_WINDOW (window1), 670, 345);
   gtk_widget_show (GTK_WIDGET(window1));
 
-  vbox1 = gtk_vbox_new (FALSE, 0);
+  vbox1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (GTK_WIDGET(vbox1));
-  gtk_container_add (GTK_CONTAINER (window1), vbox1);
+  gtk_container_add (GTK_CONTAINER (window1), GTK_WIDGET(vbox1));
 
     webView_doc = WEBKIT_WEB_VIEW(webkit_web_view_new());
 	 gtk_widget_show (GTK_WIDGET(webView_doc));
 
-    gtk_container_add(GTK_CONTAINER(vbox1), webView_doc);
+    gtk_container_add(GTK_CONTAINER(vbox1), GTK_WIDGET(webView_doc));
 
    webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/bug_rapport.php?clef=1.6.4");
 
@@ -3507,8 +3374,8 @@ void  insert_img_autoconf_var()
 	GdkPixbuf *pixbuf;
 	GtkTextIter itFin;
 	pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_package.png", NULL);
-	gtk_text_buffer_get_end_iter(buffer_scan, &itFin);
-	gtk_text_buffer_insert_pixbuf (buffer_scan,&itFin,pixbuf);
+	gtk_text_buffer_get_end_iter(GTK_TEXT_BUFFER(buffer_scan), &itFin);
+	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_scan),&itFin,pixbuf);
 }
 
 void  insert_img_autoconf_mot() 
@@ -3517,8 +3384,8 @@ void  insert_img_autoconf_mot()
 	GdkPixbuf *pixbuf;
 	GtkTextIter itFin;
 	pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_man.png", NULL);
-	gtk_text_buffer_get_end_iter(buffer_scan, &itFin);
-	gtk_text_buffer_insert_pixbuf (buffer_scan,&itFin,pixbuf);
+	gtk_text_buffer_get_end_iter(GTK_TEXT_BUFFER(buffer_scan), &itFin);
+	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_scan),&itFin,pixbuf);
 }
 
 void  insert_img_autoconf_fonc() 
@@ -3527,16 +3394,16 @@ void  insert_img_autoconf_fonc()
 	GdkPixbuf *pixbuf;
 	GtkTextIter itFin;
 	pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_exe.png", NULL);
-	gtk_text_buffer_get_end_iter(buffer_scan, &itFin);
-	gtk_text_buffer_insert_pixbuf (buffer_scan,&itFin,pixbuf);
+	gtk_text_buffer_get_end_iter(GTK_TEXT_BUFFER(buffer_scan), &itFin);
+	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_scan),&itFin,pixbuf);
 }
 
 //******************************* Scrol en position bottom
 void  fin_de_scroll_pos() 
 {
 	GtkTextIter itFin;
-	gtk_text_buffer_get_end_iter(buffer_scan, &itFin);
-	gtk_text_view_scroll_to_iter (sView_scan, &itFin, 0.0, FALSE, 0.0, 0.0 );
+	gtk_text_buffer_get_end_iter(GTK_TEXT_BUFFER(buffer_scan), &itFin);
+	gtk_text_view_scroll_to_iter (GTK_TEXT_VIEW(sView_scan), &itFin, 0.0, FALSE, 0.0, 0.0 );
 }
 
 //******************************* IMAGE Griffon icon dans zone d'information logmemo
@@ -3547,8 +3414,8 @@ void  icon_log_logmemo()
 	GtkTextIter itFin;
 	pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_log.png", NULL);
 	buffer_img = gtk_text_view_get_buffer(GTK_TEXT_VIEW(tv_logmemo));
-	gtk_text_buffer_get_start_iter(buffer_img, &itFin);
-	gtk_text_buffer_insert_pixbuf (buffer_img,&itFin,pixbuf);
+	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
+	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);
 }
 
 //******************************* IMAGE Griffon icon dans zone d'information logmemo
@@ -3559,8 +3426,8 @@ void  icon_list_logmemo()
 	GtkTextIter itFin;
 	pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_man.png", NULL);
 	buffer_img = gtk_text_view_get_buffer(GTK_TEXT_VIEW(tv_logmemo));
-	gtk_text_buffer_get_start_iter(buffer_img, &itFin);
-	gtk_text_buffer_insert_pixbuf (buffer_img,&itFin,pixbuf);
+	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
+	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);
 }
 
 //******************************* IMAGE Griffon icon dans zone d'information logmemo
@@ -3571,8 +3438,8 @@ void  icon_stop_logmemo()
 	GtkTextIter itFin;
 	pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_stop2.png", NULL);
 	buffer_img = gtk_text_view_get_buffer(GTK_TEXT_VIEW(tv_logmemo));
-	gtk_text_buffer_get_start_iter(buffer_img, &itFin);
-	gtk_text_buffer_insert_pixbuf (buffer_img,&itFin,pixbuf);
+	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
+	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);
 }
 
 //******************************* IMAGE Griffon icon dans zone d'information logmemo
@@ -3583,8 +3450,8 @@ void  icon_ok_logmemo()
 	GtkTextIter itFin;
 	pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_ok2.png", NULL);
 	buffer_img = gtk_text_view_get_buffer(GTK_TEXT_VIEW(tv_logmemo));
-	gtk_text_buffer_get_start_iter(buffer_img, &itFin);
-	gtk_text_buffer_insert_pixbuf (buffer_img,&itFin,pixbuf);
+	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
+	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);
 }
 
 //******************************* IMAGE Griffon icon dans zone d'information logmemo
@@ -3595,8 +3462,8 @@ void  icon_man_logmemo()
 	GtkTextIter itFin;
 	pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_man.png", NULL);
 	buffer_img = gtk_text_view_get_buffer(GTK_TEXT_VIEW(tv_logmemo));
-	gtk_text_buffer_get_start_iter(buffer_img, &itFin);
-	gtk_text_buffer_insert_pixbuf (buffer_img,&itFin,pixbuf);
+	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
+	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);
 }
 
 //******************************* IMAGE Griffon icon dans zone d'information logmemo
@@ -3607,8 +3474,8 @@ void  icon_save_logmemo()
 	GtkTextIter itFin;
 	pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_save2.png", NULL);
 	buffer_img = gtk_text_view_get_buffer(GTK_TEXT_VIEW(tv_logmemo));
-	gtk_text_buffer_get_start_iter(buffer_img, &itFin);
-	gtk_text_buffer_insert_pixbuf (buffer_img,&itFin,pixbuf);			
+	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
+	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);			
 }
 
 //******************************* IMAGE Griffon icon dans zone d'information logmemo
@@ -3619,8 +3486,8 @@ void  icon_nosave_logmemo()
 	GtkTextIter itFin;
 	pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_nosave2.png", NULL);
 	buffer_img = gtk_text_view_get_buffer(GTK_TEXT_VIEW(tv_logmemo));
-	gtk_text_buffer_get_start_iter(buffer_img, &itFin);
-	gtk_text_buffer_insert_pixbuf (buffer_img,&itFin,pixbuf);
+	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
+	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);
 }
 
 //******************************* Controle si le fichier est sauvegardé pour l'affichage d'icons
@@ -3714,16 +3581,16 @@ GtkWidget * create_view_and_model_sftp (void)
   gtk_tree_view_set_model(GTK_TREE_VIEW(view_sftp), model);
   g_object_unref(model); 
 
-	gtk_tree_view_set_rules_hint (view_sftp,TRUE);
-	gtk_tree_view_set_enable_tree_lines (view_sftp,TRUE);
+	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view_sftp),TRUE);
+	gtk_tree_view_set_enable_tree_lines (GTK_TREE_VIEW(view_sftp),TRUE);
 
-	gtk_tree_view_expand_all (view_sftp);
+	gtk_tree_view_expand_all (GTK_TREE_VIEW(view_sftp));
 
   return view_sftp;
 }
 
 //******************************* match et envoi des fonction sftp
-void  on_changed_sftp(GtkWidget *widget, gpointer statusbar) 
+void  on_changed_sftp(GtkWidget *widget) 
 {
   GtkTreeIter iter;
   GtkTreeModel *model;
@@ -3741,7 +3608,7 @@ const char *home_dir = g_getenv ("HOME");
     gchar **a = g_strsplit (value, " ", -1);
     if (strcmp("SFTP", a[0]) == 0 || strcmp("SFTP", a[1]) == 0){return;}
 
-	if(sshadd==NULL){system ("ssh-add");sshadd="ok";}
+	if(sshadd==NULL){int systemRet2 =system ("ssh-add");sshadd="ok";if(systemRet2 == -1){return;}}
 		
 
 
@@ -3754,16 +3621,17 @@ const char *home_dir = g_getenv ("HOME");
 											
 		strcat(mot," ");
 		strcat(mot,home_dir);
-		strcat(mot,"\/MOUNT\/");
+		strcat(mot,"/MOUNT/");
 
 		strcat(mot,a[0]);	
-	  	system (mot);                                                  
+		int systemRet =system (mot); 
+		if(systemRet == -1){return;}                                                 
     
 		new_terminal_ssh (a[0],a[1]);
 
 		strcat(liste_mount,"fusermount -u ");
 		strcat(liste_mount,home_dir);
-		strcat(liste_mount,"\/MOUNT\/");
+		strcat(liste_mount,"/MOUNT/");
 
 		strcat(liste_mount,a[0]);
 		strcat(liste_mount," ; ");
@@ -3772,9 +3640,9 @@ const char *home_dir = g_getenv ("HOME");
 
 	char total_path[300];total_path[0]='\0';
 		strcat(total_path,home_dir);
-		strcat(total_path,"\/MOUNT\/");
+		strcat(total_path,"/MOUNT/");
 		strcat(total_path,a[0]);		
-	gtk_file_chooser_set_current_folder(filechooserwidget2 ,total_path);
+	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,total_path);
     
 	icon_log_logmemo();
 	log_to_memo (_("%s montage SFTP dans le répertoire Griffon_MONTAGE_SFTP"), a[0], LM_NORMAL);
@@ -3864,17 +3732,17 @@ GtkWidget * create_view_and_model_ftp (void)
   gtk_tree_view_set_model(GTK_TREE_VIEW(view_ftp), model);
   g_object_unref(model); 
 
-	gtk_tree_view_set_rules_hint (view_ftp,TRUE);
-	gtk_tree_view_set_enable_tree_lines (view_ftp,TRUE);
+	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view_ftp),TRUE);
+	gtk_tree_view_set_enable_tree_lines (GTK_TREE_VIEW(view_ftp),TRUE);
 
 
-		gtk_tree_view_expand_all (view_ftp);
+		gtk_tree_view_expand_all (GTK_TREE_VIEW(view_ftp));
 
   return view_ftp;
 }
 
 //******************************* match et envoi des fonction sftp
-void  on_changed_ftp(GtkWidget *widget, gpointer statusbar) 
+void  on_changed_ftp(GtkWidget *widget) 
 {
   GtkTreeIter iter;
   GtkTreeModel *model;
@@ -3901,14 +3769,15 @@ void  on_changed_ftp(GtkWidget *widget, gpointer statusbar)
 		strcat(mot,a[0]);		
 		strcat(mot," ");
 		strcat(mot,home_dir);
-		strcat(mot,"\/MOUNT\/");
+		strcat(mot,"/MOUNT/");
 		strcat(mot,a[0]);		
 		
-	  	system (mot);                                                  
+	  	int systemRet =system (mot);                                                  
+			if(systemRet == -1){return;}
 
 		strcat(liste_mount,"fusermount -u ");
 		strcat(liste_mount,home_dir);
-		strcat(liste_mount,"\/MOUNT\/");
+		strcat(liste_mount,"/MOUNT/");
 		strcat(liste_mount,a[0]);
 		strcat(liste_mount," ; ");
     
@@ -3916,9 +3785,9 @@ void  on_changed_ftp(GtkWidget *widget, gpointer statusbar)
    
 	char total_path[300];total_path[0]='\0';
 		strcat(total_path,home_dir);
-		strcat(total_path,"\/MOUNT\/");
+		strcat(total_path,"/MOUNT/");
 		strcat(total_path,a[0]);		
-	gtk_file_chooser_set_current_folder(filechooserwidget2 ,total_path);
+	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,total_path);
  
 	 icon_log_logmemo();
 	log_to_memo (_("%s montage FTP dans le répertoire Griffon_MONTAGE_SFTP"), a[0], LM_NORMAL);
@@ -3968,8 +3837,9 @@ void  switch_html_page()
 	if (strcmp("noname", a[0]) == 0) return;
 	
    char *extension;
-   if(extension = strrchr(cur_text_doc->file_name,'.'))
+   if(strrchr(cur_text_doc->file_name,'.'))
 	{
+		extension = strrchr(cur_text_doc->file_name,'.');
 	if (strcmp(".htm", extension) == 0 || strcmp(".html", extension) == 0 )
 	{
 	char type[150];
@@ -3983,18 +3853,11 @@ void  switch_html_page()
 }
 
 //**************************** liste vIEW TEST
- GtkListStore *
- create_liststore()
- {
-
-    GtkTreeIter    iter;
-    GdkPixbuf     *icon;
-    GError        *error = NULL;
- 
+ GtkListStore * create_liststore()
+{ 
     store = gtk_list_store_new(3, GDK_TYPE_PIXBUF, G_TYPE_STRING,G_TYPE_STRING);
- 
     return store;
- }
+}
  
 void add_to_list(gchar *str,gchar *str2)
 {
@@ -4070,11 +3933,11 @@ void on_changed_scan (GtkWidget *widget)
 
 	   gtk_tree_model_get(model, &iter, COL_TEXT2, &value,  -1);
 
-			if(value>0)
+			if(value!=NULL)
 			{
-		gtk_entry_set_text (ent_search, value);
+		gtk_entry_set_text (GTK_ENTRY (ent_search), value);
 	   g_free(value);
-		doc_select_line (cur_text_doc, strtol (gtk_entry_get_text (ent_search), NULL, 10));
+		doc_select_line (cur_text_doc, strtol (gtk_entry_get_text (GTK_ENTRY (ent_search)), NULL, 10));
 		//gtk_notebook_set_current_page(notebook3,1);
 			}
   }
@@ -4096,12 +3959,7 @@ void insert_image_web()
 //**************************** liste vIEW  bookmark
 GtkListStore * create_liststore_book()
 {
-    GtkTreeIter    iter;
-    GdkPixbuf     *icon;
-    GError        *error = NULL;
- 
     store_book = gtk_list_store_new(3, GDK_TYPE_PIXBUF, G_TYPE_STRING,G_TYPE_STRING);
- 
     return store_book;
 }
 
@@ -4140,13 +3998,13 @@ void on_changed_book (GtkWidget *widget)
 	{
 	   gtk_tree_model_get(model_book, &iter, COL_TEXT2, &value,  -1);
 		
-		if(gtk_text_buffer_get_mark(cur_text_doc->text_buffer,value))
+		if(gtk_text_buffer_get_mark(GTK_TEXT_BUFFER(cur_text_doc->text_buffer),value))
 		{
-		recup=gtk_text_buffer_get_mark(cur_text_doc->text_buffer,value);
-		gtk_text_buffer_get_iter_at_mark(cur_text_doc->text_buffer,&iter2,recup);
+		recup=gtk_text_buffer_get_mark(GTK_TEXT_BUFFER(cur_text_doc->text_buffer),value);
+		gtk_text_buffer_get_iter_at_mark(GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&iter2,recup);
 
-	  gtk_text_buffer_place_cursor (cur_text_doc->text_buffer, &iter2);
-	  gtk_text_view_scroll_to_iter (cur_text_doc->text_view, &iter2, 0.0, FALSE, 0.0, 0.0);	
+	  gtk_text_buffer_place_cursor (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &iter2);
+	  gtk_text_view_scroll_to_iter (GTK_TEXT_VIEW(cur_text_doc->text_view), &iter2, 0.0, FALSE, 0.0, 0.0);	
 		//gtk_notebook_set_current_page(notebook3,1);
 		}else{log_to_memo (_("Le BookMark ne correspond pas au fichier en cours d'édition."), NULL, LM_ERROR);statusbar_msg (_("BookMark File [ERROR]"));}
 		gtk_tree_selection_unselect_all(GTK_TREE_SELECTION(widget));	
@@ -4155,13 +4013,13 @@ void on_changed_book (GtkWidget *widget)
 }
 
 //**************************** Detachable onglet pour notebook
-GtkNotebook* window_creation_function (GtkNotebook *source_notebook,GtkWidget   *child,gint         x,gint         y,gpointer     data)
+GtkNotebook* window_creation_function (GtkNotebook *source_notebook,gint         x,gint         y)
 {
   GtkWidget *window, *notebook;
 
   window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_transient_for(GTK_WINDOW(window),GTK_WINDOW(tea_main_window));
-	gtk_window_set_deletable (window,FALSE);
+	gtk_window_set_deletable (GTK_WINDOW(window),FALSE);
 
   notebook = gtk_notebook_new ();
 	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook), GTK_POS_LEFT);
@@ -4172,14 +4030,14 @@ GtkNotebook* window_creation_function (GtkNotebook *source_notebook,GtkWidget   
  g_signal_connect (notebook, "create-window",
                     G_CALLBACK (window_creation_function), NULL);
 
-  gtk_container_add (GTK_CONTAINER (window), notebook);
+  gtk_container_add (GTK_CONTAINER (window), GTK_WIDGET(notebook));
 
   gtk_window_set_default_size (GTK_WINDOW (window), 800, 600);
   gtk_window_move (GTK_WINDOW (window), x, y);
 
   gtk_notebook_set_scrollable (GTK_NOTEBOOK (notebook), TRUE);
   gtk_window_set_title (GTK_WINDOW (window), _((_("Onglets"))));
-	gtk_window_set_icon_from_file (window,"/usr/local/share/griffon/pixmaps/griffon_ok.png",NULL);
+	gtk_window_set_icon_from_file (GTK_WINDOW(window),"/usr/local/share/griffon/pixmaps/griffon_ok.png",NULL);
 
   gtk_widget_show_all (GTK_WIDGET(window));
 
@@ -4243,23 +4101,25 @@ void google_traduction_en_fr()
 }
 
 //******************************* chargement url miniweb
-void enter_web (GdkEventKey *event, gpointer data)
+void enter_web ()
 {
 gchar *tampon_web;
 
-	if(tampon_web = gtk_editable_get_chars(GTK_EDITABLE(entry_web),0, -1))
+	if(gtk_editable_get_chars(GTK_EDITABLE(entry_web),0, -1))
 	{	
+	tampon_web = gtk_editable_get_chars(GTK_EDITABLE(entry_web),0, -1);
 	webkit_web_view_load_uri(webView, tampon_web);
 	}
 }
 
 //******************************* chargement url myweb
-void enter_myweb (GdkEventKey *event, gpointer data)
+void enter_myweb ()
 {
 gchar *tampon_myweb;
 
-	if(tampon_myweb = gtk_editable_get_chars(GTK_EDITABLE(entry_myadmin),0, -1))
+	if(gtk_editable_get_chars(GTK_EDITABLE(entry_myadmin),0, -1))
 	{
+	tampon_myweb = gtk_editable_get_chars(GTK_EDITABLE(entry_myadmin),0, -1);
 	webkit_web_view_load_uri(webView_myadmin, tampon_myweb);
 	}
 }
@@ -4271,26 +4131,27 @@ void myadmin_forward (){webkit_web_view_go_forward(webView_myadmin);}
 void myadmin_stop (){webkit_web_view_stop_loading(webView_myadmin);}
 
 //******************************* Toolbar WIN_WEB
-void myadmin_reload_win (GtkToolItem *tool,gpointer user_data){webkit_web_view_reload(user_data);}
-void myadmin_back_win (GtkToolItem *tool,gpointer user_data){webkit_web_view_go_back(user_data);}
-void myadmin_forward_win (GtkToolItem *tool,gpointer user_data){webkit_web_view_go_forward(user_data);}
-void myadmin_stop_win (GtkToolItem *tool,gpointer user_data){webkit_web_view_stop_loading(user_data);}
-void myadmin_source_mode_get_url_win (GtkToolItem *tool,gpointer user_data){webkit_web_view_set_view_source_mode(user_data,TRUE);webkit_web_view_reload(user_data);}
-void myadmin_view_mode_get_url_win (GtkToolItem *tool,gpointer user_data){webkit_web_view_set_view_source_mode(user_data,FALSE);webkit_web_view_reload(user_data);}
+void myadmin_reload_win (gpointer user_data){webkit_web_view_reload(user_data);}
+void myadmin_back_win (gpointer user_data){webkit_web_view_go_back(user_data);}
+void myadmin_forward_win (gpointer user_data){webkit_web_view_go_forward(user_data);}
+void myadmin_stop_win (gpointer user_data){webkit_web_view_stop_loading(user_data);}
+void myadmin_source_mode_get_url_win (gpointer user_data){webkit_web_view_set_view_source_mode(user_data,TRUE);webkit_web_view_reload(user_data);}
+void myadmin_view_mode_get_url_win (gpointer user_data){webkit_web_view_set_view_source_mode(user_data,FALSE);webkit_web_view_reload(user_data);}
 
 void enter_myweb_win (GtkWidget* entry, gpointer user_data)
 {
 gchar *tampon_myweb;
 
-	if(tampon_myweb = gtk_editable_get_chars(GTK_EDITABLE(entry),0, -1))
+	if(gtk_editable_get_chars(GTK_EDITABLE(entry),0, -1))
 	{
+	tampon_myweb = gtk_editable_get_chars(GTK_EDITABLE(entry),0, -1);
 	webkit_web_view_load_uri(user_data, tampon_myweb);
 	}
 }
 
-void myadmin_get_url_win (WebKitWebView  *web, WebKitWebFrame *frame,gpointer user_data)
+void myadmin_get_url_win (WebKitWebView  *web,gpointer user_data)
 {
- gchar **url=webkit_web_view_get_uri(web);
+ gchar const *url=webkit_web_view_get_uri(web);
  gtk_entry_set_text (GTK_ENTRY (user_data), _(url));
 }
 
@@ -4304,23 +4165,23 @@ void miniweb_stop (){webkit_web_view_stop_loading(webView);}
 //******************************* MyAdmin get url
 void myadmin_get_url ()
 {
- gchar **url=webkit_web_view_get_uri(webView_myadmin);
+ gchar const *url=webkit_web_view_get_uri(webView_myadmin);
  gtk_entry_set_text (GTK_ENTRY (entry_myadmin), _(url));
 
 	GtkTreeIter iter_entry;
 	gtk_list_store_append(model_entry_http2, &iter_entry);
-	gtk_list_store_set(model_entry_http2, &iter_entry, CONTACT_NAME_HTTP2, gtk_entry_get_text (entry_myadmin),  -1);
+	gtk_list_store_set(model_entry_http2, &iter_entry, CONTACT_NAME_HTTP2, gtk_entry_get_text (GTK_ENTRY (entry_myadmin)),  -1);
 }
 
 //******************************* Miniweb get url
 void miniweb_get_url ()
 {
- gchar **url=webkit_web_view_get_uri(webView);
+ gchar const *url=webkit_web_view_get_uri(webView);
  gtk_entry_set_text (GTK_ENTRY (entry_web), _(url));
 
 	GtkTreeIter iter_entry;
 	gtk_list_store_append(model_entry_http, &iter_entry);
-	gtk_list_store_set(model_entry_http, &iter_entry, CONTACT_NAME_HTTP, gtk_entry_get_text (entry_web),  -1);
+	gtk_list_store_set(model_entry_http, &iter_entry, CONTACT_NAME_HTTP, gtk_entry_get_text (GTK_ENTRY (entry_web)),  -1);
 
 }
 
@@ -4335,20 +4196,20 @@ void myadmin_view_mode_get_url (){webkit_web_view_set_view_source_mode(webView_m
 
 
 
-void copy_vte(GtkWidget *tv,GdkEventButton *event,  gpointer user_data)
+void copy_vte(  gpointer user_data)
 {
       vte_terminal_copy_clipboard(user_data);
       gtk_widget_destroy(menu_vte);
 }
 
-void paste_vte(GtkWidget *tv,GdkEventButton *event,  gpointer user_data)
+void paste_vte(gpointer user_data)
 {
       vte_terminal_paste_clipboard(user_data);
       gtk_widget_destroy(menu_vte);
 }
 
 //************** VTE Search google
-void term_search_google(GtkWidget *tv,GdkEventButton *event,  gpointer user_data)
+void term_search_google(gpointer user_data)
 {
       vte_terminal_copy_clipboard(user_data);
 				char search_google[150];
@@ -4365,7 +4226,7 @@ void term_search_google(GtkWidget *tv,GdkEventButton *event,  gpointer user_data
 } 
 
 
-gboolean popup_context_menu_vte(GtkWidget *tv, GdkEventButton *event, gpointer user_data)
+gboolean popup_context_menu_vte(GtkWidget *tv, GdkEventButton *event)
 {
       GtkWidget *menu_item,*menu_item2,*menu_item3,*menu_item4,*menu_item5;
       gboolean ret = FALSE;
@@ -4376,17 +4237,17 @@ gboolean popup_context_menu_vte(GtkWidget *tv, GdkEventButton *event, gpointer u
 
             gtk_container_set_border_width(GTK_CONTAINER(menu_vte), 2);
 
-									if(vte_terminal_get_has_selection (tv))
+									if(vte_terminal_get_has_selection (VTE_TERMINAL(tv)))
 									{
             //menu_item = gtk_menu_item_new_with_label ("Copy");
 									menu_item = gtk_image_menu_item_new_from_stock(GTK_STOCK_COPY,NULL);
-									gtk_image_menu_item_set_always_show_image (menu_item ,TRUE);
+									gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM(menu_item) ,TRUE);
             g_signal_connect(menu_item, "button-release-event", G_CALLBACK(copy_vte),tv);
             gtk_menu_shell_append(GTK_MENU_SHELL(menu_vte), menu_item);
 									}
            // menu_item2 = gtk_menu_item_new_with_label ("Paste");
 									 menu_item2 = gtk_image_menu_item_new_from_stock(GTK_STOCK_PASTE,NULL);
-									gtk_image_menu_item_set_always_show_image (menu_item2 ,TRUE);
+									gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM(menu_item2) ,TRUE);
             g_signal_connect(menu_item2, "button-release-event", G_CALLBACK(paste_vte), tv);
             gtk_menu_shell_append(GTK_MENU_SHELL(menu_vte), menu_item2);
 
@@ -4402,7 +4263,7 @@ gboolean popup_context_menu_vte(GtkWidget *tv, GdkEventButton *event, gpointer u
             g_signal_connect(menu_item5, "button-release-event", G_CALLBACK(term_help), tv);
             gtk_menu_shell_append(GTK_MENU_SHELL(menu_vte), menu_item5);
 
-            gtk_menu_popup(GTK_MENU(menu_vte), NULL, NULL, NULL, NULL, 3, NULL);
+            gtk_menu_popup(GTK_MENU(menu_vte), NULL, NULL, NULL, NULL, 3, 1);
 									gtk_widget_show_all(GTK_WIDGET(menu_vte));
 
       }else{gtk_widget_grab_focus (tv);}
@@ -4416,37 +4277,37 @@ void new_terminal ()
 {
 	term_page *page_term = (term_page *) g_malloc (sizeof (term_page));
 
-  page_term->vbox2 = gtk_vbox_new (TRUE, 0);
+  page_term->vbox2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (GTK_WIDGET(page_term->vbox2));
-  gtk_container_add (GTK_CONTAINER (notebook_term), page_term->vbox2);
+  gtk_container_add (GTK_CONTAINER (notebook_term), GTK_WIDGET(page_term->vbox2));
 
-	long size;
-	char *buf;
-	char *ptr;
-  size = pathconf(".", _PC_PATH_MAX);
-  if ((buf = (char *)malloc((size_t)size)) != NULL) ptr = getcwd(buf, (size_t)size);
+	//long size;
+	//char *buf;
+	//char *ptr;
+  //size = pathconf(".", _PC_PATH_MAX);
+  //if ((buf = (char *)malloc((size_t)size)) != NULL) ptr = getcwd(buf, (size_t)size);
 
   	page_term->vte_add = vte_terminal_new();
 
   vte_terminal_set_background_image_file (VTE_TERMINAL(page_term->vte_add),"/usr/local/share/griffon/pixmaps/griffon_bg2.png");
 	vte_terminal_set_background_saturation (VTE_TERMINAL(page_term->vte_add),0.1);
 
-  vte_terminal_fork_command(VTE_TERMINAL(page_term->vte_add), NULL, NULL, NULL, ptr, TRUE, TRUE,TRUE);
+  //vte_terminal_fork_command(VTE_TERMINAL(page_term->vte_add), NULL, NULL, NULL, ptr, TRUE, TRUE,TRUE);
   vte_terminal_set_scroll_on_keystroke(VTE_TERMINAL (page_term->vte_add), TRUE);
-	gtk_container_add (GTK_CONTAINER (page_term->vbox2), page_term->vte_add);	
+	gtk_container_add (GTK_CONTAINER (page_term->vbox2), GTK_WIDGET(page_term->vte_add));	
 
 	gtk_widget_show (GTK_WIDGET(page_term->vte_add));
  
-		vte_terminal_set_scrollback_lines(page_term->vte_add,-1);
+		vte_terminal_set_scrollback_lines(VTE_TERMINAL(page_term->vte_add),-1);
 
-	page_term->num_tab=gtk_notebook_get_n_pages(notebook_term);
-	if(page_term->num_tab!=NULL && page_term->num_tab!=0){page_term->num_tab--;}
+	page_term->num_tab=gtk_notebook_get_n_pages(GTK_NOTEBOOK (notebook_term));
+	if(page_term->num_tab!=0){page_term->num_tab--;}
 
 	gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook_term), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_term), page_term->num_tab), TRUE);
 
   page_term->label_term = gtk_label_new (_("   Terminal   "));
 
-  page_term->hbox_term_tab = gtk_hbox_new (FALSE, 0);
+  page_term->hbox_term_tab = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 
 
   page_term->image_term_tab = gtk_image_new_from_stock ("gtk-yes", GTK_ICON_SIZE_SMALL_TOOLBAR);
@@ -4467,18 +4328,18 @@ void new_terminal ()
 //********************************* CLOSE ONE TERMINALE
 void on_button_close_term ()
 {
-	gint num_tab=gtk_notebook_get_current_page(notebook_term);
+	gint num_tab=gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook_term));
 	//if(num_tab!=NULL && num_tab!=0){num_tab--;}
-   gtk_notebook_remove_page(notebook_term,num_tab);
+   gtk_notebook_remove_page(GTK_NOTEBOOK (notebook_term),num_tab);
 }
 
 //********************************* NEXT et PREV PAGE dans les onglets Terminal
-void next_term (){gtk_notebook_next_page(notebook_term);}
-void prev_term (){gtk_notebook_prev_page(notebook_term);}
+void next_term (){gtk_notebook_next_page(GTK_NOTEBOOK (notebook_term));}
+void prev_term (){gtk_notebook_prev_page(GTK_NOTEBOOK (notebook_term));}
 
 
 //********************************* Bookmark myadmin ON/OFF
-void myadmin_bookmark_off (){gtk_widget_hide(view_a);}
+void myadmin_bookmark_off (){gtk_widget_hide(GTK_WIDGET(view_a));}
 
 void myadmin_bookmark_on (){gtk_widget_show(GTK_WIDGET(view_a));}
 
@@ -4492,8 +4353,8 @@ void window_debug ()
 	gtk_window_set_transient_for(GTK_WINDOW(window_run),GTK_WINDOW(tea_main_window));
 	gtk_window_resize (GTK_WINDOW (window_run), 900, 500);
 	
-  GtkWidget * vbox2 = gtk_vbox_new (FALSE, 0);
-  gtk_container_add (GTK_CONTAINER (window_run), vbox2);
+  GtkWidget * vbox2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_container_add (GTK_CONTAINER (window_run), GTK_WIDGET(vbox2));
 
 	//**************************** TOOLBAR 
 	GtkWidget *toolbar_myadmin;
@@ -4518,28 +4379,28 @@ gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_sep, -1);
   g_signal_connect ((gpointer) tool_clear, "clicked",G_CALLBACK (clear_debug),NULL);
   gtk_tool_item_set_tooltip_text(tool_clear,_("Clear terminal"));
 
-	gtk_box_pack_start (vbox2, toolbar_myadmin, FALSE, FALSE, 0);
-	gtk_toolbar_set_style (toolbar_myadmin, GTK_TOOLBAR_ICONS);
+	gtk_box_pack_start (GTK_BOX (vbox2), toolbar_myadmin, FALSE, FALSE, 0);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_myadmin), GTK_TOOLBAR_ICONS);
 
-	gtk_toolbar_set_icon_size(toolbar_myadmin,GTK_ICON_SIZE_SMALL_TOOLBAR);
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_myadmin),GTK_ICON_SIZE_SMALL_TOOLBAR);
 
-	long size;
-	char *buf;
-	char *ptr;
-  size = pathconf(".", _PC_PATH_MAX);
-  if ((buf = (char *)malloc((size_t)size)) != NULL) ptr = getcwd(buf, (size_t)size);
+	//long size;
+	//char *buf;
+	//char *ptr;
+  //size = pathconf(".", _PC_PATH_MAX);
+  //if ((buf = (char *)malloc((size_t)size)) != NULL) ptr = getcwd(buf, (size_t)size);
 
   	vte_add = vte_terminal_new();
 
    vte_terminal_set_background_image_file (VTE_TERMINAL(vte_add),"/usr/local/share/griffon/pixmaps/griffon_bg2.png");
 	vte_terminal_set_background_saturation (VTE_TERMINAL(vte_add),0.1);
 
-  vte_terminal_fork_command(VTE_TERMINAL(vte_add), NULL, NULL, NULL, ptr, TRUE, TRUE,TRUE);
+  //vte_terminal_fork_command(VTE_TERMINAL(vte_add), NULL, NULL, NULL, ptr, TRUE, TRUE,TRUE);
   vte_terminal_set_scroll_on_keystroke(VTE_TERMINAL (vte_add), TRUE);
-	gtk_container_add (GTK_CONTAINER (vbox2), vte_add);	
+	gtk_container_add (GTK_CONTAINER (vbox2), GTK_WIDGET(vte_add));	
 
-   vte_terminal_feed_child (vte_add,"PS1=\"[\\d \\t]\"\n",-1);
-   vte_terminal_feed_child (vte_add,"clear\n",-1);
+   vte_terminal_feed_child (VTE_TERMINAL(vte_add),"PS1=\"[\\d \\t]\"\n",-1);
+   vte_terminal_feed_child (VTE_TERMINAL(vte_add),"clear\n",-1);
 
 		g_signal_connect (vte_add, "button-press-event", G_CALLBACK (popup_context_menu_vte), NULL);
   gtk_widget_show (GTK_WIDGET(vbox2));
@@ -4558,20 +4419,21 @@ gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_sep, -1);
 void run_debug ()
 {
 	   char *extension;
-	   if(extension = strrchr(cur_text_doc->file_name,'.'))
+	   if(strrchr(cur_text_doc->file_name,'.'))
 		{
+			extension = strrchr(cur_text_doc->file_name,'.');
 			if (strcmp(".sh", extension) == 0)
 			{
 			clear_debug();  
-			vte_terminal_feed_child (vte_add,cur_text_doc->file_name,-1);
-			vte_terminal_feed_child (vte_add,"\n",-1);
+			vte_terminal_feed_child (VTE_TERMINAL(vte_add),cur_text_doc->file_name,-1);
+			vte_terminal_feed_child (VTE_TERMINAL(vte_add),"\n",-1);
 			}
 
 			if (strcmp(".pl", extension) == 0)
 			{
 			clear_debug();
-			vte_terminal_feed_child (vte_add,cur_text_doc->file_name,-1);
-			vte_terminal_feed_child (vte_add,"\n",-1);
+			vte_terminal_feed_child (VTE_TERMINAL(vte_add),cur_text_doc->file_name,-1);
+			vte_terminal_feed_child (VTE_TERMINAL(vte_add),"\n",-1);
 			}
 
 
@@ -4580,15 +4442,15 @@ void run_debug ()
 
 			   if (!cur_tea_project){return;}
 				clear_debug();
-				vte_terminal_feed_child (vte_add,"cd ",-1);
-				vte_terminal_feed_child (vte_add,cur_tea_project->dir_makefile,-1);
-				vte_terminal_feed_child (vte_add,"\nmake\n",-1);
+				vte_terminal_feed_child (VTE_TERMINAL(vte_add),"cd ",-1);
+				vte_terminal_feed_child (VTE_TERMINAL(vte_add),cur_tea_project->dir_makefile,-1);
+				vte_terminal_feed_child (VTE_TERMINAL(vte_add),"\nmake\n",-1);
 
-				vte_terminal_feed_child (vte_add,"cd ",-1);
-				vte_terminal_feed_child (vte_add,cur_tea_project->dir_source,-1);	
-				vte_terminal_feed_child (vte_add,"\n./",-1);		
-				vte_terminal_feed_child (vte_add,cur_tea_project->file_executable,-1);
-				vte_terminal_feed_child (vte_add,"\n",-1);
+				vte_terminal_feed_child (VTE_TERMINAL(vte_add),"cd ",-1);
+				vte_terminal_feed_child (VTE_TERMINAL(vte_add),cur_tea_project->dir_source,-1);	
+				vte_terminal_feed_child (VTE_TERMINAL(vte_add),"\n./",-1);		
+				vte_terminal_feed_child (VTE_TERMINAL(vte_add),cur_tea_project->file_executable,-1);
+				vte_terminal_feed_child (VTE_TERMINAL(vte_add),"\n",-1);
 			}
 
 		}
@@ -4600,7 +4462,7 @@ statusbar_msg (_("Run Debug"));
 //**************************** Window Debug Tool script clear
 void clear_debug ()
 {
-	vte_terminal_reset (vte_add,TRUE,TRUE);
+	vte_terminal_reset (VTE_TERMINAL(vte_add),TRUE,TRUE);
 }
 
 //******************************* New terminale avec ssh
@@ -4608,34 +4470,34 @@ void new_terminal_ssh (gchar *serveur,gchar *user)
 {
 	term_page *page_term = (term_page *) g_malloc (sizeof (term_page));
 
-  page_term->vbox2 = gtk_vbox_new (FALSE, 0);
-  gtk_container_add (GTK_CONTAINER (notebook_term), page_term->vbox2);
+  page_term->vbox2 =gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_container_add (GTK_CONTAINER (notebook_term), GTK_WIDGET(page_term->vbox2));
 
 
-	long size;
+	/*long size;
 	char *buf;
 	char *ptr;
   size = pathconf(".", _PC_PATH_MAX);
-  if ((buf = (char *)malloc((size_t)size)) != NULL) ptr = getcwd(buf, (size_t)size);
+  if ((buf = (char *)malloc((size_t)size)) != NULL) ptr = getcwd(buf, (size_t)size);*/
 
   	page_term->vte_add = vte_terminal_new();
 
   vte_terminal_set_background_image_file (VTE_TERMINAL(page_term->vte_add),"/usr/local/share/griffon/pixmaps/griffon_bg2.png");
 	vte_terminal_set_background_saturation (VTE_TERMINAL(page_term->vte_add),0.1);
 
-  vte_terminal_fork_command(VTE_TERMINAL(page_term->vte_add), NULL, NULL, NULL, ptr, TRUE, TRUE,TRUE);
+//  vte_terminal_fork_command(VTE_TERMINAL(page_term->vte_add), NULL, NULL, NULL, ptr, TRUE, TRUE,TRUE);
   vte_terminal_set_scroll_on_keystroke(VTE_TERMINAL (page_term->vte_add), TRUE);
-	gtk_container_add (GTK_CONTAINER (page_term->vbox2), page_term->vte_add);	
+	gtk_container_add (GTK_CONTAINER (page_term->vbox2), GTK_WIDGET(page_term->vte_add));	
 
 
-	page_term->num_tab=gtk_notebook_get_n_pages(notebook_term);
-	if(page_term->num_tab!=NULL && page_term->num_tab!=0){page_term->num_tab--;}
+	page_term->num_tab=gtk_notebook_get_n_pages(GTK_NOTEBOOK (notebook_term));
+	if(page_term->num_tab!=0){page_term->num_tab--;}
 
 	gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook_term), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_term), page_term->num_tab), TRUE);
 
   page_term->label_term = gtk_label_new (_(serveur));
 
-  page_term->hbox_term_tab = gtk_hbox_new (FALSE, 0);
+  page_term->hbox_term_tab = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 
   page_term->image_term_tab = gtk_image_new_from_stock ("gtk-yes", GTK_ICON_SIZE_SMALL_TOOLBAR);
   gtk_box_pack_start (GTK_BOX (page_term->hbox_term_tab), page_term->image_term_tab, TRUE, TRUE, 0);
@@ -4643,11 +4505,11 @@ void new_terminal_ssh (gchar *serveur,gchar *user)
 
 	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_term), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_term), page_term->num_tab), page_term->hbox_term_tab);
 
-  vte_terminal_feed_child (page_term->vte_add,"ssh ",-1);
-  vte_terminal_feed_child (page_term->vte_add,user,-1);
-  vte_terminal_feed_child (page_term->vte_add,"@",-1);
-  vte_terminal_feed_child (page_term->vte_add,serveur,-1);
-  vte_terminal_feed_child (page_term->vte_add,"\n",-1);
+  vte_terminal_feed_child (VTE_TERMINAL(page_term->vte_add),"ssh ",-1);
+  vte_terminal_feed_child (VTE_TERMINAL(page_term->vte_add),user,-1);
+  vte_terminal_feed_child (VTE_TERMINAL(page_term->vte_add),"@",-1);
+  vte_terminal_feed_child (VTE_TERMINAL(page_term->vte_add),serveur,-1);
+  vte_terminal_feed_child (VTE_TERMINAL(page_term->vte_add),"\n",-1);
 
 	gtk_widget_set_can_focus (GTK_WIDGET (page_term->label_term), FALSE);
 	gtk_widget_set_can_focus (GTK_WIDGET (page_term->hbox_term_tab), FALSE);
@@ -4672,24 +4534,25 @@ void new_dir_cmd ()
 	char pathT[500];
 	pathT[0]='\0';
 
-		if(! gtk_file_chooser_get_current_folder (filechooserwidget2)){log_to_memo (_("Mkdir Error : vous devez séléctionner un répertoire dans le sélécteur de fichier."), NULL, LM_ERROR);statusbar_msg (_("Mkdir ERROR"));return;}
+		if(! gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2))){log_to_memo (_("Mkdir Error : vous devez séléctionner un répertoire dans le sélécteur de fichier."), NULL, LM_ERROR);statusbar_msg (_("Mkdir ERROR"));return;}
 
-	path_dir=gtk_file_chooser_get_current_folder (filechooserwidget2);
+	path_dir=gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2));
 	strcpy(pathT,path_dir);
 	strcat(pathT,"/");
 
-	if(strlen (gtk_entry_get_text (ent_search2)) != 0)
+	if(strlen (gtk_entry_get_text (GTK_ENTRY (ent_search2))) != 0)
 	{
 		 dir=gtk_editable_get_chars(GTK_EDITABLE(cmb_famous2),0, -1);
 		strcat(pathT,dir);
 		if (mkdir (pathT, S_IRUSR | S_IWUSR | S_IXUSR) == -1){log_to_memo (_("Mkdir Error."), NULL, LM_ERROR);statusbar_msg (_("Mkdir [ERROR]"));}
-		else{log_to_memo (_("Mkdir %s"), pathT, LM_NORMAL); gtk_file_chooser_set_current_folder(filechooserwidget2 ,pathT); statusbar_msg (_("Mkdir [OK]"));
+		else{log_to_memo (_("Mkdir %s"), pathT, LM_NORMAL); gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,pathT); statusbar_msg (_("Mkdir [OK]"));
 	griffon_notify(_("Le répertoire est créé."));
 
 		char commande[350];
 	strcpy(commande,"chmod 755 ");
 	strcat(commande,pathT);
-	system(commande);
+	int systemRet =system(commande);
+	if(systemRet == -1){return;}
 
 return;}
 	}
@@ -4704,9 +4567,9 @@ void new_file_cmd ()
 	char pathT[500];
 	pathT[0]='\0';
 
-		if(! gtk_file_chooser_get_current_folder (filechooserwidget2)){log_to_memo (_("File Error : vous devez séléctionner un répertoire dans le sélécteur de fichier."), NULL, LM_ERROR);statusbar_msg (_("File touch [ERROR]"));return;}
+		if(! gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2))){log_to_memo (_("File Error : vous devez séléctionner un répertoire dans le sélécteur de fichier."), NULL, LM_ERROR);statusbar_msg (_("File touch [ERROR]"));return;}
 
-	path_file=gtk_file_chooser_get_current_folder (filechooserwidget2);
+	path_file=gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2));
 	strcpy(pathT,path_file);
 	strcat(pathT,"/");
 	dir = gtk_editable_get_chars(GTK_EDITABLE(ent_search2),0, -1);
@@ -4724,8 +4587,9 @@ void new_file_cmd ()
 				doc_open_file (pathT);
 
 				   char *extension;
-				   if(extension = strrchr(pathT,'.'))
+				   if(strrchr(pathT,'.'))
 					{
+					extension = strrchr(pathT,'.');
 					if (strcmp(".pl", extension) == 0){start_perl_script();}
 					if (strcmp(".sh", extension) == 0){print_bash();}
 					if (strcmp(".php", extension) == 0){start_php_script();}
@@ -4736,8 +4600,8 @@ void new_file_cmd ()
 	char commande[350];
 	strcpy(commande,"chmod u+x ");
 	strcat(commande,cur_text_doc->file_name);
-	system(commande);
-
+	int systemRet =system(commande);
+	if(systemRet == -1){return;}
 				}
 	}
 	else{log_to_memo (_("File Error : vous devez entrer le nom du fichier dans la ligne de commande"), NULL, LM_ERROR);statusbar_msg (_("File touch [ERROR]"));}
@@ -4752,13 +4616,13 @@ void new_web_window ()
   web_win->window_web = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_transient_for(GTK_WINDOW(web_win->window_web),GTK_WINDOW(tea_main_window));
 	gtk_window_resize (GTK_WINDOW (web_win->window_web), 900, 500);
-	gtk_window_maximize (web_win->window_web);
+	gtk_window_maximize (GTK_WINDOW(web_win->window_web));
 
-  web_win->vbox3 = gtk_vbox_new (FALSE, 0);
-  gtk_container_add (GTK_CONTAINER (web_win->window_web), web_win->vbox3);
+  web_win->vbox3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_container_add (GTK_CONTAINER (web_win->window_web), GTK_WIDGET(web_win->vbox3));
   gtk_widget_show (GTK_WIDGET(web_win->vbox3));  
 
-  web_win->hbox3 = gtk_hbox_new (TRUE, 0);
+  web_win->hbox3 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(web_win->hbox3));
   gtk_box_pack_start (GTK_BOX (web_win->vbox3), web_win->hbox3, FALSE, TRUE, 0);
 
@@ -4809,11 +4673,11 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   gtk_tool_item_set_tooltip_text(tool_myadmin_view,_("Web view"));
 
 
-	gtk_box_pack_start (web_win->hbox3, toolbar_myadmin, TRUE, TRUE, 0);
-	gtk_toolbar_set_style (toolbar_myadmin, GTK_TOOLBAR_ICONS);
+	gtk_box_pack_start (GTK_BOX (web_win->hbox3), toolbar_myadmin, TRUE, TRUE, 0);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_myadmin), GTK_TOOLBAR_ICONS);
 	gtk_widget_show (GTK_WIDGET(toolbar_myadmin)); 
 
-	gtk_toolbar_set_icon_size(toolbar_myadmin,GTK_ICON_SIZE_SMALL_TOOLBAR);
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_myadmin),GTK_ICON_SIZE_SMALL_TOOLBAR);
 
   web_win->entry_myadmin = gtk_entry_new ();
   gtk_widget_show (GTK_WIDGET(web_win->entry_myadmin));
@@ -4827,7 +4691,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add(GTK_CONTAINER(web_win->scrolledWindow), GTK_WIDGET(web_win->webView_w));
 
-    gtk_container_add(GTK_CONTAINER(web_win->vbox3), web_win->scrolledWindow);
+    gtk_container_add(GTK_CONTAINER(web_win->vbox3), GTK_WIDGET(web_win->scrolledWindow));
 
 		gtk_widget_show_all (GTK_WIDGET(web_win->window_web)); 
 
@@ -4837,8 +4701,9 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
 
 	gchar *tampon_myweb;
 
-	if(tampon_myweb = gtk_editable_get_chars(GTK_EDITABLE(entry_myadmin),0, -1))
+	if(gtk_editable_get_chars(GTK_EDITABLE(entry_myadmin),0, -1))
 	{
+	tampon_myweb = gtk_editable_get_chars(GTK_EDITABLE(entry_myadmin),0, -1);
 	webkit_web_view_load_uri(web_win->webView_w, tampon_myweb);
 	gtk_entry_set_text (GTK_ENTRY (web_win->entry_myadmin), _(tampon_myweb));
 	}
@@ -4863,13 +4728,13 @@ void new_web_window_mini ()
   web_win->window_web = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_transient_for(GTK_WINDOW(web_win->window_web),GTK_WINDOW(tea_main_window));
 	gtk_window_resize (GTK_WINDOW (web_win->window_web), 900, 500);
-	gtk_window_maximize (web_win->window_web);
+	gtk_window_maximize (GTK_WINDOW(web_win->window_web));
 
-  web_win->vbox3 = gtk_vbox_new (FALSE, 0);
-  gtk_container_add (GTK_CONTAINER (web_win->window_web), web_win->vbox3);
+  web_win->vbox3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_container_add (GTK_CONTAINER (web_win->window_web), GTK_WIDGET(web_win->vbox3));
   gtk_widget_show (GTK_WIDGET(web_win->vbox3));  
 
-  web_win->hbox3 = gtk_hbox_new (TRUE, 0);
+  web_win->hbox3 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(web_win->hbox3));
   gtk_box_pack_start (GTK_BOX (web_win->vbox3), web_win->hbox3, FALSE, TRUE, 0);
 
@@ -4920,11 +4785,11 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   gtk_tool_item_set_tooltip_text(tool_myadmin_view,_("Web view"));
 
 
-	gtk_box_pack_start (web_win->hbox3, toolbar_myadmin, TRUE, TRUE, 0);
-	gtk_toolbar_set_style (toolbar_myadmin, GTK_TOOLBAR_ICONS);
+	gtk_box_pack_start (GTK_BOX (web_win->hbox3), toolbar_myadmin, TRUE, TRUE, 0);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_myadmin), GTK_TOOLBAR_ICONS);
 	gtk_widget_show (GTK_WIDGET(toolbar_myadmin)); 
 
-	gtk_toolbar_set_icon_size(toolbar_myadmin,GTK_ICON_SIZE_SMALL_TOOLBAR);
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_myadmin),GTK_ICON_SIZE_SMALL_TOOLBAR);
 
   web_win->entry_myadmin = gtk_entry_new ();
   gtk_widget_show (GTK_WIDGET(web_win->entry_myadmin));
@@ -4938,7 +4803,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add(GTK_CONTAINER(web_win->scrolledWindow), GTK_WIDGET(web_win->webView_w));
 
-    gtk_container_add(GTK_CONTAINER(web_win->vbox3), web_win->scrolledWindow);
+    gtk_container_add(GTK_CONTAINER(web_win->vbox3), GTK_WIDGET(web_win->scrolledWindow));
 
 		gtk_widget_show_all (GTK_WIDGET(web_win->window_web)); 
 
@@ -4948,8 +4813,9 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
 
 	gchar *tampon_myweb;
 
-	if(tampon_myweb = gtk_editable_get_chars(GTK_EDITABLE(entry_web),0, -1))
+	if(gtk_editable_get_chars(GTK_EDITABLE(entry_web),0, -1))
 	{
+	tampon_myweb = gtk_editable_get_chars(GTK_EDITABLE(entry_web),0, -1);
 	webkit_web_view_load_uri(web_win->webView_w, tampon_myweb);
 	gtk_entry_set_text (GTK_ENTRY (web_win->entry_myadmin), _(tampon_myweb));
 	}
@@ -4969,12 +4835,12 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
 void new_file_log_edit ()
 {
 	file_new();
-	gchar *buf = doc_get_buf (log_memo_textbuffer);
+	gchar *buf = doc_get_buf (GTK_TEXT_BUFFER(log_memo_textbuffer));
 	doc_insert_at_cursor (cur_text_doc,buf);
 }
 
 //******************************* Création d'un fichier avec les logs term en édition
-void new_file_term_edit (GtkWidget *tv,GdkEventButton *event,  gpointer user_data)
+void new_file_term_edit (  gpointer user_data)
 {
 	file_new();
 	gchar *buf = vte_terminal_get_text(user_data,NULL,NULL,NULL);
@@ -4989,14 +4855,12 @@ void griffon_notify (gchar* txt)
 }
 
 //******************************** DL WEBKIT
-void download_status_cb(GObject* object, GParamSpec* pspec, gpointer data){ 
+void download_status_cb(GObject* object){ 
     WebKitDownload *download;
     WebKitDownloadStatus status;
-    gchar *uri;
 
     download = WEBKIT_DOWNLOAD(object);
     status = webkit_download_get_status(download);
-    uri = webkit_download_get_uri(download);
 
     switch (status) {
       case WEBKIT_DOWNLOAD_STATUS_ERROR:
@@ -5020,22 +4884,21 @@ void download_status_cb(GObject* object, GParamSpec* pspec, gpointer data){
 }
 
 //******************************** TELECHARGEMENT POUR WEBKIT
-void download_requested_cb(WebKitWebView *web_view, WebKitDownload *download, gpointer user_data)
+void download_requested_cb(WebKitDownload *download)
 {
-	 gchar *filename="";
-	 gchar *uri="";
+	 gchar const *filename="";
 	 gchar* path_dir="";
 
 	 gchar *uri1="file://";
 
-	if(! gtk_file_chooser_get_current_folder (filechooserwidget2)){log_to_memo (_("Download Error : vous devez séléctionner un répertoire dans le sélécteur de fichier"), NULL, LM_ERROR);statusbar_msg (_("Download ERROR"));return true;}
+	if(! gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2))){log_to_memo (_("Download Error : vous devez séléctionner un répertoire dans le sélécteur de fichier"), NULL, LM_ERROR);statusbar_msg (_("Download ERROR"));return ;}
 
 	filename = webkit_download_get_suggested_filename(download);
-	path_dir=gtk_file_chooser_get_current_folder (filechooserwidget2);
+	path_dir=gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2));
 	const gchar * dest_uri = g_strdup_printf("%s%s/%s", uri1, path_dir, filename);
 	 gchar * path = g_strdup_printf("%s/%s", path_dir, filename);
 
-			if (g_file_test (path, G_FILE_TEST_EXISTS)){log_to_memo (_("File Error.download exists"), NULL, LM_ERROR);statusbar_msg (_("File download exists [ERROR]"));return true;}
+			if (g_file_test (path, G_FILE_TEST_EXISTS)){log_to_memo (_("File Error.download exists"), NULL, LM_ERROR);statusbar_msg (_("File download exists [ERROR]"));return;}
 		else{
 						webkit_download_set_destination_uri(download,dest_uri);
 
@@ -5043,7 +4906,7 @@ void download_requested_cb(WebKitWebView *web_view, WebKitDownload *download, gp
                      G_CALLBACK(download_status_cb), NULL);
 					}
 
-  return true; 
+  return ; 
 }
 
 void switch_filechooser ()
@@ -5053,6 +4916,6 @@ void switch_filechooser ()
 	 if(cur_text_doc->file_name!=NULL)
 		{
 			gchar **a = g_strsplit (cur_text_doc->file_name, "_", -1);
-		if (strcmp("noname", a[0]) != 0 ){gtk_file_chooser_set_current_folder(filechooserwidget2 ,g_path_get_dirname (cur_text_doc->file_name));}
+		if (strcmp("noname", a[0]) != 0 ){gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,g_path_get_dirname (cur_text_doc->file_name));}
 	}
 }

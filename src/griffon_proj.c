@@ -61,15 +61,15 @@ static GtkWidget* mk_page_main (t_tea_project *p)
   ent_dir_source = tea_dir_selector (page, _("Source directory"), p->dir_source);
   ent_file_executable = tea_text_entry (page, _("Target executable"), p->file_executable);
   
-gtk_text_buffer_insert_at_cursor(buffer_projet, "\n\n", -1);
-gtk_text_buffer_insert_at_cursor(buffer_projet, "\nfile_executable=", -1);
-gtk_text_buffer_insert_at_cursor(buffer_projet, p->file_executable, -1);
-gtk_text_buffer_insert_at_cursor(buffer_projet, "\nproject_name=", -1);
-gtk_text_buffer_insert_at_cursor(buffer_projet, p->project_name, -1);
-gtk_text_buffer_insert_at_cursor(buffer_projet, "\ndir_makefile=", -1);
-gtk_text_buffer_insert_at_cursor(buffer_projet, p->dir_makefile, -1);
-gtk_text_buffer_insert_at_cursor(buffer_projet, "\ndir_source=", -1);
-gtk_text_buffer_insert_at_cursor(buffer_projet, p->dir_source, -1);
+gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), "\n\n", -1);
+gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), "\nfile_executable=", -1);
+gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), p->file_executable, -1);
+gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), "\nproject_name=", -1);
+gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), p->project_name, -1);
+gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), "\ndir_makefile=", -1);
+gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), p->dir_makefile, -1);
+gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), "\ndir_source=", -1);
+gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), p->dir_source, -1);
 
   return page;
 }
@@ -147,17 +147,17 @@ void tea_proj_save_as (t_tea_project *p, gchar *name)
 
   GList *l = NULL;
 
-gtk_text_buffer_insert_at_cursor(buffer_projet, "\nProeject file name :\n", -1);
-gtk_text_buffer_insert_at_cursor(buffer_projet, p->project_file_name, -1);
-gtk_text_buffer_insert_at_cursor(buffer_projet, "\n\n", -1);
-gtk_text_buffer_insert_at_cursor(buffer_projet, "\nfile_executable=", -1);
-gtk_text_buffer_insert_at_cursor(buffer_projet, p->file_executable, -1);
-gtk_text_buffer_insert_at_cursor(buffer_projet, "\nproject_name=", -1);
-gtk_text_buffer_insert_at_cursor(buffer_projet, p->project_name, -1);
-gtk_text_buffer_insert_at_cursor(buffer_projet, "\ndir_makefile=", -1);
-gtk_text_buffer_insert_at_cursor(buffer_projet, p->dir_makefile, -1);
-gtk_text_buffer_insert_at_cursor(buffer_projet, "\ndir_source=", -1);
-gtk_text_buffer_insert_at_cursor(buffer_projet, p->dir_source, -1);
+gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), "\nProeject file name :\n", -1);
+gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), p->project_file_name, -1);
+gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), "\n\n", -1);
+gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), "\nfile_executable=", -1);
+gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), p->file_executable, -1);
+gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), "\nproject_name=", -1);
+gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), p->project_name, -1);
+gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), "\ndir_makefile=", -1);
+gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), p->dir_makefile, -1);
+gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), "\ndir_source=", -1);
+gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), p->dir_source, -1);
   
   l = add_to_glist_combined_str (l, "file_executable", p->file_executable);
   l = add_to_glist_combined_str (l, "project_name", p->project_name);

@@ -42,6 +42,7 @@ Alejandro Dubrovsky <s328940@student.uq.edu.au>
 #include <regex.h>
 #include <glib.h>
 #include <gtk/gtk.h>
+#include <glib/gprintf.h>
 //#include <gtkspell/gtkspell.h>
 
 #include "rox_strings.h"
@@ -391,7 +392,6 @@ gchar* string_from_glist_raw (GList *list)
 void glist_print (GList* list)
 {
   GList *p = g_list_first (list);
-  gchar *t = NULL;
 
   while (p)
         {
@@ -467,7 +467,7 @@ void glist_save_to_file (GList *list, gchar *filename)
 }
 
 
-GList* filter_exclude_from_list (const GList *list, gchar const *phrase)
+GList* filter_exclude_from_list ( GList *list, gchar const *phrase)
 {
   if (! phrase)
      return list;
@@ -486,7 +486,7 @@ GList* filter_exclude_from_list (const GList *list, gchar const *phrase)
 }
 
 
-GList* filter_antiexclude_from_list (const GList *list, gchar const *phrase)
+GList* filter_antiexclude_from_list ( GList *list, gchar const *phrase)
 {
   if (! phrase)
       return list;
@@ -800,6 +800,8 @@ gint sort_node_m2 (t_struct_word *a, t_struct_word *b)
 
   if (a->count > b->count)
      return 1;    
+
+return 1;
 }
 
 
@@ -816,6 +818,8 @@ gint sort_node_m4 (gchar *a, gchar *b)
 
   if (x > z) 
      return 1;
+
+return 1;
 }
 
 
@@ -825,6 +829,7 @@ GList* glist_word_sort_mode (GList *list, gint mode)
   if (mode == 1) return g_list_reverse (g_list_sort (list, (GCompareFunc) sort_node_m2));
   if (mode == 2) return g_list_reverse (g_list_sort (list, (GCompareFunc) sort_node_m4));
   if (mode == -1) return list;
+	return list;
 }
 
 
@@ -836,9 +841,7 @@ void free_word_data (gpointer data)
 }
 
 
-void str_walk_extract_word (gpointer key,
-                            gpointer value,
-                            gpointer user_data)
+void str_walk_extract_word (gpointer key)
 {
   l_words = g_list_prepend (l_words, key);
 }
@@ -848,7 +851,6 @@ void run_extract_words ( t_note_page *page)
 {
   GList *list = NULL;
   GtkTextIter a;
-  GtkTextIter b;
   
   l_words = NULL;
   GHashTable *words = g_hash_table_new (g_str_hash, g_str_equal);
@@ -858,12 +860,12 @@ void run_extract_words ( t_note_page *page)
   GtkTextIter start;
   GtkTextIter end;
 
-  if (doc_is_sel (page->text_buffer))
-     gtk_text_buffer_get_selection_bounds (page->text_buffer, &start, &end);
+  if (doc_is_sel (GTK_TEXT_BUFFER(page->text_buffer)))
+     gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER(page->text_buffer), &start, &end);
   else
       {
-       gtk_text_buffer_get_start_iter (page->text_buffer, &start); 
-       gtk_text_buffer_get_end_iter (page->text_buffer, &end); 
+       gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(page->text_buffer), &start); 
+       gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(page->text_buffer), &end); 
       }  
 
   do 
@@ -873,7 +875,7 @@ void run_extract_words ( t_note_page *page)
      
      if (gtk_text_iter_ends_word (&start))
         {
-         s = gtk_text_buffer_get_text (page->text_buffer,
+         s = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(page->text_buffer),
                                        &a,
                                        &start,
                                        FALSE);
@@ -888,7 +890,7 @@ void run_extract_words ( t_note_page *page)
 
   while (gtk_text_iter_forward_char (&start)); 
              
-  g_hash_table_foreach (words, str_walk_extract_word, NULL);
+  g_hash_table_foreach (words, (GHFunc)str_walk_extract_word, NULL);
   
   GList *tmplist = g_list_first (g_list_reverse (l_words));
   while (tmplist)
@@ -901,7 +903,7 @@ void run_extract_words ( t_note_page *page)
   
   gchar *sr = string_from_glist (g_list_reverse (list));
    
-  gtk_text_buffer_insert_at_cursor (cur_text_doc->text_buffer, sr, -1);
+  gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), sr, -1);
   g_free (sr);
   glist_strings_free (list);
   g_list_free (l_words);
@@ -909,9 +911,7 @@ void run_extract_words ( t_note_page *page)
 }
 
 
-void walk_by_words (gpointer key,
-                    gpointer value,
-                    gpointer user_data)
+void walk_by_words (gpointer value)
 {
   l_words = g_list_prepend (l_words, value);
 }
@@ -921,7 +921,6 @@ void run_unitaz ( t_note_page *page, gint sort_type, gboolean case_insensetive)
 {
   GList *list = NULL;
   GtkTextIter a;
-  GtkTextIter b;
 
   int w_total = 0;
   int w_unique = 0;  
@@ -937,12 +936,12 @@ void run_unitaz ( t_note_page *page, gint sort_type, gboolean case_insensetive)
   GtkTextIter start;
   GtkTextIter end;
 
-  if (doc_is_sel (page->text_buffer))
-     gtk_text_buffer_get_selection_bounds (page->text_buffer, &start, &end);
+  if (doc_is_sel (GTK_TEXT_BUFFER(page->text_buffer)))
+     gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER(page->text_buffer), &start, &end);
   else
       {
-       gtk_text_buffer_get_start_iter (page->text_buffer, &start); 
-       gtk_text_buffer_get_end_iter (page->text_buffer, &end); 
+       gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(page->text_buffer), &start); 
+       gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(page->text_buffer), &end); 
       }  
 
   do 
@@ -955,7 +954,7 @@ void run_unitaz ( t_note_page *page, gint sort_type, gboolean case_insensetive)
          w_total++;  
          if (case_insensetive)
             {          
-             z = gtk_text_buffer_get_text (page->text_buffer,
+             z = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(page->text_buffer),
                                            &a,
                                            &start,
                                            FALSE);
@@ -963,7 +962,7 @@ void run_unitaz ( t_note_page *page, gint sort_type, gboolean case_insensetive)
              g_free (z);
             }
          else
-             s = gtk_text_buffer_get_text (page->text_buffer,
+             s = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(page->text_buffer),
                                            &a,
                                            &start,
                                            FALSE);
@@ -987,12 +986,9 @@ void run_unitaz ( t_note_page *page, gint sort_type, gboolean case_insensetive)
 
   while ( gtk_text_iter_forward_char (&start)); 
     
-  gint i;
   gchar *st = NULL;
              
-  g_hash_table_foreach (words, walk_by_words, NULL);
-  GList *tl;
-
+  g_hash_table_foreach (words, (GHFunc)walk_by_words, NULL);
   st = g_strdup_printf ("%s %s\n", _("Text analysis results for "), page->file_name);  
   list = g_list_prepend (list, st);
 
@@ -1021,7 +1017,7 @@ void run_unitaz ( t_note_page *page, gint sort_type, gboolean case_insensetive)
   
   gchar *sr = string_from_glist (g_list_reverse (list));
    
-  gtk_text_buffer_insert_at_cursor (cur_text_doc->text_buffer, sr, -1);
+  gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), sr, -1);
   g_free (sr);
   glist_strings_free (list);
   g_list_free (l_words);
@@ -1067,9 +1063,8 @@ gchar* parse_rtf_hex_str (const gchar *s)
   GString *gs = g_string_sized_new (1048576);   
 
   gint i;
-  gint c;
   gint code; 
-  gchar *st;
+  gchar const *st;
   gchar *hex;
   
   st = s;
@@ -1198,7 +1193,7 @@ GList* sort_list_case_insensetive (GList *list)
 }
 
 
-gchar *arr_to_glist (gchar **a)
+GList* arr_to_glist (gchar **a)
 {
   GList *l = NULL; 
   gint i = 0;
@@ -1471,7 +1466,7 @@ gchar * str_replace_all(char const * const original,char const * const pattern,c
       }
      
 
-GList* add_to_list_with_limit (GList *list, gchar *s, gint limit)
+GList* add_to_list_with_limit (GList *list, gchar *s, guint limit)
 {
   if (! s)
      return list;
@@ -1505,7 +1500,7 @@ GList* add_to_list_with_limit (GList *list, gchar *s, gint limit)
 } 
 
 
-GList* add_to_list_with_limit2 (GList *list, gchar *s, gint limit)
+GList* add_to_list_with_limit2 (GList *list, gchar *s, guint limit)
 {
   if (! s)
      return list;
@@ -1639,9 +1634,7 @@ GHashTable* load_file_to_hashtable (gchar *filename)
 }
 
 
-static void cb_print_ht (gpointer key,
-                         gpointer value,
-                         gpointer user_data)
+void cb_print_ht (gpointer key,gpointer value)
 {
   g_print ("%s=%s\n", (gchar*)key, (gchar*)value);
 }
@@ -1649,7 +1642,7 @@ static void cb_print_ht (gpointer key,
 
 void print_ht (GHashTable *ht)
 {
-  g_hash_table_foreach (ht, cb_print_ht, NULL);
+  g_hash_table_foreach (ht, (GHFunc)cb_print_ht, NULL);
 }
 
 
@@ -1790,8 +1783,7 @@ gchar* morse_encode (gchar *s)
   g_hash_table_insert (ht, "\"", ".-..-.");
   g_hash_table_insert (ht, "$", "...-..-");
   
-  gchar *t;
-  gint size;     
+  gchar *t;     
   GString* gs = g_string_sized_new (strlen (s));
   
   gchar *p = s;
@@ -1923,16 +1915,13 @@ gchar* morse_decode (gchar *s)
 static GList *temp_glist;
 
 static void ht_to_glist_cb (gpointer key,
-                            gpointer value,
-                            gpointer user_data)
+                            gpointer value)
 {
   temp_glist = g_list_prepend (temp_glist, g_strconcat (key, "=", value, NULL));
 }
 
 
-static void ht_to_glist_keys_cb (gpointer key,
-                                 gpointer value,
-                                 gpointer user_data)
+static void ht_to_glist_keys_cb (gpointer key)
 {
   temp_glist = g_list_prepend (temp_glist, g_strconcat (key, NULL));
 }
@@ -1943,10 +1932,10 @@ GList* ht_to_glist (GHashTable *hash_table, gint option)
   glist_strings_free (temp_glist);
   
   if (option == opt_ht_to_glist_full)
-     g_hash_table_foreach (hash_table, ht_to_glist_cb, NULL);
+     g_hash_table_foreach (hash_table, (GHFunc)ht_to_glist_cb, NULL);
   else
       if (option == opt_ht_to_glist_keys)
-         g_hash_table_foreach (hash_table, ht_to_glist_keys_cb, NULL);
+         g_hash_table_foreach (hash_table, (GHFunc)ht_to_glist_keys_cb, NULL);
 
   return temp_glist;
 }
@@ -1964,51 +1953,6 @@ gchar* ch_str (gchar *s, gchar const *new_val)
       }
    else
        return s;
-} 
-
-
-//current music: Radiohead - OK Computer - Karma Police
-GList* glist_add_not_dup (GList *l, gchar *s, gint min)
-{
-
-	  GList *e = NULL;
-	e= g_list_alloc();
-
-  if (! s)
-     return l;
-  if (s==NULL)
-     return l;
-  if (min==NULL)
-     return l;
-  if (l==NULL)
-     return l;
-
-
-  if (g_utf8_strlen (s, -1) <= min || strlen (s) <= min)
-     return l;
-
-  GList *p = g_list_first (l);
-
-  while (p)
-        {
-         if (g_strcmp0 (p->data, s) == 0)
-            return l;
-         p = g_list_next (p);
-        }
-
-  gchar *t = strdup (s);
-  t = g_strchomp (t);
-
-	if (t!=NULL && strlen (t) >= min)
-	{
-		//printf("IF size\n");
-		e=g_list_prepend (l, t);
-	}
- g_free(p);
-
-	//printf("string %s\n",t);
-	if(e!=NULL){/*printf("Return E\n");*/return e;}else{/*printf("Return L\n");*/return l;}
-
 } 
 
 

@@ -59,9 +59,9 @@
 void set_fam_text (gchar *def)
 {
 icon_affiche_ok();
-  if (strlen (gtk_entry_get_text (ent_search)) == 0)
+  if (strlen (gtk_entry_get_text (GTK_ENTRY(ent_search))) == 0)
      {
-      gtk_entry_set_text (ent_search, def); 
+      gtk_entry_set_text (GTK_ENTRY(ent_search), def); 
       icon_man_logmemo(); 
      log_to_memo (_("La documentation est disponible dans le menu \"Aide->Lire le manuel/documentation de Griffon IDE\""), NULL, LM_ERROR);
      } 
@@ -234,7 +234,7 @@ icon_affiche_ok();
   if (! get_page_text()) return;
 
 	//********************************* Affichage des icons mark
-	do_hl_c (cur_text_doc);
+	//do_hl_c (cur_text_doc);
   
   if (! cur_text_doc->b_saved)
 		{		apply_hl (cur_text_doc);
@@ -519,14 +519,14 @@ void on_notebook1_switch_page (GtkNotebook *notebook,guint page_num)
      {
       set_title (dc);
       gtk_widget_grab_focus (GTK_WIDGET(dc->text_view));
-      last_page = gtk_notebook_get_current_page (notebook);
+      last_page = gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook));
      }
 }
 
 void on_mni_file_close_current ()
 {
 	icon_affiche_ok();
-   page_del_by_index (gtk_notebook_get_current_page ((GtkNotebook *) notebook1));
+   page_del_by_index (gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook1)));
 	no_onglet_open();
 }
 
@@ -535,10 +535,10 @@ void on_mni_view_wrap ()
 	icon_affiche_ok();
   if (! get_page_text()) return;
   
-  if (gtk_text_view_get_wrap_mode (cur_text_doc->text_view) != GTK_WRAP_WORD)
-      gtk_text_view_set_wrap_mode (cur_text_doc->text_view, GTK_WRAP_WORD);
+  if (gtk_text_view_get_wrap_mode (GTK_TEXT_VIEW(cur_text_doc->text_view)) != GTK_WRAP_WORD)
+      gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW(cur_text_doc->text_view), GTK_WRAP_WORD);
   else
-      gtk_text_view_set_wrap_mode (cur_text_doc->text_view, GTK_WRAP_NONE);
+      gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW(cur_text_doc->text_view), GTK_WRAP_NONE);
 }
 
 void on_mni_Markup_br ()
@@ -847,11 +847,11 @@ icon_affiche_ok();
 
   if (get_page_text())
      {
-      doc_search_f (cur_text_doc, gtk_entry_get_text (ent_search));gtk_widget_grab_focus (GTK_WIDGET(cur_text_doc->text_view));
+      doc_search_f (cur_text_doc, gtk_entry_get_text (GTK_ENTRY(ent_search)));gtk_widget_grab_focus (GTK_WIDGET(cur_text_doc->text_view));
 
 				GtkTreeIter iter_entry;
       gtk_list_store_append(model_entry, &iter_entry);
-      gtk_list_store_set(model_entry, &iter_entry, CONTACT_NAME, gtk_entry_get_text (ent_search),  -1);
+      gtk_list_store_set(model_entry, &iter_entry, CONTACT_NAME, gtk_entry_get_text (GTK_ENTRY(ent_search)),  -1);
 
      }
 
@@ -889,14 +889,14 @@ void on_mni_func_strings_enclose ()
 
   set_fam_text ("<li>%s</li>");
 
-  if (! strstr (gtk_entry_get_text (ent_search), "%s"))
+  if (! strstr (gtk_entry_get_text (GTK_ENTRY(ent_search)), "%s"))
      {
       g_free (buf);
       return;
      }
 
   GList  *temp = glist_from_string (buf);
-	gchar const *zz=gtk_entry_get_text (ent_search);
+	gchar const *zz=gtk_entry_get_text (GTK_ENTRY(ent_search));
   temp = glist_repl (temp, zz);
   gchar  *t = string_from_glist (temp);
 
@@ -930,11 +930,11 @@ void on_mni_search_repall ()
   if (! get_page_text()) return;
   
   set_fam_text ((_("Texte pour trouver le texte à remplacer")));
-  gchar const *s = gtk_entry_get_text (ent_search);
+  gchar const *s = gtk_entry_get_text (GTK_ENTRY(ent_search));
 
 				GtkTreeIter iter_entry;
       gtk_list_store_append(model_entry, &iter_entry);
-      gtk_list_store_set(model_entry, &iter_entry, CONTACT_NAME, gtk_entry_get_text (ent_search),  -1);
+      gtk_list_store_set(model_entry, &iter_entry, CONTACT_NAME, gtk_entry_get_text (GTK_ENTRY(ent_search)),  -1);
 
   if (! strstr (s, "~"))
      return; 
@@ -961,10 +961,10 @@ void on_mni_search_repall ()
 
   y = a[1];
 
-  gchar *buf = doc_get_buf (cur_text_doc->text_buffer);
+  gchar *buf = doc_get_buf (GTK_TEXT_BUFFER(cur_text_doc->text_buffer));
   gchar *z = str_replace_all (buf, x, y);
  
-  gtk_text_buffer_set_text (cur_text_doc->text_buffer, z, -1);
+  gtk_text_buffer_set_text (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), z, -1);
 
   g_free (z);
   g_free (buf); 
@@ -1084,30 +1084,30 @@ void scan_links (void)
   gtk_widget_destroy(GTK_WIDGET(mni_links_menu));
 	 mni_links_menu = new_menu_submenu (GTK_WIDGET(mni_links));
   mni_temp = new_menu_item (cur_text_doc->file_name, GTK_WIDGET(mni_links_menu), on_mni_new_link_select);
-  gtk_text_buffer_get_start_iter (cur_text_doc->text_buffer, &match_start); 
-  gtk_text_buffer_get_end_iter (cur_text_doc->text_buffer, &match_end); 
+  gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &match_start); 
+  gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &match_end); 
 
   while (gtk_text_iter_forward_search (&match_start, "ref=\"", GTK_TEXT_SEARCH_TEXT_ONLY, &match_start, &match_end, NULL))
        {
         match_start = match_end;
-        if (gtk_text_iter_forward_find_char (&match_end, find_quote, NULL, NULL))   
+        if (gtk_text_iter_forward_find_char (&match_end, (GtkTextCharPredicate)find_quote, NULL, NULL))   
            { 
-            f = gtk_text_buffer_get_text (cur_text_doc->text_buffer, &match_start, &match_end, FALSE);
+            f = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &match_start, &match_end, FALSE);
             add_link_item (cur_text_doc->file_name, f);
             g_free (f);
            }
         match_start = match_end;
       }
 
-  gtk_text_buffer_get_start_iter (cur_text_doc->text_buffer, &match_start); 
-  gtk_text_buffer_get_end_iter (cur_text_doc->text_buffer, &match_end); 
+  gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &match_start); 
+  gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &match_end); 
 
   while (gtk_text_iter_forward_search (&match_start, "REF=\"", GTK_TEXT_SEARCH_TEXT_ONLY, &match_start, &match_end, NULL))
        {
         match_start = match_end;
-        if (gtk_text_iter_forward_find_char (&match_end, find_quote, NULL, NULL))   
+        if (gtk_text_iter_forward_find_char (&match_end, (GtkTextCharPredicate)find_quote, NULL, NULL))   
            {
-            f = gtk_text_buffer_get_text (cur_text_doc->text_buffer, &match_start, &match_end, FALSE);
+            f = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &match_start, &match_end, FALSE);
             add_link_item (cur_text_doc->file_name, f);
             g_free (f);
            }
@@ -1206,7 +1206,7 @@ void on_mni_html_make_table ()
   if (! get_page_text()) return;
   
   set_fam_text ("2~2"); 
-  gchar const *table = gtk_entry_get_text (ent_search);
+  gchar const *table = gtk_entry_get_text (GTK_ENTRY(ent_search));
    icon_man_logmemo();
 	log_to_memo (_("[INFO] Vous poouvez indiquer le nombre de ligne (TR) et le nombre de colonne (TD) dans la ligne de commande\nExemple :2~2\nPour 2 TR et 2 TD\n\n"), NULL, LM_GREET);
 	statusbar_msg (_("Make table HTML"));
@@ -1282,11 +1282,11 @@ void on_mni_goto_line ()
 {
   if (! get_page_text()) return;
   set_fam_text ("0");
-  doc_select_line (cur_text_doc, strtol (gtk_entry_get_text (ent_search), NULL, 10));
+  doc_select_line (cur_text_doc, strtol (gtk_entry_get_text GTK_ENTRY((ent_search)), NULL, 10));
 
 				GtkTreeIter iter_entry;
       gtk_list_store_append(model_entry, &iter_entry);
-      gtk_list_store_set(model_entry, &iter_entry, CONTACT_NAME, gtk_entry_get_text (ent_search),  -1);
+      gtk_list_store_set(model_entry, &iter_entry, CONTACT_NAME, gtk_entry_get_text (GTK_ENTRY(ent_search)),  -1);
 }
 
 void on_mni_convert_ascii_2_html ()
@@ -1313,7 +1313,7 @@ void on_mni_func_filter_exclude_from_list ()
   if (! buf) return;
 
   GList *temp = glist_from_string (buf);
-  GList *temp2 = filter_exclude_from_list (temp, gtk_entry_get_text (ent_search));
+  GList *temp2 = filter_exclude_from_list (temp, gtk_entry_get_text (GTK_ENTRY(ent_search)));
   gchar *t = string_from_glist (temp2);
 
   doc_rep_sel (cur_text_doc, t);
@@ -1329,7 +1329,7 @@ void on_mni_func_filter_antiexclude_from_list ()
   if (! get_page_text()) return;
   
   set_fam_text ("Tantum possumus, quantum scimus.");  
-  gchar const *s = gtk_entry_get_text (ent_search);
+  gchar const *s = gtk_entry_get_text (GTK_ENTRY(ent_search));
   gchar *buf = doc_get_sel (cur_text_doc);
 
   if (! buf) return;
@@ -1364,15 +1364,15 @@ void on_mni_html_calc_weight ()
   gtk_widget_destroy (GTK_WIDGET(mni_links_menu));
   mni_links_menu = new_menu_submenu (GTK_WIDGET(mni_links));
   mni_temp = new_menu_item (cur_text_doc->file_name, GTK_WIDGET(mni_links_menu), on_mni_new_link_select);
-  gtk_text_buffer_get_start_iter (cur_text_doc->text_buffer, &match_start); 
-  gtk_text_buffer_get_end_iter (cur_text_doc->text_buffer, &match_end); 
+  gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &match_start); 
+  gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &match_end); 
 
   while (gtk_text_iter_forward_search (&match_start, "src=\"", GTK_TEXT_SEARCH_TEXT_ONLY, &match_start, &match_end, NULL))
        {
         match_start = match_end;
-        if (gtk_text_iter_forward_find_char (&match_end, find_quote, NULL, NULL))   
+        if (gtk_text_iter_forward_find_char (&match_end,(GtkTextCharPredicate) find_quote, NULL, NULL))   
            {
-            f = gtk_text_buffer_get_text (cur_text_doc->text_buffer, &match_start, &match_end, FALSE);
+            f = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &match_start, &match_end, FALSE);
             if (g_file_test (f, G_FILE_TEST_EXISTS)) 
                 common_temp_list = g_list_append (common_temp_list, f);   
            } 
@@ -1382,9 +1382,9 @@ void on_mni_html_calc_weight ()
   while (gtk_text_iter_forward_search (&match_start, "SRC=\"", GTK_TEXT_SEARCH_TEXT_ONLY, &match_start, &match_end, NULL))
        {
         match_start = match_end;
-        if (gtk_text_iter_forward_find_char (&match_end, find_quote, NULL, NULL))   
+        if (gtk_text_iter_forward_find_char (&match_end,(GtkTextCharPredicate) find_quote, NULL, NULL))   
            {
-            f = gtk_text_buffer_get_text (cur_text_doc->text_buffer, &match_start, &match_end, FALSE);
+            f = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &match_start, &match_end, FALSE);
             if ( g_file_test (f, G_FILE_TEST_EXISTS)) 
                common_temp_list = g_list_append (common_temp_list, f);
            } 
@@ -1435,15 +1435,15 @@ void on_mni_get_src ()
   gtk_widget_destroy(GTK_WIDGET(mni_links_menu));
   mni_links_menu = new_menu_submenu (GTK_WIDGET(mni_links));
   mni_temp = new_menu_item (cur_text_doc->file_name, GTK_WIDGET(mni_links_menu), on_mni_new_link_select);
-  gtk_text_buffer_get_start_iter (cur_text_doc->text_buffer, &match_start); 
-  gtk_text_buffer_get_end_iter (cur_text_doc->text_buffer, &match_end); 
+  gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &match_start); 
+  gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &match_end); 
 
   while (gtk_text_iter_forward_search (&match_start, "src=\"", GTK_TEXT_SEARCH_TEXT_ONLY, &match_start, &match_end, NULL))
        {
         match_start = match_end;
-        if (gtk_text_iter_forward_find_char (&match_end, find_quote, NULL, NULL))   
+        if (gtk_text_iter_forward_find_char (&match_end,(GtkTextCharPredicate) find_quote, NULL, NULL))   
            {
-            f = gtk_text_buffer_get_text (cur_text_doc->text_buffer, &match_start, &match_end, FALSE);
+            f = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &match_start, &match_end, FALSE);
             add_link_item (cur_text_doc->file_name, f);
             g_free (f);
            }
@@ -1453,9 +1453,9 @@ void on_mni_get_src ()
   while (gtk_text_iter_forward_search (&match_start, "SRC=\"", GTK_TEXT_SEARCH_TEXT_ONLY, &match_start, &match_end, NULL))
        {
         match_start = match_end;
-        if (gtk_text_iter_forward_find_char (&match_end, find_quote, NULL, NULL))   
+        if (gtk_text_iter_forward_find_char (&match_end,(GtkTextCharPredicate) find_quote, NULL, NULL))   
            {
-            f = gtk_text_buffer_get_text (cur_text_doc->text_buffer, &match_start, &match_end, FALSE);
+            f = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &match_start, &match_end, FALSE);
             add_link_item (cur_text_doc->file_name, f);
             g_free (f); 
            }
@@ -1594,7 +1594,7 @@ void on_mni_make_numbering ()
 {
   if (! get_page_text()) return;
   set_fam_text ("1~5~10");
-  gchar const *s = gtk_entry_get_text (ent_search);
+  gchar const *s = gtk_entry_get_text (GTK_ENTRY(ent_search));
   
   gchar *buf = doc_get_sel (cur_text_doc);
   if (buf) //exit if selected
@@ -1646,8 +1646,8 @@ void on_mni_nav_block_start ()
   GtkTextIter iter;
   gint c = 0;
 
-  GtkTextMark *m = gtk_text_buffer_get_insert (cur_text_doc->text_buffer); 
-  gtk_text_buffer_get_iter_at_mark (cur_text_doc->text_buffer, &iter, m);
+  GtkTextMark *m = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(cur_text_doc->text_buffer)); 
+  gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &iter, m);
 
   while (c != -1)
         {
@@ -1662,8 +1662,8 @@ void on_mni_nav_block_start ()
                  if (c == -1)
                  if (gtk_text_iter_forward_char (&iter))
                     {
-                     gtk_text_buffer_place_cursor (cur_text_doc->text_buffer, &iter );
-                     gtk_text_view_scroll_to_iter (cur_text_doc->text_view, &iter, 0.0, FALSE, 0.0, 0.0 );
+                     gtk_text_buffer_place_cursor (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &iter );
+                     gtk_text_view_scroll_to_iter (GTK_TEXT_VIEW(cur_text_doc->text_view), &iter, 0.0, FALSE, 0.0, 0.0 );
                     }
                 }
         }
@@ -1677,8 +1677,8 @@ void on_mni_nav_block_end ()
   GtkTextIter iter;
   gint c = 0;
 
-  GtkTextMark *m = gtk_text_buffer_get_insert (cur_text_doc->text_buffer); 
-  gtk_text_buffer_get_iter_at_mark (cur_text_doc->text_buffer, &iter, m);
+  GtkTextMark *m = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(cur_text_doc->text_buffer)); 
+  gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &iter, m);
 
   while (c != -1)
         {
@@ -1692,8 +1692,8 @@ void on_mni_nav_block_end ()
                     c--;
                     if (c == -1)
                        {
-                        gtk_text_buffer_place_cursor (cur_text_doc->text_buffer, &iter );
-                        gtk_text_view_scroll_to_iter (cur_text_doc->text_view, &iter, 0.0, FALSE, 0.0, 0.0 );
+                        gtk_text_buffer_place_cursor (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &iter );
+                        gtk_text_view_scroll_to_iter (GTK_TEXT_VIEW(cur_text_doc->text_view), &iter, 0.0, FALSE, 0.0, 0.0 );
                        }
                    }
         }
@@ -1905,7 +1905,7 @@ void on_mni_dump_menu ()
   g_list_free (gl_menu_item_names);
 }
 
-GtkWidget* create_wnd_imgviewer (gchar *f)
+GtkWidget* create_wnd_imgviewer (gchar const *f)
 {
   GtkWidget *wnd_imgviewer = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 
@@ -1926,8 +1926,8 @@ GtkWidget* create_wnd_imgviewer (gchar *f)
 void on_mni_nav_focus_to_famous ()
 { 
 	if (! get_page_text()) return;
-	gtk_entry_set_text (ent_search,"");
-	gtk_entry_set_text (ent_search, doc_get_sel (cur_text_doc)); 
+	gtk_entry_set_text (GTK_ENTRY(ent_search),"");
+	gtk_entry_set_text (GTK_ENTRY(ent_search), doc_get_sel (cur_text_doc)); 
   gtk_widget_grab_focus (GTK_WIDGET(ent_search));
 }
 
@@ -2003,7 +2003,7 @@ icon_affiche_ok();
   if (! c)
      return; 
 
-  gchar *buf = doc_get_buf (cur_text_doc->text_buffer);
+  gchar *buf = doc_get_buf (GTK_TEXT_BUFFER(cur_text_doc->text_buffer));
 
   if (buf)
      gtk_clipboard_set_text (c, buf, -1);
@@ -2059,7 +2059,7 @@ void on_mni_count_string_list ()
 
   set_fam_text ("%d.)%s");  
   
-  gchar *t = glist_enum (buf, gtk_entry_get_text (ent_search));
+  gchar *t = glist_enum (buf, gtk_entry_get_text (GTK_ENTRY(ent_search)));
 
   if (t)
      doc_rep_sel (cur_text_doc, t);
@@ -2157,14 +2157,14 @@ void on_mni_tabs_to_spaces ()
 {
   if (! get_page_text()) return;
   set_fam_text ("1");
-  doc_tabs_to_spaces (cur_text_doc, strtol (gtk_entry_get_text (ent_search), NULL, 10));  
+  doc_tabs_to_spaces (cur_text_doc, strtol (gtk_entry_get_text (GTK_ENTRY(ent_search)), NULL, 10));  
 }
 
 void on_mni_spaces_to_tabs ()
 {
   if (! get_page_text()) return;
   set_fam_text ("2");
-  doc_spaces_to_tabs (cur_text_doc, strtol (gtk_entry_get_text (ent_search), NULL, 10));  
+  doc_spaces_to_tabs (cur_text_doc, strtol (gtk_entry_get_text (GTK_ENTRY(ent_search)), NULL, 10));  
 }
 
 void on_mni_edit_delete_current_line ()
@@ -2175,9 +2175,9 @@ icon_affiche_ok();
   GtkTextIter ittemp;
   GtkTextIter itend;
 
-  GtkTextMark *mark = gtk_text_buffer_get_insert (cur_text_doc->text_buffer);
+  GtkTextMark *mark = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(cur_text_doc->text_buffer));
  
-  gtk_text_buffer_get_iter_at_mark (cur_text_doc->text_buffer, &ittemp, mark);
+  gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &ittemp, mark);
 
   itend = ittemp;
 
@@ -2186,7 +2186,7 @@ icon_affiche_ok();
            gtk_text_iter_backward_char (&ittemp); 
 
   if (gtk_text_iter_forward_char (&itend))
-     gtk_text_buffer_delete (cur_text_doc->text_buffer, &ittemp, &itend);
+     gtk_text_buffer_delete (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &ittemp, &itend);
 
 }
 
@@ -2316,14 +2316,14 @@ void on_mni_edit_select_all ()
   GtkTextIter start_iter;
   GtkTextIter end_iter;
 
-  gtk_text_buffer_get_start_iter (cur_text_doc->text_buffer, &start_iter);
-  gtk_text_buffer_get_end_iter (cur_text_doc->text_buffer, &end_iter);
+  gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &start_iter);
+  gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &end_iter);
 
-  gtk_text_buffer_move_mark_by_name (cur_text_doc->text_buffer,
+  gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(cur_text_doc->text_buffer),
                                      "insert",
                                      &start_iter);
 
-  gtk_text_buffer_move_mark_by_name (cur_text_doc->text_buffer,
+  gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(cur_text_doc->text_buffer),
                                      "selection_bound",
                                      &end_iter);
 }
@@ -2371,7 +2371,7 @@ void on_mni_wrap_raw ()
   gchar *buf = doc_get_sel (cur_text_doc);
   if (buf)
      {
-      gchar *temp = wrap_raw (buf, strtol (gtk_entry_get_text (ent_search), NULL, 10));
+      gchar *temp = wrap_raw (buf, strtol (gtk_entry_get_text (GTK_ENTRY(ent_search)), NULL, 10));
       doc_rep_sel (cur_text_doc, temp);
       g_free (buf);
       g_free (temp);
@@ -2387,7 +2387,7 @@ void on_mni_wrap_on_spaces ()
   gchar *buf = doc_get_sel (cur_text_doc);
   if (buf)
      {
-      wrap_on_spaces (buf, strtol (gtk_entry_get_text (ent_search), NULL, 10));
+      wrap_on_spaces (buf, strtol (gtk_entry_get_text (GTK_ENTRY(ent_search)), NULL, 10));
       doc_rep_sel (cur_text_doc, buf);
       g_free (buf);
      }
@@ -2397,7 +2397,7 @@ void on_doit_button ()
 {
   if (! get_page_text())
      return;
-  doc_search_f (cur_text_doc, gtk_entry_get_text (ent_search));
+  doc_search_f (cur_text_doc, gtk_entry_get_text (GTK_ENTRY(ent_search)));
 }
 
 void on_mni_kill_formatting_on_each_line ()
@@ -2455,7 +2455,7 @@ void on_mni_filter_kill_lesser ()
 
   if (buf)
      {
-      gchar *t = kill_lesser (buf, strtol (gtk_entry_get_text (ent_search), NULL, 10));
+      gchar *t = kill_lesser (buf, strtol (gtk_entry_get_text (GTK_ENTRY(ent_search)), NULL, 10));
       doc_rep_sel (cur_text_doc, t);
       g_free (buf);
       g_free (t);
@@ -2472,7 +2472,7 @@ void on_mni_filter_kill_more_than ()
 
   if (buf)
      {
-      gchar *t = kill_larger (buf, strtol (gtk_entry_get_text (ent_search), NULL, 10));
+      gchar *t = kill_larger (buf, strtol (gtk_entry_get_text (GTK_ENTRY(ent_search)), NULL, 10));
       doc_rep_sel (cur_text_doc, t);
       g_free (buf);
       g_free (t);
@@ -2528,15 +2528,15 @@ void on_mni_show_images_in_text ()
   GtkTextIter match_start;
   GtkTextIter match_end;
 
-  gtk_text_buffer_get_start_iter (cur_text_doc->text_buffer, &match_start); 
-  gtk_text_buffer_get_end_iter (cur_text_doc->text_buffer, &match_end); 
+  gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &match_start); 
+  gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &match_end); 
 
   while (gtk_text_iter_forward_search (&match_start, "src=\"", GTK_TEXT_SEARCH_TEXT_ONLY, &match_start, &match_end, NULL))
        {
         match_start = match_end;
-        if (gtk_text_iter_forward_find_char (&match_end, find_quote, NULL, NULL))   
+        if (gtk_text_iter_forward_find_char (&match_end,(GtkTextCharPredicate) find_quote, NULL, NULL))   
            {
-            f = gtk_text_buffer_get_text (cur_text_doc->text_buffer, &match_start, &match_end, FALSE);
+            f = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &match_start, &match_end, FALSE);
             
             t = get_full_fname (cur_text_doc->file_name, f);    
             if (t)
@@ -2545,10 +2545,10 @@ void on_mni_show_images_in_text ()
                 p = gdk_pixbuf_new_from_file_at_size (t, confile.thumb_width, confile.thumb_height, NULL);
                 image = gtk_image_new_from_pixbuf (p);  
                 gtk_widget_show (GTK_WIDGET(image));
-                gtk_text_buffer_insert_pixbuf (cur_text_doc->text_buffer,
+                gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(cur_text_doc->text_buffer),
                                                &match_end,
                                                gtk_image_get_pixbuf (image));
-                gtk_text_buffer_set_modified (cur_text_doc->text_buffer, FALSE);  
+                gtk_text_buffer_set_modified (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), FALSE);  
                 gtk_widget_destroy (GTK_WIDGET(image)); 
                }
 
@@ -2561,16 +2561,16 @@ void on_mni_show_images_in_text ()
   while (gtk_text_iter_forward_search (&match_start, "SRC=\"", GTK_TEXT_SEARCH_TEXT_ONLY, &match_start, &match_end, NULL))
        {
         match_start = match_end;
-        if (gtk_text_iter_forward_find_char (&match_end, find_quote, NULL, NULL))   
+        if (gtk_text_iter_forward_find_char (&match_end,(GtkTextCharPredicate) find_quote, NULL, NULL))   
            {
-            f = gtk_text_buffer_get_text (cur_text_doc->text_buffer, &match_start, &match_end, FALSE);
+            f = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &match_start, &match_end, FALSE);
             t = get_full_fname (cur_text_doc->file_name, f);    
             if (t)
             if (is_image (t))
                {
                 image = gtk_image_new_from_file (t);
                 gtk_widget_show (GTK_WIDGET(image));
-                gtk_text_buffer_insert_pixbuf (cur_text_doc->text_buffer,
+                gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(cur_text_doc->text_buffer),
                                                &match_end,
                                                gtk_image_get_pixbuf (image));
 
@@ -2586,30 +2586,30 @@ void on_mni_show_images_in_text ()
 
 void on_mni_nav_goto_recent_tab ()
 {
-  gint t = gtk_notebook_get_current_page (notebook1);
+  gint t = gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook1));
 
   if (last_page != -1)
-      gtk_notebook_set_current_page (notebook1, last_page);
+      gtk_notebook_set_current_page (GTK_NOTEBOOK(notebook1), last_page);
 
   last_page = t;
 }
 
 void on_mni_nav_goto_selection ()
 {
-  last_page = gtk_notebook_get_current_page (notebook1);
-  gtk_notebook_prev_page (notebook1);
+  last_page = gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook1));
+  gtk_notebook_prev_page (GTK_NOTEBOOK(notebook1));
 }
 
 void on_mni_nav_goto_prev_tab ()
 {
-  last_page = gtk_notebook_get_current_page (notebook1);
-  gtk_notebook_prev_page (notebook1);
+  last_page = gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook1));
+  gtk_notebook_prev_page (GTK_NOTEBOOK(notebook1));
 }
 
 void on_mni_nav_goto_next_tab ()
 {
-  last_page = gtk_notebook_get_current_page (notebook1);
-  gtk_notebook_next_page (notebook1);
+  last_page = gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook1));
+  gtk_notebook_next_page (GTK_NOTEBOOK(notebook1));
 }
 
 void on_mni_view_hide_highlighting ()
@@ -2620,24 +2620,24 @@ void on_mni_view_hide_highlighting ()
 
 void on_mni_nav_goto_first_tab ()
 {
-  last_page = gtk_notebook_get_current_page (notebook1);
-  gtk_notebook_set_current_page (notebook1, 0);
+  last_page = gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook1));
+  gtk_notebook_set_current_page (GTK_NOTEBOOK(notebook1), 0);
 }
 
 void on_mni_nav_goto_last_tab ()
 {
-  last_page = gtk_notebook_get_current_page (notebook1);
-  gtk_notebook_set_current_page (notebook1, -1);
+  last_page = gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook1));
+  gtk_notebook_set_current_page (GTK_NOTEBOOK(notebook1), -1);
 }
 
 void on_mni_quest_find ()
 {
   if (! get_page_text()) return;
-  doc_search_f (cur_text_doc, gtk_entry_get_text (ent_search));
+  doc_search_f (cur_text_doc, gtk_entry_get_text (GTK_ENTRY(ent_search)));
 
 				GtkTreeIter iter_entry;
       gtk_list_store_append(model_entry, &iter_entry);
-      gtk_list_store_set(model_entry, &iter_entry, CONTACT_NAME, gtk_entry_get_text (ent_search),  -1);
+      gtk_list_store_set(model_entry, &iter_entry, CONTACT_NAME, gtk_entry_get_text GTK_ENTRY((ent_search)),  -1);
 }
 
 void on_mni_quest_find_next ()
@@ -2649,7 +2649,7 @@ void on_mni_quest_find_next ()
 void on_mni_quest_find_ncase ()
 {
   if (! get_page_text()) return;
-  doc_search_f_ncase (cur_text_doc, gtk_entry_get_text (ent_search));
+  doc_search_f_ncase (cur_text_doc, gtk_entry_get_text (GTK_ENTRY(ent_search)));
 }
 
 void on_mni_quest_find_next_ncase ()
@@ -2745,10 +2745,10 @@ void on_mni_eol_to_crlf ()
 {
   if (! get_page_text()) return;
   
-  gchar *buf = doc_get_buf (cur_text_doc->text_buffer);
+  gchar *buf = doc_get_buf (GTK_TEXT_BUFFER(cur_text_doc->text_buffer));
   gchar *z = str_eol_to_crlf (buf);
 
-  gtk_text_buffer_set_text (cur_text_doc->text_buffer, z, -1);
+  gtk_text_buffer_set_text (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), z, -1);
 
   g_free (z);
   g_free (buf); 
@@ -2758,10 +2758,10 @@ void on_mni_eol_to_lf ()
 {
   if (! get_page_text()) return;
   
-  gchar *buf = doc_get_buf (cur_text_doc->text_buffer);
+  gchar *buf = doc_get_buf (GTK_TEXT_BUFFER(cur_text_doc->text_buffer));
   gchar *z = str_replace_all (buf, "\r\n", "\n");
   
-  gtk_text_buffer_set_text (cur_text_doc->text_buffer, z, -1);
+  gtk_text_buffer_set_text (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), z, -1);
 
   g_free (z);
   g_free (buf); 
@@ -2816,8 +2816,8 @@ void on_mni_nav_mplayer_jump ()
      }   
 
   GtkTextIter iter;
-  GtkTextMark *m = gtk_text_buffer_get_insert (cur_text_doc->text_buffer);
-  gtk_text_buffer_get_iter_at_mark (cur_text_doc->text_buffer, &iter, m);
+  GtkTextMark *m = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(cur_text_doc->text_buffer));
+  gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &iter, m);
 
   GtkTextIter end;
   GtkTextIter start;
@@ -3051,9 +3051,9 @@ gboolean on_editor_keyrelease ()
   gint row,row2, col;
   GtkTextIter iter,iter2;
 
-		gtk_text_buffer_get_end_iter(cur_text_doc->text_buffer, &iter2);
-  gtk_text_buffer_get_iter_at_mark(cur_text_doc->text_buffer,
-      &iter, gtk_text_buffer_get_insert(cur_text_doc->text_buffer));
+		gtk_text_buffer_get_end_iter(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &iter2);
+  gtk_text_buffer_get_iter_at_mark(GTK_TEXT_BUFFER(cur_text_doc->text_buffer),
+      &iter, gtk_text_buffer_get_insert(GTK_TEXT_BUFFER(cur_text_doc->text_buffer)));
 
   row = gtk_text_iter_get_line(&iter);
   row2 = gtk_text_iter_get_line(&iter2);
@@ -3085,10 +3085,10 @@ gboolean on_editor_keyrelease ()
      if (! t){return FALSE;}else{
 	while ( gtk_text_iter_forward_search(&start_find, t, GTK_TEXT_SEARCH_TEXT_ONLY | GTK_TEXT_SEARCH_VISIBLE_ONLY, &start_match, &end_match, NULL) )
 					{
-          gtk_text_buffer_apply_tag_by_name(cur_text_doc->text_buffer, "gray_bg", 
+          gtk_text_buffer_apply_tag_by_name(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), "gray_bg", 
               &start_match, &end_match);
           int offset = gtk_text_iter_get_offset(&end_match);
-          gtk_text_buffer_get_iter_at_offset(cur_text_doc->text_buffer, 
+          gtk_text_buffer_get_iter_at_offset(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), 
               &start_find, offset);
 					}
 			}
@@ -3138,11 +3138,11 @@ gboolean on_editor_keypress ( GdkEventKey *event, gpointer data)
       s = g_hash_table_lookup (ht_autoreplace, t);  
       if (s)
         {  
-         gtk_text_buffer_delete (p->page->text_buffer,
+         gtk_text_buffer_delete (GTK_TEXT_BUFFER(p->page->text_buffer),
                                  &p->itstart,
                                  &p->itend);
 
-         gtk_text_buffer_insert (p->page->text_buffer,
+         gtk_text_buffer_insert (GTK_TEXT_BUFFER(p->page->text_buffer),
                                  &p->itstart,
                                  s,
                                  -1);
@@ -3302,8 +3302,8 @@ gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), t, -1);
   if (i != -1)
      {
       p = get_page_by_index (i);
-      gtk_text_buffer_get_iter_at_offset (p->text_buffer, &iter, 0);
-      gtk_text_buffer_insert (p->text_buffer, &iter, t, -1);
+      gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(p->text_buffer), &iter, 0);
+      gtk_text_buffer_insert (GTK_TEXT_BUFFER(p->text_buffer), &iter, t, -1);
      
       g_free (buf);
       g_free (t);
@@ -4764,18 +4764,18 @@ if (counter==0)
 										if(instruction==1 && mot[len-1]==')')
 										{
 										
-											gtk_text_buffer_get_iter_at_line (cur_text_doc->text_buffer, &itstart, nbligne);
-											gtk_text_buffer_get_iter_at_line (cur_text_doc->text_buffer, &itend, nbligne-1);
-										 gtk_text_buffer_apply_tag_by_name (cur_text_doc->text_buffer, "err2", &itstart, &itend);
+											gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &itstart, nbligne);
+											gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &itend, nbligne-1);
+										 gtk_text_buffer_apply_tag_by_name (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), "err2", &itstart, &itend);
 											sprintf(ligne,"%d",nbligne);
 											add_to_list_err(mot,ligne);		
 										}
 
 								  if(mot[len-1]!='/' && mot[len-1]!=';' && mot[len-1]!='}' && mot[len-1]!=')' && mot[len-1]!=',' && mot[len-1]!=' ' && mot[len-1]!='.' && mot[len-1]!=')' && mot[len-1]!='}' && mot[0]!='#' && mot[0]!='/' && mot[0]!='*' && mot[len-1]!='\t' && strncmp(mot,"else",strlen(mot))!=0 && mot3[0]!='#' && mot3[0]!='/' && mot3[0]!='*' && mot[len-1]!='{' && mot[len-1]!='(' && mot3[0]!='<' && mot3[0]!='?' && mot3[0]!='p' && strncmp(mot,"case",strlen(mot))!=0)
 										{
-											gtk_text_buffer_get_iter_at_line (cur_text_doc->text_buffer, &itstart, nbligne);
-											gtk_text_buffer_get_iter_at_line (cur_text_doc->text_buffer, &itend, nbligne-1);
-										 gtk_text_buffer_apply_tag_by_name (cur_text_doc->text_buffer, "err2", &itstart, &itend);
+											gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &itstart, nbligne);
+											gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &itend, nbligne-1);
+										 gtk_text_buffer_apply_tag_by_name (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), "err2", &itstart, &itend);
 										}
 								}
 		}
@@ -5074,14 +5074,14 @@ void on_format_button_clicked ()
 	GtkTextIter end;
 	gchar * txt;
 	
- gtk_text_buffer_get_selection_bounds (cur_text_doc->text_buffer, & start, & end);
+ gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), & start, & end);
 	
-	txt=gtk_text_buffer_get_text(cur_text_doc->text_buffer,&start,&end,FALSE);
+	txt=gtk_text_buffer_get_text(GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&start,&end,FALSE);
 
 	if(! strcmp("", txt) == 0)
 	{
 	gtk_text_buffer_create_tag (
-   cur_text_doc->text_buffer, txt, 
+   GTK_TEXT_BUFFER(cur_text_doc->text_buffer), txt, 
    "foreground", "black",
    "background", "yellow",
    "weight", PANGO_WEIGHT_BOLD,
@@ -5091,12 +5091,12 @@ void on_format_button_clicked ()
 	GtkTextIter itstart, itend;
 	gint line=gtk_text_iter_get_line(&start);
 
-gtk_text_buffer_get_iter_at_line (cur_text_doc->text_buffer, &itstart, line);
-gtk_text_buffer_get_iter_at_line (cur_text_doc->text_buffer, &itend, line + 1);
+gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &itstart, line);
+gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &itend, line + 1);
 	//*****************
-	gtk_text_buffer_apply_tag_by_name (cur_text_doc->text_buffer, "search", &start, &end);  
-	gtk_text_buffer_apply_tag_by_name (cur_text_doc->text_buffer, txt, &itstart, &start);  
-	gtk_text_buffer_apply_tag_by_name (cur_text_doc->text_buffer, txt, &end, &itend); 
+	gtk_text_buffer_apply_tag_by_name (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), "search", &start, &end);  
+	gtk_text_buffer_apply_tag_by_name (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), txt, &itstart, &start);  
+	gtk_text_buffer_apply_tag_by_name (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), txt, &end, &itend); 
 
 	GdkPixbuf *pixbuf_mark;
 
@@ -5601,27 +5601,27 @@ void on_format_line_bg ()
 	if(tag_on==0)
 	{	
 	gtk_text_buffer_create_tag (
-   cur_text_doc->text_buffer, "bg_ligne", 
+   GTK_TEXT_BUFFER(cur_text_doc->text_buffer), "bg_ligne", 
    "background", "#EDEFFF",
    NULL);
 	tag_on=1;
 	}
 
-	gtk_text_buffer_get_end_iter(cur_text_doc->text_buffer, & end);
-	gtk_text_buffer_get_start_iter(cur_text_doc->text_buffer, & start);
+	gtk_text_buffer_get_end_iter(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), & end);
+	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), & start);
 
-	gtk_text_buffer_remove_tag_by_name (cur_text_doc->text_buffer,
+	gtk_text_buffer_remove_tag_by_name (GTK_TEXT_BUFFER(cur_text_doc->text_buffer),
                                              "bg_ligne",
                                              &start,
                                              &end);
 
   GtkTextIter iter;
 
-  gtk_text_buffer_get_iter_at_mark(cur_text_doc->text_buffer,
-      &iter, gtk_text_buffer_get_insert(cur_text_doc->text_buffer));
+  gtk_text_buffer_get_iter_at_mark(GTK_TEXT_BUFFER(cur_text_doc->text_buffer),
+      &iter, gtk_text_buffer_get_insert(GTK_TEXT_BUFFER(cur_text_doc->text_buffer)));
 
 	gtk_text_buffer_apply_tag_by_name (
-	cur_text_doc->text_buffer, "bg_ligne", &iter, & end);  
+	GTK_TEXT_BUFFER(cur_text_doc->text_buffer), "bg_ligne", &iter, & end);  
      
 }
 
@@ -5791,26 +5791,26 @@ void add_word_autocomp_file(void)
 void keyrelase_search(void)
 {
 	 if (! get_page_text()) return;
-	gchar const *text=gtk_entry_get_text (ent_search);
+	gchar const *text=gtk_entry_get_text (GTK_ENTRY(ent_search));
 
 	GtkTextIter start_find, end_find;
 	GtkTextIter start_match, end_match;
 
-	gtk_text_buffer_get_start_iter(cur_text_doc->text_buffer, &start_find);
-	gtk_text_buffer_get_end_iter(cur_text_doc->text_buffer, &end_find);
+	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &start_find);
+	gtk_text_buffer_get_end_iter(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &end_find);
 	gint row2 = gtk_text_iter_get_line(&end_find);
 
 	if(row2<1000)
 	{
-	gtk_text_buffer_remove_tag_by_name(cur_text_doc->text_buffer, "search", &start_find, &end_find);
+	gtk_text_buffer_remove_tag_by_name(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), "search", &start_find, &end_find);
 
      if (! text){return;}else{
 	while ( gtk_text_iter_forward_search(&start_find, text, GTK_TEXT_SEARCH_TEXT_ONLY | GTK_TEXT_SEARCH_VISIBLE_ONLY, &start_match, &end_match, NULL) )
 					{
-          gtk_text_buffer_apply_tag_by_name(cur_text_doc->text_buffer, "search", 
+          gtk_text_buffer_apply_tag_by_name(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), "search", 
               &start_match, &end_match);
           int offset = gtk_text_iter_get_offset(&end_match);
-          gtk_text_buffer_get_iter_at_offset(cur_text_doc->text_buffer, 
+          gtk_text_buffer_get_iter_at_offset(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), 
               &start_find, offset);
 					}
 			}

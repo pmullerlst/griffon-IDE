@@ -1167,7 +1167,7 @@ GtkWidget* help_php_window (void)
   gtk_window_set_title (GTK_WINDOW (window1), _((_("Aide Php"))));
     gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
 	gtk_window_resize (GTK_WINDOW (window1), 430, 600);
-  gtk_widget_show (window1);
+  gtk_widget_show (GTK_WIDGET(window1));
 
   GtkWidget *view;
   GtkWidget *vbox;
@@ -1175,24 +1175,24 @@ GtkWidget* help_php_window (void)
 
   vbox = gtk_vbox_new(FALSE, 2);
   gtk_container_add(GTK_CONTAINER(window1), vbox);
-	gtk_widget_show (vbox);
+	gtk_widget_show (GTK_WIDGET(vbox));
 
     GtkWidget *scrolledWindow = gtk_scrolled_window_new(NULL, NULL);
-	  gtk_widget_show (scrolledWindow);
+	  gtk_widget_show (GTK_WIDGET(scrolledWindow));
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow),
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	  gtk_box_pack_start(GTK_BOX(vbox), scrolledWindow, TRUE, TRUE, 1);
     gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
 
   view = create_view_and_model("php");
-  gtk_widget_show (view);
+  gtk_widget_show (GTK_WIDGET(view));
   selection2 = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
-	gtk_widget_show (selection2);
+	gtk_widget_show (GTK_WIDGET(selection2));
     gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
 
   statusbar = gtk_statusbar_new();
   gtk_box_pack_start(GTK_BOX(vbox), statusbar, FALSE, TRUE, 1);
-	gtk_widget_show (statusbar);
+	gtk_widget_show (GTK_WIDGET(statusbar));
 	
 	gtk_tree_view_set_enable_tree_lines (view,TRUE);
 	gtk_tree_view_set_rules_hint (view,TRUE);
@@ -1221,7 +1221,7 @@ GtkWidget* help_mysql (void)
   gtk_window_set_title (GTK_WINDOW (window1), _((_("Aide MySql"))));
     gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
 	gtk_window_resize (GTK_WINDOW (window1), 430, 600);
-  gtk_widget_show (window1);
+  gtk_widget_show (GTK_WIDGET(window1));
 
   GtkWidget *view;
   GtkWidget *vbox;
@@ -1229,24 +1229,24 @@ GtkWidget* help_mysql (void)
 
   vbox = gtk_vbox_new(FALSE, 2);
   gtk_container_add(GTK_CONTAINER(window1), vbox);
-	gtk_widget_show (vbox);
+	gtk_widget_show (GTK_WIDGET(vbox));
 
     GtkWidget *scrolledWindow = gtk_scrolled_window_new(NULL, NULL);
-	  gtk_widget_show (scrolledWindow);
+	  gtk_widget_show (GTK_WIDGET(scrolledWindow));
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow),
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	  gtk_box_pack_start(GTK_BOX(vbox), scrolledWindow, TRUE, TRUE, 1);
     gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
 
   view = create_view_and_model("mysql");
-  gtk_widget_show (view);
+  gtk_widget_show (GTK_WIDGET(view));
   selection2 = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
-	gtk_widget_show (selection2);
+	gtk_widget_show (GTK_WIDGET(selection2));
 	gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
 
   statusbar = gtk_statusbar_new();
   gtk_box_pack_start(GTK_BOX(vbox), statusbar, FALSE, TRUE, 1);
-	gtk_widget_show (statusbar);
+	gtk_widget_show (GTK_WIDGET(statusbar));
 	
 	gtk_tree_view_set_enable_tree_lines (view,TRUE);
 	gtk_tree_view_expand_all (view);
@@ -1275,7 +1275,7 @@ GtkWidget* help_html (void)
   gtk_window_set_title (GTK_WINDOW (window1), _((_("Aide HTML"))));
     gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
 	gtk_window_resize (GTK_WINDOW (window1), 430, 600);
-  gtk_widget_show (window1);
+  gtk_widget_show (GTK_WIDGET(window1));
 
   GtkWidget *view;
   GtkWidget *vbox;
@@ -1283,24 +1283,24 @@ GtkWidget* help_html (void)
 
   vbox = gtk_vbox_new(FALSE, 2);
   gtk_container_add(GTK_CONTAINER(window1), vbox);
-	gtk_widget_show (vbox);
+	gtk_widget_show (GTK_WIDGET(vbox));
 
     GtkWidget *scrolledWindow = gtk_scrolled_window_new(NULL, NULL);
-	  gtk_widget_show (scrolledWindow);
+	  gtk_widget_show (GTK_WIDGET(scrolledWindow));
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow),
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	  gtk_box_pack_start(GTK_BOX(vbox), scrolledWindow, TRUE, TRUE, 1);
     gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
 
   view = create_view_and_model("html");
-  gtk_widget_show (view);
+  gtk_widget_show (GTK_WIDGET(view));
   selection2 = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
-	gtk_widget_show (selection2);
+	gtk_widget_show (GTK_WIDGET(selection2));
 	gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
 
   statusbar = gtk_statusbar_new();
   gtk_box_pack_start(GTK_BOX(vbox), statusbar, FALSE, TRUE, 1);
-	gtk_widget_show (statusbar);
+	gtk_widget_show (GTK_WIDGET(statusbar));
 	
 	gtk_tree_view_set_enable_tree_lines (view,TRUE);
 	gtk_tree_view_expand_all (view);
@@ -1329,7 +1329,7 @@ GtkWidget* help_css (void)
   gtk_window_set_title (GTK_WINDOW (window1), _((_("Aide CSS"))));
     gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
 	gtk_window_resize (GTK_WINDOW (window1), 430, 600);
-  gtk_widget_show (window1);
+  gtk_widget_show (GTK_WIDGET(window1));
 
   GtkWidget *view;
   GtkWidget *vbox;
@@ -1337,24 +1337,24 @@ GtkWidget* help_css (void)
 
   vbox = gtk_vbox_new(FALSE, 2);
   gtk_container_add(GTK_CONTAINER(window1), vbox);
-	gtk_widget_show (vbox);
+	gtk_widget_show (GTK_WIDGET(vbox));
 
     GtkWidget *scrolledWindow = gtk_scrolled_window_new(NULL, NULL);
-	  gtk_widget_show (scrolledWindow);
+	  gtk_widget_show (GTK_WIDGET(scrolledWindow));
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow),
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	  gtk_box_pack_start(GTK_BOX(vbox), scrolledWindow, TRUE, TRUE, 1);
     gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
 
   view = create_view_and_model("css");
-  gtk_widget_show (view);
+  gtk_widget_show (GTK_WIDGET(view));
   selection2 = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
-	gtk_widget_show (selection2);
+	gtk_widget_show (GTK_WIDGET(selection2));
 	gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
 
   statusbar = gtk_statusbar_new();
   gtk_box_pack_start(GTK_BOX(vbox), statusbar, FALSE, TRUE, 1);
-	gtk_widget_show (statusbar);
+	gtk_widget_show (GTK_WIDGET(statusbar));
 	
 	gtk_tree_view_set_enable_tree_lines (view,TRUE);
 	gtk_tree_view_set_rules_hint (view,TRUE);
@@ -1384,7 +1384,7 @@ GtkWidget* help_javascript (void)
   gtk_window_set_title (GTK_WINDOW (window1), _((_("Aide Javascript Jquery"))));
     gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
 	gtk_window_resize (GTK_WINDOW (window1), 430, 600);
-  gtk_widget_show (window1);
+  gtk_widget_show (GTK_WIDGET(window1));
 
   GtkWidget *view;
   GtkWidget *vbox;
@@ -1392,24 +1392,24 @@ GtkWidget* help_javascript (void)
 
   vbox = gtk_vbox_new(FALSE, 2);
   gtk_container_add(GTK_CONTAINER(window1), vbox);
-	gtk_widget_show (vbox);
+	gtk_widget_show (GTK_WIDGET(vbox));
 
     GtkWidget *scrolledWindow = gtk_scrolled_window_new(NULL, NULL);
-	  gtk_widget_show (scrolledWindow);
+	  gtk_widget_show (GTK_WIDGET(scrolledWindow));
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow),
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	  gtk_box_pack_start(GTK_BOX(vbox), scrolledWindow, TRUE, TRUE, 1);
     gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
 
   view = create_view_and_model("javascript");
-  gtk_widget_show (view);
+  gtk_widget_show (GTK_WIDGET(view));
   selection2 = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
-	gtk_widget_show (selection2);
+	gtk_widget_show (GTK_WIDGET(selection2));
 	gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
 
   statusbar = gtk_statusbar_new();
   gtk_box_pack_start(GTK_BOX(vbox), statusbar, FALSE, TRUE, 1);
-	gtk_widget_show (statusbar);
+	gtk_widget_show (GTK_WIDGET(statusbar));
 	
 	gtk_tree_view_set_enable_tree_lines (view,TRUE);
 	gtk_tree_view_set_rules_hint (view,TRUE);
@@ -1439,7 +1439,7 @@ GtkWidget* Aide_BASH (void)
   gtk_window_set_title (GTK_WINDOW (window1), _((_("Aide BASH"))));
     gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
 	gtk_window_resize (GTK_WINDOW (window1), 430, 600);
-  gtk_widget_show (window1);
+  gtk_widget_show (GTK_WIDGET(window1));
 
   GtkWidget *view;
   GtkWidget *vbox;
@@ -1447,24 +1447,24 @@ GtkWidget* Aide_BASH (void)
 
   vbox = gtk_vbox_new(FALSE, 2);
   gtk_container_add(GTK_CONTAINER(window1), vbox);
-	gtk_widget_show (vbox);
+	gtk_widget_show (GTK_WIDGET(vbox));
 
     GtkWidget *scrolledWindow = gtk_scrolled_window_new(NULL, NULL);
-	  gtk_widget_show (scrolledWindow);
+	  gtk_widget_show (GTK_WIDGET(scrolledWindow));
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow),
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	  gtk_box_pack_start(GTK_BOX(vbox), scrolledWindow, TRUE, TRUE, 1);
     gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
 
   view = create_view_and_model("bash");
-  gtk_widget_show (view);
+  gtk_widget_show (GTK_WIDGET(view));
   selection2 = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
-	gtk_widget_show (selection2);
+	gtk_widget_show (GTK_WIDGET(selection2));
 	gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
 
   statusbar = gtk_statusbar_new();
   gtk_box_pack_start(GTK_BOX(vbox), statusbar, FALSE, TRUE, 1);
-	gtk_widget_show (statusbar);
+	gtk_widget_show (GTK_WIDGET(statusbar));
 
 	gtk_tree_view_set_rules_hint (view,TRUE);	
 	gtk_tree_view_set_enable_tree_lines (view,TRUE);
@@ -1493,7 +1493,7 @@ GtkWidget* centre_perl (void)
   gtk_window_set_title (GTK_WINDOW (window1), _((_("Aide Perl"))));
     gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
 	gtk_window_resize (GTK_WINDOW (window1), 430, 600);
-  gtk_widget_show (window1);
+  gtk_widget_show (GTK_WIDGET(window1));
 
   GtkWidget *view;
   GtkWidget *vbox;
@@ -1501,24 +1501,24 @@ GtkWidget* centre_perl (void)
 
   vbox = gtk_vbox_new(FALSE, 2);
   gtk_container_add(GTK_CONTAINER(window1), vbox);
-	gtk_widget_show (vbox);
+	gtk_widget_show (GTK_WIDGET(vbox));
 
     GtkWidget *scrolledWindow = gtk_scrolled_window_new(NULL, NULL);
-	  gtk_widget_show (scrolledWindow);
+	  gtk_widget_show (GTK_WIDGET(scrolledWindow));
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow),
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	  gtk_box_pack_start(GTK_BOX(vbox), scrolledWindow, TRUE, TRUE, 1);
     gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
 
   view = create_view_and_model("perl");
-  gtk_widget_show (view);
+  gtk_widget_show (GTK_WIDGET(view));
   selection2 = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
-	gtk_widget_show (selection2);
+	gtk_widget_show (GTK_WIDGET(selection2));
 	gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
 
   statusbar = gtk_statusbar_new();
   gtk_box_pack_start(GTK_BOX(vbox), statusbar, FALSE, TRUE, 1);
-	gtk_widget_show (statusbar);
+	gtk_widget_show (GTK_WIDGET(statusbar));
 
 	gtk_tree_view_set_rules_hint (view,TRUE);
 	gtk_tree_view_set_enable_tree_lines (view,TRUE);	
@@ -1549,7 +1549,7 @@ GtkWidget* centre_htaccess (void)
   gtk_window_set_title (GTK_WINDOW (window1), _((_("Aide Htaccess"))));
     gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
 	gtk_window_resize (GTK_WINDOW (window1), 430, 600);
-  gtk_widget_show (window1);
+  gtk_widget_show (GTK_WIDGET(window1));
 
   GtkWidget *view;
   GtkWidget *vbox;
@@ -1557,24 +1557,24 @@ GtkWidget* centre_htaccess (void)
 
   vbox = gtk_vbox_new(FALSE, 2);
   gtk_container_add(GTK_CONTAINER(window1), vbox);
-	gtk_widget_show (vbox);
+	gtk_widget_show (GTK_WIDGET(vbox));
 
     GtkWidget *scrolledWindow = gtk_scrolled_window_new(NULL, NULL);
-	  gtk_widget_show (scrolledWindow);
+	  gtk_widget_show (GTK_WIDGET(scrolledWindow));
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow),
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	  gtk_box_pack_start(GTK_BOX(vbox), scrolledWindow, TRUE, TRUE, 1);
     gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
 
   view = create_view_and_model("htaccess");
-  gtk_widget_show (view);
+  gtk_widget_show (GTK_WIDGET(view));
   selection2 = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
-	gtk_widget_show (selection2);
+	gtk_widget_show (GTK_WIDGET(selection2));
 	gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
 
   statusbar = gtk_statusbar_new();
   gtk_box_pack_start(GTK_BOX(vbox), statusbar, FALSE, TRUE, 1);
-	gtk_widget_show (statusbar);
+	gtk_widget_show (GTK_WIDGET(statusbar));
 
 	gtk_tree_view_set_rules_hint (view,TRUE);
 	gtk_tree_view_set_enable_tree_lines (view,TRUE);	
@@ -1649,7 +1649,7 @@ void term_help(GtkWidget *tv,GdkEventButton *event,  gpointer user_data)
   gtk_window_set_title (GTK_WINDOW (window1), _((_("Aide Htaccess"))));
     gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
 	gtk_window_resize (GTK_WINDOW (window1), 430, 600);
-  gtk_widget_show (window1);
+  gtk_widget_show (GTK_WIDGET(window1));
 
   GtkWidget *view;
   GtkWidget *vbox;
@@ -1657,24 +1657,24 @@ void term_help(GtkWidget *tv,GdkEventButton *event,  gpointer user_data)
 
   vbox = gtk_vbox_new(FALSE, 2);
   gtk_container_add(GTK_CONTAINER(window1), vbox);
-	gtk_widget_show (vbox);
+	gtk_widget_show (GTK_WIDGET(vbox));
 
     GtkWidget *scrolledWindow = gtk_scrolled_window_new(NULL, NULL);
-	  gtk_widget_show (scrolledWindow);
+	  gtk_widget_show (GTK_WIDGET(scrolledWindow));
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow),
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	  gtk_box_pack_start(GTK_BOX(vbox), scrolledWindow, TRUE, TRUE, 1);
     gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
 
   view = create_view_and_model("term");
-  gtk_widget_show (view);
+  gtk_widget_show (GTK_WIDGET(view));
   selection2 = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
-	gtk_widget_show (selection2);
+	gtk_widget_show (GTK_WIDGET(selection2));
 	gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
 
   statusbar = gtk_statusbar_new();
   gtk_box_pack_start(GTK_BOX(vbox), statusbar, FALSE, TRUE, 1);
-	gtk_widget_show (statusbar);
+	gtk_widget_show (GTK_WIDGET(statusbar));
 
 	gtk_tree_view_set_rules_hint (view,TRUE);
 	gtk_tree_view_set_enable_tree_lines (view,TRUE);	
