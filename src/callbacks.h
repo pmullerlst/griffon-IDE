@@ -87,7 +87,7 @@ void on_mni_snippet_click (GtkMenuItem *menuitem);
 void on_mni_snippet_file_open_activate ();
 void on_mni_file_save_as_snippet_activate ();
 void on_mni_dump_menu ();
-GtkWidget* create_wnd_imgviewer (gchar *f);
+GtkWidget* create_wnd_imgviewer (gchar const *f);
 void add_link_item (const gchar *fname, const gchar *linkname);
 void on_mni_nav_goto_prev_tab ();
 void on_mni_nav_focus_to_text ();

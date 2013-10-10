@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+
 void tea_start (void);
 void bmx_reload (void);
 
@@ -271,4 +272,6 @@ void reload_autoreplace (void);
 void reload_templates (void);
 void update_recent_list_menu (gboolean load_from_file);
 void tea_done (void);
+void fill_entities (void);
+void reload_hotkeys (void);
 

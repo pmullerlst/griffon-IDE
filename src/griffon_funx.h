@@ -67,11 +67,12 @@ gboolean is_php (const gchar *f);
 void insert_link (gchar *a_filename);
 gboolean parse_error_line (const gchar * line, gchar ** filename, gint *lineno);
 void handle_file_ide (gchar *filename, gint line);
-gboolean check_ext (gchar *filename, gchar *ext);
+gboolean check_ext (gchar const *filename, gchar *ext);
 void handle_file_enc (gchar *filename, gchar *enc);
 void make_stats (t_note_page *doc);
 gboolean is_markup (const gchar *f);
 gboolean is_c (const gchar *f);
 gboolean is_pascal (const gchar *f);
 void create_empty_file (gchar *filename, gchar *first_line);
+void goto_local_label (const gchar *l);
 

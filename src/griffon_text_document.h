@@ -6,7 +6,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
+#include <gtksourceview/gtksourcebuffer.h>
 
 typedef struct
 {
@@ -25,14 +25,14 @@ typedef struct
   //gboolean modified;
 
   GtkWidget *icon;
-  GtkTextBuffer *text_buffer;
+  GtkSourceBuffer*text_buffer;
   GtkWidget *tab_label;
   GtkWidget *but;
   GtkWidget *hbox;
 	 //GtkSpell *spell;
 
-  GtkScrolledWindow *scrolledwindow;
-  GtkTextView *text_view;
+  GtkWidget *scrolledwindow;
+  GtkSourceView *text_view;
 
   gchar *last_searched_text;
 
@@ -76,14 +76,14 @@ gchar* doc_get_word(t_note_page *doc);
 void log_to_memo (gchar *m1, gchar* m2, gint mode);
 void widget_apply_colors (GtkWidget *w);
 gboolean doc_reload_text (t_note_page *doc, gchar *filename, gchar *enc);
-gint get_n_page_by_filename (gchar *filename);
-gboolean find_quote (gunichar ch, gpointer user_data);
+gint get_n_page_by_filename (gchar const *filename);
+gboolean find_quote (gunichar ch);
 gchar* get_c_url_pure (t_note_page *doc); 
 t_note_page* doc_ins_to_new (const gchar *newstring);
 void create_new_fnav (void);
 t_note_page* get_page_text (void);
 void set_title (t_note_page *t);
-t_note_page* open_file_std (gchar *f);
+t_note_page* open_file_std (gchar const *f);
 gboolean doc_search_f_next_ncase (t_note_page *doc); 
 gboolean doc_search_f_ncase (t_note_page *doc, const gchar *text); 
 gchar* upcase_each_first_letter_ofw (t_note_page *doc);
@@ -93,7 +93,7 @@ void doc_move_cursor_forw (t_note_page *doc, gint i);
 void doc_move_cursor_backw_middle_tags (t_note_page *doc); 
 gchar* doc_get_current_word (t_note_page *doc, GtkTextIter *itstart, GtkTextIter *itend);
 void indent_real(GtkWidget *text_view);
-void doc_header_source_switch (t_note_page *doc);
+void doc_header_source_switch ();
 gchar* doc_get_sel (t_note_page *doc);
 gint cb_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_data);
 void test_save_onglet ();
@@ -122,3 +122,11 @@ gint find_index_by_page (t_note_page *page);
 gboolean doc_search_f (t_note_page *doc, const gchar *text);
 gboolean doc_search_f_next (t_note_page *doc);
 void doc_indent_selection (t_note_page *doc, gboolean unindent);
+void tv_logmemo_set_pos (guint pos );
+gboolean popup_context_menu_vte(GtkWidget *tv, GdkEventButton *event);
+gboolean doc_textview_expose_event_lcb(GtkWidget * widget, GdkEventExpose * event);
+gboolean doc_save_buffer_to_file_l (GtkTextBuffer *text_buffer, gchar *filename);
+gboolean doc_save_buffer_to_file_iconv (GtkTextBuffer *text_buffer, gchar *filename, gchar *enc);
+void doc_update_cb (gpointer data);
+gboolean find_space (gunichar ch);
+gboolean predicate_find_tag_end (gunichar ch);

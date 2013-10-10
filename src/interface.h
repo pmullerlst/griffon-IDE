@@ -34,7 +34,7 @@ GtkWidget *label_term;
 GtkWidget * hbox_term_tab;
 GtkWidget * image_term_tab;
 GtkWidget * button_close_term;
-gint num_tab;
+int num_tab;
 } term_page;
 
 GtkListStore *model_entry;
@@ -79,12 +79,12 @@ GtkWidget *scrolledWindow_editor;
 GtkWidget *tea_main_window;
 GtkWidget *mainvbox,*filechooserwidget2;
 GtkWidget *cmb_famous, *hbox_bar;   
-GtkEntry *ent_search;
-GtkEntry *cmb_famous2;   
-GtkEntry *ent_search2;
+GtkWidget *ent_search;
+GtkWidget *cmb_famous2;   
+GtkWidget *ent_search2;
 GtkWidget *dlg_colorsel;
-GtkNotebook *notebook1;
-GtkNotebook *notebook3;
+GtkWidget *notebook1;
+GtkWidget *notebook3;
 GtkWidget *menubar1;
 GtkWidget *mni_file_menu;
 GtkWidget *mni_file_configs_menu;
@@ -99,7 +99,7 @@ GtkWidget *mni_sessions_menu;
 GtkWidget *mni_templates;
 GtkWidget *mni_templates_menu;
 GtkWidget *mni_morse_menu;
-GtkVPaned *vpaned1;
+GtkWidget *vpaned1;
 GtkWidget *vbox2;
 GtkWidget *scrolledwindow3;
 GtkWidget *tv_logmemo;
@@ -143,7 +143,7 @@ GtkWidget *mni_co_menu;
 GtkWidget *mni_co;
 GtkWidget *mni_bro_menu;
 GtkWidget *mni_links;
-GtkMenuItem *mni_links_menu;
+GtkWidget *mni_links_menu;
 GtkWidget *mni_sort_menu;
 GtkWidget *notebook2;
 GtkWidget *mni_tabs;
@@ -164,7 +164,6 @@ GtkTextTag *temp_tag;
 GtkTextTag *tag_lm_error;
 GtkWidget* create_tea_main_window (void);
 void statusbar_msg (const gchar *s);
-GtkWidget* splash_screen (void);
 GtkWidget* icon_affiche_bug (void);
 GtkWidget* icon_affiche_net (void);
 GtkWidget* icon_affiche_stop (void);
@@ -184,7 +183,7 @@ void focus_term ();
 void focus_web ();
 void todo_list ();
 GtkWidget *entry_web;
-void  on_changed_myadmin(GtkWidget *widget, gpointer statusbar);
+void  on_changed_myadmin(GtkWidget *widget);
 void  myadmin();
 void no_onglet_open();
 GtkWidget* doc_window (void);
@@ -207,11 +206,11 @@ void  icon_nosave_logmemo();
 GtkWidget* version_window (void);
 GtkTreeModel * create_and_fill_model_sftp (void);
 GtkWidget * create_view_and_model_sftp (void);
-void  on_changed_sftp(GtkWidget *widget, gpointer statusbar);
+void  on_changed_sftp(GtkWidget *widget);
 gchar *sshadd;
 void  sftp_reload();
 void  ftp_reload();
-void  on_changed_ftp(GtkWidget *widget, gpointer statusbar);
+void  on_changed_ftp(GtkWidget *widget);
 GtkTreeModel * create_and_fill_model_ftp (void);
 GtkWidget * create_view_and_model_ftp (void);
 void  vide_configuration_ftp();
@@ -232,14 +231,14 @@ void insert_image_web();
 GtkListStore *create_liststore_book();
 void add_to_list_book(gchar *str,gchar *str2);
 void on_changed_book (GtkWidget *widget);
-GtkNotebook* window_creation_function (GtkNotebook *source_notebook,GtkWidget   *child,gint         x,gint         y,gpointer     data);
+GtkNotebook* window_creation_function (GtkNotebook *source_notebook,gint         x,gint         y);
 //GtkWidget* window_creation_function ();
 GtkWidget* close_tools2 (void);
 void del_book() ;
 void google_search();
 void google_traduction_fr_en();
 void google_traduction_en_fr();
-void enter_web (GdkEventKey *event, gpointer data);
+void enter_web ();
 void myadmin_reload ();
 void myadmin_back ();
 void myadmin_forward ();
@@ -248,7 +247,7 @@ void miniweb_reload ();
 void miniweb_back ();
 void miniweb_forward ();
 void miniweb_stop ();
-void enter_myweb (GdkEventKey *event, gpointer data);
+void enter_myweb ();
 void myadmin_get_url ();
 void miniweb_get_url ();
 void miniweb_source_mode_get_url ();
@@ -270,34 +269,29 @@ void new_file_cmd ();
 void new_web_window ();
 void new_web_window_mini ();
 void new_file_log_edit ();
-void new_file_term_edit (GtkWidget *tv,GdkEventButton *event,  gpointer user_data);
-gboolean myadmin_new_window (WebKitWebView             *web_view,
-                                                        WebKitWebFrame            *frame,
-                                                        WebKitNetworkRequest      *request,
-                                                        WebKitWebNavigationAction *navigation_action,
-                                                        WebKitWebPolicyDecision   *policy_decision,
-                                                        gpointer                   user_data);
-gboolean web_new_w_click(WebKitWebView *web_view,gpointer       user_data);
-WebKitWebView * web_new_w_click_go(WebKitWebView  *web_view,
-                                                        WebKitWebFrame *frame,
-                                                        gpointer        user_data);
-
-void myadmin_reload_win (GtkToolItem *tool,gpointer user_data);
-void myadmin_back_win (GtkToolItem *tool,gpointer user_data);
-void myadmin_forward_win (GtkToolItem *tool,gpointer user_data);
-void myadmin_stop_win (GtkToolItem *tool,gpointer user_data);
-void myadmin_source_mode_get_url_win (GtkToolItem *tool,gpointer user_data);
-void myadmin_view_mode_get_url_win (GtkToolItem *tool,gpointer user_data);
+void new_file_term_edit (gpointer user_data);
+gboolean myadmin_new_window (WebKitNetworkRequest      *request);
+gboolean web_new_w_click(gpointer       user_data);
+WebKitWebView * web_new_w_click_go();
+void myadmin_reload_win (gpointer user_data);
+void myadmin_back_win (gpointer user_data);
+void myadmin_forward_win (gpointer user_data);
+void myadmin_stop_win (gpointer user_data);
+void myadmin_source_mode_get_url_win (gpointer user_data);
+void myadmin_view_mode_get_url_win (gpointer user_data);
 void enter_myweb_win (GtkWidget* entry, gpointer user_data);
-void myadmin_get_url_win (WebKitWebView  *web, WebKitWebFrame *frame,gpointer user_data);
+void myadmin_get_url_win (WebKitWebView  *web,gpointer user_data);
 void griffon_notify (gchar* txt);
 void add_to_list_err(gchar *str,gchar *str2);
-void download_requested_cb(WebKitWebView *web_view, WebKitDownload *download, gpointer user_data);
-void download_status_cb(GObject* object, GParamSpec* pspec, gpointer data);
+void download_requested_cb(WebKitDownload *download);
+void download_status_cb(GObject* object);
 /*gboolean navigation_policy_decision_requested_cb(WebKitWebView* web_view,
                                         WebKitWebFrame* web_frame,
                                         WebKitNetworkRequest* request,
                                         WebKitWebNavigationAction* action,
                                         WebKitWebPolicyDecision* decision,
                                         gpointer data);*/
+void paste_vte(gpointer user_data);
+void copy_vte(  gpointer user_data);
+void term_search_google(gpointer user_data);
 
