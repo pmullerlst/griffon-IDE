@@ -1122,9 +1122,9 @@ GtkWidget * create_view_and_model (char clef[50])
   GtkTreeModel *model;
 
   view = gtk_tree_view_new();
-	gtk_tree_view_set_enable_search(view,FALSE);
-	gtk_tree_view_set_search_equal_func(view, util_treeview_match_all_words_callback, NULL, NULL);
-	gtk_tree_view_expand_all (view);
+	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(view),FALSE);
+	gtk_tree_view_set_search_equal_func(GTK_TREE_VIEW(view), util_treeview_match_all_words_callback, NULL, NULL);
+	gtk_tree_view_expand_all (GTK_TREE_VIEW(view));
 
   col = gtk_tree_view_column_new();
   gtk_tree_view_column_set_title(col, (_("Aide à la programmation [Ctl+F] pour rechercher")));
@@ -1194,10 +1194,10 @@ GtkWidget* help_php_window (void)
   gtk_box_pack_start(GTK_BOX(vbox), statusbar, FALSE, TRUE, 1);
 	gtk_widget_show (GTK_WIDGET(statusbar));
 	
-	gtk_tree_view_set_enable_tree_lines (view,TRUE);
-	gtk_tree_view_set_rules_hint (view,TRUE);
+	gtk_tree_view_set_enable_tree_lines (GTK_TREE_VIEW(view),TRUE);
+	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view),TRUE);
 
-	gtk_tree_view_expand_all (view);
+	gtk_tree_view_expand_all (GTK_TREE_VIEW(view));
 	 g_signal_connect(G_OBJECT(view), "button-release-event",  
       G_CALLBACK(on_changed2), statusbar);
 	
@@ -1248,9 +1248,9 @@ GtkWidget* help_mysql (void)
   gtk_box_pack_start(GTK_BOX(vbox), statusbar, FALSE, TRUE, 1);
 	gtk_widget_show (GTK_WIDGET(statusbar));
 	
-	gtk_tree_view_set_enable_tree_lines (view,TRUE);
-	gtk_tree_view_expand_all (view);
-	gtk_tree_view_set_rules_hint (view,TRUE);
+	gtk_tree_view_set_enable_tree_lines (GTK_TREE_VIEW(view),TRUE);
+	gtk_tree_view_expand_all (GTK_TREE_VIEW(view));
+	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view),TRUE);
 
 	 g_signal_connect(G_OBJECT(view), "button-release-event",  
       G_CALLBACK(on_changed2), statusbar);
@@ -1302,9 +1302,9 @@ GtkWidget* help_html (void)
   gtk_box_pack_start(GTK_BOX(vbox), statusbar, FALSE, TRUE, 1);
 	gtk_widget_show (GTK_WIDGET(statusbar));
 	
-	gtk_tree_view_set_enable_tree_lines (view,TRUE);
-	gtk_tree_view_expand_all (view);
-	gtk_tree_view_set_rules_hint (view,TRUE);
+	gtk_tree_view_set_enable_tree_lines (GTK_TREE_VIEW(view),TRUE);
+	gtk_tree_view_expand_all (GTK_TREE_VIEW(view));
+	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view),TRUE);
 
 	 g_signal_connect(G_OBJECT(view), "button-release-event",  
       G_CALLBACK(on_changed2), statusbar);
@@ -1356,10 +1356,10 @@ GtkWidget* help_css (void)
   gtk_box_pack_start(GTK_BOX(vbox), statusbar, FALSE, TRUE, 1);
 	gtk_widget_show (GTK_WIDGET(statusbar));
 	
-	gtk_tree_view_set_enable_tree_lines (view,TRUE);
-	gtk_tree_view_set_rules_hint (view,TRUE);
+	gtk_tree_view_set_enable_tree_lines (GTK_TREE_VIEW(view),TRUE);
+	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view),TRUE);
 
-	gtk_tree_view_expand_all (view);
+	gtk_tree_view_expand_all (GTK_TREE_VIEW(view));
 
 	 g_signal_connect(G_OBJECT(view), "button-release-event",  
       G_CALLBACK(on_changed2), statusbar);
@@ -1411,10 +1411,10 @@ GtkWidget* help_javascript (void)
   gtk_box_pack_start(GTK_BOX(vbox), statusbar, FALSE, TRUE, 1);
 	gtk_widget_show (GTK_WIDGET(statusbar));
 	
-	gtk_tree_view_set_enable_tree_lines (view,TRUE);
-	gtk_tree_view_set_rules_hint (view,TRUE);
+	gtk_tree_view_set_enable_tree_lines (GTK_TREE_VIEW(view),TRUE);
+	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view),TRUE);
 
-	gtk_tree_view_expand_all (view);
+	gtk_tree_view_expand_all (GTK_TREE_VIEW(view));
 
 	 g_signal_connect(G_OBJECT(view), "button-release-event",  
       G_CALLBACK(on_changed2), statusbar);
@@ -1466,9 +1466,9 @@ GtkWidget* Aide_BASH (void)
   gtk_box_pack_start(GTK_BOX(vbox), statusbar, FALSE, TRUE, 1);
 	gtk_widget_show (GTK_WIDGET(statusbar));
 
-	gtk_tree_view_set_rules_hint (view,TRUE);	
-	gtk_tree_view_set_enable_tree_lines (view,TRUE);
-	gtk_tree_view_expand_all (view);
+	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view),TRUE);	
+	gtk_tree_view_set_enable_tree_lines (GTK_TREE_VIEW(view),TRUE);
+	gtk_tree_view_expand_all (GTK_TREE_VIEW(view));
 	 g_signal_connect(G_OBJECT(view), "button-release-event",  
       G_CALLBACK(on_changed2), statusbar);
 
@@ -1520,9 +1520,9 @@ GtkWidget* centre_perl (void)
   gtk_box_pack_start(GTK_BOX(vbox), statusbar, FALSE, TRUE, 1);
 	gtk_widget_show (GTK_WIDGET(statusbar));
 
-	gtk_tree_view_set_rules_hint (view,TRUE);
-	gtk_tree_view_set_enable_tree_lines (view,TRUE);	
-	gtk_tree_view_expand_all (view);
+	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view),TRUE);
+	gtk_tree_view_set_enable_tree_lines (GTK_TREE_VIEW(view),TRUE);	
+	gtk_tree_view_expand_all (GTK_TREE_VIEW(view));
 	
 
 	 g_signal_connect(G_OBJECT(view), "button-release-event",  
@@ -1576,9 +1576,9 @@ GtkWidget* centre_htaccess (void)
   gtk_box_pack_start(GTK_BOX(vbox), statusbar, FALSE, TRUE, 1);
 	gtk_widget_show (GTK_WIDGET(statusbar));
 
-	gtk_tree_view_set_rules_hint (view,TRUE);
-	gtk_tree_view_set_enable_tree_lines (view,TRUE);	
-	gtk_tree_view_expand_all (view);
+	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view),TRUE);
+	gtk_tree_view_set_enable_tree_lines (GTK_TREE_VIEW(view),TRUE);	
+	gtk_tree_view_expand_all (GTK_TREE_VIEW(view));
 	
 
 	 g_signal_connect(G_OBJECT(view), "button-release-event",  
@@ -1676,9 +1676,9 @@ void term_help(GtkWidget *tv,GdkEventButton *event,  gpointer user_data)
   gtk_box_pack_start(GTK_BOX(vbox), statusbar, FALSE, TRUE, 1);
 	gtk_widget_show (GTK_WIDGET(statusbar));
 
-	gtk_tree_view_set_rules_hint (view,TRUE);
-	gtk_tree_view_set_enable_tree_lines (view,TRUE);	
-	gtk_tree_view_expand_all (view);
+	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view),TRUE);
+	gtk_tree_view_set_enable_tree_lines (GTK_TREE_VIEW(view),TRUE);	
+	gtk_tree_view_expand_all (GTK_TREE_VIEW(view));
 	
 	 g_signal_connect(view, "button-release-event",  
       G_CALLBACK(on_changed2), user_data);

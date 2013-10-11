@@ -44,7 +44,7 @@ static void on_button_find (GtkWidget *wid, gpointer data)
 {
   if (! get_page_text()) return;
    
-  gchar *t = gtk_entry_get_text (ent_text_to_find);
+  gchar *t = gtk_entry_get_text (GTK_ENTRY(ent_text_to_find));
   if (! t)
       return;
   
@@ -70,7 +70,7 @@ void on_button_replace (GtkWidget *wid, gpointer data)
 {
   if (! get_page_text()) return;
    
-  gchar *t = gtk_entry_get_text (ent_text_to_replace);
+  gchar *t = gtk_entry_get_text (GTK_ENTRY(ent_text_to_replace));
   if (! t)
       return;
   
@@ -92,31 +92,31 @@ GtkWidget* create_fr (void)
   gtk_window_set_title (GTK_WINDOW (window1), _("Search and Replace window"));
 
   vbox1 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (vbox1);
+  gtk_widget_show (GTK_WIDGET(vbox1));
   gtk_container_add (GTK_CONTAINER (window1), vbox1);
 
   hbox1 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (hbox1);
-  gtk_box_pack_start (GTK_BOX (vbox1), hbox1, TRUE, TRUE, 0);
+  gtk_widget_show (GTK_WIDGET(hbox1));
+  gtk_box_pack_start (GTK_BOX (vbox1), GTK_WIDGET(hbox1), TRUE, TRUE, 0);
 
   ent_text_to_find = tea_text_entry (hbox1, _("Text to find"), NULL);
 
   gchar *ft = get_clipboard_text ();
 
   if (ft)
-      gtk_entry_set_text (ent_text_to_find, ft);
+      gtk_entry_set_text (GTK_ENTRY(ent_text_to_find), ft);
  
   g_free (ft);    
 
   ent_text_to_replace = tea_text_entry (hbox1, _("Replace with"), NULL);
 
   hbox3 = gtk_hbox_new (FALSE, 0);
-  gtk_widget_show (hbox3);
-  gtk_box_pack_start (GTK_BOX (vbox1), hbox3, TRUE, TRUE, 0);
+  gtk_widget_show (GTK_WIDGET(hbox3));
+  gtk_box_pack_start (GTK_BOX (vbox1), GTK_WIDGET(hbox3), TRUE, TRUE, 0);
 
   chb_case_insensetive = gtk_check_button_new_with_mnemonic (_("Case insensitive"));
-  gtk_widget_show (chb_case_insensetive);
-  gtk_box_pack_start (GTK_BOX (hbox3), chb_case_insensetive, FALSE, FALSE, 0);
+  gtk_widget_show (GTK_WIDGET(chb_case_insensetive));
+  gtk_box_pack_start (GTK_BOX (hbox3), GTK_WIDGET(chb_case_insensetive), FALSE, FALSE, 0);
 
 /*
   chb_whole_words = gtk_check_button_new_with_mnemonic (_("Whole words"));
@@ -126,36 +126,36 @@ GtkWidget* create_fr (void)
   //n.p. Fugees - La-Fu-Gee
 
   GtkWidget *hbox4 = gtk_hbox_new (TRUE, 0);
-  gtk_widget_show (hbox4);
-  gtk_box_pack_start (GTK_BOX (vbox1), hbox4, TRUE, TRUE, 0);
+  gtk_widget_show (GTK_WIDGET(hbox4));
+  gtk_box_pack_start (GTK_BOX (vbox1), GTK_WIDGET(hbox4), TRUE, TRUE, 0);
 
   GtkWidget *bt_replace = gtk_button_new_with_label (_("Replace")); 
-  gtk_widget_show (bt_replace);
-  gtk_box_pack_start (GTK_BOX (hbox4), bt_replace, FALSE, FALSE, 0);
+  gtk_widget_show (GTK_WIDGET(bt_replace));
+  gtk_box_pack_start (GTK_BOX (hbox4), GTK_WIDGET(bt_replace), FALSE, FALSE, 0);
 
   g_signal_connect ((gpointer) bt_replace, "clicked",
                     G_CALLBACK (on_button_replace),
                     NULL);
 
   GtkWidget *bt_jmp_top = gtk_button_new_with_label (_("Jump to top")); 
-  gtk_widget_show (bt_jmp_top);
-  gtk_box_pack_start (GTK_BOX (hbox4), bt_jmp_top, FALSE, FALSE, 0);
+  gtk_widget_show (GTK_WIDGET(bt_jmp_top));
+  gtk_box_pack_start (GTK_BOX (hbox4), GTK_WIDGET(bt_jmp_top), FALSE, FALSE, 0);
  
   g_signal_connect ((gpointer) bt_jmp_top, "clicked",
                     G_CALLBACK (on_button_jmp_top),
                     NULL);
 
   GtkWidget *bt_find = gtk_button_new_with_label (_("Find")); 
-  gtk_widget_show (bt_find);
-  gtk_box_pack_start (GTK_BOX (hbox4), bt_find, FALSE, FALSE, 0);
+  gtk_widget_show (GTK_WIDGET(bt_find));
+  gtk_box_pack_start (GTK_BOX (hbox4), GTK_WIDGET(bt_find), FALSE, FALSE, 0);
   
   g_signal_connect ((gpointer) bt_find, "clicked",
                     G_CALLBACK (on_button_find),
                     NULL);
 
   GtkWidget *bt_forward = gtk_button_new_with_label (_("Find next")); 
-  gtk_widget_show (bt_forward);
-  gtk_box_pack_start (GTK_BOX (hbox4), bt_forward, FALSE, FALSE, 0);
+  gtk_widget_show (GTK_WIDGET(bt_forward));
+  gtk_box_pack_start (GTK_BOX (hbox4), GTK_WIDGET(bt_forward), FALSE, FALSE, 0);
 
   g_signal_connect ((gpointer) bt_forward, "clicked",
                     G_CALLBACK (on_button_find_next_f),
@@ -163,20 +163,20 @@ GtkWidget* create_fr (void)
 
   g_object_set (G_OBJECT (window1), "default-width", 500, NULL);
 
-  gtk_window_set_focus (window1, ent_text_to_find); 
+  gtk_window_set_focus (GTK_WINDOW(window1), ent_text_to_find); 
 
   g_signal_connect (window1,
                       "destroy",
-                      gtk_widget_destroyed,
+                      (GCallback)gtk_widget_destroyed,
                       &window1); 
 
   //n.p. Radiohead - Heil To the thief - 2+2=5
   g_signal_connect (window1, "delete_event",
                     G_CALLBACK (gtk_false), NULL);
 
-  gtk_window_set_modal (window1, TRUE);
+  gtk_window_set_modal (GTK_WINDOW(window1), TRUE);
 
-  gtk_widget_show (window1);  
+  gtk_widget_show (GTK_WIDGET(window1));  
 
   return window1;
 }

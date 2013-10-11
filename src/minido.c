@@ -389,7 +389,7 @@ static void edit_row_box (gchar *title, GArray *default_values)
   {
 	  column_name = g_array_index (column_names, gchar*, i);
 	  label = gtk_label_new (column_name);
-	  gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, i-1, i);
+	  //gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, i-1, i);
 
 	  values = g_hash_table_lookup (column_values, column_name); 
 	  default_value = g_array_index (default_values, gchar*, i-1);
@@ -405,9 +405,9 @@ static void edit_row_box (gchar *title, GArray *default_values)
 	  	 text_input = gtk_entry_new ();
 		 /*text_entry.is_combo = TRUE;
                  gtk_combo_set_popdown_strings (text_input, values);*/
-                 gtk_entry_set_text (text_input, default_value);
+                 gtk_entry_set_text (GTK_ENTRY (text_input), default_value);
 	  }
-	  gtk_table_attach_defaults (GTK_TABLE (table), text_input, 1, 2, i-1, i);
+	  //gtk_table_attach_defaults (GTK_TABLE (table), text_input, 1, 2, i-1, i);
 	  text_entry.widget = text_input;
 	  g_array_append_vals (text_entries, &text_entry, 1);
   }

@@ -53,7 +53,7 @@ static void cb_proj_on_bt_apply (GObject *object, gpointer user_data)
 
 static GtkWidget* mk_page_main (t_tea_project *p)
 {
-  GtkWidget *page = gtk_vbox_new (FALSE, 0);
+  GtkWidget *page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 
   gtk_widget_show (page);
   ent_project_name = tea_text_entry (page, _("Project name"), p->project_name);
@@ -107,7 +107,7 @@ t_tea_project* tea_proj_open (gchar *name)
   r->dir_source = ht_get_gchar_value (ht, "dir_source", "noname");
   r->file_executable = ht_get_gchar_value (ht, "file_executable", "noname");
 
-	gtk_file_chooser_set_current_folder(filechooserwidget2 ,r->dir_source);
+	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,r->dir_source);
 
   g_hash_table_destroy (ht); 
   return r;
@@ -212,13 +212,13 @@ GtkWidget* create_proj_props_window (t_tea_project *p)
   gtk_container_add (GTK_CONTAINER (wnd_proj_props), vbox1);
 
   GtkWidget *notebook = gtk_notebook_new ();         
-  gtk_notebook_set_tab_pos (notebook, GTK_POS_LEFT);
+  gtk_notebook_set_tab_pos (GTK_NOTEBOOK(notebook), GTK_POS_LEFT);
 
   gtk_widget_show (notebook);
 
   gtk_container_add (GTK_CONTAINER (vbox1), notebook);
 
-  gtk_notebook_append_page (notebook, mk_page_main (p), gtk_label_new (_("Main")));
+  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), mk_page_main (p), gtk_label_new (_("Main")));
   
   GtkWidget *hbox1 = gtk_hbox_new (FALSE, 0);
   gtk_widget_show (hbox1);
@@ -238,8 +238,8 @@ GtkWidget* create_proj_props_window (t_tea_project *p)
   gtk_container_add (GTK_CONTAINER (hbox1), bt_apply);
  // g_signal_connect (bt_apply, "clicked", G_CALLBACK (cb_proj_on_bt_apply), pair);
 
-  gtk_window_set_position (wnd_proj_props, GTK_WIN_POS_CENTER);   
-  gtk_window_set_modal (wnd_proj_props, TRUE);
+  gtk_window_set_position (GTK_WINDOW(wnd_proj_props), GTK_WIN_POS_CENTER);   
+  gtk_window_set_modal (GTK_WINDOW(wnd_proj_props), TRUE);
 
   gtk_widget_show (wnd_proj_props);
   return wnd_proj_props;

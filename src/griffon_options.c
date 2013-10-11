@@ -164,19 +164,19 @@ static void cb_on_bt_apply (GObject *object, GtkWidget *w)
    l = add_to_glist_combined_bool (l, "do_autorep", gtk_toggle_button_get_active (&cb_do_autorep->toggle_button));
 
 //   l = add_to_glist_combined_int (l, "logmemo_lines_max", gtk_spin_button_get_value_as_int (sb_logmemo_lines_max));  
-   l = add_to_glist_combined_int (l, "famous_history_max", gtk_spin_button_get_value_as_int (sb_famous_history_max));  
-   l = add_to_glist_combined_int (l, "max_recent_items", gtk_spin_button_get_value_as_int (sb_max_recent_items));  
+   l = add_to_glist_combined_int (l, "famous_history_max", gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(sb_famous_history_max)));  
+   l = add_to_glist_combined_int (l, "max_recent_items", gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(sb_max_recent_items)));  
    //l = add_to_glist_combined_int (l, "autocomp_wordlen_min", gtk_spin_button_get_value_as_int (sb_autocomp_wordlen_min));  
    //l = add_to_glist_combined_int (l, "autocomp_list_items_max", gtk_spin_button_get_value_as_int (sb_autocomp_list_items_max));  
 
 
-   l = add_to_glist_combined_int (l, "thumb_width", gtk_spin_button_get_value_as_int (sb_thumb_width));  
-   l = add_to_glist_combined_int (l, "thumb_height", gtk_spin_button_get_value_as_int (sb_thumb_height));  
+   l = add_to_glist_combined_int (l, "thumb_width", gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(sb_thumb_width)));  
+   l = add_to_glist_combined_int (l, "thumb_height", gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(sb_thumb_height)));  
 
 
   // l = add_to_glist_combined_int (l, "saveopen_w", gtk_spin_button_get_value_as_int (sb_saveopen_w));  
   // l = add_to_glist_combined_int (l, "saveopen_h", gtk_spin_button_get_value_as_int (sb_saveopen_h));  
-   l = add_to_glist_combined_int (l, "tab_size", gtk_spin_button_get_value_as_int (sb_tab_size));  
+   l = add_to_glist_combined_int (l, "tab_size", gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(sb_tab_size)));  
  
    glist_save_to_file (l, confile.tea_rc);
 
@@ -195,25 +195,25 @@ static GtkWidget* wnd_options_encoding (void)
  
   GtkWidget *page = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (page);
-  gtk_scrolled_window_add_with_viewport (wnd, page);
+  gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW(wnd), page);
 
   GtkWidget *fr1 = gtk_frame_new (_("Defaults"));   
   gtk_widget_show (fr1);
-  gtk_box_pack_start (page, fr1, FALSE, FALSE, 1);
+  gtk_box_pack_start (GTK_BOX(page), fr1, FALSE, FALSE, 1);
 
   ent_default_charset = tea_combo (page, confile.iconv_encs, _("Default charset pour fichier ouvert"), confile.default_charset);
   ent_def_filesave_charset = tea_combo (page, confile.gl_save_charsets, _("Default charset pour fichier sauvegardé sous"), confile.def_filesave_charset);
  
   fr1 = gtk_frame_new (_("Misc"));   
   gtk_widget_show (fr1);
-  gtk_box_pack_start (page, fr1, FALSE, FALSE, 1);
+  gtk_box_pack_start (GTK_BOX(page), fr1, FALSE, FALSE, 1);
  
   ent_rtf_enc = tea_text_entry (page, _("Default charset pour RTF"), confile.rtf_enc);  
  
   GtkWidget *fr2 = gtk_frame_new (_("Autodetect"));   
   gtk_widget_show (fr2);
  
-  gtk_box_pack_start (page, fr2, FALSE, FALSE, 1);
+  gtk_box_pack_start (GTK_BOX(page), fr2, FALSE, FALSE, 1);
   
   cb_enc_det_cp1251 = tea_checkbox (page, _("CP 1251"), confile.enc_det_cp1251); 
   cb_enc_det_koi8r = tea_checkbox (page, _("KOI8-R"), confile.enc_det_koi8r);
@@ -381,7 +381,7 @@ static GtkWidget* wnd_options_colors (void)
   GtkWidget *page = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (page);
 
-  gtk_notebook_append_page (notebook, page, gtk_label_new (_("Editeur")));
+  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), page, gtk_label_new (_("Editeur")));
  
   ent_text_foreground = tea_color_selector (page, _("Avant-plan du texte"), confile.text_foreground);
   ent_text_background = tea_color_selector (page, _("Arrière-plan du texte"), confile.text_background);
@@ -403,7 +403,7 @@ static GtkWidget* wnd_options_colors (void)
 
   page = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (page);*/
-  gtk_notebook_append_page (notebook, page, gtk_label_new (_("IDE")));
+  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), page, gtk_label_new (_("IDE")));
  
   ent_tag_color_lm_error_fg = tea_color_selector (page, _("Errors avant-plan (logmemo)"), confile.tag_color_lm_error_fg);
   ent_tag_color_lm_error_bg = tea_color_selector (page, _("Errors arrière-plan du texte (logmemo)"), confile.tag_color_lm_error_bg);
@@ -511,20 +511,20 @@ GtkWidget* wnd_options_create (void)
 
   gtk_container_add (GTK_CONTAINER (vbox1), notebook);
 
-  gtk_notebook_append_page (notebook, wnd_options_switches (), gtk_label_new (_("Principale")));
-  gtk_notebook_append_page (notebook, wnd_options_encoding (), gtk_label_new (_("Encodage")));
-  gtk_notebook_append_page (notebook, wnd_options_functions (), gtk_label_new (_("Fonctions")));
-  gtk_notebook_append_page (notebook, wnd_options_interface (), gtk_label_new (_("Interface")));
-  gtk_notebook_append_page (notebook, wnd_options_limits (), gtk_label_new (_("Limites")));
-  gtk_notebook_append_page (notebook, wnd_options_fonts (), gtk_label_new (_("Fonts")));
-  gtk_notebook_append_page (notebook, wnd_options_editor (), gtk_label_new (_("Editeur")));
-  gtk_notebook_append_page (notebook, wnd_options_browsers (), gtk_label_new (_("Navigateurs")));
-  gtk_notebook_append_page (notebook, wnd_options_colors (), gtk_label_new (_("Couleurs")));
-  gtk_notebook_append_page (notebook, wnd_options_commands (), gtk_label_new (_("Commandes")));
-  gtk_notebook_append_page (notebook, wnd_options_paths (), gtk_label_new (_("Paths")));
-  gtk_notebook_append_page (notebook, wnd_options_coauthor (), gtk_label_new (_("Complémentation")));
-  gtk_notebook_append_page (notebook, wnd_options_confirmations (), gtk_label_new (_("Confirmations")));
-  gtk_notebook_append_page (notebook, wnd_options_maintenance (), gtk_label_new (_("Maintenance")));
+  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_switches (), gtk_label_new (_("Principale")));
+  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_encoding (), gtk_label_new (_("Encodage")));
+  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_functions (), gtk_label_new (_("Fonctions")));
+  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_interface (), gtk_label_new (_("Interface")));
+  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_limits (), gtk_label_new (_("Limites")));
+  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_fonts (), gtk_label_new (_("Fonts")));
+  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_editor (), gtk_label_new (_("Editeur")));
+  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_browsers (), gtk_label_new (_("Navigateurs")));
+  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_colors (), gtk_label_new (_("Couleurs")));
+  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_commands (), gtk_label_new (_("Commandes")));
+  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_paths (), gtk_label_new (_("Paths")));
+  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_coauthor (), gtk_label_new (_("Complémentation")));
+  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_confirmations (), gtk_label_new (_("Confirmations")));
+  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_maintenance (), gtk_label_new (_("Maintenance")));
 
   gtk_notebook_set_current_page (notebook, confile.last_prefs_tab);
 

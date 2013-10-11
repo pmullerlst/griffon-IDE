@@ -57,7 +57,7 @@ void ui_init (void)
   confile.last_prefs_tab = conf_get_int_value (ui, "last_prefs_tab", 0); 
 
 //  gtk_paned_set_position (vpaned1, conf_get_int_value (ui, "vpaned1_y", 300));
-  gtk_paned_set_position (vpaned1, 50);                  
+  gtk_paned_set_position (GTK_PANED(vpaned1), 50);                  
   /*gtk_window_move (GTK_WINDOW (tea_main_window),
                    conf_get_int_value (ui, "main_wnd_x", 2),
                    conf_get_int_value (ui, "main_wnd_y", 2));
@@ -75,7 +75,7 @@ void ui_done (void)
 {
   GList *list = NULL;
 
-  list = add_to_glist_combined_int (list, "vpaned1_y", gtk_paned_get_position  (vpaned1));
+  list = add_to_glist_combined_int (list, "vpaned1_y", gtk_paned_get_position  (GTK_PANED(vpaned1)));
 
   gint x;
   gint y;
@@ -566,7 +566,7 @@ void lookup_widget_cb (GtkWidget *widget, gpointer data)
          }
 
       if (GTK_IS_MENU_ITEM (widget))
-         lookup_widget (gtk_menu_item_get_submenu (widget), data);      
+         lookup_widget (GTK_MENU_ITEM(gtk_menu_item_get_submenu (GTK_MENU_ITEM(widget))), data);      
      }   
 }
 
