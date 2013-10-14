@@ -22,17 +22,15 @@ typedef struct
   gchar *file_name;
   gchar *encoding;
   gboolean linenums;
-  //gboolean modified;
 
   GtkWidget *icon;
-  GtkSourceBuffer*text_buffer;
+  GtkSourceBuffer* text_buffer;
   GtkWidget *tab_label;
   GtkWidget *but;
   GtkWidget *hbox;
-	 //GtkSpell *spell;
 
   GtkWidget *scrolledwindow;
-  GtkSourceView *text_view;
+  GtkWidget *text_view;
 
   gchar *last_searched_text;
 

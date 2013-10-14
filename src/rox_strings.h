@@ -1,10 +1,3 @@
-/***************************************************************************
-                          rox_strings.h  -  description
-                             -------------------
-    begin                : Fri Oct 17 12:08:36 EEST 2003
-    copyright            : (C) 2003-2004 by Peter 'Roxton' Semiletov
-    email                : tea@list.ru
- ***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -14,7 +7,16 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-                                                
+                           
+
+typedef struct {
+               gchar *word;
+               gint count;  
+              } t_struct_word;
+
+                   
+void free_word_data (gpointer data);  
+
 gchar* get_file_ver_name (const gchar *name);
 gboolean filename_test_extensions (gchar **extensions, gchar *filename);
 size_t tNumber2Roman (guint uiNumber, int bUpperCase, char *szOutput);
@@ -89,4 +91,4 @@ gchar* enc_guess (const gchar *s);
 void str_walk_extract_word (gpointer key);
 void walk_by_words (gpointer value);
 void cb_print_ht (gpointer key,gpointer value);
-
+GList* load_file_to_glist_with_limit (gchar *filename, gint limit);

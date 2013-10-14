@@ -425,6 +425,7 @@ GtkWidget* new_menu_tof (GtkWidget *parent)
   gtk_widget_set_name (mni_tof, "-x-");
   gtk_widget_show (mni_tof);
   gtk_container_add (GTK_CONTAINER (parent), mni_tof);
+	return mni_tof;
 }
 
 
@@ -482,7 +483,7 @@ void handle_file (gchar const *filename, gint mode)
       if (mode != 0)
          {
           cmd = g_strdup_printf (confile.ext_pic_editor, filename);
-          system (cmd);
+							if(system (cmd) == -1){printf("\n");}
           g_free (cmd);
           return;
          }
@@ -490,7 +491,7 @@ void handle_file (gchar const *filename, gint mode)
       if (confile.use_ext_image_viewer)
          {
           cmd = g_strdup_printf (confile.ext_pic_editor, filename);
-          system (cmd);
+							if(system (cmd) == -1){printf("\n");}
           g_free(cmd);
           return;        
          }
@@ -557,7 +558,7 @@ void kwas_handle_file (gchar *filename, int mode)
       if (mode != 0)
          {
           cmd = g_strdup_printf (confile.ext_pic_editor, filename);
-          system (cmd);
+							if(system (cmd) == -1){printf("\n");}
           g_free (cmd);
           return;
          }
@@ -565,7 +566,7 @@ void kwas_handle_file (gchar *filename, int mode)
       if (confile.use_ext_image_viewer)
          {
           cmd = g_strdup_printf (confile.ext_pic_editor, filename);
-          system (cmd);
+							if(system (cmd) == -1){printf("\n");}
           g_free(cmd);
           return;        
          }
@@ -1024,7 +1025,7 @@ gchar* find_good_browser (void)
 
 gchar* compose_browser_cmd (gchar *filename)
 {
-  gchar *t;
+  gchar *t=NULL;
   gchar *b; 
 
   if (confile.use_def_doc_browser)
@@ -1076,7 +1077,7 @@ void run_doc_in_browser (void)
   gchar *f = find_doc_index_name ();
   gchar *t = compose_browser_cmd (f);
   if (t)
-     system (t); 
+							if(system (t) == -1){printf("\n");}
 
   g_free (f);
   g_free (t);
@@ -1281,11 +1282,11 @@ GList* read_dir_files (gchar *path)
   GDir *d = g_dir_open (path, 0, NULL);  
   gchar const *t;
 
-  while (t = g_dir_read_name (d))
-        {
-         if (! g_file_test (t, G_FILE_TEST_IS_DIR))
-             l = g_list_prepend (l, g_strdup (t));
-        }
+  while (g_dir_read_name(d))
+  {
+		t = g_dir_read_name(d);
+         if (! g_file_test (t, G_FILE_TEST_IS_DIR)){l = g_list_prepend (l, g_strdup (t));}
+  }
 
   g_dir_close (d);  
   return g_list_reverse (l);

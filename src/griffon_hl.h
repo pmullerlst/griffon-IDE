@@ -1,10 +1,3 @@
-/***************************************************************************
-                          tea_hl.h  -  description
-                             -------------------
-    begin                : Fri Feb 27 2004
-    copyright            : (C) 2004 by Peter 'Roxton' Semiletov
-    email                : tea@list.ru
- ***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -47,3 +40,10 @@ void apply_hl (t_note_page *doc);
 void remove_tags (t_note_page *doc);
 void create_tags (void);
 void prepare_hl_all (void);
+void add_recent_internal (t_note_page *doc);
+GList* add_recent_item_composed (GList *list, t_note_page *doc);
+void do_hl_spell_check2 ();
+void doc_spaces_to_tabs (t_note_page *doc, gint tabsize);
+void doc_tabs_to_spaces (t_note_page *doc, gint tabsize) ;
+void run_extract_words ( t_note_page *page);
+void run_unitaz ( t_note_page *page, gint sort_type, gboolean case_insensetive);

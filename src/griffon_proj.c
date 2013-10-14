@@ -28,35 +28,17 @@
 #include "rox_strings.h"
 #include "griffon_config.h"
 
-static GtkEntry *ent_project_name;
-static GtkEntry *ent_dir_makefile;
-static GtkEntry *ent_dir_source;
-static GtkEntry *ent_file_executable;
-
-static void cb_proj_on_bt_apply (GObject *object, gpointer user_data) 
-{
-  t_ppair *t = user_data;
-  t_tea_project *p = t->b;   
-
-   if (p)
-      {
-       p->project_name = ch_str (p->project_name, gtk_entry_get_text (GTK_ENTRY (ent_project_name)));
-       p->dir_makefile = ch_str (p->dir_makefile, gtk_entry_get_text (GTK_ENTRY (ent_dir_makefile)));
-       p->dir_source = ch_str (p->dir_source, gtk_entry_get_text (GTK_ENTRY (ent_dir_source)));
-       p->file_executable = ch_str (p->file_executable, gtk_entry_get_text (GTK_ENTRY (ent_file_executable)));
-      }
-  
-  window_destroy (t->a);
-  g_free (t);
-}
-
+static GtkWidget *ent_project_name;
+static GtkWidget *ent_dir_makefile;
+static GtkWidget *ent_dir_source;
+static GtkWidget *ent_file_executable;
 
 static GtkWidget* mk_page_main (t_tea_project *p)
 {
   GtkWidget *page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 
   gtk_widget_show (page);
-  ent_project_name = tea_text_entry (page, _("Project name"), p->project_name);
+  ent_project_name = tea_text_entry (GTK_WIDGET(page), _("Project name"), p->project_name);
   ent_dir_makefile = tea_dir_selector (page, _("Makefile directory"), p->dir_makefile);
   ent_dir_source = tea_dir_selector (page, _("Source directory"), p->dir_source);
   ent_file_executable = tea_text_entry (page, _("Target executable"), p->file_executable);
@@ -207,7 +189,7 @@ GtkWidget* create_proj_props_window (t_tea_project *p)
 
   gtk_window_set_title (GTK_WINDOW (wnd_proj_props), _("Project properties"));
 
-  GtkWidget *vbox1 = gtk_vbox_new (FALSE, 0);
+  GtkWidget *vbox1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (vbox1);
   gtk_container_add (GTK_CONTAINER (wnd_proj_props), vbox1);
 
@@ -220,7 +202,7 @@ GtkWidget* create_proj_props_window (t_tea_project *p)
 
   gtk_notebook_append_page (GTK_NOTEBOOK(notebook), mk_page_main (p), gtk_label_new (_("Main")));
   
-  GtkWidget *hbox1 = gtk_hbox_new (FALSE, 0);
+  GtkWidget *hbox1 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (hbox1);
   gtk_container_add (GTK_CONTAINER (vbox1), hbox1);
 

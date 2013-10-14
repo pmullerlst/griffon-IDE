@@ -30,7 +30,6 @@
 #include <gtksourceview/gtksourcelanguage.h>
 #include <gtksourceview/gtksourcelanguagemanager.h>
 #include <gtksourceview/gtksourcestyleschememanager.h>
-//#include <gtkspell/gtkspell.h>
 #include <webkit/webkit.h>
 #include <gtksourceview/completion-providers/words/gtksourcecompletionwords.h>
 #include <gtksourceview/gtksourcecompletion.h>
@@ -52,6 +51,7 @@
 #define REFRESH_INTERVAL 15
 
 GtkSourceCompletionWords *word_provider;
+
 //**************** STRUCTURE
   enum
   {
@@ -79,8 +79,6 @@ GtkWidget *scrolledWindow;
 GtkWidget *entry_myadmin;
 } win_web;
 
-//**********************
-
 int save_controle=0,nbr_term=0;
 
 GtkTreeSelection *selection_myadmin ;
@@ -103,7 +101,6 @@ GtkWidget *sView_scan;
 GtkWidget *vte_add;
 
 //********************************************* AUTOCOMPLEMENTATION 
-
 struct _TestProviderClass
 {
 	GObjectClass parent_class;
@@ -145,7 +142,7 @@ static GList * select_random_proposals (GList *all_proposals)
 	return selection;
 }
 
-static void test_provider_populate (GtkSourceCompletionProvider *completion_provider,                        GtkSourceCompletionContext  *context)
+static void test_provider_populate (GtkSourceCompletionProvider *completion_provider,GtkSourceCompletionContext  *context)
 {
 	TestProvider *provider = (TestProvider *)completion_provider;
 	GList *proposals;
@@ -165,15 +162,12 @@ static void test_provider_populate (GtkSourceCompletionProvider *completion_prov
 						     TRUE);
 }
 
-
 static void test_provider_iface_init (GtkSourceCompletionProviderIface *iface)
 {
 	iface->get_name = test_provider_get_name;
 	iface->populate = test_provider_populate;
 	iface->get_priority = test_provider_get_priority;
-	/* iface->get_icon = test_provider_get_icon; */
 }
-
 
 static void test_provider_dispose (GObject *gobject)
 {
@@ -214,7 +208,6 @@ static void test_provider_init (TestProvider *self)
 
 static void create_completion (GtkSourceView       *source_view,		   GtkSourceCompletion *completion)
 {
-	/* Words completion provider */
 	word_provider = gtk_source_completion_words_new (NULL, NULL);
 
 	gtk_source_completion_words_register (word_provider,
@@ -226,8 +219,6 @@ static void create_completion (GtkSourceView       *source_view,		   GtkSourceCo
 
 	g_object_set (word_provider, "priority", 10, NULL);
 }
-
-//********************************************* FIN AUTOCOMPLETION
 
 //******************************** Ouverture de link pour navigateur web en mode link blank
 gboolean myadmin_new_window (WebKitNetworkRequest      *request)
@@ -569,9 +560,8 @@ tool_sep=gtk_separator_tool_item_new();
 gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_sep, -1);
 gtk_widget_show(GTK_WIDGET(tool_sep));
 
-//   gtk_toolbar_set_style (toolbar, GTK_TOOLBAR_BOTH); 
-   gtk_toolbar_set_style (GTK_TOOLBAR(toolbar), GTK_TOOLBAR_ICONS); 
-	 gtk_style_context_add_class (gtk_widget_get_style_context (toolbar),
+		gtk_toolbar_set_style (GTK_TOOLBAR(toolbar), GTK_TOOLBAR_ICONS); 
+		gtk_style_context_add_class (gtk_widget_get_style_context (toolbar),
                                                 "primary-toolbar");
   gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar),GTK_ICON_SIZE_SMALL_TOOLBAR);
 
@@ -602,7 +592,7 @@ void fill_entities_special_menu (void)
 GtkWidget* create_tea_main_window (void)
 {
   confile_reload();
-  //save_string_to_file_vide(confile.tea_autocomp,"");
+
 	//*************** INIT des notifications
 	notify_init ("libnotify");
 
@@ -1286,7 +1276,6 @@ GtkWidget* create_tea_main_window (void)
 
   mni_temp = new_menu_sep (mni_what_menu);
   
-
   //***************************** FAMOUS CMB
   fam_hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(fam_hbox));
@@ -1305,9 +1294,6 @@ GtkWidget* create_tea_main_window (void)
    gtk_widget_show (GTK_WIDGET(hpaned1));
    gtk_box_pack_start (GTK_BOX (hbox2), hpaned1, TRUE, TRUE, 0);
 
-
-
-
 	//***************************************************** NOTEBOOK MAIN
   notebook3 = gtk_notebook_new ();  
   gtk_widget_show (GTK_WIDGET(notebook3));  
@@ -1321,7 +1307,7 @@ GtkWidget* create_tea_main_window (void)
   gtk_container_add (GTK_CONTAINER (notebook3), GTK_WIDGET(vbox4));
   gtk_widget_show (GTK_WIDGET(vbox4));  
 
-//***************** ONGLET FILE  
+	//***************** ONGLET FILE  
   notebook2 = gtk_notebook_new ();  
   gtk_widget_show (GTK_WIDGET(notebook2));  
   gtk_box_pack_start (GTK_BOX (vbox4), notebook2, TRUE, TRUE, 0);  
@@ -1390,8 +1376,6 @@ GtkWidget* create_tea_main_window (void)
   gtk_box_pack_start (GTK_BOX (hbox_note), label_note4, TRUE, TRUE, 0);	
 
 	gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook2), 0), TRUE);
-
-	//***********************
 
   vbox4 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_container_add (GTK_CONTAINER (notebook2), GTK_WIDGET(vbox4));
@@ -1750,7 +1734,6 @@ gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_
   tb_main_toolbar = create_hardcoded_toolbar ();
   gtk_box_pack_start (GTK_BOX (hbox_bar), tb_main_toolbar, FALSE, TRUE, 0);
 
-//**************
  GtkWidget* toolbar_manager = gtk_toolbar_new ();
 	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_manager), GTK_TOOLBAR_ICONS); 
 	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_manager),GTK_ICON_SIZE_SMALL_TOOLBAR);
@@ -1796,7 +1779,7 @@ tool_sep2=gtk_separator_tool_item_new();
 gtk_toolbar_insert(GTK_TOOLBAR(toolbar_manager), tool_sep2, -1);
 gtk_widget_show(GTK_WIDGET(tool_sep2));
 
-//*************************************
+	//*************************************
 	GtkToolItem *item_entry  = gtk_tool_item_new();
 
   cmb_famous = gtk_entry_new ();     
@@ -1848,8 +1831,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep2));
      gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow_editor),
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add(GTK_CONTAINER(scrolledWindow_editor), GTK_WIDGET(webView_editor));
-
-//    gtk_container_add(GTK_CONTAINER(vbox), scrolledWindow_editor);  
+ 
 			gtk_box_pack_start (GTK_BOX (vbox), scrolledWindow_editor, TRUE, TRUE, 0);
 
 	webkit_web_view_load_uri(webView_editor, "http://griffon.lasotel.fr/main.php?version=1.6.4");
@@ -1858,10 +1840,10 @@ gtk_widget_show(GTK_WIDGET(tool_sep2));
   gtk_widget_set_name (notebook1, "notebook1");
   gtk_widget_show (GTK_WIDGET(notebook1));
   gtk_notebook_set_scrollable (GTK_NOTEBOOK (notebook1), TRUE);
-gtk_box_pack_start (GTK_BOX (vbox), notebook1, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), notebook1, TRUE, TRUE, 0);
 	gtk_notebook_set_group_name (GTK_NOTEBOOK (notebook1), "wnote");
 
-//*****************************
+	//*****************************
   label_note4 = gtk_label_new (_("Editor"));
   gtk_widget_show (GTK_WIDGET(label_note4));
 
@@ -2022,12 +2004,12 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
 
   gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook_down), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_down), 1), TRUE);
 
-//********************************* PROJET TAB
+	//********************************* PROJET TAB
   vbox_proj = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_container_add (GTK_CONTAINER (notebook_down), GTK_WIDGET(vbox_proj));
   gtk_widget_show (GTK_WIDGET(vbox_proj)); 
 
-//********* Button project
+	//********* Button project
   hbox_proj = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_box_pack_start (GTK_BOX (vbox_proj), hbox_proj, FALSE, TRUE, 0);
   gtk_widget_show (GTK_WIDGET(hbox_proj));  
@@ -2060,9 +2042,9 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   g_signal_connect ((gpointer) tool_projet_save_as, "clicked",G_CALLBACK (on_mni_project_save_as),NULL);
   gtk_tool_item_set_tooltip_text(tool_projet_save_as,_("Sauvegarder un projet"));
 
-tool_sep=gtk_separator_tool_item_new();
-gtk_toolbar_insert(GTK_TOOLBAR(toolbar_projet), tool_sep, -1);
-gtk_widget_show(GTK_WIDGET(tool_sep));
+	tool_sep=gtk_separator_tool_item_new();
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_projet), tool_sep, -1);
+	gtk_widget_show(GTK_WIDGET(tool_sep));
 
   GtkToolItem *tool_projet_make = gtk_tool_button_new_from_stock(GTK_STOCK_CONVERT  );
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar_projet ), tool_projet_make, -1);
@@ -2108,7 +2090,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow3), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow3), GTK_CORNER_TOP_LEFT);
 
-//******************************* SOURCEVIEW PROJET
+	//******************************* SOURCEVIEW PROJET
   PangoFontDescription *font_desc_projet;
 	GtkWidget *sView_projet;
 	GtkSourceLanguageManager *lm_projet;
@@ -2160,7 +2142,8 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
 
   scrolledwindow4 = gtk_scrolled_window_new (NULL, NULL);
   gtk_widget_show (GTK_WIDGET(scrolledwindow4));
-  gtk_container_add (GTK_CONTAINER (vbox3), GTK_WIDGET(scrolledwindow4));
+//  gtk_container_add (GTK_CONTAINER (vbox3), GTK_WIDGET(scrolledwindow4));
+    gtk_box_pack_start(GTK_BOX(vbox3), GTK_WIDGET(scrolledwindow4), TRUE, TRUE, 0);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow4), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow4), GTK_CORNER_TOP_LEFT);
 
@@ -2176,22 +2159,13 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
      gtk_widget_modify_font (sView_note, font_desc_note);
      pango_font_description_free (font_desc_note);
 
-//********************
-
-//GtkSpell *spell = gtkspell_new_attach(GTK_TEXT_VIEW(sView_note), NULL, NULL);
-
-//********************
-
-
  gtk_source_view_set_show_right_margin(GTK_SOURCE_VIEW(sView_note),TRUE);
  gtk_source_view_set_show_line_numbers(GTK_SOURCE_VIEW(sView_note),TRUE);
  gtk_source_view_set_highlight_current_line(GTK_SOURCE_VIEW(sView_note),TRUE);
  gtk_source_view_set_show_line_marks(GTK_SOURCE_VIEW(sView_note),TRUE);
 
-	//TEST AUTOCOMPLETION
 	GtkSourceCompletion *completion = gtk_source_view_get_completion (GTK_SOURCE_VIEW(sView_note));
  	create_completion (GTK_SOURCE_VIEW(sView_note), completion);
-
 
 	lm_note = gtk_source_language_manager_new();
 	g_object_ref (lm_note);
@@ -2267,9 +2241,9 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   g_signal_connect ((gpointer) tool_miniweb_stop, "clicked",G_CALLBACK (miniweb_stop),NULL);
   gtk_tool_item_set_tooltip_text(tool_miniweb_stop,_("Stop"));
 
-tool_sep=gtk_separator_tool_item_new();
-gtk_toolbar_insert(GTK_TOOLBAR(toolbar_miniweb ), tool_sep, -1);
-gtk_widget_show(GTK_WIDGET(tool_sep));
+	tool_sep=gtk_separator_tool_item_new();
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_miniweb ), tool_sep, -1);
+	gtk_widget_show(GTK_WIDGET(tool_sep));
 
   GtkToolItem *tool_miniweb_source = gtk_tool_button_new_from_stock(GTK_STOCK_PROPERTIES );
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar_miniweb ), tool_miniweb_source, -1);
@@ -2283,9 +2257,9 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   g_signal_connect ((gpointer) tool_miniweb_view, "clicked",G_CALLBACK (miniweb_view_mode_get_url),NULL);
   gtk_tool_item_set_tooltip_text(tool_miniweb_view,_("Web view"));
 
-tool_sep=gtk_separator_tool_item_new();
-gtk_toolbar_insert(GTK_TOOLBAR(toolbar_miniweb ), tool_sep, -1);
-gtk_widget_show(GTK_WIDGET(tool_sep));
+	tool_sep=gtk_separator_tool_item_new();
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_miniweb ), tool_sep, -1);
+	gtk_widget_show(GTK_WIDGET(tool_sep));
 
   GtkToolItem *tool_miniweb_new = gtk_tool_button_new_from_stock(GTK_STOCK_ADD    );
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar_miniweb), tool_miniweb_new, -1);
@@ -2305,7 +2279,6 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   entry_web = gtk_entry_new ();
   gtk_widget_show (GTK_WIDGET(entry_web));
   gtk_box_pack_start (GTK_BOX (hbox3), entry_web, TRUE, TRUE, 0);
-//  gtk_entry_set_text (GTK_ENTRY (entry_web), _("http://griffon.lasotel.fr/main.html"));
 
 	//**************************** Autocomp
 	GtkEntryCompletion *completion_entry_http;
@@ -2319,7 +2292,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
 	gtk_entry_completion_set_model(completion_entry_http, GTK_TREE_MODEL(model_entry_http));
 	//****************************
 
-gtk_entry_set_text (GTK_ENTRY (entry_web), _("http://griffon.lasotel.fr/main.php?version=1.6.4"));
+	gtk_entry_set_text (GTK_ENTRY (entry_web), _("http://griffon.lasotel.fr/main.php?version=1.6.4"));
 
   button2 = gtk_button_new_from_stock (" Charger l'URL ");
   gtk_widget_show (GTK_WIDGET(button2));
@@ -2395,23 +2368,6 @@ gtk_entry_set_text (GTK_ENTRY (entry_web), _("http://griffon.lasotel.fr/main.php
   gtk_box_pack_start (GTK_BOX (hbox_note), label_note3, TRUE, TRUE, 0);		
 
   gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook_down), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_down), 4), TRUE);
-
-	main2();
-
-  label_note3 = gtk_label_new (_("TODO liste"));
-  gtk_widget_show (GTK_WIDGET(label_note3));
-
-	gtk_widget_set_size_request (label_note3, 100, 20);
-
-  hbox_note = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-  gtk_widget_show (GTK_WIDGET(hbox_note));
-  gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_down), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_down), 5), hbox_note);
-
-  image2 = gtk_image_new_from_stock ("gtk-apply", GTK_ICON_SIZE_SMALL_TOOLBAR);
-  gtk_widget_show (GTK_WIDGET(image2));
-  gtk_box_pack_start (GTK_BOX (hbox_note), image2, TRUE, TRUE, 0);
-  gtk_box_pack_start (GTK_BOX (hbox_note), label_note3, TRUE, TRUE, 0);		
-  gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook_down), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_down), 5), TRUE);
 
 	//*************************** Notebook myadmin
    GtkWidget *hbox_myadmin1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
@@ -2660,14 +2616,14 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
 
   hbox_note = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(hbox_note));
-  gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_down), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_down), 6), hbox_note);
+  gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_down), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_down), 5), hbox_note);
 
   image2 = gtk_image_new_from_stock ("gtk-home", GTK_ICON_SIZE_SMALL_TOOLBAR);
   gtk_widget_show (GTK_WIDGET(image2));
   gtk_box_pack_start (GTK_BOX (hbox_note), image2, TRUE, TRUE, 0);
   gtk_box_pack_start (GTK_BOX (hbox_note), label_note3, TRUE, TRUE, 0);		
 
-  gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook_down), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_down), 6), TRUE);
+  gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook_down), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_down), 5), TRUE);
 
 
   label_note4 = gtk_label_new (_("Tools"));
@@ -2703,18 +2659,6 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   g_signal_connect ((gpointer) notebook3, "focus-in-event",
                     G_CALLBACK (switch_filechooser),
                     NULL);
-
- /* g_signal_connect ((gpointer) notebook1, "focus-in-event",
-                    G_CALLBACK (scan_include),
-                    NULL);*/
-
-/*  g_signal_connect ((gpointer) notebook1, "switch_page",
-                    G_CALLBACK (delete_autocomp_tips),
-                    NULL);
-
-  g_signal_connect ((gpointer) tea_main_window , "focus-out-event",
-                    G_CALLBACK (delete_autocomp_tips),
-                    NULL);*/
   
   gtk_window_add_accel_group (GTK_WINDOW (tea_main_window), accel_group);
 
@@ -2750,8 +2694,6 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   log_to_memo ("\n\n(C)2013 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.6.4 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
 	tv_logmemo_set_pos (0);
   ui_init ();
-
-  //gtk_entry_set_text (ent_search, "");  
 
   /*********Signaux et fonctions ratache*********/
 
@@ -3140,9 +3082,6 @@ tampon_web = gtk_editable_get_chars(GTK_EDITABLE(entry_web),0, -1);
 	webkit_web_view_load_uri(webView, tampon_web);
 	griffon_notify(_("La visualisation est disponible dans l'onglet Mini Web"));
 }
-
-//******************************* affichage de la todo liste
-void todo_list (){main2();}
 
 //******************************* MyAdmin composition
 static GtkTreeModel * create_and_fill_model_myadmin (void)
@@ -3938,7 +3877,6 @@ void on_changed_scan (GtkWidget *widget)
 		gtk_entry_set_text (GTK_ENTRY (ent_search), value);
 	   g_free(value);
 		doc_select_line (cur_text_doc, strtol (gtk_entry_get_text (GTK_ENTRY (ent_search)), NULL, 10));
-		//gtk_notebook_set_current_page(notebook3,1);
 			}
   }
 }
@@ -4005,7 +3943,6 @@ void on_changed_book (GtkWidget *widget)
 
 	  gtk_text_buffer_place_cursor (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &iter2);
 	  gtk_text_view_scroll_to_iter (GTK_TEXT_VIEW(cur_text_doc->text_view), &iter2, 0.0, FALSE, 0.0, 0.0);	
-		//gtk_notebook_set_current_page(notebook3,1);
 		}else{log_to_memo (_("Le BookMark ne correspond pas au fichier en cours d'édition."), NULL, LM_ERROR);statusbar_msg (_("BookMark File [ERROR]"));}
 		gtk_tree_selection_unselect_all(GTK_TREE_SELECTION(widget));	
   }
@@ -4056,9 +3993,7 @@ void google_search()
 	{
 		char search_google[150];
 		strcpy(search_google,"https://www.google.fr/#q=");
-		strcat(search_google,doc_get_sel (cur_text_doc));
-		//gtk_entry_set_text (ent_search,"");
-		//gtk_entry_set_text (ent_search, doc_get_sel (cur_text_doc)); 
+		strcat(search_google,doc_get_sel (cur_text_doc)); 
 		webkit_web_view_load_uri(webView_myadmin_aide, search_google);
 
 	//*************** NOTIFY TEST
@@ -4076,8 +4011,6 @@ void google_traduction_fr_en()
 		char search_google[650];
 		strcpy(search_google,"https://translate.google.fr/?hl=fr&tab=wT#fr/en/");
 		strcat(search_google,doc_get_sel (cur_text_doc));
-		//gtk_entry_set_text (ent_search,"");
-		//gtk_entry_set_text (ent_search, doc_get_sel (cur_text_doc)); 
 		webkit_web_view_load_uri(webView_myadmin_traduc, search_google);
 		griffon_notify(_("Le résultat de la traduction est disponible dans l'onglet :\nMyAdmin->Traduction"));
 	}
@@ -4093,8 +4026,6 @@ void google_traduction_en_fr()
 		char search_google[650];
 		strcpy(search_google,"https://translate.google.fr/?hl=fr&tab=wT#en/fr/");
 		strcat(search_google,doc_get_sel (cur_text_doc));
-//		gtk_entry_set_text (ent_search,"");
-//		gtk_entry_set_text (ent_search, doc_get_sel (cur_text_doc)); 
 		webkit_web_view_load_uri(webView_myadmin_traduc, search_google);
 		griffon_notify(_("Le résultat de la traduction est disponible dans l'onglet :\nMyAdmin->Traduction"));
 	}
@@ -4239,13 +4170,11 @@ gboolean popup_context_menu_vte(GtkWidget *tv, GdkEventButton *event)
 
 									if(vte_terminal_get_has_selection (VTE_TERMINAL(tv)))
 									{
-            //menu_item = gtk_menu_item_new_with_label ("Copy");
 									menu_item = gtk_image_menu_item_new_from_stock(GTK_STOCK_COPY,NULL);
 									gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM(menu_item) ,TRUE);
             g_signal_connect(menu_item, "button-release-event", G_CALLBACK(copy_vte),tv);
             gtk_menu_shell_append(GTK_MENU_SHELL(menu_vte), menu_item);
 									}
-           // menu_item2 = gtk_menu_item_new_with_label ("Paste");
 									 menu_item2 = gtk_image_menu_item_new_from_stock(GTK_STOCK_PASTE,NULL);
 									gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM(menu_item2) ,TRUE);
             g_signal_connect(menu_item2, "button-release-event", G_CALLBACK(paste_vte), tv);
@@ -4281,18 +4210,11 @@ void new_terminal ()
   gtk_widget_show (GTK_WIDGET(page_term->vbox2));
   gtk_container_add (GTK_CONTAINER (notebook_term), GTK_WIDGET(page_term->vbox2));
 
-	//long size;
-	//char *buf;
-	//char *ptr;
-  //size = pathconf(".", _PC_PATH_MAX);
-  //if ((buf = (char *)malloc((size_t)size)) != NULL) ptr = getcwd(buf, (size_t)size);
-
   	page_term->vte_add = vte_terminal_new();
 
   vte_terminal_set_background_image_file (VTE_TERMINAL(page_term->vte_add),"/usr/local/share/griffon/pixmaps/griffon_bg2.png");
 	vte_terminal_set_background_saturation (VTE_TERMINAL(page_term->vte_add),0.1);
 
-  //vte_terminal_fork_command(VTE_TERMINAL(page_term->vte_add), NULL, NULL, NULL, ptr, TRUE, TRUE,TRUE);
   vte_terminal_set_scroll_on_keystroke(VTE_TERMINAL (page_term->vte_add), TRUE);
 	gtk_container_add (GTK_CONTAINER (page_term->vbox2), GTK_WIDGET(page_term->vte_add));	
 
@@ -4329,7 +4251,6 @@ void new_terminal ()
 void on_button_close_term ()
 {
 	gint num_tab=gtk_notebook_get_current_page(GTK_NOTEBOOK (notebook_term));
-	//if(num_tab!=NULL && num_tab!=0){num_tab--;}
    gtk_notebook_remove_page(GTK_NOTEBOOK (notebook_term),num_tab);
 }
 
@@ -4384,18 +4305,11 @@ gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_sep, -1);
 
 	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_myadmin),GTK_ICON_SIZE_SMALL_TOOLBAR);
 
-	//long size;
-	//char *buf;
-	//char *ptr;
-  //size = pathconf(".", _PC_PATH_MAX);
-  //if ((buf = (char *)malloc((size_t)size)) != NULL) ptr = getcwd(buf, (size_t)size);
-
   	vte_add = vte_terminal_new();
 
    vte_terminal_set_background_image_file (VTE_TERMINAL(vte_add),"/usr/local/share/griffon/pixmaps/griffon_bg2.png");
 	vte_terminal_set_background_saturation (VTE_TERMINAL(vte_add),0.1);
 
-  //vte_terminal_fork_command(VTE_TERMINAL(vte_add), NULL, NULL, NULL, ptr, TRUE, TRUE,TRUE);
   vte_terminal_set_scroll_on_keystroke(VTE_TERMINAL (vte_add), TRUE);
 	gtk_container_add (GTK_CONTAINER (vbox2), GTK_WIDGET(vte_add));	
 
@@ -4473,19 +4387,11 @@ void new_terminal_ssh (gchar *serveur,gchar *user)
   page_term->vbox2 =gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_container_add (GTK_CONTAINER (notebook_term), GTK_WIDGET(page_term->vbox2));
 
-
-	/*long size;
-	char *buf;
-	char *ptr;
-  size = pathconf(".", _PC_PATH_MAX);
-  if ((buf = (char *)malloc((size_t)size)) != NULL) ptr = getcwd(buf, (size_t)size);*/
-
   	page_term->vte_add = vte_terminal_new();
 
   vte_terminal_set_background_image_file (VTE_TERMINAL(page_term->vte_add),"/usr/local/share/griffon/pixmaps/griffon_bg2.png");
 	vte_terminal_set_background_saturation (VTE_TERMINAL(page_term->vte_add),0.1);
 
-//  vte_terminal_fork_command(VTE_TERMINAL(page_term->vte_add), NULL, NULL, NULL, ptr, TRUE, TRUE,TRUE);
   vte_terminal_set_scroll_on_keystroke(VTE_TERMINAL (page_term->vte_add), TRUE);
 	gtk_container_add (GTK_CONTAINER (page_term->vbox2), GTK_WIDGET(page_term->vte_add));	
 

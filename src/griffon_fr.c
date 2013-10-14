@@ -19,67 +19,62 @@
 #include <gtksourceview/gtksourceview.h>
 #include <gtksourceview/gtksourcebuffer.h>
 #include <gtksourceview/gtksourcelanguage.h>
-//#include <gtkspell/gtkspell.h>
 
 #include "griffon_fr.h"
 #include "griffon_defs.h"
 #include "griffon_text_document.h"
 #include "interface.h"
+#include "griffon_funx.h"
+#include "griffon_gtk_utils.h"
 
 static GtkWidget *vbox1;
 static GtkWidget *hbox1;
-static GtkWidget *l_text_to_find;
 static  GtkWidget *ent_text_to_find;
-static  GtkWidget *hbox2;
-static   GtkWidget *l_text_to_replace;
 static   GtkWidget *ent_text_to_replace;
 static   GtkWidget *hbox3;
-static   GtkCheckButton *chb_case_insensetive;
-static   GtkWidget *chb_whole_words;
-static   GtkWidget *tb_control;
+static   GtkWidget *chb_case_insensetive;
 
 
-
-static void on_button_find (GtkWidget *wid, gpointer data)
+static void on_button_find ()
 {
   if (! get_page_text()) return;
    
-  gchar *t = gtk_entry_get_text (GTK_ENTRY(ent_text_to_find));
+  gchar const *t = gtk_entry_get_text (GTK_ENTRY(ent_text_to_find));
   if (! t)
       return;
   
-  if (gtk_toggle_button_get_active (&chb_case_insensetive->toggle_button))
+  if (gtk_toggle_button_get_active ((GtkToggleButton *)chb_case_insensetive))
       doc_search_f_ncase (cur_text_doc, t); 
   else  
       doc_search_f (cur_text_doc, t); 
 }
 
 
-void on_button_find_next_f (GtkWidget *wid, gpointer data)
+void on_button_find_next_f ()
 {
   if (! get_page_text()) return;
     
-  if (gtk_toggle_button_get_active (&chb_case_insensetive->toggle_button))
+  if (gtk_toggle_button_get_active ((GtkToggleButton *)chb_case_insensetive))
      doc_search_f_next_ncase (cur_text_doc); 
   else  
       doc_search_f_next (cur_text_doc); 
 }
 
 
-void on_button_replace (GtkWidget *wid, gpointer data)
+void on_button_replace ()
 {
   if (! get_page_text()) return;
    
-  gchar *t = gtk_entry_get_text (GTK_ENTRY(ent_text_to_replace));
+  gchar const *t = gtk_entry_get_text (GTK_ENTRY(ent_text_to_replace));
   if (! t)
       return;
   
-  if (doc_is_sel (cur_text_doc->text_buffer))
+  if (doc_is_sel (GTK_TEXT_BUFFER(cur_text_doc->text_buffer)))
      doc_rep_sel (cur_text_doc, t);  
 }
 
 
-void on_button_jmp_top (GtkWidget *wid, gpointer data)
+void on_button_jmp_top ()
 {
   if (! get_page_text()) return;
   editor_set_pos (cur_text_doc, 0);
@@ -91,11 +86,11 @@ GtkWidget* create_fr (void)
   GtkWidget *window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (window1), _("Search and Replace window"));
 
-  vbox1 = gtk_vbox_new (FALSE, 0);
+  vbox1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (GTK_WIDGET(vbox1));
   gtk_container_add (GTK_CONTAINER (window1), vbox1);
 
-  hbox1 = gtk_vbox_new (FALSE, 0);
+  hbox1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (GTK_WIDGET(hbox1));
   gtk_box_pack_start (GTK_BOX (vbox1), GTK_WIDGET(hbox1), TRUE, TRUE, 0);
 
@@ -110,7 +105,7 @@ GtkWidget* create_fr (void)
 
   ent_text_to_replace = tea_text_entry (hbox1, _("Replace with"), NULL);
 
-  hbox3 = gtk_hbox_new (FALSE, 0);
+  hbox3 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(hbox3));
   gtk_box_pack_start (GTK_BOX (vbox1), GTK_WIDGET(hbox3), TRUE, TRUE, 0);
 
@@ -125,7 +120,7 @@ GtkWidget* create_fr (void)
 */
   //n.p. Fugees - La-Fu-Gee
 
-  GtkWidget *hbox4 = gtk_hbox_new (TRUE, 0);
+  GtkWidget *hbox4 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(hbox4));
   gtk_box_pack_start (GTK_BOX (vbox1), GTK_WIDGET(hbox4), TRUE, TRUE, 0);
 

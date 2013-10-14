@@ -648,8 +648,8 @@ t_note_page* page_create_new (void)
 
 	page->text_buffer = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
   page->text_view = gtk_source_view_new_with_buffer(page->text_buffer);
-  gtk_source_view_set_highlight_current_line(page->text_view,TRUE);
-	 gtk_source_view_set_show_right_margin(page->text_view,TRUE);
+  gtk_source_view_set_highlight_current_line((GtkSourceView *)page->text_view,TRUE);
+	 gtk_source_view_set_show_right_margin((GtkSourceView *)page->text_view,TRUE);
 
 	//********************
 	//if(confile.use_spellcheck == 1 ){page->spell = gtkspell_new_attach(GTK_TEXT_VIEW(page->text_view), NULL, NULL);}
@@ -657,10 +657,10 @@ t_note_page* page_create_new (void)
 
 
 //************* visualisation des tabulations
-	if(confile.use_infotext == 1){gtk_source_view_set_draw_spaces(page->text_view,GTK_SOURCE_DRAW_SPACES_ALL);}
+	if(confile.use_infotext == 1){gtk_source_view_set_draw_spaces((GtkSourceView *)page->text_view,GTK_SOURCE_DRAW_SPACES_ALL);}
 
 	//****TEST AUTOCOMPLETION
-	completion = gtk_source_view_get_completion (page->text_view);
+	completion = gtk_source_view_get_completion ((GtkSourceView *)page->text_view);
 
 		word_provider = gtk_source_completion_words_new (NULL, NULL);
 
@@ -766,8 +766,8 @@ t_note_page* page_create_new (void)
   dox = g_list_append (dox, page);
   gtk_notebook_append_page_menu (GTK_NOTEBOOK(notebook1), page->scrolledwindow, page->hbox, NULL);
 
-		gtk_source_view_set_show_line_marks(page->text_view,TRUE);
-		gtk_source_view_set_show_line_numbers(page->text_view,TRUE);		
+		gtk_source_view_set_show_line_marks((GtkSourceView *)page->text_view,TRUE);
+		gtk_source_view_set_show_line_numbers((GtkSourceView *)page->text_view,TRUE);		
 
 
   FILE *fich;

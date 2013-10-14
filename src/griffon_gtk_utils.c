@@ -26,14 +26,16 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+#include "griffon_text_document.h"
 #include "griffon_defs.h"
 #include "griffon_config.h"
 #include "griffon_gtk_utils.h"
+#include "griffon_funx.h"
 
 
 GtkWidget* tea_text_entry (GtkWidget *container, gchar *caption, gchar *value)
 {
-  GtkWidget *b = gtk_hbox_new (FALSE, 1);
+  GtkWidget *b = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(b));
   gtk_box_pack_start (GTK_BOX(container), GTK_WIDGET(b), FALSE, TRUE, 1);
  
@@ -60,7 +62,7 @@ static void cb_select_font (GtkFontButton *widget,
 
 GtkWidget* tea_font_selector (GtkWidget *container, gchar *caption, gchar *value)
 {
-  GtkWidget *b = gtk_hbox_new (FALSE, 1);
+  GtkWidget *b = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(b));
   gtk_box_pack_start (GTK_BOX(container), GTK_WIDGET(b), FALSE, TRUE, 1);
 
@@ -86,19 +88,19 @@ GtkWidget* tea_font_selector (GtkWidget *container, gchar *caption, gchar *value
 }
 
 
-static void cb_select_color (GtkColorButton *widget, gpointer user_data) 
+/*static void cb_select_color (GtkColorButton *widget, gpointer user_data) 
 {
   GdkColor color;
   gtk_color_button_get_color (widget, &color);  
   gchar *t = g_strdup_printf ("#%02x%02x%02x", color.red / 256, color.green / 256, color.blue / 256);
   gtk_entry_set_text (GTK_ENTRY (user_data), t);  
   g_free (t);
-}
+}*/
 
 
 GtkWidget* tea_color_selector (GtkWidget *container, gchar *caption, gchar *value)
 {
-  GtkWidget *b = gtk_hbox_new (FALSE, 1);
+  GtkWidget *b =gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(b));
   gtk_box_pack_start (GTK_BOX(container), GTK_WIDGET(b), FALSE, TRUE, 1);
 
@@ -118,11 +120,11 @@ GtkWidget* tea_color_selector (GtkWidget *container, gchar *caption, gchar *valu
   GdkColor color;
   gdk_color_parse (value, &color);
 
-  GtkWidget *bt = gtk_color_button_new_with_color (&color);
+ /* GtkWidget *bt = gtk_color_button_new_with_color (&color);
   gtk_widget_show (GTK_WIDGET(bt));
-  gtk_box_pack_start (GTK_BOX(b), GTK_WIDGET(bt), FALSE, FALSE, 1);
+  gtk_box_pack_start (GTK_BOX(b), GTK_WIDGET(bt), FALSE, FALSE, 1);*/
 
-  g_signal_connect (bt, "color-set", G_CALLBACK (cb_select_color), x);
+//  g_signal_connect (bt, "color-set", G_CALLBACK (cb_select_color), x);
   
   return x;
 }
@@ -130,14 +132,14 @@ GtkWidget* tea_color_selector (GtkWidget *container, gchar *caption, gchar *valu
 
 GtkWidget* tea_checkbox (GtkWidget *container, gchar *caption, gboolean *value)
 {
-  GtkWidget *b = gtk_hbox_new (FALSE, 1);
+  GtkWidget *b = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(b));
   gtk_box_pack_start (GTK_BOX(container), GTK_WIDGET(b), FALSE, TRUE, 1);
 
-  GtkCheckButton *x = gtk_check_button_new_with_label (caption);
+  GtkWidget *x = gtk_check_button_new_with_label (caption);
   gtk_widget_show (GTK_WIDGET(x));
   gtk_box_pack_start (GTK_BOX(b), GTK_WIDGET(x), TRUE, TRUE, 1);
-  gtk_toggle_button_set_active (&x->toggle_button, (gboolean)value);
+  gtk_toggle_button_set_active ((GtkToggleButton *)x, (gboolean)value);
     
   return x;
 }
@@ -145,7 +147,7 @@ GtkWidget* tea_checkbox (GtkWidget *container, gchar *caption, gboolean *value)
 
 GtkWidget* tea_spinbutton (GtkWidget *container, gchar *caption, gdouble value)
 {
-  GtkWidget *b = gtk_hbox_new (FALSE, 1);
+  GtkWidget *b = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(b));
   gtk_box_pack_start (GTK_BOX(container), GTK_WIDGET(b), FALSE, TRUE, 1);
 
@@ -153,7 +155,7 @@ GtkWidget* tea_spinbutton (GtkWidget *container, gchar *caption, gdouble value)
   gtk_widget_show (GTK_WIDGET(l));
   gtk_box_pack_start (GTK_BOX(b), GTK_WIDGET(l), FALSE, FALSE, 1);
  
-  GtkCheckButton *x = gtk_spin_button_new (gtk_adjustment_new (value, 1.0, 1080.0, 1.0,
+  GtkWidget *x = gtk_spin_button_new (gtk_adjustment_new (value, 1.0, 1080.0, 1.0,
           5.0, 0.0),
                                            1, 0); 
 
@@ -165,7 +167,6 @@ GtkWidget* tea_spinbutton (GtkWidget *container, gchar *caption, gdouble value)
 
 void logmemo_set_pos (GtkTextView *v, guint pos)
 {
-  GtkTextMark *mark;
   GtkTextIter it;
   GtkTextBuffer *b = gtk_text_view_get_buffer (v);
   gtk_text_buffer_get_iter_at_offset (b, &it, pos);
@@ -174,7 +175,7 @@ void logmemo_set_pos (GtkTextView *v, guint pos)
 }
 
 
-GList* add_combo_hist_with_def (GtkWidget *c, GList *l, gchar *def, gint max)
+GList* add_combo_hist_with_def (GList *l)
 {
 /*  if (strlen (gtk_entry_get_text (c->entry)) == 0)
      if (def)
@@ -189,37 +190,9 @@ GList* add_combo_hist_with_def (GtkWidget *c, GList *l, gchar *def, gint max)
 }
 
 
-static void cb_select_dir (GObject *object, GtkWidget *w) 
-{
-  GtkEntry *e = w;
-
-  GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Select a directory"),
-                                                   NULL,
-                                                   GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
-                                                   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-                                                   GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
-                                                   NULL);
-
-  if (g_file_test (gtk_entry_get_text (GTK_ENTRY(e)), G_FILE_TEST_EXISTS)) 
-      gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog),
-                                           gtk_entry_get_text (GTK_ENTRY(e)));
-
-  if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
-    {
-     gchar *dir = gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER (dialog));
-     gchar *t = g_strconcat (dir, G_DIR_SEPARATOR_S, NULL);
-     gtk_entry_set_text (GTK_ENTRY(e), t);  
-     g_free (t);
-     g_free (dir);
-    }
-
-  gtk_widget_destroy (dialog);
-}
-
-
 GtkWidget* tea_dir_selector (GtkWidget *container, gchar *caption, gchar *value)
 {
-  GtkWidget *b = gtk_hbox_new (FALSE, 1);
+  GtkWidget *b = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(b));
   gtk_box_pack_start (GTK_BOX(container), GTK_WIDGET(b), FALSE, TRUE, 1);
 
@@ -245,9 +218,9 @@ GtkWidget* tea_dir_selector (GtkWidget *container, gchar *caption, gchar *value)
 }
 
 
-GtkWidget* tea_combo (GtkWidget *container, GList *strings, gchar *caption, gchar *value)
+GtkWidget* tea_combo (GtkWidget *container, gchar *caption)
 {
-  GtkWidget *b = gtk_hbox_new (FALSE, 1);
+  GtkWidget *b = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (GTK_WIDGET(b));
   gtk_box_pack_start (GTK_BOX(container), GTK_WIDGET(b), FALSE, TRUE, 1);
  
@@ -329,8 +302,7 @@ gboolean dlg_question (GtkWidget *parent, gchar *prompt, gchar *val)
 }
 
 
-static void dlg_question_params_button_cb (GtkButton *button,
-                                           gpointer user_data)
+static void dlg_question_params_button_cb (gpointer user_data)
 {
   t_ppair *p = user_data;
 
@@ -343,7 +315,7 @@ static void dlg_question_params_button_cb (GtkButton *button,
 }
 
 
-gint dlg_question_params (GtkWidget *parent, gchar *prompt, gchar *val, gchar *b1, gchar *b2)
+gint dlg_question_params (gchar *prompt, gchar *val, gchar *b1, gchar *b2)
 {
    gint result = FALSE;  
    
@@ -479,7 +451,7 @@ GtkWidget* tea_button_at_box (GtkWidget *container, gchar *caption, gpointer cal
 }
 
 
-void cb_on_bt_close (GObject *object, GtkWidget *w) 
+void cb_on_bt_close (GtkWidget *w) 
 {
   window_destroy (w);
 }
@@ -490,7 +462,7 @@ static void find_menuitem_cb (GtkWidget *widget, gpointer data)
   if (! widget)
      return;
 
-  gchar *s = gtk_widget_get_name (widget);
+  gchar const *s = gtk_widget_get_name (widget);
 
   //dbm (s);
 

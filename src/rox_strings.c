@@ -1,22 +1,3 @@
-/***************************************************************************
-                          rox_strings.c  -  description
-                             -------------------
-    begin                : Fri Oct 17 12:08:36 EEST 2003
-    copyright            : (C) 2003, 2004 by Peter 'Roxton' Semiletov
-    email                : roxton@ua.fm
-***************************************************************************/
-
-/*
-Copyright (C) 1999 Antti-Juhani Kaijanaho
-Copyright (C) 1998-2003 A.J. van Os
-Copyright (C) 1998-1999, Mark Spencer <markster@marko.net>
-2003, Nathan Walp <faceprint@faceprint.com>
-(C) 2002 Olivier Sessink
-Copyright (C) 1997-2003 Stuart Parmenter //Balsa::misc.c, quote_color.c
-Chris Phelps <chicane@reninet.com>
-Alejandro Dubrovsky <s328940@student.uq.edu.au> 
-
-*/
 
 /***************************************************************************
  *                                                                          *
@@ -43,15 +24,15 @@ Alejandro Dubrovsky <s328940@student.uq.edu.au>
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <glib/gprintf.h>
-//#include <gtkspell/gtkspell.h>
 
+#include "griffon_text_document.h"
 #include "rox_strings.h"
 #include "griffon_defs.h"
 #include "griffon_config.h"
-#include "griffon_text_document.h"
 #include "griffon_funx.h"
 #include "griffon_enc.h"
-
+#include "griffon_hl.h"
+#include "interface.h"
 
 //*  Glimmer - misc.c
 /*
@@ -769,14 +750,6 @@ gchar* str_file_read (const gchar *filename)
 } 
 
 
-typedef struct {
-               gchar *word;
-               gint count;  
-              } t_struct_word;
-
-
-static GList *l_words;
-
 gint sort_node_m1 (t_struct_word *a, t_struct_word *b)
 {
   gchar *t1 = g_utf8_collate_key (a->word, -1);  
@@ -838,190 +811,6 @@ void free_word_data (gpointer data)
   t_struct_word *ts = data;
   g_free (ts->word);
   g_free (ts);
-}
-
-
-void str_walk_extract_word (gpointer key)
-{
-  l_words = g_list_prepend (l_words, key);
-}
-
-
-void run_extract_words ( t_note_page *page)
-{
-  GList *list = NULL;
-  GtkTextIter a;
-  
-  l_words = NULL;
-  GHashTable *words = g_hash_table_new (g_str_hash, g_str_equal);
-                                         
-  gchar *s;
-  gchar *t;
-  GtkTextIter start;
-  GtkTextIter end;
-
-  if (doc_is_sel (GTK_TEXT_BUFFER(page->text_buffer)))
-     gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER(page->text_buffer), &start, &end);
-  else
-      {
-       gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(page->text_buffer), &start); 
-       gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(page->text_buffer), &end); 
-      }  
-
-  do 
-    {
-     if (gtk_text_iter_starts_word (&start))
-        a = start; 
-     
-     if (gtk_text_iter_ends_word (&start))
-        {
-         s = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(page->text_buffer),
-                                       &a,
-                                       &start,
-                                       FALSE);
-     
-         t = g_hash_table_lookup (words, s);
-         if (! t)
-            g_hash_table_insert (words, s, s);
-         else
-             g_free (s);
-         }
-      }
-
-  while (gtk_text_iter_forward_char (&start)); 
-             
-  g_hash_table_foreach (words, (GHFunc)str_walk_extract_word, NULL);
-  
-  GList *tmplist = g_list_first (g_list_reverse (l_words));
-  while (tmplist)
-        {
-         list = g_list_prepend (list, tmplist->data);
-         tmplist = g_list_next (tmplist);
-        }
-
-  cur_text_doc = doc_clear_new ();
-  
-  gchar *sr = string_from_glist (g_list_reverse (list));
-   
-  gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), sr, -1);
-  g_free (sr);
-  glist_strings_free (list);
-  g_list_free (l_words);
-  g_hash_table_destroy (words); 
-}
-
-
-void walk_by_words (gpointer value)
-{
-  l_words = g_list_prepend (l_words, value);
-}
-
-
-void run_unitaz ( t_note_page *page, gint sort_type, gboolean case_insensetive)
-{
-  GList *list = NULL;
-  GtkTextIter a;
-
-  int w_total = 0;
-  int w_unique = 0;  
-  l_words = NULL;
-
-  GHashTable *words = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, free_word_data);
-  
-  t_struct_word *ts = NULL;
-  t_struct_word *t = NULL;
-  gchar *s;
-  gchar *z;  
-
-  GtkTextIter start;
-  GtkTextIter end;
-
-  if (doc_is_sel (GTK_TEXT_BUFFER(page->text_buffer)))
-     gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER(page->text_buffer), &start, &end);
-  else
-      {
-       gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(page->text_buffer), &start); 
-       gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(page->text_buffer), &end); 
-      }  
-
-  do 
-    {
-     if (gtk_text_iter_starts_word (&start))
-        a = start; 
-     
-     if (gtk_text_iter_ends_word (&start))
-        {
-         w_total++;  
-         if (case_insensetive)
-            {          
-             z = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(page->text_buffer),
-                                           &a,
-                                           &start,
-                                           FALSE);
-             s = g_utf8_strdown (z, -1);
-             g_free (z);
-            }
-         else
-             s = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(page->text_buffer),
-                                           &a,
-                                           &start,
-                                           FALSE);
-
-         t = g_hash_table_lookup (words, s);
-         if (! t)
-              {
-               ts = (t_struct_word *) g_malloc (sizeof (t_struct_word));
-               ts->count = 1;  
-               ts->word = s;
-               g_hash_table_insert (words, s, ts);
-               w_unique++;
-              }
-            else
-                { 
-                 t->count++;
-                 g_free (s);
-                }
-           }
-    }
-
-  while ( gtk_text_iter_forward_char (&start)); 
-    
-  gchar *st = NULL;
-             
-  g_hash_table_foreach (words, (GHFunc)walk_by_words, NULL);
-  st = g_strdup_printf ("%s %s\n", _("Text analysis results for "), page->file_name);  
-  list = g_list_prepend (list, st);
-
-  st = g_strdup_printf ("Words total: %d", w_total);
-  list = g_list_prepend (list, st);
-  st = g_strdup_printf ("Words unique: %d", w_unique);
-  list = g_list_prepend (list, st);
-
-  st = g_strdup_printf ("Words total / Words unique = %.6f\n", (float)w_total/w_unique);
-  list = g_list_prepend (list, st);
-  st = g_strdup_printf ("%-10s %s", _("Count:"), _("Word:"));  
-  list = g_list_prepend (list, st);
-
-  l_words = glist_word_sort_mode (l_words, sort_type);
-  
-  GList *tmplist = g_list_first (l_words);
-  while (tmplist)
-        {
-         t = (t_struct_word *) tmplist->data;
-         st = g_strdup_printf ("%-10d %s", t->count, t->word);  
-         list = g_list_prepend (list, st);
-         tmplist = g_list_next (tmplist);
-        }
-  
-  cur_text_doc = doc_clear_new ();
-  
-  gchar *sr = string_from_glist (g_list_reverse (list));
-   
-  gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), sr, -1);
-  g_free (sr);
-  glist_strings_free (list);
-  g_list_free (l_words);
-  g_hash_table_destroy (words); 
 }
 
 
@@ -1119,47 +908,6 @@ gchar* text_load_rtf (const gchar *filename)
   g_free (t); 
   return s;
 }
-
-
-void doc_tabs_to_spaces (t_note_page *doc, gint tabsize) 
-{
-  if (tabsize < 1)
-     tabsize = 1; 
-  
-  gchar *new_text = g_strnfill (tabsize, ' ');
-  gchar *text = g_strdup ("\t");
-
-  if (doc_search_f (doc, text))
-     {
-      doc_rep_sel (doc, new_text);
-      while (doc_search_f_next (doc))
-            doc_rep_sel (doc, new_text);
-     }  
-  
-  g_free (text);
-  g_free (new_text);
-}
-
-
-void doc_spaces_to_tabs (t_note_page *doc, gint tabsize) 
-{
-  if (tabsize < 1)
-     tabsize = 1; 
-  
-  gchar *text = g_strnfill (tabsize, ' ');
-  gchar *new_text = g_strdup ("\t");
-
-  if (doc_search_f (doc, text))
-     {
-      doc_rep_sel (doc, new_text);
-      while (doc_search_f_next (doc))
-            doc_rep_sel (doc, new_text);
-     }  
-  
-  g_free (text);
-  g_free (new_text);
-}
-
 
 gint sort_node_m3 (gchar *sa, gchar *sb)
 {
@@ -1433,8 +1181,9 @@ gchar * str_replace_all(char const * const original,char const * const pattern,c
      const char * patloc;
    
      // find how many times the pattern occurs in the original string
-        for (oriptr = original; patloc = strstr(oriptr, pattern); oriptr = patloc + patlen)
+        for (oriptr = original; strstr(oriptr, pattern); oriptr = patloc + patlen)
         {
+						patloc = strstr(oriptr, pattern);
           patcnt++;
         }
       
@@ -1448,8 +1197,9 @@ gchar * str_replace_all(char const * const original,char const * const pattern,c
             // copy the original string, 
             // replacing all the instances of the pattern
             char * retptr = returned;
-            for (oriptr = original; patloc = strstr(oriptr, pattern); oriptr = patloc + patlen)
+            for (oriptr = original; strstr(oriptr, pattern); oriptr = patloc + patlen)
             {
+									patloc = strstr(oriptr, pattern);
               size_t const skplen = patloc - oriptr;
               // copy the section until the occurence of the pattern
               strncpy(retptr, oriptr, skplen);

@@ -15,8 +15,8 @@ GtkWidget *help_javascript (void);
 GtkWidget *Aide_BASH (void);
 GtkWidget *centre_perl (void);
 GtkWidget *centre_htaccess (void);
-gboolean util_treeview_match_all_words_callback(GtkTreeModel *pTreeModel, gint nColumn, const gchar *pszSearchText, GtkTreeIter* pIter, gpointer _unused);
+gboolean util_treeview_match_all_words_callback(GtkTreeModel *pTreeModel, gint nColumn, const gchar *pszSearchText, GtkTreeIter* pIter);
 gboolean util_match_all_words_in_sentence(gchar* pszWords, gchar* pszSentence);
 gboolean util_match_word_in_sentence(gchar* pszWord, gchar* pszSentence);
-void term_help(GtkWidget *tv,GdkEventButton *event,  gpointer user_data);
+void term_help(  gpointer user_data);
 

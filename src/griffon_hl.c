@@ -17,77 +17,265 @@
 #include <gtksourceview/gtksourceview.h>
 #include <gtksourceview/gtksourcebuffer.h>
 #include <gtksourceview/gtksourcelanguage.h>
-//#include <gtkspell/gtkspell.h>
+#include <string.h>
 
 #include "griffon_text_document.h"
 #include "griffon_hl.h"
 #include "griffon_config.h"
 #include "griffon_defs.h"
 #include "interface.h"
+#include "griffon_funx.h"
+#include "rox_strings.h"
 
-tooltip_instruction (GtkSourceMarkAttributes *attributes,GtkSourceMark *mark,gpointer user_data)
+static GList *l_words;
+
+void str_walk_extract_word (gpointer key)
 {
-	if(strcmp("if", user_data) == 0 || strcmp("while", user_data) == 0 || strcmp("unless", user_data) == 0)
-	{
-		gchar *text=g_strconcat ("______________________________________________\n\n",user_data," (expression)\n","{\n\ninstruction\n\n}\n",NULL);return text;
-	}
-
-	if(strcmp("break", user_data) == 0)
-	{
-		gchar *text=g_strconcat ("______________________________________________\n\n",user_data,";\n\n",NULL);return text;
-	}
-
-	if(strcmp("last", user_data) == 0)
-	{
-		gchar *text=g_strconcat ("______________________________________________\n\n",user_data,";\n\n",NULL);return text;
-	}
-
-	if(strcmp("exit", user_data) == 0)
-	{
-		gchar *text=g_strconcat ("______________________________________________\n\n",user_data," ();\n\n",NULL);return text;
-	}
-
-	if(strcmp("sleep", user_data) == 0)
-	{
-		gchar *text=g_strconcat ("______________________________________________\n\n",user_data," (seconds);\n\n",NULL);return text;
-	}
-
-	if(strcmp("else", user_data) == 0)
-	{
-		gchar *text=g_strconcat ("______________________________________________\n\n",user_data,"\n{\n\ninstruction\n\n}\n\n",NULL);return text;
-	}
-
-	if(strcmp("for", user_data) == 0)
-	{
-		gchar *text=g_strconcat ("______________________________________________\n\n",user_data," (expression)\n{\n\ninstruction\n\n}\n\n",NULL);return text;
-	}
-
-	if(strcmp("foreach", user_data) == 0)
-	{
-		gchar *text=g_strconcat ("______________________________________________\n\n",user_data," (expression)\n{\n\ninstruction\n\n}\n\n",NULL);return text;
-	}
-
-	if(strcmp("include", user_data) == 0)
-	{
-		gchar *text=g_strconcat ("______________________________________________\n\n",user_data," ('file_path');\n\n",NULL);return text;
-	}
-
-	if(strcmp("require", user_data) == 0)
-	{
-		gchar *text=g_strconcat ("______________________________________________\n\n",user_data," ('file_path');\n\n",NULL);return text;
-	}
-
-	if(strcmp("function", user_data) == 0)
-	{
-		gchar *text=g_strconcat ("______________________________________________\n\n",user_data,"(value)\n{\n\ncode\n\n}\n\n",NULL);return text;
-	}
-
-	if(strcmp("sub", user_data) == 0)
-	{
-		gchar *text=g_strconcat ("______________________________________________\n\n",user_data,"(value)\n{\n\ncode\n\n}\n\n",NULL);return text;
-	}
-
+  l_words = g_list_prepend (l_words, key);
 }
+
+void walk_by_words (gpointer value)
+{
+  l_words = g_list_prepend (l_words, value);
+}
+
+void run_unitaz ( t_note_page *page, gint sort_type, gboolean case_insensetive)
+{
+  GList *list = NULL;
+  GtkTextIter a;
+
+  int w_total = 0;
+  int w_unique = 0;  
+  l_words = NULL;
+
+  GHashTable *words = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, free_word_data);
+  
+  t_struct_word *ts = NULL;
+  t_struct_word *t = NULL;
+  gchar *s;
+  gchar *z;  
+
+  GtkTextIter start;
+  GtkTextIter end;
+
+  if (doc_is_sel (GTK_TEXT_BUFFER(page->text_buffer)))
+     gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER(page->text_buffer), &start, &end);
+  else
+      {
+       gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(page->text_buffer), &start); 
+       gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(page->text_buffer), &end); 
+      }  
+
+  do 
+    {
+     if (gtk_text_iter_starts_word (&start))
+        a = start; 
+     
+     if (gtk_text_iter_ends_word (&start))
+        {
+         w_total++;  
+         if (case_insensetive)
+            {          
+             z = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(page->text_buffer),
+                                           &a,
+                                           &start,
+                                           FALSE);
+             s = g_utf8_strdown (z, -1);
+             g_free (z);
+            }
+         else
+             s = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(page->text_buffer),
+                                           &a,
+                                           &start,
+                                           FALSE);
+
+         t = g_hash_table_lookup (words, s);
+         if (! t)
+              {
+               ts = (t_struct_word *) g_malloc (sizeof (t_struct_word));
+               ts->count = 1;  
+               ts->word = s;
+               g_hash_table_insert (words, s, ts);
+               w_unique++;
+              }
+            else
+                { 
+                 t->count++;
+                 g_free (s);
+                }
+           }
+    }
+
+  while ( gtk_text_iter_forward_char (&start)); 
+    
+  gchar *st = NULL;
+             
+  g_hash_table_foreach (words, (GHFunc)walk_by_words, NULL);
+  st = g_strdup_printf ("%s %s\n", _("Text analysis results for "), page->file_name);  
+  list = g_list_prepend (list, st);
+
+  st = g_strdup_printf ("Words total: %d", w_total);
+  list = g_list_prepend (list, st);
+  st = g_strdup_printf ("Words unique: %d", w_unique);
+  list = g_list_prepend (list, st);
+
+  st = g_strdup_printf ("Words total / Words unique = %.6f\n", (float)w_total/w_unique);
+  list = g_list_prepend (list, st);
+  st = g_strdup_printf ("%-10s %s", _("Count:"), _("Word:"));  
+  list = g_list_prepend (list, st);
+
+  l_words = glist_word_sort_mode (l_words, sort_type);
+  
+  GList *tmplist = g_list_first (l_words);
+  while (tmplist)
+        {
+         t = (t_struct_word *) tmplist->data;
+         st = g_strdup_printf ("%-10d %s", t->count, t->word);  
+         list = g_list_prepend (list, st);
+         tmplist = g_list_next (tmplist);
+        }
+  
+  cur_text_doc = doc_clear_new ();
+  
+  gchar *sr = string_from_glist (g_list_reverse (list));
+   
+  gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), sr, -1);
+  g_free (sr);
+  glist_strings_free (list);
+  g_list_free (l_words);
+  g_hash_table_destroy (words); 
+}
+
+
+void run_extract_words ( t_note_page *page)
+{
+  GList *list = NULL;
+  GtkTextIter a;
+  
+  l_words = NULL;
+  GHashTable *words = g_hash_table_new (g_str_hash, g_str_equal);
+                                         
+  gchar *s;
+  gchar *t;
+  GtkTextIter start;
+  GtkTextIter end;
+
+  if (doc_is_sel (GTK_TEXT_BUFFER(page->text_buffer)))
+     gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER(page->text_buffer), &start, &end);
+  else
+      {
+       gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(page->text_buffer), &start); 
+       gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(page->text_buffer), &end); 
+      }  
+
+  do 
+    {
+     if (gtk_text_iter_starts_word (&start))
+        a = start; 
+     
+     if (gtk_text_iter_ends_word (&start))
+        {
+         s = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(page->text_buffer),
+                                       &a,
+                                       &start,
+                                       FALSE);
+     
+         t = g_hash_table_lookup (words, s);
+         if (! t)
+            g_hash_table_insert (words, s, s);
+         else
+             g_free (s);
+         }
+      }
+
+  while (gtk_text_iter_forward_char (&start)); 
+             
+  g_hash_table_foreach (words, (GHFunc)str_walk_extract_word, NULL);
+  
+  GList *tmplist = g_list_first (g_list_reverse (l_words));
+  while (tmplist)
+        {
+         list = g_list_prepend (list, tmplist->data);
+         tmplist = g_list_next (tmplist);
+        }
+
+  cur_text_doc = doc_clear_new ();
+  
+  gchar *sr = string_from_glist (g_list_reverse (list));
+   
+  gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), sr, -1);
+  g_free (sr);
+  glist_strings_free (list);
+  g_list_free (l_words);
+  g_hash_table_destroy (words); 
+}
+
+void doc_tabs_to_spaces (t_note_page *doc, gint tabsize) 
+{
+  if (tabsize < 1)
+     tabsize = 1; 
+  
+  gchar *new_text = g_strnfill (tabsize, ' ');
+  gchar *text = g_strdup ("\t");
+
+  if (doc_search_f (doc, text))
+     {
+      doc_rep_sel (doc, new_text);
+      while (doc_search_f_next (doc))
+            doc_rep_sel (doc, new_text);
+     }  
+  
+  g_free (text);
+  g_free (new_text);
+}
+
+
+void doc_spaces_to_tabs (t_note_page *doc, gint tabsize) 
+{
+  if (tabsize < 1)
+     tabsize = 1; 
+  
+  gchar *text = g_strnfill (tabsize, ' ');
+  gchar *new_text = g_strdup ("\t");
+
+  if (doc_search_f (doc, text))
+     {
+      doc_rep_sel (doc, new_text);
+      while (doc_search_f_next (doc))
+            doc_rep_sel (doc, new_text);
+     }  
+  
+  g_free (text);
+  g_free (new_text);
+}
+
+//FIXME?
+GList* add_recent_item_composed (GList *list, t_note_page *doc)
+{
+  if (! doc) return list;
+
+  GList *l = list;
+ 
+  l = add_to_list_with_limit2 (list, g_strdup_printf ("%s,%s,%d",
+                               doc->file_name, doc->encoding, 
+                               editor_get_pos (doc)),
+                               confile.max_recent_items);
+  return l;
+}
+
+//FIXME?
+void add_recent_internal (t_note_page *doc)
+{
+  /*if (g_list_length (recent_list) > confile.max_recent_items)
+    {
+     GList *p = g_list_last (recent_list);
+     g_free (p->data);
+     recent_list = g_list_delete_link (recent_list, p);
+    }
+*/
+  recent_list = add_recent_item_composed (recent_list, doc);
+}
+
 
 void assign_tags (t_note_page *doc)
 {
@@ -157,7 +345,7 @@ void clear_remove_tags (t_note_page *doc)
 
 void apply_html_hl (t_note_page *doc)
 {
-  gchar *text = doc_get_buf (doc->text_buffer);
+  gchar *text = doc_get_buf (GTK_TEXT_BUFFER(doc->text_buffer));
   if (! text)
      return;
 
@@ -490,7 +678,7 @@ void prepare_hl_pas (void)
 }
 
 
-gboolean find_slash (gunichar ch, gpointer user_data)
+gboolean find_slash (gunichar ch)
 {
   if (ch == '/')
      return TRUE;
@@ -499,7 +687,7 @@ gboolean find_slash (gunichar ch, gpointer user_data)
 }
 
 
-gboolean find_q (gunichar ch, gpointer user_data)
+gboolean find_q (gunichar ch)
 {
   if (ch == '"')
      return TRUE;
@@ -508,7 +696,7 @@ gboolean find_q (gunichar ch, gpointer user_data)
 }
 
 
-gboolean find_q2 (gunichar ch, gpointer user_data)
+gboolean find_q2 (gunichar ch)
 {
   if (ch == '\'')
      return TRUE;
@@ -517,7 +705,7 @@ gboolean find_q2 (gunichar ch, gpointer user_data)
 }
 
 
-gboolean find_ast (gunichar ch, gpointer user_data)
+gboolean find_ast (gunichar ch)
 {
   if (ch == '*')
      return TRUE;
@@ -539,7 +727,6 @@ void do_hl_php (t_note_page *doc)
    GtkTextIter a;
    GtkTextIter b;
    GtkTextIter c;
-   GtkTextIter d;
 
    remove_tags (doc);
 
@@ -621,6 +808,7 @@ void do_hl_php (t_note_page *doc)
                       {
                        b = iter;
                        if (gtk_text_iter_forward_char (&b))
+															{
                           if (gtk_text_iter_get_char (&b) == '*')
                              {
                               c = iter;
@@ -628,7 +816,7 @@ void do_hl_php (t_note_page *doc)
                         
                               do 
                                 { 
-                                 if (gtk_text_iter_forward_find_char (&iter, find_slash, NULL, NULL))
+                                 if (gtk_text_iter_forward_find_char (&iter, (GtkTextCharPredicate)find_slash, NULL, NULL))
                                     {
                                      b = iter;
                                      if (gtk_text_iter_backward_char (&b))
@@ -654,11 +842,12 @@ void do_hl_php (t_note_page *doc)
                                      }
                               }
                        break;   
-                      }  
+                      }
+														}  
 
              case '"': 
                       {
-                       if (gtk_text_iter_forward_find_char (&iter, find_q, NULL, NULL))
+                       if (gtk_text_iter_forward_find_char (&iter, (GtkTextCharPredicate)find_q, NULL, NULL))
                           if (gtk_text_iter_forward_char (&iter)) 
                              gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_string, &a, &iter);
                        break;
@@ -666,7 +855,7 @@ void do_hl_php (t_note_page *doc)
  
              case '\'':             
                        {
-                        if (gtk_text_iter_forward_find_char (&iter, find_q2, NULL, NULL))
+                        if (gtk_text_iter_forward_find_char (&iter, (GtkTextCharPredicate)find_q2, NULL, NULL))
                            if (gtk_text_iter_forward_char (&iter))
                               gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_string, &a, &iter);
                         break;
@@ -685,8 +874,6 @@ void do_hl_bash (t_note_page *doc)
    GtkTextIter iter;
    GtkTextIter a;
    GtkTextIter b;
-   GtkTextIter c;
-   GtkTextIter d;
 
    remove_tags (doc);
 
@@ -697,7 +884,6 @@ void do_hl_bash (t_note_page *doc)
    if (gtk_text_iter_starts_word (&iter))
       {
        a = iter;
-       c = iter;
       }
 
    //keywords
@@ -744,7 +930,6 @@ void do_hl_bash (t_note_page *doc)
 
   gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &iter, 0);
   a = iter;
-  c = iter;
  
   do
     {
@@ -766,7 +951,7 @@ void do_hl_bash (t_note_page *doc)
 
              case '"': 
                       {
-                       if (gtk_text_iter_forward_find_char (&iter, find_q, NULL, NULL))
+                       if (gtk_text_iter_forward_find_char (&iter, (GtkTextCharPredicate)find_q, NULL, NULL))
                           if (gtk_text_iter_forward_char (&iter)) 
                             {
                              gtk_text_buffer_remove_all_tags (GTK_TEXT_BUFFER(doc->text_buffer), &a, &iter);
@@ -777,7 +962,7 @@ void do_hl_bash (t_note_page *doc)
  
              case '\'':             
                        {
-                        if (gtk_text_iter_forward_find_char (&iter, find_q2, NULL, NULL))
+                        if (gtk_text_iter_forward_find_char (&iter, (GtkTextCharPredicate)find_q2, NULL, NULL))
                            if (gtk_text_iter_forward_char (&iter))
                               {
                                gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_string, &a, &iter);
@@ -800,8 +985,6 @@ void do_hl_po (t_note_page *doc)
    GtkTextIter iter;
    GtkTextIter a;
    GtkTextIter b;
-   GtkTextIter c;
-   GtkTextIter d;
 
    remove_tags (doc);
 
@@ -812,7 +995,6 @@ void do_hl_po (t_note_page *doc)
    if (gtk_text_iter_starts_word (&iter))
       {
        a = iter;
-       c = iter;
       }
 
    //keywords
@@ -859,7 +1041,6 @@ void do_hl_po (t_note_page *doc)
 
   gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &iter, 0);
   a = iter;
-  c = iter;
  
   do
     {
@@ -881,7 +1062,7 @@ void do_hl_po (t_note_page *doc)
 
              case '"': 
                       {
-                       if (gtk_text_iter_forward_find_char (&iter, find_q, NULL, NULL))
+                       if (gtk_text_iter_forward_find_char (&iter,(GtkTextCharPredicate) find_q, NULL, NULL))
                           if (gtk_text_iter_forward_char (&iter)) 
                             {
                              gtk_text_buffer_remove_all_tags (GTK_TEXT_BUFFER(doc->text_buffer), &a, &iter);
@@ -892,7 +1073,7 @@ void do_hl_po (t_note_page *doc)
  
              case '\'':             
                        {
-                        if (gtk_text_iter_forward_find_char (&iter, find_q2, NULL, NULL))
+                        if (gtk_text_iter_forward_find_char (&iter, (GtkTextCharPredicate)find_q2, NULL, NULL))
                            if (gtk_text_iter_forward_char (&iter))
                               {
                                gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_string, &a, &iter);
@@ -913,8 +1094,6 @@ void do_hl_pascal (t_note_page *doc)
    GtkTextIter iter;
    GtkTextIter a;
    GtkTextIter b;
-   GtkTextIter c;
-   GtkTextIter d;
 
    remove_tags (doc);
 
@@ -925,7 +1104,6 @@ void do_hl_pascal (t_note_page *doc)
    if (gtk_text_iter_starts_word (&iter))
       {
        a = iter;
-       c = iter;
       }
 
    //keywords
@@ -983,7 +1161,6 @@ void do_hl_pascal (t_note_page *doc)
 
   gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &iter, 0);
   a = iter;
-  c = iter;
  
   do
     {
@@ -994,7 +1171,7 @@ void do_hl_pascal (t_note_page *doc)
      
              case '"': 
                       {
-                       if (gtk_text_iter_forward_find_char (&iter, find_q, NULL, NULL))
+                       if (gtk_text_iter_forward_find_char (&iter,(GtkTextCharPredicate) find_q, NULL, NULL))
                           if (gtk_text_iter_forward_char (&iter)) 
                              gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_string, &a, &iter);
                        break;
@@ -1002,7 +1179,7 @@ void do_hl_pascal (t_note_page *doc)
  
              case '\'':             
                        {
-                        if (gtk_text_iter_forward_find_char (&iter, find_q2, NULL, NULL))
+                        if (gtk_text_iter_forward_find_char (&iter, (GtkTextCharPredicate)find_q2, NULL, NULL))
                            if (gtk_text_iter_forward_char (&iter))
                               gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_string, &a, &iter);
                         break;
@@ -1037,8 +1214,6 @@ void do_python_hl (t_note_page *doc)
    GtkTextIter iter;
    GtkTextIter a;
    GtkTextIter b;
-   GtkTextIter c;
-   GtkTextIter d;
 
    remove_tags (doc);
 
@@ -1049,7 +1224,6 @@ void do_python_hl (t_note_page *doc)
    if (gtk_text_iter_starts_word (&iter))
       {
        a = iter;
-       c = iter;
       }
 
    //keywords
@@ -1095,7 +1269,7 @@ void do_python_hl (t_note_page *doc)
 
   gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &iter, 0);
   a = iter;
-  c = iter;
+
  
   do
     {
@@ -1118,7 +1292,7 @@ void do_python_hl (t_note_page *doc)
 
              case '"': 
                       {
-                       if (gtk_text_iter_forward_find_char (&iter, find_q, NULL, NULL))
+                       if (gtk_text_iter_forward_find_char (&iter, (GtkTextCharPredicate)find_q, NULL, NULL))
                           if (gtk_text_iter_forward_char (&iter)) 
                              gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_string, &a, &iter);
                        break;
@@ -1126,7 +1300,7 @@ void do_python_hl (t_note_page *doc)
  
              case '\'':             
                        {
-                        if (gtk_text_iter_forward_find_char (&iter, find_q2, NULL, NULL))
+                        if (gtk_text_iter_forward_find_char (&iter, (GtkTextCharPredicate)find_q2, NULL, NULL))
                            if (gtk_text_iter_forward_char (&iter))
                               gtk_text_buffer_apply_tag (GTK_TEXT_BUFFER(doc->text_buffer), tag_string, &a, &iter);
                         break;
@@ -1207,16 +1381,8 @@ typedef struct
               } t_s_switcher;
                   
 
-static gboolean find_tag_end (gunichar ch, gpointer user_data)
-{
-  if (ch == '>')
-     return TRUE;
-  else
-      return FALSE;
-}
-
 //n.p. Public Image Limited "Another"
-void do_hl_spell_check2 (t_note_page *doc, gchar *lang)
+void do_hl_spell_check2 ()
 {
 	printf("\n");
 }

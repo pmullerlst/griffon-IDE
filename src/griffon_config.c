@@ -17,8 +17,10 @@
 
 #include <errno.h>
 #include <sys/stat.h>
-
+#include <string.h>
 #include <glib.h>
+#include<stdio.h>
+	#include<stdlib.h>
 #include <gtksourceview/gtksourceview.h>
 #include <gtksourceview/gtksourcebuffer.h>
 #include <gtksourceview/gtksourcelanguage.h>
@@ -32,10 +34,10 @@
 #include "griffon_hl.h"
 #include "griffon_proj.h"
 #include "griffon_gtk_utils.h"
-
+#include "griffon_funx.h"
+#include "rox_strings.h"
 
 static GHashTable *ht_tea_hotkeys = NULL;
-static GHashTable *tea_options = NULL;
 
 void ui_init (void)
 {
@@ -50,7 +52,7 @@ void ui_init (void)
   gl_tea_kwas_bookmarks = load_file_to_glist (confile.tea_kwas_bookmarks);
   //gl_autocomp = load_file_to_glist (confile.tea_autocomp);
 
-  at_editor = g_completion_new (NULL);
+  //at_editor = g_completion_new (NULL);
   /*if (gl_autocomp)
       g_completion_add_items (at_editor, gl_autocomp);*/
 
@@ -70,7 +72,6 @@ void ui_init (void)
      glist_strings_free (ui);
 }
 
-//current music: Scorn - Silver Rain Fell (Meat Beat Manifesto Mix)
 void ui_done (void)
 {
   GList *list = NULL;
@@ -106,7 +107,7 @@ void ui_done (void)
 
   tea_proj_free (cur_tea_project);
 
-  g_completion_free (at_editor);
+  //g_completion_free (at_editor);
 }
 
 
@@ -281,7 +282,7 @@ void get_iconv_sup (void)
   gchar *cmd = g_strconcat ("iconv -l > ", confile.iconv_file, NULL);
      
   if (! g_file_test (confile.iconv_file, G_FILE_TEST_EXISTS))
-     system (cmd);
+     if(system (cmd)== -1){printf("\n");}
 
   g_free (cmd);
      
@@ -312,21 +313,8 @@ void get_iconv_sup (void)
 
   cur_settings.selected_enc = ch_str (cur_settings.selected_enc, "UTF-8");
 
+
   g_free (buf);
-}
-
-//FIXME?
-GList* add_recent_item_composed (GList *list, t_note_page *doc)
-{
-  if (! doc) return list;
-
-  GList *l = list;
- 
-  l = add_to_list_with_limit2 (list, g_strdup_printf ("%s,%s,%d",
-                               doc->file_name, doc->encoding, 
-                               editor_get_pos (doc)),
-                               confile.max_recent_items);
-  return l;
 }
 
 
@@ -435,18 +423,6 @@ void update_recent_list_menu (gboolean load_from_file)
         }
 }
 
-//FIXME?
-void add_recent_internal (t_note_page *doc)
-{
-  /*if (g_list_length (recent_list) > confile.max_recent_items)
-    {
-     GList *p = g_list_last (recent_list);
-     g_free (p->data);
-     recent_list = g_list_delete_link (recent_list, p);
-    }
-*/
-  recent_list = add_recent_item_composed (recent_list, doc);
-}
 
 
 void tea_start (void)
@@ -544,7 +520,7 @@ void lookup_widget_cb (GtkWidget *widget, gpointer data)
   gchar *value = NULL;
   gchar *key;
   gchar *t;
-  gchar *s = gtk_widget_get_name (widget);
+  gchar const *s = gtk_widget_get_name (widget);
 
   if (strcmp ("-x-", s) != 0)
      {
@@ -566,7 +542,7 @@ void lookup_widget_cb (GtkWidget *widget, gpointer data)
          }
 
       if (GTK_IS_MENU_ITEM (widget))
-         lookup_widget (GTK_MENU_ITEM(gtk_menu_item_get_submenu (GTK_MENU_ITEM(widget))), data);      
+         lookup_widget ((GtkContainer *)gtk_menu_item_get_submenu (GTK_MENU_ITEM(widget)), data);      
      }   
 }
 
@@ -630,7 +606,6 @@ void reload_snippets (void)
  
   gtk_widget_destroy (mni_snippets_menu);
   mni_snippets_menu = new_menu_submenu (mni_snippets);
-  GtkWidget *temp = new_menu_tof (mni_snippets_menu);
 
   GList *l = read_dir_files (confile.snippets_dir);
   build_menu_from_glist (l, mni_snippets_menu, on_mni_snippet_click);
@@ -755,7 +730,6 @@ void reload_sessions (void)
  
   gtk_widget_destroy (mni_sessions_menu);
   mni_sessions_menu = new_menu_submenu (mni_sessions);
-  GtkWidget *t = new_menu_tof (mni_sessions_menu);
 
   GList *l = read_dir_files (confile.sessions_dir);
   build_menu_from_glist (l, mni_sessions_menu, on_mni_sessions_click);
@@ -771,7 +745,6 @@ void reload_templates (void)
  
   gtk_widget_destroy (mni_templates_menu);
   mni_templates_menu = new_menu_submenu (mni_templates);
-  GtkWidget *t = new_menu_tof (mni_templates_menu);
 
   GList *l = read_dir_files (confile.templates_dir);
   build_menu_from_glist (l, mni_templates_menu, on_mni_templates_click);
@@ -826,7 +799,7 @@ void confile_reload (void)
   confile.screen_w = gdk_screen_width ();
   confile.screen_h = gdk_screen_height ();
 
-  gchar *s = g_getenv ("HOME");
+  gchar const *s = g_getenv ("HOME");
   
   confile.tea_main_dir = g_strconcat (s, G_DIR_SEPARATOR_S, ".griffon", NULL);
 
@@ -861,12 +834,12 @@ void confile_reload (void)
   if (! g_file_test (confile.tea_main_dir, G_FILE_TEST_IS_DIR))
       //create tea directories
       {
-       chdir (s);
+       if (chdir (s)){printf("\n");}
 
        if (mkdir (".griffon", S_IRUSR | S_IWUSR | S_IXUSR) == -1) 
            DBM ("mkdir griffon_dir failed");
        
-       chdir (".griffon");
+       if (chdir (s)){printf("\n");}
 
        if (mkdir ("templates", S_IRUSR | S_IWUSR | S_IXUSR) == -1)
            DBM ("mkdir templates failed");
@@ -877,7 +850,7 @@ void confile_reload (void)
        if (mkdir ("todo", S_IRUSR | S_IWUSR | S_IXUSR) == -1)
            DBM ("mkdir todo failed");
 
-       chdir (s);
+       if (chdir (s)){printf("\n");}
       }
 
 

@@ -793,7 +793,7 @@ void  on_changed(GtkWidget *widget, gpointer statusbar)
 
 
 //******************************* match et envoi des fonction d'aide insert
-void  on_changed2(GtkWidget *tt, GdkEvent *eventt, gpointer *user_data) 
+void  on_changed2(gpointer *user_data) 
 {
   GtkTreeIter iter;
   GtkTreeModel *model;
@@ -1083,7 +1083,7 @@ gboolean util_match_all_words_in_sentence(gchar* pszWords, gchar* pszSentence)
 }
 
 // This is a fairly slow function... perhaps too slow for huge lists?
-gboolean util_treeview_match_all_words_callback(GtkTreeModel *pTreeModel, gint nColumn, const gchar *pszSearchText, GtkTreeIter* pIter, gpointer _unused)
+gboolean util_treeview_match_all_words_callback(GtkTreeModel *pTreeModel, gint nColumn, const gchar *pszSearchText, GtkTreeIter* pIter)
 {
 	gboolean bMatch = FALSE;
 
@@ -1119,11 +1119,11 @@ GtkWidget * create_view_and_model (char clef[50])
   GtkTreeViewColumn *col;
   GtkCellRenderer *renderer;
   GtkWidget *view;
-  GtkTreeModel *model;
+  GtkTreeModel *model=NULL;
 
   view = gtk_tree_view_new();
 	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(view),FALSE);
-	gtk_tree_view_set_search_equal_func(GTK_TREE_VIEW(view), util_treeview_match_all_words_callback, NULL, NULL);
+	gtk_tree_view_set_search_equal_func(GTK_TREE_VIEW(view),(GtkTreeViewSearchEqualFunc) util_treeview_match_all_words_callback, NULL, NULL);
 	gtk_tree_view_expand_all (GTK_TREE_VIEW(view));
 
   col = gtk_tree_view_column_new();
@@ -1157,10 +1157,6 @@ GtkWidget * create_view_and_model (char clef[50])
 GtkWidget* help_php_window (void)
 
 {
-  GtkWidget *menubar1;
-  GtkWidget *fonction_de_base1;
-  GtkWidget *fonction_de_base1_menu;
-  GtkWidget *echo1;
 
 	gtk_widget_destroy(window1);
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -1173,7 +1169,7 @@ GtkWidget* help_php_window (void)
   GtkWidget *vbox;
   GtkWidget *statusbar;
 
-  vbox = gtk_vbox_new(FALSE, 2);
+  vbox =gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_container_add(GTK_CONTAINER(window1), vbox);
 	gtk_widget_show (GTK_WIDGET(vbox));
 
@@ -1182,7 +1178,6 @@ GtkWidget* help_php_window (void)
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow),
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	  gtk_box_pack_start(GTK_BOX(vbox), scrolledWindow, TRUE, TRUE, 1);
-    gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
 
   view = create_view_and_model("php");
   gtk_widget_show (GTK_WIDGET(view));
@@ -1211,10 +1206,6 @@ GtkWidget* help_php_window (void)
 GtkWidget* help_mysql (void)
 
 {
-  GtkWidget *menubar1;
-  GtkWidget *fonction_de_base1;
-  GtkWidget *fonction_de_base1_menu;
-  GtkWidget *echo1;
 
 	gtk_widget_destroy(window1);
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -1227,7 +1218,7 @@ GtkWidget* help_mysql (void)
   GtkWidget *vbox;
   GtkWidget *statusbar;
 
-  vbox = gtk_vbox_new(FALSE, 2);
+  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_container_add(GTK_CONTAINER(window1), vbox);
 	gtk_widget_show (GTK_WIDGET(vbox));
 
@@ -1236,7 +1227,6 @@ GtkWidget* help_mysql (void)
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow),
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	  gtk_box_pack_start(GTK_BOX(vbox), scrolledWindow, TRUE, TRUE, 1);
-    gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
 
   view = create_view_and_model("mysql");
   gtk_widget_show (GTK_WIDGET(view));
@@ -1265,10 +1255,6 @@ GtkWidget* help_mysql (void)
 GtkWidget* help_html (void)
 
 {
-  GtkWidget *menubar1;
-  GtkWidget *fonction_de_base1;
-  GtkWidget *fonction_de_base1_menu;
-  GtkWidget *echo1;
 
 	gtk_widget_destroy(window1);
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -1281,7 +1267,7 @@ GtkWidget* help_html (void)
   GtkWidget *vbox;
   GtkWidget *statusbar;
 
-  vbox = gtk_vbox_new(FALSE, 2);
+  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_container_add(GTK_CONTAINER(window1), vbox);
 	gtk_widget_show (GTK_WIDGET(vbox));
 
@@ -1290,7 +1276,6 @@ GtkWidget* help_html (void)
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow),
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	  gtk_box_pack_start(GTK_BOX(vbox), scrolledWindow, TRUE, TRUE, 1);
-    gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
 
   view = create_view_and_model("html");
   gtk_widget_show (GTK_WIDGET(view));
@@ -1319,11 +1304,6 @@ GtkWidget* help_html (void)
 GtkWidget* help_css (void)
 
 {
-  GtkWidget *menubar1;
-  GtkWidget *fonction_de_base1;
-  GtkWidget *fonction_de_base1_menu;
-  GtkWidget *echo1;
-
 	gtk_widget_destroy(window1);
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (window1), _((_("Aide CSS"))));
@@ -1335,7 +1315,7 @@ GtkWidget* help_css (void)
   GtkWidget *vbox;
   GtkWidget *statusbar;
 
-  vbox = gtk_vbox_new(FALSE, 2);
+  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_container_add(GTK_CONTAINER(window1), vbox);
 	gtk_widget_show (GTK_WIDGET(vbox));
 
@@ -1344,7 +1324,6 @@ GtkWidget* help_css (void)
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow),
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	  gtk_box_pack_start(GTK_BOX(vbox), scrolledWindow, TRUE, TRUE, 1);
-    gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
 
   view = create_view_and_model("css");
   gtk_widget_show (GTK_WIDGET(view));
@@ -1374,10 +1353,6 @@ GtkWidget* help_css (void)
 GtkWidget* help_javascript (void)
 
 {
-  GtkWidget *menubar1;
-  GtkWidget *fonction_de_base1;
-  GtkWidget *fonction_de_base1_menu;
-  GtkWidget *echo1;
 
 	gtk_widget_destroy(window1);
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -1390,7 +1365,7 @@ GtkWidget* help_javascript (void)
   GtkWidget *vbox;
   GtkWidget *statusbar;
 
-  vbox = gtk_vbox_new(FALSE, 2);
+  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_container_add(GTK_CONTAINER(window1), vbox);
 	gtk_widget_show (GTK_WIDGET(vbox));
 
@@ -1399,7 +1374,6 @@ GtkWidget* help_javascript (void)
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow),
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	  gtk_box_pack_start(GTK_BOX(vbox), scrolledWindow, TRUE, TRUE, 1);
-    gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
 
   view = create_view_and_model("javascript");
   gtk_widget_show (GTK_WIDGET(view));
@@ -1429,10 +1403,6 @@ GtkWidget* help_javascript (void)
 GtkWidget* Aide_BASH (void)
 
 {
-  GtkWidget *menubar1;
-  GtkWidget *fonction_de_base1;
-  GtkWidget *fonction_de_base1_menu;
-  GtkWidget *echo1;
 
 	gtk_widget_destroy(window1);
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -1445,7 +1415,7 @@ GtkWidget* Aide_BASH (void)
   GtkWidget *vbox;
   GtkWidget *statusbar;
 
-  vbox = gtk_vbox_new(FALSE, 2);
+  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_container_add(GTK_CONTAINER(window1), vbox);
 	gtk_widget_show (GTK_WIDGET(vbox));
 
@@ -1454,7 +1424,6 @@ GtkWidget* Aide_BASH (void)
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow),
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	  gtk_box_pack_start(GTK_BOX(vbox), scrolledWindow, TRUE, TRUE, 1);
-    gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
 
   view = create_view_and_model("bash");
   gtk_widget_show (GTK_WIDGET(view));
@@ -1482,11 +1451,6 @@ GtkWidget* Aide_BASH (void)
 GtkWidget* centre_perl (void)
 
 {
-  GtkWidget *menubar1;
-  GtkWidget *fonction_de_base1;
-  GtkWidget *fonction_de_base1_menu;
-  GtkWidget *echo1;
-
 	gtk_widget_destroy(window1);
 
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -1499,7 +1463,7 @@ GtkWidget* centre_perl (void)
   GtkWidget *vbox;
   GtkWidget *statusbar;
 
-  vbox = gtk_vbox_new(FALSE, 2);
+  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_container_add(GTK_CONTAINER(window1), vbox);
 	gtk_widget_show (GTK_WIDGET(vbox));
 
@@ -1508,7 +1472,6 @@ GtkWidget* centre_perl (void)
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow),
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	  gtk_box_pack_start(GTK_BOX(vbox), scrolledWindow, TRUE, TRUE, 1);
-    gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
 
   view = create_view_and_model("perl");
   gtk_widget_show (GTK_WIDGET(view));
@@ -1538,11 +1501,6 @@ GtkWidget* centre_perl (void)
 GtkWidget* centre_htaccess (void)
 
 {
-  GtkWidget *menubar1;
-  GtkWidget *fonction_de_base1;
-  GtkWidget *fonction_de_base1_menu;
-  GtkWidget *echo1;
-
 	gtk_widget_destroy(window1);
 
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -1555,7 +1513,7 @@ GtkWidget* centre_htaccess (void)
   GtkWidget *vbox;
   GtkWidget *statusbar;
 
-  vbox = gtk_vbox_new(FALSE, 2);
+  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_container_add(GTK_CONTAINER(window1), vbox);
 	gtk_widget_show (GTK_WIDGET(vbox));
 
@@ -1564,7 +1522,6 @@ GtkWidget* centre_htaccess (void)
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow),
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	  gtk_box_pack_start(GTK_BOX(vbox), scrolledWindow, TRUE, TRUE, 1);
-    gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
 
   view = create_view_and_model("htaccess");
   gtk_widget_show (GTK_WIDGET(view));
@@ -1634,15 +1591,9 @@ GtkTreeModel *create_and_fill_model_term (void)
 
 
 //************** VTE HELP
-void term_help(GtkWidget *tv,GdkEventButton *event,  gpointer user_data)
+void term_help(gpointer user_data)
 {
 	gtk_widget_destroy(menu_vte);
-
-  GtkWidget *menubar1;
-  GtkWidget *fonction_de_base1;
-  GtkWidget *fonction_de_base1_menu;
-  GtkWidget *echo1;
-
 	gtk_widget_destroy(window1);
 
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -1655,7 +1606,7 @@ void term_help(GtkWidget *tv,GdkEventButton *event,  gpointer user_data)
   GtkWidget *vbox;
   GtkWidget *statusbar;
 
-  vbox = gtk_vbox_new(FALSE, 2);
+  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_container_add(GTK_CONTAINER(window1), vbox);
 	gtk_widget_show (GTK_WIDGET(vbox));
 
@@ -1664,7 +1615,6 @@ void term_help(GtkWidget *tv,GdkEventButton *event,  gpointer user_data)
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow),
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	  gtk_box_pack_start(GTK_BOX(vbox), scrolledWindow, TRUE, TRUE, 1);
-    gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
 
   view = create_view_and_model("term");
   gtk_widget_show (GTK_WIDGET(view));
@@ -1685,6 +1635,6 @@ void term_help(GtkWidget *tv,GdkEventButton *event,  gpointer user_data)
 
 	gtk_widget_grab_focus (view);
 
-  return window1;
+  return ;
 }
 

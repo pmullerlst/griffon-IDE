@@ -24,6 +24,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <ctype.h>
 #include <gtksourceview/gtksourceview.h>
 #include <gtksourceview/gtksourcebuffer.h>
 #include <gtksourceview/gtksourcelanguage.h>
@@ -43,15 +44,14 @@ gen_doc_html (void)
 	if (! get_page_text()) return;
 
 	   char *extension;
-	   if(extension = strrchr(cur_text_doc->file_name,'.')){}
+	   if(strrchr(cur_text_doc->file_name,'.')){extension = strrchr(cur_text_doc->file_name,'.');}else{return;}
 		char *titre=cur_text_doc->file_name;
 
   FILE *fich;
   char carac;
-  int position;
   char motrch[100],motrch2[100],motrch3[100],motrch4[100],motrch5[100],motrch6[100],motrch7[100], mot[1000],mot2[1000],ligne[10],doc_html[90000],doc_html_menu[90000];
   char motrch8[100],motrch9[100],motrch10[100],motrch11[100],motrch12[100],motrch13[100];
-  int nbapparition=0,nbcarac=0,nbmot=0,counter=0,nbspace=0;
+  int nbcarac=0,nbmot=0,counter=0,nbspace=0;
   int nbligne=1;
 
   if (! get_page_text()) return;
@@ -60,7 +60,9 @@ gen_doc_html (void)
      icon_affiche_bug();
 	clear_list_include ();
 
-  nbapparition=0,nbcarac=0,nbmot=0,nbligne=1;
+  nbcarac=0;
+	nbmot=0;
+	nbligne=1;
 
 //************************* INIT DES MOTS RECHERCHE
   mot[0]='\0';

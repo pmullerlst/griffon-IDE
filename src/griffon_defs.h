@@ -1,10 +1,3 @@
-/***************************************************************************
-                          tea_defs.h  -  description
-                             -------------------
-    begin                : Mon Dec 8 2003
-    copyright            : (C) 2003-2004 by Peter 'Roxton' Semiletov
-    email                : tea@list.ru
- ***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -89,5 +82,5 @@
 #define TEA_DATA_DIR PACKAGE_DATA_DIR"/tea/"
 
 
-void buffer_insert_text (GtkTextBuffer *textbuffer, GtkTextIter *arg1,gchar *arg2, gint arg3, gpointer user_data);
+void buffer_insert_text ( GtkTextIter *arg1,gpointer user_data);
 

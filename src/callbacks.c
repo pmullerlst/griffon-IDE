@@ -28,7 +28,6 @@
 #include <gtksourceview/gtksourceview.h>
 #include <gtksourceview/gtksourcebuffer.h>
 #include <gtksourceview/gtksourcelanguage.h>
-//#include <gtkspell/gtkspell.h>
 #include <vte/vte.h>
 
 #include "griffon_text_document.h"
@@ -80,7 +79,7 @@ icon_affiche_ok();
 
 static void aliens_init (void)
 {
-  gint r;
+  /*gint r;
 
 icon_affiche_ok();
   if (confile.warn_about_aliens)
@@ -110,7 +109,7 @@ icon_affiche_ok();
         dlg_info_with_image (tea_main_window, _("We are little green mens from the toilet. You cannot defeat us!"), NULL, TEA_PIX_LGM);
         return; 
        } 
-    }
+    }*/
 }
 
 gboolean tea_init ()
@@ -1869,24 +1868,24 @@ void on_mni_file_save_as_snippet_activate (){show_save_as_dlg (2);}
 
 static GList *gl_menu_item_names;
 
-static void lookup_widget_cb_2 (GtkWidget *widget, gpointer data)
+static void lookup_widget_cb_2 (GtkWidget *widget)
 {
   if (! widget) return;
    
-  gchar *s = gtk_widget_get_name (GTK_WIDGET(widget));
+  gchar const *s = gtk_widget_get_name (GTK_WIDGET(widget));
   if (strcmp ("-x-", s) != 0)
      {
-      gl_menu_item_names = g_list_append (gl_menu_item_names, s);
+      gl_menu_item_names = g_list_append (gl_menu_item_names, (gpointer)s);
 
       if (GTK_IS_MENU_ITEM (widget))
-         lookup_widget2 (GTK_CONTAINER(gtk_menu_item_get_submenu (GTK_MENU_ITEM(widget))), data);      
+         lookup_widget2 (GTK_CONTAINER(gtk_menu_item_get_submenu (GTK_MENU_ITEM(widget))));      
      }   
 }
 
-GtkWidget* lookup_widget2 (GtkContainer *widget, const gchar *widget_name)
+GtkWidget* lookup_widget2 (GtkContainer *widget)
 {
   if (widget)
-     gtk_container_foreach (widget, lookup_widget_cb_2, NULL);
+     gtk_container_foreach (widget, (GtkCallback)lookup_widget_cb_2, NULL);
   return NULL;
 }
 
@@ -1896,7 +1895,7 @@ void on_mni_dump_menu ()
   if (! get_page_text()) return;
    
   g_list_free (gl_menu_item_names);
-  lookup_widget2 (GTK_CONTAINER (menubar1), NULL);
+  lookup_widget2 (GTK_CONTAINER (menubar1));
    
   gchar *t = string_from_glist (gl_menu_item_names); 
 
@@ -2522,7 +2521,7 @@ void on_mni_show_images_in_text ()
 
   gchar *f;
   gchar *t;
-  GtkImage *image; 
+  GtkWidget *image; 
   GdkPixbuf *p;
 
   GtkTextIter match_start;
@@ -2547,7 +2546,7 @@ void on_mni_show_images_in_text ()
                 gtk_widget_show (GTK_WIDGET(image));
                 gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(cur_text_doc->text_buffer),
                                                &match_end,
-                                               gtk_image_get_pixbuf (image));
+                                               gtk_image_get_pixbuf ((GtkImage *)image));
                 gtk_text_buffer_set_modified (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), FALSE);  
                 gtk_widget_destroy (GTK_WIDGET(image)); 
                }
@@ -2572,7 +2571,7 @@ void on_mni_show_images_in_text ()
                 gtk_widget_show (GTK_WIDGET(image));
                 gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(cur_text_doc->text_buffer),
                                                &match_end,
-                                               gtk_image_get_pixbuf (image));
+                                               gtk_image_get_pixbuf ((GtkImage *)image));
 
                 gtk_widget_destroy (GTK_WIDGET(image)); 
                }
