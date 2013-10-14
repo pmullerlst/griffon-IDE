@@ -4208,6 +4208,7 @@ void new_terminal ()
 {
 	term_page *page_term = (term_page *) g_malloc (sizeof (term_page));
 
+
   page_term->vbox2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (GTK_WIDGET(page_term->vbox2));
   gtk_container_add (GTK_CONTAINER (notebook_term), GTK_WIDGET(page_term->vbox2));
@@ -4223,6 +4224,20 @@ void new_terminal ()
 	gtk_widget_show (GTK_WIDGET(page_term->vte_add));
  
 		vte_terminal_set_scrollback_lines(VTE_TERMINAL(page_term->vte_add),-1);
+
+	char** startterm=NULL;
+	g_shell_parse_argv("/bin/bash", NULL, &startterm, NULL);
+
+	vte_terminal_fork_command_full(VTE_TERMINAL(page_term->vte_add),
+                                       VTE_PTY_DEFAULT,
+                                       NULL,  
+                                       startterm,
+                                       NULL, 
+                                       (GSpawnFlags)(G_SPAWN_DO_NOT_REAP_CHILD | G_SPAWN_SEARCH_PATH),
+                                       NULL, 
+                                       NULL, 
+                                       NULL, 
+                                       NULL);
 
 	page_term->num_tab=gtk_notebook_get_n_pages(GTK_NOTEBOOK (notebook_term));
 	if(page_term->num_tab!=0){page_term->num_tab--;}
@@ -4309,6 +4324,20 @@ gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_sep, -1);
 
   	vte_add = vte_terminal_new();
 
+	char** startterm=NULL;
+	g_shell_parse_argv("/bin/bash", NULL, &startterm, NULL);
+
+	vte_terminal_fork_command_full(VTE_TERMINAL(vte_add),
+                                       VTE_PTY_DEFAULT,
+                                       NULL,  
+                                       startterm,
+                                       NULL, 
+                                       (GSpawnFlags)(G_SPAWN_DO_NOT_REAP_CHILD | G_SPAWN_SEARCH_PATH),  
+                                       NULL, 
+                                       NULL, 
+                                       NULL, 
+                                       NULL);
+
    vte_terminal_set_background_image_file (VTE_TERMINAL(vte_add),"/usr/local/share/griffon/pixmaps/griffon_bg2.png");
 	vte_terminal_set_background_saturation (VTE_TERMINAL(vte_add),0.1);
 
@@ -4390,6 +4419,20 @@ void new_terminal_ssh (gchar *serveur,gchar *user)
   gtk_container_add (GTK_CONTAINER (notebook_term), GTK_WIDGET(page_term->vbox2));
 
   	page_term->vte_add = vte_terminal_new();
+
+	char** startterm=NULL;
+	g_shell_parse_argv("/bin/bash", NULL, &startterm, NULL);
+
+	vte_terminal_fork_command_full(VTE_TERMINAL(page_term->vte_add),
+                                       VTE_PTY_DEFAULT,
+                                       NULL,  
+                                       startterm,
+                                       NULL, 
+                                       (GSpawnFlags)(G_SPAWN_DO_NOT_REAP_CHILD | G_SPAWN_SEARCH_PATH),  
+                                       NULL, 
+                                       NULL, 
+                                       NULL, 
+                                       NULL); 
 
   vte_terminal_set_background_image_file (VTE_TERMINAL(page_term->vte_add),"/usr/local/share/griffon/pixmaps/griffon_bg2.png");
 	vte_terminal_set_background_saturation (VTE_TERMINAL(page_term->vte_add),0.1);
