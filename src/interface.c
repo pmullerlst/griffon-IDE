@@ -1383,7 +1383,7 @@ GtkWidget* create_tea_main_window (void)
 
   scrolledwindow5 = gtk_scrolled_window_new (NULL, NULL);
   gtk_widget_show (GTK_WIDGET(scrolledwindow5));
-  gtk_container_add (GTK_CONTAINER (vbox4), GTK_WIDGET(scrolledwindow5));
+		 gtk_box_pack_start(GTK_BOX(vbox4), GTK_WIDGET(scrolledwindow5), TRUE, TRUE, 1);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_CORNER_TOP_LEFT);
 
@@ -1629,7 +1629,7 @@ gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_
 
   GtkWidget* scrolledwindow_book = gtk_scrolled_window_new (NULL, NULL);
   gtk_widget_show (GTK_WIDGET(scrolledwindow_book));
-  gtk_container_add (GTK_CONTAINER (vbox_book), GTK_WIDGET(scrolledwindow_book));
+		 gtk_box_pack_start(GTK_BOX(vbox_book), GTK_WIDGET(scrolledwindow_book), TRUE, TRUE, 1);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow_book), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow_book), GTK_CORNER_TOP_LEFT);
 
@@ -1867,7 +1867,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep2));
   notebook_down = gtk_notebook_new ();  
   gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook_down), GTK_POS_LEFT);
   gtk_widget_show (GTK_WIDGET(notebook_down));  
-	gtk_box_pack_start (GTK_BOX (vbox), notebook_down, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), notebook_down, TRUE, TRUE, 0);
 
 	gtk_notebook_set_group_name (GTK_NOTEBOOK (notebook_down), "wnote");	
 	//*********************** ZONE INFORMATION
@@ -2139,11 +2139,12 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   vbox3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_container_add (GTK_CONTAINER (notebook_down), GTK_WIDGET(vbox3));
   gtk_widget_show (GTK_WIDGET(vbox3));  
+	//gtk_box_set_homogeneous(GTK_BOX(vbox3),FALSE);
 
   scrolledwindow4 = gtk_scrolled_window_new (NULL, NULL);
   gtk_widget_show (GTK_WIDGET(scrolledwindow4));
-//  gtk_container_add (GTK_CONTAINER (vbox3), GTK_WIDGET(scrolledwindow4));
-    gtk_box_pack_start(GTK_BOX(vbox3), GTK_WIDGET(scrolledwindow4), TRUE, TRUE, 0);
+  //gtk_container_add (GTK_CONTAINER (vbox3), GTK_WIDGET(scrolledwindow4));
+    gtk_box_pack_start(GTK_BOX(vbox3), GTK_WIDGET(scrolledwindow4), TRUE, TRUE, 1);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow4), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow4), GTK_CORNER_TOP_LEFT);
 
@@ -2323,7 +2324,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(webView));
 
-    gtk_container_add(GTK_CONTAINER(vbox3), GTK_WIDGET(scrolledWindow));
+			 gtk_box_pack_start(GTK_BOX(vbox3), GTK_WIDGET(scrolledWindow), TRUE, TRUE, 1);
 
   g_signal_connect ((gpointer) button2, "clicked",
                     G_CALLBACK (focus_web),
@@ -2483,7 +2484,8 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
 
 	//****************************
    vbox_myadmin = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-	gtk_container_add (GTK_CONTAINER (hbox_myadmin), GTK_WIDGET(vbox_myadmin));
+ gtk_box_pack_start(GTK_BOX(hbox_myadmin), GTK_WIDGET(vbox_myadmin), TRUE, TRUE, 1);
+
 	gtk_widget_show (GTK_WIDGET(vbox_myadmin)); 
       
     webView_myadmin = WEBKIT_WEB_VIEW(webkit_web_view_new());
@@ -2498,8 +2500,8 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add(GTK_CONTAINER(scrolledWindow_myadmin), GTK_WIDGET(webView_myadmin));
 
-    gtk_container_add(GTK_CONTAINER(vbox_myadmin), GTK_WIDGET(scrolledWindow_myadmin));  
-        
+      gtk_box_pack_start(GTK_BOX(vbox_myadmin), GTK_WIDGET(scrolledWindow_myadmin), TRUE, TRUE, 1);
+   
   view_a = create_view_and_model_myadmin();
   gtk_widget_show (GTK_WIDGET(view_a));
   selection_myadmin = gtk_tree_view_get_selection(GTK_TREE_VIEW(view_a));
@@ -4216,7 +4218,7 @@ void new_terminal ()
 	vte_terminal_set_background_saturation (VTE_TERMINAL(page_term->vte_add),0.1);
 
   vte_terminal_set_scroll_on_keystroke(VTE_TERMINAL (page_term->vte_add), TRUE);
-	gtk_container_add (GTK_CONTAINER (page_term->vbox2), GTK_WIDGET(page_term->vte_add));	
+	 gtk_box_pack_start(GTK_BOX(page_term->vbox2), GTK_WIDGET(page_term->vte_add), TRUE, TRUE, 1);
 
 	gtk_widget_show (GTK_WIDGET(page_term->vte_add));
  
