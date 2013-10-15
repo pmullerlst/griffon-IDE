@@ -205,21 +205,21 @@ static GtkWidget* wnd_options_encoding (void)
  
   gtk_box_pack_start (GTK_BOX(page), fr2, FALSE, FALSE, 1);
   
-  cb_enc_det_cp1251 = tea_checkbox (page, _("CP 1251"), (gboolean *)confile.enc_det_cp1251); 
-  cb_enc_det_koi8r = tea_checkbox (page, _("KOI8-R"), (gboolean *)confile.enc_det_koi8r);
-  cb_enc_det_koi8u = tea_checkbox (page, _("KOI8-U"), (gboolean *)confile.enc_det_koi8u);
-  cb_enc_det_866 = tea_checkbox (page, _("DOS 866"), (gboolean *)confile.enc_det_866);
+  cb_enc_det_cp1251 = tea_checkbox (page, _("CP 1251"), &confile.enc_det_cp1251); 
+  cb_enc_det_koi8r = tea_checkbox (page, _("KOI8-R"), &confile.enc_det_koi8r);
+  cb_enc_det_koi8u = tea_checkbox (page, _("KOI8-U"), &confile.enc_det_koi8u);
+  cb_enc_det_866 = tea_checkbox (page, _("DOS 866"), &confile.enc_det_866);
 
-  cb_enc_det_finnish = tea_checkbox (page, _("Finnish"), (gboolean *)confile.enc_det_finnish);
-  cb_enc_det_german = tea_checkbox (page, _("German"), (gboolean *)confile.enc_det_german);
-  cb_enc_det_serbian = tea_checkbox (page, _("Serbian"), (gboolean *)confile.enc_det_serbian);
-  cb_enc_det_latvian = tea_checkbox (page, _("Latvian"), (gboolean *)confile.enc_det_latvian);
-  cb_enc_det_polish = tea_checkbox (page, _("Polish"), (gboolean *)confile.enc_det_polish);
-  cb_enc_det_portuguese = tea_checkbox (page, _("Portuguese"), (gboolean *)confile.enc_det_portuguese);
-  cb_enc_det_slovak = tea_checkbox (page, _("Slovak"), (gboolean *)confile.enc_det_slovak);
-  cb_enc_det_slovenian = tea_checkbox (page, _("Slovenian"), (gboolean *)confile.enc_det_slovenian);
-  cb_enc_det_spanish = tea_checkbox (page, _("Spanish"), (gboolean *)confile.enc_det_spanish);  
-  cb_enc_det_turkish = tea_checkbox (page, _("Turkish"), (gboolean *)confile.enc_det_turkish);  
+  cb_enc_det_finnish = tea_checkbox (page, _("Finnish"), &confile.enc_det_finnish);
+  cb_enc_det_german = tea_checkbox (page, _("German"), &confile.enc_det_german);
+  cb_enc_det_serbian = tea_checkbox (page, _("Serbian"), &confile.enc_det_serbian);
+  cb_enc_det_latvian = tea_checkbox (page, _("Latvian"), &confile.enc_det_latvian);
+  cb_enc_det_polish = tea_checkbox (page, _("Polish"), &confile.enc_det_polish);
+  cb_enc_det_portuguese = tea_checkbox (page, _("Portuguese"), &confile.enc_det_portuguese);
+  cb_enc_det_slovak = tea_checkbox (page, _("Slovak"), &confile.enc_det_slovak);
+  cb_enc_det_slovenian = tea_checkbox (page, _("Slovenian"), &confile.enc_det_slovenian);
+  cb_enc_det_spanish = tea_checkbox (page, _("Spanish"), &confile.enc_det_spanish);  
+  cb_enc_det_turkish = tea_checkbox (page, _("Turkish"), &confile.enc_det_turkish);  
 
   return wnd;
 }
@@ -269,7 +269,7 @@ static GtkWidget* wnd_options_interface (void)
   
   //sb_saveopen_w = tea_spinbutton (page, _("Enregistrer / Ouvrir largeur des boîtes de dialogue pour cents"), confile.saveopen_w);
   //sb_saveopen_h = tea_spinbutton (page, _("Enregistrer / Ouvrir la hauteur des boîtes de dialogue pour cents"), confile.saveopen_h);
-  cb_main_wnd_show_full_path = tea_checkbox (page, _("Afficher le chemin complet dans le titre de la fenêtre"), (gboolean *)confile.main_wnd_show_full_path); 
+  cb_main_wnd_show_full_path = tea_checkbox (page, _("Afficher le chemin complet dans le titre de la fenêtre"), &confile.main_wnd_show_full_path); 
   //cb_do_show_main_toolbar = tea_checkbox (page, _("Afficher la barre d'outils principale"), confile.do_show_main_toolbar); 
 
   sb_thumb_width = tea_spinbutton (page, _("Largeur de l'image thumbnail"), confile.thumb_width);
@@ -284,18 +284,18 @@ static GtkWidget* wnd_options_switches (void)
   GtkWidget *page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (page);
 
-  cb_start_with_recent_file = tea_checkbox (page, _("Lancer Griffon avec un fichier récent"), (gboolean *)confile.start_with_recent_file); 
-  cb_start_with_blank_file = tea_checkbox (page, _("Lancer Griffon avec un fichier vide"), (gboolean *)confile.start_with_blank_file); 
-  cb_do_det_scripts_by_content = tea_checkbox (page, _("Déterminer la coloration syntaxique par le contenu du fichier"), (gboolean *)confile.do_det_scripts_by_content); 
-  cb_xhtml_mode = tea_checkbox (page, _("Mode XHTML pour des Markup"), (gboolean *)confile.xhtml_mode); 
+  cb_start_with_recent_file = tea_checkbox (page, _("Lancer Griffon avec un fichier récent"), &confile.start_with_recent_file); 
+  cb_start_with_blank_file = tea_checkbox (page, _("Lancer Griffon avec un fichier vide"), &confile.start_with_blank_file); 
+  cb_do_det_scripts_by_content = tea_checkbox (page, _("Déterminer la coloration syntaxique par le contenu du fichier"), &confile.do_det_scripts_by_content); 
+  cb_xhtml_mode = tea_checkbox (page, _("Mode XHTML pour des Markup"), &confile.xhtml_mode); 
   //cb_show_hidden_files = tea_checkbox (page, _("Show hidden files in Kwas"), confile.show_hidden_files); 
-  cb_use_snippets = tea_checkbox (page, _("Utiliser les snippets"), (gboolean *)confile.use_snippets); 
-  cb_use_ext_image_viewer = tea_checkbox (page, _("Utiliser le visualisateur d'image externe"), (gboolean *)confile.use_ext_image_viewer);
-  cb_do_hl_on_fileopen = tea_checkbox (page, _("Coloration de la syntaxe à l'ouverture du fichier"), (gboolean *)confile.do_hl_on_fileopen);
-  cb_do_backup = tea_checkbox (page, _("Fichier backup"), (gboolean *)confile.do_backup);
-  cb_show_line_nums = tea_checkbox (page, _("Afficher les numéros de ligne"), (gboolean *)confile.show_line_nums);
-  cb_word_wrap = tea_checkbox (page, _("Word wrap"), (gboolean *)confile.word_wrap);
-  cb_scan_for_links_on_doc_open = tea_checkbox (page, _("Analyser les liens à l'ouverture de fichier"), (gboolean *)confile.scan_for_links_on_doc_open);
+  cb_use_snippets = tea_checkbox (page, _("Utiliser les snippets"), &confile.use_snippets); 
+  cb_use_ext_image_viewer = tea_checkbox (page, _("Utiliser le visualisateur d'image externe"), &confile.use_ext_image_viewer);
+  cb_do_hl_on_fileopen = tea_checkbox (page, _("Coloration de la syntaxe à l'ouverture du fichier"), &confile.do_hl_on_fileopen);
+  cb_do_backup = tea_checkbox (page, _("Fichier backup"), &confile.do_backup);
+  cb_show_line_nums = tea_checkbox (page, _("Afficher les numéros de ligne"), &confile.show_line_nums);
+  cb_word_wrap = tea_checkbox (page, _("Word wrap"), &confile.word_wrap);
+  cb_scan_for_links_on_doc_open = tea_checkbox (page, _("Analyser les liens à l'ouverture de fichier"), &confile.scan_for_links_on_doc_open);
 
   return page;
 }
@@ -306,8 +306,8 @@ static GtkWidget* wnd_options_confirmations (void)
   GtkWidget *page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (page);
   
-  cb_prompt_on_not_saved = tea_checkbox (page, _("M'avertir avant la fermeture d'un fichier modifié"), (gboolean *)confile.prompt_on_not_saved); 
-  cb_prompt_on_file_exists = tea_checkbox (page, _("Ecraser le fichier existant"), (gboolean *)confile.prompt_on_file_exists); 
+  cb_prompt_on_not_saved = tea_checkbox (page, _("M'avertir avant la fermeture d'un fichier modifié"), &confile.prompt_on_not_saved); 
+  cb_prompt_on_file_exists = tea_checkbox (page, _("Ecraser le fichier existant"), &confile.prompt_on_file_exists); 
   //cb_warn_about_aliens = tea_checkbox (page, _("Warn me about those little green men in a toilet"), confile.warn_about_aliens); 
  
   return page;
@@ -403,7 +403,7 @@ static GtkWidget* wnd_options_browsers (void)
   ent_cm_other = tea_text_entry (page, "Other", confile.cmd_Other);
   ent_cm_lynx = tea_text_entry (page, "Lynx", confile.cmd_Lynx);
   ent_cm_manual_browser = tea_text_entry (page, _("Browser for the manual"), confile.cmd_def_doc_browser);
-  cb_use_def_doc_browser = tea_checkbox (page, _("Utilisez votre navigateur"), (gboolean *)confile.use_def_doc_browser); 
+  cb_use_def_doc_browser = tea_checkbox (page, _("Utilisez votre navigateur"), &confile.use_def_doc_browser); 
 
   return page;
 }
@@ -414,10 +414,10 @@ static GtkWidget* wnd_options_editor (void)
   GtkWidget *page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (page);
   sb_tab_size = tea_spinbutton (page, _("Taille des tabulations en espaces"), confile.tab_size);
-  cb_ins_spaces_on_tab_press = tea_checkbox (page, _("Insérer des espaces sur la touche TAB"), (gboolean *)confile.ins_spaces_on_tab_press);
-  cb_use_auto_indent = tea_checkbox (page, _("Indentation automatique"), (gboolean *)confile.use_auto_indent);
-	cb_use_infotext = tea_checkbox (page, _("Afficher les informations ESPACE,TAB,RETOUR CHARIOT..."), (gboolean *)confile.use_infotext);
-	cb_use_spellcheck = tea_checkbox (page, _("Activer la correction d'orthographe"), (gboolean *)confile.use_spellcheck);
+  cb_ins_spaces_on_tab_press = tea_checkbox (page, _("Insérer des espaces sur la touche TAB"), &confile.ins_spaces_on_tab_press);
+  cb_use_auto_indent = tea_checkbox (page, _("Indentation automatique"), &confile.use_auto_indent);
+	cb_use_infotext = tea_checkbox (page, _("Afficher les informations ESPACE,TAB,RETOUR CHARIOT..."), &confile.use_infotext);
+	cb_use_spellcheck = tea_checkbox (page, _("Activer la correction d'orthographe"), &confile.use_spellcheck);
 
   return page;
 }
@@ -428,9 +428,9 @@ static GtkWidget* wnd_options_paths (void)
   GtkWidget *page =gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (page);
   ent_def_save_dir = tea_dir_selector (page, _("Default file saving directory"), confile.def_save_dir);
-  cb_use_def_save_dir = tea_checkbox (page, _("Use default saving directory"), (gboolean *)confile.use_def_save_dir);
+  cb_use_def_save_dir = tea_checkbox (page, _("Use default saving directory"), &confile.use_def_save_dir);
   ent_def_open_dir = tea_dir_selector (page, _("Default file opening directory"), confile.def_open_dir);
-  cb_use_def_open_dir = tea_checkbox (page, _("Use default file opening directory"), (gboolean *)confile.use_def_open_dir);
+  cb_use_def_open_dir = tea_checkbox (page, _("Use default file opening directory"), &confile.use_def_open_dir);
   
   return page;
 }
@@ -444,8 +444,8 @@ static GtkWidget* wnd_options_coauthor (void)
   //cb_use_autocomp = tea_checkbox (page, _("Automatic word completion"), confile.use_autocomp);
   //sb_autocomp_wordlen_min = tea_spinbutton (page, _("Mininum autocompletion word length"), confile.autocomp_wordlen_min);
   //sb_autocomp_list_items_max = tea_spinbutton (page, _("Autocompletion list items maximum"), confile.autocomp_list_items_max);
-  cb_do_autorep = tea_checkbox (page, _("Remplacement automatique"), (gboolean *)confile.do_autorep);
-		cb_use_textcompbloc = tea_checkbox (page, _("Autocompletion des bloc et balises {} () ..."), (gboolean *)confile.use_textcompbloc);
+  cb_do_autorep = tea_checkbox (page, _("Remplacement automatique"), &confile.do_autorep);
+		cb_use_textcompbloc = tea_checkbox (page, _("Autocompletion des bloc et balises {} () ..."), &confile.use_textcompbloc);
   return page;
 }
 

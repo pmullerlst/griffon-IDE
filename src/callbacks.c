@@ -28,6 +28,7 @@
 #include <gtksourceview/gtksourceview.h>
 #include <gtksourceview/gtksourcebuffer.h>
 #include <gtksourceview/gtksourcelanguage.h>
+#include <gtksourceview/gtksourcemarkattributes.h>
 #include <vte/vte.h>
 
 #include "griffon_text_document.h"

@@ -139,7 +139,7 @@ GtkWidget* tea_checkbox (GtkWidget *container, gchar *caption, gboolean *value)
   GtkWidget *x = gtk_check_button_new_with_label (caption);
   gtk_widget_show (GTK_WIDGET(x));
   gtk_box_pack_start (GTK_BOX(b), GTK_WIDGET(x), TRUE, TRUE, 1);
-  gtk_toggle_button_set_active ((GtkToggleButton *)x, (gboolean)value);
+  gtk_toggle_button_set_active ((GtkToggleButton *)x, *value);
     
   return x;
 }

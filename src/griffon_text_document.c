@@ -1598,7 +1598,7 @@ gboolean doc_reload_text (t_note_page *doc, gchar *filename, gchar *enc)
              return FALSE;
             }
 
-         gtk_text_buffer_set_text (GTK_TEXT_BUFFER(doc->text_buffer), buf, (gint)length);
+         gtk_text_buffer_set_text (GTK_TEXT_BUFFER(doc->text_buffer), buf, *length);
 
          g_free (buf);
          return TRUE;
