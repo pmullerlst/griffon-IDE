@@ -1,8 +1,3 @@
-/***************************************************************************
-                          interface.h  -  description
-                             -------------------
-    begin                : Mon Dec 1 2003
- ***************************************************************************/
 
 #include <webkit/webkit.h>
 #include <gtksourceview/completion-providers/words/gtksourcecompletionwords.h>
@@ -14,15 +9,10 @@ typedef struct _TestProviderClass TestProviderClass;
 struct _TestProvider
 {
 	GObject parent;
-
 	GList *proposals;
 	gint priority;
 	gchar *name;
-
 	GdkPixbuf *icon;
-
-	/* If it's a random provider, a subset of 'proposals' are choosen on
-	 * each populate. Otherwise, all the proposals are shown. */
 	guint is_random : 1;
 };
 
@@ -68,8 +58,6 @@ typedef enum {
 } ContactCol_http2;
 
 void switch_filechooser ();
-
-//************** VTE MENU
 GtkWidget *menu_vte;
 WebKitWebView *webView, *webView_myadmin, *webView_source,*webView_myadmin_traduc,*webView_myadmin_aide,*webView_editor;
 char liste_mount[1000];
@@ -232,7 +220,6 @@ GtkListStore *create_liststore_book();
 void add_to_list_book(gchar *str,gchar *str2);
 void on_changed_book (GtkWidget *widget);
 GtkNotebook* window_creation_function (GtkNotebook *source_notebook,gint         x,gint         y);
-//GtkWidget* window_creation_function ();
 GtkWidget* close_tools2 (void);
 void del_book() ;
 void google_search();
@@ -270,9 +257,9 @@ void new_web_window ();
 void new_web_window_mini ();
 void new_file_log_edit ();
 void new_file_term_edit (gpointer user_data);
-gboolean myadmin_new_window (WebKitNetworkRequest      *request);
-gboolean web_new_w_click(gpointer       user_data);
-WebKitWebView * web_new_w_click_go();
+gboolean myadmin_new_window (WebKitWebView *web_view,WebKitWebFrame *frame,WebKitNetworkRequest *request, WebKitWebNavigationAction *navigation_action,WebKitWebPolicyDecision *policy_decision,gpointer user_data);
+gboolean web_new_w_click(WebKitWebView *web_view,gpointer user_data);
+WebKitWebView * web_new_w_click_go(WebKitWebView  *web_view, WebKitWebFrame *frame, gpointer user_data);
 void myadmin_reload_win (gpointer user_data);
 void myadmin_back_win (gpointer user_data);
 void myadmin_forward_win (gpointer user_data);
@@ -285,12 +272,6 @@ void griffon_notify (gchar* txt);
 void add_to_list_err(gchar *str,gchar *str2);
 void download_requested_cb(WebKitDownload *download);
 void download_status_cb(GObject* object);
-/*gboolean navigation_policy_decision_requested_cb(WebKitWebView* web_view,
-                                        WebKitWebFrame* web_frame,
-                                        WebKitNetworkRequest* request,
-                                        WebKitWebNavigationAction* action,
-                                        WebKitWebPolicyDecision* decision,
-                                        gpointer data);*/
 void paste_vte(gpointer user_data);
 void copy_vte(  gpointer user_data);
 void term_search_google(gpointer user_data);

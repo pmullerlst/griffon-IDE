@@ -221,9 +221,17 @@ static void create_completion (GtkSourceView       *source_view,		   GtkSourceCo
 }
 
 //******************************** Ouverture de link pour navigateur web en mode link blank
-gboolean myadmin_new_window (WebKitNetworkRequest      *request)
+gboolean myadmin_new_window (WebKitWebView *web_view,WebKitWebFrame *frame,WebKitNetworkRequest *request, WebKitWebNavigationAction *navigation_action,WebKitWebPolicyDecision *policy_decision,gpointer user_data)
 {
-	gchar const *uri = webkit_network_request_get_uri (request);
+
+		if(frame==NULL){return FALSE;}
+		if(policy_decision==NULL){return FALSE;}
+		if(user_data==NULL){return FALSE;}
+		if(navigation_action==NULL){return FALSE;}
+
+		g_signal_stop_emission_by_name (WEBKIT_WEB_VIEW (web_view), "navigation-requested");
+
+	gchar const *uri = webkit_network_request_get_uri (WEBKIT_NETWORK_REQUEST(request));
 
 	win_web *web_win = (win_web *) g_malloc (sizeof (win_web));
 
@@ -306,13 +314,14 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add(GTK_CONTAINER(web_win->scrolledWindow), GTK_WIDGET(web_win->webView_w));
 
-    gtk_container_add(GTK_CONTAINER(web_win->vbox3), GTK_WIDGET(web_win->scrolledWindow));
+			gtk_box_pack_start(GTK_BOX(web_win->vbox3), GTK_WIDGET(web_win->scrolledWindow), TRUE, TRUE, 1);
 
 		gtk_widget_show_all(GTK_WIDGET(web_win->window_web)); 
 
   g_signal_connect ((gpointer) web_win->entry_myadmin, "activate",
                     G_CALLBACK (enter_myweb_win),
                     web_win->webView_w);
+
 
   	 g_signal_connect(web_win->webView_w, "load-finished",  
       G_CALLBACK(myadmin_get_url_win), web_win->entry_myadmin);
@@ -329,15 +338,21 @@ return TRUE;
 }
 
 //******************************** AFFICHAGE DUN NAVIGATEUR WEB APRES CLIQUE DROIT
-gboolean web_new_w_click(gpointer       user_data)
+gboolean web_new_w_click(WebKitWebView *web_view,gpointer user_data)
 {
+	if(web_view==NULL){return FALSE;}
 	gtk_widget_show_all (GTK_WIDGET(user_data));
 	return TRUE;
 }
 
 //******************************** PREPARATION DUN NAVIGATEUR WEB APRES CLIQUE DROIT
-WebKitWebView * web_new_w_click_go()
+WebKitWebView * web_new_w_click_go(WebKitWebView  *web_view, WebKitWebFrame *frame, gpointer user_data)
 {
+
+	if(web_view==NULL){return FALSE;}
+	if(frame==NULL){return FALSE;}
+	if(user_data==NULL){return FALSE;}
+
 	win_web *web_win = (win_web *) g_malloc (sizeof (win_web));
 
   web_win->window_web = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -403,7 +418,7 @@ gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin ), tool_sep, -1);
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add(GTK_CONTAINER(web_win->scrolledWindow), GTK_WIDGET(web_win->webView_w));
 
-    gtk_container_add(GTK_CONTAINER(web_win->vbox3), GTK_WIDGET(web_win->scrolledWindow));
+			gtk_box_pack_start(GTK_BOX(web_win->vbox3), GTK_WIDGET(web_win->scrolledWindow), TRUE, TRUE, 1);
 
   g_signal_connect ((gpointer) web_win->entry_myadmin, "activate",
                     G_CALLBACK (enter_myweb_win),
@@ -3236,7 +3251,7 @@ GtkWidget* doc_window (void)
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add(GTK_CONTAINER(scrolledWindow_doc), GTK_WIDGET(webView_doc));
 
-    gtk_container_add(GTK_CONTAINER(vbox1), GTK_WIDGET(scrolledWindow_doc));
+			gtk_box_pack_start(GTK_BOX(vbox1), GTK_WIDGET(scrolledWindow_doc), TRUE, TRUE, 1);
 
    webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/DOC/doc.html");
 
@@ -4642,7 +4657,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add(GTK_CONTAINER(web_win->scrolledWindow), GTK_WIDGET(web_win->webView_w));
 
-    gtk_container_add(GTK_CONTAINER(web_win->vbox3), GTK_WIDGET(web_win->scrolledWindow));
+		gtk_box_pack_start(GTK_BOX(web_win->vbox3), GTK_WIDGET(web_win->scrolledWindow), TRUE, TRUE, 1);
 
 		gtk_widget_show_all (GTK_WIDGET(web_win->window_web)); 
 
@@ -4754,8 +4769,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
             GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add(GTK_CONTAINER(web_win->scrolledWindow), GTK_WIDGET(web_win->webView_w));
 
-    gtk_container_add(GTK_CONTAINER(web_win->vbox3), GTK_WIDGET(web_win->scrolledWindow));
-
+		gtk_box_pack_start(GTK_BOX(web_win->vbox3), GTK_WIDGET(web_win->scrolledWindow), TRUE, TRUE, 1);
 		gtk_widget_show_all (GTK_WIDGET(web_win->window_web)); 
 
   g_signal_connect ((gpointer) web_win->entry_myadmin, "activate",
