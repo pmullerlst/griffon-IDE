@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Griffon 1.6.4
+Comment=Editeur IDE
+Exec=griffon
+Icon=/usr/local/share/griffon/pixmaps/griffon_icon.png
+Terminal=false
+MultipleArgs=false
+Categories=Application;Development;
+Type=Application
+
