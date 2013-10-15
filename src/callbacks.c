@@ -77,42 +77,6 @@ icon_affiche_ok();
   g_free (w);
 }
 
-
-static void aliens_init (void)
-{
-  /*gint r;
-
-icon_affiche_ok();
-  if (confile.warn_about_aliens)
-    {
-     r = dlg_question_params (tea_main_window,
-                              _("Those little green men in a toilet! I saw them! Can you kill them?"),
-                              NULL, 
-                              _("Yes, I'll do it"),
-                              _("Why should I kill them? There is must be a pacific way..."));
-    if (r == 1)
-       {
-        r = dlg_question_params (tea_main_window,
-                                 _("But they are... Such green! And small! Mens!"),
-                                 NULL, 
-                                _("OK, I'll kill them all..."),
-                                _("So what?"));
-
-        if (r == 1)
-           {
-            dlg_info (tea_main_window, _("We are DOOOMED!!!"), NULL);
-            return; 
-           }
-       }
-
-    if (r == 0)
-       {
-        dlg_info_with_image (tea_main_window, _("We are little green mens from the toilet. You cannot defeat us!"), NULL, TEA_PIX_LGM);
-        return; 
-       } 
-    }*/
-}
-
 gboolean tea_init ()
 {
   gint i; 
@@ -140,7 +104,6 @@ icon_affiche_ok();
        on_mni_load_last_file (NULL, NULL);
     }
 
-  aliens_init ();
 	return TRUE;
 }  
 
