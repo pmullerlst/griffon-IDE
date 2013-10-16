@@ -453,7 +453,7 @@ static GtkWidget* create_hardcoded_toolbar (void)
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_new, -1);
   gtk_widget_show(GTK_WIDGET(tool_new));
   g_signal_connect ((gpointer) tool_new, "clicked",G_CALLBACK (file_new),NULL);
-  gtk_tool_item_set_tooltip_text(tool_new,(_("Créer un nouveau fichier")));
+  gtk_tool_item_set_tooltip_text(tool_new,(_("Create a new file")));
 
 
 tool_sep=gtk_separator_tool_item_new();
@@ -464,7 +464,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_open, -1);
   gtk_widget_show(GTK_WIDGET(tool_open));
   g_signal_connect ((gpointer) tool_open, "clicked",G_CALLBACK (file_open),NULL);
-  gtk_tool_item_set_tooltip_text(tool_open,(_("Ouvrir un fichier")));
+  gtk_tool_item_set_tooltip_text(tool_open,(_("Open a file")));
 
 
 tool_sep=gtk_separator_tool_item_new();
@@ -475,14 +475,14 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_save, -1);
   gtk_widget_show(GTK_WIDGET(tool_save));
   g_signal_connect ((gpointer) tool_save, "clicked",G_CALLBACK (file_save),NULL);
-  gtk_tool_item_set_tooltip_text(tool_save,(_("Sauvegarder le fichier")));
+  gtk_tool_item_set_tooltip_text(tool_save,(_("Save the file")));
 
 
   GtkToolItem *tool_save_as = gtk_tool_button_new_from_stock(GTK_STOCK_SAVE_AS);
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_save_as, -1);
   gtk_widget_show(GTK_WIDGET(tool_save_as));
   g_signal_connect ((gpointer) tool_save_as, "clicked",G_CALLBACK (file_save_as),NULL);
-  gtk_tool_item_set_tooltip_text(tool_save_as,(_("Sauvegarder sous un autre nom")));
+  gtk_tool_item_set_tooltip_text(tool_save_as,(_("Save under another name")));
 
 
 tool_sep=gtk_separator_tool_item_new();
@@ -557,7 +557,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_book, -1);
   gtk_widget_show(GTK_WIDGET(tool_book));
   g_signal_connect ((gpointer) tool_book, "clicked",G_CALLBACK (on_format_button_clicked),NULL);
-  gtk_tool_item_set_tooltip_text(tool_book,(_("Mise en valeur de la séléction et BookMark (F5 pour supprimer)")));
+  gtk_tool_item_set_tooltip_text(tool_book,(_("Development of selection and BookMark (F5 to remove)")));
   gtk_tool_button_set_label(GTK_TOOL_BUTTON(tool_book),"+BookMark");
 
 tool_sep=gtk_separator_tool_item_new();
@@ -669,11 +669,11 @@ GtkWidget* create_tea_main_window (void)
   gtk_box_pack_start (GTK_BOX (mainvbox), menubar1, FALSE, FALSE, 0);
 
 
-  mni_temp = new_menu_item (_("Fichier"), menubar1, NULL);
+  mni_temp = new_menu_item (_("File"), menubar1, NULL);
   mni_file_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_file_menu);
 
-  mni_temp = new_menu_item (_("Nouveau"), mni_file_menu, on_mni_new_file_activate);
+  mni_temp = new_menu_item (_("New"), mni_file_menu, on_mni_new_file_activate);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_n, GDK_CONTROL_MASK,
                               GTK_ACCEL_VISIBLE);
@@ -826,7 +826,7 @@ GtkWidget* create_tea_main_window (void)
                               GTK_ACCEL_VISIBLE);
 
 
-  mni_temp = new_menu_item (_("Rechercher"), menubar1, NULL);
+  mni_temp = new_menu_item (_("Find"), menubar1, NULL);
 
   mni_quest_menu =  new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_quest_menu);
@@ -858,7 +858,7 @@ GtkWidget* create_tea_main_window (void)
                               GDK_KEY_F3, GDK_SHIFT_MASK,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item (_("Aller à la ligne"), mni_quest_menu, on_mni_goto_line);
+  mni_temp = new_menu_item (_("Go to line"), mni_quest_menu, on_mni_goto_line);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_g, GDK_MOD1_MASK,
                               GTK_ACCEL_VISIBLE);
@@ -1776,7 +1776,7 @@ gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar_manager), tool_devhelp, -1);
   gtk_widget_show(GTK_WIDGET(tool_devhelp));
   g_signal_connect ((gpointer) tool_devhelp, "clicked",G_CALLBACK (man_page),NULL);
-  gtk_tool_item_set_tooltip_text(tool_devhelp,(_("Recher avec DevHelp")));
+  gtk_tool_item_set_tooltip_text(tool_devhelp,(_("Search with DevHelp")));
 
   GtkToolItem *tool_goline = gtk_tool_button_new_from_stock(GTK_STOCK_JUMP_TO);
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar_manager), tool_goline, -1);
@@ -2071,7 +2071,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar_projet ), tool_projet_run, -1);
   gtk_widget_show(GTK_WIDGET(tool_projet_run));
   g_signal_connect ((gpointer) tool_projet_run, "clicked",G_CALLBACK (on_mni_show_project_run),NULL);
-  gtk_tool_item_set_tooltip_text(tool_projet_run,_("Executer le projet"));
+  gtk_tool_item_set_tooltip_text(tool_projet_run,_("Run the project"));
 
 	gtk_box_pack_start (GTK_BOX (vbox2_proj), toolbar_projet, FALSE, FALSE, 0);
 	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_projet), GTK_TOOLBAR_ICONS);
