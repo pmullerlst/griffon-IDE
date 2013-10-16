@@ -1,7 +1,0 @@
-	../src/interface.c \
-	../src/callbacks.c \
-	../src/minido.c \
-	../src/help_def.c \
-	../src/griffon_defs.c \
-	../src/griffon_text_document.c \
-	../src/griffon_options.c

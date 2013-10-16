@@ -1,66 +1,67 @@
+
 #: interface.c:90
-msgid "Recher avec DevHelp"
+msgid "Search with DevHelp"
 msgstr ""
 
 #: interface.c:94
-msgid "Fermer la partie gauche outils et le sélécteur de fichier"
+msgid "Close the right tools and File Selector"
 msgstr ""
 
 #: interface.c:95
-msgid "Fermer la partie gauche outils"
+msgid "Close the right tools"
 msgstr ""
 
 #: interface.c:96
-msgid "Ouvrir la partie gauche outils"
+msgid "Open the right tools"
 msgstr ""
 
 #: interface.c:116
-msgid "Recherche DevHelp"
+msgid "Search DevHelp"
 msgstr ""
 
 #: interface.c:119
-msgid "Mise en valeur de la séléction et BookMark (F5 pour supprimer)"
+msgid "Development of selection and BookMark (F5 to remove)"
 msgstr ""
 
 #: interface.c:122 interface.c:1507
-msgid "Executer le projet"
+msgid "Run the project"
 msgstr ""
 
 #: interface.c:124 interface.c:399
-msgid "Aller à la ligne"
+msgid "Go to line"
 msgstr ""
 
 #: interface.c:125
-msgid "Recherche suivante"
+msgid "Next Search"
 msgstr ""
 
 #: interface.c:126 interface.c:372
-msgid "Rechercher"
+msgid "Find"
 msgstr ""
 
 #: interface.c:137
-msgid "Sauvegarder sous un autre nom"
+msgid "Save under another name"
 msgstr ""
 
 #: interface.c:138
-msgid "Sauvegarder le fichier"
+msgid "Save the file"
 msgstr ""
 
 
 #: interface.c:139
-msgid "Ouvrir un fichier"
+msgid "Open a file"
 msgstr ""
 
 #: interface.c:140
-msgid "Créer un nouveau fichier"
+msgid "Create a new file"
 msgstr ""
 
 #: interface.c:214 callbacks.c:4642 callbacks.c:4933 callbacks.c:5278
-msgid "Fichier"
+msgid "File"
 msgstr ""
 
 #: interface.c:218
-msgid "Nouveau"
+msgid "New"
 msgstr ""
 
 #: interface.c:223
@@ -68,39 +69,39 @@ msgid "Crapbook"
 msgstr ""
 
 #: interface.c:228
-msgid "Ajouter un marque page"
-msgstr "Add a bookmark"
+msgid "Add a bookmark"
+msgstr ""
 
 #: interface.c:232
-msgid "Ouvrir"
+msgid "Open"
 msgstr ""
 
 #: interface.c:237
-msgid "Dérniers fichiers ouvert"
+msgid "Last open files"
 msgstr ""
 
 #: interface.c:239
-msgid "Ouvrir different fichiers"
+msgid "Open different files"
 msgstr ""
 
 #: interface.c:241
-msgid "Ouvrir un snippet"
+msgid "Open a snippet"
 msgstr ""
 
 #: interface.c:242
-msgid "Ouvrir un template"
+msgid "Open a template"
 msgstr ""
 
 #: interface.c:243
-msgid "Ouvrir un fichier de session"
+msgid "Open a session file"
 msgstr ""
 
 #: interface.c:247
-msgid "Fichier recents"
+msgid "Recent file"
 msgstr ""
 
 #: interface.c:250 callbacks.c:319
-msgid "Marque page"
+msgid "BookMark"
 msgstr ""
 
 #: interface.c:253
@@ -112,31 +113,31 @@ msgid "Templates"
 msgstr ""
 
 #: interface.c:261
-msgid "Sauvegarder"
+msgid "Save"
 msgstr ""
 
 #: interface.c:266
-msgid "Sauvegarder sous"
+msgid "Save as"
 msgstr ""
 
 #: interface.c:268
-msgid "Sauvegarder different fichiers"
+msgid "Save different files"
 msgstr ""
 
 #: interface.c:271
-msgid "Sauvegarder session"
+msgid "Save session"
 msgstr ""
 
 #: interface.c:273
-msgid "Sauvegarder sous un template"
+msgid "Save as a template"
 msgstr ""
 
 #: interface.c:274
-msgid "Sauvegarder sous un snippet"
+msgid "Save as a snippet"
 msgstr ""
 
 #: interface.c:276
-msgid "Sauvegarder version"
+msgid "Save Version"
 msgstr ""
 
 #: interface.c:281
@@ -144,19 +145,19 @@ msgid "Backup"
 msgstr ""
 
 #: interface.c:283
-msgid "Revenir à la sauvegarde"
+msgid "Back to save"
 msgstr ""
 
 #: interface.c:287
-msgid "Manager le fichier de configuration"
+msgid "Manager configuration file"
 msgstr ""
 
 #: interface.c:289
-msgid "Fichier autoremplacement"
+msgid "File auto replacement"
 msgstr ""
 
 #: interface.c:290
-msgid "Configuration principale"
+msgid "main configuration"
 msgstr ""
 
 #: interface.c:291
@@ -164,27 +165,27 @@ msgid "Charsets configuration"
 msgstr ""
 
 #: interface.c:292
-msgid "Raccourci clavier"
+msgid "Keyboard shortcut"
 msgstr ""
 
 #: interface.c:293
-msgid "Configuration du Menu utilisateur"
+msgid "Configuring the User Menu"
 msgstr ""
 
 #: interface.c:294
-msgid "Fichier de marque page"
+msgid "Bookmark file"
 msgstr ""
 
 #: interface.c:295
-msgid "Fichier de configuration todo liste"
+msgid "Config file for todo list"
 msgstr ""
 
 #: interface.c:296
-msgid "Fichier de configuration MyAdmin"
+msgid "Configuration file MyAdmin"
 msgstr ""
 
 #: interface.c:301
-msgid "Recharger MyAdmin"
+msgid "Reload MyAdmin"
 msgstr ""
 
 #: interface.c:306
@@ -192,15 +193,15 @@ msgid "Preferences"
 msgstr ""
 
 #: interface.c:310
-msgid "Fermer le fichier encours"
+msgid "Close the file assets"
 msgstr ""
 
 #: interface.c:315
-msgid "Quiter Griffon"
+msgid "Exit"
 msgstr ""
 
 #: interface.c:317
-msgid "Editer"
+msgid "Edit"
 msgstr ""
 
 #: interface.c:321
@@ -212,123 +213,123 @@ msgid "Undindent"
 msgstr ""
 
 #: interface.c:326
-msgid "Copier"
+msgid "Copy"
 msgstr ""
 
 #: interface.c:327
-msgid "Copier tous le contenu du fichier"
+msgid "Copy all the contents of the file"
 msgstr ""
 
 #: interface.c:330
-msgid "Couper"
+msgid "Cut"
 msgstr ""
 
 #: interface.c:331
-msgid "Coller"
+msgid "Paste"
 msgstr ""
 
 #: interface.c:332
-msgid "Echanger avec le presse papier"
+msgid "Replace with clipboard"
 msgstr ""
 
 #: interface.c:334
-msgid "Supprimer"
+msgid "Remove"
 msgstr ""
 
 #: interface.c:338
-msgid "Couper et nouveau fichier"
+msgid "Cut and new file"
 msgstr ""
 
 #: interface.c:339
-msgid "Copier et nouveau fichier"
+msgid "Copy and new file"
 msgstr ""
 
 #: interface.c:340
-msgid "Coller et nouveau fichier"
+msgid "New file and paste"
 msgstr ""
 
 #: interface.c:341
-msgid "Ajouter au Crapbook"
+msgid "Add to Crapbook"
 msgstr ""
 
 #: interface.c:347
-msgid "Tout séléctionner"
+msgid "Select all"
 msgstr ""
 
 #: interface.c:354
-msgid "Supprimer la ligne"
+msgid "Delete Row"
 msgstr ""
 
 #: interface.c:361
-msgid "Annuler action"
+msgid "Undo"
 msgstr ""
 
 #: interface.c:366
-msgid "Refaire action"
+msgid "Redo"
 msgstr ""
 
 #: interface.c:377
-msgid "Rechercher et remplacer fentre"
+msgid "Find and Replace window"
 msgstr ""
 
 #: interface.c:379
-msgid "Rechercher (le texte en zone de commande)"
+msgid "Search (in the text box control)"
 msgstr ""
 
 #: interface.c:384
-msgid "Rechercher avec case insensitive (le texte en zone de commande)"
+msgid "Search case insensitive (the text box control)"
 msgstr ""
 
 #: interface.c:389
-msgid "Rechercher suivant (le texte en zone de commande)"
+msgid "Search the following (text area control)"
 msgstr ""
 
 #: interface.c:394
-msgid "Rechercher suivant avec case insensitive (le texte en zone de commande)"
+msgid "Search according to case insensitive (the text box control)"
 msgstr ""
 
 #: interface.c:404
-msgid "Tout remplacer (Ligne de commande TEXTE_RECHERCHE~TEXTE_REMPLACEMENT)"
+msgid "Replace All (Command Line FIND_TEXT~TEXTE_REMPLACEMENT)"
 msgstr ""
 
 #: interface.c:409
-msgid "Scan lien HTML local (HREF)"
+msgid "Scan local HTML link (HREF)"
 msgstr ""
 
 #: interface.c:414
-msgid "Scan d'image HTML (SRC)"
+msgid "Scan HTML image (SRC)"
 msgstr ""
 
 #: interface.c:419 callbacks.c:4921
-msgid "Fonctions"
+msgid "Function"
 msgstr ""
 
 #: interface.c:423
-msgid "Insert un chemin de fichier PATH"
+msgid "Insert a file path PATH"
 msgstr ""
 
 #: interface.c:425
-msgid "Stats du document"
+msgid "Stats document"
 msgstr ""
 
 #: interface.c:433
-msgid "Analyser de texte UNIversal"
+msgid "Analyze text UNIversal"
 msgstr ""
 
 #: interface.c:436
-msgid "UNITAZ avec trie abc"
+msgid "UNITAZ sorts with abc"
 msgstr ""
 
 #: interface.c:437
-msgid "UNITAZ avec trie par compte"
+msgid "UNITAZ with sorting by account"
 msgstr ""
 
 #: interface.c:438
-msgid "UNITAZ avec trie abc avec case insensitive"
+msgid "UNITAZ with case insensitive sorts with abc"
 msgstr ""
 
 #: interface.c:439
-msgid "UNITAZ avec trie par compte case insensitive"
+msgid "UNITAZ with case insensitive sorts by counting"
 msgstr ""
 
 #: interface.c:440
@@ -336,7 +337,7 @@ msgid "UNITAZ plaine"
 msgstr ""
 
 #: interface.c:441
-msgid "Extraire des mots"
+msgid "Extract words"
 msgstr ""
 
 #: interface.c:445
@@ -344,11 +345,11 @@ msgid "Snippets"
 msgstr ""
 
 #: interface.c:448
-msgid "Menu utilisateur"
+msgid "User Menu"
 msgstr ""
 
 #: interface.c:453
-msgid "Inserer"
+msgid "Insert"
 msgstr ""
 
 #: interface.c:457
@@ -360,39 +361,39 @@ msgid "Dump menu"
 msgstr ""
 
 #: interface.c:460
-msgid "Caractères"
+msgid "Char"
 msgstr ""
 
 #: interface.c:464
-msgid "Majuscule"
+msgid "Capital"
 msgstr ""
 
 #: interface.c:469
-msgid "Minuscule"
+msgid "Tiny"
 msgstr ""
 
 #: interface.c:474
-msgid "Majuscule sur la première lettre de chaque mot"
+msgid "Capitalize the first letter of each word"
 msgstr ""
 
 #: interface.c:478
-msgid "Nombres"
+msgid "Numbers"
 msgstr ""
 
 #: interface.c:482
-msgid "Arabe à Roman"
+msgid "Arabic to Roman"
 msgstr ""
 
 #: interface.c:483
-msgid "Hexadcimal au format décimal"
+msgid "Hexadecimal to decimal"
 msgstr ""
 
 #: interface.c:484
-msgid "Binaire en décimal"
+msgid "Binary to decimal"
 msgstr ""
 
 #: interface.c:485
-msgid "Compteur"
+msgid "Counter"
 msgstr ""
 
 #: interface.c:487
@@ -400,106 +401,106 @@ msgid "Format"
 msgstr ""
 
 #: interface.c:491
-msgid "Tuez le formatage"
+msgid "Kill formatting"
 msgstr ""
 
 #: interface.c:496
-msgid "Tuez le formatage sur chaque ligne"
+msgid "Kill the formatting on all lines"
 msgstr ""
 
 #: interface.c:498
-msgid "Envelopper première à la position"
+msgid "Wrapping the first position to"
 msgstr ""
 
 #: interface.c:499
-msgid "Envelopper sur les espaces à la position"
+msgid "Wrapped on the field at the position"
 msgstr ""
 
 #: interface.c:501
-msgid "Tuez les espaces au début de chaque ligne"
+msgid "Kill the spaces at the beginning of each line"
 msgstr ""
 
 #: interface.c:502
-msgid "Tuez espaces à la fin de chaque ligne"
+msgid "Kill spaces at the end of each line"
 msgstr ""
 
 #: interface.c:504
-msgid "Trier"
+msgid "Sort"
 msgstr ""
 
 #: interface.c:508
-msgid "Trier les lignes"
+msgid "Sort lines"
 msgstr ""
 
 #: interface.c:509
-msgid "Trier les lignes en longueur"
+msgid "Sort rows in length"
 msgstr ""
 
 #: interface.c:510
-msgid "Trier les lignes avec case insensetive"
+msgid "Sort rows with box insensetive"
 msgstr ""
 
 #: interface.c:511
-msgid "Inverser l'ordre des lignes"
+msgid "Reverse the order of lines"
 msgstr ""
 
 #: interface.c:513
-msgid "Chaîne"
+msgid "String"
 msgstr ""
 
 #: interface.c:517
-msgid "Inerser"
+msgid "Insert"
 msgstr ""
 
 #: interface.c:519
-msgid "Supprimer les lignes vides"
+msgid "Remove blank lines"
 msgstr ""
 
 #: interface.c:520
-msgid "Tuez les doublons"
+msgid "Kill Duplicates"
 msgstr ""
 
 #: interface.c:521
-msgid "Numeroter les lignes"
+msgid "Number lines"
 msgstr ""
 
 #: interface.c:523
-msgid "Convertir des tabulations en espaces"
+msgid "Convert tabs to spaces"
 msgstr ""
 
 #: interface.c:524
-msgid "Convertir des espaces en tabulations"
+msgid "Convert spaces to tabs"
 msgstr ""
 
 #: interface.c:526
 #, c-format
 msgid ""
-"Appliquer un modle  chaque ligne en séléction (sur la ligne de commande Ex: "
+"A model apply each line selection (the Ex command line:"
 "%s<br>)"
 msgstr ""
 
 #: interface.c:531
-msgid "Filtrer"
+msgid "Filter"
 msgstr ""
 
 #: interface.c:535
-msgid "Tuez les lignes qui contiennent une expression"
+msgid "Kill the lines that contain an expression"
 msgstr ""
 
 #: interface.c:536
-msgid "Tuez toutes les lignes sauf une phrase"
+msgid "Kill all lines except one sentence"
 msgstr ""
 
 #: interface.c:538
-msgid "Tuez toutes les lignes < N caractères"
+msgid "Kill all lines <N characters"
 msgstr ""
 
 #: interface.c:539
-msgid "Tuez toutes les lignes > N caractères"
+msgid "Kill all lines> N characters"
 msgstr ""
 
 #: interface.c:541
-msgid "Fin de ligne"
+msgid "End of line"
 msgstr ""
 
 #: interface.c:543
@@ -511,15 +512,15 @@ msgid "LF to CR/LF"
 msgstr ""
 
 #: interface.c:546
-msgid "Recherche avec google du texte en séléction dans l'onglet MyAdmin"
+msgid "Search with google text selection tab MyAdmin"
 msgstr ""
 
 #: interface.c:546
-msgid "Traduction avec google du texte en séléction dans l'onglet MyAdmin FR vers EN"
+msgid "Google translation with text selection tab MyAdmin : FR to EN"
 msgstr ""
 
 #: interface.c:546
-msgid "Traduction avec google du texte en séléction dans l'onglet MyAdmin EN vers FR"
+msgid "Google translation with text selection tab MyAdmin : EN to FR"
 msgstr ""
 
 
@@ -528,35 +529,35 @@ msgid "Html"
 msgstr ""
 
 #: interface.c:551
-msgid "HTML outils"
+msgid "HTML tools"
 msgstr ""
 
 #: interface.c:555
-msgid "Template de base"
+msgid "Basic template"
 msgstr ""
 
 #: interface.c:557
-msgid "Tableau de base"
+msgid "Basic Table"
 msgstr ""
 
 #: interface.c:562
-msgid "Supprimer les balises HTML de la séléction"
+msgid "Remove HTML tags from the selection"
 msgstr ""
 
 #: interface.c:563
-msgid "Lien autour de la séléction"
+msgid "Link around the selection"
 msgstr ""
 
 #: interface.c:564
-msgid "Convertir les caractères spéciaux"
+msgid "Convert special characters"
 msgstr ""
 
 #: interface.c:565
-msgid "Afficher le poids du document"
+msgid "View the document weight"
 msgstr ""
 
 #: interface.c:567
-msgid "Inserer un DOCTYPE"
+msgid "Insert a DOCTYPE"
 msgstr ""
 
 #: interface.c:571 callbacks.c:3542
@@ -565,470 +566,479 @@ msgstr ""
 
 #: interface.c:572 callbacks.c:3545
 msgid "HTML 4.1 Strict"
-msgstr ""
+msgstr "HTML 4.1 Strict"
 
 #: interface.c:573 callbacks.c:3548
 msgid "HTML 4.1 Frameset"
-msgstr ""
+msgstr "HTML 4.1 Frameset"
 
 #: interface.c:574 callbacks.c:3551
 msgid "XHTML 1.0 Strict"
-msgstr ""
+msgstr "XHTML 1.0 Strict"
 
 #: interface.c:575 callbacks.c:3554
 msgid "XHTML 1.0 Transitional"
-msgstr ""
+msgstr "XHTML 1.0 Transitional"
 
 #: interface.c:576 callbacks.c:3557
 msgid "XHTML 1.0 Frameset"
-msgstr ""
+msgstr "XHTML 1.0 Frameset"
 
 #: interface.c:577 callbacks.c:3560
 msgid "WML 1.1"
-msgstr ""
+msgstr "WML 1.1"
 
 #: interface.c:579
-msgid "Caractères spéciaux HTML"
-msgstr ""
+msgid "HTML special characters"
+msgstr "Caractères spéciaux HTML"
 
 #: interface.c:586
-msgid "Gras"
-msgstr ""
+msgid "Bold"
+msgstr "Gras"
 
 #: interface.c:591
-msgid "Italique"
-msgstr ""
+msgid "Italics"
+msgstr "Italique"
 
 #: interface.c:596
-msgid "Souligner"
-msgstr ""
+msgid "Underline"
+msgstr "Souligner"
 
 #: interface.c:600
-msgid "Commenter"
-msgstr ""
+msgid "Comment"
+msgstr "Commenter"
 
 #: interface.c:605
-msgid "Paragraphe"
-msgstr ""
+msgid "Paragraph"
+msgstr "Paragraphe"
 
 #: interface.c:610
-msgid "Lien"
-msgstr ""
+msgid "Link"
+msgstr "Lien"
 
 #: interface.c:615
-msgid "Couleur"
-msgstr ""
+msgid "Color"
+msgstr "Couleur"
 
 #: interface.c:620
 msgid "Image"
-msgstr ""
+msgstr "Image"
 
 #: interface.c:622
-msgid "Retour chariot"
-msgstr ""
+msgid "Carriage return"
+msgstr "Retour chariot"
 
 #: interface.c:628
-msgid "Espace"
-msgstr ""
+msgid "Space"
+msgstr "Espace"
 
 #: interface.c:635
-msgid "Eléments de tableau"
-msgstr ""
+msgid "Array elements"
+msgstr "Eléments de tableau"
 
 #: interface.c:639
 msgid "table"
-msgstr ""
+msgstr "table"
 
 #: interface.c:640
 msgid "tr"
-msgstr ""
+msgstr "tr"
 
 #: interface.c:641
 msgid "td"
-msgstr ""
+msgstr "td"
 
 #: interface.c:643
 msgid "H"
-msgstr ""
+msgstr "H"
 
 #: interface.c:657
-msgid "Aligner"
-msgstr ""
+msgid "Align"
+msgstr "Aligner"
 
 #: interface.c:661 callbacks.c:1529 callbacks.c:1548
-msgid "Centrer"
-msgstr ""
+msgid "Center"
+msgstr "Centrer"
 
 #: interface.c:662 callbacks.c:1532 callbacks.c:1551
-msgid "Gauche"
-msgstr ""
+msgid "Left"
+msgstr "Gauche"
 
 #: interface.c:663 callbacks.c:1535 callbacks.c:1554
-msgid "Droite"
-msgstr ""
+msgid "Right"
+msgstr "Droite"
 
 #: interface.c:664 callbacks.c:1538 callbacks.c:1557
-msgid "Justifier"
-msgstr ""
+msgid "justify"
+msgstr "Justifier"
 
 #: interface.c:667
 msgid "_BASH"
-msgstr ""
+msgstr "_BASH"
 
 #: interface.c:674 help_def.c:1353
-msgid "Aide BASH"
-msgstr ""
+msgid "Help for BASH"
+msgstr "Aide BASH"
 
 #: interface.c:678 interface.c:698
-msgid "Rendre éxecutable le script"
-msgstr ""
+msgid "Make the script executable"
+msgstr "Rendre éxecutable le script"
 
 #: interface.c:682
-msgid "Executer le script BASH"
-msgstr ""
+msgid "Run the script BASH"
+msgstr "Executer le script BASH"
 
 #: interface.c:687
 msgid "_Perl"
-msgstr ""
+msgstr "_Perl"
 
 #: interface.c:694 help_def.c:1408
-msgid "Aide Perl"
-msgstr ""
+msgid "Help for Perl"
+msgstr "Aide Perl"
 
 #: interface.c:702
-msgid "Exectuer le script perl"
-msgstr ""
+msgid "Exectuer perl script"
+msgstr "Exectuer le script perl"
 
 #: interface.c:706 interface.c:1517
-msgid "Projets"
-msgstr ""
+msgid "Projects"
+msgstr "Projets"
 
 #: interface.c:710 interface.c:1512
-msgid "Nouveau projet"
-msgstr ""
+msgid "New Project"
+msgstr "Nouveau projet"
 
 #: interface.c:711 interface.c:1489
-msgid "Ouvrir un projet"
-msgstr ""
+msgid "Open a project"
+msgstr "Ouvrir un projet"
 
 #: interface.c:712
-msgid "Sauvegarder le projet"
-msgstr ""
+msgid "Save the project"
+msgstr "Sauvegarder le projet"
 
 #: interface.c:713
-msgid "Sauvegarder le projet sous"
-msgstr ""
+msgid "Save the project under"
+msgstr "Sauvegarder le projet sous"
 
 #: interface.c:714
-msgid "Propriété du projet"
-msgstr ""
+msgid "Ownership of the project"
+msgstr "Propriété du projet"
 
 #: interface.c:715
 msgid "Make"
-msgstr ""
+msgstr "Make"
 
 #: interface.c:720
-msgid "Executer"
-msgstr ""
+msgid "Run"
+msgstr "Executer"
 
 #: interface.c:724
-msgid "Monter un serveur en SFTP (SSH)"
-msgstr ""
+msgid "Mount a server SFTP (SSH)"
+msgstr "Monter un serveur en SFTP (SSH)"
 
 #: interface.c:729
-msgid "Monter un serveur FTP (FTPFS)"
-msgstr ""
+msgid "Mount a server FTP (FTPFS)"
+msgstr "Monter un serveur FTP (FTPFS)"
 
 #: interface.c:731
-msgid "Démonter le dérnier serveur monté en SFTP/FTP"
-msgstr ""
+msgid "Umount the last mounted server SFTP / FTP"
+msgstr "Démonter le dérnier serveur monté en SFTP/FTP"
 
 #: interface.c:736 interface.c:3402
-msgid "Onglets"
-msgstr ""
+msgid "Tabs"
+msgstr "Onglets"
 
 #: interface.c:739
-msgid "Navigateurs"
-msgstr ""
+msgid "Browsers"
+msgstr "Navigateurs"
 
 #: interface.c:743
 msgid "Opera"
-msgstr ""
+msgstr "Opera"
 
 #: interface.c:744
 msgid "Konqueror"
-msgstr ""
+msgstr "Konqueror"
 
 #: interface.c:745
 msgid "Firefox"
-msgstr ""
+msgstr "Firefox"
 
 #: interface.c:746
 msgid "Mozilla"
-msgstr ""
+msgstr "Mozilla"
 
 #: interface.c:747
 msgid "Galeon"
-msgstr ""
+msgstr "Galeon"
 
 #: interface.c:748
 msgid "Dillo"
-msgstr ""
+msgstr "Dillo"
 
 #: interface.c:749
 msgid "Elinks"
-msgstr ""
+msgstr "Elinks"
 
 #: interface.c:750
 msgid "Links"
-msgstr ""
+msgstr "Links"
 
 #: interface.c:751
 msgid "Lynx"
-msgstr ""
+msgstr "Lynx"
 
 #: interface.c:752
 msgid "Epiphany"
-msgstr ""
+msgstr "Epiphany"
 
 #: interface.c:754
 msgid "Navigation"
-msgstr ""
+msgstr "Navigation"
 
 #: interface.c:758
-msgid "Scan des liens dans la page"
-msgstr ""
+msgid "Scan links in the page"
+msgstr "Scan des liens dans la page"
 
 #: interface.c:760
-msgid "Liens"
-msgstr ""
+msgid "Links"
+msgstr "Liens"
 
 #: interface.c:766
-msgid "Aller au début du bloque {"
-msgstr ""
+msgid "Go to beginning of block {"
+msgstr "Aller au début du bloque {"
 
 #: interface.c:771
-msgid "Aller  la fin du bloque }"
-msgstr ""
+msgid "Go to end of block}"
+msgstr "Aller  la fin du bloque }"
 
 #: interface.c:776
-msgid "Aller à un onglet récent"
-msgstr ""
+msgid "Jump to recent tab"
+msgstr "Aller à un onglet récent"
 
 #: interface.c:778
-msgid "Aller à l'onglet suivant"
-msgstr ""
+msgid "Go to the next tab"
+msgstr "Aller à l'onglet suivant"
 
 #: interface.c:782
-msgid "Allez à l'onglet pérécdent"
-msgstr ""
+msgid "Go to the tab pérécdent"
+msgstr "Allez à l'onglet pérécdent"
 
 #: interface.c:787
-msgid "Aller au premier onglet"
-msgstr ""
+msgid "Go to first tab"
+msgstr "Aller au premier onglet"
 
 #: interface.c:788
-msgid "Aller au dérnier onglet"
-msgstr ""
+msgid "Go to the last tab"
+msgstr "Aller au dérnier onglet"
 
 #: interface.c:789
-msgid "Aller à la séléction"
-msgstr ""
+msgid "Go to the selection"
+msgstr "Aller à la séléction"
 
 #: interface.c:791
-msgid "Focus sur la ligne de commande"
-msgstr ""
+msgid "Focus on the command line"
+msgstr "Focus sur la ligne de commande"
 
 #: interface.c:796
-msgid "Focus sur le terminal"
-msgstr ""
+msgid "Focus on the terminal"
+msgstr "Focus sur le terminal"
 
 #: interface.c:801
-msgid "Focus et rechargement sur l'onglet API get URL"
-msgstr ""
+msgid "Focus and reloading the tab get API URL"
+msgstr "Focus et rechargement sur l'onglet API get URL"
 
 #: interface.c:806
-msgid "Focus et rechargement de l'onglet Mini Web"
-msgstr ""
+msgid "Focus and reload Mini Web tab"
+msgstr "Focus et rechargement de l'onglet Mini Web"
 
 #: interface.c:811
-msgid "Focus et chargement de la page courante dans l'onglet Mini Web"
-msgstr ""
+msgid "Focus and loading of the current page in the Web tab Mini"
+msgstr "Focus et chargement de la page courante dans l'onglet Mini Web"
 
 #: interface.c:816
-msgid "Focus sur le texte"
-msgstr ""
+msgid "Focus on the text"
+msgstr "Focus sur le texte"
 
 #: interface.c:821
-msgid "Ouvrir au cursor"
-msgstr ""
+msgid "Open the cursor"
+msgstr "Ouvrir au cursor"
 
 #: interface.c:826
-msgid "Editer au cursor"
-msgstr ""
+msgid "Edit the cursor"
+msgstr "Editer au cursor"
 
 #: interface.c:829
-msgid "Vue"
-msgstr ""
+msgid "View"
+msgstr "Vue"
 
 #: interface.c:833
 msgid "Co"
-msgstr ""
+msgstr "Co"
 
 #: interface.c:837
-msgid "Coloration syntaxique"
-msgstr ""
+msgid "Syntax Color"
+msgstr "Coloration syntaxique"
 
 #: interface.c:846
-msgid "Rafraichir la coloration syntaxique"
-msgstr ""
+msgid "Reload syntax color"
+msgstr "Rafraichir la coloration syntaxique"
 
 #: interface.c:851
-msgid "Supprimer la coloration syntaxique"
-msgstr ""
+msgid "Delete syntax color"
+msgstr "Supprimer la coloration syntaxique"
 
 #: interface.c:853
-msgid "Retour à la ligne"
-msgstr ""
+msgid "Wrap"
+msgstr "Retour à la ligne"
 
 #: interface.c:859
-msgid "Afficher les images dans le texte"
-msgstr ""
+msgid "Display images in the text"
+msgstr "Afficher les images dans le texte"
 
 #: interface.c:860
-msgid "Switcher entre header/source"
-msgstr ""
+msgid "Switch between header / source"
+msgstr "Switcher entre header/source"
 
 #: interface.c:865 interface.c:1030
-msgid "Aide"
-msgstr ""
+msgid "Help"
+msgstr "Aide"
 
 #: interface.c:869
-msgid "Vérifiez votre version de Griffon IDE"
-msgstr ""
+msgid "Check your version of Griffon IDE"
+msgstr "Vérifiez votre version de Griffon IDE"
 
 #: interface.c:870
-msgid "Lire le manuel/documentation de Griffon IDE"
-msgstr ""
+msgid "Read the manual / documentation Griffon IDE"
+msgstr "Lire le manuel/documentation de Griffon IDE"
 
 #: interface.c:871
-msgid "Envoyer un rapport de bug"
-msgstr ""
+msgid "Send a bug report"
+msgstr "Envoyer un rapport de bug"
 
 #: interface.c:872 interface.c:2280
-msgid "A-propos de Griffon IDE"
-msgstr ""
+msgid "About Griffon IDE"
+msgstr "A-propos de Griffon IDE"
 
 #: interface.c:942 interface.c:3245
-msgid "Liste des include/fonctions     "
-msgstr ""
+msgid "List of include / functions     "
+msgstr "Liste des include/fonctions     "
 
 #: interface.c:945 interface.c:3248
-msgid "Ligne"
-msgstr ""
+msgid "Line"
+msgstr "Ligne"
 
 #: interface.c:972
-msgid "Débuter le scan"
-msgstr ""
+msgid "Start the scan"
+msgstr "Débuter le scan"
 
 #: interface.c:977
-msgid "Ouvrir les fichiers include"
-msgstr ""
+msgid "Open files include"
+msgstr "Ouvrir les fichiers include"
 
 #: interface.c:985
 msgid "In"
-msgstr ""
+msgstr "In"
 
 #: interface.c:1091
 msgid ""
-"Liste auto complmentation \n"
-"[SHIFT droit] AutoComplmentation.\n"
+"Self complmentation list \n"
+"[SHIFT right] AutoComplmentation.\n"
 "\n"
 msgstr ""
+"Liste auto complémentation \n"
+"[SHIFT droit] AutoComplmentation.\n"
+"\n"
 
 #: interface.c:1094
 msgid "Scan"
-msgstr ""
+msgstr "Scan"
 
 
 #: interface.c:1132 interface.c:1194
-msgid "Effacer historique"
-msgstr ""
+msgid "Clear history"
+msgstr "Effacer historique"
 
 #: interface.c:1140 interface.c:1202
-msgid "Monter un serveur"
-msgstr ""
+msgid "Mount a server"
+msgstr "Monter un serveur"
 
 #: interface.c:1148 interface.c:1210
-msgid "Démonter un volume"
-msgstr ""
+msgid "Umount a server"
+msgstr "Démonter un volume"
 
 #: interface.c:1156
 msgid "SFTP"
-msgstr ""
+msgstr "SFTP"
 
 #: interface.c:1218
 msgid "FTP"
-msgstr ""
+msgstr "FTP"
 
 #: interface.c:1264 interface.c:1309
 msgid "Mark"
-msgstr ""
+msgstr "Mark"
 
 #: interface.c:1301
-msgid "Supprimer les BookMark"
-msgstr ""
+msgid "Remove BookMark"
+msgstr "Supprimer les BookMark"
 
 
 #: interface.c:1370
-msgid "Informations"
-msgstr ""
+msgid "Information"
+msgstr "Informations"
 
 #: interface.c:1415
 msgid "Terminal"
-msgstr ""
+msgstr "Terminal"
 
 #: interface.c:1495
-msgid "Sauvegarder un projet"
-msgstr ""
+msgid "Saving a project"
+msgstr "Sauvegarder un projet"
 
 #: interface.c:1501
-msgid "Make du projet"
-msgstr ""
+msgid "Make the project"
+msgstr "Make du projet"
 
 #: interface.c:1577
-msgid "Effacer"
-msgstr ""
+msgid "Delete"
+msgstr "Effacer"
 
 #: interface.c:1581 interface.c:2249 callbacks.c:2934
 msgid ""
 "\n"
-"Pour afficher les notes [ALT+M]\n"
+"To view notes [ALT + M]\n"
 msgstr ""
+"\n"
+"Pour afficher les notes [ALT+M]\n"
 
 #: interface.c:1582 interface.c:2250 callbacks.c:2935
 msgid ""
-"Pour integrer une séléction dans la note [CTR+E]\n"
+"To integrate a selection in the note [CTR + E]\n"
 "\n"
 msgstr ""
+"Pour integrer une séléction dans la note [CTR+E]\n\n____________________________________________________________________________________________________________________________________________________\n"
+"\n"
 
 #: interface.c:1586
 msgid "Note"
-msgstr ""
+msgstr "Note"
 
 #: interface.c:1614
 msgid ""
+"Get to API or HTML source\n"
+"[Ctrl + G] to reload: "
+msgstr ""
 "Get pour api ou source HTML\n"
 "[Ctrl+G] pour recharger: "
-msgstr ""
 
 #: interface.c:1622
 msgid "http://"
-msgstr ""
+msgstr "http://"
 
 #: interface.c:1624
-msgid " Get sur l'URL "
-msgstr ""
+msgid " Get the URL "
+msgstr " Get sur l'URL "
 
 #: interface.c:1646
 msgid "API get URL"
@@ -1036,485 +1046,496 @@ msgstr "API get URL"
 
 #: interface.c:1672
 msgid ""
+"[Ctrl + R] reload \n"
+"[Ctrl + D] load current page: "
+msgstr ""
 "[Ctrl+R] recharger \n"
 "[Ctrl+D] charger page courante: "
-msgstr ""
 
 #: interface.c:1680 interface.c:1706 interface.c:2299
 msgid "http://griffon.lasotel.fr"
-msgstr ""
+msgstr "http://griffon.lasotel.fr"
 
 #: interface.c:1682
-msgid " Charger l'URL "
-msgstr ""
+msgid " Load URL "
+msgstr " Charger l'URL "
 
 #: interface.c:1686
-msgid " Charger la page courante "
-msgstr ""
+msgid " Loading the current page "
+msgstr " Charger la page courante "
 
 #: interface.c:1712
-msgid " Ouvrir avec Gimp "
-msgstr ""
+msgid " Open with Gimp "
+msgstr " Ouvrir avec Gimp "
 
 #: interface.c:1721
-msgid " Inserer le nom du fichier image dans la page courrante "
-msgstr ""
+msgid " Insert the name of the image file in the current page "
+msgstr " Inserer le nom du fichier image dans la page courrante "
 
 #: interface.c:1730
 msgid "Mini Web"
-msgstr ""
+msgstr "Mini Web"
 
 #: interface.c:1751
-msgid "TODO liste"
-msgstr ""
+msgid "TODO list"
+msgstr "TODO liste"
 
 #: interface.c:1795
 msgid "MyAdmin"
-msgstr ""
+msgstr "MyAdmin"
 
 #: interface.c:1826
-msgid "Exec"
-msgstr ""
-
-#: interface.c:2017
-msgid "Splash Griffon 1.5.8"
-msgstr ""
-
-#: interface.c:2170
-msgid ""
-" [Griffon 1.5.8 start] :\tInitialisation des prfrences utilisateur et "
-"fichier de configuration..."
-msgstr ""
-
-#: interface.c:2171
-msgid " [Griffon 1.5.8 start] :\tInitialisation de l'autocomp..."
-msgstr ""
-
-#: interface.c:2172
-msgid " [Griffon 1.5.8 start] :\tInitialisation du crapbook..."
-msgstr ""
-
-#: interface.c:2173
-msgid " [Griffon 1.5.8 start] :\tInitialisation du terminal..."
-msgstr ""
-
-#: interface.c:2174
-msgid ""
-" [Griffon 1.5.8 start] :\tInitialisation des aides Perl,Php,BASH,MySql..."
-msgstr ""
-
-#: interface.c:2175
-msgid " [Griffon 1.5.8 start] :\tInitialisation de la todo liste..."
-msgstr ""
-
-#: interface.c:2176
-msgid " [Griffon 1.5.8 start] :\tInitialisation des fichiers récents..."
-msgstr ""
-
-#: interface.c:2177
-msgid " [Griffon 1.5.8 start] :\tInitialisation view source..."
-msgstr ""
-
-#: interface.c:2178
-msgid " [Griffon 1.5.8 start] :\tInitialisation view web..."
-msgstr ""
-
-#: interface.c:2179
-msgid " [Griffon 1.5.8 start] :\tInitialisation du file manager..."
-msgstr ""
-
-#: interface.c:2180
-msgid " [Griffon 1.5.8 start] :\tLancement de Griffon IDE 1.5.8"
-msgstr ""
+msgid "Run"
+msgstr "Exec"
 
 #: interface.c:2207
-msgid "Vous devez installer le package DevHelp"
-msgstr ""
+msgid "You must install the DevHelp"
+msgstr "Vous devez installer le package DevHelp"
 
 
 #: interface.c:2217
 #, c-format
-msgid "%s Recherche dans DevHelp"
-msgstr ""
+msgid "Search DevHelp %s"
+msgstr "%s Recherche dans DevHelp"
 
 #: interface.c:2295
 msgid ""
 "\n"
-"Griffon IDE 1.5.8 \n"
+"Griffon IDE 1.6.4 \n"
+"\n"
+"Autor \t: Philippe Muller \n"
+"Email\t: pmuller@lasotel.fr\n"
+"\n"
+"Developer and system administrator GNU / Linux Lasotel (Lyon).\n"
+"\n"
+msgstr ""
+"\n"
+"Griffon IDE 1.6.4 \n"
 "\n"
 "Auteur \t: Philippe Muller \n"
 "Email \t\t: pmuller@lasotel.fr\n"
 "\n"
 "Dveloppeur et Administrateur systme GNU/Linux pour Lasotel ( Lyon ).\n"
 "\n"
-msgstr ""
 
 #: interface.c:2361
-msgid "Langages interprétés"
-msgstr ""
+msgid "Interpreted languages"
+msgstr "Langages interprétés"
 
 #: interface.c:2365 help_def.c:728
 msgid "[BASH]"
-msgstr ""
+msgstr "[BASH]"
 
 #: interface.c:2367 help_def.c:729
 msgid "[PERL]"
-msgstr ""
+msgstr "[PERL]"
 
 #: interface.c:2369 help_def.c:730
 msgid "[PHP]"
-msgstr ""
+msgstr "[PHP]"
 
 #: interface.c:2374
-msgid "Base de données"
-msgstr ""
+msgid "Data base"
+msgstr "Base de données"
 
 #: interface.c:2378 help_def.c:731
 msgid "[MYSQL]"
-msgstr ""
+msgstr "[MYSQL]"
 
 #: interface.c:2382
-msgid "Web mise en page"
-msgstr ""
+msgid "Web layout"
+msgstr "Web mise en page"
 
 #: interface.c:2386 help_def.c:732
 msgid "[HTML]"
-msgstr ""
+msgstr "[HTML]"
 
 #: interface.c:2388 help_def.c:733
 msgid "[CSS]"
-msgstr ""
+msgstr "[CSS]"
 
 #: interface.c:2390 help_def.c:734
 msgid "[JAVASCRIPT/JQUERY]"
-msgstr ""
+msgstr "[JAVASCRIPT/JQUERY]"
 
 #: interface.c:2407
-msgid "Langages de programmation"
-msgstr ""
+msgid "Programming languages"
+msgstr "Langages de programmation"
 
 #: interface.c:2487
-msgid "Liste MyAdmin HTTP                                          "
-msgstr ""
+msgid "HTTP MyAdmin list                                          "
+msgstr "Liste MyAdmin HTTP                                          "
 
 #: interface.c:2528
 msgid ""
 "\n"
+"[ALT + N] to configure \n"
+"[ALT + H] to reload\n"
+msgstr ""
+"\n"
 "[ALT+N] pour configurer \n"
 "[ALT+H] pour recharger\n"
-msgstr ""
 
 #: interface.c:2609
-msgid "Documentation Griffon IDE"
-msgstr ""
+msgid "Griffon IDE documentation"
+msgstr "Documentation Griffon IDE"
 
 #: interface.c:2644
-msgid "Version Griffon IDE"
-msgstr ""
+msgid "Griffon IDE Version"
+msgstr "Version Griffon IDE"
 
 #: interface.c:2673
-msgid "Rapport Griffon IDE"
-msgstr ""
+msgid "Report Griffon IDE"
+msgstr "Rapport Griffon IDE"
 
 #: interface.c:2866
-msgid "Liste SFTP                                          "
-msgstr ""
+msgid "SFTP list                                          "
+msgstr "Liste SFTP                                          "
 
 #: interface.c:2907
 msgid ""
 "\n"
-"Historique SFTP\n"
+"History SFTP\n"
 msgstr ""
+"\n"
+"Historique SFTP\n"
 
 #: interface.c:2961 callbacks.c:6536
 #, c-format
-msgid "%s montage SFTP dans le répertoire Griffon_MONTAGE_SFTP"
-msgstr ""
+msgid "%s in directory mount SFTP Griffon_MONTAGE_SFTP"
+msgstr "%s montage SFTP dans le répertoire Griffon_MONTAGE_SFTP"
 
 #: interface.c:2997
-msgid "Liste FTP                                          "
-msgstr ""
+msgid "FTP list"
+msgstr "Liste FTP                                          "
 
 #: interface.c:3038
 msgid ""
 "\n"
-"Historique FTP\n"
+"History FTP\n"
 msgstr ""
+"\n"
+"Historique FTP\n"
 
 #: interface.c:3100 callbacks.c:6591
 #, c-format
-msgid "%s montage FTP dans le répertoire Griffon_MONTAGE_SFTP"
-msgstr ""
+msgid "%s in directory mount SFTP Griffon_MONTAGE_SFTP"
+msgstr "%s montage FTP dans le répertoire Griffon_MONTAGE_SFTP"
 
 #: interface.c:3372
-msgid "Le BookMark ne correspond pas au fichier en cours d'édition."
-msgstr ""
+msgid "The BookMark does not match the file being edited."
+msgstr "Le BookMark ne correspond pas au fichier en cours d'édition."
 
 #: callbacks.c:160
 msgid ""
+"Documentation is available in the menu \"Help-> Read the manual/"
+"Griffon IDE documentation\""
+msgstr ""
 "La documentation est disponible dans le menu \"Aide->Lire le manuel/"
 "documentation de Griffon IDE\""
-msgstr ""
 
 #: callbacks.c:354
-msgid "Encodage: "
-msgstr ""
+msgid "Encoding:"
+msgstr "Encodage: "
 
 #: callbacks.c:377
 msgid "File open"
-msgstr ""
+msgstr "File open"
 
 #: callbacks.c:458
 #, c-format
-msgid "%s Sauvegarde [OK]"
-msgstr ""
+msgid "%s Save File [OK]"
+msgstr "%s Sauvegarde [OK]"
 
 #: callbacks.c:600
-msgid "Sauvegardez le fichier avant..."
-msgstr ""
+msgid "Save the file before ..."
+msgstr "Sauvegardez le fichier avant..."
 
 #: callbacks.c:607
 #, c-format
-msgid "%s Sauvegarde OK..."
-msgstr ""
+msgid "%s Save OK..."
+msgstr "%s Sauvegarde OK..."
 
 #: callbacks.c:891
-msgid "Sauvegarde de la session sous:"
-msgstr ""
+msgid "Save session as"
+msgstr "Sauvegarde de la session sous:"
 
 #: callbacks.c:927
-msgid "Ouverture du fichier de session:"
-msgstr ""
+msgid "Open file session"
+msgstr "Ouverture du fichier de session:"
 
 
 #: callbacks.c:1266
-msgid "Texte pour trouver le texte à remplacer"
-msgstr ""
+msgid "Text to find the text to replace"
+msgstr "Texte pour trouver le texte à remplacer"
 
 #: callbacks.c:1322
-msgid "Sauvegarde sous..."
-msgstr ""
+msgid "Save as ..."
+msgstr "Sauvegarde sous..."
 
 #: callbacks.c:1361
 #, c-format
-msgid "%s il existe voulez vous le remplacer?"
-msgstr ""
+msgid "%s there want to replace it?"
+msgstr "%s il existe voulez vous le remplacer?"
 
 #: callbacks.c:1372
 #, c-format
-msgid "error de la sauvegarde %s!!!"
-msgstr ""
+msgid "Save error %s!!!"
+msgstr "error de la sauvegarde %s!!!"
 
 #: callbacks.c:1479
-msgid "Maintenant, regardez dans le menu Navigation->Liens."
-msgstr ""
+msgid "Now look in the Navigation menu-> Links."
+msgstr "Maintenant, regardez dans le menu Navigation->Liens."
 
 #: callbacks.c:1496
-msgid "Non, je ne peux pas!"
-msgstr ""
+msgid "No, I can not!"
+msgstr "Non, je ne peux pas!"
 
 #: callbacks.c:1575
 msgid ""
+"[INFO] You can specify the number of rows (TR) and the number of columns "
+"(TD) in the command line\n"
+"Example :2~2\n"
+"For 2 TR and 2 TD\n"
+"\n"
+msgstr ""
 "[INFO] Vous poouvez indiquer le nombre de ligne (TR) et le nombre de colonne "
 "(TD) dans la ligne de commande\n"
 "Exemple :2~2\n"
 "Pour 2 TR et 2 TD\n"
 "\n"
-msgstr ""
 
 #: callbacks.c:1631
 #, c-format
-msgid "Je ne peux pas recharger %s"
-msgstr ""
+msgid "I can not reload %s"
+msgstr "Je ne peux pas recharger %s"
 
 #: callbacks.c:1636
 #, c-format
-msgid "%s est rechargé"
-msgstr ""
+msgid "%s is reloaded"
+msgstr "%s est rechargé"
 
 #: callbacks.c:1842
-msgid "Maintenant, regardez dans le menu Navigation->Liens"
-msgstr ""
+msgid "Now look in the Navigation menu-> Links"
+msgstr "Maintenant, regardez dans le menu Navigation->Liens"
 
 #: callbacks.c:1894
-msgid "Séléctionnez une couleur"
-msgstr ""
+msgid "Select a color"
+msgstr "Séléctionnez une couleur"
 
 #: callbacks.c:2930
-msgid "Déposez vos séléctions ici..."
-msgstr ""
+msgid "Post your selections here ..."
+msgstr "Déposez vos séléctions ici..."
 
 
 #: callbacks.c:3877
 msgid "  [VARIABLE]\t: "
-msgstr ""
+msgstr "  [VARIABLE]\t: "
 
 #: callbacks.c:3878
-msgid "  [FONCTION]\t: "
-msgstr ""
+msgid "  [FUNCTION]\t: "
+msgstr "  [FONCTION]\t: "
 
 #: callbacks.c:3879
-msgid "  [MOT_CLEF]\t: "
-msgstr ""
+msgid "  [KEYWORD]\t: "
+msgstr "  [MOT_CLEF]\t: "
 
 #: callbacks.c:3885
 #, c-format
 msgid ""
-"[Auto Comp] %s ajout pour l'auto complmentation [SHIFT droit] Pour afficher "
-"la liste dans la zone de texte."
+"[Auto Comp] %s addition to self complmentation [SHIFT right] to display "
+"list in the text box."
 msgstr ""
+"[Auto Comp] %s ajouté pour l'auto complémentation [SHIFT droit] Pour afficher "
+"la liste dans la zone de texte."
+
 
 #: callbacks.c:4177
 msgid "Save a project"
-msgstr ""
+msgstr "Save a project"
 
 #: callbacks.c:4220
 msgid "Open a project"
-msgstr ""
+msgstr "Open a project"
 
 #: callbacks.c:4243
-msgid "   FICHIER PROJET : "
-msgstr ""
+msgid "   FILE PROJECT"
+msgstr "   FICHIER PROJET : "
 
 #: callbacks.c:4346
 msgid ""
 "#!/bin/bash\n"
 "\n"
+"# BASH script edited with Griffon: http://griffon.lasotel.fr\n"
+"# Date of creation of the script : "
+msgstr ""
+"#!/bin/bash\n"
+"\n"
 "# Script BASH edite avec Griffon: http://griffon.lasotel.fr\n"
 "# Date de creation du script : "
-msgstr ""
 
 
 #: callbacks.c:4352
 msgid ""
 "\n"
+"# Message on the GUI\n"
+"xmessage -center -timeout 4 \" Text display. \"\n"
+msgstr ""
+"\n"
 "# Message sur l'interface graphique\n"
 "xmessage -center -timeout 4 \" Texte a afficher. \"\n"
-msgstr ""
 
 #: callbacks.c:4358
 msgid ""
+"# Reading a file line by line\n"
+"while read ligne\n"
+"do\n"
+"\n"
+"done < file_path\n"
+msgstr ""
 "# Lecture d'un fichier ligne par ligne\n"
 "while read ligne\n"
 "do\n"
 "\n"
 "done < fichier\n"
-msgstr ""
 
 #: callbacks.c:4359
-msgid " [ -e fichier ]"
-msgstr ""
+msgid " [ -e file_path ]"
+msgstr " [ -e fichier ]"
 
 #: callbacks.c:4360
-msgid " [ -s fichier ]"
-msgstr ""
+msgid " [ -s file_path ]"
+msgstr " [ -s fichier ]"
 
 #: callbacks.c:4361
 msgid ""
+"# Building an RPM package (thanks to the spec file in / usr / src / redhat /"
+"SPEC/)\n"
+"rpmbuild -ba file.spec\n"
+msgstr ""
 "# Construction d'un package RPM (grace au fichier spec dans /usr/src/redhat/"
 "SPEC/)\n"
 "rpmbuild -ba fichier.spec\n"
-msgstr ""
 
 #: callbacks.c:4362
-msgid " [ -d repertoire ]"
-msgstr ""
+msgid " [ -d directory ]"
+msgstr " [ -d repertoire ]"
 
 #: callbacks.c:4363
-msgid " [ \"chaine1\" != \"chaine2\" ]"
-msgstr ""
+msgid " [ \"string1\" != \"string2\" ]"
+msgstr " [ \"chaine1\" != \"chaine2\" ]"
 
 #: callbacks.c:4365
-msgid " [ -r fichier ]"
-msgstr ""
+msgid " [ -r file ]"
+msgstr " [ -r fichier ]"
 
 #: callbacks.c:4366
-msgid " [ -w fichier ]"
-msgstr ""
+msgid " [ -w file ]"
+msgstr " [ -w fichier ]"
 
 #: callbacks.c:4367
-msgid " [ -x fichier ]"
-msgstr ""
+msgid " [ -x file ]"
+msgstr " [ -x fichier ]"
 
 #: callbacks.c:4368
-msgid " [ -L fichier ]"
-msgstr ""
+msgid " [ -L file ]"
+msgstr " [ -L fichier ]"
 
 #: callbacks.c:4369
-msgid " [ -N fichier ]"
-msgstr ""
+msgid " [ -N file ]"
+msgstr " [ -N fichier ]"
 
 #: callbacks.c:4370
-msgid " [ -G fichier ]"
-msgstr ""
+msgid " [ -G file ]"
+msgstr " [ -G fichier ]"
 
 #: callbacks.c:4371
-msgid " [ -O fichier ]"
-msgstr ""
+msgid " [ -O file ]"
+msgstr " [ -O fichier ]"
 
 #: callbacks.c:4372
-msgid " [ -n \"chaine\" ]"
-msgstr ""
+msgid " [ -n \"string\" ]"
+msgstr " [ -n \"chaine\" ]"
 
 #: callbacks.c:4373
-msgid " [ fichier1 -nt fichier2 ]"
-msgstr ""
+msgid " [ file1 -nt file2 ]"
+msgstr " [ fichier1 -nt fichier2 ]"
 
 #: callbacks.c:4374
 msgid ""
+"# Mount samba shares\n"
+"smbmount //192.168.1.1/share /point/of/montage username=login, "
+"password=***\n"
+msgstr ""
 "# Montage de partages samba\n"
 "smbmount //192.168.1.1/partage /point/de/montage username=toto, "
 "password=mdp\n"
-msgstr ""
 
 #: callbacks.c:4375
 msgid " [ \"variable1\" -eq \"variable2\" ]"
-msgstr ""
+msgstr " [ \"variable1\" -eq \"variable2\" ]"
 
 #: callbacks.c:4376
-msgid " [ \"chiffre1\" = \"chiffre2\" ]"
-msgstr ""
+msgid " [ \"number1\" = \"number2\" ]"
+msgstr " [ \"chiffre1\" = \"chiffre2\" ]"
 
 #: callbacks.c:4377
 msgid ""
+"# Rsync command\n"
+"rsync -avH --delete /directory/source /directory/destination >> /file/"
+"of_log"
+msgstr ""
 "# Commande Rsync\n"
 "rsync -avH --delete /repertoire/source /repertoire/destination >> /fichier/"
 "de_log"
-msgstr ""
 
 
 #: callbacks.c:4378
 msgid ""
-"# Affichage sur la sortie standare\n"
+"# Display output standare\n"
 "echo \"\"\n"
 msgstr ""
+"# Affichage sur la sortie standare\n"
+"echo \"\"\n"
 
 #: callbacks.c:4379
 msgid ""
+"\n"
+"# Interactivity with the user\n"
+"echo \"enter a value 'variable' :\"\n"
+"read variable\n"
+"\n"
+"echo \"The variable = $variable\"\n"
+msgstr ""
 "\n"
 "# Interactivite avec l'utilisateur\n"
 "echo \"entrez une valeur 'variable' :\"\n"
 "read variable\n"
 "\n"
 "echo \"La variable = $variable\"\n"
-msgstr ""
+
 
 #: callbacks.c:4382
 msgid ""
-"# Instruction si...\n"
+"# Instruction if...\n"
 "if\n"
 "then\n"
 "\n"
 "fi\n"
 msgstr ""
+"# Instruction si...\n"
+"if\n"
+"then\n"
+"\n"
+"fi\n"
 
 #: callbacks.c:4383
-msgid " > /fichier 2>&1"
-msgstr ""
+msgid " > /file 2>&1"
+msgstr " > /fichier 2>&1"
 
 #: callbacks.c:4385
 msgid ""
-"# Instruction si avec un sinon\n"
+"# Instruction if ...else\n"
 "if\n"
 "then\n"
 "\n"
@@ -1522,310 +1543,292 @@ msgid ""
 "\n"
 "fi\n"
 msgstr ""
+"# Instruction si avec un sinon\n"
+"if\n"
+"then\n"
+"\n"
+"else\n"
+"\n"
+"fi\n"
 
-#: callbacks.c:4386
-msgid ""
-"#! /bin/sh\n"
-"\n"
-"# Script init.d (exemple)\n"
-"# Script BASH edite avec Griffon \n"
-"PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin\n"
-"DAEMON=/usr/sbin/daemon\n"
-"NAME=daemon\n"
-"DESC=\"some daemon\"\n"
-"\n"
-"test -x $DAEMON || exit 0\n"
-"\n"
-"set -e\n"
-"\n"
-"case \"$1\" in\n"
-"  start)\n"
-"        echo -n \"Starting $DESC: $NAME\"\n"
-"\tstart-stop-daemon --start --quiet --pidfile /var/run/$NAME.pid --exec "
-"$DAEMON\n"
-"        echo \".\"\n"
-"        ;;\n"
-"  stop)\n"
-"        echo -n \"Stopping $DESC: $NAME \"\n"
-"\tstart-stop-daemon --stop --quiet --pidfile /var/run/$NAME.pid\n"
-"        echo \".\"\n"
-"        ;;\n"
-"  restart|force-reload)\n"
-"        echo -n \"Restarting $DESC: $NAME\"\n"
-"        start-stop-daemon --stop --quiet --pidfile /var/run/$NAME.pid --exec "
-"$DAEMON\n"
-"        sleep 1\n"
-"        start-stop-daemon --start --quiet --pidfile /var/run/$NAME.pid --"
-"exec $DAEMON\n"
-"        echo \".\"\n"
-"        ;;\n"
-"  *)\n"
-"        N=/etc/init.d/$NAME\n"
-"\techo \"Usage: $N {start|stop|restart|force-reload}\" >&2\n"
-"        ;;\n"
-"esac\n"
-msgstr ""
 
 #: callbacks.c:4406
-msgid "Compression de données"
-msgstr ""
+msgid "Data compression"
+msgstr "Compression de données"
 
 #: callbacks.c:4426
-msgid "Nom du fichier à comprésser : "
-msgstr ""
+msgid "Compress file name:"
+msgstr "Nom du fichier à comprésser : "
 
 #: callbacks.c:4455
-msgid "Compréssion"
-msgstr ""
+msgid "Compression"
+msgstr "Compréssion"
 
 #: callbacks.c:4489
 msgid ""
-"#Compression d'archive tar.gz\n"
+"#Compression archive tar.gz\n"
 "tar -cvf "
 msgstr ""
+"#Compression d'archive tar.gz\n"
+"tar -cvf "
 
 #: callbacks.c:4535
-msgid "Aide pour Grep"
-msgstr ""
+msgid "Grep help"
+msgstr "Aide pour Grep"
 
 
 #: callbacks.c:4570
-msgid "Indifférence Maj/Min"
-msgstr ""
+msgid "Indifference Shift / Tiny"
+msgstr "Indifférence Maj/Min"
 
 
 #: callbacks.c:4590
-msgid "Mot complet"
-msgstr ""
+msgid "full word"
+msgstr "Mot complet"
 
 #: callbacks.c:4610
-msgid "Inverser la sortie"
-msgstr ""
+msgid "Invert the output"
+msgstr "Inverser la sortie"
 
 #: callbacks.c:4630 callbacks.c:5246
 msgid "Redirection"
-msgstr ""
+msgstr "Redirection"
 
 #: callbacks.c:4650 callbacks.c:4942
-msgid "Mot recherché"
-msgstr ""
+msgid "Search word"
+msgstr "Mot recherché"
 
 #: callbacks.c:4658 callbacks.c:4950 callbacks.c:5287
-msgid "Fichier de redirection"
-msgstr ""
+msgid "Redirection file"
+msgstr "Fichier de redirection"
 
 #: callbacks.c:4721
 msgid ""
-"# Commande Grep (Find dans un fichier)\n"
+"# Grep Command (Find in a file)\n"
 "grep"
 msgstr ""
+"# Commande Grep (Find dans un fichier)\n"
+"grep"
 
 #: callbacks.c:4789
-msgid "Aide Sed"
-msgstr ""
+msgid "Sed help"
+msgstr "Aide Sed"
 
 #: callbacks.c:4815 callbacks.c:4843
 msgid "Substitution"
-msgstr ""
+msgstr "Substitution"
 
 #: callbacks.c:4819
-msgid "Remplacer par "
-msgstr ""
+msgid "Replace "
+msgstr "Remplacer par "
 
 #: callbacks.c:4827
-msgid "N Occurence (g = toutes)"
-msgstr ""
+msgid "N Occurrence (g = all)"
+msgstr "N Occurence (g = toutes)"
 
 
 #: callbacks.c:4851
-msgid "Supprimer les lignes"
-msgstr ""
+msgid "Delete Rows"
+msgstr "Supprimer les lignes"
 
 #: callbacks.c:4859
-msgid "de "
-msgstr ""
+msgid "of "
+msgstr "de "
 
 #: callbacks.c:4881
-msgid "Supprimer les lignes avec le mot recherché"
-msgstr ""
+msgid "Delete rows with the search word"
+msgstr "Supprimer les lignes avec le mot recherché"
 
 #: callbacks.c:4885
-msgid "Inversser la suppression"
-msgstr ""
+msgid "Invert delete"
+msgstr "Inversser la suppression"
 
 #: callbacks.c:4897
-msgid "Suppression"
-msgstr ""
+msgid "Delete"
+msgstr "Suppression"
 
 #: callbacks.c:4905
-msgid "Afiche le resultat sur la sortie standare"
-msgstr ""
+msgid "Displays the result on the standard output"
+msgstr "Afiche le resultat sur la sortie standare"
 
 #: callbacks.c:4909
-msgid "Donne le numero des lignes"
-msgstr ""
+msgid "Gives the number of lines"
+msgstr "Donne le numero des lignes"
 
 #: callbacks.c:5021
 msgid ""
-"# Commande Sed (decoupage de fichier)\n"
+"# Sed command (cutting file)\n"
 "sed "
 msgstr ""
+"# Commande Sed (decoupage de fichier)\n"
+"sed "
 
 #: callbacks.c:5050
-msgid " tampon_mot"
-msgstr ""
+msgid " buffer_word"
+msgstr " tampon_mot"
 
 #: callbacks.c:5098
-msgid "Nombre d'options"
-msgstr ""
+msgid "Number of options"
+msgstr "Nombre d'options"
 
 #: callbacks.c:5120
-msgid "Nombre d'options du script : "
-msgstr ""
+msgid "Number of options in the script:"
+msgstr "Nombre d'options du script : "
 
 
 #: callbacks.c:5170
 msgid ""
 "\n"
 "option)\n"
-"#inserer ici le script pour cette option\n"
+"#insert here the script for this option\n"
 "\n"
 ";;"
 msgstr ""
+"\n"
+"option)\n"
+"#inserer ici le script pour cette option\n"
+"\n"
+";;"
 
 
 #: callbacks.c:5207
-msgid "Aide Awk"
-msgstr ""
+msgid "Awk help"
+msgstr "Aide Awk"
 
 #: callbacks.c:5250
-msgid "Separateur"
-msgstr ""
+msgid "Separator"
+msgstr "Separateur"
 
 #: callbacks.c:5258
-msgid "Colonne"
-msgstr ""
+msgid "Column"
+msgstr "Colonne"
 
 #: callbacks.c:5353
 msgid ""
-"# Commande Awk (decoupage de fichier par colonne)\n"
+"# Awk command (cutting file column)\n"
 "awk -F \""
 msgstr ""
+"# Commande Awk (decoupage de fichier par colonne)\n"
+"awk -F \""
 
 #: callbacks.c:5389
-msgid "Echo en couleur"
-msgstr ""
+msgid "Echo color"
+msgstr "Echo en couleur"
 
 #: callbacks.c:5413
-msgid "Couleur du texte : "
-msgstr ""
+msgid "Text color:"
+msgstr "Couleur du texte : "
 
 #: callbacks.c:5417
-msgid "Rouge"
-msgstr ""
+msgid "Red"
+msgstr "Rouge"
 
 #: callbacks.c:5421
-msgid "vert"
-msgstr ""
+msgid "green"
+msgstr "vert"
 
 #: callbacks.c:5425
-msgid "jaune"
-msgstr ""
+msgid "yellow"
+msgstr "jaune"
 
 #: callbacks.c:5433
-msgid "Texte :  "
-msgstr ""
+msgid "Text : "
+msgstr "Texte :  "
 
 #: callbacks.c:5463
-msgid "Echo couleur"
-msgstr ""
+msgid "Echo color"
+msgstr "Echo couleur"
 
 #: callbacks.c:5530
-msgid "Scan fichier [START]"
-msgstr ""
+msgid "Scan file [START]"
+msgstr "Scan fichier [START]"
 
 #: callbacks.c:5543
-msgid "[Séléctionnez un  PATH] pour inserer dans le fichier"
-msgstr ""
+msgid "[Select a PATH] to insert the file"
+msgstr "[Séléctionnez un  PATH] pour inserer dans le fichier"
 
 #: callbacks.c:5545
-msgid "Sélectionnez un fichier"
-msgstr ""
+msgid "Select a file"
+msgstr "Sélectionnez un fichier"
 
 #: callbacks.c:5565
 #, c-format
 msgid "%s PATH insert"
-msgstr ""
+msgstr "%s PATH insert"
 
 #: callbacks.c:5596
-msgid "Fonction"
-msgstr ""
+msgid "Function"
+msgstr "Fonction"
 
 #: callbacks.c:5616
-msgid "Nom de la Fonction : "
-msgstr ""
+msgid "Name of function"
+msgstr "Nom de la Fonction : "
 
 #: callbacks.c:5629
-msgid "Commantaire :"
-msgstr ""
+msgid "Comment:"
+msgstr "Commantaire :"
 
 #: callbacks.c:5659
-msgid "Création de fonction"
-msgstr ""
+msgid "Create function"
+msgstr "Création de fonction"
 
 
 #: callbacks.c:5724
-msgid "Construction de lien"
-msgstr ""
+msgid "Link building"
+msgstr "Construction de lien"
 
 #: callbacks.c:5749
-msgid "Chemin du lien : "
-msgstr ""
+msgid "PATH of link"
+msgstr "Chemin du lien : "
 
 #: callbacks.c:5757
-msgid "Lien :"
-msgstr ""
+msgid "Link :"
+msgstr "Lien :"
 
 #: callbacks.c:5795
-msgid "Lien Symbolique "
-msgstr ""
+msgid "Symbolic link"
+msgstr "Lien Symbolique "
 
 #: callbacks.c:5832
 msgid ""
 "\n"
-"# Line Symbolique\n"
+"# Symbolic link\n"
 msgstr ""
+"\n"
+"# Line Symbolique\n"
 
 
 #: callbacks.c:5862
-msgid "Style de variable"
-msgstr ""
+msgid "Style variable"
+msgstr "Style de variable"
 
 #: callbacks.c:5887 callbacks.c:6680 callbacks.c:6811
-msgid "Utilisateur : "
-msgstr ""
+msgid "User : "
+msgstr "Utilisateur : "
 
 #: callbacks.c:5895
 msgid "IP Host :"
-msgstr ""
+msgstr "IP Host :"
 
 #: callbacks.c:5915
-msgid "Fichier source sur le host distant : "
-msgstr ""
+msgid "Source file on the remote host:"
+msgstr "Fichier source sur le host distant : "
 
 #: callbacks.c:5923
-msgid "Fichier destination : "
-msgstr ""
+msgid "Destination file:"
+msgstr "Fichier destination : "
 
 #: callbacks.c:5961
-msgid "Commande SCP"
-msgstr ""
+msgid "SCP command"
+msgstr "Commande SCP"
 
 #: callbacks.c:6001
 msgid ""
 "\n"
-"# Copie de fichier avec SCP\n"
+"# File copy with SCP\n"
 msgstr ""
+"\n"
+"# Copie de fichier avec SCP\n"
 
 #: callbacks.c:6020
 msgid ""
@@ -1834,6 +1837,10 @@ msgid ""
 "# Script perl Griffon: http://griffon.lasotel.fr\n"
 "# Date start script : "
 msgstr ""
+"#!/usr/bin/perl\n"
+"\n"
+"# Script perl Griffon: http://griffon.lasotel.fr\n"
+"# Date start script : "
 
 
 #: callbacks.c:6032
@@ -1844,18 +1851,36 @@ msgid ""
 "}\n"
 "\n"
 msgstr ""
+"for (init;condition;cmd)\n"
+"{\n"
+"\n"
+"}\n"
+"\n"
 
 #: callbacks.c:6033
 msgid ""
-"foreach $element (@tableau)\n"
+"foreach $value (@array)\n"
 "{\n"
 "\n"
 "}\n"
 "\n"
 msgstr ""
+"foreach $element (@tableau)\n"
+"{\n"
+"\n"
+"}\n"
+"\n"
 
 #: callbacks.c:6036
 msgid ""
+"sub function_name\n"
+"{\n"
+"\t# display the argument 0 and 1 function\n"
+"\tprint $_[0];\n"
+"\tprint $_[1];\n"
+"}\n"
+"\n"
+msgstr ""
 "sub fonction\n"
 "{\n"
 "\t# afficher l'argument 0 et 1 de la fonction\n"
@@ -1863,55 +1888,71 @@ msgid ""
 "\tprint $_[1];\n"
 "}\n"
 "\n"
-msgstr ""
 
 #: callbacks.c:6049
 #, c-format
 msgid "[chmod] %s executable script OK"
-msgstr ""
+msgstr "[chmod] %s executable script OK"
 
 #: callbacks.c:6054
 msgid ""
-"$nombre_de_caracteres=length($chaine);\n"
+"$number_of_characters=length($string);\n"
 "\n"
 msgstr ""
+"$nombre_de_caracteres=length($chaine);\n"
+"\n"
 
 #: callbacks.c:6055
 msgid ""
-"$chaine=uc($chaine);\n"
+"$string=uc($string);\n"
 "\n"
 msgstr ""
+"$chaine=uc($chaine);\n"
+"\n"
 
 #: callbacks.c:6056
 msgid ""
-"$chaine=lc($chaine);\n"
+"$string=lc($string);\n"
 "\n"
 msgstr ""
+"$chaine=lc($chaine);\n"
+"\n"
 
 #: callbacks.c:6057
 msgid ""
-"$chaine=ucfirst($chaine);\n"
+"$string=ucfirst($string);\n"
 "\n"
 msgstr ""
+"$chaine=ucfirst($chaine);\n"
+"\n"
 
 #: callbacks.c:6087 callbacks.c:7034
 msgid "include"
-msgstr ""
+msgstr "include"
 
 #: callbacks.c:6088 callbacks.c:7035
 msgid "require"
-msgstr ""
+msgstr "require"
 
 #: callbacks.c:6089 callbacks.c:6129
 msgid "function"
-msgstr ""
+msgstr "function"
 
 #: callbacks.c:6090
 msgid "REQUEST"
-msgstr ""
+msgstr "REQUEST"
 
 #: callbacks.c:6274
 msgid ""
+"open (FILE, \"file_path\");\n"
+"while ($ligne=<FILE>)\n"
+"{\n"
+"print $ligne;\n"
+"}\n"
+"\n"
+"close FILE;\n"
+"\n"
+msgstr ""
 "open (FICHIER, \"nom_du_fichier\");\n"
 "while ($ligne=<FICHIER>)\n"
 "{\n"
@@ -1920,34 +1961,42 @@ msgid ""
 "\n"
 "close FICHIER;\n"
 "\n"
-msgstr ""
 
 #: callbacks.c:6275
 msgid ""
+"open (FILE, \">>file_path\");\n"
+"print FILE \"Text written to the file\";\n"
+"close FILE;\n"
+"\n"
+msgstr ""
 "open (FICHIER, \">>nom_du_fichier\");\n"
 "print FICHIER \"Text écrit dans le fichier\";\n"
 "close FICHIER;\n"
 "\n"
-msgstr ""
 
 #: callbacks.c:6276
 msgid ""
+"open (FILE, \">file_path\");\n"
+"print FILE \"Text written to the file\";\n"
+"close FILE;\n"
+"\n"
+msgstr ""
 "open (FICHIER, \">nom_du_fichier\");\n"
 "print FICHIER \"Text écrit dans le fichier\";\n"
 "close FICHIER;\n"
 "\n"
-msgstr ""
 
 #: callbacks.c:6277
-msgid "$chaine =~/chaine recherche/"
-msgstr ""
-
+msgid "$chaine =~/find_string/"
+msgstr "$chaine =~/chaine recherche/"
 
 #: callbacks.c:6278
 msgid ""
-"$chaine =~ s/chaine recherche/chaine de remplacement/g;\n"
+"$string =~ s/find_string/replacement_string/g;\n"
 "\n"
 msgstr ""
+"$chaine =~ s/chaine recherche/chaine de remplacement/g;\n"
+"\n"
 
 #: callbacks.c:6287
 msgid ""
@@ -1957,17 +2006,36 @@ msgid ""
 " * Script PHP Griffon: http://griffon.lasotel.fr\n"
 " * Date start script : "
 msgstr ""
+"<?\n"
+"\n"
+"\\/* \n"
+" * Script PHP Griffon: http://griffon.lasotel.fr\n"
+" * Date start script : "
 
 #: callbacks.c:6294
 msgid ""
+"@array = (\"var0\",\"var1\",\"var2\");\n"
+"# display var0\n"
+"print $array[0];\n"
+"\n"
+msgstr ""
 "@tableau = (\"var0\",\"var1\",\"var2\");\n"
 "# affiche var0\n"
 "print $tableau[0];\n"
 "\n"
-msgstr ""
 
 #: callbacks.c:6295
 msgid ""
+"#  <STDIN> expects keyboard input\n"
+"while (<STDIN>)\n"
+"{\n"
+"\t# avoids \\n the last field\n"
+"\tchop;\n"
+"\t# displays the character entered without his \\n\n"
+"\tprint;\n"
+"}\n"
+"\n"
+msgstr ""
 "#  <STDIN> attend une saisie clavier\n"
 "while (<STDIN>)\n"
 "{\n"
@@ -1977,39 +2045,65 @@ msgid ""
 "\tprint;\n"
 "}\n"
 "\n"
-msgstr ""
 
 #: callbacks.c:6296
 msgid ""
+"# Stacks value at end of table\n"
+"push $array, (\"value\");\n"
+"\n"
+msgstr ""
 "# Empile valeur en fin de tableau\n"
 "push $tableau, (\"valeur\");\n"
 "\n"
-msgstr ""
 
 #: callbacks.c:6297
 msgid ""
+"# Stacks value at beginning of table\n"
+"shift $array, (\"value\");\n"
+"\n"
+msgstr ""
 "# Empile valeur en début de tableau\n"
 "shift $tableau, (\"valeur\");\n"
 "\n"
-msgstr ""
 
 #: callbacks.c:6298
 msgid ""
-"# le tableau ARGV contient la liste des arguments du programme.\n"
+"# the ARGV array contains the list of program arguments.\n"
 "$argument0 = $ARGV[0];\n"
 "\n"
 msgstr ""
+"# le tableau ARGV contient la liste des arguments du programme.\n"
+"$argument0 = $ARGV[0];\n"
+"\n"
 
 #: callbacks.c:6299
 msgid ""
+"# cutting the $string variable with respect to sparateur \";\" and place the "
+"result in a array\n"
+"@array = split(/;/, $string);\n"
+"\n"
+msgstr ""
 "# découpe la variable $chaine par rapport au sparateur \";\" et place le "
 "résultat dans un tableau\n"
 "@tableau = split(/;/, $chaine);\n"
 "\n"
-msgstr ""
 
 #: callbacks.c:6300
 msgid ""
+"# Load the DBI module\n"
+"use DBI;\n"
+"\n"
+"# Connection parameters to the database\n"
+"$bd = 'db_name';\n"
+"$serveur = 'localhost';\t\t\n"
+"$identifiant = 'login';\t\t\n"
+"$motdepasse  = '****';\t\t\n"
+"\n"
+"# Connection to the MySQL database\n"
+"$dbh = DBI->connect( \"DBI:mysql:$bd:$serveur\", $identifiant, $motdepasse ) "
+"or die \"Can not connect to the database $bd !\";\n"
+"\n"
+msgstr ""
 "# Charger le module DBI\n"
 "use DBI;\n"
 "\n"
@@ -2023,10 +2117,22 @@ msgid ""
 "$dbh = DBI->connect( \"DBI:mysql:$bd:$serveur\", $identifiant, $motdepasse ) "
 "or die \"Connexion impossible à la base de données $bd !\";\n"
 "\n"
-msgstr ""
 
 #: callbacks.c:6301
 msgid ""
+"# Loop on a MySql query\n"
+"$query = \"SELECT group_attribute FROM table WHERE condition\";\n"
+"$sth = $dbh->prepare($query);\n"
+"$sth->execute;\n"
+"\n"
+"while($row = $sth->fetchrow_hashref)\n"
+"{\n"
+"\n"
+"\t# Recovery values  \n"
+"\t$champs_mysql = \"$row->{champs_mysql}\";\n"
+"\n"
+"}"
+msgstr ""
 "# Boucle sur une requete MySql\n"
 "$query = \"SELECT groupe_attribut FROM table WHERE condition\";\n"
 "$sth = $dbh->prepare($query);\n"
@@ -2039,24 +2145,43 @@ msgid ""
 "\t$champs_mysql = \"$row->{champs_mysql}\";\n"
 "\n"
 "}"
-msgstr ""
 
 #: callbacks.c:6302
 msgid ""
-"# simple requete MySql\n"
+"# single MySql query\n"
 "$query = \"\";\n"
 "$sth = $dbh->do($query);\n"
 "\n"
 msgstr ""
+"# simple requete MySql\n"
+"$query = \"\";\n"
+"$sth = $dbh->do($query);\n"
+"\n"
 
 #: callbacks.c:6303
 msgid ""
-"chop($chaine);\n"
+"chop($string);\n"
 "\n"
 msgstr ""
+"chop($chaine);\n"
+"\n"
 
 #: callbacks.c:6304
 msgid ""
+"use MIME::Lite;\n"
+"\n"
+"####### SEND EMAIL\n"
+"my $Message = new MIME::Lite\n"
+"From =>\"NAME FROM <from\\@from.net>\",\n"
+"To =>$email_destination,\n"
+"Subject =>$subject,\n"
+"Type    =>'TEXT',\n"
+"Data =>\"$message\",\n"
+"Content-Transfer-Encoding => 'quoted-printable';\n"
+"\n"
+"$Message->send;\n"
+"\n"
+msgstr ""
 "use MIME::Lite;\n"
 "\n"
 "####### ENVOI EMAIL\n"
@@ -2070,10 +2195,19 @@ msgid ""
 "\n"
 "$Message->send;\n"
 "\n"
-msgstr ""
 
 #: callbacks.c:6305
 msgid ""
+"($sec,$min,$hour,$day,$month,$year,$sday,$aday,$isdst) = localtime"
+"(time);\n"
+"$month=$month+1;\n"
+"if($month<10){$month=\"0\".$month;}\n"
+"if($day<10){$day=\"0\".$day;}\n"
+"$year=1900+$year;\n"
+"\n"
+"$date_sql=$year.\"-\".$month.\"-\".$day;\n"
+"\n"
+msgstr ""
 "($sec,$min,$heure,$mjour,$mois,$annee,$sjour,$ajour,$isdst) = localtime"
 "(time);\n"
 "$mois=$mois+1;\n"
@@ -2083,10 +2217,30 @@ msgid ""
 "\n"
 "$date_sql=$annee.\"-\".$mois.\"-\".$mjour;\n"
 "\n"
-msgstr ""
 
 #: callbacks.c:6306
 msgid ""
+"use MIME::Lite;\n"
+"\n"
+"####### SEND EMAIL\n"
+"my $Message = new MIME::Lite\n"
+"From =>\"NAME_FROM <from\\@from.net>\",\n"
+"To =>$email_destination,\n"
+"Subject =>$subject,\n"
+"Type =>'multipart/mixed';\n"
+"\n"
+"attach $Message\n"
+"Type =>'TEXT',\n"
+"Data =>$message;\n"
+"\n"
+"attach $Message\n"
+"Type =>'application/txt',\n"
+"Path =>$path_file,\n"
+"Filename =>$name_file_txt;\n"
+"\n"
+"$Message->send;\n"
+"\n"
+msgstr ""
 "use MIME::Lite;\n"
 "\n"
 "####### SEND EMAIL\n"
@@ -2107,10 +2261,17 @@ msgid ""
 "\n"
 "$Message->send;\n"
 "\n"
-msgstr ""
 
 #: callbacks.c:6307
 msgid ""
+"$query2 = \"SELECT group_attribute FROM table WHERE condition\";\n"
+"$sth2 = $dbh->prepare($query2);\n"
+"$sth2->execute;\n"
+"\n"
+"$row2 = $sth2->fetchrow_hashref;\n"
+"$value_mysql = \"$row2->{value_mysql}\";\n"
+"\n"
+msgstr ""
 "$query2 = \"SELECT groupe_attribut FROM table WHERE condition\";\n"
 "$sth2 = $dbh->prepare($query2);\n"
 "$sth2->execute;\n"
@@ -2118,23 +2279,30 @@ msgid ""
 "$row2 = $sth2->fetchrow_hashref;\n"
 "$champs_mysql = \"$row2->{champs_mysql}\";\n"
 "\n"
-msgstr ""
 
 #: callbacks.c:6308
 msgid ""
 "use URI::Escape;\n"
 "\n"
-"$url_encode = uri_escape($url_a_encoder);\n"
+"$url_encode = uri_escape($url_encoder);\n"
 "\n"
 msgstr ""
+"use URI::Escape;\n"
+"\n"
+"$url_encode = uri_escape($url_a_encoder);\n"
+"\n"
 
 #: callbacks.c:6309
 msgid ""
 "use LWP::Simple;\n"
 "\n"
-"$doc_retour = get($url);\n"
+"$return = get($url);\n"
 "\n"
 msgstr ""
+"use LWP::Simple;\n"
+"\n"
+"$doc_retour = get($url);\n"
+"\n"
 
 #: callbacks.c:6310
 msgid ""
@@ -2148,10 +2316,19 @@ msgid ""
 "$ftp->login($FTP_USER,$FTP_PASSWORD);\n"
 "\n"
 msgstr ""
+"use Net::FTP;\n"
+"\n"
+"$FTP_HOST=\"\";\n"
+"$FTP_USER=\"\";\n"
+"$FTP_PASSWORD=\"\";\n"
+"\n"
+"$ftp = Net::FTP->new($FTP_HOST, Debug => 0);\n"
+"$ftp->login($FTP_USER,$FTP_PASSWORD);\n"
+"\n"
 
 #: callbacks.c:6311
 msgid ""
-"$ftp->cwd(\"$repertoire_a_lister\");\n"
+"$ftp->cwd(\"$a_directory_listing\");\n"
 "@ls = $ftp->ls(\".\");\n"
 "\n"
 "foreach $file (@ls)\n"
@@ -2162,91 +2339,55 @@ msgid ""
 "}\n"
 "\n"
 msgstr ""
+"$ftp->cwd(\"$repertoire_a_lister\");\n"
+"@ls = $ftp->ls(\".\");\n"
+"\n"
+"foreach $file (@ls)\n"
+"{\n"
+"\n"
+"\tprint \"$file\\n\";\n"
+"\n"
+"}\n"
+"\n"
 
 #: callbacks.c:6312
 msgid ""
-"$ftp->get($fichier_source_ftp,\"$fichier_destination_local\");\n"
+"$ftp->get($file_source_ftp,\"$file_destination_local\");\n"
 "\n"
 msgstr ""
+"$ftp->get($fichier_source_ftp,\"$fichier_destination_local\");\n"
+"\n"
 
 #: callbacks.c:6313
 msgid ""
+"$ftp->put($file_local,\"$file_destination_ftp\");\n"
+"\n"
+msgstr ""
 "$ftp->put($fichier_local,\"$fichier_destination_ftp\");\n"
 "\n"
-msgstr ""
 
-#: callbacks.c:6314
-#, c-format
-msgid ""
-"use IO::Socket::INET ;\n"
-"\n"
-"$server = new IO::Socket::INET(\n"
-"Type=>SOCK_STREAM,\n"
-"                LocalPort => $port ,\n"
-"                Proto => 'tcp' ,\n"
-"                Listen => 0 ,\n"
-"                Reuse => 1,\n"
-"\n"
-");\n"
-"\n"
-"\n"
-"while($client = $server->accept)\n"
-"{\n"
-"\n"
-"\tif(fork())\n"
-"\t{\n"
-"\t$ipclient_connect=sprintf \"%s\", $client->peerhost;\n"
-"\t$client->autoflush(1);\n"
-"\n"
-"\tprint $client \"$hostname\\n\";\n"
-"\n"
-"\t\twhile (1)\n"
-"\t\t{\n"
-"\t\t$chaine_client=<$client>;\n"
-"\t\tprint $chaine_client.\"\\n\";\n"
-"\n"
-"\n"
-"\t\t######### Envoyer au client\n"
-"\t\tprint $client \"$chaine_a_envoyer_au_client\";\n"
-"\t\t}\n"
-"\tclose $client;\n"
-"\texit();\n"
-"\n"
-"\t}\n"
-"}\n"
-"\n"
-msgstr ""
-
-
-#: callbacks.c:6315
-msgid ""
-"use IO::Socket;\n"
-"\n"
-"\n"
-"$socket = IO::Socket::INET->new(Proto    => \"tcp\",\n"
-"                                            PeerAddr => $ip_serveur,\n"
-"                                            PeerPort => $port)\n"
-"\tor die \"Failed : $@\\n\";\n"
-"\n"
-"\n"
-"\n"
-"while($reponse=<$socket>)\n"
-"{\n"
-"\t########## Envoi sur la socket\n"
-"\tprint $socket \"load\\n\";\n"
-"\n"
-"}\n"
-"\n"
-msgstr ""
 
 #: callbacks.c:6316
 msgid ""
-"$chaine_resultat=substr($chaine, $int_indice_debut, $int_longueur);\n"
+"$string_return=substr($string, $int_indice_start, $int_length);\n"
 "\n"
 msgstr ""
+"$chaine_resultat=substr($chaine, $int_indice_debut, $int_longueur);\n"
+"\n"
 
 #: callbacks.c:6317
 msgid ""
+"$file=\"tail -f -n 1 /path/file/pipe |\";\n"
+"open(FICHE, $file);\n"
+"\n"
+"while($line=<FILE>)\n"
+"{\n"
+"\tprint $line;\n"
+"}\n"
+"\n"
+"close FILE;\n"
+"\n"
+msgstr ""
 "$fichier=\"tail -f -n 1 /votre/fichier/tube |\";\n"
 "open(FICHIER, $fichier);\n"
 "\n"
@@ -2257,16 +2398,37 @@ msgid ""
 "\n"
 "close FICHIER;\n"
 "\n"
+
+#: callbacks.c:6318
+msgid ""
+"while ($line=<STDIN>)\n"
+"{\n"
+"\n"
+"\n"
+"}\n"
+"\n"
 msgstr ""
+"while ($ligne=<STDIN>)\n"
+"{\n"
+"\n"
+"\n"
+"}\n"
+"\n"
 
 #: callbacks.c:6320
 msgid ""
-"$rand=rand($nombre_max);\n"
+"$rand=rand($number_max);\n"
 "\n"
 msgstr ""
+"$rand=rand($nombre_max);\n"
+"\n"
 
 #: callbacks.c:6321
 msgid ""
+"($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,$atime,$mtime,$ctime,$blksize,"
+"$blocks)= stat($filename);\n"
+"\n"
+msgstr ""
 "# dev\t\tnumro de device du systme de fichiers\n"
 "# ino\t\tnumro d'inode\n"
 "# mode\t\tdroits du fichier (type et permissions)\n"
@@ -2286,31 +2448,44 @@ msgid ""
 "($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,$atime,$mtime,$ctime,$blksize,"
 "$blocks)= stat($filename);\n"
 "\n"
-msgstr ""
 
 #: callbacks.c:6324
 msgid ""
+"INSERT INTO your_table (name_attribut1,name_attributN) values "
+"('value1','valueN')"
+msgstr ""
 "INSERT INTO votre_table (nomattribut1,nomattributN) values "
 "('valeur1','valeurN')"
-msgstr ""
 
 #: callbacks.c:6325
 msgid ""
-"UPDATE nomdetable Set nomattribut1=expression1,nomattributN=expressionN "
+"UPDATE name_table Set name_attribut1=value1,name_attributN=valueN "
 "WHERE condition"
 msgstr ""
+"UPDATE nomdetable Set nomattribut1=expression1,nomattributN=expressionN "
+"WHERE condition"
 
 #: callbacks.c:6326
-msgid "SELECT groupe_attribut FROM table WHERE condition"
-msgstr ""
+msgid "SELECT group_attribut FROM table WHERE condition"
+msgstr "SELECT groupe_attribut FROM table WHERE condition"
 
 #: callbacks.c:6327
-msgid "DELETE attributN FROM nomdetable WHERE condition"
-msgstr ""
+msgid "DELETE attributN FROM name_table WHERE condition"
+msgstr "DELETE attributN FROM nomdetable WHERE condition"
 
 
 #: callbacks.c:6332
 msgid ""
+"$inforeq = \"SELECT values FROM tables WHERE conditions\";\n"
+"$infoq = mysql_query($inforeq);\n"
+"\n"
+"while($line = mysql_fetch_object($infoq))\n"
+"{\n"
+"\t$value=$line->value;\n"
+"\n"
+"}\n"
+"\n"
+msgstr ""
 "$inforeq = \"SELECT champs FROM tables WHERE conditions\";\n"
 "$infoq = mysql_query($inforeq);\n"
 "\n"
@@ -2320,234 +2495,341 @@ msgid ""
 "\n"
 "}\n"
 "\n"
-msgstr ""
 
 
 #: callbacks.c:6334
 msgid ""
+"foreach ($array as $line_num => $line)\n"
+"{\n"
+"\n"
+"\n"
+"}\n"
+"\n"
+msgstr ""
 "foreach ($tableau as $ligne_num => $ligne)\n"
 "{\n"
 "\n"
 "\n"
 "}\n"
 "\n"
-msgstr ""
 
 #: callbacks.c:6335
 msgid ""
-"$tableau = preg_split(\"\\/[;]+\\/\", $variable);\n"
+"$array = preg_split(\"\\/[;]+\\/\", $variable);\n"
 "\n"
 msgstr ""
+"$tableau = preg_split(\"\\/[;]+\\/\", $variable);\n"
+"\n"
 
 #: callbacks.c:6336
 msgid ""
+"$string = eregi_replace (\"string to replace\",\"replacement string\","
+"$string);\n"
+"\n"
+msgstr ""
 "$chaine = eregi_replace (\"chaine  remplacer\",\"chaine de remplacement\","
 "$chaine);\n"
 "\n"
-msgstr ""
 
 #: callbacks.c:6337
 msgid ""
-"$tableau = file(\"http://url ou fichier\");\n"
+"$array = file(\"http://url or file\");\n"
 "\n"
 msgstr ""
+"$tableau = file(\"http://url ou fichier\");\n"
+"\n"
 
 #: callbacks.c:6338
 msgid ""
+"if(strstr($string, $find_string))\n"
+"{\n"
+"\n"
+"\n"
+"}\n"
+"\n"
+msgstr ""
 "if(strstr($chaine, $chaine_recherche))\n"
 "{\n"
 "\n"
 "\n"
 "}\n"
 "\n"
-msgstr ""
 
 #: callbacks.c:6339
 msgid ""
+"function function_name($var1,$var2)\n"
+"{\n"
+"\n"
+"\n"
+"}\n"
+"\n"
+msgstr ""
 "function nom_de_fonction($var1,$var2)\n"
 "{\n"
 "\n"
 "\n"
 "}\n"
 "\n"
-msgstr ""
 
 #: callbacks.c:6340
 msgid ""
-"$chaine=stripslashes($chaine);\n"
+"$string=stripslashes($string);\n"
 "\n"
 msgstr ""
+"$chaine=stripslashes($chaine);\n"
+"\n"
 
 #: callbacks.c:6341
 msgid ""
-"mail(\"email\",\"sujet\",\"message\",\"From: nom <email@qui-envoi.net>"
+"mail(\"email\",\"subject\",\"message\",\"From: name_frome <email@sender_domaine.net>"
 "\\nContent-Type: text;\\n\");\n"
 "\n"
 msgstr ""
+"mail(\"email\",\"sujet\",\"message\",\"From: nom <email@qui-envoi.net>"
+"\\nContent-Type: text;\\n\");\n"
+"\n"
 
 #: callbacks.c:6342
 msgid "$id_insert=mysql_insert_id();\n"
-msgstr ""
+msgstr "$id_insert=mysql_insert_id();\n"
 
 #: callbacks.c:6343
 msgid ""
+"\\/\\/****** Connexion serveur FTP\n"
+"$ftp_connection = ftp_connect(\"$ip_server\");\n"
+"$ftp_login = ftp_login($ftp_connection,\"$login\", \"$password\");\n"
+"$ftp_directory = ftp_chdir($ftp_connection,\"/\");\n"
+"\n"
+msgstr ""
 "\\/\\/****** Connexion serveur FTP\n"
 "$ftp_connexion = ftp_connect(\"$ip_serveur\");\n"
 "$ftp_login = ftp_login($ftp_connexion,\"$login\", \"$password\");\n"
 "$ftp_repertoire = ftp_chdir($ftp_connexion,\"/\");\n"
 "\n"
-msgstr ""
 
 #: callbacks.c:6344
 msgid ""
+"//******* List files in a $directory in array\n"
+"$array = ftp_nlist($ftp_connection,\"$directory\");\n"
+"\n"
+msgstr ""
 "//******* Liste les fichiers de $repertoire dans un tableau\n"
 "$tableau = ftp_nlist($ftp_connexion,\"$repertoire\");\n"
 "\n"
-msgstr ""
 
 #: callbacks.c:6345
 msgid ""
-"ftp_put($ftp_connexion,$path_fichier,$nom_fichier_depose, FTP_BINARY);\n"
+"ftp_put($ftp_connection,$path_file,$name_file_put, FTP_BINARY);\n"
 "\n"
 msgstr ""
+"ftp_put($ftp_connexion,$path_fichier,$nom_fichier_depose, FTP_BINARY);\n"
+"\n"
 
 #: callbacks.c:6346
 msgid ""
-"ftp_delete($ftp_connexion, $fichier_supprime);\n"
+"ftp_delete($ftp_connection, $file_delete);\n"
 "\n"
 msgstr ""
+"ftp_delete($ftp_connexion, $fichier_supprime);\n"
+"\n"
 
 #: callbacks.c:6347
 msgid ""
 "header('Content-type: text/plain; charset=UTF-8');\n"
 "\n"
 msgstr ""
+"header('Content-type: text/plain; charset=UTF-8');\n"
+"\n"
 
 #: callbacks.c:6348
 msgid ""
 "Header(\"Content-type: image\\/png\");\n"
 "\n"
 msgstr ""
+"Header(\"Content-type: image\\/png\");\n"
+"\n"
 
 #: callbacks.c:6350
 msgid ""
+"$inforeq2 = \"SELECT values FROM tables WHERE conditions\";\n"
+"$infoq2 = mysql_query($inforeq2);\n"
+"$ligne2 = mysql_fetch_object($infoq2);\n"
+"$value=$ligne2->value;\n"
+"\n"
+msgstr ""
 "$inforeq2 = \"SELECT champs FROM tables WHERE conditions\";\n"
 "$infoq2 = mysql_query($inforeq2);\n"
 "$ligne2 = mysql_fetch_object($infoq2);\n"
 "$champs=$ligne2->champs;\n"
 "\n"
-msgstr ""
 
 #: callbacks.c:6351
 msgid ""
-"$nbr_caracteres=strlen($chaine);\n"
+"$number_of_characters=strlen($string);\n"
 "\n"
 msgstr ""
+"$nbr_caracteres=strlen($chaine);\n"
+"\n"
 
 #: callbacks.c:6352
 msgid ""
-"$url=urlencode($chaine);\n"
+"$url=urlencode($string);\n"
 "\n"
 msgstr ""
+"$url=urlencode($chaine);\n"
+"\n"
 
 #: callbacks.c:6353
 msgid ""
-"$valeur=rand($min,$max );\n"
+"$value=rand($min,$max );\n"
 "\n"
 msgstr ""
+"$valeur=rand($min,$max );\n"
+"\n"
 
 #: callbacks.c:6354
 msgid ""
-"$nbr_occurrences=mb_substr_count($chaine, $chaine_a_trouver);\n"
+"$occurrence_count=mb_substr_count($string, $find_string);\n"
 "\n"
 msgstr ""
+"$nbr_occurrences=mb_substr_count($chaine, $chaine_a_trouver);\n"
+"\n"
 
 #: callbacks.c:6357
 msgid ""
-"$chaine=strip_tags($chaine_html);\n"
+"$string=strip_tags($string_html);\n"
 "\n"
 msgstr ""
+"$chaine=strip_tags($chaine_html);\n"
+"\n"
 
 #: callbacks.c:6367
 msgid ""
+"<form name=\"name_form\" method=\"post\" action=\"page.php\">\n"
+"\n"
+"\n"
+"<input type=\"submit\" value=\"Submit\">\n"
+"</form>"
+msgstr ""
 "<form name=\"nom_formulaire\" method=\"post\" action=\"page.php\">\n"
 "\n"
 "\n"
 "<input type=\"submit\" value=\"Valider\">\n"
 "</form>"
-msgstr ""
 
 #: callbacks.c:6368
-msgid "<input type=\"text\" name=\"nom_text\" value=\"default\">\n"
-msgstr ""
+msgid "<input type=\"text\" name=\"name_text\" value=\"default\">\n"
+msgstr "<input type=\"text\" name=\"nom_text\" value=\"default\">\n"
 
 #: callbacks.c:6369
 msgid ""
+"<textarea name=\"name_textarea\">\n"
+"\n"
+"\tText displayed in the textarea tag \n"
+"\n"
+"</textarea>\n"
+msgstr ""
 "<textarea name=\"nom_textarea\">\n"
 "\n"
 "\tTexte affiché dans la balise textarea\n"
 "\n"
 "</textarea>\n"
-msgstr ""
 
 #: callbacks.c:6370
 msgid ""
+"<select name=\"name_select\">\n"
+"<option selected value=\"value\">VALUE</option>\n"
+"<option value=\"value2\">VALUE2</option>\n"
+"</select>\n"
+msgstr ""
 "<select name=\"nom_select\">\n"
 "<option selected value=\"valeur\">VALEUR</option>\n"
 "<option value=\"valeur2\">VALEUR2</option>\n"
 "</select>\n"
-msgstr ""
 
 
 #: callbacks.c:6418
 msgid ""
-"function Nom_De_Votre_Fonction()\n"
+"function name_function()\n"
 "{\n"
 "\n"
 "\n"
 "}\n"
 "\n"
 msgstr ""
+"function Nom_De_Votre_Fonction()\n"
+"{\n"
+"\n"
+"\n"
+"}\n"
+"\n"
 
 #: callbacks.c:6419
-msgid "var Value=document.getElementById('VOTRE_ID').value;\n"
-msgstr ""
+msgid "var Value=document.getElementById('YOUR_ID').value;\n"
+msgstr "var Value=document.getElementById('VOTRE_ID').value;\n"
 
 #: callbacks.c:6420
-msgid "document.getElementById('VOTRE_ID').focus();\n"
-msgstr ""
+msgid "document.getElementById('YOUR_ID').focus();\n"
+msgstr "document.getElementById('VOTRE_ID').focus();\n"
 
 #: callbacks.c:6421
 msgid ""
+"var selectValue = document.getElementById('YOUR_ID').options[document."
+"getElementById('YOUR_ID').selectedIndex].value;\n"
+msgstr ""
 "var selectValue = document.getElementById('VOTRE_ID').options[document."
 "getElementById('VOTRE_ID').selectedIndex].value;\n"
-msgstr ""
 
 #: callbacks.c:6422
-msgid "$('#VOTRE_ID').load('FICHIER_PHP_HTML');\n"
-msgstr ""
+msgid "$('#YOUR_ID').load('FILE_PHP_HTML');\n"
+msgstr "$('#VOTRE_ID').load('FICHIER_PHP_HTML');\n"
 
 #: callbacks.c:6423
-msgid "document.getElementById('VOTRE_ID').innerHTML =\"VOTRE TEXT\";\n"
-msgstr ""
+msgid "document.getElementById('YOUR_ID').innerHTML =\"YOUR TEXT\";\n"
+msgstr "document.getElementById('VOTRE_ID').innerHTML =\"VOTRE TEXT\";\n"
 
 #: callbacks.c:6424
-msgid "document.getElementById('VOTRE_ID').value = \"VOTRE_TEXTE\";\n"
-msgstr ""
+msgid "document.getElementById('YOUR_ID').value = \"YOUR_TEXTE\";\n"
+msgstr "document.getElementById('VOTRE_ID').value = \"VOTRE_TEXTE\";\n"
 
 #: callbacks.c:6425
-msgid "document.getElementById('VOTRE_ID').value += \"VOTRE_TEXT\";\n"
-msgstr ""
+msgid "document.getElementById('YOUR_ID').value += \"YOUR_TEXT\";\n"
+msgstr "document.getElementById('VOTRE_ID').value += \"VOTRE_TEXT\";\n"
 
 #: callbacks.c:6434
 msgid ""
+"//split YOUR_STRING in array \";\"\n"
+"var reg=new RegExp(\"[;]+\", \"g\");\n"
+"var array=YOUR_STRING.split(reg);"
+msgstr ""
 "//split VOTRE_CHAINE dans un tableau\n"
 "var reg=new RegExp(\"[;]+\", \"g\");\n"
 "var tableau=VOTRE_CHAINE.split(reg);"
-msgstr ""
 
 #: callbacks.c:6435
 msgid ""
+"var File = function File(file)\n"
+"{\n"
+"\tif(window.XMLHttpRequest) obj = new XMLHttpRequest(); //Firefox, "
+"Opera,...\n"
+"\n"
+"\telse if(window.ActiveXObject) obj = new ActiveXObject(\"Microsoft.XMLHTTP"
+"\"); //Internet Explorer\n"
+" \n"
+"\telse return(false);\n"
+"\n"
+"\tif (obj.overrideMimeType) obj.overrideMimeType(\"text/xml\"); // "
+"bug Safari\n"
+"\tobj.open(\"GET\", file, false);\n"
+"\tobj.send(null);\n"
+"\n"
+"\tif(obj.readyState == 4) return(obj.responseText);\n"
+"\telse return(false);\n"
+"}\n"
+"\n"
+"var Return = File('page.php');\n"
+"\n"
+msgstr ""
 "var Fichier = function Fichier(fichier)\n"
 "{\n"
 "\tif(window.XMLHttpRequest) obj = new XMLHttpRequest(); //Pour Firefox, "
@@ -2569,1532 +2851,1578 @@ msgid ""
 "\n"
 "var Contenu = Fichier('page.php');\n"
 "\n"
-msgstr ""
+
+
 
 #: callbacks.c:6483
-msgid "Vous devez séléctionner un mot ou du texte pour utiliser un BookMark"
-msgstr ""
+msgid "You must select a word or text to use a BookMark"
+msgstr "Vous devez séléctionner un mot ou du texte pour utiliser un BookMark"
 
 #: callbacks.c:6503
 msgid ""
+msgstr ""
 "Vous devez installer le package sshfs et avoir une clef ssh valide pour "
 "utiliser la fonction montage SFTP"
-msgstr ""
 
 
 #: callbacks.c:6560
 msgid ""
-"Vous devez installer le package curlftpfs pour utiliser la fonction montage "
+"You must install the curlftpfs to use the mounting "
 "SFTP"
 msgstr ""
+"Vous devez installer le package curlftpfs pour utiliser la fonction montage "
+"SFTP"
 
 #: callbacks.c:6609
 #, c-format
-msgid "%s démontage FTP/SFTP"
-msgstr ""
+msgid "%s umount FTP/SFTP"
+msgstr "%s démontage FTP/SFTP"
 
 #: callbacks.c:6617
-msgid "Aucun serveur monté en FTP/SFTP"
-msgstr ""
+msgid "No mounted server FTP / SFTP"
+msgstr "Aucun serveur monté en FTP/SFTP"
 
 #: callbacks.c:6647
-msgid "Monter un serveur en SFTP"
-msgstr ""
+msgid "Mount a SFTP server"
+msgstr "Monter un serveur en SFTP"
 
 #: callbacks.c:6666 callbacks.c:6797
-msgid "Nom du serveur ou ip : "
-msgstr ""
+msgid "Server name or ip: "
+msgstr "Nom du serveur ou ip : "
 
 #: callbacks.c:6694
-msgid "Chemin sur le serveur : "
-msgstr ""
+msgid "Path on the server: "
+msgstr "Chemin sur le serveur : "
 
 #: callbacks.c:6724
-msgid "Montage SFTP"
-msgstr ""
+msgid "Mount SFTP"
+msgstr "Montage SFTP"
 
 #: callbacks.c:6778
-msgid "Monter un serveur en FTP"
-msgstr ""
+msgid "Mount a FTp server"
+msgstr "Monter un serveur en FTP"
 
 
 #: callbacks.c:6855
-msgid "Montage FTP"
-msgstr ""
+msgid "Mount FTP"
+msgstr "Montage FTP"
 
 #: callbacks.c:6896
-msgid "Les script n'est pas sauvegardé ou n'est pas séléctionné"
-msgstr ""
+msgid "The script is not saved or is not selected"
+msgstr "Les script n'est pas sauvegardé ou n'est pas séléctionné"
 
 #: callbacks.c:6901
 #, c-format
-msgid "Execution du script %s [OK]"
-msgstr ""
+msgid "Execution of script %s [OK]"
+msgstr "Execution du script %s [OK]"
 
 #: callbacks.c:6998
 msgid ""
+"You must install the gimp to use the edition "
+"image"
+msgstr ""
 "Vous devez installer le package gimp pour utiliser la fonction edition "
 "d'image"
-msgstr ""
-
 
 #: minido.c:91
 msgid ""
-"MINIDO_PROFILE variable pour la todo liste n'est pas trouvable (normalement /"
+"MINIDO_PROFILE variable for the todo list is not findable (normally /"
 "home/user/.griffon/griffon_todo)\n"
 msgstr ""
+"MINIDO_PROFILE variable pour la todo liste n'est pas trouvable (normalement /"
+"home/user/.griffon/griffon_todo)\n"
 
 
 #: minido.c:109
 #, c-format
 msgid ""
-"Le tag xml %s est invalide dans le fichier : /home/user/.griffon/"
+"The xml tag is invalid in %s file : /home/user/.griffon/"
 "griffon_todo\n"
 msgstr ""
+"Le tag xml %s est invalide dans le fichier : /home/user/.griffon/"
+"griffon_todo\n"
 
 #: minido.c:196
 #, c-format
-msgid "Tag xml invalide dans le fichier todo liste : %s"
-msgstr ""
+msgid "Tag invalid xml file todo list : %s"
+msgstr "Tag xml invalide dans le fichier todo liste : %s"
 
 #: minido.c:246
 #, c-format
 msgid ""
-"Ne peux pas ouvrir le réprtoire %s. Avez vous les bons droits sur /home/user/."
+"Can not open %s réprtoire. You have the right permissions on /home/user/."
 "griffon/todo/\n"
 msgstr ""
+"Ne peux pas ouvrir le réprtoire %s. Avez vous les bons droits sur /home/user/."
+"griffon/todo/\n"
 
 #: minido.c:331
 #, c-format
 msgid ""
+"Can not write file %s.\n"
+"You do not have the proper rights propablement."
+msgstr ""
 "Ne peux pas écrire le fichier %s.\n"
 "Vous n'avez propablement pas les bons droits."
-msgstr ""
 
 #: minido.c:445
-msgid "Ajouter une nouvelle ligne"
-msgstr ""
+msgid "Add a new line"
+msgstr "Ajouter une nouvelle ligne"
 
 #: minido.c:476
-msgid "Editer une ligne"
-msgstr ""
+msgid "Edit a line"
+msgstr "Editer une ligne"
 
 #: minido.c:498
 msgid "Please confirm"
-msgstr ""
+msgstr "Please confirm"
 
 #: minido.c:526
-msgid "Voulez vous vraiment supprimer cette ligne?"
-msgstr ""
+msgid "Do you really want delete this line?"
+msgstr "Voulez vous vraiment supprimer cette ligne?"
 
 #: minido.c:533
 #, c-format
-msgid "Ne peux pas supprimer %s. Avez vous les bons droits sur %s?"
-msgstr ""
+msgid "Can not remove% s. You have the right permissions on %s?"
+msgstr "Ne peux pas supprimer %s. Avez vous les bons droits sur %s?"
 
 #: minido.c:584
 msgid ""
-"MINIDO_DB variable non trouvable (normalement /home/user/.griffon/todo/).\n"
+"MINIDO_DB not findable variable (normally /home/user/.griffon/todo/).\n"
 msgstr ""
+"MINIDO_DB variable non trouvable (normalement /home/user/.griffon/todo/).\n"
 
 #: help_def.c:56
-msgid "1 Fonctions base [PHP]"
-msgstr ""
+msgid "1 Functions base [PHP]"
+msgstr "1 Fonctions base [PHP]"
 
 #: help_def.c:60
-msgid "1.1 (php) débuter un script PHP"
-msgstr ""
+msgid "1.1 (php) to start a PHP script"
+msgstr "1.1 (php) débuter un script PHP"
 
 #: help_def.c:62
-msgid "1.2 (php) echo : Affiche une chane de caractères"
-msgstr ""
+msgid "1.2 (php) echo: Displays a character string"
+msgstr "1.2 (php) echo : Affiche une chane de caractères"
 
 #: help_def.c:64
-msgid "1.3 (php) ajouter un commentaire"
-msgstr ""
+msgid "1.3 (php) add a comment"
+msgstr "1.3 (php) ajouter un commentaire"
 
 #: help_def.c:66
-msgid "1.4 (php) FUNCTION : créer une fonction"
-msgstr ""
+msgid "1.4 (php) FUNCTION: create a function"
+msgstr "1.4 (php) FUNCTION : créer une fonction"
 
 #: help_def.c:68
-msgid "1.5 (php) MAIL : envoyer un email"
-msgstr ""
+msgid "1.5 (php) MAIL: send an email"
+msgstr "1.5 (php) MAIL : envoyer un email"
 
 #: help_def.c:70
 msgid "1.6 (php) DATE format MySql YYYY-mm-jj hh:mm:ss"
-msgstr ""
+msgstr "1.6 (php) DATE format MySql YYYY-mm-jj hh:mm:ss"
 
 #: help_def.c:72
-msgid "1.7 (php) RAND : Génère une valeur aléatoire"
-msgstr ""
+msgid "1.7 (php) RAND: Generate a random value"
+msgstr "1.7 (php) RAND : Génère une valeur aléatoire"
 
 #: help_def.c:74
-msgid "1.8 (php) POST : Afficher les variables POST"
-msgstr ""
+msgid "1.8 (php) POST: Display the POST variables"
+msgstr "1.8 (php) POST : Afficher les variables POST"
 
 #: help_def.c:78 help_def.c:479 help_def.c:628
 msgid "2 Instructions"
-msgstr ""
+msgstr "2 Instructions"
 
 #: help_def.c:82
 msgid "2.1 (php) IF"
-msgstr ""
+msgstr "2.1 (php) IF"
 
 #: help_def.c:84
 msgid "2.2 (php) IF ELSE"
-msgstr ""
+msgstr "2.2 (php) IF ELSE"
 
 #: help_def.c:86
 msgid "2.3 (php) WHILE"
-msgstr ""
+msgstr "2.3 (php) WHILE"
 
 #: help_def.c:88
-msgid "2.4 (php) FOREACH : lire un tableau ligne par ligne"
-msgstr ""
+msgid "2.4 (php) FOREACH: read a table row by row"
+msgstr "2.4 (php) FOREACH : lire un tableau ligne par ligne"
 
 #: help_def.c:93
-msgid "3 Fichier"
-msgstr ""
+msgid "3 File"
+msgstr "3 Fichier"
 
 #: help_def.c:97
 msgid ""
-"3.1 (php) FILE : place le contenu d'un fichier (url possible) dans un tableau"
+"3.1 (php) FILE: place the contents of a file (or url) in a table"
 msgstr ""
+"3.1 (php) FILE : place le contenu d'un fichier (url possible) dans un tableau"
 
 #: help_def.c:101 help_def.c:516
-msgid "4 Chaîne de carctères"
-msgstr ""
+msgid "4 String"
+msgstr "4 Chaîne de carctères"
 
 #: help_def.c:105
-msgid "4.1 (php) SPLIT : découper une chaîne avec séparateur"
-msgstr ""
+msgid "4.1 (php) SPLIT: split a string with delimiter"
+msgstr "4.1 (php) SPLIT : découper une chaîne avec séparateur"
 
 #: help_def.c:107
 msgid ""
-"4.2 (php) REMPLACEMENT : trouver une chaîne dans une variable et la remplacer"
+"4.2 (php) REPLACEMENT: find a string in a variable and replace"
 msgstr ""
+"4.2 (php) REMPLACEMENT : trouver une chaîne dans une variable et la remplacer"
 
 #: help_def.c:109
 msgid ""
-"4.3 (php) IF chaîne : instruction rechercher une chaîne dans une autre chaîne"
+"4.3 (php) IF string : if search for a string in another string"
 msgstr ""
+"4.3 (php) IF chaîne : instruction rechercher une chaîne dans une autre chaîne"
 
 #: help_def.c:111
-msgid "4.4 (php) STRIPSLASHES : Supprime les antislashs d'une chaîne"
-msgstr ""
+msgid "4.4 (php) stripslashes: Removes backslashes in a string"
+msgstr "4.4 (php) STRIPSLASHES : Supprime les antislashs d'une chaîne"
 
 #: help_def.c:113
-msgid "4.5 (php) STRLEN : Retourne la taille de la chaîne"
-msgstr ""
+msgid "4.5 (php) STRLEN: Returns the size of the string"
+msgstr "4.5 (php) STRLEN : Retourne la taille de la chaîne"
 
 #: help_def.c:115
-msgid "4.6 (php) URLENCODE : Encode une chaîne en URL"
-msgstr ""
+msgid "4.6 (php) urlencode: Encodes a URL string"
+msgstr "4.6 (php) URLENCODE : Encode une chaîne en URL"
 
 #: help_def.c:117
 msgid ""
-"4.7 (php) MB_SUBSTR_COUNT : Compte le nombre d'occurrences d'une sous-chaîne"
+"4.7 (php) mb_substr_count: Counts the number of occurrences of a substring"
 msgstr ""
+"4.7 (php) MB_SUBSTR_COUNT : Compte le nombre d'occurrences d'une sous-chaîne"
 
 #: help_def.c:119
-msgid "4.8 (php) STRIP_TAGS : Supprime les balises HTML et PHP d'une chaîne"
-msgstr ""
+msgid "4.8 (php) strip_tags: Removes HTML and PHP tags from a string"
+msgstr "4.8 (php) STRIP_TAGS : Supprime les balises HTML et PHP d'une chaîne"
 
 #: help_def.c:123
-msgid "5 MySql"
-msgstr ""
+msgid "5 Mysql"
+msgstr "5 MySql"
 
 #: help_def.c:127
-msgid "5.1 (php) connexion à une base MySql"
-msgstr ""
+msgid "5.1 (php) connection to a MySql database"
+msgstr "5.1 (php) connexion à une base MySql"
 
 #: help_def.c:129
 msgid ""
-"5.2 (php) SELECT BOUCLE : select mysql avec boucle de récuperation des données"
+"5.2 (php) LOOP SELECT: mysql select with recuperation loop data"
 msgstr ""
+"5.2 (php) SELECT BOUCLE : select mysql avec boucle de récuperation des données"
 
 #: help_def.c:131
-msgid "5.3 (php) QUERY : simple requete Mysql (UPDATE,DELETE,INSERT)"
-msgstr ""
+msgid "5.3 (php) QUERY: simple query MySQL (UPDATE, DELETE, INSERT)"
+msgstr "5.3 (php) QUERY : simple requete Mysql (UPDATE,DELETE,INSERT)"
 
 #: help_def.c:133
-msgid "5.4 (php) QUERY : simple requete Mysql (SELECT)"
-msgstr ""
+msgid "5.4 (php) QUERY: simple query MySQL (SELECT)"
+msgstr "5.4 (php) QUERY : simple requete Mysql (SELECT)"
 
 #: help_def.c:135
-msgid "5.5 (php) LAST_INSERT_ID : récuperation d'un id après un INSERT"
-msgstr ""
+msgid "5.5 (php) LAST_INSERT_ID: recuperation after an INSERT id"
+msgstr "5.5 (php) LAST_INSERT_ID : récuperation d'un id après un INSERT"
 
 #: help_def.c:139
 msgid "6 FTP"
-msgstr ""
+msgstr "6 FTP"
 
 #: help_def.c:143
-msgid "6.1 (php) connexion à un serveur FTP"
-msgstr ""
+msgid "6.1 (php) connection to an FTP server"
+msgstr "6.1 (php) connexion à un serveur FTP"
 
 #: help_def.c:145
-msgid "6.2 (php) FTP_NLIST : lister les fichier d'un répertoire"
-msgstr ""
+msgid "6.2 (php) ftp_nlist: list files in a directory"
+msgstr "6.2 (php) FTP_NLIST : lister les fichier d'un répertoire"
 
 #: help_def.c:147
-msgid "6.3 (php) FTP_PUT : déposer un fichier"
-msgstr ""
+msgid "6.3 (php) ftp_put: upload a file"
+msgstr "6.3 (php) FTP_PUT : déposer un fichier"
 
 #: help_def.c:149
-msgid "6.4 (php) FTP_DELETE : supprimer un fichier"
-msgstr ""
+msgid "6.4 (php) FTP_DELETE: Delete a file"
+msgstr "6.4 (php) FTP_DELETE : supprimer un fichier"
 
 #: help_def.c:153
 msgid "7 Header"
-msgstr ""
+msgstr "7 Header"
 
 #: help_def.c:157
 msgid "7.1 (php) TEXT UTF8"
-msgstr ""
+msgstr "7.1 (php) TEXT UTF8"
 
 #: help_def.c:159
 msgid "7.2 (php) IMAGE PNG"
-msgstr ""
+msgstr "7.2 (php) IMAGE PNG"
 
 #: help_def.c:176
-msgid "1 Base de page [HTML]"
-msgstr ""
+msgid "1 Basis of page [HTML]"
+msgstr "1 Base de page [HTML]"
 
 #: help_def.c:180
-msgid "1.1 (html) : Template de base"
-msgstr ""
+msgid "1.1 (html): Basic Template"
+msgstr "1.1 (html) : Template de base"
 
 #: help_def.c:182
-msgid "1.2 (html) : Commenter"
-msgstr ""
+msgid "1.2 (html): Comment"
+msgstr "1.2 (html) : Commenter"
 
 #: help_def.c:184
-msgid "1.3 (html) : Tableau [Option CMD : \"{NBR_TR}-{NBR_TD}\"]"
-msgstr ""
+msgid "1.3 (html): Table [Option CMD: \"{NBR_TR} - {NBR_TD}\"]"
+msgstr "1.3 (html) : Tableau [Option CMD : \"{NBR_TR}-{NBR_TD}\"]"
 
 #: help_def.c:186
-msgid "1.4 (html) : Lien HREF autour de la sélection"
-msgstr ""
+msgid "1.4 (html): HREF link around the selection"
+msgstr "1.4 (html) : Lien HREF autour de la sélection"
 
 #: help_def.c:188
-msgid "1.5 (html) : Intergation d'une feuille de style css"
-msgstr ""
+msgid "1.5 (html): Integration of a css stylesheet"
+msgstr "1.5 (html) : Intergation d'une feuille de style css"
 
 #: help_def.c:190
-msgid "1.6 (html) : Rechargement (refresh) d'une page toutes les 30 secondes"
-msgstr ""
+msgid "1.6 (html): Reload (refresh) of a page every 30 seconds"
+msgstr "1.6 (html) : Rechargement (refresh) d'une page toutes les 30 secondes"
 
 #: help_def.c:192
-msgid "1.7 (html) : Balise image autour de la séléction"
-msgstr ""
+msgid "1.7 (html): Tag image around the selection"
+msgstr "1.7 (html) : Balise image autour de la séléction"
 
 #: help_def.c:194
-msgid "1.8 (html) : Ajouter un div autour de la sélection"
-msgstr ""
+msgid "1.8 (html): Add a div around the selection"
+msgstr "1.8 (html) : Ajouter un div autour de la sélection"
 
 #: help_def.c:196
-msgid "1.9 (html) : Ajouter un style à une balise"
-msgstr ""
+msgid "1.9 (html): add a style to a tag"
+msgstr "1.9 (html) : Ajouter un style à une balise"
 
 #: help_def.c:198
-msgid "1.10 (html) : Ajouter un favicon 16x16 format .ico"
-msgstr ""
+msgid "1.10 (html): Add a favicon 16x16. Ico format"
+msgstr "1.10 (html) : Ajouter un favicon 16x16 format .ico"
 
 #: help_def.c:202
-msgid "2 Taille"
-msgstr ""
+msgid "2 Size"
+msgstr "2 Taille"
 
 #: help_def.c:206
-msgid "2.1 (html) : [width] Largeur"
-msgstr ""
+msgid "2.1 (html) : [width]"
+msgstr "2.1 (html) : [width] Largeur"
 
 #: help_def.c:208
-msgid "2.2 (html) : [height] Hauteur"
-msgstr ""
+msgid "2.2 (html) : [height]"
+msgstr "2.2 (html) : [height] Hauteur"
 
 #: help_def.c:210
-msgid "2.3 (html) : [cols] nombre de colonne (textarea)"
-msgstr ""
+msgid "2.3 (html): [cols] number of columns (textarea)"
+msgstr "2.3 (html) : [cols] nombre de colonne (textarea)"
 
 #: help_def.c:212
-msgid "2.4 (html) : [rows] nombre de ligne (textarea)"
-msgstr ""
+msgid "2.4 (html) [rows] number line (textarea)"
+msgstr "2.4 (html) : [rows] nombre de ligne (textarea)"
 
 #: help_def.c:216
-msgid "3 Formulaire"
-msgstr ""
+msgid "3 Form"
+msgstr "3 Formulaire"
 
 #: help_def.c:220
-msgid "3.1 (html) : Formulaire de base"
-msgstr ""
+msgid "3.1 (html): Basic Form"
+msgstr "3.1 (html) : Formulaire de base"
 
 #: help_def.c:222
-msgid "3.2 (html) : Zone de saisie texte"
-msgstr ""
+msgid "3.2 (html) text input area"
+msgstr "3.2 (html) : Zone de saisie texte"
 
 #: help_def.c:224
-msgid "3.3 (html) : Zone de saisie textarea"
-msgstr ""
+msgid "3.3 (html): textarea input field"
+msgstr "3.3 (html) : Zone de saisie textarea"
 
 #: help_def.c:226
-msgid "3.4 (html) : Zone de sélection d'option (SELECT)"
-msgstr ""
+msgid "3.4 (html): Zone option selection (SELECT)"
+msgstr "3.4 (html) : Zone de sélection d'option (SELECT)"
 
 #: help_def.c:244
-msgid "1 Base de feuille de style [CSS]"
-msgstr ""
+msgid "1 Base Style Sheet [CSS]"
+msgstr "1 Base de feuille de style [CSS]"
 
 #: help_def.c:248
-msgid "1.1 (css) : Commenter"
-msgstr ""
+msgid "1.1 (css) Comment"
+msgstr "1.1 (css) : Commenter"
 
 #: help_def.c:250
-msgid "1.2 (css) : Style pour balise body"
-msgstr ""
+msgid "1.2 (css): Style for body tag"
+msgstr "1.2 (css) : Style pour balise body"
 
 #: help_def.c:252
-msgid "1.3 (css) : Style pour lien"
-msgstr ""
+msgid "1.3 (css): Style for link"
+msgstr "1.3 (css) : Style pour lien"
 
 #: help_def.c:254
-msgid "1.4 (css) : Style pour lien hover"
-msgstr ""
+msgid "1.4 (css): Style for link hover"
+msgstr "1.4 (css) : Style pour lien hover"
 
 #: help_def.c:256
-msgid "1.5 (css) : Style pour balise div avec ID"
-msgstr ""
+msgid "1.5 (css): Style for div tag with ID"
+msgstr "1.5 (css) : Style pour balise div avec ID"
 
 #: help_def.c:260
-msgid "2 Base background"
-msgstr ""
+msgid "2 Basis background"
+msgstr "2 Base background"
 
 #: help_def.c:263
-msgid "2.1 (css) : [background] Couleur de fond"
-msgstr ""
+msgid "2.1 (css) [background] background color"
+msgstr "2.1 (css) : [background] Couleur de fond"
 
 #: help_def.c:265
-msgid "2.2 (css) : [background-image] Image de fond"
-msgstr ""
+msgid "2.2 (css) [background-image] Background Image"
+msgstr "2.2 (css) : [background-image] Image de fond"
 
 #: help_def.c:267
-msgid "2.3 (css) : [background-repeat] Option image de fond non répétée"
-msgstr ""
+msgid "2.3 (css) [background-repeat] Option not repeated background image"
+msgstr "2.3 (css) : [background-repeat] Option image de fond non répétée"
 
 #: help_def.c:271
 msgid "3 Base font"
-msgstr ""
+msgstr "3 Base font"
 
 #: help_def.c:274
-msgid "3.1 (css) : [font-family] style de font"
-msgstr ""
+msgid "3.1 (css) : [font-family]"
+msgstr "3.1 (css) : [font-family] style de font"
 
 #: help_def.c:276
-msgid "3.2 (css) : [font-size] Taille de la font"
-msgstr ""
+msgid "3.2 (css) : [font-size] "
+msgstr "3.2 (css) : [font-size] Taille de la font"
 
 #: help_def.c:278
-msgid "3.3 (css) : [color] Courleur de la font"
-msgstr ""
+msgid "3.3 (css) : [color] font color"
+msgstr "3.3 (css) : [color] Courleur de la font"
 
 #: help_def.c:280
-msgid "3.4 (css) : [decoration] Pas de décoration de texte"
-msgstr ""
+msgid "3.4 (css) [decoration] No Text Decoration"
+msgstr "3.4 (css) : [decoration] Pas de décoration de texte"
 
 #: help_def.c:282
-msgid "3.5 (css) : [decoration] Soulignement du texte"
-msgstr ""
+msgid "3.5 (css) [decoration] Underline Text"
+msgstr "3.5 (css) : [decoration] Soulignement du texte"
 
 #: help_def.c:286
-msgid "4 Base taille"
-msgstr ""
+msgid "4 Base size"
+msgstr "4 Base taille"
 
 #: help_def.c:289
-msgid "4.1 (css) : [largeur] width largeur"
-msgstr ""
+msgid "4.1 (css) : [width] width"
+msgstr "4.1 (css) : [largeur] width largeur"
 
 #: help_def.c:291
-msgid "4.2 (css) : [hauteur] height hauteur"
-msgstr ""
+msgid "4.2 (css) : [height] height"
+msgstr "4.2 (css) : [hauteur] height hauteur"
 
 #: help_def.c:295
 msgid "5 Base position"
-msgstr ""
+msgstr "5 Base position"
 
 #: help_def.c:298
 msgid ""
+"5.1 (css) [position] on the relative positioning "
+"position of the previous"
+msgstr ""
 "5.1 (css) : [position] relative Positionnement relatif par rapport  la "
 "position de l'élément précédent"
-msgstr ""
 
 #: help_def.c:300
 msgid ""
+"5.2 (css) [position] absolute absolute positioning relative to the corner "
+"upper left of the document"
+msgstr ""
 "5.2 (css) : [position] absolute Positionnement absolu par rapport au coin "
 "supérieur gauche du document"
-msgstr ""
 
 #: help_def.c:302
 msgid ""
+"5.3 (css) [position] fixed fixed positioning relative to the corner "
+"top left of the browser window"
+msgstr ""
 "5.3 (css) : [position] fixed Positionnement fixe par rapport au coin "
 "suprieur gauche de la fentre du navigateur"
-msgstr ""
 
 #: help_def.c:304
-msgid "5.4 (css) : [gauche] left Position à partire du bord gauche"
-msgstr ""
+msgid "5.4 (css): [left] left Position from the left edge"
+msgstr "5.4 (css) : [gauche] left Position à partire du bord gauche"
 
 #: help_def.c:306
-msgid "5.5 (css) : [droite] right position à partire du bord droit"
-msgstr ""
+msgid "5.5 (css) [right] right position at the right"
+msgstr "5.5 (css) : [droite] right position à partire du bord droit"
 
 #: help_def.c:308
-msgid "5.6 (css) : [haut] top position à partire du bord haut"
-msgstr ""
+msgid "5.6 (css) [top] top position at the top"
+msgstr "5.6 (css) : [haut] top position à partire du bord haut"
 
 #: help_def.c:310
-msgid "5.7 (css) : [bas] bottom position à partire du bord bas"
-msgstr ""
+msgid "5.7 (css): [low] bottom position to the bottom edge"
+msgstr "5.7 (css) : [bas] bottom position à partire du bord bas"
 
 #: help_def.c:312
-msgid "5.8 (css) : [valign] alignement vertical en bas bottom"
-msgstr ""
+msgid "5.8 (css) [valign] vertical alignment down bottom"
+msgstr "5.8 (css) : [valign] alignement vertical en bas bottom"
 
 #: help_def.c:314
-msgid "5.9 (css) : [valign] alignement vertical en haut"
-msgstr ""
+msgid "5.9 (css) [valign] top vertical alignment"
+msgstr "5.9 (css) : [valign] alignement vertical en haut"
 
 #: help_def.c:318
-msgid "6 Base affichage"
-msgstr ""
+msgid "6 Base Display"
+msgstr "6 Base affichage"
 
 #: help_def.c:321
-msgid "6.1 (css) : [none] display L'élément est masqué"
-msgstr ""
+msgid "6.1 (css): [none] The display element is hidden"
+msgstr "6.1 (css) : [none] display L'élément est masqué"
 
 #: help_def.c:323
-msgid "6.2 (css) : [block] display Affichage l'un en-dessous de l'autre"
-msgstr ""
+msgid "6.2 (css) [block] display display one below the other"
+msgstr "6.2 (css) : [block] display Affichage l'un en-dessous de l'autre"
 
 #: help_def.c:325
-msgid "6.3 (css) : [inline] display Affichage en ligne des div"
-msgstr ""
+msgid "6.3 (css) [inline] View online display div"
+msgstr "6.3 (css) : [inline] display Affichage en ligne des div"
 
 #: help_def.c:342
-msgid "1 Requete base [MYSQL]"
-msgstr ""
+msgid "1 Base [MYSQL]"
+msgstr "1 Requete base [MYSQL]"
 
 #: help_def.c:346
 msgid "1.1 (mysql) : SELECT"
-msgstr ""
+msgstr "1.1 (mysql) : SELECT"
 
 #: help_def.c:348
 msgid "1.2 (mysql) : INSERT"
-msgstr ""
+msgstr "1.2 (mysql) : INSERT"
 
 #: help_def.c:350
 msgid "1.3 (mysql) : UPDATE"
-msgstr ""
+msgstr "1.3 (mysql) : UPDATE"
 
 #: help_def.c:352
 msgid "1.4 (mysql) : DELETE"
-msgstr ""
+msgstr "1.4 (mysql) : DELETE"
 
 #: help_def.c:369
 msgid "1 Base [Javascript]"
-msgstr ""
+msgstr "1 Base [Javascript]"
 
 #: help_def.c:373
-msgid "1.1 (javascript) : Balise HTML pour javascript/jquery"
-msgstr ""
+msgid "1.1 (javascript) HTML tag for javascript / jquery"
+msgstr "1.1 (javascript) : Balise HTML pour javascript/jquery"
 
 #: help_def.c:375
-msgid "1.2 (javascript) : Créer une fonction"
-msgstr ""
+msgid "1.2 (javascript) : Create a function"
+msgstr "1.2 (javascript) : Créer une fonction"
 
 #: help_def.c:377
-msgid "1.3 (javascript) : Split d'une chaîne en tableau par séparateur"
-msgstr ""
+msgid "1.3 (javascript) : Split a string into array by separating"
+msgstr "1.3 (javascript) : Split d'une chaîne en tableau par séparateur"
 
 #: help_def.c:381
-msgid "2 Intéraction avec un ID"
-msgstr ""
+msgid "2 Interaction with ID"
+msgstr "2 Intéraction avec un ID"
 
 #: help_def.c:385
-msgid "2.1 (javascript) : Récuperation d'un value par id"
-msgstr ""
+msgid "2.1 (javascript) : Recovery of a value by id"
+msgstr "2.1 (javascript) : Récuperation d'un value par id"
 
 #: help_def.c:387
-msgid "2.2 (javascript) : Récuperation d'un value par id sur un select HTML"
-msgstr ""
+msgid "2.2 (javascript) : Recovery of value by id in a HTML select"
+msgstr "2.2 (javascript) : Récuperation d'un value par id sur un select HTML"
 
 #: help_def.c:389
-msgid "2.3 (javascript) : Focus sur un id"
-msgstr ""
+msgid "2.3 (javascript) : Focus on an id"
+msgstr "2.3 (javascript) : Focus sur un id"
 
 #: help_def.c:391
-msgid "2.4 (javascript) : Charger un fichier php/html dans un div id"
-msgstr ""
+msgid "2.4 (javascript) : Upload a file php / html in a div id"
+msgstr "2.4 (javascript) : Charger un fichier php/html dans un div id"
 
 #: help_def.c:393
-msgid "2.5 (javascript) : Remplacer le contenu d'un div id par un autre texte"
-msgstr ""
+msgid "2.5 (javascript) : Replace the content of a div id with another text"
+msgstr "2.5 (javascript) : Remplacer le contenu d'un div id par un autre texte"
 
 #: help_def.c:395
 msgid ""
-"2.6 (javascript) : Remplacer le contenu d'un value html id par un autre texte"
+"2.6 (javascript): Replace the contents of an html id value in another text"
 msgstr ""
+"2.6 (javascript) : Remplacer le contenu d'un value html id par un autre texte"
 
 #: help_def.c:397
-msgid "2.7 (javascript) : Ajouter un texte au contenu d'un value html id"
-msgstr ""
+msgid "2.7 (javascript): Add the contents of a text html id value"
+msgstr "2.7 (javascript) : Ajouter un texte au contenu d'un value html id"
 
 #: help_def.c:401
-msgid "3 Liste des évenements"
-msgstr ""
+msgid "3 List of events"
+msgstr "3 Liste des évenements"
 
 #: help_def.c:405
-msgid "3.1 (javascript) : [onBlur] action en sortie de focus"
-msgstr ""
+msgid "3.1 (javascript): [onBlur] output action focus"
+msgstr "3.1 (javascript) : [onBlur] action en sortie de focus"
 
 #: help_def.c:407
-msgid "3.2 (javascript) : [onChange] action pour un changement"
-msgstr ""
+msgid "3.2 (javascript): [onChange] action for change"
+msgstr "3.2 (javascript) : [onChange] action pour un changement"
 
 #: help_def.c:409
-msgid "3.3 (javascript) : [onClick] action pour un click"
-msgstr ""
+msgid "3.3 (javascript): [onClick] action for a click"
+msgstr "3.3 (javascript) : [onClick] action pour un click"
 
 #: help_def.c:411
-msgid "3.4 (javascript) : [onFocus] action sur prise de focus"
-msgstr ""
+msgid "3.4 (javascript): [onFocus] taking action focus"
+msgstr "3.4 (javascript) : [onFocus] action sur prise de focus"
 
 #: help_def.c:413
-msgid "3.5 (javascript) : [onLoad] action en fin de chargement"
-msgstr ""
+msgid "3.5 (javascript): [onLoad] action after loading"
+msgstr "3.5 (javascript) : [onLoad] action en fin de chargement"
 
 #: help_def.c:415
-msgid "3.6 (javascript) : [onMouseOver] action au passage de la souris"
-msgstr ""
+msgid "3.6 (javascript): [onMouseOver] action mouseover"
+msgstr "3.6 (javascript) : [onMouseOver] action au passage de la souris"
 
 #: help_def.c:417
-msgid "3.7 (javascript) : [onSelect] action pour une séléction"
-msgstr ""
+msgid "3.7 (javascript): [onSelect] action for selection"
+msgstr "3.7 (javascript) : [onSelect] action pour une séléction"
 
 #: help_def.c:419
-msgid "3.8 (javascript) : [onSubmit] action en validation de formulaire"
-msgstr ""
+msgid "3.8 (javascript): [onSubmit] Action Form Validation"
+msgstr "3.8 (javascript) : [onSubmit] action en validation de formulaire"
 
 #: help_def.c:423
-msgid "4 Fonctions"
-msgstr ""
+msgid "4 Function"
+msgstr "4 Fonctions"
 
 #: help_def.c:427
-msgid "4.1 (javascript) : Fonction récuperation du contenu d'un fichier"
-msgstr ""
+msgid "4.1 (JavaScript) function retrieve the content of a file"
+msgstr "4.1 (javascript) : Fonction récuperation du contenu d'un fichier"
 
 #: help_def.c:444
-msgid "1 Fonctions base [PERL]"
-msgstr ""
+msgid "1 Functions base [PERL]"
+msgstr "1 Fonctions base [PERL]"
 
 #: help_def.c:448
-msgid "1.1 (perl) : Débuter un script"
-msgstr ""
+msgid "1.1 (perl): Start a script"
+msgstr "1.1 (perl) : Débuter un script"
 
 #: help_def.c:450
-msgid "1.2 (perl) PRINT : afficher une chaîne de caractères"
-msgstr ""
+msgid "1.2 (perl) PRINT: Display a string"
+msgstr "1.2 (perl) PRINT : afficher une chaîne de caractères"
 
 #: help_def.c:452
-msgid "1.3 (perl) ARGUMENTS : utiliser les arguments du programme"
-msgstr ""
+msgid "1.3 (perl) ARGUMENTS: use the program arguments"
+msgstr "1.3 (perl) ARGUMENTS : utiliser les arguments du programme"
 
 #: help_def.c:456
-msgid "TABLEAU"
-msgstr ""
+msgid "ARRAY"
+msgstr "TABLEAU"
 
 #: help_def.c:458
-msgid "1.4 (perl) TABLEAU : déclaration d'un tableau"
-msgstr ""
+msgid "1.4 (perl) array : declaring an array"
+msgstr "1.4 (perl) TABLEAU : déclaration d'un tableau"
 
 #: help_def.c:460
-msgid "1.5 (perl) TABLEAU : empiler une valeur en fin de tableau"
-msgstr ""
+msgid "1.5 (perl) array : stack value at end of table"
+msgstr "1.5 (perl) TABLEAU : empiler une valeur en fin de tableau"
 
 #: help_def.c:462
-msgid "1.6 (perl) TABLEAU : empiler une valeur en début de tableau"
-msgstr ""
+msgid "1.6 (perl) array : stacking a array value at the beginning of"
+msgstr "1.6 (perl) TABLEAU : empiler une valeur en début de tableau"
 
 #: help_def.c:464
-msgid "1.7 (perl) FOREACH : lire un tableau ligne par ligne"
-msgstr ""
+msgid "1.7 (perl) FOREACH: read a array row by row"
+msgstr "1.7 (perl) FOREACH : lire un tableau ligne par ligne"
 
 #: help_def.c:467
-msgid "1.8 (perl) SAISIE : attend une saisie clavier"
-msgstr ""
+msgid "1.8 (perl) ENTRY: expects keyboard input"
+msgstr "1.8 (perl) SAISIE : attend une saisie clavier"
 
 #: help_def.c:469
-msgid "1.9 (perl) FONCTION : créer une fonction"
-msgstr ""
+msgid "1.9 (perl) FUNCTION: create a function"
+msgstr "1.9 (perl) FONCTION : créer une fonction"
 
 #: help_def.c:471
-msgid "1.10 (perl) EXIT : sortir (killer) le programme"
-msgstr ""
+msgid "1.10 (perl) EXIT: exit (killer) program"
+msgstr "1.10 (perl) EXIT : sortir (killer) le programme"
 
 #: help_def.c:473
-msgid "1.11 (perl) LOCALTIME : Récuperation de la date"
-msgstr ""
+msgid "1.11 (perl) LOCALTIME: Recovery from the date"
+msgstr "1.11 (perl) LOCALTIME : Récuperation de la date"
 
 #: help_def.c:475
-msgid "1.12 (perl) RAND : génération d'un nombre aléatoire"
-msgstr ""
+msgid "1.12 (perl) RAND: random number generation"
+msgstr "1.12 (perl) RAND : génération d'un nombre aléatoire"
 
 #: help_def.c:483
 msgid "2.1 (perl) IF"
-msgstr ""
+msgstr "2.1 (perl) IF"
 
 #: help_def.c:485
-msgid "2.2 (perl) UNLESS : test négatif"
-msgstr ""
+msgid "2.2 (perl) UNLESS: negative test"
+msgstr "2.2 (perl) UNLESS : test négatif"
 
 #: help_def.c:487
 msgid "2.3 (perl) IF ELSE"
-msgstr ""
+msgstr "2.3 (perl) IF ELSE"
 
 #: help_def.c:489
 msgid "2.4 (perl) WHILE"
-msgstr ""
+msgstr "2.4 (perl) WHILE"
 
 #: help_def.c:491
-msgid "2.5 (perl) WHILE infinie"
-msgstr ""
+msgid "2.5 (perl) WHILE infinite"
+msgstr "2.5 (perl) WHILE infinie"
 
 #: help_def.c:493
-msgid "2.6 (perl) FOREACH : lire un tableau ligne par ligne"
-msgstr ""
+msgid "2.6 (perl) FOREACH: read a array row by row"
+msgstr "2.6 (perl) FOREACH : lire un tableau ligne par ligne"
 
 #: help_def.c:498
-msgid "3 Fichier lecture\\/écriture"
-msgstr ""
+msgid "3 file read write"
+msgstr "3 Fichier lecture écriture"
 
 #: help_def.c:502
-msgid "3.1 (perl) Lire un fichier ligne par ligne"
-msgstr ""
+msgid "3.1 (perl) Read a file line by line"
+msgstr "3.1 (perl) Lire un fichier ligne par ligne"
 
 #: help_def.c:504
-msgid "3.2 (perl) ouvrir un fichier pour y ajouter des données"
-msgstr ""
+msgid "3.2 (perl) to open a file for appending data"
+msgstr "3.2 (perl) ouvrir un fichier pour y ajouter des données"
 
 #: help_def.c:506
 msgid ""
-"3.3 (perl) ouvrir un fichier pour y ajouter des données et craser l'éxistant"
+"3.3 (perl) to open a file for appending data and overwrite the existing"
 msgstr ""
+"3.3 (perl) ouvrir un fichier pour y ajouter des données et écraser l'éxistant"
 
 #: help_def.c:508
-msgid "3.4 (perl) ouvrir un tube sur un fichier"
-msgstr ""
+msgid "3.4 (perl) open a pipe to a file"
+msgstr "3.4 (perl) ouvrir un tube sur un fichier"
 
 #: help_def.c:510
-msgid "3.5 (perl) STDIN Lecture de l'entrée standard"
-msgstr ""
+msgid "3.5 (perl) STDIN reading from standard input"
+msgstr "3.5 (perl) STDIN Lecture de l'entrée standard"
 
 #: help_def.c:512
 msgid ""
-"3.6 (perl) STAT : récuperation des stats d'un fichier ($dev,$ino,$mode,$nlink,"
+"3.6 (perl) STAT : recovery stats of a file ($dev,$ino,$mode,$nlink,"
 "$uid,$gid,$rdev,$size,$atime,$mtime,$ctime,$blksize,$blocks)"
 msgstr ""
+"3.6 (perl) STAT : récuperation des stats d'un fichier ($dev,$ino,$mode,$nlink,"
+"$uid,$gid,$rdev,$size,$atime,$mtime,$ctime,$blksize,$blocks)"
 
 #: help_def.c:520
-msgid "4.1 (perl) SPLIT : découper une chaîne avec séparateur"
-msgstr ""
+msgid "4.1 (perl) SPLIT: split a string with delimiter"
+msgstr "4.1 (perl) SPLIT : découper une chaîne avec séparateur"
 
 #: help_def.c:522
 msgid ""
-"4.2 (perl) IF\\/UNLESS chaîne : instruction rechercher une chaîne dans une "
-"autre chaîne"
+"4.2 (perl) IF UNLESS chain: education search for a string in a "
+"other string"
 msgstr ""
+"4.2 (perl) IF UNLESS chaîne : instruction rechercher une chaîne dans une "
+"autre chaîne"
 
 #: help_def.c:524
 msgid ""
-"4.3 (perl) REMPLACEMENT : trouver une chaîne dans une variable et la remplacer"
+"4.3 (perl) REPLACEMENT: find a string in a variable and replace"
 msgstr ""
+"4.3 (perl) REMPLACEMENT : trouver une chaîne dans une variable et la remplacer"
 
 #: help_def.c:526
-msgid "4.4 (perl) CHOP : Enlève le dernier caractère de la chaîne"
-msgstr ""
+msgid "4.4 (perl) CHOP: Removes the last character of the string"
+msgstr "4.4 (perl) CHOP : Enlève le dernier caractère de la chaîne"
 
 #: help_def.c:528
 msgid ""
-"4.5 (perl) LENGTH : Retourne la longueur de la chaîne (nombre de caractères)"
+"4.5 (perl) LENGTH: Returns the length of the string (number of characters)"
 msgstr ""
+"4.5 (perl) LENGTH : Retourne la longueur de la chaîne (nombre de caractères)"
 
 #: help_def.c:530
-msgid "4.6 (perl) UC : Retourne la chaîne en majuscules"
-msgstr ""
+msgid "4.6 (perl) CPU: Returns the string to uppercase"
+msgstr "4.6 (perl) UC : Retourne la chaîne en majuscules"
 
 #: help_def.c:532
-msgid "4.7 (perl) LC : Retourne la chaîne en minuscules"
-msgstr ""
+msgid "4.7 (perl) LC: Returns the string to lowercase"
+msgstr "4.7 (perl) LC : Retourne la chaîne en minuscules"
 
 #: help_def.c:534
 msgid ""
-"4.8 (perl) UCFIRST : Retourne la chaîne avec le premier caractère en majuscule"
+"4.8 (perl) ucfirst: Returns the string with the first character uppercase"
 msgstr ""
+"4.8 (perl) UCFIRST : Retourne la chaîne avec le premier caractère en majuscule"
 
 #: help_def.c:536
 msgid ""
+"4.9 (perl) SUBSTR: returns a string contained between the start index and "
+"length"
+msgstr ""
 "4.9 (perl) SUBSTR : retourne une chaîne contenue entre indice de début et la "
 "longueur"
-msgstr ""
 
 #: help_def.c:540
 msgid "5 Lib DBI MySql"
-msgstr ""
+msgstr "5 Lib DBI MySql"
 
 #: help_def.c:544
-msgid "5.1 (lib_dbi) CONNEXION : se connecter à une base MySql"
-msgstr ""
+msgid "5.1 (lib_dbi) CONNECTION: Connect to MySql database"
+msgstr "5.1 (lib_dbi) CONNEXION : se connecter à une base MySql"
 
 #: help_def.c:546
-msgid "5.2 (lib_dbi) QUERY : simple requete Mysql (UPDATE,DELETE,INSERT)"
-msgstr ""
+msgid "5.2 (lib_dbi) QUERY: simple query MySQL (UPDATE, DELETE, INSERT)"
+msgstr "5.2 (lib_dbi) QUERY : simple requete Mysql (UPDATE,DELETE,INSERT)"
 
 #: help_def.c:548
-msgid "5.3 (lib_dbi) QUERY : simple requete Mysql (SELECT)"
-msgstr ""
+msgid "5.3 (lib_dbi) QUERY: simple query MySQL (SELECT)"
+msgstr "5.3 (lib_dbi) QUERY : simple requete Mysql (SELECT)"
 
 #: help_def.c:550
 msgid ""
+"5.4 (lib_dbi) LOOP SELECT: mysql select with recuperation of loop "
+"data"
+msgstr ""
 "5.4 (lib_dbi) SELECT BOUCLE : select mysql avec boucle de récuperation des "
 "données"
-msgstr ""
 
 #: help_def.c:552
-msgid "5.5 (lib_dbi) LASTID : récuperation du dernier id en insert"
-msgstr ""
+msgid "5.5 (lib dbi) LAST ID: recuperation of the last insert id in"
+msgstr "5.5 (lib_dbi) LASTID : récuperation du dernier id en insert"
 
 #: help_def.c:556
 msgid "6 Lib MIME Lite"
-msgstr ""
+msgstr "6 Lib MIME Lite"
 
 #: help_def.c:560
-msgid "6.1 (lib_mime) Envoi d'un mail simple"
-msgstr ""
+msgid "6.1 (lib_mime) Sending a simple email"
+msgstr "6.1 (lib_mime) Envoi d'un mail simple"
 
 #: help_def.c:562
-msgid "6.2 (lib_mime) Envoi d'un mail avec fichier PJ"
-msgstr ""
+msgid "6.2 (lib_mime) Sending mail with file"
+msgstr "6.2 (lib_mime) Envoi d'un mail avec fichier PJ"
 
 #: help_def.c:566
-msgid "7 HTTP Lib URI et LWP"
-msgstr ""
+msgid "7 HTTP Lib URI and LWP"
+msgstr "7 HTTP Lib URI et LWP"
 
 #: help_def.c:570
-msgid "7.1 (lib_URI) encodage d'une URL"
-msgstr ""
+msgid "7.1 (lib_URI) encoding a URL"
+msgstr "7.1 (lib_URI) encodage d'une URL"
 
 #: help_def.c:572
-msgid "7.2 (lib_LWP) get sur une URL"
-msgstr ""
+msgid "7.2 (lib_LWP) get a URL"
+msgstr "7.2 (lib_LWP) get sur une URL"
 
 #: help_def.c:576
 msgid "8 FTP Lib NET::FTP"
-msgstr ""
+msgstr "8 FTP Lib NET::FTP"
 
 #: help_def.c:580
-msgid "8.1 (lib_net) connexion à un serveur FTP"
-msgstr ""
+msgid "8.1 (lib_net) connection to an FTP server"
+msgstr "8.1 (lib_net) connexion à un serveur FTP"
 
 #: help_def.c:582
-msgid "8.2 (lib_net) lister le contenu d'un répertoire FTP"
-msgstr ""
+msgid "8.2 (lib_net) list the contents of an FTP directory"
+msgstr "8.2 (lib_net) lister le contenu d'un répertoire FTP"
 
 #: help_def.c:584
-msgid "8.3 (lib_net) GET télécharger un fichier depuis un FTP"
-msgstr ""
+msgid "8.3 (lib_net) GET to download a file from a FTP"
+msgstr "8.3 (lib_net) GET télécharger un fichier depuis un FTP"
 
 #: help_def.c:586
-msgid "8.4 (lib_net) PUT uploader un fichier sur un FTP"
-msgstr ""
+msgid "8.4 (lib_net) PUT upload a file on an FTP"
+msgstr "8.4 (lib_net) PUT uploader un fichier sur un FTP"
 
 #: help_def.c:590
 msgid "9 SOCKET IO::Socket::INET"
-msgstr ""
+msgstr "9 SOCKET IO::Socket::INET"
 
 #: help_def.c:594
-msgid "9.1 (lib_socket) socket en mode écoute (serveur) avec fork"
-msgstr ""
+msgid "9.1 (lib_socket) socket in listening mode (server) with fork"
+msgstr "9.1 (lib_socket) socket en mode écoute (serveur) avec fork"
 
 #: help_def.c:596
-msgid "9.2 (lib_socket) socket en mode client"
-msgstr ""
+msgid "9.2 (lib_socket) socket client mode"
+msgstr "9.2 (lib_socket) socket en mode client"
 
 #: help_def.c:614
 msgid "1 Base bash"
-msgstr ""
+msgstr "1 Base bash"
 
 #: help_def.c:618
-msgid "1.1 (bash) Débuter un script"
-msgstr ""
+msgid "1.1 (bash) Start a script"
+msgstr "1.1 (bash) Débuter un script"
 
 #: help_def.c:620
-msgid "1.2 (bash) ECHO : afficher une chaîne de caractères"
-msgstr ""
+msgid "1.2 (bash) ECHO: Display a string"
+msgstr "1.2 (bash) ECHO : afficher une chaîne de caractères"
 
 #: help_def.c:622
-msgid "1.3 (bash) Ajouter un commentaire"
-msgstr ""
+msgid "1.3 (bash) Add a comment"
+msgstr "1.3 (bash) Ajouter un commentaire"
 
 #: help_def.c:624
-msgid "1.4 (bash) Commande en tache de fond"
-msgstr ""
+msgid "1.4 (bash) command in the background"
+msgstr "1.4 (bash) Commande en tache de fond"
 
 #: help_def.c:632
 msgid "2.1 (bash) IF"
-msgstr ""
+msgstr "2.1 (bash) IF"
 
 #: help_def.c:634
 msgid "2.2 (bash) IF ELSE bash"
-msgstr ""
+msgstr "2.2 (bash) IF ELSE bash"
 
 #: help_def.c:636
 msgid "2.3 (bash) WHILE bash"
-msgstr ""
+msgstr "2.3 (bash) WHILE bash"
 
 #: help_def.c:638
-msgid "2.4 (bash) CASE : multi choix"
-msgstr ""
+msgid "2.4 (bash) CASE: multiple choice"
+msgstr "2.4 (bash) CASE : multi choix"
 
 #: help_def.c:640
-msgid "2.5 (bash) READ : interactivite avec l'utilisateur"
-msgstr ""
+msgid "2.5 (bash) READ: interactivity with the user"
+msgstr "2.5 (bash) READ : interactivite avec l'utilisateur"
 
 #: help_def.c:644
-msgid "3 Opérateur logique"
-msgstr ""
+msgid "3 Logical Operator"
+msgstr "3 Opérateur logique"
 
 #: help_def.c:648
-msgid "3.1 (bash) ET"
-msgstr ""
+msgid "3.1 (bash) AND"
+msgstr "3.1 (bash) ET"
 
 #: help_def.c:650
-msgid "3.2 (bash) OU"
-msgstr ""
+msgid "3.2 (bash) OR"
+msgstr "3.2 (bash) OU"
 
 #: help_def.c:655
-msgid "4 Commandes de base"
-msgstr ""
+msgid "4 Basic Commands"
+msgstr "4 Commandes de base"
 
 #: help_def.c:659
 msgid "4.1 (bash) GREP"
-msgstr ""
+msgstr "4.1 (bash) GREP"
 
 #: help_def.c:661
 msgid "4.2 (bash) AWK"
-msgstr ""
+msgstr "4.2 (bash) AWK"
 
 #: help_def.c:663
 msgid "4.3 (bash) SED"
-msgstr ""
+msgstr "4.3 (bash) SED"
 
 #: help_def.c:665
 msgid "4.4 (bash) SCP"
-msgstr ""
+msgstr "4.4 (bash) SCP"
 
 #: help_def.c:669
-msgid "5 Redirection de fichier"
-msgstr ""
+msgid "5 File Redirection"
+msgstr "5 Redirection de fichier"
 
 #: help_def.c:673
-msgid "5.1 (bash) Redirection de la sortie dans le vide"
-msgstr ""
+msgid "5.1 (bash) Output Redirection in the NULL"
+msgstr "5.1 (bash) Redirection de la sortie dans le vide"
 
 #: help_def.c:675
-msgid "5.2 (bash) La sortie écrase un fichier"
-msgstr ""
+msgid "5.2 (bash) The output overwrites a file"
+msgstr "5.2 (bash) La sortie écrase un fichier"
 
 #: help_def.c:677
-msgid "5.3 (bash) La sortie est ajoutée à un fichier"
-msgstr ""
+msgid "5.3 (bash) is added to the output file"
+msgstr "5.3 (bash) La sortie est ajoutée à un fichier"
 
 #: help_def.c:679
-msgid "5.4 (bash) Redirection des erreurs"
-msgstr ""
+msgid "5.4 (bash) Redirecting errors"
+msgstr "5.4 (bash) Redirection des erreurs"
 
 #: help_def.c:681
-msgid "5.5 (bash) Redirection des erreurs et des messages"
-msgstr ""
+msgid "5.5 (bash) Redirection errors and messages"
+msgstr "5.5 (bash) Redirection des erreurs et des messages"
 
 #: help_def.c:685
-msgid "6 Construction de [TEST]"
-msgstr ""
+msgid "6 Building [TEST]"
+msgstr "6 Construction de [TEST]"
 
 #: help_def.c:689
-msgid "6.1 (bash) TEST : si un fichier existe"
-msgstr ""
+msgid "6.1 (bash) TEST: if a file exists"
+msgstr "6.1 (bash) TEST : si un fichier existe"
 
 #: help_def.c:691
-msgid "6.2 (bash) TEST : si un répertoire existe"
-msgstr ""
+msgid "6.2 (bash) TEST: if a directory exists"
+msgstr "6.2 (bash) TEST : si un répertoire existe"
 
 #: help_def.c:693
-msgid "6.3 (bash) TEST : inverser un test"
-msgstr ""
+msgid "6.3 (bash) TEST: Reverse test"
+msgstr "6.3 (bash) TEST : inverser un test"
 
 #: help_def.c:695
-msgid "6.4 (bash) TEST : droit en lecture"
-msgstr ""
+msgid "6.4 (bash) TEST: right reading"
+msgstr "6.4 (bash) TEST : droit en lecture"
 
 #: help_def.c:697
-msgid "6.5 (bash) TEST : droit en écriture"
-msgstr ""
+msgid "6.5 (bash) TEST: write permission"
+msgstr "6.5 (bash) TEST : droit en écriture"
 
 #: help_def.c:699
-msgid "6.6 (bash) TEST : droit en exécution"
-msgstr ""
+msgid "6.6 (bash) TEST:  execution?"
+msgstr "6.6 (bash) TEST : droit en execution"
 
 #: help_def.c:701
-msgid "6.7 (bash) TEST : sur deux variables"
-msgstr ""
+msgid "6.7 (bash) TEST: two variables"
+msgstr "6.7 (bash) TEST : sur deux variables"
 
 #: help_def.c:703
-msgid "6.8 (bash) TEST : sur deux chiffres"
-msgstr ""
+msgid "6.8 (bash) TEST: two-digit"
+msgstr "6.8 (bash) TEST : sur deux chiffres"
 
 #: help_def.c:716 help_def.c:752
-msgid "Vous devez ouvrir un fichier pour pouvoir utiliser l'aide."
-msgstr ""
+msgid "You must open a file to use for help."
+msgstr "Vous devez ouvrir un fichier pour pouvoir utiliser l'aide."
 
 
 #: help_def.c:1042
-msgid "Aide à la programmation [Ctl+F] pour rechercher"
-msgstr ""
+msgid "Programming support [Ctl + F] to search"
+msgstr "Aide à la programmation [Ctl+F] pour rechercher"
 
 #: help_def.c:1076
-msgid "Aide Php"
-msgstr ""
+msgid "Halp Php"
+msgstr "Aide Php"
 
 #: help_def.c:1131
-msgid "Aide MySql"
-msgstr ""
+msgid "Help Mysql"
+msgstr "Aide MySql"
 
 #: help_def.c:1186
-msgid "Aide HTML"
-msgstr ""
+msgid "Help HTML"
+msgstr "Aide HTML"
 
 #: help_def.c:1241
-msgid "Aide CSS"
-msgstr ""
+msgid "Help CSS"
+msgstr "Aide CSS"
 
 #: help_def.c:1297
-msgid "Aide Javascript Jquery"
-msgstr ""
+msgid "Help Javascript Jquery"
+msgstr "Aide Javascript Jquery"
 
 #: griffon_text_document.c:121 griffon_text_document.c:162
 #: griffon_text_document.c:206
 msgid "\t"
-msgstr ""
+msgstr "\t"
 
 #: griffon_text_document.c:361
 #, c-format
 msgid ""
+"Sorry, but I can not determine the character set %s. try "
+"again and select it manually."
+msgstr ""
 "Désolé, mais je ne peux pas déterminer le jeu de caractères %s. Essayer de "
 "nouveau et sélectionnez-le manuellement."
-msgstr ""
 
 #: griffon_text_document.c:379
 #, c-format
-msgid "%s est créé"
-msgstr ""
+msgid "%s is created"
+msgstr "%s est créé"
 
 #: griffon_text_document.c:387
 #, c-format
-msgid "Ne peut pas faire de sauvegarde pour %s"
-msgstr ""
+msgid "Can not save to %s"
+msgstr "Ne peut pas faire de sauvegarde pour %s"
 
 #: griffon_text_document.c:402
-msgid "Le fichier est en lecture seule."
-msgstr ""
+msgid "The file is read-only."
+msgstr "Le fichier est en lecture seule."
 
 #: griffon_text_document.c:416
 msgid "Griffon can't save RTF. Because."
-msgstr ""
+msgstr "Griffon can't save RTF. Because."
 
 #: griffon_text_document.c:428
 #, c-format
-msgid "%s n'est pas accessible en écriture pour vous!"
-msgstr ""
+msgid "%s is not writable for you!"
+msgstr "%s n'est pas accessible en écriture pour vous!"
 
 #: griffon_text_document.c:439
-msgid "Et comment je peux enregistrer ce fichier texte comme un répertoire?!"
-msgstr ""
+msgid "And how I can save this text file as a directory?!"
+msgstr "Et comment je peux enregistrer ce fichier texte comme un répertoire?!"
 
 #: griffon_text_document.c:885
 #, c-format
-msgid "%s est fermé"
-msgstr ""
+msgid "%s is closed"
+msgstr "%s est fermé"
 
 #: griffon_text_document.c:926
 #, c-format
-msgid "%s n'existe pas!"
-msgstr ""
+msgid "%s does not exist!"
+msgstr "%s n'existe pas!"
 
 #: griffon_text_document.c:934 griffon_text_document.c:952
 #, c-format
-msgid "Vous n'avez pas les droits pour %s"
-msgstr ""
+msgid "You do not have permission to %s"
+msgstr "Vous n'avez pas les droits pour %s"
 
 #: griffon_text_document.c:999 griffon_text_document.c:1103
 #, c-format
-msgid "%s est ouvert"
-msgstr ""
+msgid "%s is opened"
+msgstr "%s est ouvert"
 
 #: griffon_text_document.c:1183
 #, c-format
-msgid "%s est modifié mais pas sauvegardé, le sauvegarder?"
-msgstr ""
+msgid "%s is modified but not saved, save?"
+msgstr "%s est modifié mais pas sauvegardé, le sauvegarder?"
 
 #: src/griffon_options.c:201
-msgid "Default charset pour fichier ouvert"
-msgstr ""
+msgid "Default charset for file open"
+msgstr "Default charset pour fichier ouvert"
 
 #: src/griffon_options.c:202
-msgid "Default charset pour fichier sauvegardé sous"
-msgstr ""
+msgid "Default charset for file saved as"
+msgstr "Default charset pour fichier sauvegardé sous"
 
 #: src/griffon_options.c:204
 msgid "Misc"
-msgstr ""
+msgstr "Misc"
 
 #: src/griffon_options.c:208
-msgid "Default charset pour RTF"
-msgstr ""
+msgid "Default charset for RTF"
+msgstr "Default charset pour RTF"
 
 #: src/griffon_options.c:210
 msgid "Autodetect"
-msgstr ""
+msgstr "Autodetect"
 
 #: src/griffon_options.c:240
-msgid "éditeur d'image externe"
-msgstr ""
+msgid "external image editor"
+msgstr "éditeur d'image externe"
 
 #: src/griffon_options.c:241
-msgid "Visionneuse d'image externe"
-msgstr ""
+msgid "External image viewer"
+msgstr "Visionneuse d'image externe"
 
 #: src/griffon_options.c:242
-msgid "Lancez MPlayer avec les sous-titres"
-msgstr ""
+msgid "Run MPlayer with subtitles"
+msgstr "Lancez MPlayer avec les sous-titres"
 
 #: src/griffon_options.c:254
-msgid "Limite de l'historique de saisie de texte"
-msgstr ""
+msgid "History limit text input"
+msgstr "Limite de l'historique de saisie de texte"
 
 #: src/griffon_options.c:255
-msgid "Max de fichiers récents"
-msgstr ""
+msgid "Max of recent files"
+msgstr "Max de fichiers récents"
 
 #: src/griffon_options.c:265
-msgid "Format de la date et de l'heure"
-msgstr ""
+msgid "Date format and time"
+msgstr "Format de la date et de l'heure"
 
 #: src/griffon_options.c:266
-msgid "Le format de la fonction Couleur"
-msgstr ""
+msgid "The format of the function Color"
+msgstr "Le format de la fonction Couleur"
 
 #: src/griffon_options.c:277
-msgid "Enregistrer / Ouvrir largeur des boîtes de dialogue pour cents"
-msgstr ""
+msgid "Save / Open dialogs width cents for"
+msgstr "Enregistrer / Ouvrir largeur des boîtes de dialogue pour cents"
 
 #: src/griffon_options.c:278
-msgid "Enregistrer / Ouvrir la hauteur des boîtes de dialogue pour cents"
-msgstr ""
+msgid "Save / Open dialog boxes up to hundred"
+msgstr "Enregistrer / Ouvrir la hauteur des boîtes de dialogue pour cents"
 
 #: src/griffon_options.c:279
-msgid "Afficher le chemin complet dans le titre de la fenêtre"
-msgstr ""
+msgid "Show full path in window title"
+msgstr "Afficher le chemin complet dans le titre de la fenêtre"
 
 #: src/griffon_options.c:280
-msgid "Afficher la barre d'outils principale"
-msgstr ""
+msgid "View the main toolbar"
+msgstr "Afficher la barre d'outils principale"
 
 #: src/griffon_options.c:282
-msgid "Largeur de l'image thumbnail"
-msgstr ""
+msgid "Width of the image thumbnail"
+msgstr "Largeur de l'image thumbnail"
 
 #: src/griffon_options.c:283
-msgid "Hauteur de l'image thumbnail"
-msgstr ""
+msgid "Thumbnail image height"
+msgstr "Hauteur de l'image thumbnail"
 
 #: src/griffon_options.c:294
-msgid "Lancer Griffon avec un fichier récent"
-msgstr ""
+msgid "Griffon start with a recent file"
+msgstr "Lancer Griffon avec un fichier récent"
 
 #: src/griffon_options.c:295
-msgid "Lancer Griffon avec un fichier vide"
-msgstr ""
+msgid "Griffon start with an empty file"
+msgstr "Lancer Griffon avec un fichier vide"
 
 #: src/griffon_options.c:296
-msgid "Déterminer la coloration syntaxique par le contenu du fichier"
-msgstr ""
+msgid "Determine the syntax of the file contents"
+msgstr "Déterminer la coloration syntaxique par le contenu du fichier"
 
 #: src/griffon_options.c:297
-msgid "Mode XHTML pour des Markup"
-msgstr ""
+msgid "XHTML Mode for Markup"
+msgstr "Mode XHTML pour des Markup"
 
 #: src/griffon_options.c:299
-msgid "Utiliser les snippets"
-msgstr ""
+msgid "Use snippets"
+msgstr "Utiliser les snippets"
 
 #: src/griffon_options.c:300
-msgid "Utiliser le visualisateur d'image externe"
-msgstr ""
+msgid "Use external image viewer"
+msgstr "Utiliser le visualisateur d'image externe"
 
 #: src/griffon_options.c:301
-msgid "Coloration de la syntaxe à l'ouverture du fichier"
-msgstr ""
+msgid "Syntax coloring to open the file"
+msgstr "Coloration de la syntaxe à l'ouverture du fichier"
 
 #: src/griffon_options.c:302
-msgid "Fichier backup"
-msgstr ""
+msgid "File backup"
+msgstr "Fichier backup"
 
 #: src/griffon_options.c:303
-msgid "Afficher les numros de ligne"
-msgstr ""
+msgid "View numros line"
+msgstr "Afficher les numros de ligne"
 
 #: src/griffon_options.c:305
-msgid "Analyser les liens à l'ouverture de fichier"
-msgstr ""
+msgid "Analyze the links to open file"
+msgstr "Analyser les liens à l'ouverture de fichier"
 
 #: src/griffon_options.c:316
-msgid "M'avertir avant la fermeture d'un fichier modifié"
-msgstr ""
+msgid "Warn before closing a modified file"
+msgstr "M'avertir avant la fermeture d'un fichier modifié"
 
 #: src/griffon_options.c:317
-msgid "Ecraser le fichier existant"
-msgstr ""
+msgid "Overwrite existing file"
+msgstr "Ecraser le fichier existant"
 
 
 #: src/griffon_options.c:342
 msgid ""
-"Configuration restaure, s'il vous plaît fermez et réouvrez la fenêtre Préférences."
+"Restore configuration, please close and reopen the Preferences window."
 msgstr ""
+"Configuration restaure, s'il vous plaît fermez et réouvrez la fenêtre Préférences."
 
 #: src/griffon_options.c:353
 msgid ""
+"Configuration reset by default, please close and reopen it "
+"Preferences window."
+msgstr ""
 "Configuration remis à zéro par dfaut, s'il vous plaît fermez et réouvrez la "
 "fenêtre Préférences."
-msgstr ""
 
 #: src/griffon_options.c:365
-msgid "Sauvegarde de la configuration actuelle"
-msgstr ""
+msgid "Saving the current configuration"
+msgstr "Sauvegarde de la configuration actuelle"
 
 #: src/griffon_options.c:366
-msgid "Restaurer une configuration"
-msgstr ""
+msgid "Restoring a Configuration"
+msgstr "Restaurer une configuration"
 
 #: src/griffon_options.c:367
-msgid "Réinitialiser config par défaut"
-msgstr ""
+msgid "Reset default config"
+msgstr "Réinitialiser config par défaut"
 
 #: src/griffon_options.c:381 src/griffon_options.c:515
-msgid "Editeur"
-msgstr ""
+msgid "Editor"
+msgstr "Editeur"
 
 #: src/griffon_options.c:383
-msgid "Avant-plan du texte"
-msgstr ""
+msgid "Foreground text"
+msgstr "Avant-plan du texte"
 
 #: src/griffon_options.c:384
-msgid "Arrière-plan du texte"
-msgstr ""
+msgid "Background text"
+msgstr "Arrière-plan du texte"
 
 #: src/griffon_options.c:385
-msgid "Plan sélectionné"
-msgstr ""
+msgid "selected plane"
+msgstr "Plan sélectionné"
 
 #: src/griffon_options.c:386
-msgid "Arrire-plan sélectionne"
-msgstr ""
+msgid "Background selects"
+msgstr "Arrire-plan sélectionne"
 
 #: src/griffon_options.c:387
-msgid "Marques de vérification orthographique"
-msgstr ""
+msgid "Brands spellcheck"
+msgstr "Marques de vérification orthographique"
 
 #: src/griffon_options.c:405
-msgid "Errors avant-plan (logmemo)"
-msgstr ""
+msgid "Errors foreground (logmemo)"
+msgstr "Errors avant-plan (logmemo)"
 
 #: src/griffon_options.c:406
-msgid "Errors arrire-plan du texte (logmemo)"
-msgstr ""
+msgid "Errors back-end of the text (logmemo)"
+msgstr "Errors arrire-plan du texte (logmemo)"
 
 #: src/griffon_options.c:417
-msgid "Editeur font"
-msgstr ""
+msgid "Editor font"
+msgstr "Editeur font"
 
 #: src/griffon_options.c:419
-msgid "Commentaires font"
-msgstr ""
+msgid "Comments font"
+msgstr "Commentaires font"
 
 #: src/griffon_options.c:420
-msgid "Identificateurs font"
-msgstr ""
+msgid "Identifiers font"
+msgstr "Identificateurs font"
 
 #: src/griffon_options.c:421
-msgid "Chiffres font"
-msgstr ""
+msgid "numbers font"
+msgstr "Chiffres font"
 
 #: src/griffon_options.c:422
-msgid "Chaîne de caractère"
-msgstr ""
+msgid "String"
+msgstr "Chaîne de caractère"
 
 #: src/griffon_options.c:423
 msgid "HTML tags font"
-msgstr ""
+msgstr "HTML tags font"
 
 #: src/griffon_options.c:424
 msgid "Preprocessor font"
-msgstr ""
+msgstr "Preprocessor font"
 
 #: src/griffon_options.c:425
 msgid "Types font"
-msgstr ""
+msgstr "Types font"
 
 #: src/griffon_options.c:447
-msgid "Utilisez votre navigateur"
-msgstr ""
+msgid "Use your browser"
+msgstr "Utilisez votre navigateur"
 
 #: src/griffon_options.c:457
-msgid "Taille des tabulations en espaces"
-msgstr ""
+msgid "Size tabs to spaces"
+msgstr "Taille des tabulations en espaces"
 
 #: src/griffon_options.c:458
-msgid "Insérer des espaces sur la touche TAB"
-msgstr ""
+msgid "Insert spaces the TAB key"
+msgstr "Insérer des espaces sur la touche TAB"
 
 #: src/griffon_options.c:459
 msgid "Indentation automatique"
-msgstr ""
+msgstr "Indentation automatique"
 
 #: src/griffon_options.c:486
-msgid "Remplacement automatique"
-msgstr ""
+msgid "automatic replacement"
+msgstr "Remplacement automatique"
 
 #: src/griffon_options.c:509
-msgid "Principale"
-msgstr ""
+msgid "Main"
+msgstr "Principale"
 
 #: src/griffon_options.c:510
-msgid "Encodage"
-msgstr ""
+msgid "Encoding"
+msgstr "Encodage"
 
 
 #: src/griffon_options.c:512
 msgid "Interface"
-msgstr ""
+msgstr "Interface"
 
 #: src/griffon_options.c:513
-msgid "Limites"
-msgstr ""
+msgid "Limitations"
+msgstr "Limites"
 
 #: src/griffon_options.c:514
 msgid "Fonts"
-msgstr ""
+msgstr "Fonts"
 
 
 #: src/griffon_options.c:518
-msgid "Commandes"
-msgstr ""
+msgid "commands"
+msgstr "Commandes"
 
 #: src/griffon_options.c:520
-msgid "Complémentation"
-msgstr ""
+msgid "complementation"
+msgstr "Complémentation"
 
 #: src/griffon_options.c:521
 msgid "Confirmations"
-msgstr ""
+msgstr "Confirmations"
 
 #: src/griffon_options.c:522
 msgid "Maintenance"
-msgstr ""
+msgstr "Maintenance"
 
 #: src/griffon_options.c:534
-msgid "Fermer"
-msgstr ""
+msgid "Close"
+msgstr "Fermer"
 
 #: src/griffon_options.c:539
-msgid "Sauvegarder et aplliquer"
-msgstr ""
+msgid "Save and apply"
+msgstr "Sauvegarder et aplliquer"
 
-msgid "Aide Htaccess"
-msgstr ""
-
-msgid "1 Base [Htaccess]"
-msgstr ""
-
-msgid "1.1 (htaccess) : Charset par défaut (UTF8)"
-msgstr ""
-
-msgid "1.2 (htaccess) : bloquer toutes les ip"
-msgstr ""
-
-msgid "1.3 (htaccess) : Autoriser une ip"
-msgstr ""
-
-msgid "1.4 (htaccess) : Redirection des erreurs"
-msgstr ""
-
-msgid "1.5 (htaccess) : Activation de l'url rewriting"
-msgstr ""
-
-msgid "1.6 (htaccess) : ligne exemple simple url rewriting"
-msgstr ""
-
-msgid "1.7 (htaccess) : ligne exemple avec option et expression régulière url rewriting"
-msgstr ""
-
-msgid "Génération d'un template de documentation du code en HTML"
-msgstr ""
-
-msgid "5.6 (php) NUM_ROWS : récuperation du nombre de résultats d'une requete"
-msgstr ""
-
-msgid "Mkdir Error : vous devez entrer le nom du répertoire dans la ligne de commande"
-msgstr ""
-
-msgid "Mkdir Error : vous devez séléctionner un répertoire dans le sélécteur de fichier."
-msgstr ""
-
-msgid "File Error : vous devez entrer le nom du fichier dans la ligne de commande"
-msgstr ""
-
-msgid "File Error : vous devez séléctionner un répertoire dans le sélécteur de fichier."
-msgstr ""
-
-msgid "Afficher les informations ESPACE,TAB,RETOUR CHARIOT..."
-msgstr ""
-
-msgid "Autocompletion des bloc et balises {} () ..."
-msgstr ""
-
-msgid "4.9 (php) EXPLODE : découpe une chaîne avec séparateur et retourne un tableau"
-msgstr ""
-
-msgid "$tableau = explode(\" \", $chaine);\n"
-msgstr ""
-
-msgid "8.5 (lib_net) CWD Changer de répertoire"
-msgstr ""
-
-msgid "8.6 (lib_net) DELETE Supprimer un fichier"
-msgstr ""
-
-msgid "3.2 (php) UNLINK : supprimer un fichier"
-msgstr ""
-
-msgid "3.3 (php) FPUTS : écrire dans un fichier"
-msgstr ""
-
-msgid "1.9 (php) COUNT : Compte tous les éléments d'un tableau"
-msgstr ""
-
-msgid "$nbr=count($tableau);\n"
-msgstr ""
-
-msgid "3.4 (php) DIR : Lister les fichiers d'un répertoire dans un tableau"
-msgstr ""
-
-msgid "Activer la correction d'orthographe"
-msgstr ""
-
-msgid "1.4 (javascript) : Encodage d'une URL"
-msgstr ""
-
-msgid "4.10 (php) ADDSLASHES : Ajoute des antislashs dans une chaîne"
-msgstr ""
-
-msgid "Ouvrir les logs dans un fichier"
-msgstr ""
-
-msgid "Sauvegarder dans un fichier texte"
-msgstr ""
-
-msgid "Traduction"
-msgstr ""
-
-msgid "Aide/Recherche"
-msgstr ""
-
-msgid "5.6 (lib_dbi) ROWS : rows récupération du nombre de résultats pour une requête"
-msgstr ""
-
-msgid "Recherche Google"
-msgstr ""
-
-msgid "Le résultat de la recherche est disponible dans l'onglet :\nMyAdmin->Aide/Recherche"
-msgstr ""
-
-msgid "Le résultat de la traduction est disponible dans l'onglet :\nMyAdmin->Traduction"
-msgstr ""
-
-msgid "Le répertoire est créé."
-msgstr ""
-
-msgid "Le fichier est créé."
-msgstr ""
-
-msgid "Le bookmark est disponible dans l'onglet :\nMark"
-msgstr ""
-
-msgid "La visualisation est disponible dans l'onglet Mini Web"
-msgstr ""
-
-msgid "7.3 (php) Téléchargement d'un fichier CSV"
-msgstr ""
-
-msgid "1.1 (term) : Utilisation du disque"
-msgstr ""
-
-msgid "1.2 (term) : Aspiration de site web WGET"
-msgstr ""
-
-msgid "1.3 (term) : RM sur un grand nombre de fichiers"
-msgstr ""
-
-msgid "1.4 (term) : FIND trouver un fichier par son nom"
-msgstr ""
-
-msgid "1.5 (term) : SCREEN Lancer un screen ou le récupérer"
-msgstr ""
-
-msgid "1.6 (term) : WC Nombre de lignes pour sortie ou fichier"
-msgstr ""
-
-msgid "1.7 (term) : WGET récupération de page web"
-msgstr ""
-
-msgid "1.8 (term) : Lister les fichiers et répertoire en couleur"
-msgstr ""
-
-msgid "1.9 (term) : NICE Lancer un script ou commande lourde avec une priorité basse"
-msgstr ""
-
-msgid "Download Error : vous devez séléctionner un répertoire dans le sélécteur de fichier"
-msgstr ""
-
-msgid "2.0 (term) : Compression avec tar.gz"
-msgstr ""
-
-msgid "2.1 (term) : Décompression avec tar.gz"
-msgstr ""
-
-msgid "2.2 (term) :  Différence entre deux fichiers"
-msgstr ""
-
-msgid "Le fichier est ouvert et disponible dans l'onglet Editor"
-msgstr ""
 
 msgid ""
-msgstr ""
+msgstr "Help Htaccess"
+
+msgid "1 Base [Htaccess]"
+msgstr "1 Base [Htaccess]"
+
+msgid "1.1 (htaccess) : Default charset (UTF-8)"
+msgstr "1.1 (htaccess) : Charset par défaut (UTF8)"
+
+msgid "1.2 (htaccess): block all IP"
+msgstr "1.2 (htaccess) : bloquer toutes les ip"
+
+msgid "1.3 (htaccess) : Allow IP"
+msgstr "1.3 (htaccess) : Autoriser une ip"
+
+msgid "1.4 (htaccess) : Redirect errors"
+msgstr "1.4 (htaccess) : Redirection des erreurs"
+
+msgid "1.5 (htaccess) : Enable URL rewriting"
+msgstr "1.5 (htaccess) : Activation de l'url rewriting"
+
+msgid "1.6 (htaccess) : online simple example url rewriting"
+msgstr "1.6 (htaccess) : ligne exemple simple url rewriting"
+
+msgid "1.7 (htaccess) : Example line with regular expression option and url rewriting"
+msgstr "1.7 (htaccess) : ligne exemple avec option et expression régulière url rewriting"
+
+msgid "Generating a template code documentation in HTML"
+msgstr "Génération d'un template de documentation du code en HTML"
+
+msgid "5.6 (php) NUM_ROWS: number of results of a query"
+msgstr "5.6 (php) NUM_ROWS : récuperation du nombre de résultats d'une requete"
+
+msgid "Mkdir Error : you must enter the directory name in the command line"
+msgstr "Mkdir Error : vous devez entrer le nom du répertoire dans la ligne de commande"
+
+msgid "Mkdir Error: you must select a directory in the File Selector Tool."
+msgstr "Mkdir Error : vous devez séléctionner un répertoire dans le sélécteur de fichier."
+
+msgid "File Error: You must enter the file name in the command line"
+msgstr "File Error : vous devez entrer le nom du fichier dans la ligne de commande"
+
+msgid "File Error: you must select a directory in the File Selector Tool."
+msgstr "File Error : vous devez séléctionner un répertoire dans le sélécteur de fichier."
+
+msgid "Show information SPACE, TAB, NEWLINE ..."
+msgstr "Afficher les informations ESPACE,TAB,RETOUR CHARIOT..."
+
+msgid "Autocompletion of tags and block {} () ..."
+msgstr "Autocompletion des bloc et balises {} () ..."
+
+msgid "4.9 (php) EXPLODE : split a string with separator and returns an array"
+msgstr "4.9 (php) EXPLODE : découpe une chaîne avec séparateur et retourne un tableau"
+
+msgid "$array = explode(\" \", $string);\n"
+msgstr "$tableau = explode(\" \", $chaine);\n"
+
+msgid "8.5 (lib_net) CWD Change directory"
+msgstr "8.5 (lib_net) CWD Changer de répertoire"
+
+msgid "8.6 (lib_net) DELETE Delete a file"
+msgstr "8.6 (lib_net) DELETE Supprimer un fichier"
+
+msgid "3.2 (php) UNLINK : delete a file"
+msgstr "3.2 (php) UNLINK : supprimer un fichier"
+
+msgid "3.3 (php) FPUTS : write to a file"
+msgstr "3.3 (php) FPUTS : écrire dans un fichier"
+
+msgid "1.9 (php) COUNT : Account all the elements of an array"
+msgstr "1.9 (php) COUNT : Compte tous les éléments d'un tableau"
+
+msgid "$nbr=count($array);\n"
+msgstr "$nbr=count($tableau);\n"
+
+msgid "3.4 (php) DIR : List the files in a directory in a table"
+msgstr "3.4 (php) DIR : Lister les fichiers d'un répertoire dans un tableau"
+
+msgid "Enable spell check"
+msgstr "Activer la correction d'orthographe"
+
+msgid "1.4 (javascript) : Encoding a URL"
+msgstr "1.4 (javascript) : Encodage d'une URL"
+
+msgid "4.10 (php) ADDSLASHES : Adds backslashes in a string"
+msgstr "4.10 (php) ADDSLASHES : Ajoute des antislashs dans une chaîne"
+
+msgid "Open the logs in a file"
+msgstr "Ouvrir les logs dans un fichier"
+
+msgid "Save a text file"
+msgstr "Sauvegarder dans un fichier texte"
+
+msgid "Translation"
+msgstr "Traduction"
+
+msgid "Help/Search"
+msgstr "Aide/Recherche"
+
+msgid "5.6 (lib_dbi) ROWS: rows recovery number of results for a query"
+msgstr "5.6 (lib_dbi) ROWS : rows récupération du nombre de résultats pour une requête"
+
+msgid "Google search"
+msgstr "Recherche Google"
+
+msgid "The search result is available in the tab:\n"
+"MyAdmin-> Help/Search"
+msgstr "Le résultat de la recherche est disponible dans l'onglet :\n"
+"MyAdmin->Aide/Recherche"
+
+msgid "The result of the translation is available in the tab:\n"
+"MyAdmin-> Translation"
+msgstr "Le résultat de la traduction est disponible dans l'onglet :\n"
+"MyAdmin->Traduction"
+
+msgid "The directory is created."
+msgstr "Le répertoire est créé."
+
+msgid "The file is created."
+msgstr "Le fichier est créé."
+
+msgid "The bookmark is available in the tab: \n"
+"Mark"
+msgstr "Le bookmark est disponible dans l'onglet :\n"
+"Mark"
+
+msgid "Visualization is available in the tab Mini Web"
+msgstr "La visualisation est disponible dans l'onglet Mini Web"
+
+msgid "7.3 (php) Download a CSV file"
+msgstr "7.3 (php) Téléchargement d'un fichier CSV"
+
+msgid "1.1 (term) : Disk Usage"
+msgstr "1.1 (term) : Utilisation du disque"
+
+msgid "1.2 (term) : Extractors website WGET"
+msgstr "1.2 (term) : Aspiration de site web WGET"
+
+msgid "1.3 (term) : RM on a large number of files"
+msgstr "1.3 (term) : RM sur un grand nombre de fichiers"
+
+msgid "1.4 (term) : FIND find a file by name"
+msgstr "1.4 (term) : FIND trouver un fichier par son nom"
+
+msgid "1.5 (term) : SCREEN Launch a screen or recover"
+msgstr "1.5 (term) : SCREEN Lancer un screen ou le récupérer"
+
+msgid "1.6 (term) : WC number of lines to output or file"
+msgstr "1.6 (term) : WC Nombre de lignes pour sortie ou fichier"
+
+msgid "1.7 (term) : WGET download web page"
+msgstr "1.7 (term) : WGET récupération de page web"
+
+msgid "1.8 (term) : List files and directories in color"
+msgstr "1.8 (term) : Lister les fichiers et répertoire en couleur"
+
+msgid "1.9 (term) : NICE Launch a script or command heavy with low priority"
+msgstr "1.9 (term) : NICE Lancer un script ou commande lourde avec une priorité basse"
+
+msgid "Download Error : You must select a directory in the File Selector Tool"
+msgstr "Download Error : vous devez séléctionner un répertoire dans le sélécteur de fichier"
+
+msgid "2.0 (term) : Compression with tar.gz"
+msgstr "2.0 (term) : Compression avec tar.gz"
+
+msgid "2.1 (term) : Unzip with tar.gz"
+msgstr "2.1 (term) : Décompression avec tar.gz"
+
+msgid "2.2 (term) :  Difference between two files"
+msgstr "2.2 (term) :  Différence entre deux fichiers"
+
+msgid "The file is open and available in the Editor tab"
+msgstr "Le fichier est ouvert et disponible dans l'onglet Editor"
