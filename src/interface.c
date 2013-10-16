@@ -683,31 +683,31 @@ GtkWidget* create_tea_main_window (void)
                               GDK_KEY_M, GDK_MOD1_MASK,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item (_("Ajouter un marque page"), mni_file_menu, on_mni_file_add_bookmark);
+  mni_temp = new_menu_item (_("Add a bookmark"), mni_file_menu, on_mni_file_add_bookmark);
 
   mni_temp = new_menu_item (_("Doc Gen"), mni_file_menu, gen_doc_html);
 
   mni_temp = new_menu_sep (mni_file_menu);
 
-  mni_temp = new_menu_item (_("Ouvrir"), mni_file_menu, on_mni_file_open_activate);
+  mni_temp = new_menu_item (_("Open"), mni_file_menu, on_mni_file_open_activate);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_o, GDK_CONTROL_MASK,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item (_("Dérniers fichiers ouvert"), mni_file_menu, on_mni_load_last_file);
+  mni_temp = new_menu_item (_("Last open files"), mni_file_menu, on_mni_load_last_file);
   
-  mni_temp = new_menu_item (_("Ouvrir different fichiers"), mni_file_menu, NULL);
+  mni_temp = new_menu_item (_("Open different files"), mni_file_menu, NULL);
   mni_opendifferent_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
-  mni_temp = new_menu_item (_("Ouvrir un snippet"), mni_opendifferent_menu, on_mni_snippet_file_open_activate);
-  mni_temp = new_menu_item (_("Ouvrir un template"), mni_opendifferent_menu, on_mni_templ_file_open_activate);
-  mni_temp = new_menu_item (_("Ouvrir un fichier de session"), mni_opendifferent_menu, on_mni_session_file_open_activate);
+  mni_temp = new_menu_item (_("Open a snippet"), mni_opendifferent_menu, on_mni_snippet_file_open_activate);
+  mni_temp = new_menu_item (_("Open a template"), mni_opendifferent_menu, on_mni_templ_file_open_activate);
+  mni_temp = new_menu_item (_("Open a session file"), mni_opendifferent_menu, on_mni_session_file_open_activate);
   
   mni_temp = new_menu_sep (mni_file_menu);
 
-  mni_recent_list = new_menu_item (_("Fichier recents"), mni_file_menu, NULL);
+  mni_recent_list = new_menu_item (_("Recent file"), mni_file_menu, NULL);
   mni_recent_menu = new_menu_submenu (GTK_WIDGET(mni_recent_list));
 
-  mni_bookmarks_root = new_menu_item (_("Marque page"), mni_file_menu, NULL);
+  mni_bookmarks_root = new_menu_item (_("BookMark"), mni_file_menu, NULL);
   mni_bookmarks_menu = new_menu_submenu (GTK_WIDGET(mni_bookmarks_root));
  
   mni_sessions = new_menu_item (_("Sessions"), mni_file_menu, NULL); 
@@ -718,47 +718,47 @@ GtkWidget* create_tea_main_window (void)
     
   mni_temp = new_menu_sep (mni_file_menu);
 
-  mni_temp = new_menu_item (_("Sauvegarder"), mni_file_menu, on_mni_file_save_activate);
+  mni_temp = new_menu_item (_("Save"), mni_file_menu, on_mni_file_save_activate);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_s, GDK_CONTROL_MASK,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item (_("Sauvegarder sous"), mni_file_menu, on_mni_file_save_as_activate);
+  mni_temp = new_menu_item (_("Save as"), mni_file_menu, on_mni_file_save_as_activate);
 
-  mni_temp = new_menu_item (_("Sauvegarder different fichiers"), mni_file_menu, NULL);
+  mni_temp = new_menu_item (_("Save different files"), mni_file_menu, NULL);
   mni_savedifferent_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
  
-  mni_temp = new_menu_item (_("Sauvegarder session"), mni_savedifferent_menu, on_mni_file_save_session);
+  mni_temp = new_menu_item (_("Save session"), mni_savedifferent_menu, on_mni_file_save_session);
   
-  mni_temp = new_menu_item (_("Sauvegarder sous un template"), mni_savedifferent_menu, on_mni_file_save_as_template_activate);
-  mni_temp = new_menu_item (_("Sauvegarder sous un snippet"), mni_savedifferent_menu, on_mni_file_save_as_snippet_activate);
+  mni_temp = new_menu_item (_("Save as a template"), mni_savedifferent_menu, on_mni_file_save_as_template_activate);
+  mni_temp = new_menu_item (_("Save as a snippet"), mni_savedifferent_menu, on_mni_file_save_as_snippet_activate);
 
-  mni_temp = new_menu_item (_("Sauvegarder version"), mni_savedifferent_menu, on_mni_file_save_version);
+  mni_temp = new_menu_item (_("Save Version"), mni_savedifferent_menu, on_mni_file_save_version);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_s, GDK_MOD1_MASK,
                               GTK_ACCEL_VISIBLE);
 
   mni_temp = new_menu_item (_("Backup"), mni_savedifferent_menu, on_mni_file_backup);
 
-  mni_temp = new_menu_item (_("Revenir à la sauvegarde"), mni_file_menu, on_mni_file_revert_to_saved);
+  mni_temp = new_menu_item (_("Back to save"), mni_file_menu, on_mni_file_revert_to_saved);
 
   mni_temp = new_menu_sep (mni_file_menu);
 
-  mni_temp = new_menu_item (_("Manager le fichier de configuration"), mni_file_menu, NULL);
+  mni_temp = new_menu_item (_("Manager configuration file"), mni_file_menu, NULL);
   mni_file_configs_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
-  mni_temp = new_menu_item (_("Fichier autoremplacement"), mni_file_configs_menu, on_mni_autorep_file_open);
+  mni_temp = new_menu_item (_("File auto replacement"), mni_file_configs_menu, on_mni_autorep_file_open);
   mni_temp = new_menu_item (_("File autocomp"), mni_file_configs_menu, on_mni_autocomp_file_open);
-  mni_temp = new_menu_item (_("Configuration principale"), mni_file_configs_menu , on_mni_config_open);
+  mni_temp = new_menu_item (_("main configuration"), mni_file_configs_menu , on_mni_config_open);
   mni_temp = new_menu_item (_("Charsets configuration"), mni_file_configs_menu, on_mni_utils_add_encodings_activate);
-  mni_temp = new_menu_item (_("Configuration du Menu utilisateur"), mni_file_configs_menu, on_mni_user_menu_open);
-  mni_temp = new_menu_item (_("Fichier de marque page"), mni_file_configs_menu, on_mni_file_open_bookmark);
-	mni_temp = new_menu_item (_("Fichier de configuration todo liste"), mni_file_configs_menu, on_mni_file_todo);
-	mni_temp = new_menu_item (_("Fichier de configuration MyAdmin"), mni_file_configs_menu, on_mni_file_myadmin);
+  mni_temp = new_menu_item (_("Configuring the User Menu"), mni_file_configs_menu, on_mni_user_menu_open);
+  mni_temp = new_menu_item (_("Bookmark file"), mni_file_configs_menu, on_mni_file_open_bookmark);
+	mni_temp = new_menu_item (_("Config file for todo list"), mni_file_configs_menu, on_mni_file_todo);
+	mni_temp = new_menu_item (_("Configuration file MyAdmin"), mni_file_configs_menu, on_mni_file_myadmin);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_n, GDK_MOD1_MASK,
                               GTK_ACCEL_VISIBLE);
 
-	mni_temp = new_menu_item (_("Recharger MyAdmin"), mni_file_configs_menu, myadmin);
+	mni_temp = new_menu_item (_("Reload MyAdmin"), mni_file_configs_menu, myadmin);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_h, GDK_MOD1_MASK,
                               GTK_ACCEL_VISIBLE);
@@ -767,14 +767,14 @@ GtkWidget* create_tea_main_window (void)
  
   mni_temp = new_menu_sep (mni_file_menu);
 
-  mni_temp = new_menu_item (_("Fermer le fichier encours"), mni_file_menu, on_mni_file_close_current);
+  mni_temp = new_menu_item (_("Close the file assets"), mni_file_menu, on_mni_file_close_current);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_Q, GDK_MOD1_MASK,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item (_("Quiter Griffon"), mni_file_menu, on_mni_out_activate); 
+  mni_temp = new_menu_item (_("Exit"), mni_file_menu, on_mni_out_activate); 
 
-  mni_temp = new_menu_item (_("Editer"), menubar1, NULL);
+  mni_temp = new_menu_item (_("Edit"), menubar1, NULL);
   mni_edit_menu =  new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_edit_menu);
 
@@ -783,8 +783,8 @@ GtkWidget* create_tea_main_window (void)
 
   mni_temp = new_menu_sep (mni_edit_menu);
 
-  mni_temp = new_menu_item (_("Copier"), mni_edit_menu, on_mni_edit_copy);
-  mni_temp = new_menu_item (_("Copier tous le contenu du fichier"), mni_edit_menu, on_mni_edit_copy_all);
+  mni_temp = new_menu_item (_("Copy"), mni_edit_menu, on_mni_edit_copy);
+  mni_temp = new_menu_item (_("Copy all the contents of the file"), mni_edit_menu, on_mni_edit_copy_all);
 
   mni_temp = new_menu_item (_("Couper"), mni_edit_menu, on_mni_edit_cut);
   mni_temp = new_menu_item (_("Coller"), mni_edit_menu, on_mni_paste);
