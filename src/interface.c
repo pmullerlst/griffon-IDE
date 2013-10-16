@@ -786,41 +786,41 @@ GtkWidget* create_tea_main_window (void)
   mni_temp = new_menu_item (_("Copy"), mni_edit_menu, on_mni_edit_copy);
   mni_temp = new_menu_item (_("Copy all the contents of the file"), mni_edit_menu, on_mni_edit_copy_all);
 
-  mni_temp = new_menu_item (_("Couper"), mni_edit_menu, on_mni_edit_cut);
-  mni_temp = new_menu_item (_("Coller"), mni_edit_menu, on_mni_paste);
-  mni_temp = new_menu_item (_("Echanger avec le presse papier"), mni_edit_menu,on_mni_edit_replace_with_clipboard);
+  mni_temp = new_menu_item (_("Cut"), mni_edit_menu, on_mni_edit_cut);
+  mni_temp = new_menu_item (_("Paste"), mni_edit_menu, on_mni_paste);
+  mni_temp = new_menu_item (_("Replace with clipboard"), mni_edit_menu,on_mni_edit_replace_with_clipboard);
   
-  mni_temp = new_menu_item (_("Supprimer"), mni_edit_menu, on_mni_edit_delete);
+  mni_temp = new_menu_item (_("Remove"), mni_edit_menu, on_mni_edit_delete);
   
   mni_temp = new_menu_sep (mni_edit_menu);
 
-  mni_temp = new_menu_item (_("Couper et nouveau fichier"), mni_edit_menu, on_mni_cut_to_new);
-  mni_temp = new_menu_item (_("Copier et nouveau fichier"), mni_edit_menu, on_mni_copy_to_new);
-  mni_temp = new_menu_item (_("Coller et nouveau fichier"), mni_edit_menu, on_mni_paste_to_new);
-  mni_temp = new_menu_item (_("Ajouter au Crapbook"), mni_edit_menu, on_mni_edit_append_to_crapbook);
+  mni_temp = new_menu_item (_("Cut and new file"), mni_edit_menu, on_mni_cut_to_new);
+  mni_temp = new_menu_item (_("Copy and new file"), mni_edit_menu, on_mni_copy_to_new);
+  mni_temp = new_menu_item (_("New file and paste"), mni_edit_menu, on_mni_paste_to_new);
+  mni_temp = new_menu_item (_("Add to Crapbook"), mni_edit_menu, on_mni_edit_append_to_crapbook);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_E, GDK_CONTROL_MASK,
                               GTK_ACCEL_VISIBLE);
   mni_temp = new_menu_sep (mni_edit_menu);
 
-  mni_temp = new_menu_item (_("Tout séléctionner"), mni_edit_menu, on_mni_edit_select_all);
+  mni_temp = new_menu_item (_("Select all"), mni_edit_menu, on_mni_edit_select_all);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_A, GDK_CONTROL_MASK,
                               GTK_ACCEL_VISIBLE);
   
-  mni_temp = new_menu_item (_("Supprimer la ligne"), mni_edit_menu, on_mni_edit_delete_current_line);
+  mni_temp = new_menu_item (_("Delete Row"), mni_edit_menu, on_mni_edit_delete_current_line);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_y, GDK_CONTROL_MASK,
                               GTK_ACCEL_VISIBLE);
 
   mni_temp = new_menu_sep (mni_edit_menu);
 
-  mni_edit_undo = new_menu_item (_("Annuler action"), mni_edit_menu, on_mni_undo);
+  mni_edit_undo = new_menu_item (_("Undo"), mni_edit_menu, on_mni_undo);
   gtk_widget_add_accelerator (mni_edit_undo, "activate", accel_group,
                               GDK_KEY_Z, GDK_CONTROL_MASK,
                               GTK_ACCEL_VISIBLE);
 
-  mni_edit_redo = new_menu_item (_("Refaire action"), mni_edit_menu, on_mni_redo);
+  mni_edit_redo = new_menu_item (_("Redo"), mni_edit_menu, on_mni_redo);
   gtk_widget_add_accelerator (mni_edit_redo, "activate", accel_group,
                               GDK_KEY_Z, GDK_CONTROL_MASK | GDK_SHIFT_MASK,
                               GTK_ACCEL_VISIBLE);
@@ -836,24 +836,24 @@ GtkWidget* create_tea_main_window (void)
                               GDK_KEY_b, GDK_MOD1_MASK,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item (_("Rechercher et remplacer fenêtre"), mni_quest_menu, on_mni_find_and_replace_wnd);
+  mni_temp = new_menu_item (_("Find and Replace window"), mni_quest_menu, on_mni_find_and_replace_wnd);
     
-  mni_temp = new_menu_item (_("Rechercher (le texte en zone de commande)"), mni_quest_menu, on_mni_quest_find);
+  mni_temp = new_menu_item (_("Search (in the text box control)"), mni_quest_menu, on_mni_quest_find);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_f, GDK_CONTROL_MASK,
                               GTK_ACCEL_VISIBLE);
  
-  mni_temp = new_menu_item (_("Rechercher avec case insensitive (le texte en zone de commande)"), mni_quest_menu, on_mni_quest_find_ncase);
+  mni_temp = new_menu_item (_("Search case insensitive (the text box control)"), mni_quest_menu, on_mni_quest_find_ncase);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_f, GDK_CONTROL_MASK | GDK_SHIFT_MASK,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item (_("Rechercher suivant (le texte en zone de commande)"), mni_quest_menu, on_mni_quest_find_next);
+  mni_temp = new_menu_item (_("Search the following (text area control)"), mni_quest_menu, on_mni_quest_find_next);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_F3, 0,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item (_("Rechercher suivant avec case insensitive (le texte en zone de commande)"), mni_quest_menu, on_mni_quest_find_next_ncase);
+  mni_temp = new_menu_item (_("Search according to case insensitive (the text box control)"), mni_quest_menu, on_mni_quest_find_next_ncase);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_F3, GDK_SHIFT_MASK,
                               GTK_ACCEL_VISIBLE);
@@ -863,145 +863,145 @@ GtkWidget* create_tea_main_window (void)
                               GDK_KEY_g, GDK_MOD1_MASK,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item (_("Tout remplacer (Ligne de commande TEXTE_RECHERCHE~TEXTE_REMPLACEMENT)"), mni_quest_menu, on_mni_search_repall);
+  mni_temp = new_menu_item (_("Replace All (Command Line FIND_TEXT~TEXTE_REMPLACEMENT)"), mni_quest_menu, on_mni_search_repall);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_F1, 0,
                               GTK_ACCEL_VISIBLE);
                               
-  mni_temp = new_menu_item (_("Scan lien HTML local (HREF)"), mni_quest_menu, on_mni_get_links );
+  mni_temp = new_menu_item (_("Scan local HTML link (HREF)"), mni_quest_menu, on_mni_get_links );
 
-  mni_temp = new_menu_item (_("Scan d'image HTML (SRC)"), mni_quest_menu, on_mni_get_src);
+  mni_temp = new_menu_item (_("Scan HTML image (SRC)"), mni_quest_menu, on_mni_get_src);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_F7, GDK_SHIFT_MASK,
                               GTK_ACCEL_VISIBLE); 
 
-  mni_temp = new_menu_item (_("Fonctions"), menubar1, NULL);
+  mni_temp = new_menu_item (_("Function"), menubar1, NULL);
   mni_functions_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_functions_menu);
 
-  mni_temp = new_menu_item (_("Insert un chemin de fichier PATH"), mni_functions_menu, selection_path);
+  mni_temp = new_menu_item (_("Insert a file path PATH"), mni_functions_menu, selection_path);
 
-  mni_temp = new_menu_item (_("Analyser de texte UNIversal"), mni_functions_menu, NULL);
+  mni_temp = new_menu_item (_("Analyze text UNIversal"), mni_functions_menu, NULL);
   mni_utils_unitaz_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_utils_unitaz_menu);
-  mni_temp = new_menu_item (_("UNITAZ avec trie abc"), mni_utils_unitaz_menu, on_mni_tools_unitaz_sort);
-  mni_temp = new_menu_item (_("UNITAZ avec trie par compte"), mni_utils_unitaz_menu, on_mni_tools_unitaz_sort_by_count);
-  mni_temp = new_menu_item (_("UNITAZ avec trie abc avec case insensitive"), mni_utils_unitaz_menu, on_mni_tools_unitaz_sort_caseinsens);
-  mni_temp = new_menu_item (_("UNITAZ avec trie par compte case insensitive"), mni_utils_unitaz_menu, on_mni_tools_unitaz_sort_by_count_caseinsens);
+  mni_temp = new_menu_item (_("UNITAZ sorts with abc"), mni_utils_unitaz_menu, on_mni_tools_unitaz_sort);
+  mni_temp = new_menu_item (_("UNITAZ with sorting by account"), mni_utils_unitaz_menu, on_mni_tools_unitaz_sort_by_count);
+  mni_temp = new_menu_item (_("UNITAZ with case insensitive sorts with abc"), mni_utils_unitaz_menu, on_mni_tools_unitaz_sort_caseinsens);
+  mni_temp = new_menu_item (_("UNITAZ with case insensitive sorts by counting"), mni_utils_unitaz_menu, on_mni_tools_unitaz_sort_by_count_caseinsens);
   mni_temp = new_menu_item (_("UNITAZ plaine"), mni_utils_unitaz_menu, on_mni_tools_unitaz_plain);
-  mni_temp = new_menu_item (_("Extraire des mots"), mni_utils_unitaz_menu, on_mni_extract_words);
+  mni_temp = new_menu_item (_("Extract words"), mni_utils_unitaz_menu, on_mni_extract_words);
   
   mni_temp = new_menu_sep (mni_functions_menu);
 
   mni_snippets = new_menu_item (_("Snippets"), mni_functions_menu, NULL);
   mni_snippets_menu = new_menu_submenu (GTK_WIDGET(mni_snippets));
 
-  mni_user_menu = new_menu_item (_("Menu utilisateur"), mni_functions_menu, NULL);
+  mni_user_menu = new_menu_item (_("User Menu"), mni_functions_menu, NULL);
   mni_user_menu_menu = new_menu_submenu (GTK_WIDGET(mni_user_menu));
 
   mni_temp = new_menu_sep (mni_functions_menu);
 
-  mni_temp = new_menu_item (_("Inserer"), mni_functions_menu, NULL);
+  mni_temp = new_menu_item (_("Insert"), mni_functions_menu, NULL);
   mni_ins_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_ins_menu);
 
   mni_temp = new_menu_item (_("Date/Time"), mni_ins_menu, on_mni_funx_ins_time);
   mni_temp = new_menu_item (_("Dump menu"), mni_ins_menu, on_mni_dump_menu);
 
-  mni_temp = new_menu_item (_("Caractères"), mni_functions_menu, NULL);
+  mni_temp = new_menu_item (_("Char"), mni_functions_menu, NULL);
   mni_functions_case_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_functions_case_menu);
                         
-  mni_temp = new_menu_item (_("Majuscule"), mni_functions_case_menu, on_mni_case_upcase_activate);
+  mni_temp = new_menu_item (_("Capital"), mni_functions_case_menu, on_mni_case_upcase_activate);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_Up, GDK_CONTROL_MASK,
                               GTK_ACCEL_VISIBLE);
                         
-  mni_temp = new_menu_item (_("Minuscule"), mni_functions_case_menu, on_mni_case_locase_activate);
+  mni_temp = new_menu_item (_("Tiny"), mni_functions_case_menu, on_mni_case_locase_activate);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_Down, GDK_CONTROL_MASK,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item (_("Majuscule sur la première lettre de chaque mot"), mni_functions_case_menu, on_mni_upcase_each_first_letter_ofw);
+  mni_temp = new_menu_item (_("Capitalize the first letter of each word"), mni_functions_case_menu, on_mni_upcase_each_first_letter_ofw);
  
-  mni_temp = new_menu_item (_("Nombres"), mni_functions_menu, NULL);
+  mni_temp = new_menu_item (_("Numbers"), mni_functions_menu, NULL);
   mni_functions_number_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_functions_number_menu);
 
-  mni_temp = new_menu_item (_("Arabe à Roman"), mni_functions_number_menu, on_mni_Functions_number_arabian2roman);
+  mni_temp = new_menu_item (_("Arabic to Roman"), mni_functions_number_menu, on_mni_Functions_number_arabian2roman);
   mni_temp = new_menu_item (_("Hexadécimal au format décimal"), mni_functions_number_menu, on_mni_Functions_number_hex2dec);
-  mni_temp = new_menu_item (_("Binaire en décimal"), mni_functions_number_menu, on_mni_Functions_number_bin2dec);
-  mni_temp = new_menu_item (_("Compteur"), mni_functions_number_menu, on_mni_make_numbering);
+  mni_temp = new_menu_item (_("Binary to decimal"), mni_functions_number_menu, on_mni_Functions_number_bin2dec);
+  mni_temp = new_menu_item (_("Counter"), mni_functions_number_menu, on_mni_make_numbering);
   
   mni_temp = new_menu_item (_("Format"), mni_functions_menu, NULL);
   mni_format_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_format_menu);
 
-  mni_temp = new_menu_item (_("Tuez le formatage"), mni_format_menu, on_mni_kill_formatting);
+  mni_temp = new_menu_item (_("Kill formatting"), mni_format_menu, on_mni_kill_formatting);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_D, GDK_MOD1_MASK,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item (_("Tuez le formatage sur chaque ligne"), mni_format_menu, on_mni_kill_formatting_on_each_line);
+  mni_temp = new_menu_item (_("Kill the formatting on all lines"), mni_format_menu, on_mni_kill_formatting_on_each_line);
   
-  mni_temp = new_menu_item (_("Envelopper première à la position"), mni_format_menu, on_mni_wrap_raw);
-  mni_temp = new_menu_item (_("Envelopper sur les espaces à la position"), mni_format_menu, on_mni_wrap_on_spaces);
+  mni_temp = new_menu_item (_("Wrapping the first position to"), mni_format_menu, on_mni_wrap_raw);
+  mni_temp = new_menu_item (_("Wrapped on the field at the position"), mni_format_menu, on_mni_wrap_on_spaces);
   
-  mni_temp = new_menu_item (_("Tuez les espaces au début de chaque ligne"), mni_format_menu, on_mni_strings_remove_leading_whitespaces);
-  mni_temp = new_menu_item (_("Tuez espaces à la fin de chaque ligne"), mni_format_menu, on_mni_strings_remove_trailing_whitespaces);
+  mni_temp = new_menu_item (_("Kill the spaces at the beginning of each line"), mni_format_menu, on_mni_strings_remove_leading_whitespaces);
+  mni_temp = new_menu_item (_("Kill spaces at the end of each line"), mni_format_menu, on_mni_strings_remove_trailing_whitespaces);
 
-  mni_temp = new_menu_item (_("Trier"), mni_functions_menu, NULL);
+  mni_temp = new_menu_item (_("Sort"), mni_functions_menu, NULL);
   mni_sort_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_sort_menu);
 
-  mni_temp = new_menu_item (_("Trier les lignes"), mni_sort_menu, on_mni_func_strings_sort);
-  mni_temp = new_menu_item (_("Trier les lignes en longueur"), mni_sort_menu, on_mni_func_strings_sort_by_q);
-  mni_temp = new_menu_item (_("Trier les lignes avec case insensetive"), mni_sort_menu, on_mni_sort_case_insensetive);
-  mni_temp = new_menu_item (_("Inverser l'ordre des lignes"), mni_sort_menu, on_mni_func_strings_rev);
+  mni_temp = new_menu_item (_("Sort lines"), mni_sort_menu, on_mni_func_strings_sort);
+  mni_temp = new_menu_item (_("Sort rows in length"), mni_sort_menu, on_mni_func_strings_sort_by_q);
+  mni_temp = new_menu_item (_("Sort rows with box insensetive"), mni_sort_menu, on_mni_sort_case_insensetive);
+  mni_temp = new_menu_item (_("Reverse the order of lines"), mni_sort_menu, on_mni_func_strings_rev);
 
-  mni_temp = new_menu_item (_("Chaîne"), mni_functions_menu, NULL);
+  mni_temp = new_menu_item (_("String"), mni_functions_menu, NULL);
   mni_functions_string_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_functions_string_menu);
 
-  mni_temp = new_menu_item (_("Inerser"), mni_functions_string_menu, on_mni_reverse);
-  mni_temp = new_menu_item (_("Supprimer les lignes vides"), mni_functions_string_menu, on_mni_func_strings_removeblanks);
-  mni_temp = new_menu_item (_("Tuez les doublons"), mni_functions_string_menu, on_mni_str_kill_dups);
-  mni_temp = new_menu_item (_("Numeroter les lignes"), mni_functions_string_menu, on_mni_count_string_list);
+  mni_temp = new_menu_item (_("Insert"), mni_functions_string_menu, on_mni_reverse);
+  mni_temp = new_menu_item (_("Remove blank lines"), mni_functions_string_menu, on_mni_func_strings_removeblanks);
+  mni_temp = new_menu_item (_("Kill Duplicates"), mni_functions_string_menu, on_mni_str_kill_dups);
+  mni_temp = new_menu_item (_("Number lines"), mni_functions_string_menu, on_mni_count_string_list);
   mni_temp = new_menu_item (_("Shuffle lines"), mni_functions_string_menu, on_mni_shuffle_strings);
-  mni_temp = new_menu_item (_("Convertir des tabulations en espaces"), mni_functions_string_menu, on_mni_tabs_to_spaces);
-  mni_temp = new_menu_item (_("Convertir des espaces en tabulations"), mni_functions_string_menu, on_mni_spaces_to_tabs);
+  mni_temp = new_menu_item (_("Convert tabs to spaces"), mni_functions_string_menu, on_mni_tabs_to_spaces);
+  mni_temp = new_menu_item (_("Convert spaces to tabs"), mni_functions_string_menu, on_mni_spaces_to_tabs);
 
-  mni_temp = new_menu_item (_("Appliquer un modèle à chaque ligne en séléction (sur la ligne de commande Ex: %s<br>)"), mni_functions_string_menu, on_mni_func_strings_enclose);
+  mni_temp = new_menu_item (_("A model apply each line selection (the Ex command line: %s<br>)"), mni_functions_string_menu, on_mni_func_strings_enclose);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_E, GDK_MOD1_MASK,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item (_("Filtrer"), mni_functions_menu, NULL);
+  mni_temp = new_menu_item (_("Filter"), mni_functions_menu, NULL);
   mni_filter_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_filter_menu);
 
-  mni_temp = new_menu_item (_("Tuez les lignes qui contiennent une expression"), mni_filter_menu, on_mni_func_filter_exclude_from_list);
-  mni_temp = new_menu_item (_("Tuez toutes les lignes sauf une phrase"), mni_filter_menu, on_mni_func_filter_antiexclude_from_list);
+  mni_temp = new_menu_item (_("Kill the lines that contain an expression"), mni_filter_menu, on_mni_func_filter_exclude_from_list);
+  mni_temp = new_menu_item (_("Kill all lines except one sentence"), mni_filter_menu, on_mni_func_filter_antiexclude_from_list);
   
-  mni_temp = new_menu_item (_("Tuez toutes les lignes < N caractères"), mni_filter_menu, on_mni_filter_kill_lesser);
-  mni_temp = new_menu_item (_("Tuez toutes les lignes > N caractères"), mni_filter_menu, on_mni_filter_kill_more_than);
+  mni_temp = new_menu_item (_("Kill all lines <N characters"), mni_filter_menu, on_mni_filter_kill_lesser);
+  mni_temp = new_menu_item (_("Kill all lines> N characters"), mni_filter_menu, on_mni_filter_kill_more_than);
 
-  mni_temp = new_menu_item (_("Fin de ligne"), mni_functions_menu, NULL);
+  mni_temp = new_menu_item (_("End of line"), mni_functions_menu, NULL);
   mni_eol_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_item (_("CR/LF to LF"), mni_eol_menu, on_mni_eol_to_lf);
   mni_temp = new_menu_item (_("LF to CR/LF"), mni_eol_menu, on_mni_eol_to_crlf);
 
-  mni_temp = new_menu_item (_("Recherche avec google du texte en séléction dans l'onglet MyAdmin"), mni_functions_menu, google_search);
+  mni_temp = new_menu_item (_("Search with google text selection tab MyAdmin"), mni_functions_menu, google_search);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_F8, 0,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item (_("Traduction avec google du texte en séléction dans l'onglet MyAdmin FR vers EN"), mni_functions_menu, google_traduction_fr_en);
+  mni_temp = new_menu_item (_("Google translation with text selection tab MyAdmin : FR to EN"), mni_functions_menu, google_traduction_fr_en);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_F6, 0,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item (_("Traduction avec google du texte en séléction dans l'onglet MyAdmin EN vers FR"), mni_functions_menu, google_traduction_en_fr);
+  mni_temp = new_menu_item (_("Google translation with text selection tab MyAdmin : EN to FR"), mni_functions_menu, google_traduction_en_fr);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_F7, 0,
                               GTK_ACCEL_VISIBLE);
@@ -1010,23 +1010,23 @@ GtkWidget* create_tea_main_window (void)
   mni_markup_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_markup_menu);
   
-  mni_temp = new_menu_item (_("HTML outils"), mni_markup_menu, NULL);
+  mni_temp = new_menu_item (_("HTML tools"), mni_markup_menu, NULL);
   mni_html_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_html_menu);
 
-  mni_temp = new_menu_item (_("Template de base"), mni_html_menu, on_mni_html_default_template);
+  mni_temp = new_menu_item (_("Basic template"), mni_html_menu, on_mni_html_default_template);
 
-  mni_temp = new_menu_item (_("Tableau de base"), mni_html_menu, on_mni_html_make_table);
+  mni_temp = new_menu_item (_("Basic Table"), mni_html_menu, on_mni_html_make_table);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_T, GDK_CONTROL_MASK | GDK_SHIFT_MASK,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item (_("Supprimer les balises HTML de la séléction"), mni_html_menu, on_mni_html_strip_tags);
-  mni_temp = new_menu_item (_("Lien autour de la séléction"), mni_html_menu, on_mni_html_enclose_link);
-  mni_temp = new_menu_item (_("Convertir les caractères spéciaux"), mni_html_menu, on_mni_convert_ascii_2_html);
-  mni_temp = new_menu_item (_("Afficher le poids du document"), mni_html_menu, on_mni_html_calc_weight);
+  mni_temp = new_menu_item (_("Remove HTML tags from the selection"), mni_html_menu, on_mni_html_strip_tags);
+  mni_temp = new_menu_item (_("Link around the selection"), mni_html_menu, on_mni_html_enclose_link);
+  mni_temp = new_menu_item (_("Convert special characters"), mni_html_menu, on_mni_convert_ascii_2_html);
+  mni_temp = new_menu_item (_("View the document weight"), mni_html_menu, on_mni_html_calc_weight);
 
-  mni_temp = new_menu_item (_("Inserer un DOCTYPE"), mni_markup_menu, NULL);
+  mni_temp = new_menu_item (_("Insert a DOCTYPE"), mni_markup_menu, NULL);
   mni_insert_doctype_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_insert_doctype_menu);
 
@@ -1038,63 +1038,63 @@ GtkWidget* create_tea_main_window (void)
   mni_temp = new_menu_item ("XHTML 1.0 Frameset", mni_insert_doctype_menu, on_mni_insert_doctype);
   mni_temp = new_menu_item ("WML 1.1", mni_insert_doctype_menu, on_mni_insert_doctype);
 
-  mni_temp = new_menu_item (_("Caractères spéciaux HTML"), mni_markup_menu, NULL);
+  mni_temp = new_menu_item (_("HTML special characters"), mni_markup_menu, NULL);
   mni_insert_char_entities_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_insert_char_entities_menu);
 
   fill_entities_special_menu ();
   mni_temp = new_menu_sep (mni_markup_menu);
 
-  mni_temp = new_menu_item (_("Gras"), mni_markup_menu, on_mni_Markup_bold_activate);
+  mni_temp = new_menu_item (_("Bold"), mni_markup_menu, on_mni_Markup_bold_activate);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_B, GDK_CONTROL_MASK | GDK_MOD1_MASK,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item (_("Italique"), mni_markup_menu, on_mni_Markup_italic_activate);
+  mni_temp = new_menu_item (_("Italics"), mni_markup_menu, on_mni_Markup_italic_activate);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_I, GDK_MOD1_MASK,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item (_("Souligner"), mni_markup_menu, on_mni_Markup_underline_activate);
+  mni_temp = new_menu_item (_("Underline"), mni_markup_menu, on_mni_Markup_underline_activate);
   
   mni_temp = new_menu_sep (mni_markup_menu);
 
-  mni_temp = new_menu_item (_("Commenter"), mni_markup_menu, on_mni_Markup_comment);
+  mni_temp = new_menu_item (_("Comment"), mni_markup_menu, on_mni_Markup_comment);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_slash, GDK_MOD1_MASK,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item (_("Paragraphe"), mni_markup_menu, on_mni_Markup_para_activate);
+  mni_temp = new_menu_item (_("Paragraph"), mni_markup_menu, on_mni_Markup_para_activate);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_P, GDK_MOD1_MASK,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item (_("Lien"), mni_markup_menu, on_mni_Markup_link_activate);
+  mni_temp = new_menu_item (_("Link"), mni_markup_menu, on_mni_Markup_link_activate);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_L, GDK_MOD1_MASK,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item (_("Couleur"), mni_markup_menu, on_mni_markup_select_color_activate);
+  mni_temp = new_menu_item (_("Color"), mni_markup_menu, on_mni_markup_select_color_activate);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_c, GDK_MOD1_MASK,
                               GTK_ACCEL_VISIBLE);
 
   mni_temp = new_menu_item (_("Image"), mni_markup_menu, on_mni_image_activate);
  
-  mni_temp = new_menu_item (_("Retour chariot"), mni_markup_menu, on_mni_Markup_br);
+  mni_temp = new_menu_item (_("Carriage return"), mni_markup_menu, on_mni_Markup_br);
 
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_Return, GDK_CONTROL_MASK,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item ("Espace", mni_markup_menu,on_mni_Markup_nbsp);
+  mni_temp = new_menu_item ("Space", mni_markup_menu,on_mni_Markup_nbsp);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_space, GDK_CONTROL_MASK | GDK_SHIFT_MASK,
                               GTK_ACCEL_VISIBLE);
 
   mni_temp = new_menu_sep (mni_markup_menu);
 
-  mni_temp = new_menu_item (_("Eléments de tableau"), mni_markup_menu, NULL);
+  mni_temp = new_menu_item (_("Array elements"), mni_markup_menu, NULL);
   mni_table_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_table_menu);
 
@@ -1116,50 +1116,50 @@ GtkWidget* create_tea_main_window (void)
        g_free (h);
       }
 
-  mni_temp = new_menu_item (_("Aligner"), mni_markup_menu, NULL);
+  mni_temp = new_menu_item (_("Align"), mni_markup_menu, NULL);
   mni_align_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_align_menu);
 
-  mni_temp = new_menu_item ((_("Centrer")), mni_align_menu, on_mni_markup_align);
-  mni_temp = new_menu_item ((_("Gauche")), mni_align_menu, on_mni_markup_align);
-  mni_temp = new_menu_item ((_("Droite")), mni_align_menu, on_mni_markup_align);
-  mni_temp = new_menu_item ((_("Justifier")), mni_align_menu, on_mni_markup_align);
+  mni_temp = new_menu_item ((_("Center")), mni_align_menu, on_mni_markup_align);
+  mni_temp = new_menu_item ((_("Left")), mni_align_menu, on_mni_markup_align);
+  mni_temp = new_menu_item ((_("Right")), mni_align_menu, on_mni_markup_align);
+  mni_temp = new_menu_item ((_("justify")), mni_align_menu, on_mni_markup_align);
 
-  mni_ide = new_menu_item (_("Projets"), menubar1, NULL);
+  mni_ide = new_menu_item (_("Projects"), menubar1, NULL);
   mni_ide_menu = new_menu_submenu (GTK_WIDGET(mni_ide));
   mni_temp = new_menu_tof (mni_ide_menu);
 
-  mni_temp = new_menu_item (_("Nouveau projet"), mni_ide_menu, on_mni_project_new);
-  mni_temp = new_menu_item (_("Ouvrir un projet"), mni_ide_menu, on_mni_project_open);
-  mni_temp = new_menu_item (_("Sauvegarder le projet"), mni_ide_menu, on_mni_show_project_save);
-  mni_temp = new_menu_item (_("Sauvegarder le projet sous"), mni_ide_menu, on_mni_project_save_as);
-  mni_temp = new_menu_item (_("Propriété du projet"), mni_ide_menu, on_mni_show_project_props);
+  mni_temp = new_menu_item (_("New Project"), mni_ide_menu, on_mni_project_new);
+  mni_temp = new_menu_item (_("Open a project"), mni_ide_menu, on_mni_project_open);
+  mni_temp = new_menu_item (_("Save the project"), mni_ide_menu, on_mni_show_project_save);
+  mni_temp = new_menu_item (_("Save the project under"), mni_ide_menu, on_mni_project_save_as);
+  mni_temp = new_menu_item (_("Ownership of the project"), mni_ide_menu, on_mni_show_project_props);
   mni_temp = new_menu_item (_("Make"), mni_ide_menu, on_mni_project_make);
     gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_F11, GDK_SHIFT_MASK,
                               GTK_ACCEL_VISIBLE);
   
 	//**** OLD RUN on_mni_show_project_run
-  mni_temp = new_menu_item (_("Executer"), mni_ide_menu, window_debug);  
+  mni_temp = new_menu_item (_("Run"), mni_ide_menu, window_debug);  
     gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_F12, GDK_SHIFT_MASK,
                               GTK_ACCEL_VISIBLE);
-  mni_temp = new_menu_item (_("Monter un serveur en SFTP (SSH)"), mni_ide_menu, w_sftp_mount);
+  mni_temp = new_menu_item (_("Mount a server SFTP (SSH)"), mni_ide_menu, w_sftp_mount);
      gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_F9, GDK_SHIFT_MASK,
                               GTK_ACCEL_VISIBLE);
                               
-  mni_temp = new_menu_item (_("Monter un serveur FTP (FTPFS)"), mni_ide_menu, w_ftp_mount);
+  mni_temp = new_menu_item (_("Mount a server FTP (FTPFS)"), mni_ide_menu, w_ftp_mount);
   
-  mni_temp = new_menu_item (_("Démonter le dérnier serveur monté en SFTP/FTP"), mni_ide_menu, umount_sftp);
+  mni_temp = new_menu_item (_("Umount the last mounted server SFTP / FTP"), mni_ide_menu, umount_sftp);
      gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_F10, GDK_SHIFT_MASK,
                               GTK_ACCEL_VISIBLE);
 
-  mni_tabs = new_menu_item (_("Onglets"), menubar1, NULL);
+  mni_tabs = new_menu_item (_("Tabs"), menubar1, NULL);
   mni_tabs_menu = new_menu_submenu (GTK_WIDGET(mni_tabs));
 
-  mni_temp = new_menu_item (_("Navigateurs"), menubar1, NULL);
+  mni_temp = new_menu_item (_("Browsers"), menubar1, NULL);
   mni_bro_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
 
   mni_temp = new_menu_tof (mni_bro_menu);
@@ -1178,37 +1178,37 @@ GtkWidget* create_tea_main_window (void)
   mni_nav_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_nav_menu);
 
-  mni_temp = new_menu_item (_("Scan des liens dans la page"), mni_nav_menu,scan_links);
+  mni_temp = new_menu_item (_("Scan links in the page"), mni_nav_menu,scan_links);
 
-  mni_links = new_menu_item (_("Liens"), mni_nav_menu, NULL);
+  mni_links = new_menu_item (_("Links"), mni_nav_menu, NULL);
   mni_links_menu = new_menu_submenu (GTK_WIDGET(mni_links));
 
-  mni_temp = new_menu_item (_("Aller au début du bloque {"), mni_nav_menu, on_mni_nav_block_start);
+  mni_temp = new_menu_item (_("Go to beginning of block {"), mni_nav_menu, on_mni_nav_block_start);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_Left, GDK_MOD1_MASK,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item (_("Aller à la fin du bloque }"), mni_nav_menu, on_mni_nav_block_end);
+  mni_temp = new_menu_item (_("Go to end of block}"), mni_nav_menu, on_mni_nav_block_end);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_Right, GDK_MOD1_MASK,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item (_("Aller à un onglet récent"), mni_nav_menu, on_mni_nav_goto_recent_tab);
+  mni_temp = new_menu_item (_("Jump to recent tab"), mni_nav_menu, on_mni_nav_goto_recent_tab);
 
-  mni_temp = new_menu_item (_("Aller à l'onglet suivant"), mni_nav_menu, on_mni_nav_goto_next_tab);
+  mni_temp = new_menu_item (_("Go to the next tab"), mni_nav_menu, on_mni_nav_goto_next_tab);
     gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_Page_Up, GDK_CONTROL_MASK,
                               GTK_ACCEL_VISIBLE);
-  mni_temp = new_menu_item (_("Allez à l'onglet précédent"), mni_nav_menu, on_mni_nav_goto_prev_tab);
+  mni_temp = new_menu_item (_("Go to the previous tab"), mni_nav_menu, on_mni_nav_goto_prev_tab);
     gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_Page_Down, GDK_CONTROL_MASK,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item (_("Aller au premier onglet"), mni_nav_menu, on_mni_nav_goto_first_tab);
-  mni_temp = new_menu_item (_("Aller au dérnier onglet"), mni_nav_menu, on_mni_nav_goto_last_tab);
-  mni_temp = new_menu_item (_("Aller à la séléction"), mni_nav_menu, on_mni_nav_goto_selection);
+  mni_temp = new_menu_item (_("Go to first tab"), mni_nav_menu, on_mni_nav_goto_first_tab);
+  mni_temp = new_menu_item (_("Go to the last tab"), mni_nav_menu, on_mni_nav_goto_last_tab);
+  mni_temp = new_menu_item (_("Go to the selection"), mni_nav_menu, on_mni_nav_goto_selection);
 
-  mni_temp = new_menu_item (_("Focus sur la ligne de commande"), mni_nav_menu, on_mni_nav_focus_to_famous);
+  mni_temp = new_menu_item (_("Focus on the command line"), mni_nav_menu, on_mni_nav_focus_to_famous);
     gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_W, GDK_CONTROL_MASK,
                               GTK_ACCEL_VISIBLE);
@@ -1218,28 +1218,28 @@ GtkWidget* create_tea_main_window (void)
                               GDK_KEY_R, GDK_CONTROL_MASK,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item (_("Focus et chargement de la page courante dans l'onglet Mini Web"), mni_nav_menu, web_current_file);
+  mni_temp = new_menu_item (_("Focus and loading of the current page in the Web tab Mini"), mni_nav_menu, web_current_file);
     gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_D, GDK_CONTROL_MASK,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item (_("Focus sur le texte"), mni_nav_menu, on_mni_nav_focus_to_text);
+  mni_temp = new_menu_item (_("Focus on the text"), mni_nav_menu, on_mni_nav_focus_to_text);
     gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_B, GDK_CONTROL_MASK,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item (_("Ouvrir au cursor"), mni_nav_menu, on_mni_file_open_at_cursor);
+  mni_temp = new_menu_item (_("Open the cursor"), mni_nav_menu, on_mni_file_open_at_cursor);
 
-  mni_temp = new_menu_item (_("Editer au cursor"), mni_nav_menu, on_mni_file_edit_at_cursor );
+  mni_temp = new_menu_item (_("Edit the cursor"), mni_nav_menu, on_mni_file_edit_at_cursor );
   
-  mni_temp = new_menu_item (_("Vue"), menubar1, NULL);
+  mni_temp = new_menu_item (_("View"), menubar1, NULL);
   mni_view_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_view_menu);
  
   mni_co = new_menu_item (_("Co"), mni_view_menu, NULL);
   mni_co_menu = new_menu_submenu (GTK_WIDGET(mni_co));
 
-  mni_temp = new_menu_item (_("Coloration syntaxique"), mni_view_menu, NULL);
+  mni_temp = new_menu_item (_("Syntax Color"), mni_view_menu, NULL);
   mni_hl_mode_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_item (HL_NONE, mni_hl_mode_menu, on_mni_set_hl_mode);
   mni_temp = new_menu_item (HL_MARKUP, mni_hl_mode_menu, on_mni_set_hl_mode);
@@ -1256,18 +1256,18 @@ GtkWidget* create_tea_main_window (void)
   mni_temp = new_menu_item (HL_RUBY, mni_hl_mode_menu, on_mni_set_hl_mode);
   mni_temp = new_menu_item (HL_JAVA, mni_hl_mode_menu, on_mni_set_hl_mode);
 
-  mni_temp = new_menu_item (_("Rafraichir la coloration syntaxique"), mni_view_menu, on_mni_refresh_hl);
+  mni_temp = new_menu_item (_("Reload syntax color"), mni_view_menu, on_mni_refresh_hl);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_F5, 0,
                               GTK_ACCEL_VISIBLE);
 
-  mni_temp = new_menu_item (_("Retour à la ligne"), mni_view_menu, on_mni_view_wrap);
+  mni_temp = new_menu_item (_("Wrap"), mni_view_menu, on_mni_view_wrap);
   gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_W, GDK_MOD1_MASK,
                               GTK_ACCEL_VISIBLE);
  
-  mni_temp = new_menu_item (_("Afficher les images dans le texte"), mni_view_menu, on_mni_show_images_in_text);
-  mni_temp = new_menu_item (_("Switcher entre header/source"), mni_view_menu, on_source_header_switch);
+  mni_temp = new_menu_item (_("Display images in the text"), mni_view_menu, on_mni_show_images_in_text);
+  mni_temp = new_menu_item (_("Switch between header / source"), mni_view_menu, on_source_header_switch);
     gtk_widget_add_accelerator (mni_temp, "activate", accel_group,
                               GDK_KEY_H, GDK_CONTROL_MASK,
                               GTK_ACCEL_VISIBLE);
@@ -1280,14 +1280,14 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("Theme Oblivion"), mni_theme_menu, theme_oblivion );
 	mni_temp = new_menu_item (_("Theme Tango"), mni_theme_menu, theme_tango  );
 
-  mni_temp = new_menu_item (_("Aide"), menubar1, NULL);
+  mni_temp = new_menu_item (_("Help"), menubar1, NULL);
   mni_what_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
   mni_temp = new_menu_tof (mni_what_menu);
 
-  mni_temp = new_menu_item (_("Vérifiez votre version de Griffon IDE"), mni_what_menu, version_window);    
-  mni_temp = new_menu_item (_("Lire le manuel/documentation de Griffon IDE"), mni_what_menu, doc_window);
-	mni_temp = new_menu_item (_("Envoyer un rapport de bug"), mni_what_menu, rapport_window);
-  mni_temp = new_menu_item (_("A-propos de Griffon IDE"), mni_what_menu, create_about1);
+  mni_temp = new_menu_item (_("Check your version of Griffon IDE"), mni_what_menu, version_window);    
+  mni_temp = new_menu_item (_("Read the manual / documentation Griffon IDE"), mni_what_menu, doc_window);
+	mni_temp = new_menu_item (_("Send a bug report"), mni_what_menu, rapport_window);
+  mni_temp = new_menu_item (_("About Griffon IDE"), mni_what_menu, create_about1);
 
   mni_temp = new_menu_sep (mni_what_menu);
   
@@ -1413,10 +1413,10 @@ GtkWidget* create_tea_main_window (void)
     view_list = gtk_tree_view_new_with_model(model);
 
     col = gtk_tree_view_column_new();
-    gtk_tree_view_column_set_title(col, (_("Liste des include/fonctions     ")));
+    gtk_tree_view_column_set_title(col, (_("List of include / functions     ")));
 
     col2 = gtk_tree_view_column_new();
-    gtk_tree_view_column_set_title(col2, "Ligne");
+    gtk_tree_view_column_set_title(col2, "Line");
  
     renderer = gtk_cell_renderer_pixbuf_new();
     gtk_tree_view_column_pack_start(col, renderer, FALSE);
@@ -1450,12 +1450,12 @@ GtkWidget* create_tea_main_window (void)
       G_CALLBACK(on_changed_scan), NULL);
 
 	//*******************************
-    button_include1 = gtk_button_new_with_label (_("Débuter le scan"));
+    button_include1 = gtk_button_new_with_label (_("Start the scan"));
     gtk_widget_show(GTK_WIDGET(button_include1));
     gtk_box_pack_start(GTK_BOX(vbox4), button_include1, FALSE, FALSE, 0);
 
 	 GtkWidget *button_include2;
-    button_include2 = gtk_button_new_with_label (_("Ouvrir les fichiers include"));
+    button_include2 = gtk_button_new_with_label (_("Open files include"));
     gtk_widget_show(GTK_WIDGET(button_include2));
     gtk_box_pack_start(GTK_BOX(vbox4), button_include2, FALSE, FALSE, 0);
 
@@ -1504,7 +1504,7 @@ gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_
 	 g_signal_connect(selection, "changed",  
     G_CALLBACK(on_changed), statusbar);
 
-  label_note5 = gtk_label_new (_("Aide"));
+  label_note5 = gtk_label_new (_("Help"));
   gtk_widget_show (GTK_WIDGET(label_note5));
 
 	gtk_widget_set_size_request (label_note5, 50, 20);
@@ -1539,7 +1539,7 @@ gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_
   g_signal_connect(selection_sftp, "changed",  
   G_CALLBACK(on_changed_sftp), statusbar);             
 
-  GtkWidget *button_vide_sftp = gtk_button_new_with_label (_("Effacer historique"));
+  GtkWidget *button_vide_sftp = gtk_button_new_with_label (_("Clear history"));
   gtk_widget_show(GTK_WIDGET(button_vide_sftp));
   gtk_box_pack_start(GTK_BOX(vbox_sftp), button_vide_sftp, FALSE, FALSE, 0);            
 
@@ -1547,7 +1547,7 @@ gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_
                     G_CALLBACK (vide_configuration_sftp),
                     NULL); 
 
-    GtkWidget *button_m_sftp = gtk_button_new_with_label (_("Monter un serveur"));
+    GtkWidget *button_m_sftp = gtk_button_new_with_label (_("Mount a server"));
     gtk_widget_show(GTK_WIDGET(button_m_sftp));
     gtk_box_pack_start(GTK_BOX(vbox_sftp), button_m_sftp, FALSE, FALSE, 0);            
 
@@ -1555,7 +1555,7 @@ gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_
                     G_CALLBACK (w_sftp_mount),
                     NULL); 
 
-    GtkWidget *button_umount = gtk_button_new_with_label (_("Démonter un volume"));
+    GtkWidget *button_umount = gtk_button_new_with_label (_("Umount a server"));
     gtk_widget_show(GTK_WIDGET(button_umount));
     gtk_box_pack_start(GTK_BOX(vbox_sftp), button_umount, FALSE, FALSE, 0);            
 
@@ -1598,7 +1598,7 @@ gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_
   	 g_signal_connect(selection_ftp, "changed",  
     G_CALLBACK(on_changed_ftp), statusbar);             
 
-    GtkWidget *button_vide_ftp = gtk_button_new_with_label (_("Effacer historique"));
+    GtkWidget *button_vide_ftp = gtk_button_new_with_label (_("Clear history"));
     gtk_widget_show(GTK_WIDGET(button_vide_ftp));
     gtk_box_pack_start(GTK_BOX(vbox_ftp), button_vide_ftp, FALSE, FALSE, 0);            
 
@@ -1606,7 +1606,7 @@ gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_
                     G_CALLBACK (vide_configuration_ftp),
                     NULL);
 
-    GtkWidget *button_m_ftp = gtk_button_new_with_label (_("Monter un serveur"));
+    GtkWidget *button_m_ftp = gtk_button_new_with_label (_("Mount a server"));
     gtk_widget_show(GTK_WIDGET(button_m_ftp));
     gtk_box_pack_start(GTK_BOX(vbox_ftp), button_m_ftp, FALSE, FALSE, 0);            
 
@@ -1614,7 +1614,7 @@ gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_
                     G_CALLBACK (w_ftp_mount),
                     NULL);
 
-    GtkWidget *button_umount2 = gtk_button_new_with_label (_("Démonter un volume"));
+    GtkWidget *button_umount2 = gtk_button_new_with_label (_("Umount a server"));
     gtk_widget_show(GTK_WIDGET(button_umount2));
     gtk_box_pack_start(GTK_BOX(vbox_ftp), button_umount2, FALSE, FALSE, 0);            
 
@@ -1697,7 +1697,7 @@ gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook2), gtk_notebook_get_nth_
 	 g_signal_connect(selection_book, "changed",  
       G_CALLBACK(on_changed_book), NULL);
 
-    GtkWidget *button_del_book = gtk_button_new_with_label (_("Supprimer les BookMark"));
+    GtkWidget *button_del_book = gtk_button_new_with_label (_("Remove BookMark"));
     gtk_widget_show(GTK_WIDGET(button_del_book));
     gtk_box_pack_start(GTK_BOX(vbox_book), button_del_book, FALSE, FALSE, 0);
 
@@ -1933,7 +1933,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep2));
   gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (tv_logmemo), GTK_WRAP_WORD);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow3), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-  label_note5 = gtk_label_new (_("Informations"));
+  label_note5 = gtk_label_new (_("Information"));
   gtk_widget_show (GTK_WIDGET(label_note5));
 
 	gtk_widget_set_size_request (label_note5, 100, 20);
@@ -2055,7 +2055,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar_projet ), tool_projet_save_as, -1);
   gtk_widget_show(GTK_WIDGET(tool_projet_save_as));
   g_signal_connect ((gpointer) tool_projet_save_as, "clicked",G_CALLBACK (on_mni_project_save_as),NULL);
-  gtk_tool_item_set_tooltip_text(tool_projet_save_as,_("Sauvegarder un projet"));
+  gtk_tool_item_set_tooltip_text(tool_projet_save_as,_("Saving a project"));
 
 	tool_sep=gtk_separator_tool_item_new();
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_projet), tool_sep, -1);
@@ -2065,7 +2065,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar_projet ), tool_projet_make, -1);
   gtk_widget_show(GTK_WIDGET(tool_projet_make));
   g_signal_connect ((gpointer) tool_projet_make, "clicked",G_CALLBACK (on_mni_project_make),NULL);
-  gtk_tool_item_set_tooltip_text(tool_projet_make,_("Make du projet"));
+  gtk_tool_item_set_tooltip_text(tool_projet_make,_("Make the project"));
 
   GtkToolItem *tool_projet_run = gtk_tool_button_new_from_stock(GTK_STOCK_EXECUTE   );
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar_projet ), tool_projet_run, -1);
@@ -2082,11 +2082,11 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
     gtk_widget_show(GTK_WIDGET(button_proj1));
     gtk_box_pack_start(GTK_BOX(vbox2_proj), button_proj1, FALSE, FALSE, 0);
 
-    button_proj2 = gtk_button_new_with_label (_("Sauvegarder un projet"));
+    button_proj2 = gtk_button_new_with_label (_("Saving a project"));
     gtk_widget_show(GTK_WIDGET(button_proj2));
     gtk_box_pack_start(GTK_BOX(vbox2_proj), button_proj2, FALSE, FALSE, 0);
 
-    button_proj3 = gtk_button_new_with_label (_("Make du projet"));
+    button_proj3 = gtk_button_new_with_label (_("Make the project"));
     gtk_widget_show(GTK_WIDGET(button_proj3));
     gtk_box_pack_start(GTK_BOX(vbox2_proj), button_proj3, FALSE, FALSE, 0);
 
@@ -2197,12 +2197,12 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   gtk_container_add (GTK_CONTAINER (scrolledwindow4), GTK_WIDGET(sView_note));
   gtk_widget_show_all (GTK_WIDGET(scrolledwindow4));
 
-    button_note1 = gtk_button_new_with_label (_("Effacer"));
+    button_note1 = gtk_button_new_with_label (_("Delete"));
     gtk_widget_show(GTK_WIDGET(button_note1));
     gtk_box_pack_start(GTK_BOX(vbox3), button_note1, FALSE, FALSE, 0);
 
-	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("\nPour afficher les notes [ALT+M]\n")), -1);
-	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("Pour integrer une séléction dans la note [CTR+E]\n\n____________________________________________________________________________________________________________________________________________________\n\n")), -1);
+	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("\nTo view notes [ALT+M]\n")), -1);
+	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("To integrate a selection in the note  [CTR+E]\n\n____________________________________________________________________________________________________________________________________________________\n\n")), -1);
 
   label_note3 = gtk_label_new (_("Note"));
   gtk_widget_show (GTK_WIDGET(label_note3));
@@ -3990,7 +3990,7 @@ GtkNotebook* window_creation_function (GtkNotebook *source_notebook,gint        
   gtk_window_move (GTK_WINDOW (window), x, y);
 
   gtk_notebook_set_scrollable (GTK_NOTEBOOK (notebook), TRUE);
-  gtk_window_set_title (GTK_WINDOW (window), _((_("Onglets"))));
+  gtk_window_set_title (GTK_WINDOW (window), _((_("Tabs"))));
 	gtk_window_set_icon_from_file (GTK_WINDOW(window),"/usr/local/share/griffon/pixmaps/griffon_ok.png",NULL);
 
   gtk_widget_show_all (GTK_WIDGET(window));
@@ -4205,7 +4205,7 @@ gboolean popup_context_menu_vte(GtkWidget *tv, GdkEventButton *event)
             g_signal_connect(menu_item4, "button-release-event", G_CALLBACK(term_search_google), tv);
             gtk_menu_shell_append(GTK_MENU_SHELL(menu_vte), menu_item4);
 
-            menu_item5 = gtk_menu_item_new_with_label (_("Aide"));
+            menu_item5 = gtk_menu_item_new_with_label (_("Help"));
             g_signal_connect(menu_item5, "button-release-event", G_CALLBACK(term_help), tv);
             gtk_menu_shell_append(GTK_MENU_SHELL(menu_vte), menu_item5);
 

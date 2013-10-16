@@ -955,16 +955,6 @@ msgstr "Ouvrir les fichiers include"
 msgid "In"
 msgstr "In"
 
-#: interface.c:1091
-msgid ""
-"Self complmentation list \n"
-"[SHIFT right] AutoComplmentation.\n"
-"\n"
-msgstr ""
-"Liste auto complémentation \n"
-"[SHIFT droit] AutoComplmentation.\n"
-"\n"
-
 #: interface.c:1094
 msgid "Scan"
 msgstr "Scan"
@@ -1029,7 +1019,7 @@ msgstr ""
 
 #: interface.c:1582 interface.c:2250 callbacks.c:2935
 msgid ""
-"To integrate a selection in the note [CTR + E]\n"
+"To integrate a selection in the note [CTR + E]\n\n____________________________________________________________________________________________________________________________________________________\n"
 "\n"
 msgstr ""
 "Pour integrer une séléction dans la note [CTR+E]\n\n____________________________________________________________________________________________________________________________________________________\n"

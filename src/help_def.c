@@ -1406,7 +1406,7 @@ GtkWidget* Aide_BASH (void)
 
 	gtk_widget_destroy(window1);
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (window1), _((_("Aide BASH"))));
+  gtk_window_set_title (GTK_WINDOW (window1), _((_("Help for BASH"))));
     gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
 	gtk_window_resize (GTK_WINDOW (window1), 430, 600);
   gtk_widget_show (GTK_WIDGET(window1));
@@ -1454,7 +1454,7 @@ GtkWidget* centre_perl (void)
 	gtk_widget_destroy(window1);
 
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (window1), _((_("Aide Perl"))));
+  gtk_window_set_title (GTK_WINDOW (window1), _((_("Help for Perl"))));
     gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
 	gtk_window_resize (GTK_WINDOW (window1), 430, 600);
   gtk_widget_show (GTK_WIDGET(window1));
