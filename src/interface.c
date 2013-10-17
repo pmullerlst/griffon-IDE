@@ -644,7 +644,7 @@ GtkWidget* create_tea_main_window (void)
   gtk_widget_set_name (tea_main_window, "tea_main_window");
   gtk_window_set_title (GTK_WINDOW (tea_main_window), _("Griffon 1.6.4"));
 
-  gtk_window_set_icon_from_file (GTK_WINDOW(tea_main_window),"/usr/local/share/griffon/pixmaps/griffon_button.png",NULL);
+  gtk_window_set_icon_from_file (GTK_WINDOW(tea_main_window),PACKAGE_PIXMAP_DIR "/griffon_button.png",NULL);
 
   g_signal_connect (tea_main_window, "destroy",
                     G_CALLBACK (gtk_main_quit), NULL);
@@ -1833,7 +1833,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep2));
 
 
   //*************Icon de status
-  icon_ok = gtk_image_new_from_file("/usr/local/share/griffon/pixmaps/griffon_ok.png");
+  icon_ok = gtk_image_new_from_file(PACKAGE_PIXMAP_DIR "/griffon_ok.png");
   gtk_widget_set_size_request (icon_ok, 35, 10);
   gtk_box_pack_start (GTK_BOX (hbox_bar), icon_ok, FALSE, FALSE, 0);
   gtk_widget_show (GTK_WIDGET(icon_ok));
@@ -2702,7 +2702,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
 	GdkPixbuf *pixbuf;
 	GtkTextBuffer* buffer_img;
 	GtkTextIter itFin;
-	pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_start.png", NULL);
+	pixbuf = gdk_pixbuf_new_from_file(PACKAGE_PIXMAP_DIR "/griffon_start.png", NULL);
 	buffer_img = gtk_text_view_get_buffer(GTK_TEXT_VIEW(tv_logmemo));
 	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
 	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
@@ -2777,7 +2777,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
 GtkWidget* icon_affiche_ok (void)
 {
   gtk_widget_destroy(icon_ok);
-  icon_ok = gtk_image_new_from_file("/usr/local/share/griffon/pixmaps/griffon_ok.png");
+  icon_ok = gtk_image_new_from_file(PACKAGE_PIXMAP_DIR "/griffon_ok.png");
   gtk_widget_set_size_request (icon_ok, 35, 10);
   gtk_box_pack_start (GTK_BOX (hbox_bar), icon_ok, FALSE, FALSE, 0);
   gtk_widget_show (GTK_WIDGET(icon_ok));
@@ -2788,7 +2788,7 @@ GtkWidget* icon_affiche_ok (void)
 GtkWidget* icon_affiche_stop (void)
 {
   gtk_widget_destroy(icon_ok);
-  icon_ok = gtk_image_new_from_file("/usr/local/share/griffon/pixmaps/griffon_stop.png");
+  icon_ok = gtk_image_new_from_file(PACKAGE_PIXMAP_DIR "/griffon_stop.png");
   gtk_widget_set_size_request (icon_ok, 35, 10);
   gtk_box_pack_start (GTK_BOX (hbox_bar), icon_ok, FALSE, FALSE, 0);
   gtk_widget_show (GTK_WIDGET(icon_ok));
@@ -2799,7 +2799,7 @@ GtkWidget* icon_affiche_stop (void)
 GtkWidget* icon_affiche_net (void)
 {
   gtk_widget_destroy(icon_ok);
-  icon_ok = gtk_image_new_from_file("/usr/local/share/griffon/pixmaps/griffon_net.png");
+  icon_ok = gtk_image_new_from_file(PACKAGE_PIXMAP_DIR "/griffon_net.png");
   gtk_widget_set_size_request (icon_ok, 35, 10);
   gtk_box_pack_start (GTK_BOX (hbox_bar), icon_ok, FALSE, FALSE, 0);
   gtk_widget_show (GTK_WIDGET(icon_ok));
@@ -2810,7 +2810,7 @@ GtkWidget* icon_affiche_net (void)
 GtkWidget* icon_affiche_bug (void)
 {
   gtk_widget_destroy(icon_ok);
-  icon_ok = gtk_image_new_from_file("/usr/local/share/griffon/pixmaps/griffon_advance.png");
+  icon_ok = gtk_image_new_from_file(PACKAGE_PIXMAP_DIR "/griffon_advance.png");
   gtk_widget_set_size_request (icon_ok, 35, 10);
   gtk_box_pack_start (GTK_BOX (hbox_bar), icon_ok, FALSE, FALSE, 0);
   gtk_widget_show (GTK_WIDGET(icon_ok));
@@ -2821,7 +2821,7 @@ GtkWidget* icon_affiche_bug (void)
 GtkWidget* icon_affiche_save (void)
 {
   gtk_widget_destroy(icon_ok);
-  icon_ok = gtk_image_new_from_file("/usr/local/share/griffon/pixmaps/griffon_save.png");
+  icon_ok = gtk_image_new_from_file(PACKAGE_PIXMAP_DIR "/griffon_save.png");
   gtk_widget_set_size_request (icon_ok, 35, 10);
   gtk_box_pack_start (GTK_BOX (hbox_bar), icon_ok, FALSE, FALSE, 0);
   gtk_widget_show (GTK_WIDGET(icon_ok));
@@ -2834,7 +2834,7 @@ GtkWidget* icon_affiche_save (void)
 GtkWidget* icon_affiche_nosave (void)
 {
   gtk_widget_destroy(icon_ok);
-  icon_ok = gtk_image_new_from_file("/usr/local/share/griffon/pixmaps/griffon_nosave.png");
+  icon_ok = gtk_image_new_from_file(PACKAGE_PIXMAP_DIR "/griffon_nosave.png");
   gtk_widget_set_size_request (icon_ok, 35, 10);
   gtk_box_pack_start (GTK_BOX (hbox_bar), icon_ok, FALSE, FALSE, 0);
   gtk_widget_show (GTK_WIDGET(icon_ok));
@@ -2938,7 +2938,7 @@ GtkWidget* create_about1 (void)
   gtk_widget_show (GTK_WIDGET(vbox1));
   gtk_container_add (GTK_CONTAINER (window1), GTK_WIDGET(vbox1));
 
-  image1 = gtk_image_new_from_file("/usr/local/share/griffon/pixmaps/splash_griffon.png");
+  image1 = gtk_image_new_from_file(PACKAGE_PIXMAP_DIR "/splash_griffon.png");
   gtk_widget_show (GTK_WIDGET(image1));
   gtk_box_pack_start (GTK_BOX (vbox1), image1, TRUE, TRUE, 0);
 
@@ -3329,7 +3329,7 @@ void  insert_img_autoconf_var()
 	//******************************* IMAGE Griffon icon dans zone d'information autoconf
 	GdkPixbuf *pixbuf;
 	GtkTextIter itFin;
-	pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_package.png", NULL);
+	pixbuf = gdk_pixbuf_new_from_file(PACKAGE_PIXMAP_DIR "/griffon_package.png", NULL);
 	gtk_text_buffer_get_end_iter(GTK_TEXT_BUFFER(buffer_scan), &itFin);
 	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_scan),&itFin,pixbuf);
 }
@@ -3339,7 +3339,7 @@ void  insert_img_autoconf_mot()
 	//******************************* IMAGE Griffon icon dans zone d'information autoconf
 	GdkPixbuf *pixbuf;
 	GtkTextIter itFin;
-	pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_man.png", NULL);
+	pixbuf = gdk_pixbuf_new_from_file(PACKAGE_PIXMAP_DIR "/griffon_man.png", NULL);
 	gtk_text_buffer_get_end_iter(GTK_TEXT_BUFFER(buffer_scan), &itFin);
 	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_scan),&itFin,pixbuf);
 }
@@ -3349,7 +3349,7 @@ void  insert_img_autoconf_fonc()
 	//******************************* IMAGE Griffon icon dans zone d'information autoconf
 	GdkPixbuf *pixbuf;
 	GtkTextIter itFin;
-	pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_exe.png", NULL);
+	pixbuf = gdk_pixbuf_new_from_file(PACKAGE_PIXMAP_DIR "/griffon_exe.png", NULL);
 	gtk_text_buffer_get_end_iter(GTK_TEXT_BUFFER(buffer_scan), &itFin);
 	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_scan),&itFin,pixbuf);
 }
@@ -3368,7 +3368,7 @@ void  icon_log_logmemo()
 	GdkPixbuf *pixbuf;
 	GtkTextBuffer* buffer_img;
 	GtkTextIter itFin;
-	pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_log.png", NULL);
+	pixbuf = gdk_pixbuf_new_from_file(PACKAGE_PIXMAP_DIR "/griffon_log.png", NULL);
 	buffer_img = gtk_text_view_get_buffer(GTK_TEXT_VIEW(tv_logmemo));
 	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
 	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);
@@ -3380,7 +3380,7 @@ void  icon_list_logmemo()
 	GdkPixbuf *pixbuf;
 	GtkTextBuffer* buffer_img;
 	GtkTextIter itFin;
-	pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_man.png", NULL);
+	pixbuf = gdk_pixbuf_new_from_file(PACKAGE_PIXMAP_DIR "/griffon_man.png", NULL);
 	buffer_img = gtk_text_view_get_buffer(GTK_TEXT_VIEW(tv_logmemo));
 	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
 	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);
@@ -3392,7 +3392,7 @@ void  icon_stop_logmemo()
 	GdkPixbuf *pixbuf;
 	GtkTextBuffer* buffer_img;
 	GtkTextIter itFin;
-	pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_stop2.png", NULL);
+	pixbuf = gdk_pixbuf_new_from_file(PACKAGE_PIXMAP_DIR "/griffon_stop2.png", NULL);
 	buffer_img = gtk_text_view_get_buffer(GTK_TEXT_VIEW(tv_logmemo));
 	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
 	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);
@@ -3404,7 +3404,7 @@ void  icon_ok_logmemo()
 	GdkPixbuf *pixbuf;
 	GtkTextBuffer* buffer_img;
 	GtkTextIter itFin;
-	pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_ok2.png", NULL);
+	pixbuf = gdk_pixbuf_new_from_file(PACKAGE_PIXMAP_DIR "/griffon_ok2.png", NULL);
 	buffer_img = gtk_text_view_get_buffer(GTK_TEXT_VIEW(tv_logmemo));
 	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
 	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);
@@ -3416,7 +3416,7 @@ void  icon_man_logmemo()
 	GdkPixbuf *pixbuf;
 	GtkTextBuffer* buffer_img;
 	GtkTextIter itFin;
-	pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_man.png", NULL);
+	pixbuf = gdk_pixbuf_new_from_file(PACKAGE_PIXMAP_DIR "/griffon_man.png", NULL);
 	buffer_img = gtk_text_view_get_buffer(GTK_TEXT_VIEW(tv_logmemo));
 	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
 	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);
@@ -3428,7 +3428,7 @@ void  icon_save_logmemo()
 	GdkPixbuf *pixbuf;
 	GtkTextBuffer* buffer_img;
 	GtkTextIter itFin;
-	pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_save2.png", NULL);
+	pixbuf = gdk_pixbuf_new_from_file(PACKAGE_PIXMAP_DIR "/griffon_save2.png", NULL);
 	buffer_img = gtk_text_view_get_buffer(GTK_TEXT_VIEW(tv_logmemo));
 	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
 	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);			
@@ -3440,7 +3440,7 @@ void  icon_nosave_logmemo()
 	GdkPixbuf *pixbuf;
 	GtkTextBuffer* buffer_img;
 	GtkTextIter itFin;
-	pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_nosave2.png", NULL);
+	pixbuf = gdk_pixbuf_new_from_file(PACKAGE_PIXMAP_DIR "/griffon_nosave2.png", NULL);
 	buffer_img = gtk_text_view_get_buffer(GTK_TEXT_VIEW(tv_logmemo));
 	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
 	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);
@@ -3820,7 +3820,7 @@ void add_to_list(gchar *str,gchar *str2)
     GtkTreeIter    iter;
     GdkPixbuf     *icon;
 
-  icon = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_log.png", NULL);
+  icon = gdk_pixbuf_new_from_file(PACKAGE_PIXMAP_DIR "/griffon_log.png", NULL);
  
     gtk_list_store_append(store, &iter);
     gtk_list_store_set(store, &iter,
@@ -3835,7 +3835,7 @@ void add_to_list_fc(gchar *str,gchar *str2)
     GtkTreeIter    iter;
     GdkPixbuf     *icon;
 
-  icon = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_exe.png", NULL);
+  icon = gdk_pixbuf_new_from_file(PACKAGE_PIXMAP_DIR "/griffon_exe.png", NULL);
  
     gtk_list_store_append(store, &iter);
     gtk_list_store_set(store, &iter,
@@ -3850,7 +3850,7 @@ void add_to_list_var(gchar *str,gchar *str2)
     GtkTreeIter    iter;
     GdkPixbuf     *icon;
 
-  icon = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_package.png", NULL);
+  icon = gdk_pixbuf_new_from_file(PACKAGE_PIXMAP_DIR "/griffon_package.png", NULL);
  
     gtk_list_store_append(store, &iter);
     gtk_list_store_set(store, &iter,
@@ -3865,7 +3865,7 @@ void add_to_list_err(gchar *str,gchar *str2)
     GtkTreeIter    iter;
     GdkPixbuf     *icon;
 
-  icon = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_bug.png", NULL);
+  icon = gdk_pixbuf_new_from_file(PACKAGE_PIXMAP_DIR "/griffon_bug.png", NULL);
  
     gtk_list_store_append(store, &iter);
     gtk_list_store_set(store, &iter,
@@ -3924,7 +3924,7 @@ void add_to_list_book(gchar *str,gchar *str2)
     GtkTreeIter    iter;
     GdkPixbuf     *icon;
 
-  icon = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_man.png", NULL);
+  icon = gdk_pixbuf_new_from_file(PACKAGE_PIXMAP_DIR "/griffon_man.png", NULL);
  
     gtk_list_store_append(store_book, &iter);
     gtk_list_store_set(store_book, &iter,
@@ -3991,7 +3991,7 @@ GtkNotebook* window_creation_function (GtkNotebook *source_notebook,gint        
 
   gtk_notebook_set_scrollable (GTK_NOTEBOOK (notebook), TRUE);
   gtk_window_set_title (GTK_WINDOW (window), _((_("Tabs"))));
-	gtk_window_set_icon_from_file (GTK_WINDOW(window),"/usr/local/share/griffon/pixmaps/griffon_ok.png",NULL);
+	gtk_window_set_icon_from_file (GTK_WINDOW(window),PACKAGE_PIXMAP_DIR "/griffon_ok.png",NULL);
 
   gtk_widget_show_all (GTK_WIDGET(window));
 
@@ -4230,7 +4230,7 @@ void new_terminal ()
 
   	page_term->vte_add = vte_terminal_new();
 
-  vte_terminal_set_background_image_file (VTE_TERMINAL(page_term->vte_add),"/usr/local/share/griffon/pixmaps/griffon_bg2.png");
+  vte_terminal_set_background_image_file (VTE_TERMINAL(page_term->vte_add),PACKAGE_PIXMAP_DIR "/griffon_bg2.png");
 	vte_terminal_set_background_saturation (VTE_TERMINAL(page_term->vte_add),0.1);
 
   vte_terminal_set_scroll_on_keystroke(VTE_TERMINAL (page_term->vte_add), TRUE);
@@ -4353,7 +4353,7 @@ gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_sep, -1);
                                        NULL, 
                                        NULL);
 
-   vte_terminal_set_background_image_file (VTE_TERMINAL(vte_add),"/usr/local/share/griffon/pixmaps/griffon_bg2.png");
+   vte_terminal_set_background_image_file (VTE_TERMINAL(vte_add),PACKAGE_PIXMAP_DIR "/griffon_bg2.png");
 	vte_terminal_set_background_saturation (VTE_TERMINAL(vte_add),0.1);
 
   vte_terminal_set_scroll_on_keystroke(VTE_TERMINAL (vte_add), TRUE);
@@ -4449,7 +4449,7 @@ void new_terminal_ssh (gchar *serveur,gchar *user)
                                        NULL, 
                                        NULL); 
 
-  vte_terminal_set_background_image_file (VTE_TERMINAL(page_term->vte_add),"/usr/local/share/griffon/pixmaps/griffon_bg2.png");
+  vte_terminal_set_background_image_file (VTE_TERMINAL(page_term->vte_add),PACKAGE_PIXMAP_DIR "/griffon_bg2.png");
 	vte_terminal_set_background_saturation (VTE_TERMINAL(page_term->vte_add),0.1);
 
   vte_terminal_set_scroll_on_keystroke(VTE_TERMINAL (page_term->vte_add), TRUE);
@@ -4815,7 +4815,7 @@ void new_file_term_edit (  gpointer user_data)
 //******************************* Fonction de notification
 void griffon_notify (gchar* txt)
 {
-		NotifyNotification * notification=notify_notification_new("Griffon IDE",txt,"/usr/local/share/griffon/pixmaps/griffon_button.png");
+		NotifyNotification * notification=notify_notification_new("Griffon IDE",txt,PACKAGE_PIXMAP_DIR "/griffon_button.png");
 		notify_notification_show (notification,NULL);
 }
 

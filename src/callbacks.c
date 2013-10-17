@@ -3373,7 +3373,7 @@ if (confile.use_def_open_dir){gtk_file_chooser_set_current_folder (GTK_FILE_CHOO
 	//******************************* IMAGE Griffon icon dans zone d'information 
 	GdkPixbuf *pixbuf;
 	GtkTextIter itFin;
-	pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/pixmaps/griffon_button.png", NULL);
+	pixbuf = gdk_pixbuf_new_from_file(PACKAGE_PIXMAP_DIR "/griffon_button.png", NULL);
 	gtk_text_buffer_get_end_iter(GTK_TEXT_BUFFER(buffer_projet), &itFin);
 	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_projet),&itFin,pixbuf);
 
@@ -5063,7 +5063,7 @@ gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &i
 
 	GdkPixbuf *pixbuf_mark;
 
-	pixbuf_mark = gdk_pixbuf_new_from_file ("/usr/local/share/griffon/pixmaps/griffon_note.png", NULL);
+	pixbuf_mark = gdk_pixbuf_new_from_file (PACKAGE_PIXMAP_DIR "/griffon_note.png", NULL);
 
 GtkSourceMarkAttributes *attribu=gtk_source_mark_attributes_new();
 gtk_source_mark_attributes_set_pixbuf(attribu,pixbuf_mark );

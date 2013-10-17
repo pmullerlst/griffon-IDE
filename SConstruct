@@ -15,10 +15,12 @@ def CheckPkg(context, name):
 env = Environment()
 
 opts = Variables('griffon.cfg')
-opts.Add(PathVariable('PREFIX', '', '/usr/local', PathVariable.PathIsDir))
-opts.Add(PathVariable('DATADIR', '', '$PREFIX/share', PathVariable.PathIsDir))
-opts.Add(PathVariable('LOCALEDIR', '', '$DATADIR/locale', PathVariable.PathIsDir))
 opts.Add(PathVariable('DESTDIR', '', '/', PathVariable.PathIsDir))
+opts.Add(PathVariable('PREFIX', '', '/usr/local', PathVariable.PathAccept))
+opts.Add(PathVariable('DATADIR', '', '$PREFIX/share', PathVariable.PathAccept))
+opts.Add(PathVariable('LOCALEDIR', '', '$DATADIR/locale', PathVariable.PathAccept))
+opts.Add(PathVariable('BINDIR', '', '$PREFIX/bin', PathVariable.PathAccept))
+opts.Add(PathVariable('PIXMAPDIR', '', '$DATADIR/pixmaps', PathVariable.PathAccept))
 opts.Update(env)
 opts.Save('griffon.cfg', env)
 
@@ -31,6 +33,7 @@ except KeyError:
 
 env.Append(CFLAGS='-DPACKAGE_DATA_DIR=\\""$DATADIR"\\"')
 env.Append(CFLAGS='-DPACKAGE_LOCALE_DIR=\\""$LOCALEDIR"\\"')
+env.Append(CFLAGS='-DPACKAGE_PIXMAP_DIR=\\""$PIXMAPDIR"\\"')
 
 cfg = Configure(env, custom_tests = { 'CheckPkgConfig' : CheckPkgConfig, 'CheckPkg' : CheckPkg })
 
@@ -86,6 +89,40 @@ env.Program('work/griffon', [
 'work/minido.c',
 'work/griffon_doc_gen.c',
 'work/griffon_proj.c',
+])
+
+env.Install('$DESTDIR$BINDIR','work/griffon')
+
+env.Install('$DESTDIR$PIXMAPDIR',[
+'pixmaps/color_line.png',
+'pixmaps/griffon_advance.png',
+'pixmaps/griffon-advance.png',
+'pixmaps/griffon_bg2.png',
+'pixmaps/griffon_bug.png',
+'pixmaps/griffon_button.png',
+'pixmaps/griffon_down2.png',
+'pixmaps/griffon_down.png',
+'pixmaps/griffon_exe.png',
+'pixmaps/griffon_icon.png',
+'pixmaps/griffon_list.png',
+'pixmaps/griffon_log.png',
+'pixmaps/griffon_man.png',
+'pixmaps/griffon_net.png',
+'pixmaps/griffon_nosave2.png',
+'pixmaps/griffon_nosave.png',
+'pixmaps/griffon_note.png',
+'pixmaps/griffon_ok2.png',
+'pixmaps/griffon_ok.png',
+'pixmaps/griffon_package.png',
+'pixmaps/griffon_path.png',
+'pixmaps/griffon_save2.png',
+'pixmaps/griffon_save.png',
+'pixmaps/griffon_start.png',
+'pixmaps/griffon_stop2.png',
+'pixmaps/griffon_stop.png',
+'pixmaps/griffon_up2.png',
+'pixmaps/griffon_up.png',
+'pixmaps/splash_griffon.png'
 ])
 
 # -%- lang: python -%-
