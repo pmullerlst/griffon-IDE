@@ -63,7 +63,7 @@ icon_affiche_ok();
      {
       gtk_entry_set_text (GTK_ENTRY(ent_search), def); 
       icon_man_logmemo(); 
-     log_to_memo (_("La documentation est disponible dans le menu \"Aide->Lire le manuel/documentation de Griffon IDE\""), NULL, LM_ERROR);
+     log_to_memo (_("Documentation is available in the menu \"Help-> Read the manual/Griffon IDE documentation\""), NULL, LM_ERROR);
      } 
 }
 
@@ -206,7 +206,7 @@ icon_affiche_ok();
   else
       if (text_doc_save (cur_text_doc, cur_text_doc->file_name))
 	      icon_save_logmemo();		      	
-         log_to_memo (_("%s Sauvegarde [OK]"), cur_text_doc->file_name, LM_NORMAL);
+         log_to_memo (_("%s Save File [OK]"), cur_text_doc->file_name, LM_NORMAL);
 							griffon_notify(_("Save [OK]"));
 				statusbar_msg (_("Save [OK]"));
          icon_affiche_save (); 
@@ -318,14 +318,14 @@ icon_affiche_ok();
   if (! s)
      {
 	   icon_stop_logmemo();
-      log_to_memo(_("Sauvegardez le fichier avant..."), NULL, LM_ADVICE);
+      log_to_memo(_("Save the file before ..."), NULL, LM_ADVICE);
       return;
      }
 
   text_doc_save (cur_text_doc, s);
 	icon_save_logmemo();
 	icon_affiche_save ();
-  log_to_memo (_("%s Sauvegarde OK..."), s, LM_NORMAL);
+  log_to_memo (_("%s Save OK..."), s, LM_NORMAL);
 	statusbar_msg (_("Save [OK]"));
   g_free (s);
 }
@@ -574,7 +574,7 @@ void on_mni_html_default_template ()
 void on_mni_file_save_session ()
 {
 	icon_affiche_ok();
-  GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Sauvegarde de la session sous:"),
+  GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Save session as"),
                                                    GTK_WINDOW(tea_main_window),
                                                    GTK_FILE_CHOOSER_ACTION_SAVE,
                                                    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -607,7 +607,7 @@ void on_mni_file_save_session ()
 
 void on_mni_session_file_open_activate ()
 {
-  GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Ouverture du fichier de session:"),
+  GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Open file session"),
                                                    GTK_WINDOW(tea_main_window),
                                                    GTK_FILE_CHOOSER_ACTION_OPEN,
                                                    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -892,7 +892,7 @@ void on_mni_search_repall ()
 {
   if (! get_page_text()) return;
   
-  set_fam_text ((_("Texte pour trouver le texte à remplacer")));
+  set_fam_text ((_("Text to find the text to replace")));
   gchar const *s = gtk_entry_get_text (GTK_ENTRY(ent_search));
 
 				GtkTreeIter iter_entry;
@@ -942,7 +942,7 @@ void on_mni_recent_activate (GtkMenuItem *menuitem)
 
 void show_save_as_dlg (int mode)
 {
-  GtkWidget *file_dialog = gtk_file_chooser_dialog_new (_("Sauvegarde sous..."),
+  GtkWidget *file_dialog = gtk_file_chooser_dialog_new (_("Save as ..."),
                                                         GTK_WINDOW(tea_main_window),
                                                         GTK_FILE_CHOOSER_ACTION_SAVE,
                                                         GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -978,7 +978,7 @@ void show_save_as_dlg (int mode)
      gchar *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_dialog));
 
      if (confile.prompt_on_file_exists && g_file_test (filename, G_FILE_TEST_EXISTS))
-     if (! dlg_question (tea_main_window, (_("%s il existe voulez vous le remplacer?")), filename))
+     if (! dlg_question (tea_main_window, (_("%s there want to replace it?")), filename))
         return;
  
      cur_text_doc->file_name = ch_str (cur_text_doc->file_name, filename);
@@ -988,7 +988,7 @@ void show_save_as_dlg (int mode)
         {
           icon_stop_logmemo();
           icon_affiche_nosave ();
-         log_to_memo (_("error de la sauvegarde %s!!!"), cur_text_doc->file_name, LM_ERROR);
+         log_to_memo (_("Save error %s!!!"), cur_text_doc->file_name, LM_ERROR);
 				statusbar_msg (_("Save [ERROR]"));
 				griffon_notify(_("Save [ERROR]"));
          return;
@@ -1082,7 +1082,7 @@ void on_mni_get_links ()
 {
   scan_links ();
   icon_log_logmemo();
-  log_to_memo (_("Maintenant, regardez dans le menu Navigation->Liens."), NULL, LM_ADVICE);
+  log_to_memo (_("Now look in the Navigation menu-> Links."), NULL, LM_ADVICE);
 	statusbar_msg (_("Scan links HTML [OK]"));
 }
 
@@ -1097,7 +1097,7 @@ void on_mni_co_select (GtkMenuItem *menuitem)
 
   if (! doc_reload_text (cur_text_doc, cur_text_doc->file_name, cur_settings.selected_enc))
 	{	  icon_stop_logmemo();
-     log_to_memo (_("Non, je ne peux pas!"), NULL, LM_ERROR);}
+     log_to_memo (_("No, I can not!"), NULL, LM_ERROR);}
   else{
       cur_text_doc->encoding = g_strdup (cur_settings.selected_enc);
       }
@@ -1171,7 +1171,7 @@ void on_mni_html_make_table ()
   set_fam_text ("2~2"); 
   gchar const *table = gtk_entry_get_text (GTK_ENTRY(ent_search));
    icon_man_logmemo();
-	log_to_memo (_("[INFO] Vous poouvez indiquer le nombre de ligne (TR) et le nombre de colonne (TD) dans la ligne de commande\nExemple :2~2\nPour 2 TR et 2 TD\n\n"), NULL, LM_GREET);
+	log_to_memo (_("[INFO] You can specify the number of rows (TR) and the number of columns (TD) in the command line\nExample :2~2\nFor 2 TR and 2 TD\n\n"), NULL, LM_GREET);
 	statusbar_msg (_("Make table HTML"));
 
   gchar **a = g_strsplit (table, "~", 3);
@@ -1223,12 +1223,12 @@ void on_mni_file_revert_to_saved ()
 
   if (! doc_reload_text (cur_text_doc, cur_text_doc->file_name, cur_text_doc->encoding))
 	{ icon_stop_logmemo();
-    log_to_memo (_("Je ne peux pas recharger %s"), cur_text_doc->file_name, LM_ERROR);
+    log_to_memo (_("I can not reload %s"), cur_text_doc->file_name, LM_ERROR);
     }
   else
   {
 	  icon_ok_logmemo();
-      log_to_memo (_("%s est rechargé"), cur_text_doc->file_name, LM_NORMAL);
+      log_to_memo (_("%s is reloaded"), cur_text_doc->file_name, LM_NORMAL);
       }
 }
 
@@ -1425,7 +1425,7 @@ void on_mni_get_src ()
         match_start = match_end;
        }
 	icon_list_logmemo();
-  log_to_memo (_("Maintenant, regardez dans le menu Navigation->Liens"), NULL, LM_ADVICE);
+  log_to_memo (_("Now look in the Navigation menu-> Links"), NULL, LM_ADVICE);
 	statusbar_msg (_("Scan links [OK]"));
 }
 
@@ -2382,7 +2382,7 @@ void on_mni_file_crapbook ()
 {
 
   if (! g_file_test (confile.crapbook_file, G_FILE_TEST_EXISTS))
-     create_empty_file (confile.crapbook_file, _((_("Déposez vos séléctions ici..."))));
+     create_empty_file (confile.crapbook_file, _((_("Post your selections here ..."))));
 
 		gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer_note), "", -1);
 		gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("\nPour afficher les notes [ALT+M]\n")), -1);
@@ -3378,7 +3378,7 @@ if (confile.use_def_open_dir){gtk_file_chooser_set_current_folder (GTK_FILE_CHOO
 	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_projet),&itFin,pixbuf);
 
 
-	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), (_("   FICHIER PROJET : ")), -1);
+	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), (_("   FILE PROJECT")), -1);
 	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), filename, -1);
 	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), "\n\n________________________________________________________________________________________________\n\n", -1);
 		
@@ -3471,37 +3471,37 @@ void print_bash (void)
 	time_t date;
     date = time(NULL);
 
-  doc_insert_at_cursor (cur_text_doc, (_("#!/bin/bash\n\n# Script BASH edite avec Griffon: http://griffon.lasotel.fr\n# Date de creation du script : "))); 
+  doc_insert_at_cursor (cur_text_doc, (_("#!/bin/bash\n\n# BASH script edited with Griffon: http://griffon.lasotel.fr\n# Date of creation of the script : "))); 
   doc_insert_at_cursor (cur_text_doc, ctime(&date)); 
 }
 
 //******************************* Bash insert help
 void et_bash(void){	  doc_insert_at_cursor (cur_text_doc," && ");}
-void gen_xmessage             (void){	  doc_insert_at_cursor (cur_text_doc,(_("\n# Message sur l'interface graphique\nxmessage -center -timeout 4 \" Texte a afficher. \"\n")));}
+void gen_xmessage             (void){	  doc_insert_at_cursor (cur_text_doc,(_("\n# Message on the GUI\nxmessage -center -timeout 4 \" Text display. \"\n")));}
 void ou_bash             (void){	  doc_insert_at_cursor (cur_text_doc," || ");}
 void reNULL_bash             (void){	  doc_insert_at_cursor (cur_text_doc," > /dev/null");}
 void reECRASER_bash             (void){	  doc_insert_at_cursor (cur_text_doc," > ");}
 void reRAJOUTER_bash             (void){	  doc_insert_at_cursor (cur_text_doc," >> ");}
 void boucle_bash             (void){  doc_insert_at_cursor (cur_text_doc,(_("# Boucle \nwhile\ndo\n\ndone\n")));}
-void fichier_ligne_bash             (void){       doc_insert_at_cursor (cur_text_doc,(_("# Lecture d'un fichier ligne par ligne\nwhile read ligne\ndo\n\ndone < fichier\n")));}
-void test1             (void){	  doc_insert_at_cursor (cur_text_doc,(_(" [ -e fichier ]")));}
-void test12             (void){	  doc_insert_at_cursor (cur_text_doc,(_(" [ -s fichier ]")));}
-void gen_rpm             (void){	  doc_insert_at_cursor (cur_text_doc,(_("# Construction d'un package RPM (grace au fichier spec dans /usr/src/redhat/SPEC/)\nrpmbuild -ba fichier.spec\n")));}
-void test2             (void){	  doc_insert_at_cursor (cur_text_doc,(_(" [ -d repertoire ]")));}
-void test22             (void){	  doc_insert_at_cursor (cur_text_doc,(_(" [ \"chaine1\" != \"chaine2\" ]")));}
+void fichier_ligne_bash             (void){       doc_insert_at_cursor (cur_text_doc,(_("# Reading a file line by line\nwhile read ligne\ndo\n\ndone < file_path\n")));}
+void test1             (void){	  doc_insert_at_cursor (cur_text_doc,(_(" [ -e file_path ]")));}
+void test12             (void){	  doc_insert_at_cursor (cur_text_doc,(_(" [ -s file_path ]")));}
+void gen_rpm             (void){	  doc_insert_at_cursor (cur_text_doc,(_("# Building an RPM package (thanks to the spec file in /usr/src/redhat/SPEC/)\nrpmbuild -ba fichier.spec\n")));}
+void test2             (void){	  doc_insert_at_cursor (cur_text_doc,(_(" [ -d directory ]")));}
+void test22             (void){	  doc_insert_at_cursor (cur_text_doc,(_(" [ \"string1\" != \"string2\" ]")));}
 void test3             (void){	  doc_insert_at_cursor (cur_text_doc," [ ! ]");}
-void test4             (void){     doc_insert_at_cursor (cur_text_doc,(_(" [ -r fichier ]")));}
-void test5             (void){     doc_insert_at_cursor (cur_text_doc,(_(" [ -w fichier ]")));}
-void test6             (void){     doc_insert_at_cursor (cur_text_doc,(_(" [ -x fichier ]")));}
-void test7             (void){  doc_insert_at_cursor (cur_text_doc,(_(" [ -L fichier ]")));}
-void test8             (void){  doc_insert_at_cursor (cur_text_doc,(_(" [ -N fichier ]")));}
-void test24             (void){  doc_insert_at_cursor (cur_text_doc,(_(" [ -G fichier ]")));}
-void test25             (void){  doc_insert_at_cursor (cur_text_doc,(_(" [ -O fichier ]")));}
-void test23             (void){  doc_insert_at_cursor (cur_text_doc,(_(" [ -n \"chaine\" ]")));}
-void test9             (void){  doc_insert_at_cursor (cur_text_doc,(_(" [ fichier1 -nt fichier2 ]")));}
-void gen_smbmount             (void){     doc_insert_at_cursor (cur_text_doc,(_("# Montage de partages samba\nsmbmount //192.168.1.1/partage /point/de/montage username=toto, password=mdp\n")));}
+void test4             (void){     doc_insert_at_cursor (cur_text_doc,(_(" [ -r file ]")));}
+void test5             (void){     doc_insert_at_cursor (cur_text_doc,(_(" [ -w file ]")));}
+void test6             (void){     doc_insert_at_cursor (cur_text_doc,(_(" [ -x file ]")));}
+void test7             (void){  doc_insert_at_cursor (cur_text_doc,(_(" [ -L file ]")));}
+void test8             (void){  doc_insert_at_cursor (cur_text_doc,(_(" [ -N file ]")));}
+void test24             (void){  doc_insert_at_cursor (cur_text_doc,(_(" [ -G file ]")));}
+void test25             (void){  doc_insert_at_cursor (cur_text_doc,(_(" [ -O file ]")));}
+void test23             (void){  doc_insert_at_cursor (cur_text_doc,(_(" [ -n \"string\" ]")));}
+void test9             (void){  doc_insert_at_cursor (cur_text_doc,(_(" [ file1 -nt file2 ]")));}
+void gen_smbmount             (void){     doc_insert_at_cursor (cur_text_doc,(_("# Mount samba shares\nsmbmount //192.168.1.1/share /point/of/montage username=login, password=***\n")));}
 void test10             (void){     doc_insert_at_cursor (cur_text_doc,(_(" [ \"variable1\" -eq \"variable2\" ]")));}
-void test11             (void){  doc_insert_at_cursor (cur_text_doc,(_(" [ \"chiffre1\" = \"chiffre2\" ]")));}
+void test11             (void){  doc_insert_at_cursor (cur_text_doc,(_(" [ \"number1\" = \"number2\" ]")));}
 void rsync_gen             (void){  doc_insert_at_cursor (cur_text_doc,(_("# Commande Rsync\nrsync -avH --delete /repertoire/source /repertoire/destination >> /fichier/de_log")));}
 void echo_bash             (void){  doc_insert_at_cursor (cur_text_doc,(_("# Affichage sur la sortie standare\necho \"\"\n")));}
 void gen_read             (void){  doc_insert_at_cursor (cur_text_doc,(_("\n# Interactivite avec l'utilisateur\necho \"entrez une valeur \'variable\' :\"\nread variable\n\necho \"La variable = $variable\"\n")));}

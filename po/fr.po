@@ -1414,7 +1414,7 @@ msgstr " [ -s fichier ]"
 
 #: callbacks.c:4361
 msgid ""
-"# Building an RPM package (thanks to the spec file in / usr / src / redhat /"
+"# Building an RPM package (thanks to the spec file in /usr/src/redhat/"
 "SPEC/)\n"
 "rpmbuild -ba file.spec\n"
 msgstr ""

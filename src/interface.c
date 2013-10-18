@@ -2314,7 +2314,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   gtk_widget_show (GTK_WIDGET(button2));
   gtk_box_pack_start (GTK_BOX (hbox3), button2, FALSE, TRUE, 0);
 
-  button_web_current = gtk_button_new_from_stock ((_(" Charger la page courante ")));
+  button_web_current = gtk_button_new_from_stock ((_(" Loading the current page ")));
   gtk_widget_show (GTK_WIDGET(button_web_current));
   gtk_box_pack_start (GTK_BOX (hbox3), button_web_current, FALSE, TRUE, 0);
 
@@ -2352,7 +2352,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   	 g_signal_connect(webView, "load-finished",  
     G_CALLBACK(miniweb_get_url), NULL);
 
-  button_web_image = gtk_button_new_from_stock ((_(" Ouvrir avec Gimp ")));
+  button_web_image = gtk_button_new_from_stock ((_(" Open with Gimp ")));
   gtk_widget_show (GTK_WIDGET(button_web_image));
   gtk_box_pack_start (GTK_BOX (vbox3), button_web_image, FALSE, TRUE, 0);
   gtk_widget_hide (GTK_WIDGET(button_web_image));
@@ -2361,7 +2361,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
                     G_CALLBACK (open_gimp),
                     NULL);
 
-  button_web_image2 = gtk_button_new_from_stock ((_(" Inserer le nom du fichier image dans la page courrante ")));
+  button_web_image2 = gtk_button_new_from_stock ((_(" Insert the name of the image file in the current page ")));
   gtk_widget_show (GTK_WIDGET(button_web_image2));
   gtk_box_pack_start (GTK_BOX (vbox3), button_web_image2, FALSE, TRUE, 0);
 	gtk_widget_hide (GTK_WIDGET(button_web_image2));
@@ -2856,7 +2856,7 @@ GtkWidget* man_page (void)
 		if (fichier == NULL)
 		{
 		icon_stop_logmemo();
-		log_to_memo (_("Vous devez installer le package DevHelp"), NULL, LM_ERROR);
+		log_to_memo (_("You must install the DevHelp"), NULL, LM_ERROR);
 			statusbar_msg (_("Search DevHelp [ERROR]"));
 		}
 		else
@@ -2867,7 +2867,7 @@ GtkWidget* man_page (void)
 
 		int systemRet =system (mot);
 		if(systemRet == -1){return NULL;}
-		log_to_memo (_("%s Recherche dans DevHelp"), titre, LM_NORMAL);
+		log_to_memo (_("Search DevHelp %s"), titre, LM_NORMAL);
 			statusbar_msg (_("Search DevHelp [OK]"));
 		fclose(fichier);
 		}
@@ -3003,7 +3003,7 @@ static GtkTreeModel * create_and_fill_model_help (void)
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
-                     COLUMN, (_("Langages interprétés")),
+                     COLUMN, (_("Interpreted languages")),
                      -1);
 
   gtk_tree_store_append(treestore, &child, &toplevel);
@@ -3016,7 +3016,7 @@ static GtkTreeModel * create_and_fill_model_help (void)
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
-                     COLUMN, (_("Base de données")),
+                     COLUMN, (_("Data base")),
                      -1);
                      
   gtk_tree_store_append(treestore, &child, &toplevel);
@@ -3024,7 +3024,7 @@ static GtkTreeModel * create_and_fill_model_help (void)
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
-                     COLUMN, (_("Web mise en page")),
+                     COLUMN, (_("Web layout")),
                      -1);
                      
   gtk_tree_store_append(treestore, &child, &toplevel);
@@ -3050,7 +3050,7 @@ GtkWidget * create_view_and_model_help (void)
   view = gtk_tree_view_new();
 
   col = gtk_tree_view_column_new();
-  gtk_tree_view_column_set_title(col, (_("Langages de programmation")));
+  gtk_tree_view_column_set_title(col, (_("Programming languages")));
   gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
 
   renderer = gtk_cell_renderer_text_new();
@@ -3111,7 +3111,7 @@ static GtkTreeModel * create_and_fill_model_myadmin (void)
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
-                     COLUMN, (_("Liste MyAdmin HTTP                                          ")),
+                     COLUMN, (_("HTTP MyAdmin list                                          ")),
                      -1);
 
   FILE *fich;
@@ -3151,7 +3151,7 @@ GtkWidget * create_view_and_model_myadmin (void)
 
   view_myadmin = gtk_tree_view_new();   
   col = gtk_tree_view_column_new();
-  gtk_tree_view_column_set_title(col, (_("\n[ALT+N] pour configurer \n[ALT+H] pour recharger\n")));
+  gtk_tree_view_column_set_title(col, (_("\n[ALT+N] to configure \n[ALT+H] to reload\n")));
   gtk_tree_view_append_column(GTK_TREE_VIEW(view_myadmin), col);
 
  
@@ -3228,7 +3228,7 @@ GtkWidget* doc_window (void)
 
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
-  gtk_window_set_title (GTK_WINDOW (window1), _((_("Documentation Griffon IDE"))));
+  gtk_window_set_title (GTK_WINDOW (window1), _((_("Griffon IDE documentation"))));
   gtk_window_resize (GTK_WINDOW (window1), 930, 600);
   gtk_widget_show (GTK_WIDGET(window1));
 
@@ -3267,7 +3267,7 @@ GtkWidget* version_window (void)
 
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
-  gtk_window_set_title (GTK_WINDOW (window1), _((_("Version Griffon IDE"))));
+  gtk_window_set_title (GTK_WINDOW (window1), _((_("Griffon IDE Version"))));
   gtk_window_resize (GTK_WINDOW (window1), 670, 255);
   gtk_widget_show (GTK_WIDGET(window1));
 
@@ -3294,7 +3294,7 @@ GtkWidget* rapport_window (void)
 
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
-  gtk_window_set_title (GTK_WINDOW (window1), _((_("Rapport Griffon IDE"))));
+  gtk_window_set_title (GTK_WINDOW (window1), _((_("Report Griffon IDE"))));
   gtk_window_resize (GTK_WINDOW (window1), 670, 345);
   gtk_widget_show (GTK_WIDGET(window1));
 
@@ -3486,7 +3486,7 @@ GtkTreeModel * create_and_fill_model_sftp (void)
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
-                     COLUMN, (_("Liste SFTP                                          ")),
+                     COLUMN, (_("SFTP list                                          ")),
                      -1);
 
   FILE *fich;
@@ -3524,7 +3524,7 @@ GtkWidget * create_view_and_model_sftp (void)
 
   view_sftp = gtk_tree_view_new();   
   col = gtk_tree_view_column_new();
-  gtk_tree_view_column_set_title(col, (_("\nHistorique SFTP\n")));
+  gtk_tree_view_column_set_title(col, (_("\nHistory SFTP\n")));
   gtk_tree_view_append_column(GTK_TREE_VIEW(view_sftp), col);
 
  
@@ -3601,7 +3601,7 @@ const char *home_dir = g_getenv ("HOME");
 	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,total_path);
     
 	icon_log_logmemo();
-	log_to_memo (_("%s montage SFTP dans le répertoire Griffon_MONTAGE_SFTP"), a[0], LM_NORMAL);
+	log_to_memo (_("%s in directory mount SFTP Griffon_MONTAGE_SFTP"), a[0], LM_NORMAL);
 		statusbar_msg (_("Mount SFTP [OK]"));
 	griffon_notify(_("Mount SFTP"));
 	icon_affiche_net ();                                                                                                 
@@ -3636,7 +3636,7 @@ GtkTreeModel * create_and_fill_model_ftp (void)
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
-                     COLUMN, (_("Liste FTP                                          ")),
+                     COLUMN, (_("FTP list")),
                      -1);
 
   FILE *fich;
@@ -3675,7 +3675,7 @@ GtkWidget * create_view_and_model_ftp (void)
 
   view_ftp = gtk_tree_view_new();   
   col = gtk_tree_view_column_new();
-  gtk_tree_view_column_set_title(col, "\nHistorique FTP\n");
+  gtk_tree_view_column_set_title(col, "\nHistory FTP\n");
   gtk_tree_view_append_column(GTK_TREE_VIEW(view_ftp), col);
 
  
@@ -3746,7 +3746,7 @@ void  on_changed_ftp(GtkWidget *widget)
 	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,total_path);
  
 	 icon_log_logmemo();
-	log_to_memo (_("%s montage FTP dans le répertoire Griffon_MONTAGE_SFTP"), a[0], LM_NORMAL);
+	log_to_memo (_("%s in directory mount SFTP Griffon_MONTAGE_SFTP"), a[0], LM_NORMAL);
 	griffon_notify(_("Mount FTP"));
 	icon_affiche_net ();                                                                                                 
     g_free(value);
@@ -3960,7 +3960,7 @@ void on_changed_book (GtkWidget *widget)
 
 	  gtk_text_buffer_place_cursor (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &iter2);
 	  gtk_text_view_scroll_to_iter (GTK_TEXT_VIEW(cur_text_doc->text_view), &iter2, 0.0, FALSE, 0.0, 0.0);	
-		}else{log_to_memo (_("Le BookMark ne correspond pas au fichier en cours d'édition."), NULL, LM_ERROR);statusbar_msg (_("BookMark File [ERROR]"));}
+		}else{log_to_memo (_("The BookMark does not match the file being edited."), NULL, LM_ERROR);statusbar_msg (_("BookMark File [ERROR]"));}
 		gtk_tree_selection_unselect_all(GTK_TREE_SELECTION(widget));	
   }
 
