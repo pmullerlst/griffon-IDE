@@ -2864,7 +2864,7 @@ msgid "You must select a word or text to use a BookMark"
 msgstr "Vous devez séléctionner un mot ou du texte pour utiliser un BookMark"
 
 #: callbacks.c:6503
-msgid ""
+msgid "You must install the curlftpfs to use the mounting  SFTP"
 msgstr ""
 "Vous devez installer le package sshfs et avoir une clef ssh valide pour "
 "utiliser la fonction montage SFTP"
@@ -2904,7 +2904,7 @@ msgid "Mount SFTP"
 msgstr "Montage SFTP"
 
 #: callbacks.c:6778
-msgid "Mount a FTp server"
+msgid "Mount a FTP server"
 msgstr "Monter un serveur en FTP"
 
 
@@ -2928,74 +2928,6 @@ msgid ""
 msgstr ""
 "Vous devez installer le package gimp pour utiliser la fonction edition "
 "d'image"
-
-#: minido.c:91
-msgid ""
-"MINIDO_PROFILE variable for the todo list is not findable (normally /"
-"home/user/.griffon/griffon_todo)\n"
-msgstr ""
-"MINIDO_PROFILE variable pour la todo liste n'est pas trouvable (normalement /"
-"home/user/.griffon/griffon_todo)\n"
-
-
-#: minido.c:109
-#, c-format
-msgid ""
-"The xml tag is invalid in %s file : /home/user/.griffon/"
-"griffon_todo\n"
-msgstr ""
-"Le tag xml %s est invalide dans le fichier : /home/user/.griffon/"
-"griffon_todo\n"
-
-#: minido.c:196
-#, c-format
-msgid "Tag invalid xml file todo list : %s"
-msgstr "Tag xml invalide dans le fichier todo liste : %s"
-
-#: minido.c:246
-#, c-format
-msgid ""
-"Can not open %s réprtoire. You have the right permissions on /home/user/."
-"griffon/todo/\n"
-msgstr ""
-"Ne peux pas ouvrir le réprtoire %s. Avez vous les bons droits sur /home/user/."
-"griffon/todo/\n"
-
-#: minido.c:331
-#, c-format
-msgid ""
-"Can not write file %s.\n"
-"You do not have the proper rights propablement."
-msgstr ""
-"Ne peux pas écrire le fichier %s.\n"
-"Vous n'avez propablement pas les bons droits."
-
-#: minido.c:445
-msgid "Add a new line"
-msgstr "Ajouter une nouvelle ligne"
-
-#: minido.c:476
-msgid "Edit a line"
-msgstr "Editer une ligne"
-
-#: minido.c:498
-msgid "Please confirm"
-msgstr "Please confirm"
-
-#: minido.c:526
-msgid "Do you really want delete this line?"
-msgstr "Voulez vous vraiment supprimer cette ligne?"
-
-#: minido.c:533
-#, c-format
-msgid "Can not remove% s. You have the right permissions on %s?"
-msgstr "Ne peux pas supprimer %s. Avez vous les bons droits sur %s?"
-
-#: minido.c:584
-msgid ""
-"MINIDO_DB not findable variable (normally /home/user/.griffon/todo/).\n"
-msgstr ""
-"MINIDO_DB variable non trouvable (normalement /home/user/.griffon/todo/).\n"
 
 #: help_def.c:56
 msgid "1 Functions base [PHP]"
@@ -3164,7 +3096,7 @@ msgid "7.2 (php) IMAGE PNG"
 msgstr "7.2 (php) IMAGE PNG"
 
 #: help_def.c:176
-msgid "1 Basis of page [HTML]"
+msgid "1 Base of page [HTML]"
 msgstr "1 Base de page [HTML]"
 
 #: help_def.c:180
@@ -3895,7 +3827,7 @@ msgid "Programming support [Ctl + F] to search"
 msgstr "Aide à la programmation [Ctl+F] pour rechercher"
 
 #: help_def.c:1076
-msgid "Halp Php"
+msgid "Help Php"
 msgstr "Aide Php"
 
 #: help_def.c:1131

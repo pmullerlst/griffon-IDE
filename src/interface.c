@@ -10,7 +10,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-#  include <config.h>
+#  include "config.h"
 #endif
 
 #include <time.h>
@@ -568,7 +568,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_doc, -1);
   gtk_widget_show(GTK_WIDGET(tool_doc));
   g_signal_connect ((gpointer) tool_doc, "clicked",G_CALLBACK (gen_doc_html),NULL);
-  gtk_tool_item_set_tooltip_text(tool_doc,(_("Génération d'un template de documentation du code en HTML")));
+  gtk_tool_item_set_tooltip_text(tool_doc,(_("Generating a template code documentation in HTML")));
   gtk_tool_button_set_label(GTK_TOOL_BUTTON(tool_doc),"Doc Gen");
 
 tool_sep=gtk_separator_tool_item_new();
@@ -1899,7 +1899,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep2));
   gtk_widget_show(GTK_WIDGET(tool_info_new));
 	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_info), GTK_TOOLBAR_ICONS);
   g_signal_connect ((gpointer) tool_info_new, "clicked",G_CALLBACK (new_file_log_edit),NULL);
-  gtk_tool_item_set_tooltip_text(tool_info_new,_("Ouvrir les logs dans un fichier"));
+  gtk_tool_item_set_tooltip_text(tool_info_new,_("Open the logs in a file"));
 
 	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_info),GTK_ICON_SIZE_SMALL_TOOLBAR);
 
@@ -2574,7 +2574,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
     G_CALLBACK(web_new_w_click_go), webView_myadmin_traduc);
 
 //***************************
-  label_note3 = gtk_label_new (_("Traduction"));
+  label_note3 = gtk_label_new (_("Translation"));
   gtk_widget_show (GTK_WIDGET(label_note3));
 
 	gtk_widget_set_size_request (label_note3, 150, 20);
@@ -2608,7 +2608,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
     G_CALLBACK(web_new_w_click_go), webView_myadmin_aide);
 
 //***************************
-  label_note3 = gtk_label_new (_("Aide/Recherche"));
+  label_note3 = gtk_label_new (_("Help/Search"));
   gtk_widget_show (GTK_WIDGET(label_note3));
 
 	gtk_widget_set_size_request (label_note3, 150, 20);
@@ -3097,7 +3097,7 @@ tampon_web = gtk_editable_get_chars(GTK_EDITABLE(entry_web),0, -1);
 		}
 		}
 	webkit_web_view_load_uri(webView, tampon_web);
-	griffon_notify(_("La visualisation est disponible dans l'onglet Mini Web"));
+	griffon_notify(_("Visualization is available in the tab Mini Web"));
 }
 
 //******************************* MyAdmin composition
@@ -3933,7 +3933,7 @@ void add_to_list_book(gchar *str,gchar *str2)
 							  COL_TEXT2, str2,
                        -1);	
 
-	griffon_notify(_("Le bookmark est disponible dans l'onglet :\nMark"));
+	griffon_notify(_("The bookmark is available in the tab: \nMark"));
 
 }
 
@@ -4014,7 +4014,7 @@ void google_search()
 		webkit_web_view_load_uri(webView_myadmin_aide, search_google);
 
 	//*************** NOTIFY TEST
-	griffon_notify(_("Le résultat de la recherche est disponible dans l'onglet :\nMyAdmin->Aide/Recherche"));
+	griffon_notify(_("The search result is available in the tab: MyAdmin-> Help/Search"));
 	}
 }
 
@@ -4029,7 +4029,7 @@ void google_traduction_fr_en()
 		strcpy(search_google,"https://translate.google.fr/?hl=fr&tab=wT#fr/en/");
 		strcat(search_google,doc_get_sel (cur_text_doc));
 		webkit_web_view_load_uri(webView_myadmin_traduc, search_google);
-		griffon_notify(_("Le résultat de la traduction est disponible dans l'onglet :\nMyAdmin->Traduction"));
+		griffon_notify(_("The result of the translation is available in the tab::\nMyAdmin-> Translation"));
 	}
 }
 
@@ -4197,11 +4197,11 @@ gboolean popup_context_menu_vte(GtkWidget *tv, GdkEventButton *event)
             g_signal_connect(menu_item2, "button-release-event", G_CALLBACK(paste_vte), tv);
             gtk_menu_shell_append(GTK_MENU_SHELL(menu_vte), menu_item2);
 
-            menu_item3 = gtk_menu_item_new_with_label (_("Sauvegarder dans un fichier texte"));
+            menu_item3 = gtk_menu_item_new_with_label (_("Save a text file"));
             g_signal_connect(menu_item3, "button-release-event", G_CALLBACK(new_file_term_edit), tv);
             gtk_menu_shell_append(GTK_MENU_SHELL(menu_vte), menu_item3);
 
-            menu_item4 = gtk_menu_item_new_with_label (_("Recherche Google"));
+            menu_item4 = gtk_menu_item_new_with_label (_("Google search"));
             g_signal_connect(menu_item4, "button-release-event", G_CALLBACK(term_search_google), tv);
             gtk_menu_shell_append(GTK_MENU_SHELL(menu_vte), menu_item4);
 
@@ -4500,7 +4500,7 @@ void new_dir_cmd ()
 	char pathT[500];
 	pathT[0]='\0';
 
-		if(! gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2))){log_to_memo (_("Mkdir Error : vous devez séléctionner un répertoire dans le sélécteur de fichier."), NULL, LM_ERROR);statusbar_msg (_("Mkdir ERROR"));return;}
+		if(! gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2))){log_to_memo (_("Mkdir Error: you must select a directory in the File Selector Tool."), NULL, LM_ERROR);statusbar_msg (_("Mkdir ERROR"));return;}
 
 	path_dir=gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2));
 	strcpy(pathT,path_dir);
@@ -4512,7 +4512,7 @@ void new_dir_cmd ()
 		strcat(pathT,dir);
 		if (mkdir (pathT, S_IRUSR | S_IWUSR | S_IXUSR) == -1){log_to_memo (_("Mkdir Error."), NULL, LM_ERROR);statusbar_msg (_("Mkdir [ERROR]"));}
 		else{log_to_memo (_("Mkdir %s"), pathT, LM_NORMAL); gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,pathT); statusbar_msg (_("Mkdir [OK]"));
-	griffon_notify(_("Le répertoire est créé."));
+	griffon_notify(_("The directory is created."));
 
 		char commande[350];
 	strcpy(commande,"chmod 755 ");
@@ -4522,7 +4522,7 @@ void new_dir_cmd ()
 
 return;}
 	}
-	else{log_to_memo (_("Mkdir Error : vous devez entrer le nom du répertoire dans la ligne de commande"), NULL, LM_ERROR);statusbar_msg (_("Mkdir [ERROR]"));}
+	else{log_to_memo (_("Mkdir Error : you must enter the directory name in the command line"), NULL, LM_ERROR);statusbar_msg (_("Mkdir [ERROR]"));}
 }
 
 //******************************* Création de fichier
@@ -4533,7 +4533,7 @@ void new_file_cmd ()
 	char pathT[500];
 	pathT[0]='\0';
 
-		if(! gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2))){log_to_memo (_("File Error : vous devez séléctionner un répertoire dans le sélécteur de fichier."), NULL, LM_ERROR);statusbar_msg (_("File touch [ERROR]"));return;}
+		if(! gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2))){log_to_memo (_("File Error: you must select a directory in the File Selector Tool."), NULL, LM_ERROR);statusbar_msg (_("File touch [ERROR]"));return;}
 
 	path_file=gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2));
 	strcpy(pathT,path_file);
@@ -4549,7 +4549,7 @@ void new_file_cmd ()
 				create_empty_file (pathT, "");
 				log_to_memo (_("File %s"), pathT, LM_NORMAL);
 				statusbar_msg (_("File touch [OK]"));
-					griffon_notify(_("Le fichier est créé."));
+					griffon_notify(_("The file is created."));
 				doc_open_file (pathT);
 
 				   char *extension;
@@ -4570,7 +4570,7 @@ void new_file_cmd ()
 	if(systemRet == -1){return;}
 				}
 	}
-	else{log_to_memo (_("File Error : vous devez entrer le nom du fichier dans la ligne de commande"), NULL, LM_ERROR);statusbar_msg (_("File touch [ERROR]"));}
+	else{log_to_memo (_("File Error: You must enter the file name in the command line"), NULL, LM_ERROR);statusbar_msg (_("File touch [ERROR]"));}
 }
 
 //******************************* Création de fenêtre web
@@ -4856,7 +4856,7 @@ void download_requested_cb(WebKitDownload *download)
 
 	 gchar *uri1="file://";
 
-	if(! gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2))){log_to_memo (_("Download Error : vous devez séléctionner un répertoire dans le sélécteur de fichier"), NULL, LM_ERROR);statusbar_msg (_("Download ERROR"));return ;}
+	if(! gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2))){log_to_memo (_("Download Error : You must select a directory in the File Selector Tool"), NULL, LM_ERROR);statusbar_msg (_("Download ERROR"));return ;}
 
 	filename = webkit_download_get_suggested_filename(download);
 	path_dir=gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2));

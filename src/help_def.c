@@ -1,5 +1,5 @@
 #ifdef HAVE_CONFIG_H
-#  include <config.h>
+#  include "config.h"
 #endif
 
 #include <gtk/gtk.h>
@@ -52,27 +52,27 @@ GtkTreeModel *create_and_fill_model_php (void)
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
-                     COLUMN, "1 Fonctions base [PHP]",
+                     COLUMN, "1 Functions base [PHP]",
                      -1);
 
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.1 (php) débuter un script PHP")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.1 (php) to start a PHP script")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.2 (php) echo : Affiche une chaîne de caractères")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.2 (php) echo: Displays a character string")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.3 (php) ajouter un commentaire")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.3 (php) add a comment")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.4 (php) FUNCTION : créer une fonction")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.4 (php) FUNCTION: create a function")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.5 (php) MAIL : envoyer un email")),-1);  
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.5 (php) MAIL: send an email")),-1);  
   gtk_tree_store_append(treestore, &child, &toplevel);
   gtk_tree_store_set(treestore, &child,COLUMN, (_("1.6 (php) DATE format MySql YYYY-mm-jj hh:mm:ss")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.7 (php) RAND : Génère une valeur aléatoire")),-1);  
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.7 (php) RAND: Generate a random value")),-1);  
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.8 (php) POST : Afficher les variables POST")),-1); 
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.8 (php) POST: Display the POST variables")),-1); 
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.9 (php) COUNT : Compte tous les éléments d'un tableau")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.9 (php) COUNT : Account all the elements of an array")),-1);
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
@@ -86,48 +86,48 @@ GtkTreeModel *create_and_fill_model_php (void)
   gtk_tree_store_append(treestore, &child, &toplevel);
   gtk_tree_store_set(treestore, &child,COLUMN, "2.3 (php) WHILE",-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.4 (php) FOREACH : lire un tableau ligne par ligne")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.4 (php) FOREACH: read a table row by row")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
-                     COLUMN, "3 Fichier",
+                     COLUMN, "3 File",
                      -1);
                      
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.1 (php) FILE : place le contenu d'un fichier (url possible) dans un tableau")),-1);        
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.1 (php) FILE: place the contents of a file (or url) in a table")),-1);        
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.2 (php) UNLINK : supprimer un fichier")),-1);  
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.2 (php) UNLINK : delete a file")),-1);  
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.3 (php) FPUTS : écrire dans un fichier")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.3 (php) FPUTS : write to a file")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.4 (php) DIR : Lister les fichiers d'un répertoire dans un tableau")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.4 (php) DIR : List the files in a directory in a table")),-1);
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
-                     COLUMN, (_("4 Chaîne de carctères")),
+                     COLUMN, (_("4 String")),
                      -1);
                      
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.1 (php) SPLIT : découper une chaîne avec séparateur")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.1 (php) SPLIT: split a string with delimiter")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.2 (php) REMPLACEMENT : trouver une chaîne dans une variable et la remplacer")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.2 (php) REPLACEMENT: find a string in a variable and replace")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.3 (php) IF chaîne : instruction rechercher une chaîne dans une autre chaîne")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.3 (php) IF string : if search for a string in another string")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.4 (php) STRIPSLASHES : Supprime les antislashs d'une chaîne")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.4 (php) stripslashes: Removes backslashes in a string")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.5 (php) STRLEN : Retourne la taille de la chaîne")),-1);  
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.5 (php) STRLEN: Returns the size of the string")),-1);  
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.6 (php) URLENCODE : Encode une chaîne en URL")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.6 (php) urlencode: Encodes a URL string")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.7 (php) MB_SUBSTR_COUNT : Compte le nombre d'occurrences d'une sous-chaîne")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.7 (php) mb_substr_count: Counts the number of occurrences of a substring")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.8 (php) STRIP_TAGS : Supprime les balises HTML et PHP d'une chaîne")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.8 (php) strip_tags: Removes HTML and PHP tags from a string")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.9 (php) EXPLODE : découpe une chaîne avec séparateur et retourne un tableau")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.9 (php) EXPLODE : split a string with separator and returns an array")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.10 (php) ADDSLASHES : Ajoute des antislashs dans une chaîne")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.10 (php) ADDSLASHES : Adds backslashes in a string")),-1);
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
@@ -135,17 +135,17 @@ GtkTreeModel *create_and_fill_model_php (void)
                      -1);
 
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.1 (php) connexion à une base MySql")),-1);                         
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.1 (php) connection to a MySql database")),-1);                         
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.2 (php) SELECT BOUCLE : select mysql avec boucle de récuperation des données")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.2 (php) LOOP SELECT: mysql select with recuperation loop data")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.3 (php) QUERY : simple requete Mysql (UPDATE,DELETE,INSERT)")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.3 (php) QUERY: simple query MySQL (UPDATE, DELETE, INSERT)")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.4 (php) QUERY : simple requete Mysql (SELECT)")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.4 (php) QUERY: simple query MySQL (SELECT)")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.5 (php) LAST_INSERT_ID : récuperation d'un id après un INSERT")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.5 (php) LAST_INSERT_ID: recuperation after an INSERT id")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.6 (php) NUM_ROWS : récuperation du nombre de résultats d'une requete")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.6 (php) NUM_ROWS: number of results of a query")),-1);
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
@@ -153,13 +153,13 @@ GtkTreeModel *create_and_fill_model_php (void)
                      -1);
 
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.1 (php) connexion à un serveur FTP")),-1); 
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.1 (php) connection to an FTP server")),-1); 
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.2 (php) FTP_NLIST : lister les fichier d'un répertoire")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.2 (php) ftp_nlist: list files in a directory")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.3 (php) FTP_PUT : déposer un fichier")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.3 (php) ftp_put: upload a file")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.4 (php) FTP_DELETE : supprimer un fichier")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.4 (php) FTP_DELETE: Delete a file")),-1);
  
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
@@ -171,7 +171,7 @@ GtkTreeModel *create_and_fill_model_php (void)
   gtk_tree_store_append(treestore, &child, &toplevel);
   gtk_tree_store_set(treestore, &child,COLUMN, "7.2 (php) IMAGE PNG",-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, "7.3 (php) Téléchargement d'un fichier CSV",-1); 
+  gtk_tree_store_set(treestore, &child,COLUMN, "7.3 (php) Download a CSV file",-1); 
                                                                               
   return GTK_TREE_MODEL(treestore);
 }
@@ -187,57 +187,57 @@ GtkTreeModel *create_and_fill_model_html (void)
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
-                     COLUMN, (_("1 Base de page [HTML]")),
+                     COLUMN, (_("1 Base of page [HTML]")),
                      -1);
 
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.1 (html) : Template de base")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.1 (html): Basic Template")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.2 (html) : Commenter")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.2 (html): Comment")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.3 (html) : Tableau [Option CMD : \"{NBR_TR}-{NBR_TD}\"]")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.3 (html): Table [Option CMD: \"{NBR_TR} - {NBR_TD}\"]")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.4 (html) : Lien HREF autour de la sélection")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.4 (html): HREF link around the selection")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.5 (html) : Intergation d'une feuille de style css")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.5 (html): Integration of a css stylesheet")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.6 (html) : Rechargement (refresh) d'une page toutes les 30 secondes")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.6 (html): Reload (refresh) of a page every 30 seconds")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.7 (html) : Balise image autour de la séléction")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.7 (html): Tag image around the selection")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.8 (html) : Ajouter un div autour de la sélection")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.8 (html): Add a div around the selection")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.9 (html) : Ajouter un style à une balise")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.9 (html): add a style to a tag")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.10 (html) : Ajouter un favicon 16x16 format .ico")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.10 (html): Add a favicon 16x16. Ico format")),-1);
        
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
-                     COLUMN, (_("2 Taille")),
+                     COLUMN, (_("2 Size")),
                      -1);
 
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.1 (html) : [width] Largeur")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.1 (html) : [width]")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.2 (html) : [height] Hauteur")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.2 (html) : [height]")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.3 (html) : [cols] nombre de colonne (textarea)")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.3 (html): [cols] number of columns (textarea)")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
   gtk_tree_store_set(treestore, &child,COLUMN, (_("2.4 (html) : [rows] nombre de ligne (textarea)")),-1);
      
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
-                     COLUMN, (_("3 Formulaire")),
+                     COLUMN, (_("3 Form")),
                      -1);
 
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.1 (html) : Formulaire de base")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.1 (html): Basic Form")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.2 (html) : Zone de saisie texte")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.2 (html) text input area")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.3 (html) : Zone de saisie textarea")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.3 (html): textarea input field")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.4 (html) : Zone de sélection d'option (SELECT)")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.4 (html): Zone option selection (SELECT)")),-1);
 
 
   return GTK_TREE_MODEL(treestore);
@@ -254,88 +254,88 @@ GtkTreeModel *create_and_fill_model_css (void)
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
-                     COLUMN, (_("1 Base de feuille de style [CSS]")),
+                     COLUMN, (_("1 Base Style Sheet [CSS]")),
                      -1);
 
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.1 (css) : Commenter")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.1 (css) Comment")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.2 (css) : Style pour balise body")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.2 (css): Style for body tag")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.3 (css) : Style pour lien")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.3 (css): Style for link")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.4 (css) : Style pour lien hover")),-1);    
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.4 (css): Style for link hover")),-1);    
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.5 (css) : Style pour balise div avec ID")),-1);  
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.5 (css): Style for div tag with ID")),-1);  
     
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
                      COLUMN, "2 Base background",
                      -1);  
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.1 (css) : [background] Couleur de fond")),-1);                     
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.1 (css) [background] background color")),-1);                     
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.2 (css) : [background-image] Image de fond")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.2 (css) [background-image] Background Image")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.3 (css) : [background-repeat] Option image de fond non répétée")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.3 (css) [background-repeat] Option not repeated background image")),-1);
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
                      COLUMN, "3 Base font",
                      -1);  
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.1 (css) : [font-family] style de font")),-1); 
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.1 (css) : [font-family]")),-1); 
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.2 (css) : [font-size] Taille de la font")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.2 (css) : [font-size] ")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.3 (css) : [color] Courleur de la font")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.3 (css) : [color] font color")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.4 (css) : [decoration] Pas de décoration de texte")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.4 (css) [decoration] No Text Decoration")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.5 (css) : [decoration] Soulignement du texte")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.5 (css) [decoration] Underline Text")),-1);
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
-                     COLUMN, (_("4 Base taille")),
+                     COLUMN, (_("4 Base size")),
                      -1);  
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.1 (css) : [largeur] width largeur")),-1); 
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.1 (css) : [width] width")),-1); 
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.2 (css) : [hauteur] height hauteur")),-1); 
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.2 (css) : [height] height")),-1); 
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
                      COLUMN, (_("5 Base position")),
                      -1);  
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.1 (css) : [position] relative Positionnement relatif par rapport à la position de l'élément précédent")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.1 (css) [position] on the relative positioning position of the previous")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.2 (css) : [position] absolute Positionnement absolu par rapport au coin supérieur gauche du document")),-1);   
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.2 (css) [position] absolute absolute positioning relative to the corner upper left of the document")),-1);   
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.3 (css) : [position] fixed Positionnement fixe par rapport au coin supérieur gauche de la fenêtre du navigateur")),-1);                       
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.3 (css) [position] fixed fixed positioning relative to the corner top left of the browser window")),-1);                       
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.4 (css) : [gauche] left Position à partire du bord gauche")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.4 (css): [left] left Position from the left edge")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.5 (css) : [droite] right position à partire du bord droit")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.5 (css) [right] right position at the right")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.6 (css) : [haut] top position à partire du bord haut")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.6 (css) [top] top position at the top")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.7 (css) : [bas] bottom position à partire du bord bas")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.7 (css): [low] bottom position to the bottom edge")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.8 (css) : [valign] alignement vertical en bas bottom")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.8 (css) [valign] vertical alignment down bottom")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.9 (css) : [valign] alignement vertical en haut")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.9 (css) [valign] top vertical alignment")),-1);
   
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
-                     COLUMN, (_("6 Base affichage")),
+                     COLUMN, (_("6 Base Display")),
                      -1);  
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.1 (css) : [none] display L'élément est masqué")),-1);   
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.1 (css): [none] The display element is hidden")),-1);   
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.2 (css) : [block] display Affichage l'un en-dessous de l'autre")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.2 (css) [block] display display one below the other")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.3 (css) : [inline] display Affichage en ligne des div")),-1);  
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.3 (css) [inline] View online display div")),-1);  
                                                     
   return GTK_TREE_MODEL(treestore);
 }
@@ -351,7 +351,7 @@ GtkTreeModel *create_and_fill_model_mysql (void)
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
-                     COLUMN, (_("1 Requete base [MYSQL]")),
+                     COLUMN, (_("1 Base [MYSQL]")),
                      -1);
 
   gtk_tree_store_append(treestore, &child, &toplevel);
@@ -381,63 +381,63 @@ GtkTreeModel *create_and_fill_model_javascript (void)
                      -1);
 
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.1 (javascript) : Balise HTML pour javascript/jquery")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.1 (javascript) HTML tag for javascript / jquery")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.2 (javascript) : Créer une fonction")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.2 (javascript) : Create a function")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.3 (javascript) : Split d'une chaîne en tableau par séparateur")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.3 (javascript) : Split a string into array by separating")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.4 (javascript) : Encodage d'une URL")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.4 (javascript) : Encoding a URL")),-1);
      
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
-                     COLUMN, (_("2 Intéraction avec un ID")),
+                     COLUMN, (_("2 Interaction with ID")),
                      -1);
  
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.1 (javascript) : Récuperation d'un value par id")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.1 (javascript) : Recovery of a value by id")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.2 (javascript) : Récuperation d'un value par id sur un select HTML")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.2 (javascript) : Recovery of value by id in a HTML select")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.3 (javascript) : Focus sur un id")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.3 (javascript) : Focus on an id")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.4 (javascript) : Charger un fichier php/html dans un div id")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.4 (javascript) : Upload a file php / html in a div id")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.5 (javascript) : Remplacer le contenu d'un div id par un autre texte")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.5 (javascript) : Replace the content of a div id with another text")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.6 (javascript) : Remplacer le contenu d'un value html id par un autre texte")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.6 (javascript): Replace the contents of an html id value in another text")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.7 (javascript) : Ajouter un texte au contenu d'un value html id")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.7 (javascript): Add the contents of a text html id value")),-1);
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
-                     COLUMN, (_("3 Liste des évenements")),
+                     COLUMN, (_("3 List of events")),
                      -1);
  
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.1 (javascript) : [onBlur] action en sortie de focus")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.1 (javascript): [onBlur] output action focus")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.2 (javascript) : [onChange] action pour un changement")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.2 (javascript): [onChange] action for change")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.3 (javascript) : [onClick] action pour un click")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.3 (javascript): [onClick] action for a click")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.4 (javascript) : [onFocus] action sur prise de focus")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.4 (javascript): [onFocus] taking action focus")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.5 (javascript) : [onLoad] action en fin de chargement")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.5 (javascript): [onLoad] action after loading")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.6 (javascript) : [onMouseOver] action au passage de la souris")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.6 (javascript): [onMouseOver] action mouseover")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.7 (javascript) : [onSelect] action pour une séléction")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.7 (javascript): [onSelect] action for selection")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.8 (javascript) : [onSubmit] action en validation de formulaire")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.8 (javascript): [onSubmit] Action Form Validation")),-1);
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
-                     COLUMN, (_("4 Fonctions")),
+                     COLUMN, (_("4 Function")),
                      -1);
  
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.1 (javascript) : Fonction récuperation du contenu d'un fichier")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.1 (JavaScript) function retrieve the content of a file")),-1);
 
   return GTK_TREE_MODEL(treestore);
 }
@@ -458,19 +458,19 @@ GtkTreeModel *create_and_fill_model_htaccess (void)
                      -1);
 
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.1 (htaccess) : Charset par défaut (UTF8)")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.1 (htaccess) : Default charset (UTF-8)")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.2 (htaccess) : bloquer toutes les ip")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.2 (htaccess): block all IP")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.3 (htaccess) : Autoriser une ip")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.3 (htaccess) : Allow IP")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.4 (htaccess) : Redirection des erreurs")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.4 (htaccess) : Redirect errors")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.5 (htaccess) : Activation de l'url rewriting")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.5 (htaccess) : Enable URL rewriting")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.6 (htaccess) : ligne exemple simple url rewriting")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.6 (htaccess) : online simple example url rewriting")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.7 (htaccess) : ligne exemple avec option et expression régulière url rewriting")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.7 (htaccess) : Example line with regular expression option and url rewriting")),-1);
 
   return GTK_TREE_MODEL(treestore);
 }
@@ -486,38 +486,38 @@ GtkTreeModel *create_and_fill_model_perl (void)
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
-                     COLUMN, (_("1 Fonctions base [PERL]")),
+                     COLUMN, (_("1 Functions base [PERL]")),
                      -1);
 
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.1 (perl) : Débuter un script")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.1 (perl): Start a script")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.2 (perl) PRINT : afficher une chaîne de caractères")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.2 (perl) PRINT: Display a string")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);  
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.3 (perl) ARGUMENTS : utiliser les arguments du programme")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.3 (perl) ARGUMENTS: use the program arguments")),-1);
 
 
 	  gtk_tree_store_append(treestore, &child2, &toplevel);  
-	  gtk_tree_store_set(treestore, &child2,COLUMN, (_("TABLEAU")),-1);
+	  gtk_tree_store_set(treestore, &child2,COLUMN, (_("ARRAY")),-1);
 		  gtk_tree_store_append(treestore, &child, &child2);    
-		  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.4 (perl) TABLEAU : déclaration d'un tableau")),-1);  
+		  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.4 (perl) array : declaring an array")),-1);  
 		  gtk_tree_store_append(treestore, &child, &child2);
-		  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.5 (perl) TABLEAU : empiler une valeur en fin de tableau")),-1);
+		  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.5 (perl) array : stack value at end of table")),-1);
 		  gtk_tree_store_append(treestore, &child, &child2);
-		  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.6 (perl) TABLEAU : empiler une valeur en début de tableau")),-1);  
+		  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.6 (perl) array : stacking a array value at the beginning of")),-1);  
 		  gtk_tree_store_append(treestore, &child, &child2);
-		  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.7 (perl) FOREACH : lire un tableau ligne par ligne")),-1);  
+		  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.7 (perl) FOREACH: read a array row by row")),-1);  
 
   gtk_tree_store_append(treestore, &child, &toplevel);  
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.8 (perl) SAISIE : attend une saisie clavier")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.8 (perl) ENTRY: expects keyboard input")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);  
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.9 (perl) FONCTION : créer une fonction")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.9 (perl) FUNCTION: create a function")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);  
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.10 (perl) EXIT : sortir (killer) le programme")),-1);    
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.10 (perl) EXIT: exit (killer) program")),-1);    
   gtk_tree_store_append(treestore, &child, &toplevel);  
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.11 (perl) LOCALTIME : Récuperation de la date")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.11 (perl) LOCALTIME: Recovery from the date")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);  
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.12 (perl) RAND : génération d'un nombre aléatoire")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.12 (perl) RAND: random number generation")),-1);
   
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
@@ -527,34 +527,34 @@ GtkTreeModel *create_and_fill_model_perl (void)
   gtk_tree_store_append(treestore, &child, &toplevel);
   gtk_tree_store_set(treestore, &child,COLUMN, "2.1 (perl) IF",-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.2 (perl) UNLESS : test négatif")),-1);  
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.2 (perl) UNLESS: negative test")),-1);  
   gtk_tree_store_append(treestore, &child, &toplevel);
   gtk_tree_store_set(treestore, &child,COLUMN, (_("2.3 (perl) IF ELSE")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
   gtk_tree_store_set(treestore, &child,COLUMN, (_("2.4 (perl) WHILE")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.5 (perl) WHILE infinie")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.5 (perl) WHILE infinite")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.6 (perl) FOREACH : lire un tableau ligne par ligne")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.6 (perl) FOREACH: read a array row by row")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
-                     COLUMN, (_("3 Fichier lecture écriture")),
+                     COLUMN, (_("3 file read write")),
                      -1);                    
                      
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.1 (perl) Lire un fichier ligne par ligne")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.1 (perl) Read a file line by line")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.2 (perl) ouvrir un fichier pour y ajouter des données")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.2 (perl) to open a file for appending data")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.3 (perl) ouvrir un fichier pour y ajouter des données et écraser l'éxistant")),-1);    
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.3 (perl) to open a file for appending data and overwrite the existing")),-1);    
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.4 (perl) ouvrir un tube sur un fichier")),-1);  
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.4 (perl) open a pipe to a file")),-1);  
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.5 (perl) STDIN Lecture de l'entrée standard")),-1); 
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.5 (perl) STDIN reading from standard input")),-1); 
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.6 (perl) STAT : récuperation des stats d'un fichier ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,$atime,$mtime,$ctime,$blksize,$blocks)")),-1); 
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.6 (perl) STAT : recovery stats of a file  ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,$atime,$mtime,$ctime,$blksize,$blocks)")),-1); 
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
@@ -562,23 +562,23 @@ GtkTreeModel *create_and_fill_model_perl (void)
                      -1);
                      
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.1 (perl) SPLIT : découper une chaîne avec séparateur")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.1 (perl) SPLIT: split a string with delimiter")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.2 (perl) IF UNLESS chaîne : instruction rechercher une chaîne dans une autre chaîne")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.2 (perl) IF UNLESS chain: education search for a string in a other string")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.3 (perl) REMPLACEMENT : trouver une chaîne dans une variable et la remplacer")),-1);    
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.3 (perl) REPLACEMENT: find a string in a variable and replace")),-1);    
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.4 (perl) CHOP : Enlève le dernier caractère de la chaîne")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.4 (perl) CHOP: Removes the last character of the string")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.5 (perl) LENGTH : Retourne la longueur de la chaîne (nombre de caractères)")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.5 (perl) LENGTH: Returns the length of the string (number of characters)")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.6 (perl) UC : Retourne la chaîne en majuscules")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.6 (perl) CPU: Returns the string to uppercase")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.7 (perl) LC : Retourne la chaîne en minuscules")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.7 (perl) LC: Returns the string to lowercase")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.8 (perl) UCFIRST : Retourne la chaîne avec le premier caractère en majuscule")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.8 (perl) ucfirst: Returns the string with the first character uppercase")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.9 (perl) SUBSTR : retourne une chaîne contenue entre indice de début et la longueur")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.9 (perl) SUBSTR: returns a string contained between the start index and length")),-1);
           
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
@@ -586,17 +586,17 @@ GtkTreeModel *create_and_fill_model_perl (void)
                      -1);
                      
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.1 (lib_dbi) CONNEXION : se connecter à une base MySql")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.1 (lib_dbi) CONNECTION: Connect to MySql database")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.2 (lib_dbi) QUERY : simple requete Mysql (UPDATE,DELETE,INSERT)")),-1); 
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.2 (lib_dbi) QUERY: simple query MySQL (UPDATE, DELETE, INSERT)")),-1); 
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.3 (lib_dbi) QUERY : simple requete Mysql (SELECT)")),-1);   
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.3 (lib_dbi) QUERY: simple query MySQL (SELECT)")),-1);   
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.4 (lib_dbi) SELECT BOUCLE : select mysql avec boucle de récuperation des données")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.4 (lib_dbi) LOOP SELECT: mysql select with recuperation of loop data")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.5 (lib_dbi) LASTID : récuperation du dernier id en insert")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.5 (lib dbi) LAST ID: recuperation of the last insert id in")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.6 (lib_dbi) ROWS : rows récupération du nombre de résultats pour une requête")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.6 (lib_dbi) ROWS: rows recovery number of results for a query")),-1);
 
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
@@ -605,19 +605,19 @@ GtkTreeModel *create_and_fill_model_perl (void)
                      -1);
                      
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.1 (lib_mime) Envoi d\'un mail simple")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.1 (lib_mime) Sending a simple email")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.2 (lib_mime) Envoi d\'un mail avec fichier PJ")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.2 (lib_mime) Sending mail with file")),-1);
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
-                     COLUMN, (_("7 HTTP Lib URI et LWP")),
+                     COLUMN, (_("7 HTTP Lib URI and LWP")),
                      -1);
                      
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("7.1 (lib_URI) encodage d\'une URL")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("7.1 (lib_URI) encoding a URL")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("7.2 (lib_LWP) get sur une URL")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("7.2 (lib_LWP) get a URL")),-1);
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
@@ -625,17 +625,17 @@ GtkTreeModel *create_and_fill_model_perl (void)
                      -1);
                      
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("8.1 (lib_net) connexion à un serveur FTP")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("8.1 (lib_net) connection to an FTP server")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("8.2 (lib_net) lister le contenu d'un répertoire FTP")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("8.2 (lib_net) list the contents of an FTP directory")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("8.3 (lib_net) GET télécharger un fichier depuis un FTP")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("8.3 (lib_net) GET to download a file from a FTP")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("8.4 (lib_net) PUT uploader un fichier sur un FTP")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("8.4 (lib_net) PUT upload a file on an FTP")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("8.5 (lib_net) CWD Changer de répertoire")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("8.5 (lib_net) CWD Change directory")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("8.6 (lib_net) DELETE Supprimer un fichier")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("8.6 (lib_net) DELETE Delete a file")),-1);
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
@@ -643,9 +643,9 @@ GtkTreeModel *create_and_fill_model_perl (void)
                      -1);
                      
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("9.1 (lib_socket) socket en mode écoute (serveur) avec fork")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("9.1 (lib_socket) socket in listening mode (server) with fork")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("9.2 (lib_socket) socket en mode client")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("9.2 (lib_socket) socket client mode")),-1);
 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
   return GTK_TREE_MODEL(treestore);
@@ -666,13 +666,13 @@ GtkTreeModel *create_and_fill_model_bash (void)
                      -1);
 
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.1 (bash) Débuter un script")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.1 (bash) Start a script")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.2 (bash) ECHO : afficher une chaîne de caractères")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.2 (bash) ECHO: Display a string")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.3 (bash) Ajouter un commentaire")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.3 (bash) Add a comment")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.4 (bash) Commande en tache de fond")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.4 (bash) command in the background")),-1);
                      
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
@@ -686,24 +686,24 @@ GtkTreeModel *create_and_fill_model_bash (void)
   gtk_tree_store_append(treestore, &child, &toplevel);
   gtk_tree_store_set(treestore, &child,COLUMN, "2.3 (bash) WHILE bash",-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.4 (bash) CASE : multi choix")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.4 (bash) CASE: multiple choice")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.5 (bash) READ : interactivite avec l'utilisateur")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.5 (bash) READ: interactivity with the user")),-1);
  
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
-                     COLUMN, (_("3 Opérateur logique")),
+                     COLUMN, (_("3 Logical Operator")),
                      -1);                     
 
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.1 (bash) ET")),-1);                                                            
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.1 (bash) AND")),-1);                                                            
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.2 (bash) OU")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("3.2 (bash) OR")),-1);
  
  
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
-                     COLUMN, (_("4 Commandes de base")),
+                     COLUMN, (_("4 Basic Commands")),
                      -1);
                      
   gtk_tree_store_append(treestore, &child, &toplevel);
@@ -717,41 +717,41 @@ GtkTreeModel *create_and_fill_model_bash (void)
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
-                     COLUMN, (_("5 Redirection de fichier")),
+                     COLUMN, (_("5 File Redirection")),
                      -1);
                      
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.1 (bash) Redirection de la sortie dans le vide")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.1 (bash) Output Redirection in the NULL")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.2 (bash) La sortie écrase un fichier")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.2 (bash) The output overwrites a file")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.3 (bash) La sortie est ajoutée à un fichier")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.3 (bash) is added to the output file")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.4 (bash) Redirection des erreurs")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.4 (bash) Redirecting errors")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.5 (bash) Redirection des erreurs et des messages")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("5.5 (bash) Redirection errors and messages")),-1);
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
-                     COLUMN, (_("6 Construction de [TEST]")),
+                     COLUMN, (_("6 Building [TEST]")),
                      -1);
                      
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.1 (bash) TEST : si un fichier existe")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.1 (bash) TEST: if a file exists")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.2 (bash) TEST : si un répertoire existe")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.2 (bash) TEST: if a directory exists")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.3 (bash) TEST : inverser un test")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.3 (bash) TEST: Reverse test")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.4 (bash) TEST : droit en lecture")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.4 (bash) TEST: right reading")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.5 (bash) TEST : droit en écriture")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.5 (bash) TEST: write permission")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.6 (bash) TEST : droit en excution")),-1);                                                                                                                                                                                                                                                                 
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.6 (bash) TEST:  execution?")),-1);                                                                                                                                                                                                                                                                 
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN,(_("6.7 (bash) TEST : sur deux variables")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN,(_("6.7 (bash) TEST: two variables")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.8 (bash) TEST : sur deux chiffres")),-1);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("6.8 (bash) TEST: two-digit")),-1);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
   return GTK_TREE_MODEL(treestore);
@@ -764,7 +764,7 @@ void  on_changed(GtkWidget *widget, gpointer statusbar)
   GtkTreeModel *model;
   char *value;
 
- if (! get_page_text()){ log_to_memo (_("Vous devez ouvrir un fichier pour pouvoir utiliser l\'aide."), NULL, LM_ERROR);return;}
+ if (! get_page_text()){ log_to_memo (_("You must open a file to use for help."), NULL, LM_ERROR);return;}
 
   if (gtk_tree_selection_get_selected(
       GTK_TREE_SELECTION(widget), &model, &iter)) {
@@ -822,7 +822,7 @@ void  on_changed2(gpointer *user_data)
 				if (strcmp("2.1 (term", a[0]) == 0){term_decomp_targz(user_data);return;}
 				if (strcmp("2.2 (term", a[0]) == 0){term_diff(user_data);return;}
 
-			 if (! get_page_text()){ log_to_memo (_("Vous devez ouvrir un fichier pour pouvoir utiliser l\'aide."), NULL, LM_ERROR);return;}
+			 if (! get_page_text()){ log_to_memo (_("You must open a file to use for help."), NULL, LM_ERROR);return;}
 
             //*************** APPEL AU FONCTION HTACCESS
 				if (strcmp("1.1 (htaccess", a[0]) == 0){htaccess_charset_utf8();}
@@ -1127,7 +1127,7 @@ GtkWidget * create_view_and_model (char clef[50])
 	gtk_tree_view_expand_all (GTK_TREE_VIEW(view));
 
   col = gtk_tree_view_column_new();
-  gtk_tree_view_column_set_title(col, (_("Aide à la programmation [Ctl+F] pour rechercher")));
+  gtk_tree_view_column_set_title(col, (_("Programming support [Ctl + F] to search")));
   gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
 
   renderer = gtk_cell_renderer_text_new();
@@ -1160,7 +1160,7 @@ GtkWidget* help_php_window (void)
 
 	gtk_widget_destroy(window1);
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (window1), _((_("Aide Php"))));
+  gtk_window_set_title (GTK_WINDOW (window1), _((_("Help Php"))));
     gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
 	gtk_window_resize (GTK_WINDOW (window1), 430, 600);
   gtk_widget_show (GTK_WIDGET(window1));
@@ -1209,7 +1209,7 @@ GtkWidget* help_mysql (void)
 
 	gtk_widget_destroy(window1);
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (window1), _((_("Aide MySql"))));
+  gtk_window_set_title (GTK_WINDOW (window1), _((_("Help Mysql"))));
     gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
 	gtk_window_resize (GTK_WINDOW (window1), 430, 600);
   gtk_widget_show (GTK_WIDGET(window1));
@@ -1258,7 +1258,7 @@ GtkWidget* help_html (void)
 
 	gtk_widget_destroy(window1);
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (window1), _((_("Aide HTML"))));
+  gtk_window_set_title (GTK_WINDOW (window1), _((_("Help HTML"))));
     gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
 	gtk_window_resize (GTK_WINDOW (window1), 430, 600);
   gtk_widget_show (GTK_WIDGET(window1));
@@ -1306,7 +1306,7 @@ GtkWidget* help_css (void)
 {
 	gtk_widget_destroy(window1);
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (window1), _((_("Aide CSS"))));
+  gtk_window_set_title (GTK_WINDOW (window1), _((_("Help CSS"))));
     gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
 	gtk_window_resize (GTK_WINDOW (window1), 430, 600);
   gtk_widget_show (GTK_WIDGET(window1));
@@ -1356,7 +1356,7 @@ GtkWidget* help_javascript (void)
 
 	gtk_widget_destroy(window1);
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (window1), _((_("Aide Javascript Jquery"))));
+  gtk_window_set_title (GTK_WINDOW (window1), _((_("Help Javascript Jquery"))));
     gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
 	gtk_window_resize (GTK_WINDOW (window1), 430, 600);
   gtk_widget_show (GTK_WIDGET(window1));
@@ -1562,29 +1562,29 @@ GtkTreeModel *create_and_fill_model_term (void)
                      -1);
 
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.1 (term) : Utilisation du disque")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.1 (term) : Disk Usage")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.2 (term) : Aspiration de site web WGET")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.2 (term) : Extractors website WGET")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.3 (term) : RM sur un grand nombre de fichiers")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.3 (term) : RM on a large number of files")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.4 (term) : FIND trouver un fichier par son nom")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.4 (term) : FIND find a file by name")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.5 (term) : SCREEN Lancer un screen ou le récupérer")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.5 (term) : SCREEN Launch a screen or recover")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.6 (term) : WC Nombre de lignes pour sortie ou fichier")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.6 (term) : WC number of lines to output or file")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.7 (term) : WGET récupération de page web")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.7 (term) : WGET download web page")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.8 (term) : Lister les fichiers et répertoire en couleur")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.8 (term) : List files and directories in color")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.9 (term) : NICE Lancer un script ou commande lourde avec une priorité basse")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.9 (term) : NICE Launch a script or command heavy with low priority")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.0 (term) : Compression avec tar.gz")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.0 (term) : Compression with tar.gz")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.1 (term) : Décompression avec tar.gz")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.1 (term) : Unzip with tar.gz")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.2 (term) :  Différence entre deux fichiers")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.2 (term) :  Difference between two files")),-1);
 
   return GTK_TREE_MODEL(treestore);
 }

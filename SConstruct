@@ -12,10 +12,19 @@ def CheckPkg(context, name):
 	context.Result(ret)
 	return ret
 
+def BuildConfig(target, source, env):
+	config_defines = env.Dictionary()
+	for a_target, a_source in zip(target, source):
+		config_output = file(str(a_target), "w")
+		config_input = file(str(a_source), "r")
+		config_output.write(config_input.read() % config_defines)
+		config_output.close()
+		config_input.close()
+
 env = Environment()
 
 opts = Variables('griffon.cfg')
-opts.Add(PathVariable('DESTDIR', '', '/', PathVariable.PathIsDir))
+opts.Add(PathVariable('DESTDIR', '', '', PathVariable.PathAccept))
 opts.Add(PathVariable('PREFIX', '', '/usr/local', PathVariable.PathAccept))
 opts.Add(PathVariable('DATADIR', '', '$PREFIX/share', PathVariable.PathAccept))
 opts.Add(PathVariable('LOCALEDIR', '', '$DATADIR/locale', PathVariable.PathAccept))
@@ -31,9 +40,7 @@ try:
 except KeyError:
 	env.Append(CFLAGS='-Wall -Wextra -O2 -g')
 
-env.Append(CFLAGS='-DPACKAGE_DATA_DIR=\\""$DATADIR"\\"')
-env.Append(CFLAGS='-DPACKAGE_LOCALE_DIR=\\""$LOCALEDIR"\\"')
-env.Append(CFLAGS='-DPACKAGE_PIXMAP_DIR=\\""$PIXMAPDIR"\\"')
+env.Append(CFLAGS='-DHAVE_CONFIG_H')
 
 cfg = Configure(env, custom_tests = { 'CheckPkgConfig' : CheckPkgConfig, 'CheckPkg' : CheckPkg })
 
@@ -71,24 +78,26 @@ env.ParseConfig('pkg-config --cflags --libs libxml-2.0 gtk+-3.0 vte-2.90 webkitg
 
 env.VariantDir('work','src')
 
+env.AlwaysBuild(env.Command('work/config.h','work/config.h.in',BuildConfig))
+
 env.Program('work/griffon', [
-'work/main.c',
-'work/interface.c',
 'work/callbacks.c',
-'work/griffon_text_document.c',
-'work/rox_strings.c',
-'work/griffon_funx.c',
-'work/griffon_defs.c',
 'work/griffon_config.c',
-'work/griffon_hl.c',
-'work/griffon_fr.c',
-'work/griffon_options.c',
-'work/griffon_gtk_utils.c',
-'work/griffon_enc.c',
-'work/help_def.c',
-'work/minido.c',
+'work/griffon_defs.c',
 'work/griffon_doc_gen.c',
+'work/griffon_enc.c',
+'work/griffon_fr.c',
+'work/griffon_funx.c',
+'work/griffon_gtk_utils.c',
+'work/griffon_hl.c',
+'work/griffon_options.c',
 'work/griffon_proj.c',
+'work/griffon_text_document.c',
+'work/help_def.c',
+'work/interface.c',
+'work/main.c',
+'work/minido.c',
+'work/rox_strings.c',
 ])
 
 env.Install('$DESTDIR$BINDIR','work/griffon')
@@ -122,7 +131,12 @@ env.Install('$DESTDIR$PIXMAPDIR',[
 'pixmaps/griffon_stop.png',
 'pixmaps/griffon_up2.png',
 'pixmaps/griffon_up.png',
-'pixmaps/splash_griffon.png'
+'pixmaps/splash_griffon.png',
+])
+
+env.Alias('install', [
+'$DESTDIR$BINDIR',
+'$DESTDIR$PIXMAPDIR'
 ])
 
 # -%- lang: python -%-

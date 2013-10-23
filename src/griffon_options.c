@@ -9,7 +9,7 @@
  ***************************************************************************/
 
 #ifdef HAVE_CONFIG_H
-#  include <config.h>
+#  include "config.h"
 #endif
 
 #include <glib.h>
@@ -191,14 +191,14 @@ static GtkWidget* wnd_options_encoding (void)
   gtk_widget_show (fr1);
   gtk_box_pack_start (GTK_BOX(page), fr1, FALSE, FALSE, 1);
 
-  ent_default_charset = tea_combo (page,  _("Default charset pour fichier ouvert"));
-  ent_def_filesave_charset = tea_combo (page,  _("Default charset pour fichier sauvegardé sous"));
+  ent_default_charset = tea_combo (page,  _("Default charset for file open"));
+  ent_def_filesave_charset = tea_combo (page,  _("Default charset for file saved as"));
  
   fr1 = gtk_frame_new (_("Misc"));   
   gtk_widget_show (fr1);
   gtk_box_pack_start (GTK_BOX(page), fr1, FALSE, FALSE, 1);
  
-  ent_rtf_enc = tea_text_entry (page, _("Default charset pour RTF"), confile.rtf_enc);  
+  ent_rtf_enc = tea_text_entry (page, _("Default charset for RTF"), confile.rtf_enc);  
  
   GtkWidget *fr2 = gtk_frame_new (_("Autodetect"));   
   gtk_widget_show (fr2);
@@ -231,8 +231,8 @@ static GtkWidget* wnd_options_commands (void)
   gtk_widget_show (page);
 
   ent_ext_pic_editor = tea_text_entry (page, _("Éditeur d'image externe"), confile.ext_pic_editor);
-  ent_ext_pic_viewer = tea_text_entry (page, _("Visionneuse d'image externe"), confile.ext_pic_viewer);
-  ent_cm_mplayer =  tea_text_entry (page, _("Lancez MPlayer avec les sous-titres"), confile.cm_mplayer);
+  ent_ext_pic_viewer = tea_text_entry (page, _("External image viewer"), confile.ext_pic_viewer);
+  ent_cm_mplayer =  tea_text_entry (page, _("Run MPlayer with subtitles"), confile.cm_mplayer);
  
   return page;
 }
@@ -244,8 +244,8 @@ static GtkWidget* wnd_options_limits (void)
   gtk_widget_show (page);
 
   //sb_logmemo_lines_max = tea_spinbutton (page, _("Logmemo nombre de lignes limite"), confile.logmemo_lines_max);
-  //sb_famous_history_max = tea_spinbutton (page, _("Limite de l'historique de saisie de texte"), confile.famous_history_max);
-  sb_max_recent_items = tea_spinbutton (page, _("Max de fichiers récents"), confile.max_recent_items); 
+  //sb_famous_history_max = tea_spinbutton (page, _("History limit text input"), confile.famous_history_max);
+  sb_max_recent_items = tea_spinbutton (page, _("Max of recent files"), confile.max_recent_items); 
 
   return page;
 }
@@ -255,8 +255,8 @@ static GtkWidget* wnd_options_functions (void)
 {
   GtkWidget *page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (page);
-  ent_date_time = tea_text_entry (page, _("Format de la date et de l'heure"), confile.date_time);
-  ent_fmt_color_function = tea_text_entry (page, _("Le format de la fonction Couleur"), confile.fmt_color_function);
+  ent_date_time = tea_text_entry (page, _("Date format and time"), confile.date_time);
+  ent_fmt_color_function = tea_text_entry (page, _("The format of the function Color"), confile.fmt_color_function);
 
   return page;
 }
@@ -267,13 +267,13 @@ static GtkWidget* wnd_options_interface (void)
   GtkWidget *page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (page);
   
-  //sb_saveopen_w = tea_spinbutton (page, _("Enregistrer / Ouvrir largeur des boîtes de dialogue pour cents"), confile.saveopen_w);
-  //sb_saveopen_h = tea_spinbutton (page, _("Enregistrer / Ouvrir la hauteur des boîtes de dialogue pour cents"), confile.saveopen_h);
-  cb_main_wnd_show_full_path = tea_checkbox (page, _("Afficher le chemin complet dans le titre de la fenêtre"), &confile.main_wnd_show_full_path); 
-  //cb_do_show_main_toolbar = tea_checkbox (page, _("Afficher la barre d'outils principale"), confile.do_show_main_toolbar); 
+  //sb_saveopen_w = tea_spinbutton (page, _("Save / Open dialogs width cents fors"), confile.saveopen_w);
+  //sb_saveopen_h = tea_spinbutton (page, _("Save / Open dialog boxes up to hundred"), confile.saveopen_h);
+  cb_main_wnd_show_full_path = tea_checkbox (page, _("Show full path in window title"), &confile.main_wnd_show_full_path); 
+  //cb_do_show_main_toolbar = tea_checkbox (page, _("View the main toolbar"), confile.do_show_main_toolbar); 
 
-  sb_thumb_width = tea_spinbutton (page, _("Largeur de l'image thumbnail"), confile.thumb_width);
-  sb_thumb_height = tea_spinbutton (page, _("Hauteur de l'image thumbnail"), confile.thumb_height);
+  sb_thumb_width = tea_spinbutton (page, _("Width of the image thumbnail"), confile.thumb_width);
+  sb_thumb_height = tea_spinbutton (page, _("Thumbnail image height"), confile.thumb_height);
 
   return page;
 }
@@ -284,18 +284,18 @@ static GtkWidget* wnd_options_switches (void)
   GtkWidget *page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (page);
 
-  cb_start_with_recent_file = tea_checkbox (page, _("Lancer Griffon avec un fichier récent"), &confile.start_with_recent_file); 
-  cb_start_with_blank_file = tea_checkbox (page, _("Lancer Griffon avec un fichier vide"), &confile.start_with_blank_file); 
-  cb_do_det_scripts_by_content = tea_checkbox (page, _("Déterminer la coloration syntaxique par le contenu du fichier"), &confile.do_det_scripts_by_content); 
-  cb_xhtml_mode = tea_checkbox (page, _("Mode XHTML pour des Markup"), &confile.xhtml_mode); 
+  cb_start_with_recent_file = tea_checkbox (page, _("Griffon start with a recent file"), &confile.start_with_recent_file); 
+  cb_start_with_blank_file = tea_checkbox (page, _("Griffon start with an empty file"), &confile.start_with_blank_file); 
+  cb_do_det_scripts_by_content = tea_checkbox (page, _("Determine the syntax of the file contents"), &confile.do_det_scripts_by_content); 
+  cb_xhtml_mode = tea_checkbox (page, _("XHTML Mode for Markup"), &confile.xhtml_mode); 
   //cb_show_hidden_files = tea_checkbox (page, _("Show hidden files in Kwas"), confile.show_hidden_files); 
-  cb_use_snippets = tea_checkbox (page, _("Utiliser les snippets"), &confile.use_snippets); 
-  cb_use_ext_image_viewer = tea_checkbox (page, _("Utiliser le visualisateur d'image externe"), &confile.use_ext_image_viewer);
-  cb_do_hl_on_fileopen = tea_checkbox (page, _("Coloration de la syntaxe à l'ouverture du fichier"), &confile.do_hl_on_fileopen);
-  cb_do_backup = tea_checkbox (page, _("Fichier backup"), &confile.do_backup);
+  cb_use_snippets = tea_checkbox (page, _("Use snippets"), &confile.use_snippets); 
+  cb_use_ext_image_viewer = tea_checkbox (page, _("Use external image viewer"), &confile.use_ext_image_viewer);
+  cb_do_hl_on_fileopen = tea_checkbox (page, _("Syntax coloring to open the file"), &confile.do_hl_on_fileopen);
+  cb_do_backup = tea_checkbox (page, _("File backup"), &confile.do_backup);
   cb_show_line_nums = tea_checkbox (page, _("Afficher les numéros de ligne"), &confile.show_line_nums);
   cb_word_wrap = tea_checkbox (page, _("Word wrap"), &confile.word_wrap);
-  cb_scan_for_links_on_doc_open = tea_checkbox (page, _("Analyser les liens à l'ouverture de fichier"), &confile.scan_for_links_on_doc_open);
+  cb_scan_for_links_on_doc_open = tea_checkbox (page, _("Analyze the links to open file"), &confile.scan_for_links_on_doc_open);
 
   return page;
 }
@@ -306,8 +306,8 @@ static GtkWidget* wnd_options_confirmations (void)
   GtkWidget *page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (page);
   
-  cb_prompt_on_not_saved = tea_checkbox (page, _("M'avertir avant la fermeture d'un fichier modifié"), &confile.prompt_on_not_saved); 
-  cb_prompt_on_file_exists = tea_checkbox (page, _("Ecraser le fichier existant"), &confile.prompt_on_file_exists); 
+  cb_prompt_on_not_saved = tea_checkbox (page, _("Warn before closing a modified file"), &confile.prompt_on_not_saved); 
+  cb_prompt_on_file_exists = tea_checkbox (page, _("Overwrite existing file"), &confile.prompt_on_file_exists); 
   //cb_warn_about_aliens = tea_checkbox (page, _("Warn me about those little green men in a toilet"), confile.warn_about_aliens); 
  
   return page;
@@ -321,8 +321,8 @@ static GtkWidget* wnd_options_maintenance (void)
   
   gtk_box_set_homogeneous (GTK_BOX(page), FALSE);
 
-  /*GtkWidget *b = tea_button_at_box (page, _("Sauvegarde de la configuration actuelle" ), cb_backup_config, NULL);
-  b = tea_button_at_box (page, _("Restaurer une configuration" ), cb_restore_config, NULL);
+  /*GtkWidget *b = tea_button_at_box (page, _("Saving the current configuration" ), cb_backup_config, NULL);
+  b = tea_button_at_box (page, _("Restoring a Configuration" ), cb_restore_config, NULL);
   b = tea_button_at_box (page, _("Réinitialiser config par défaut" ), cb_config_reset, NULL);*/
     
   return page;
@@ -337,11 +337,11 @@ static GtkWidget* wnd_options_colors (void)
   GtkWidget *page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (page);
 
-  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), page, gtk_label_new (_("Editeur")));
+  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), page, gtk_label_new (_("Editor")));
  
-  ent_text_foreground = tea_color_selector (page, _("Avant-plan du texte"), confile.text_foreground);
-  ent_text_background = tea_color_selector (page, _("Arrière-plan du texte"), confile.text_background);
-  ent_text_sel_foreground = tea_color_selector (page, _("Plan sélectionné"), confile.text_sel_foreground);
+  ent_text_foreground = tea_color_selector (page, _("Foreground text"), confile.text_foreground);
+  ent_text_background = tea_color_selector (page, _("Background text"), confile.text_background);
+  ent_text_sel_foreground = tea_color_selector (page, _("selected plane"), confile.text_sel_foreground);
   ent_text_sel_background = tea_color_selector (page, _("Arrière-plan sélectionnée"), confile.text_sel_background);
   ent_tag_spellcheck = tea_color_selector (page, _("Marques de vérification orthographique"), confile.tag_spellcheck);
   
@@ -352,7 +352,7 @@ static GtkWidget* wnd_options_colors (void)
   ent_tag_comment = tea_color_selector (page, _("Commentaires"), confile.tag_comment);
   ent_tag_identifier = tea_color_selector (page, _("Identificateurs"), confile.tag_identifier);
   ent_tag_digit = tea_color_selector (page, _("Chiffres"), confile.tag_digit); 
-  ent_tag_string = tea_color_selector (page, _("Chaîne de caractère"), confile.tag_string);
+  ent_tag_string = tea_color_selector (page, _("String"), confile.tag_string);
   ent_tag_html_tag = tea_color_selector (page, _("HTML tags"), confile.tag_html_tag);
   ent_tag_preprocessor = tea_color_selector (page, _("Preprocessor"), confile.tag_preprocessor);
   ent_tag_type = tea_color_selector (page, _("Types"), confile.tag_type);
@@ -373,11 +373,11 @@ static GtkWidget* wnd_options_fonts (void)
   GtkWidget *page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (page);
 
-  ent_editor_font = tea_font_selector (page, _("Editeur font"), confile.editor_font); 
+  ent_editor_font = tea_font_selector (page, _("Editor font"), confile.editor_font); 
 
-  ent_tag_comment_font = tea_font_selector (page, _("Commentaires font"), confile.tag_comment_font); 
-  ent_tag_identifier_font = tea_font_selector (page, _("Identificateurs font"), confile.tag_identifier_font); 
-  ent_tag_digit_font = tea_font_selector (page, _("Chiffres font"), confile.tag_digit_font); 
+  ent_tag_comment_font = tea_font_selector (page, _("Comments font"), confile.tag_comment_font); 
+  ent_tag_identifier_font = tea_font_selector (page, _("Identifiers font"), confile.tag_identifier_font); 
+  ent_tag_digit_font = tea_font_selector (page, _("numbers font"), confile.tag_digit_font); 
   ent_tag_string_font = tea_font_selector (page, _("Chaîne de caractère"), confile.tag_string_font); 
   ent_tag_html_tag_font = tea_font_selector (page, _("HTML tags font"), confile.tag_html_tag_font); 
   ent_tag_preprocessor_font = tea_font_selector (page, _("Preprocessor font"), confile.tag_preprocessor_font); 
@@ -403,7 +403,7 @@ static GtkWidget* wnd_options_browsers (void)
   ent_cm_other = tea_text_entry (page, "Other", confile.cmd_Other);
   ent_cm_lynx = tea_text_entry (page, "Lynx", confile.cmd_Lynx);
   ent_cm_manual_browser = tea_text_entry (page, _("Browser for the manual"), confile.cmd_def_doc_browser);
-  cb_use_def_doc_browser = tea_checkbox (page, _("Utilisez votre navigateur"), &confile.use_def_doc_browser); 
+  cb_use_def_doc_browser = tea_checkbox (page, _("Use your browser"), &confile.use_def_doc_browser); 
 
   return page;
 }
@@ -413,11 +413,11 @@ static GtkWidget* wnd_options_editor (void)
 {
   GtkWidget *page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (page);
-  sb_tab_size = tea_spinbutton (page, _("Taille des tabulations en espaces"), confile.tab_size);
-  cb_ins_spaces_on_tab_press = tea_checkbox (page, _("Insérer des espaces sur la touche TAB"), &confile.ins_spaces_on_tab_press);
+  sb_tab_size = tea_spinbutton (page, _("Size tabs to spaces"), confile.tab_size);
+  cb_ins_spaces_on_tab_press = tea_checkbox (page, _("Insert spaces the TAB key"), &confile.ins_spaces_on_tab_press);
   cb_use_auto_indent = tea_checkbox (page, _("Indentation automatique"), &confile.use_auto_indent);
-	cb_use_infotext = tea_checkbox (page, _("Afficher les informations ESPACE,TAB,RETOUR CHARIOT..."), &confile.use_infotext);
-	cb_use_spellcheck = tea_checkbox (page, _("Activer la correction d'orthographe"), &confile.use_spellcheck);
+	cb_use_infotext = tea_checkbox (page, _("Show information SPACE, TAB, NEWLINE ..."), &confile.use_infotext);
+	cb_use_spellcheck = tea_checkbox (page, _("Enable spell check"), &confile.use_spellcheck);
 
   return page;
 }
@@ -444,8 +444,8 @@ static GtkWidget* wnd_options_coauthor (void)
   //cb_use_autocomp = tea_checkbox (page, _("Automatic word completion"), confile.use_autocomp);
   //sb_autocomp_wordlen_min = tea_spinbutton (page, _("Mininum autocompletion word length"), confile.autocomp_wordlen_min);
   //sb_autocomp_list_items_max = tea_spinbutton (page, _("Autocompletion list items maximum"), confile.autocomp_list_items_max);
-  cb_do_autorep = tea_checkbox (page, _("Remplacement automatique"), &confile.do_autorep);
-		cb_use_textcompbloc = tea_checkbox (page, _("Autocompletion des bloc et balises {} () ..."), &confile.use_textcompbloc);
+  cb_do_autorep = tea_checkbox (page, _("automatic replacement"), &confile.do_autorep);
+		cb_use_textcompbloc = tea_checkbox (page, _("Autocompletion of tags and block {} () ..."), &confile.use_textcompbloc);
   return page;
 }
 
@@ -467,18 +467,18 @@ GtkWidget* wnd_options_create (void)
 
   gtk_container_add (GTK_CONTAINER (vbox1), notebook);
 
-  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_switches (), gtk_label_new (_("Principale")));
-  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_encoding (), gtk_label_new (_("Encodage")));
+  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_switches (), gtk_label_new (_("Main")));
+  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_encoding (), gtk_label_new (_("Encoding")));
   gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_functions (), gtk_label_new (_("Fonctions")));
   gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_interface (), gtk_label_new (_("Interface")));
-  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_limits (), gtk_label_new (_("Limites")));
+  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_limits (), gtk_label_new (_("Limitations")));
   gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_fonts (), gtk_label_new (_("Fonts")));
   gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_editor (), gtk_label_new (_("Editeur")));
   gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_browsers (), gtk_label_new (_("Navigateurs")));
   gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_colors (), gtk_label_new (_("Couleurs")));
   gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_commands (), gtk_label_new (_("Commandes")));
   gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_paths (), gtk_label_new (_("Paths")));
-  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_coauthor (), gtk_label_new (_("Complémentation")));
+  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_coauthor (), gtk_label_new (_("complementation")));
   gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_confirmations (), gtk_label_new (_("Confirmations")));
   gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_maintenance (), gtk_label_new (_("Maintenance")));
 
@@ -492,12 +492,12 @@ GtkWidget* wnd_options_create (void)
   gtk_widget_show (hbox1);
   gtk_container_add (GTK_CONTAINER (vbox1), hbox1);
 
-  GtkWidget *bt_close = gtk_button_new_with_label (_("Fermer"));
+  GtkWidget *bt_close = gtk_button_new_with_label (_("Close"));
   gtk_widget_show (bt_close);
   gtk_container_add (GTK_CONTAINER (hbox1), bt_close);
   g_signal_connect (bt_close, "clicked", G_CALLBACK (cb_on_bt_close), wnd_options);
 
-  GtkWidget *bt_apply = gtk_button_new_with_label (_("Sauvegarder et aplliquer"));
+  GtkWidget *bt_apply = gtk_button_new_with_label (_("Save and apply"));
   gtk_widget_show (bt_apply);
   gtk_container_add (GTK_CONTAINER (hbox1), bt_apply);
   g_signal_connect (bt_apply, "clicked", G_CALLBACK (cb_on_bt_apply), wnd_options);

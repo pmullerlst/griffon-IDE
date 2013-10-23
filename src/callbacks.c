@@ -9,7 +9,7 @@
  **************************************-************************************/                                  
 
 #ifdef HAVE_CONFIG_H
-#  include <config.h>
+#  include "config.h"
 #endif
 
 #include <stdlib.h>
@@ -3502,15 +3502,15 @@ void test9             (void){  doc_insert_at_cursor (cur_text_doc,(_(" [ file1 
 void gen_smbmount             (void){     doc_insert_at_cursor (cur_text_doc,(_("# Mount samba shares\nsmbmount //192.168.1.1/share /point/of/montage username=login, password=***\n")));}
 void test10             (void){     doc_insert_at_cursor (cur_text_doc,(_(" [ \"variable1\" -eq \"variable2\" ]")));}
 void test11             (void){  doc_insert_at_cursor (cur_text_doc,(_(" [ \"number1\" = \"number2\" ]")));}
-void rsync_gen             (void){  doc_insert_at_cursor (cur_text_doc,(_("# Commande Rsync\nrsync -avH --delete /repertoire/source /repertoire/destination >> /fichier/de_log")));}
-void echo_bash             (void){  doc_insert_at_cursor (cur_text_doc,(_("# Affichage sur la sortie standare\necho \"\"\n")));}
-void gen_read             (void){  doc_insert_at_cursor (cur_text_doc,(_("\n# Interactivite avec l'utilisateur\necho \"entrez une valeur \'variable\' :\"\nread variable\n\necho \"La variable = $variable\"\n")));}
+void rsync_gen             (void){  doc_insert_at_cursor (cur_text_doc,(_("# Rsync command\nrsync -avH --delete /directory/source /directory/destination >> /file/of_log")));}
+void echo_bash             (void){  doc_insert_at_cursor (cur_text_doc,(_("# Display output standare\necho \"\"\n")));}
+void gen_read             (void){  doc_insert_at_cursor (cur_text_doc,(_("\n# Interactivity with the user\necho \"entrez une valeur \'variable\' :\"\nread variable\n\necho \"La variable = $variable\"\n")));}
 void com             (void){  doc_insert_at_cursor (cur_text_doc,"\n#\n#\n#\n");}
 void redi_erreur             (void){  doc_insert_at_cursor (cur_text_doc," 2>");}
-void if_bash             (void){  doc_insert_at_cursor (cur_text_doc,(_("# Instruction si...\nif\nthen\n\nfi\n")));}
-void redi_2             (void){  doc_insert_at_cursor (cur_text_doc,(_(" > /fichier 2>&1")));}
+void if_bash             (void){  doc_insert_at_cursor (cur_text_doc,(_("# Instruction if...\nif\nthen\n\nfi\n")));}
+void redi_2             (void){  doc_insert_at_cursor (cur_text_doc,(_(" > /file 2>&1")));}
 void fond_bash             (void){	  doc_insert_at_cursor (cur_text_doc," &");}
-void else_bash             (void){  doc_insert_at_cursor (cur_text_doc,(_("# Instruction si avec un sinon\nif\nthen\n\nelse\n\nfi\n")));}
+void else_bash             (void){  doc_insert_at_cursor (cur_text_doc,(_("# Instruction if ...else\nif\nthen\n\nelse\n\nfi\n")));}
 void skeleton             (void){	  doc_insert_at_cursor (cur_text_doc,(_("#! /bin/sh\n\n# Script init.d (exemple)\n# Script BASH edite avec Griffon \nPATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin\nDAEMON=/usr/sbin/daemon\nNAME=daemon\nDESC=\"some daemon\"\n\ntest -x $DAEMON || exit 0\n\nset -e\n\ncase \"$1\" in\n  start)\n        echo -n \"Starting $DESC: $NAME\"\n	start-stop-daemon --start --quiet --pidfile /var/run/$NAME.pid --exec $DAEMON\n        echo \".\"\n        ;;\n  stop)\n        echo -n \"Stopping $DESC: $NAME \"\n	start-stop-daemon --stop --quiet --pidfile /var/run/$NAME.pid\n        echo \".\"\n        ;;\n  restart|force-reload)\n        echo -n \"Restarting $DESC: $NAME\"\n        start-stop-daemon --stop --quiet --pidfile /var/run/$NAME.pid --exec $DAEMON\n        sleep 1\n        start-stop-daemon --start --quiet --pidfile /var/run/$NAME.pid --exec $DAEMON\n        echo \".\"\n        ;;\n  *)\n        N=/etc/init.d/$NAME\n	echo \"Usage: $N {start|stop|restart|force-reload}\" >&2\n        ;;\nesac\n")));}
 
 //******************************* fenetre de construction commande grep
@@ -3522,7 +3522,7 @@ GtkWidget* window_grep (void)
 	icon_affiche_stop();
 
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (window1), _((_("Aide pour Grep"))));
+  gtk_window_set_title (GTK_WINDOW (window1), _((_("Grep help"))));
     gtk_window_set_position (GTK_WINDOW (window1), GTK_WIN_POS_CENTER);
   gtk_window_set_resizable (GTK_WINDOW (window1), FALSE);
   gtk_widget_show(GTK_WIDGET(window1));
@@ -3576,7 +3576,7 @@ GtkWidget* window_grep (void)
   gtk_widget_show (GTK_WIDGET(image4));
   gtk_box_pack_start (GTK_BOX (hbox5), image4, FALSE, FALSE, 0);
 
-  label3 = gtk_label_new_with_mnemonic (_("Mot complet"));
+  label3 = gtk_label_new_with_mnemonic (_("full word"));
   gtk_widget_show (GTK_WIDGET(label3));
   gtk_box_pack_start (GTK_BOX (hbox5), label3, FALSE, FALSE, 0);
 
@@ -3596,7 +3596,7 @@ GtkWidget* window_grep (void)
   gtk_widget_show (GTK_WIDGET(image3));
   gtk_box_pack_start (GTK_BOX (hbox4), image3, FALSE, FALSE, 0);
 
-  label2 = gtk_label_new_with_mnemonic (_("Inverser la sortie"));
+  label2 = gtk_label_new_with_mnemonic (_("Invert the output"));
   gtk_widget_show (GTK_WIDGET(label2));
   gtk_box_pack_start (GTK_BOX (hbox4), label2, FALSE, FALSE, 0);
 
@@ -3644,7 +3644,7 @@ GtkWidget* window_grep (void)
   gtk_widget_show (GTK_WIDGET(entry_grep2));
   gtk_box_pack_start (GTK_BOX (vbox4), entry_grep2, FALSE, FALSE, 0);
 
-  label7 = gtk_label_new (_("Fichier de redirection"));
+  label7 = gtk_label_new (_("Redirection file"));
   gtk_widget_show (GTK_WIDGET(label7));
   gtk_box_pack_start (GTK_BOX (vbox4), label7, FALSE, FALSE, 0);
 
@@ -3706,7 +3706,7 @@ gchar *tampon_redi;
 	tampon_mot = gtk_editable_get_chars(GTK_EDITABLE(entry_grep2),0, -1);
 	tampon_redi = gtk_editable_get_chars(GTK_EDITABLE(entry_grep3),0, -1);
 
-  doc_insert_at_cursor (cur_text_doc,(_("# Commande Grep (Find dans un fichier)\ngrep")));
+  doc_insert_at_cursor (cur_text_doc,(_("# Grep Command (Find in a file)\ngrep")));
 
 if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton1_grep)))
 {
@@ -3744,7 +3744,7 @@ GtkWidget* sed (void)
 icon_affiche_stop();
 
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (window1), _((_("Aide Sed"))));
+  gtk_window_set_title (GTK_WINDOW (window1), _((_("Sed help"))));
   gtk_window_set_position (GTK_WINDOW (window1), GTK_WIN_POS_CENTER);
   gtk_window_set_resizable (GTK_WINDOW (window1), FALSE);
   gtk_widget_show(GTK_WIDGET(window1));
@@ -3773,7 +3773,7 @@ icon_affiche_stop();
   gtk_widget_show (GTK_WIDGET(checkbutton_sed1));
   gtk_box_pack_start (GTK_BOX (vbox6), checkbutton_sed1, FALSE, FALSE, 0);
 
-  label15 = gtk_label_new (_("Remplacer par "));
+  label15 = gtk_label_new (_("Replace "));
   gtk_widget_show (GTK_WIDGET(label15));
   gtk_box_pack_start (GTK_BOX (vbox6), label15, FALSE, FALSE, 0);
 
@@ -3805,7 +3805,7 @@ icon_affiche_stop();
   gtk_widget_show (GTK_WIDGET(vbox7));
   gtk_container_add (GTK_CONTAINER (notebook1), vbox7);
 
-  checkbutton_sed2 = gtk_check_button_new_with_mnemonic (_("Supprimer les lignes"));
+  checkbutton_sed2 = gtk_check_button_new_with_mnemonic (_("Delete Rows"));
   gtk_widget_show (GTK_WIDGET(checkbutton_sed2));
   gtk_box_pack_start (GTK_BOX (vbox7), checkbutton_sed2, FALSE, FALSE, 0);
 
@@ -3839,7 +3839,7 @@ icon_affiche_stop();
   gtk_widget_show (GTK_WIDGET(checkbutton_sed3));
   gtk_box_pack_start (GTK_BOX (vbox7), checkbutton_sed3, FALSE, FALSE, 0);
 
-  checkbutton_sed4 = gtk_check_button_new_with_mnemonic (_("Inversser la suppression"));
+  checkbutton_sed4 = gtk_check_button_new_with_mnemonic (_("Invert delete"));
   gtk_widget_show (GTK_WIDGET(checkbutton_sed4));
   gtk_box_pack_start (GTK_BOX (vbox7), checkbutton_sed4, FALSE, FALSE, 0);
 
@@ -3851,7 +3851,7 @@ icon_affiche_stop();
   gtk_widget_show (GTK_WIDGET(image3));
   gtk_box_pack_start (GTK_BOX (hbox4), image3, TRUE, TRUE, 0);
 
-  label18 = gtk_label_new (_("Suppression"));
+  label18 = gtk_label_new (_("Delete"));
   gtk_widget_show (GTK_WIDGET(label18));
   gtk_box_pack_start (GTK_BOX (hbox4), label18, FALSE, FALSE, 0);
 
@@ -3859,11 +3859,11 @@ icon_affiche_stop();
   gtk_widget_show (GTK_WIDGET(vbox8));
   gtk_container_add (GTK_CONTAINER (notebook1), vbox8);
 
-  checkbutton_sed5 = gtk_check_button_new_with_mnemonic (_("Afiche le resultat sur la sortie standare"));
+  checkbutton_sed5 = gtk_check_button_new_with_mnemonic (_("Displays the result on the standard output"));
   gtk_widget_show (GTK_WIDGET(checkbutton_sed5));
   gtk_box_pack_start (GTK_BOX (vbox8), checkbutton_sed5, FALSE, FALSE, 0);
 
-  checkbutton_sed6 = gtk_check_button_new_with_mnemonic (_("Donne le numero des lignes"));
+  checkbutton_sed6 = gtk_check_button_new_with_mnemonic (_("Gives the number of lines"));
   gtk_widget_show (GTK_WIDGET(checkbutton_sed6));
   gtk_box_pack_start (GTK_BOX (vbox8), checkbutton_sed6, FALSE, FALSE, 0);
 
@@ -3875,7 +3875,7 @@ icon_affiche_stop();
   gtk_widget_show (GTK_WIDGET(image4));
   gtk_box_pack_start (GTK_BOX (hbox6), image4, TRUE, TRUE, 0);
 
-  label21 = gtk_label_new (_("Fonctions"));
+  label21 = gtk_label_new (_("Function"));
   gtk_widget_show (GTK_WIDGET(label21));
   gtk_box_pack_start (GTK_BOX (hbox6), label21, FALSE, FALSE, 0);
 
@@ -3974,7 +3974,7 @@ gchar *tampon_a;
 	tampon_de = gtk_editable_get_chars(GTK_EDITABLE(entry_sed6),0, -1);
 	tampon_a = gtk_editable_get_chars(GTK_EDITABLE(entry_sed7),0, -1);
 	
-	doc_insert_at_cursor (cur_text_doc,(_("# Commande Sed (decoupage de fichier)\nsed ")));
+	doc_insert_at_cursor (cur_text_doc,(_("# Sed command (cutting file)\nsed ")));
 	
 	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_sed1)))
 {
@@ -4003,7 +4003,7 @@ doc_insert_at_cursor (cur_text_doc,"d");
 	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_sed3)))
 {
 doc_insert_at_cursor (cur_text_doc,"\"/");
-doc_insert_at_cursor (cur_text_doc,(_(" tampon_mot")));
+doc_insert_at_cursor (cur_text_doc,(_(" buffer_word")));
 doc_insert_at_cursor (cur_text_doc,"/");
 	
 	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbutton_sed4)))
@@ -4042,7 +4042,7 @@ GtkWidget* case_window (void)
 icon_affiche_stop();
 	
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (window1), _((_("Nombre d'options"))));
+  gtk_window_set_title (GTK_WINDOW (window1), _((_("Number of options"))));
   gtk_window_set_position (GTK_WINDOW (window1), GTK_WIN_POS_CENTER);
   gtk_window_set_resizable (GTK_WINDOW (window1), FALSE);
   gtk_widget_show(GTK_WIDGET(window1));
@@ -4063,7 +4063,7 @@ icon_affiche_stop();
   gtk_widget_show (GTK_WIDGET(image1));
   gtk_box_pack_start (GTK_BOX (hbox1), image1, TRUE, TRUE, 7);
 
-  label2 = gtk_label_new (_("Nombre d'options du script : "));
+  label2 = gtk_label_new (_("Number of options in the script:"));
   gtk_widget_show (GTK_WIDGET(label2));
   gtk_box_pack_start (GTK_BOX (hbox1), label2, TRUE, FALSE, 0);
 
@@ -4110,7 +4110,7 @@ void case_build (void)
 	doc_insert_at_cursor (cur_text_doc,"case \"$1\" in\n");
 	while (num_conteur!=tampon_num)
 	{
-	doc_insert_at_cursor (cur_text_doc,(_("\noption)\n#inserer ici le script pour cette option\n\n;;")));
+	doc_insert_at_cursor (cur_text_doc,(_("\noption)\n#insert here the script for this option\n\n;;")));
 	num_conteur++;	
 	}	
 doc_insert_at_cursor (cur_text_doc,"\nesac\n");
@@ -4124,7 +4124,7 @@ GtkWidget* awk (void)
 	icon_affiche_stop();
 
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (window1), _((_("Aide Awk"))));
+  gtk_window_set_title (GTK_WINDOW (window1), _((_("Awk help"))));
   gtk_window_set_position (GTK_WINDOW (window1), GTK_WIN_POS_CENTER);
   gtk_window_set_resizable (GTK_WINDOW (window1), FALSE);
   gtk_widget_show(GTK_WIDGET(window1));
@@ -4166,7 +4166,7 @@ GtkWidget* awk (void)
   gtk_widget_show (GTK_WIDGET(label9));
   gtk_box_pack_start (GTK_BOX (hbox3), label9, FALSE, FALSE, 0);
 
-    label29 = gtk_label_new_with_mnemonic (_("Separateur"));
+    label29 = gtk_label_new_with_mnemonic (_("Separator"));
      gtk_widget_show (GTK_WIDGET(label29));
      gtk_box_pack_start (GTK_BOX (vbox6), label29, FALSE, FALSE, 0);
    
@@ -4174,7 +4174,7 @@ GtkWidget* awk (void)
   gtk_widget_show (GTK_WIDGET(entry_awk4));
   gtk_box_pack_start (GTK_BOX (vbox6), entry_awk4, FALSE, FALSE, 0);
 
-  label8 = gtk_label_new (_("Colonne"));
+  label8 = gtk_label_new (_("Column"));
   gtk_widget_show (GTK_WIDGET(label8));
   gtk_box_pack_start (GTK_BOX (vbox6), label8, FALSE, FALSE, 0);
 
@@ -4267,7 +4267,7 @@ void  awk_apl             (void)
    tampon_sep = gtk_editable_get_chars(GTK_EDITABLE(entry_awk4),0, -1);
    tampon_col = gtk_editable_get_chars(GTK_EDITABLE(entry_awk5),0, -1);
 
-       doc_insert_at_cursor (cur_text_doc,(_("# Commande Awk (decoupage de fichier par colonne)\nawk -F \"")));
+       doc_insert_at_cursor (cur_text_doc,(_("# Awk command (cutting file column)\nawk -F \"")));
        doc_insert_at_cursor (cur_text_doc, tampon_sep);
        doc_insert_at_cursor (cur_text_doc,"\" '{print $");
           doc_insert_at_cursor (cur_text_doc, tampon_col);
@@ -4288,7 +4288,7 @@ void file_save_bug (void)
 
   text_doc_save (cur_text_doc, ".fichierbackup");
 		 icon_log_logmemo();
-      log_to_memo (_("Scan fichier [START]"), NULL, LM_NORMAL);
+      log_to_memo (_("Scan file [START]"), NULL, LM_NORMAL);
 }
 
 //******************************* editeur de chemin path
@@ -4298,7 +4298,7 @@ GtkWidget* selection_path (void)
   icon_affiche_stop();
 
 	 icon_man_logmemo();
-  log_to_memo (_("[Séléctionnez un  PATH] pour inserer dans le fichier"), NULL, LM_NORMAL);  
+  log_to_memo (_("[Select a PATH] to insert the file"), NULL, LM_NORMAL);  
   /* Creation du titre de la fenetre */
   //gchar *sUtf8 = g_locale_to_utf8("Sélectionnez un fichier", -1,
 		//	   NULL, NULL, NULL);
@@ -4338,7 +4338,7 @@ GtkWidget* win_scp (void)
 icon_affiche_net();	
 	
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (window1), _((_("Style de variable"))));
+  gtk_window_set_title (GTK_WINDOW (window1), _((_("Style variable"))));
   gtk_window_set_position (GTK_WINDOW (window1), GTK_WIN_POS_CENTER);
   gtk_widget_show(GTK_WIDGET(window1));
   gtk_window_set_resizable (GTK_WINDOW (window1), FALSE);
@@ -4362,7 +4362,7 @@ icon_affiche_net();
   gtk_widget_show (GTK_WIDGET(table1));
   gtk_box_pack_start (GTK_BOX (vbox5), table1, TRUE, TRUE, 0);
 
-  label15 = gtk_label_new (_("Utilisateur : "));
+  label15 = gtk_label_new (_("User : "));
   gtk_widget_show (GTK_WIDGET(label15));
   gtk_table_attach (GTK_TABLE (table1), label15, 0, 1, 0, 1,
                     (GtkAttachOptions) (GTK_FILL),
@@ -4516,10 +4516,10 @@ void perl_if_else            (void){  doc_insert_at_cursor (cur_text_doc, "if ()
 void perl_while (void){ doc_insert_at_cursor (cur_text_doc, "while ()\n{\n\n}\n\n");}
 void perl_while_infinie (void){ doc_insert_at_cursor (cur_text_doc, "while (1)\n{\n\n}\n\n");}
 void perl_for            (void){  doc_insert_at_cursor (cur_text_doc, "for (init;condition;cmd)\n{\n\n}\n\n"); }
-void perl_foreach            (void){  doc_insert_at_cursor (cur_text_doc, (_("foreach $element (@tableau)\n{\n\n}\n\n"))); }
+void perl_foreach            (void){  doc_insert_at_cursor (cur_text_doc, (_("foreach $value (@array)\n{\n\n}\n\n"))); }
 void perl_do_while            (void){  doc_insert_at_cursor (cur_text_doc, "do \n{\n\n} while ();\n\n"); }
-void perl_fonction            (void){  doc_insert_at_cursor (cur_text_doc, (_("sub fonction\n{\n\n}\n\n"))); }
-void perl_fonction_param            (void){  doc_insert_at_cursor (cur_text_doc, (_("sub fonction\n{\n\t# afficher l'argument 0 et 1 de la fonction\n\tprint $_[0];\n\tprint $_[1];\n}\n\n"))); }
+void perl_fonction            (void){  doc_insert_at_cursor (cur_text_doc, (_("sub function_name\n{\n\n}\n\n"))); }
+void perl_fonction_param            (void){  doc_insert_at_cursor (cur_text_doc, (_("sub function_name\n{\n\t# display the argument 0 and 1 function\n\tprint $_[0];\n\tprint $_[1];\n}\n\n"))); }
 void perl_exit           (void){  doc_insert_at_cursor (cur_text_doc, "exit();\n\n"); }
 void perl_die            (void){  doc_insert_at_cursor (cur_text_doc, "die'Error';\n\n");}
 
@@ -4541,10 +4541,10 @@ icon_ok_logmemo();
 
 //******************************* Perl insert help
 void perl_chomp            (void){  doc_insert_at_cursor (cur_text_doc, "chomp('');\n\n");}
-void perl_length            (void){  doc_insert_at_cursor (cur_text_doc, (_("$nombre_de_caracteres=length($chaine);\n\n")));}
-void perl_uc            (void){  doc_insert_at_cursor (cur_text_doc, (_("$chaine=uc($chaine);\n\n")));}
-void perl_lc            (void){  doc_insert_at_cursor (cur_text_doc, (_("$chaine=lc($chaine);\n\n")));}
-void perl_ucfirst            (void){   doc_insert_at_cursor (cur_text_doc, (_("$chaine=ucfirst($chaine);\n\n")));}
+void perl_length            (void){  doc_insert_at_cursor (cur_text_doc, (_("$number_of_characters=length($string);\n\n")));}
+void perl_uc            (void){  doc_insert_at_cursor (cur_text_doc, (_("$string=uc($string);\n\n")));}
+void perl_lc            (void){  doc_insert_at_cursor (cur_text_doc, (_("$string=lc($string);\n\n")));}
+void perl_ucfirst            (void){   doc_insert_at_cursor (cur_text_doc, (_("$string=ucfirst($string);\n\n")));}
 
 //******************************* Scan des fichier include 
 void scan_include             (void)
@@ -4838,9 +4838,9 @@ if (counter==0)
 }
 
 //******************************* Perl insert help
-void perl_read            (void){  doc_insert_at_cursor (cur_text_doc, (_("open (FICHIER, \"nom_du_fichier\");\nwhile ($ligne=<FICHIER>)\n{\nprint $ligne;\n}\n\nclose FICHIER;\n\n"))); }
-void perl_writh           (void){  doc_insert_at_cursor (cur_text_doc, (_("open (FICHIER, \">>nom_du_fichier\");\nprint FICHIER \"Text écrit dans le fichier\";\nclose FICHIER;\n\n"))); }
-void perl_writh2           (void){  doc_insert_at_cursor (cur_text_doc, (_("open (FICHIER, \">nom_du_fichier\");\nprint FICHIER \"Text écrit dans le fichier\";\nclose FICHIER;\n\n"))); }
+void perl_read            (void){  doc_insert_at_cursor (cur_text_doc, (_("open (FILE, \"file_path\");\nwhile ($line=<FILE>)\n{\nprint $line;\n}\n\nclose FILE;\n\n"))); }
+void perl_writh           (void){  doc_insert_at_cursor (cur_text_doc, (_("open (FILE, \">>file_path\");\nprint FILE \"Text written to the file\";\nnclose FILE;\n\n"))); }
+void perl_writh2           (void){  doc_insert_at_cursor (cur_text_doc, (_("open (FICHIER, \">nom_du_fichier\");\nprint FILE \"Text written to the file\";\nnclose FILE;\n\n"))); }
 void perl_regular           (void){  doc_insert_at_cursor (cur_text_doc, (_("$chaine =~/chaine recherchée/"))); }
 void perl_replace           (void){  doc_insert_at_cursor (cur_text_doc, (_("$chaine =~ s/chaine recherchée/chaine de remplacement/g;\n\n"))); }
 
@@ -4856,78 +4856,78 @@ date = time(NULL);
 }
 
 //******************************* Perl insert help
-void perl_tableau (void){doc_insert_at_cursor (cur_text_doc, (_("@tableau = (\"var0\",\"var1\",\"var2\");\n# affiche var0\nprint $tableau[0];\n\n"))); }
-void perl_saisie_clavier (void){doc_insert_at_cursor (cur_text_doc, (_("#  <STDIN> attend une saisie clavier\nwhile (<STDIN>)\n{\n\t# évite \\n du dernier champ\n\tchop;\n\t# affiche le caractère saisi sans son \\n\n\tprint;\n}\n\n"))); }
-void perl_empiler_tableau (void){doc_insert_at_cursor (cur_text_doc, (_("# Empile valeur en fin de tableau\npush $tableau, (\"valeur\");\n\n"))); }
-void perl_empiler_tableau_start (void){doc_insert_at_cursor (cur_text_doc, (_("# Empile valeur en début de tableau\nshift $tableau, (\"valeur\");\n\n"))); }
-void perl_arguments (void){doc_insert_at_cursor (cur_text_doc, (_("# le tableau ARGV contient la liste des arguments du programme.\n$argument0 = $ARGV[0];\n\n"))); }
+void perl_tableau (void){doc_insert_at_cursor (cur_text_doc, (_("@array = (\"var0\",\"var1\",\"var2\");\n# display var0\nprint $array[0];\n\n"))); }
+void perl_saisie_clavier (void){doc_insert_at_cursor (cur_text_doc, (_("#  <STDIN> expects keyboard input\nwhile (<STDIN>)\n{\n\t# avoids \\n the last field\n\tchop;\n\t# displays the character entered without his  \\n\n\tprint;\n}\n\n"))); }
+void perl_empiler_tableau (void){doc_insert_at_cursor (cur_text_doc, (_("# Stacks value at end of table\npush $array, (\"value\");\n\n"))); }
+void perl_empiler_tableau_start (void){doc_insert_at_cursor (cur_text_doc, (_("# Stacks value at beginning of table\nshift $array, (\"value\");\n\n"))); }
+void perl_arguments (void){doc_insert_at_cursor (cur_text_doc, (_("# the ARGV array contains the list of program arguments.\n$argument0 = $ARGV[0];\n\n"))); }
 void perl_split (void){doc_insert_at_cursor (cur_text_doc, (_("# découpe la variable $chaine par rapport au séparateur \";\" et place le résultat dans un tableau\n@tableau = split(/;/, $chaine);\n\n"))); }
-void perl_dbi_connexion (void){doc_insert_at_cursor (cur_text_doc, (_("# Charger le module DBI\nuse DBI;\n\n# Paramètres de connexion à la base de données\n$bd = 'nom_de_base';\n$serveur = 'localhost';\t\t# Il est possible de mettre une adresse IP\n$identifiant = 'root';\t\t# Identifiant\n$motdepasse  = 'admin';\t\t# Mot de passe\n\n# Connexion à la base de données MySQL\n$dbh = DBI->connect( \"DBI:mysql:$bd:$serveur\", $identifiant, $motdepasse ) or die \"Connexion impossible à la base de données $bd !\";\n\n"))); }
-void perl_dbi_select_while (void){doc_insert_at_cursor (cur_text_doc, (_("# Boucle sur une requete MySql\n$query = \"SELECT groupe_attribut FROM table WHERE condition\";\n$sth = $dbh->prepare($query);\n$sth->execute;\n\nwhile($row = $sth->fetchrow_hashref)\n{\n\n\t# Récuperation des valeurs  \n\t$champs_mysql = \"$row->{champs_mysql}\";\n\n}"))); }
-void perl_dbi_query (void){doc_insert_at_cursor (cur_text_doc, (_("# simple requete MySql\n$query = \"\";\n$sth = $dbh->do($query);\n\n"))); }
-void perl_chop (void){doc_insert_at_cursor (cur_text_doc, (_("chop($chaine);\n\n"))); }
+void perl_dbi_connexion (void){doc_insert_at_cursor (cur_text_doc, (_("\nuse DBI;\n\n$bd = 'nom_de_base';\n$serveur = 'localhost';\t\t\n$identifiant = 'root';\t\t\n$motdepasse  = 'admin';\t\t\n\n\n$dbh = DBI->connect( \"DBI:mysql:$bd:$serveur\", $identifiant, $motdepasse ) or die \"Connexion impossible à la base de données $bd !\";\n\n"))); }
+void perl_dbi_select_while (void){doc_insert_at_cursor (cur_text_doc, (_("# Loop on a MySql query\n$query = \"SELECT group_attribute FROM table WHERE condition\";\n$sth = $dbh->prepare($query);\n$sth->execute;\n\nwhile($row = $sth->fetchrow_hashref)\n{\n\n\t# Recovery values   \n\t$champs_mysql = \"$row->{champs_mysql}\";\n\n}"))); }
+void perl_dbi_query (void){doc_insert_at_cursor (cur_text_doc, (_("# single MySql query\n$query = \"\";\n$sth = $dbh->do($query);\n\n"))); }
+void perl_chop (void){doc_insert_at_cursor (cur_text_doc, (_("chop($string);\n\n"))); }
 void perl_mime_mail_simple (void){doc_insert_at_cursor (cur_text_doc, (_("use MIME::Lite;\n\n####### ENVOI EMAIL\nmy $Message = new MIME::Lite\nFrom =>\"NOM FROM <from\\@from.net>\",\nTo =>$email_destination,\nSubject =>$sujet,\nType    =>\'TEXT\',\nData =>\"$message\",\nContent-Transfer-Encoding => \'quoted-printable\';\n\n$Message->send;\n\n"))); }
-void perl_date (void){doc_insert_at_cursor (cur_text_doc, (_("($sec,$min,$heure,$mjour,$mois,$annee,$sjour,$ajour,$isdst) = localtime(time);\n$mois=$mois+1;\nif($mois<10){$mois=\"0\".$mois;}\nif($mjour<10){$mjour=\"0\".$mjour;}\n$annee=1900+$annee;\n\n$date_sql=$annee.\"-\".$mois.\"-\".$mjour;\n\n"))); }
+void perl_date (void){doc_insert_at_cursor (cur_text_doc, (_("($sec,$min,$hour,$day,$month,$year,$sday,$aday,$isdst) = localtime(time);\n$month=$month+1;\nif($month<10){$month=\"0\".$month;}\nif($day<10){$day=\"0\".$day;}\n$year=1900+$year;\n\n$date_sql=$year.\"-\".$month.\"-\".$day;\n\n"))); }
 void perl_mime_mail_pj (void){doc_insert_at_cursor (cur_text_doc, (_("use MIME::Lite;\n\n####### ENVOI EMAIL AVEC PJ\nmy $Message = new MIME::Lite\nFrom =>\"NOM_FROM <from\\@from.net>\",\nTo =>$email_destination,\nSubject =>$sujet,\nType =>\'multipart/mixed\';\n\nattach $Message\nType =>'TEXT',\nData =>$message;\n\nattach $Message\nType =>\'application/txt\',\nPath =>$chemin_local_du_fichier,\nFilename =>$nom_fichier_txt;\n\n$Message->send;\n\n"))); }
-void perl_dbi_query_select (void){doc_insert_at_cursor (cur_text_doc, (_("$query2 = \"SELECT groupe_attribut FROM table WHERE condition\";\n$sth2 = $dbh->prepare($query2);\n$sth2->execute;\n\n$row2 = $sth2->fetchrow_hashref;\n$champs_mysql = \"$row2->{champs_mysql}\";\n\n"))); }
-void perl_uri_encode (void){doc_insert_at_cursor (cur_text_doc, (_("use URI::Escape;\n\n$url_encode = uri_escape($url_a_encoder);\n\n"))); }
-void perl_url_get (void){doc_insert_at_cursor (cur_text_doc, (_("use LWP::Simple;\n\n$doc_retour = get($url);\n\n"))); }
+void perl_dbi_query_select (void){doc_insert_at_cursor (cur_text_doc, (_("$query2 = \"SELECT group_attribut FROM table WHERE condition\";\n$sth2 = $dbh->prepare($query2);\n$sth2->execute;\n\n$row2 = $sth2->fetchrow_hashref;\n$value_mysql = \"$row2->{value_mysql}\";\n\n"))); }
+void perl_uri_encode (void){doc_insert_at_cursor (cur_text_doc, (_("use URI::Escape;\n\n$url_encode = uri_escape($url_encoder);\n\n"))); }
+void perl_url_get (void){doc_insert_at_cursor (cur_text_doc, (_("use LWP::Simple;\n\n$return = get($url);\n\n"))); }
 void perl_ftp_connexion (void){doc_insert_at_cursor (cur_text_doc, (_("use Net::FTP;\n\n$FTP_HOST=\"\";\n$FTP_USER=\"\";\n$FTP_PASSWORD=\"\";\n\n$ftp = Net::FTP->new($FTP_HOST, Debug => 0);\n$ftp->login($FTP_USER,$FTP_PASSWORD);\n\n"))); }
-void perl_ftp_list (void){doc_insert_at_cursor (cur_text_doc, (_("$ftp->cwd(\"$repertoire_a_lister\");\n@ls = $ftp->ls(\".\");\n\nforeach $file (@ls)\n{\n\n\tprint \"$file\\n\";\n\n}\n\n"))); }
-void perl_ftp_get (void){doc_insert_at_cursor (cur_text_doc, (_("$ftp->get($fichier_source_ftp,\"$fichier_destination_local\");\n\n"))); }
-void perl_ftp_put (void){doc_insert_at_cursor (cur_text_doc, (_("$ftp->put($fichier_local,\"$fichier_destination_ftp\");\n\n"))); }
+void perl_ftp_list (void){doc_insert_at_cursor (cur_text_doc, (_("$ftp->cwd(\"$a_directory_listing\");\n@ls = $ftp->ls(\".\");\n\nforeach $file (@ls)\n{\n\n\tprint \"$file\\n\";\n\n}\n\n"))); }
+void perl_ftp_get (void){doc_insert_at_cursor (cur_text_doc, (_("$ftp->get($file_source_ftp,\"$file_destination_local\");\n\n"))); }
+void perl_ftp_put (void){doc_insert_at_cursor (cur_text_doc, (_("$ftp->put($file_local,\"$file_destination_ftp\");\n\n"))); }
 void perl_socket_srv (void){doc_insert_at_cursor (cur_text_doc, (_("use IO::Socket::INET ;\n\n$server = new IO::Socket::INET(\nType=>SOCK_STREAM,\n                LocalPort => $port ,\n                Proto => 'tcp' ,\n                Listen => 0 ,\n                Reuse => 1,\n\n);\n\n\nwhile($client = $server->accept)\n{\n\n\tif(fork())\n\t{\n\t$ipclient_connect=sprintf \"%s\", $client->peerhost;\n\t$client->autoflush(1);\n\n\tprint $client \"$hostname\\n\";\n\n\t\twhile (1)\n\t\t{\n\t\t$chaine_client=<$client>;\n\t\tprint $chaine_client.\"\\n\";\n\n\n\t\t######### Envoyer au client\n\t\tprint $client \"$chaine_a_envoyer_au_client\";\n\t\t}\n\tclose $client;\n\texit();\n\n\t}\n}\n\n"))); }
 void perl_socket_client (void){doc_insert_at_cursor (cur_text_doc, "use IO::Socket;\n\n\n$socket = IO::Socket::INET->new(Proto    => \"tcp\",\n                                            PeerAddr => $ip_serveur,\n                                            PeerPort => $port)\n\tor die \"Failed : $@\\n\";\n\n\n\nwhile($reponse=<$socket>)\n{\n\t########## Envoi sur la socket\n\tprint $socket \"load\\n\";\n\n}\n\n"); }
-void perl_substr (void){doc_insert_at_cursor (cur_text_doc, (_("$chaine_resultat=substr($chaine, $int_indice_debut, $int_longueur);\n\n"))); }
-void perl_tube (void){doc_insert_at_cursor (cur_text_doc, (_("$fichier=\"tail -f -n 1 /votre/fichier/tube |\";\nopen(FICHIER, $fichier);\n\nwhile($ligne=<FICHIER>)\n{\n\tprint $ligne;\n}\n\nclose FICHIER;\n\n"))); }
-void perl_stdin (void){doc_insert_at_cursor (cur_text_doc, (_("while ($ligne=<STDIN>)\n{\n\n\n}\n\n"))); }
+void perl_substr (void){doc_insert_at_cursor (cur_text_doc, (_("$string_return=substr($string, $int_indice_start, $int_length);\n\n"))); }
+void perl_tube (void){doc_insert_at_cursor (cur_text_doc, (_("$file=\"tail -f -n 1 /path/file/pipe |\";\nopen(FILE, $file);\n\nwhile($line=<FILE>)\n{\n\tprint $line;\n}\n\nclose FILE;\n\n"))); }
+void perl_stdin (void){doc_insert_at_cursor (cur_text_doc, (_("while ($line=<STDIN>)\n{\n\n\n}\n\n"))); }
 void perl_dbi_lastid (void){doc_insert_at_cursor (cur_text_doc, "$lastid=$dbh->{'mysql_insertid'};\n\n"); }
-void perl_rand (void){doc_insert_at_cursor (cur_text_doc, (_("$rand=rand($nombre_max);\n\n"))); }
+void perl_rand (void){doc_insert_at_cursor (cur_text_doc, (_("$rand=rand($number_max);\n\n"))); }
 void perl_stat (void){doc_insert_at_cursor (cur_text_doc, (_("# dev\t\tnuméro de device du système de fichiers\n# ino\t\tnuméro d'inode\n# mode\t\tdroits du fichier (type et permissions)\n# nlink\t\tnombre de liens (hard) sur le fichier\n# uid\t\tID numérique de l'utilisateur propriétaire du fichier\n# gid\t\tID numérique du groupe propriétaire du fichier\n# rdev\t\tl'identificateur de device (fichiers spéciaux uniquement)\n# size\t\ttaille totale du fichier, en octets\n# atime\t\tdate de dernier accès en secondes depuis l'origine des temps\n# mtime\t\tdate de dernière modification en secondes depuis l'origine des temps\n# ctime\t\tdate de dernière modification de l'inode en secondes depuis l'origine des temps (*)\n# blksize\t\ttaille de blocs préférée pour les E/S sur fichiers\n# blocks\t\tnombre de blocs réellement occupés\n\n($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,$atime,$mtime,$ctime,$blksize,$blocks)= stat($filename);\n\n"))); }
 void perl_ftp_cwd (void){doc_insert_at_cursor (cur_text_doc, (_("$ftp->cwd(\"$dir\");\n"))); }
 void perl_ftp_delete (void){doc_insert_at_cursor (cur_text_doc, (_("$ftp->delete(\"$file\");\n"))); }
 void perl_dbi_rows (void){doc_insert_at_cursor (cur_text_doc, (_("$rows = $sth2->rows;\n"))); }
 
 //******************************* Mysql insert help
-void mysql_insert (void){doc_insert_at_cursor (cur_text_doc, (_("INSERT INTO votre_table (nomattribut1,nomattributN) values ('valeur1','valeurN')"))); }
-void mysql_update (void){doc_insert_at_cursor (cur_text_doc, (_("UPDATE nomdetable Set nomattribut1=expression1,nomattributN=expressionN WHERE condition"))); }
-void mysql_select (void){doc_insert_at_cursor (cur_text_doc, (_("SELECT groupe_attribut FROM table WHERE condition"))); }
-void mysql_delete (void){doc_insert_at_cursor (cur_text_doc, (_("DELETE attributN FROM nomdetable WHERE condition"))); }
+void mysql_insert (void){doc_insert_at_cursor (cur_text_doc, (_("INSERT INTO your_table (name_attribut1,name_attributN) values ('value1','valueN')"))); }
+void mysql_update (void){doc_insert_at_cursor (cur_text_doc, (_("UPDATE name_table Set name_attribut1=value1,name_attributN=valueN WHERE condition"))); }
+void mysql_select (void){doc_insert_at_cursor (cur_text_doc, (_("SELECT group_attribut FROM table WHERE condition"))); }
+void mysql_delete (void){doc_insert_at_cursor (cur_text_doc, (_("DELETE attributN FROM name_table WHERE condition"))); }
 
 //******************************* PHP insert help
 void php_commentaire (void){doc_insert_at_cursor (cur_text_doc, "/*\n *\n *\n *\n */\n\n"); }
 void php_mysql_connexion (void){doc_insert_at_cursor (cur_text_doc, "$dbhost=\"ip_host_name\";\n$dblogin=\"login\";\n$dbpassword=\"password\";\n$dbname=\"nom_de_base\";\n\n$db=mysql_connect($dbhost,$dblogin,$dbpassword);\nmysql_selectdb($dbname,$db);\n\nmysql_query(\"SET NAMES 'utf8'\");\n\n"); }
-void php_mysql_while (void){doc_insert_at_cursor (cur_text_doc, (_("$inforeq = \"SELECT champs FROM tables WHERE conditions\";\n$infoq = mysql_query($inforeq);\n\nwhile($ligne = mysql_fetch_object($infoq))\n{\n\t$champs=$ligne->champs;\n\n}\n\n"))); }
+void php_mysql_while (void){doc_insert_at_cursor (cur_text_doc, (_("$inforeq = \"SELECT values FROM tables WHERE conditions\";\n$infoq = mysql_query($inforeq);\n\nwhile($line = mysql_fetch_object($infoq))\n{\n\t$value=$line->value;\n\n}\n\n"))); }
 void php_mysql_query (void){doc_insert_at_cursor (cur_text_doc, "$requete = \"\";\n$result = mysql_query($requete);\n\n"); }
-void php_foreach (void){doc_insert_at_cursor (cur_text_doc, (_("foreach ($tableau as $ligne_num => $ligne)\n{\n\n\n}\n\n"))); }
+void php_foreach (void){doc_insert_at_cursor (cur_text_doc, (_("foreach ($array as $line_num => $line)\n{\n\n\n}\n\n"))); }
 void php_split (void){doc_insert_at_cursor (cur_text_doc, (_("$tableau = preg_split(\"/[;]+/\", $variable);\n\n"))); }
 void php_replace (void){doc_insert_at_cursor (cur_text_doc, (_("$chaine = eregi_replace (\"chaine à remplacer\",\"chaine de remplacement\",$chaine);\n\n"))); }
-void php_file (void){doc_insert_at_cursor (cur_text_doc, (_("$tableau = file(\"http://url ou fichier\");\n\n"))); }
-void php_find (void){doc_insert_at_cursor (cur_text_doc, (_("if(strstr($chaine, $chaine_recherche))\n{\n\n\n}\n\n"))); }
-void php_function (void){doc_insert_at_cursor (cur_text_doc, (_("function nom_de_fonction($var1,$var2)\n{\n\n\n}\n\n"))); }
-void php_stripslashes (void){doc_insert_at_cursor (cur_text_doc, (_("$chaine=stripslashes($chaine);\n\n"))); }
-void php_mail (void){doc_insert_at_cursor (cur_text_doc, (_("mail(\"email\",\"sujet\",\"message\",\"From: nom <email@qui-envoi.net>\\nContent-Type: text;\\n\");\n\n"))); }
+void php_file (void){doc_insert_at_cursor (cur_text_doc, (_("$array = file(\"http://url or file\");\n\n"))); }
+void php_find (void){doc_insert_at_cursor (cur_text_doc, (_("if(strstr($string, $find_string))\n{\n\n\n}\n\n"))); }
+void php_function (void){doc_insert_at_cursor (cur_text_doc, (_("function function_name($var1,$var2)\n{\n\n\n}\n\n"))); }
+void php_stripslashes (void){doc_insert_at_cursor (cur_text_doc, (_("$string=stripslashes($string);\n\n"))); }
+void php_mail (void){doc_insert_at_cursor (cur_text_doc, (_("mail(\"email\",\"subject\",\"message\",\"From: name_frome <email@sender_domaine.net>\\nContent-Type: text;\\n\");\n\n"))); }
 void php_insert_id (void){doc_insert_at_cursor (cur_text_doc, (_("$id_insert=mysql_insert_id();\n"))); }
 void php_ftp_connect (void){doc_insert_at_cursor (cur_text_doc, (_("//****** Connexion serveur FTP\n$ftp_connexion = ftp_connect(\"$ip_serveur\");\n$ftp_login = ftp_login($ftp_connexion,\"$login\", \"$password\");\n$ftp_repertoire = ftp_chdir($ftp_connexion,\"/\");\n\n"))); }
-void php_ftp_list_rep (void){doc_insert_at_cursor (cur_text_doc, (_("//******* Liste les fichiers de $repertoire dans un tableau\n$tableau = ftp_nlist($ftp_connexion,\"$repertoire\");\n\n"))); }
-void php_ftp_put (void){doc_insert_at_cursor (cur_text_doc, (_("ftp_put($ftp_connexion,$path_fichier,$nom_fichier_depose, FTP_BINARY);\n\n"))); }
-void php_ftp_delete (void){doc_insert_at_cursor (cur_text_doc, (_("ftp_delete($ftp_connexion, $fichier_supprime);\n\n"))); }
+void php_ftp_list_rep (void){doc_insert_at_cursor (cur_text_doc, (_("//******* List files in a $directory in array\n$array = ftp_nlist($ftp_connection,\"$directory\");\n\n"))); }
+void php_ftp_put (void){doc_insert_at_cursor (cur_text_doc, (_("ftp_put($ftp_connection,$path_file,$name_file_put, FTP_BINARY);\n\n"))); }
+void php_ftp_delete (void){doc_insert_at_cursor (cur_text_doc, (_("ftp_delete($ftp_connection, $file_delete);\n\n"))); }
 void php_h_utf8 (void){doc_insert_at_cursor (cur_text_doc, "header(\'Content-type: text/plain; charset=UTF-8\');\n\n"); }
 void php_h_png (void){doc_insert_at_cursor (cur_text_doc, "Header(\"Content-type: image/png\");\n\n"); }
 void php_date_mysql (void){doc_insert_at_cursor (cur_text_doc, (_("$now = date(\"Y-m-d H:i:s\");\n\n"))); }
-void php_mysql_query_select (void){doc_insert_at_cursor (cur_text_doc, (_("$inforeq2 = \"SELECT champs FROM tables WHERE conditions\";\n$infoq2 = mysql_query($inforeq2);\n$ligne2 = mysql_fetch_object($infoq2);\n$champs=$ligne2->champs;\n\n"))); }
-void php_strlen (void){doc_insert_at_cursor (cur_text_doc, (_("$nbr_caracteres=strlen($chaine);\n\n"))); }
-void php_urlencode (void){doc_insert_at_cursor (cur_text_doc, (_("$url=urlencode($chaine);\n\n"))); }
-void php_rand (void){doc_insert_at_cursor (cur_text_doc, (_("$valeur=rand($min,$max );\n\n"))); }
-void php_mb_substr_count (void){doc_insert_at_cursor (cur_text_doc, (_("$nbr_occurrences=mb_substr_count($chaine, $chaine_a_trouver);\n\n"))); }
+void php_mysql_query_select (void){doc_insert_at_cursor (cur_text_doc, (_("$inforeq2 = \"SELECT values FROM tables WHERE conditions\";\n$infoq2 = mysql_query($inforeq2);\n$ligne2 = mysql_fetch_object($infoq2);\n$champs=$ligne2->champs;\n\n"))); }
+void php_strlen (void){doc_insert_at_cursor (cur_text_doc, (_("$number_of_characters=strlen($string);\n\n"))); }
+void php_urlencode (void){doc_insert_at_cursor (cur_text_doc, (_("$url=urlencode($string);\n\n"))); }
+void php_rand (void){doc_insert_at_cursor (cur_text_doc, (_("$value=rand($min,$max );\n\n"))); }
+void php_mb_substr_count (void){doc_insert_at_cursor (cur_text_doc, (_("$occurrence_count=mb_substr_count($string, $find_string);\n\n"))); }
 void php_var_post (void){doc_insert_at_cursor (cur_text_doc, "print_r($_POST);\n\n"); }
 void echo_php           (void){  doc_insert_at_cursor (cur_text_doc, "echo \"\";\n\n"); }
-void php_strip_tags           (void){  doc_insert_at_cursor (cur_text_doc, (_("$chaine=strip_tags($chaine_html);\n\n"))); }
+void php_strip_tags           (void){  doc_insert_at_cursor (cur_text_doc, (_("$string=strip_tags($string_html);\n\n"))); }
 void php_num_rows           (void){  doc_insert_at_cursor (cur_text_doc, (_("$num_rows=mysql_num_rows($result);\n"))); }
-void php_explode           (void){  doc_insert_at_cursor (cur_text_doc, (_("$tableau = explode(" ", $chaine);\n"))); }
+void php_explode           (void){  doc_insert_at_cursor (cur_text_doc, (_("$array = explode(\" \", $string);\n"))); }
 void php_unlink           (void){  doc_insert_at_cursor (cur_text_doc, (_("unlink($file);\n"))); }
 void php_fputs           (void){  doc_insert_at_cursor (cur_text_doc, (_("$fp=fopen($file,\"w\");\nfputs($fp, \"text in file\");\nfclose($fp);\n"))); }
-void php_count           (void){  doc_insert_at_cursor (cur_text_doc, (_("$nbr=count($tableau);\n"))); }
+void php_count           (void){  doc_insert_at_cursor (cur_text_doc, (_("$nbr=count($array);\n"))); }
 void php_dir           (void){  doc_insert_at_cursor (cur_text_doc, (_("$mydir = \"/dir/\";\nif ($dir = opendir($mydir)) \n{\n\twhile (($file = readdir($dir)) !== false) \n\t{\n\t\tif($file != \"..\" && $file != \".\")\n\t\t{\n\t\t$filelist[] = $file;\n\t\t}\n\t} \nclosedir($dir);\n}"))); }
 void php_addslashes(void){  doc_insert_at_cursor (cur_text_doc, (_("$str=addslashes($str);\n"))); }
 void php_dl_csv(void){  doc_insert_at_cursor (cur_text_doc, (_("header(\"Cache-control: private\");\n\n$filename=\"fichier_csv_name.csv\";\n\nif (strstr($_SERVER\[\"HTTP_USER_AGENT\"], \"MSIE\"))\n{header(\"Content-type: text/tab-separated-values; charset=iso-8859-1\");\nheader(\"Content-Disposition: filename=$filename\" );\n}\nelse{\nheader(\"Content-type: text/octet-stream; charset=iso-8859-1\");\nheader(\"Content-Disposition: attachment; filename=$name\");\n}\n\n$csv=\"CSV1;CSV2;CSV3;\";\n\necho $csv;\n"))); }
@@ -4941,9 +4941,9 @@ void html_rows (void){doc_insert_at_cursor (cur_text_doc, "rows=\"\" "); }
 void html_cols (void){doc_insert_at_cursor (cur_text_doc, "cols=\"\" "); }
 void html_style (void){doc_insert_at_cursor (cur_text_doc, "style=\"\" "); }
 void html_form (void){doc_insert_at_cursor (cur_text_doc, (_("<form name=\"nom_formulaire\" method=\"post\" action=\"page.php\">\n\n\n<input type=\"submit\" value=\"Valider\">\n</form>"))); }
-void html_input_text (void){doc_insert_at_cursor (cur_text_doc, "<input type=\"text\" name=\"nom_text\" value=\"default\">\n"); }
-void html_input_textarea (void){doc_insert_at_cursor (cur_text_doc, (_("<textarea name=\"nom_textarea\">\n\n\tTexte affiché dans la balise textarea\n\n</textarea>\n"))); }
-void html_input_select (void){doc_insert_at_cursor (cur_text_doc, (_("<select name=\"nom_select\">\n<option selected value=\"valeur\">VALEUR</option>\n<option value=\"valeur2\">VALEUR2</option>\n</select>\n"))); }
+void html_input_text (void){doc_insert_at_cursor (cur_text_doc, "<input type=\"text\" name=\"name_text\" value=\"default\">\n"); }
+void html_input_textarea (void){doc_insert_at_cursor (cur_text_doc, (_("<textarea name=\"name_textarea\">\n\n\tText displayed in the textarea tag a\n\n</textarea>\n"))); }
+void html_input_select (void){doc_insert_at_cursor (cur_text_doc, (_("<select name=\"name_select\">\n<option selected value=\"value\">VALUE</option>\n<option value=\"value2\">VALUE2</option>\n</select>\n"))); }
 void html_favicon (void){doc_insert_at_cursor (cur_text_doc, "<link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"/images/favicon.ico\" />\n"); }
 
 
@@ -5001,14 +5001,14 @@ void css_valign_bottom (void){doc_insert_at_cursor (cur_text_doc, "vertical-alig
 
 //********************************* insert javascript
 void javascript_html (void){doc_insert_at_cursor (cur_text_doc, "<script type=\"text/javascript\">\n\n\n</script>\n"); }
-void javascript_fonction (void){doc_insert_at_cursor (cur_text_doc, (_("function Nom_De_Votre_Fonction()\n{\n\n\n}\n\n"))); }
+void javascript_fonction (void){doc_insert_at_cursor (cur_text_doc, (_("function name_function()\n{\n\n\n}\n\n"))); }
 void javascript_value_par_id (void){doc_insert_at_cursor (cur_text_doc, (_("var Value=document.getElementById('VOTRE_ID').value;\n"))); }
-void javascript_focus_id (void){doc_insert_at_cursor (cur_text_doc, (_("document.getElementById('VOTRE_ID').focus();\n"))); }
-void javascript_value_select (void){doc_insert_at_cursor (cur_text_doc, (_("var selectValue = document.getElementById('VOTRE_ID').options[document.getElementById('VOTRE_ID').selectedIndex].value;\n"))); }
-void javascript_id_load_file (void){doc_insert_at_cursor (cur_text_doc, (_("$('#VOTRE_ID').load('FICHIER_PHP_HTML');\n"))); }
-void javascript_html_change (void){doc_insert_at_cursor (cur_text_doc, (_("document.getElementById('VOTRE_ID').innerHTML =\"VOTRE TEXT\";\n"))); }
-void javascript_id_change (void){doc_insert_at_cursor (cur_text_doc, (_("document.getElementById('VOTRE_ID').value = \"VOTRE_TEXTE\";\n"))); }
-void javascript_id_change_add (void){doc_insert_at_cursor (cur_text_doc, (_("document.getElementById('VOTRE_ID').value += \"VOTRE_TEXT\";\n"))); }
+void javascript_focus_id (void){doc_insert_at_cursor (cur_text_doc, (_("document.getElementById('YOUR_ID').focus();\n"))); }
+void javascript_value_select (void){doc_insert_at_cursor (cur_text_doc, (_("var selectValue = document.getElementById('YOUR_ID').options[document.getElementById('YOUR_ID').selectedIndex].value;\n"))); }
+void javascript_id_load_file (void){doc_insert_at_cursor (cur_text_doc, (_("$('#YOUR_ID').load('FILE_PHP_HTML');\n"))); }
+void javascript_html_change (void){doc_insert_at_cursor (cur_text_doc, (_("document.getElementById('YOUR_ID').innerHTML =\"YOUR TEXT\";\n"))); }
+void javascript_id_change (void){doc_insert_at_cursor (cur_text_doc, (_("document.getElementById('YOUR_ID').value = \"YOUR_TEXTE\";\n"))); }
+void javascript_id_change_add (void){doc_insert_at_cursor (cur_text_doc, (_("document.getElementById('YOUR_ID').value += \"YOUR_TEXT\";\n"))); }
 void javascript_onblur (void){doc_insert_at_cursor (cur_text_doc, "onBlur=\"\" "); }
 void javascript_onchange (void){doc_insert_at_cursor (cur_text_doc, "onChange=\"\" "); }
 void javascript_onclick (void){doc_insert_at_cursor (cur_text_doc, "onClick=\"\" "); }
@@ -5017,7 +5017,7 @@ void javascript_onload (void){doc_insert_at_cursor (cur_text_doc, "onLoad=\"\" "
 void javascript_onmouseover (void){doc_insert_at_cursor (cur_text_doc, "onMouseOver=\"\" "); }
 void javascript_onselect (void){doc_insert_at_cursor (cur_text_doc, "onSelect=\"\" "); }
 void javascript_onsubmit (void){doc_insert_at_cursor (cur_text_doc, "onSubmit=\"\" "); }
-void javascript_split (void){doc_insert_at_cursor (cur_text_doc, (_("//split VOTRE_CHAINE dans un tableau\nvar reg=new RegExp(\"[;]+\", \"g\");\nvar tableau=VOTRE_CHAINE.split(reg);"))); }
+void javascript_split (void){doc_insert_at_cursor (cur_text_doc, (_("//split YOUR_STRING in array \nvar reg=new RegExp(\"[;]+\", \"g\");\nvar array=YOUR_STRING.split(reg);"))); }
 void javascript_file_contenu (void){doc_insert_at_cursor (cur_text_doc, (_("var Fichier = function Fichier(fichier)\n{\n\tif(window.XMLHttpRequest) obj = new XMLHttpRequest(); //Pour Firefox, Opera,...\n\n\telse if(window.ActiveXObject) obj = new ActiveXObject(\"Microsoft.XMLHTTP\"); //Pour Internet Explorer\n \n\telse return(false);\n\n\tif (obj.overrideMimeType) obj.overrideMimeType(\"text/xml\"); //Évite un bug de Safari\n\tobj.open(\"GET\", fichier, false);\n\tobj.send(null);\n\n\tif(obj.readyState == 4) return(obj.responseText);\n\telse return(false);\n}\n\nvar Contenu = Fichier('page.php');\n\n"))); }
 
 void javascript_urlencode (void){doc_insert_at_cursor (cur_text_doc, "Url = \"http://example.com/index.html?url=\" + encodeURIComponent(myUrl);\n"); }
@@ -5075,7 +5075,7 @@ gtk_source_buffer_create_source_mark(GTK_SOURCE_BUFFER(cur_text_doc->text_buffer
 	add_to_list_book("",txt);
 	statusbar_msg (_("BookMark [OK]"));
 	//gtk_notebook_set_current_page(notebook2,5);
-	}else{log_to_memo (_("Vous devez séléctionner un mot ou du texte pour utiliser un BookMark"), NULL, LM_ERROR);statusbar_msg (_("BookMark [ERROR]"));}
+	}else{log_to_memo (_("You must select a word or text to use a BookMark"), NULL, LM_ERROR);statusbar_msg (_("BookMark [ERROR]"));}
 }
 
 //******************************* Montage SFTP
@@ -5095,7 +5095,7 @@ void mount_sftp (void)
 		{
 		icon_stop_logmemo();
 		//gtk_notebook_set_current_page(notebook_down,0);
-		log_to_memo (_("Vous devez installer le package sshfs et avoir une clef ssh valide pour utiliser la fonction montage SFTP"), NULL, LM_ERROR);
+		log_to_memo (_("You must install the curlftpfs to use the mounting  SFTP"), NULL, LM_ERROR);
 		statusbar_msg (_("Mount [ERROR]"));
 		}
 		else
@@ -5183,7 +5183,7 @@ void mount_ftp (void)
 		if (fichier == NULL)
 		{
 		icon_stop_logmemo();
-		log_to_memo (_("Vous devez installer le package curlftpfs pour utiliser la fonction montage FTP"), NULL, LM_ERROR);
+		log_to_memo (_("You must install the curlftpfs to use the mounting FTP"), NULL, LM_ERROR);
 		statusbar_msg (_("Mount [ERROR]"));
 		}
 		else
@@ -5260,7 +5260,7 @@ void umount_sftp (void)
 	liste_mount[0]='\0';
 
 	icon_log_logmemo();
-	log_to_memo (_("%s démontage FTP/SFTP"), tampon_sftp, LM_NORMAL);
+	log_to_memo (_("%s umount FTP/SFTP"), tampon_sftp, LM_NORMAL);
 	icon_affiche_net ();
 	tampon_sftp=NULL;
 	statusbar_msg (_("Umount [OK]"));
@@ -5270,7 +5270,7 @@ void umount_sftp (void)
 	{
 	icon_stop_logmemo();
 
-	log_to_memo (_("Aucun serveur monté en FTP/SFTP"), NULL, LM_ERROR);
+	log_to_memo (_("No mounted server FTP / SFTP"), NULL, LM_ERROR);
 	statusbar_msg (_("Umount [Error]"));
 	}
 
@@ -5286,7 +5286,7 @@ GtkWidget* w_sftp_mount (void)
 	icon_affiche_stop();
 	
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (window1), _((_("Monter un serveur en SFTP"))));
+  gtk_window_set_title (GTK_WINDOW (window1), _((_("Mount a SFTP server"))));
   gtk_window_set_position (GTK_WINDOW (window1), GTK_WIN_POS_CENTER);
   gtk_window_set_resizable (GTK_WINDOW (window1), FALSE);
   gtk_widget_show(GTK_WIDGET(window1));
@@ -5305,7 +5305,7 @@ GtkWidget* w_sftp_mount (void)
   gtk_widget_show (GTK_WIDGET(hbox2));
   gtk_box_pack_start (GTK_BOX (vbox1), hbox2, TRUE, TRUE, 0);
 
-  label2 = gtk_label_new (_("Nom du serveur ou ip : "));
+  label2 = gtk_label_new (_("Server name or ip: "));
   gtk_widget_show (GTK_WIDGET(label2));
   gtk_box_pack_start (GTK_BOX (hbox2), label2, FALSE, FALSE, 0);
   gtk_label_set_justify (GTK_LABEL (label2), GTK_JUSTIFY_LEFT);
@@ -5319,7 +5319,7 @@ GtkWidget* w_sftp_mount (void)
   gtk_widget_show (GTK_WIDGET(hbox3));
   gtk_box_pack_start (GTK_BOX (vbox1), hbox3, TRUE, TRUE, 0);
 
-  label3 = gtk_label_new (_("Utilisateur : "));
+  label3 = gtk_label_new (_("User : "));
   gtk_widget_show (GTK_WIDGET(label3));
   gtk_box_pack_start (GTK_BOX (hbox3), label3, FALSE, FALSE, 0);
   gtk_label_set_justify (GTK_LABEL (label3), GTK_JUSTIFY_LEFT);
@@ -5333,7 +5333,7 @@ GtkWidget* w_sftp_mount (void)
   gtk_widget_show (GTK_WIDGET(hbox4));
   gtk_box_pack_start (GTK_BOX (vbox1), hbox4, TRUE, TRUE, 0);
 
-  label4 = gtk_label_new (_("Chemin sur le serveur : "));
+  label4 = gtk_label_new (_("Path on the server: "));
   gtk_widget_show (GTK_WIDGET(label4));
   gtk_box_pack_start (GTK_BOX (hbox4), label4, FALSE, FALSE, 0);
   gtk_label_set_justify (GTK_LABEL (label4), GTK_JUSTIFY_LEFT);
@@ -5358,7 +5358,7 @@ GtkWidget* w_sftp_mount (void)
   gtk_box_pack_start (GTK_BOX (hbox1), button2, TRUE, TRUE, 0);
   gtk_button_set_relief (GTK_BUTTON (button2), GTK_RELIEF_NONE);
 
-  label1 = gtk_label_new (_("Montage SFTP"));
+  label1 = gtk_label_new (_("Mount SFTP"));
   gtk_widget_show (GTK_WIDGET(label1));
   gtk_frame_set_label_widget (GTK_FRAME (frame1), label1);
   gtk_label_set_justify (GTK_LABEL (label1), GTK_JUSTIFY_LEFT);
@@ -5397,7 +5397,7 @@ GtkWidget* w_ftp_mount (void)
 	icon_affiche_stop();
 	
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (window1), _((_("Monter un serveur en FTP"))));
+  gtk_window_set_title (GTK_WINDOW (window1), _((_("Mount a FTP server"))));
   gtk_window_set_position (GTK_WINDOW (window1), GTK_WIN_POS_CENTER);
   gtk_window_set_resizable (GTK_WINDOW (window1), FALSE);
   gtk_widget_show(GTK_WIDGET(window1));
@@ -5416,7 +5416,7 @@ GtkWidget* w_ftp_mount (void)
   gtk_widget_show (GTK_WIDGET(hbox2));
   gtk_box_pack_start (GTK_BOX (vbox1), hbox2, TRUE, TRUE, 0);
 
-  label2 = gtk_label_new (_("Nom du serveur ou ip : "));
+  label2 = gtk_label_new (_("Server name or ip: "));
   gtk_widget_show (GTK_WIDGET(label2));
   gtk_box_pack_start (GTK_BOX (hbox2), label2, FALSE, FALSE, 0);
   gtk_label_set_justify (GTK_LABEL (label2), GTK_JUSTIFY_LEFT);
@@ -5430,7 +5430,7 @@ GtkWidget* w_ftp_mount (void)
   gtk_widget_show (GTK_WIDGET(hbox3));
   gtk_box_pack_start (GTK_BOX (vbox1), hbox3, TRUE, TRUE, 0);
 
-  label3 = gtk_label_new (_("Utilisateur : "));
+  label3 = gtk_label_new (_("User : "));
   gtk_widget_show (GTK_WIDGET(label3));
   gtk_box_pack_start (GTK_BOX (hbox3), label3, FALSE, FALSE, 0);
   gtk_label_set_justify (GTK_LABEL (label3), GTK_JUSTIFY_LEFT);
@@ -5467,7 +5467,7 @@ GtkWidget* w_ftp_mount (void)
   gtk_box_pack_start (GTK_BOX (hbox1), button2, TRUE, TRUE, 0);
   gtk_button_set_relief (GTK_BUTTON (button2), GTK_RELIEF_NONE);
 
-  label1 = gtk_label_new (_("Montage FTP"));
+  label1 = gtk_label_new (_("Mount FTP"));
   gtk_widget_show (GTK_WIDGET(label1));
   gtk_frame_set_label_widget (GTK_FRAME (frame1), label1);
   gtk_label_set_justify (GTK_LABEL (label1), GTK_JUSTIFY_LEFT);
@@ -5507,13 +5507,13 @@ void on_execut_script (void)
 	{
 	icon_stop_logmemo();
 
-	 log_to_memo (_("Les script n'est pas sauvegardé ou n'est pas séléctionné"), NULL, LM_ERROR);
+	 log_to_memo (_("The script is not saved or is not selected"), NULL, LM_ERROR);
 	 statusbar_msg (_("Script [Error]"));
 	}
 	else
 	{
 	icon_log_logmemo();
-  log_to_memo (_("Execution du script %s [OK]"), cur_text_doc->file_name, LM_NORMAL);
+  log_to_memo (_("Execution of script %s [OK]"), cur_text_doc->file_name, LM_NORMAL);
 	statusbar_msg (_("Run script [OK]"));
 	icon_affiche_bug();
  
@@ -5598,8 +5598,8 @@ void open_gimp (void)
 		if (fichier == NULL)
 		{
 		icon_stop_logmemo();
-		log_to_memo (_("Vous devez installer le package gimp pour utiliser la fonction edition d'image"), NULL, LM_ERROR);
-		statusbar_msg (_("Vous devez installer le package gimp pour utiliser la fonction edition d'image"));
+		log_to_memo (_("You must install the gimp to use the edition image"), NULL, LM_ERROR);
+		statusbar_msg (_("You must install the gimp to use the edition image"));
 		}
 		else{
 	char mot[150];

@@ -9,7 +9,7 @@
  ***************************************************************************/
 
 #ifdef HAVE_CONFIG_H
-#  include <config.h>
+#  include "config.h"
 #endif
 
 #include <gdk/gdk.h>
@@ -354,7 +354,7 @@ static void msg_wrong_encoding (gchar *filename)
 {	
 	icon_stop_logmemo();
 	//gtk_notebook_set_current_page(notebook_down,0);
-  log_to_memo (_("Désolé, mais je ne peux pas déterminer le jeu de caractères %s. Essayer de nouveau et sélectionnez-le manuellement."), filename, LM_ERROR);
+  log_to_memo (_("Sorry, but I can not determine the character set %s. try again and select it manually."), filename, LM_ERROR);
 }
 
 
@@ -372,7 +372,7 @@ void do_backup (gchar *file_name, gboolean do_check)
   if (copy_file (file_name, bak))
   {
 	  icon_ok_logmemo();
-     log_to_memo (_("%s est créé"), bak, LM_NORMAL);
+     log_to_memo (_("%s is created"), bak, LM_NORMAL);
    }  
   else
   {
@@ -380,7 +380,7 @@ void do_backup (gchar *file_name, gboolean do_check)
 	   icon_affiche_nosave ();
 		controle_save_page_icon_no();
 	   //gtk_notebook_set_current_page(notebook_down,0);
-      log_to_memo (_("Ne peut pas faire de sauvegarde pour %s"), file_name, LM_ERROR);
+      log_to_memo (_("Can not save to %s"), file_name, LM_ERROR);
    }                    
   g_free (bak);
 }
@@ -395,7 +395,7 @@ gboolean text_doc_save (t_note_page *doc, gchar *a_filename)
      icon_affiche_nosave ();
 		controle_save_page_icon_no();
      //gtk_notebook_set_current_page(notebook_down,0);
-      log_to_memo (_("Le fichier est en lecture seule."), NULL, LM_ERROR);
+      log_to_memo (_("The file is read-only."), NULL, LM_ERROR);
       return FALSE;
      }
 
@@ -421,7 +421,7 @@ gboolean text_doc_save (t_note_page *doc, gchar *a_filename)
 	   icon_affiche_nosave ();
 		controle_save_page_icon_no();
 	   //gtk_notebook_set_current_page(notebook_down,0);
-      log_to_memo (_("%s n'est pas accessible en écriture pour vous!"), filename, LM_ERROR);
+      log_to_memo (_("%s is not writable for you!"), filename, LM_ERROR);
       g_free (filename); 
       return FALSE;
      }
@@ -432,7 +432,7 @@ gboolean text_doc_save (t_note_page *doc, gchar *a_filename)
      icon_affiche_nosave ();
 		controle_save_page_icon_no();
      //gtk_notebook_set_current_page(notebook_down,0);
-      log_to_memo (_("Et comment je peux enregistrer ce fichier texte comme un répertoire?!"), NULL, LM_ERROR);
+      log_to_memo (_("And how I can save this text file as a directory?!"), NULL, LM_ERROR);
       g_free (filename);
       return FALSE;
      }
@@ -1124,7 +1124,7 @@ void page_del_by_index (int i)
      {
       page = glist_find_by_index (dox, i);
        icon_log_logmemo();
-      log_to_memo (_("%s est fermé"), page->file_name, LM_NORMAL);
+      log_to_memo (_("%s is closed"), page->file_name, LM_NORMAL);
       dox = g_list_remove (dox, page);
       page_free (page);
       gtk_notebook_remove_page (GTK_NOTEBOOK(notebook1), i);
@@ -1165,7 +1165,7 @@ t_note_page* doc_open_file (gchar *a_filename)
      {
      icon_stop_logmemo();
      //gtk_notebook_set_current_page(notebook_down,0);
-      log_to_memo (_("%s n'existe pas!"), a_filename, LM_ERROR);
+      log_to_memo (_("%s does not exist!"), a_filename, LM_ERROR);
       return NULL;       
      }
     
@@ -1173,7 +1173,7 @@ t_note_page* doc_open_file (gchar *a_filename)
      {
 	     icon_stop_logmemo();
 	     //gtk_notebook_set_current_page(notebook_down,0);
-      log_to_memo (_("Vous n'avez pas les droits pour %s"), a_filename, LM_ERROR);
+      log_to_memo (_("You do not have permission to %s"), a_filename, LM_ERROR);
       return NULL;
      }
 
@@ -1190,7 +1190,7 @@ t_note_page* doc_open_file (gchar *a_filename)
         {
         icon_stop_logmemo();   
         //gtk_notebook_set_current_page(notebook_down,0);     
-         log_to_memo (_("Vous n'avez pas les droits pour %s"), filename, LM_ERROR);
+         log_to_memo (_("You do not have permission to %s"), filename, LM_ERROR);
          g_free (filename);
          return NULL;
         }
@@ -1243,7 +1243,7 @@ t_note_page* doc_open_file (gchar *a_filename)
        editor_set_pos (page, 0);
        gtk_text_buffer_set_modified (GTK_TEXT_BUFFER(page->text_buffer), FALSE);
 		icon_ok_logmemo();
-       log_to_memo (_("%s est ouvert"), page->file_name, LM_NORMAL);
+       log_to_memo (_("%s is opened"), page->file_name, LM_NORMAL);
 
        g_free (filename);
        g_free (newlabel);
@@ -1349,7 +1349,7 @@ t_note_page* doc_open_file (gchar *a_filename)
 
   page->hl_mode = ch_str (page->hl_mode, get_hl_name (page->file_name));
   icon_ok_logmemo();
-  log_to_memo (_("%s est ouvert"), page->file_name, LM_NORMAL);
+  log_to_memo (_("%s is opened"), page->file_name, LM_NORMAL);
 
 
   if (confile.scan_for_links_on_doc_open == 1)
@@ -1423,7 +1423,7 @@ t_note_page* doc_open_file (gchar *a_filename)
   g_free (filename);
   g_free (newlabel);
   g_free (buf);
-	griffon_notify(_("Le fichier est ouvert et disponible dans l'onglet Editor"));
+	griffon_notify(_("The file is open and available in the Editor tab"));
 
 	//gtk_notebook_set_current_page(notebook3,1);
 
@@ -1486,7 +1486,7 @@ void page_free (t_note_page *page)
    
   if (strcmp (f, confile.crapbook_file) != 0)
      if (page->b_saved && confile.prompt_on_not_saved && gtk_text_buffer_get_modified (GTK_TEXT_BUFFER(page->text_buffer))) 
-       if (dlg_question (tea_main_window, _("%s est modifié mais pas sauvegardé, le sauvegarder?"), page->file_name))
+       if (dlg_question (tea_main_window, _("%s is modified but not saved, save?"), page->file_name))
           text_doc_save (page, page->file_name);
       
   if (strcmp (f, confile.crapbook_file) == 0)

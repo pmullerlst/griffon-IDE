@@ -10,7 +10,7 @@
 //Variable ................cur_text_doc->file_name pour le nom du fichier 
 
 #ifdef HAVE_CONFIG_H
-#  include <config.h>
+#  include "config.h"
 #endif
 
 #include <gtk/gtk.h>
