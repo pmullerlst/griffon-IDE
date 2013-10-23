@@ -1,0 +1,6 @@
+#ifndef __CONFIG_H__
+#define __CONFIG_H__
+#define PACKAGE_DATA_DIR "%(DATADIR)s"
+#define PACKAGE_LOCALE_DIR "%(LOCALEDIR)s"
+#define PACKAGE_PIXMAP_DIR "%(PIXMAPDIR)s"
+#endif
