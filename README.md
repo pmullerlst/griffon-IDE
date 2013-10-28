@@ -15,3 +15,6 @@ Installation sources
 
  # scons install
 
+Uninstall
+
+ # scons -c install
