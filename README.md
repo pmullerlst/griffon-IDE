@@ -13,5 +13,5 @@ Installation sources
 
  # apt-get install scons
 
- # scons
+ # scons install
 

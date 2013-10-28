@@ -102,41 +102,8 @@ env.Program('work/griffon', [
 
 env.Install('$DESTDIR$BINDIR','work/griffon')
 
-env.Install('$DESTDIR$PIXMAPDIR',[
-'pixmaps/color_line.png',
-'pixmaps/griffon_advance.png',
-'pixmaps/griffon-advance.png',
-'pixmaps/griffon_bg2.png',
-'pixmaps/griffon_bug.png',
-'pixmaps/griffon_button.png',
-'pixmaps/griffon_down2.png',
-'pixmaps/griffon_down.png',
-'pixmaps/griffon_exe.png',
-'pixmaps/griffon_icon.png',
-'pixmaps/griffon_list.png',
-'pixmaps/griffon_log.png',
-'pixmaps/griffon_man.png',
-'pixmaps/griffon_net.png',
-'pixmaps/griffon_nosave2.png',
-'pixmaps/griffon_nosave.png',
-'pixmaps/griffon_note.png',
-'pixmaps/griffon_ok2.png',
-'pixmaps/griffon_ok.png',
-'pixmaps/griffon_package.png',
-'pixmaps/griffon_path.png',
-'pixmaps/griffon_save2.png',
-'pixmaps/griffon_save.png',
-'pixmaps/griffon_start.png',
-'pixmaps/griffon_stop2.png',
-'pixmaps/griffon_stop.png',
-'pixmaps/griffon_up2.png',
-'pixmaps/griffon_up.png',
-'pixmaps/splash_griffon.png',
-])
-
 env.Alias('install', [
 '$DESTDIR$BINDIR',
-'$DESTDIR$PIXMAPDIR'
 ])
 
 # -%- lang: python -%-
