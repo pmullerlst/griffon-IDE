@@ -642,7 +642,7 @@ GtkWidget* create_tea_main_window (void)
   tea_main_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_maximize (GTK_WINDOW(tea_main_window));
   gtk_widget_set_name (tea_main_window, "tea_main_window");
-  gtk_window_set_title (GTK_WINDOW (tea_main_window), _("Griffon 1.6.4"));
+  gtk_window_set_title (GTK_WINDOW (tea_main_window), _("Griffon 1.6.5"));
 
   //gtk_window_set_icon_from_file (GTK_WINDOW(tea_main_window),PACKAGE_PIXMAP_DIR "/griffon_button.png",NULL);
 
@@ -1849,7 +1849,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep2));
  
 			gtk_box_pack_start (GTK_BOX (vbox), scrolledWindow_editor, TRUE, TRUE, 0);
 
-	webkit_web_view_load_uri(webView_editor, "http://griffon.lasotel.fr/main.php?version=1.6.4");
+	webkit_web_view_load_uri(webView_editor, "http://griffon.lasotel.fr/main.php?version=1.6.5");
 
   notebook1 = gtk_notebook_new ();
   gtk_widget_set_name (notebook1, "notebook1");
@@ -2308,7 +2308,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
 	gtk_entry_completion_set_model(completion_entry_http, GTK_TREE_MODEL(model_entry_http));
 	//****************************
 
-	gtk_entry_set_text (GTK_ENTRY (entry_web), _("http://griffon.lasotel.fr/main.php?version=1.6.4"));
+	gtk_entry_set_text (GTK_ENTRY (entry_web), _("http://griffon.lasotel.fr/main.php?version=1.6.5"));
 
   button2 = gtk_button_new_from_stock (" Charger l'URL ");
   gtk_widget_show (GTK_WIDGET(button2));
@@ -2708,7 +2708,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
 	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
 	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);
 */	tv_logmemo_set_pos (0);
-  log_to_memo ("\n\n(C)2013 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.6.4 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
+  log_to_memo ("\n\n(C)2013 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.6.5 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
 	tv_logmemo_set_pos (0);
   ui_init ();
 
@@ -2762,7 +2762,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
 		gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook2),0);
   no_onglet_open() ;  
 
-	webkit_web_view_load_uri(webView, "http://griffon.lasotel.fr/main.php?version=1.6.4");
+	webkit_web_view_load_uri(webView, "http://griffon.lasotel.fr/main.php?version=1.6.5");
 	webkit_web_view_load_uri(webView_myadmin, "https://www.google.fr/");
 	webkit_web_view_load_uri(webView_myadmin_traduc, "https://translate.google.fr/?hl=fr&tab=wT");
 	webkit_web_view_load_uri(webView_myadmin_aide, "https://www.google.fr/");
@@ -2942,7 +2942,7 @@ GtkWidget* create_about1 (void)
   gtk_widget_show (GTK_WIDGET(image1));
   gtk_box_pack_start (GTK_BOX (vbox1), image1, TRUE, TRUE, 0);*/
 
-  label1 = gtk_label_new (_("\n    Griffon IDE 1.6.4 \n\n    Auteur \t\t: Philippe Muller \n    Email \t\t: pmuller@lasotel.fr\n\n    Developer and Administrator GNU/Linux system Lasotel (Lyon).    \n\n"));
+  label1 = gtk_label_new (_("\n    Griffon IDE 1.6.5 \n\n    Auteur \t\t: Philippe Muller \n    Email \t\t: pmuller@lasotel.fr\n\n    Developer and Administrator GNU/Linux system Lasotel (Lyon).    \n\n"));
   gtk_widget_show (GTK_WIDGET(label1));
   gtk_box_pack_start (GTK_BOX (vbox1), label1, FALSE, FALSE, 0);
 
@@ -3280,7 +3280,7 @@ GtkWidget* version_window (void)
 
     gtk_container_add(GTK_CONTAINER(vbox1), GTK_WIDGET(webView_doc));
 
-   webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/version.php?version=1.6.4");
+   webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/version.php?version=1.6.5");
 
   return window1;
 }
@@ -3307,7 +3307,7 @@ GtkWidget* rapport_window (void)
 
     gtk_container_add(GTK_CONTAINER(vbox1), GTK_WIDGET(webView_doc));
 
-   webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/bug_rapport.php?clef=1.6.4");
+   webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/bug_rapport.php?clef=1.6.5");
 
   return window1;
 }
@@ -4187,7 +4187,7 @@ gboolean popup_context_menu_vte(GtkWidget *tv, GdkEventButton *event)
       if (event->type == GDK_BUTTON_PRESS && event->button == 3) {
             ret = TRUE;
             menu_vte = gtk_menu_new();
-
+	
             gtk_container_set_border_width(GTK_CONTAINER(menu_vte), 2);
 
 									if(vte_terminal_get_has_selection (VTE_TERMINAL(tv)))
@@ -4214,8 +4214,9 @@ gboolean popup_context_menu_vte(GtkWidget *tv, GdkEventButton *event)
             g_signal_connect(menu_item5, "button-release-event", G_CALLBACK(term_help), tv);
             gtk_menu_shell_append(GTK_MENU_SHELL(menu_vte), menu_item5);
 
-            gtk_menu_popup(GTK_MENU(menu_vte), NULL, NULL, NULL, NULL, 3, 1);
 									gtk_widget_show_all(GTK_WIDGET(menu_vte));
+
+            gtk_menu_popup(GTK_MENU(menu_vte), NULL, NULL, NULL, NULL, 3, 1);
 
       }else{gtk_widget_grab_focus (tv);}
 

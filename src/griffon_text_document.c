@@ -25,7 +25,6 @@
 #include <gtksourceview/gtksourcelanguage.h>
 #include <gtksourceview/gtksourcelanguagemanager.h>
 #include <gtksourceview/gtksourcestyleschememanager.h>
-//#include <gtkspell/gtkspell.h>
 #include <gtksourceview/completion-providers/words/gtksourcecompletionwords.h>
 #include <gtksourceview/gtksourcecompletion.h>
 #include "griffon_text_document.h"
@@ -39,7 +38,8 @@
 #include "rox_strings.h"
 #include "griffon_enc.h"
 
-static GtkSourceCompletionWords *word_provider,*word_provider2,*word_provider3;
+static GtkSourceCompletionWords *word_provider,*word_provider2;
+//static GtkSourceCompletionWords *word_provider3;
 GtkSourceCompletion *completion;
 
 static gchar *compute_indentation(GtkTextBuffer *buffer, gint line) // from gedit
@@ -1369,15 +1369,10 @@ t_note_page* doc_open_file (gchar *a_filename)
 	scan_include(); 
 
 	//******************************* Ajout de l'autocomp de base
-	//add_word_autocomp_file();
-
 	gtk_window_set_title (GTK_WINDOW (tea_main_window), page->file_name);
-		
- 	//if(confile.use_spellcheck == 0){page->spell = gtkspell_new_attach(GTK_TEXT_VIEW(page->text_view), NULL, NULL);gtkspell_recheck_all(page->spell);}
-//	if(confile.use_spellcheck == 1){gtkspell_recheck_all(page->spell);}
 
 	//********** FILE ADD AUTOCOMP PERSO
- GtkSourceBuffer *tmpbuffer = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
+/* GtkSourceBuffer *tmpbuffer = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
  GtkWidget *srctmp= gtk_source_view_new_with_buffer(tmpbuffer);
 
 	gchar* file_autocomp=NULL;
@@ -1419,7 +1414,7 @@ t_note_page* doc_open_file (gchar *a_filename)
 		}
 	}
 
-	gtk_box_pack_start (GTK_BOX (page->hbox), srctmp, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (page->hbox), srctmp, FALSE, TRUE, 0);*/
   g_free (filename);
   g_free (newlabel);
   g_free (buf);

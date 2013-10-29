@@ -13,8 +13,9 @@ Installation sources
 
  # apt-get install scons
 
- # scons install
+ # ./install-griffon
 
 Uninstall
 
  # scons -c install
+
