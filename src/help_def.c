@@ -793,8 +793,11 @@ void  on_changed(GtkWidget *widget, gpointer statusbar)
 
 
 //******************************* match et envoi des fonction d'aide insert
-void  on_changed2(gpointer *user_data) 
+void  on_changed2(GtkWidget *tt, GdkEvent *eventt, gpointer *user_data) 
 {
+	if(eventt==NULL){printf("\n");}
+	gtk_widget_get_name(tt);
+
   GtkTreeIter iter;
   GtkTreeModel *model;
   char *value;
@@ -1591,8 +1594,10 @@ GtkTreeModel *create_and_fill_model_term (void)
 
 
 //************** VTE HELP
-void term_help(gpointer user_data)
+void term_help(GtkWidget *tv,GdkEventButton *event,  gpointer user_data)
 {
+		if(event==NULL){printf("\n");}
+		gtk_widget_get_name(tv);
 	gtk_widget_destroy(menu_vte);
 	gtk_widget_destroy(window1);
 

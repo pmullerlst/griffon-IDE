@@ -256,7 +256,7 @@ void new_file_cmd ();
 void new_web_window ();
 void new_web_window_mini ();
 void new_file_log_edit ();
-void new_file_term_edit (gpointer user_data);
+void new_file_term_edit (GtkWidget *tv,GdkEventButton *event,  gpointer user_data);
 gboolean myadmin_new_window (WebKitWebView *web_view,WebKitWebFrame *frame,WebKitNetworkRequest *request, WebKitWebNavigationAction *navigation_action,WebKitWebPolicyDecision *policy_decision,gpointer user_data);
 gboolean web_new_w_click(WebKitWebView *web_view,gpointer user_data);
 WebKitWebView * web_new_w_click_go(WebKitWebView  *web_view, WebKitWebFrame *frame, gpointer user_data);
@@ -272,7 +272,7 @@ void griffon_notify (gchar* txt);
 void add_to_list_err(gchar *str,gchar *str2);
 void download_requested_cb(WebKitDownload *download);
 void download_status_cb(GObject* object);
-void paste_vte(gpointer user_data);
-void copy_vte(  gpointer user_data);
+void paste_vte(GtkWidget *tv,GdkEventButton *event,  gpointer user_data);
+void copy_vte(GtkWidget *tv,GdkEventButton *event,  gpointer user_data);
 void term_search_google(gpointer user_data);
 

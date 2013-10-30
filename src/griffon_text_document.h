@@ -31,8 +31,8 @@ typedef struct
 
   GtkWidget *scrolledwindow;
   GtkWidget *text_view;
-
   gchar *last_searched_text;
+
 
 } t_note_page;
 
@@ -42,7 +42,6 @@ GList *dox;
 void do_backup (gchar *file_name, gboolean do_check);
 
 t_note_page* doc_clear_new (void);
-                                        
 t_note_page* page_create_new (void);
 void page_free (t_note_page *page);
 void page_del_by_index (int i);
@@ -51,7 +50,7 @@ t_note_page* get_page_by_index (int i);
 
 gboolean text_doc_save (t_note_page *doc ,char *a_filename);
 t_note_page* doc_open_file (gchar *a_filename);
-
+void on_button_close ( GtkWidget *wid,gpointer data);
 //cur_text_doc points to current text document (in any case)
 t_note_page *cur_text_doc;
 gchar* get_c_url (t_note_page *doc) ;

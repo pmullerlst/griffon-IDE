@@ -14,7 +14,7 @@
 
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
-
+#include <gdk/gdkkeysyms.h>
 #include <glib.h>
 #include <stdio.h>
 #include <strings.h>
@@ -631,6 +631,15 @@ gboolean doc_save_buffer_to_file_iconv (GtkTextBuffer *text_buffer, gchar *filen
   return result;
 }
 
+void on_button_close (GtkWidget *wid, gpointer data)
+{
+	gtk_widget_get_name(wid);
+	icon_affiche_ok();
+  page_del_by_index (find_index_by_page (data));
+	no_onglet_open();
+	delete_autocomp_tips();
+}
+
 
 t_note_page* page_create_new (void)
 {
@@ -716,8 +725,7 @@ t_note_page* page_create_new (void)
   gtk_container_add (GTK_CONTAINER (page->scrolledwindow), GTK_WIDGET(page->text_view));
 
 	gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(page->text_buffer), "search","foreground", "white","background", "blue","weight", PANGO_WEIGHT_BOLD,NULL);
-	gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(page->text_buffer), "err2","foreground", "black","background", "pink","weight", PANGO_WEIGHT_BOLD,NULL
-);
+	gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(page->text_buffer), "err2","foreground", "black","background", "pink","weight", PANGO_WEIGHT_BOLD,NULL);
   gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(page->text_buffer), "gray_bg","foreground", "white","background", "gray","weight", PANGO_WEIGHT_BOLD,NULL);
 
   page->tab_label = gtk_label_new (NULL);
@@ -752,12 +760,12 @@ t_note_page* page_create_new (void)
   page->file_name = g_strdup ("noname");
 
 
-  g_signal_connect (page->text_view, "key_press_event",
+  g_signal_connect (G_OBJECT (page->text_view), "key_press_event",
                     G_CALLBACK (on_editor_keypress), page);
 
-  g_signal_connect (page->text_view, "key_release_event",
-                    G_CALLBACK (on_editor_keyrelease), page);
 
+  g_signal_connect (G_OBJECT (page->text_view), "key_release_event",
+                    G_CALLBACK (on_editor_keyrelease), page);
 
   g_signal_connect (G_OBJECT (page->text_buffer), "insert_text", 
                     G_CALLBACK (controle_save_page_icon_no), page->text_view);
@@ -1936,9 +1944,7 @@ gint find_index_by_page (t_note_page *page)
  while (p)
        {
         i++;  
-        if (page == p->data)
-           return i;
-
+        if (page == p->data){return i;}
         p = g_list_next (p);  
        }
 

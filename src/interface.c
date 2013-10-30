@@ -2673,7 +2673,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
                     G_CALLBACK (on_notebook1_switch_page),
                     NULL);
 
-  g_signal_connect ((gpointer) notebook3, "focus-in-event",
+  g_signal_connect ((gpointer) notebook1, "focus-in-event",
                     G_CALLBACK (switch_filechooser),
                     NULL);
   
@@ -4049,7 +4049,7 @@ void google_traduction_en_fr()
 		strcpy(search_google,"https://translate.google.fr/?hl=fr&tab=wT#en/fr/");
 		strcat(search_google,doc_get_sel (cur_text_doc));
 		webkit_web_view_load_uri(webView_myadmin_traduc, search_google);
-		griffon_notify(_("Le résultat de la traduction est disponible dans l'onglet :\nMyAdmin->Traduction"));
+		griffon_notify(_("The result of the translation is available in the tab :\nMyAdmin->Translation"));
 	}
 }
 
@@ -4149,14 +4149,19 @@ void myadmin_view_mode_get_url (){webkit_web_view_set_view_source_mode(webView_m
 
 
 
-void copy_vte(  gpointer user_data)
+void copy_vte(GtkWidget *tv,GdkEventButton *event,  gpointer user_data)
 {
+			if(event==NULL){printf("\n");}
+			gtk_widget_get_name(tv);
+
       vte_terminal_copy_clipboard(user_data);
       gtk_widget_destroy(menu_vte);
 }
 
-void paste_vte(gpointer user_data)
+void paste_vte(GtkWidget *tv,GdkEventButton *event,  gpointer user_data)
 {
+			if(event==NULL){printf("\n");}
+			gtk_widget_get_name(tv);
       vte_terminal_paste_clipboard(user_data);
       gtk_widget_destroy(menu_vte);
 }
@@ -4216,7 +4221,7 @@ gboolean popup_context_menu_vte(GtkWidget *tv, GdkEventButton *event)
 
 									gtk_widget_show_all(GTK_WIDGET(menu_vte));
 
-            gtk_menu_popup(GTK_MENU(menu_vte), NULL, NULL, NULL, NULL, 3, 1);
+            gtk_menu_popup(GTK_MENU(menu_vte), NULL, NULL, NULL, NULL, 3, GDK_CURRENT_TIME);
 
       }else{gtk_widget_grab_focus (tv);}
 
@@ -4459,8 +4464,7 @@ void new_terminal_ssh (gchar *serveur,gchar *user)
 	vte_terminal_set_background_saturation (VTE_TERMINAL(page_term->vte_add),0.1);
 
   vte_terminal_set_scroll_on_keystroke(VTE_TERMINAL (page_term->vte_add), TRUE);
-	gtk_container_add (GTK_CONTAINER (page_term->vbox2), GTK_WIDGET(page_term->vte_add));	
-
+	 gtk_box_pack_start(GTK_BOX(page_term->vbox2), GTK_WIDGET(page_term->vte_add), TRUE, TRUE, 1);
 
 	page_term->num_tab=gtk_notebook_get_n_pages(GTK_NOTEBOOK (notebook_term));
 	if(page_term->num_tab!=0){page_term->num_tab--;}
@@ -4811,8 +4815,10 @@ void new_file_log_edit ()
 }
 
 //******************************* Création d'un fichier avec les logs term en édition
-void new_file_term_edit (  gpointer user_data)
+void new_file_term_edit (GtkWidget *tv,GdkEventButton *event,  gpointer user_data)
 {
+		if(event==NULL){printf("\n");}
+		gtk_widget_get_name(tv);
 	file_new();
 	gchar *buf = vte_terminal_get_text(user_data,NULL,NULL,NULL);
 	doc_insert_at_cursor (cur_text_doc,buf);

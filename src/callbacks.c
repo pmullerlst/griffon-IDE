@@ -543,14 +543,6 @@ void on_mni_view_show_line_numbers ()
        document_set_line_numbers (cur_text_doc, FALSE);
 }
 
-void on_button_close ( gpointer data)
-{
-	icon_affiche_ok();
-  page_del_by_index (find_index_by_page (data));
-	no_onglet_open();
-	delete_autocomp_tips();
-}
-
 void on_mni_html_default_template ()
 {
   if (! get_page_text()) return;
@@ -3055,21 +3047,21 @@ gboolean on_editor_keyrelease ()
               &start_find, offset);
 					}
 			}
-
      g_free (t);
 	}
 
 	return TRUE;
 }
 
-//******************************* à la pression d'une touche
-gboolean on_editor_keypress ( GdkEventKey *event, gpointer data)
-{
 
+
+//******************************* à la pression d'une touche
+gboolean on_editor_keypress ( GtkWidget *widget, GdkEventKey *event, gpointer data)
+{
+	gtk_widget_get_name(widget);
 	if (! get_page_text()) return FALSE;
 
-
-  t_note_page *page = data;
+	  t_note_page *page = data;
   gchar *t;
   gchar *s;
   GtkTextIter itstart;
