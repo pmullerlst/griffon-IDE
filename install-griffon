@@ -1,0 +1,15 @@
+#!/bin/bash
+
+#
+# Script d'installation de griffon 
+#
+
+[ ! -e /usr/local/bin/griffon ] || sudo rm -rf /usr/local/bin/griffon
+
+echo ""
+echo "Install Griffon"
+sudo scons install
+sudo cp -rf pixmaps/griffon_icon.png /usr/share/pixmaps/griffon_icon.png
+sudo cp -rf griffon.desktop /usr/share/applications/ 
+
+
