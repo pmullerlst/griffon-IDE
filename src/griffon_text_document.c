@@ -39,7 +39,7 @@
 #include "griffon_enc.h"
 
 static GtkSourceCompletionWords *word_provider,*word_provider2;
-//static GtkSourceCompletionWords *word_provider3;
+static GtkSourceCompletionWords *word_provider3;
 GtkSourceCompletion *completion;
 
 static gchar *compute_indentation(GtkTextBuffer *buffer, gint line) // from gedit
@@ -1380,7 +1380,7 @@ t_note_page* doc_open_file (gchar *a_filename)
 	gtk_window_set_title (GTK_WINDOW (tea_main_window), page->file_name);
 
 	//********** FILE ADD AUTOCOMP PERSO
-/* GtkSourceBuffer *tmpbuffer = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
+ GtkSourceBuffer *tmpbuffer = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
  GtkWidget *srctmp= gtk_source_view_new_with_buffer(tmpbuffer);
 
 	gchar* file_autocomp=NULL;
@@ -1389,11 +1389,11 @@ t_note_page* doc_open_file (gchar *a_filename)
    if(strrchr(page->file_name,'.'))
 	{
 	extension = strrchr(page->file_name,'.');
-	if (strcmp(".pl", extension) == 0){file_autocomp="/usr/local/share/griffon/doc/perl";titre_autocomp="[PERL] AutoComp";}
-	if (strcmp(".sh", extension) == 0){file_autocomp="/usr/local/share/griffon/doc/bash";titre_autocomp="[BASH] AutoComp";}
-	if (strcmp(".c", extension) == 0 || strcmp(".h", extension) == 0){file_autocomp="/usr/local/share/griffon/doc/c";titre_autocomp="[C] AutoComp";}
-	if (strcmp(".htm", extension) == 0 || strcmp(".html", extension) == 0){file_autocomp="/usr/local/share/griffon/doc/html";titre_autocomp="[HTML] AutoComp";}
-	if (strcmp(".php", extension) == 0){file_autocomp="/usr/local/share/griffon/doc/php";titre_autocomp="[PHP] AutoComp";}
+	if (strcmp(".pl", extension) == 0){file_autocomp="/usr/local/share/griffon/autocomp/perl";titre_autocomp="[PERL] AutoComp";}
+	if (strcmp(".sh", extension) == 0){file_autocomp="/usr/local/share/griffon/autocomp/bash";titre_autocomp="[BASH] AutoComp";}
+	if (strcmp(".c", extension) == 0 || strcmp(".h", extension) == 0){file_autocomp="/usr/local/share/griffon/autocomp/c";titre_autocomp="[C] AutoComp";}
+	if (strcmp(".htm", extension) == 0 || strcmp(".html", extension) == 0){file_autocomp="/usr/local/share/griffon/autocomp/html";titre_autocomp="[HTML] AutoComp";}
+	if (strcmp(".php", extension) == 0){file_autocomp="/usr/local/share/griffon/autocomp/php";titre_autocomp="[PHP] AutoComp";}
 	}
 
 	if(file_autocomp!=NULL)
@@ -1422,7 +1422,7 @@ t_note_page* doc_open_file (gchar *a_filename)
 		}
 	}
 
-	gtk_box_pack_start (GTK_BOX (page->hbox), srctmp, FALSE, TRUE, 0);*/
+	gtk_box_pack_start (GTK_BOX (page->hbox), srctmp, FALSE, TRUE, 0);
   g_free (filename);
   g_free (newlabel);
   g_free (buf);

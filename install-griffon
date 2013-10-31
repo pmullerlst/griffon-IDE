@@ -5,11 +5,15 @@
 #
 
 [ ! -e /usr/local/bin/griffon ] || sudo rm -rf /usr/local/bin/griffon
+[ ! -e /usr/bin/griffon ] || sudo rm -rf /usr/bin/griffon
 
 echo ""
 echo "Install Griffon"
 sudo scons install
 sudo cp -rf pixmaps/griffon_icon.png /usr/share/pixmaps/griffon_icon.png
 sudo cp -rf griffon.desktop /usr/share/applications/ 
-
-
+[ -d /usr/local/share/griffon/autocomp ] || sudo mkdir /usr/local/share/griffon/autocomp/
+sudo cp -rf autocomp/* /usr/local/share/griffon/autocomp/
+[ -d /usr/local/share/griffon/images ] || sudo mkdir /usr/local/share/griffon/images/
+sudo cp -rf pixmaps/* /usr/local/share/griffon/images/
+echo ""
