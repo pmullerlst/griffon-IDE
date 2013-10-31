@@ -1326,7 +1326,7 @@ GtkWidget* create_tea_main_window (void)
   notebook2 = gtk_notebook_new ();  
   gtk_widget_show (GTK_WIDGET(notebook2));  
   gtk_box_pack_start (GTK_BOX (vbox4), notebook2, TRUE, TRUE, 0);  
-  gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook2), GTK_POS_LEFT);
+  gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook2), GTK_POS_TOP);
  
 	gtk_notebook_set_group_name (GTK_NOTEBOOK (notebook2), "wnote");	
 
@@ -1880,7 +1880,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep2));
 
 
   notebook_down = gtk_notebook_new ();  
-  gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook_down), GTK_POS_LEFT);
+  gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook_down), GTK_POS_TOP);
   gtk_widget_show (GTK_WIDGET(notebook_down));  
 	gtk_box_pack_start (GTK_BOX (vbox), notebook_down, TRUE, TRUE, 0);
 
@@ -3981,7 +3981,7 @@ GtkNotebook* window_creation_function (GtkNotebook *source_notebook,gint        
 	gtk_window_set_deletable (GTK_WINDOW(window),FALSE);
 
   notebook = gtk_notebook_new ();
-	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook), GTK_POS_LEFT);
+	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook), GTK_POS_TOP);
 
   gtk_notebook_set_group_name (GTK_NOTEBOOK (notebook),
            gtk_notebook_get_group_name (source_notebook));

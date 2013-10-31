@@ -3108,14 +3108,25 @@ gboolean on_editor_keypress ( GtkWidget *widget, GdkEventKey *event, gpointer da
 		}
     }
 
-//********************** AUTOCOMPLEMENTATION
-if (event->keyval == '(')
-{
-doc_insert_at_cursor (cur_text_doc, ")");
-doc_move_cursor_backw(cur_text_doc,1);
-}
+  char *extension;
+	//********************** AUTOCOMPLEMENTATION
+	if (event->keyval == '(')
+	{
+		if(strcmp("if", t) == 0 || strcmp("unless", t) == 0 || strcmp("for", t) == 0 || strcmp("while", t) == 0)
+		{
+			if(confile.use_textcompbloc == 1){doc_insert_at_cursor (cur_text_doc, "()\n{\n\n\n}");	doc_move_cursor_backw(cur_text_doc,7);return TRUE;}
+			else{
+							doc_insert_at_cursor (cur_text_doc, ")");
+							doc_move_cursor_backw(cur_text_doc,1);
+						}
+		}
+		else
+		{
+				doc_insert_at_cursor (cur_text_doc, ")");
+				doc_move_cursor_backw(cur_text_doc,1);
+		}
+	}
 
-	   char *extension;
 	if(strrchr(cur_text_doc->file_name,'.'))
 	{
 	extension = strrchr(cur_text_doc->file_name,'.');
