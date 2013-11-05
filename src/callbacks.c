@@ -3148,12 +3148,55 @@ doc_insert_at_cursor (cur_text_doc, "]");
 doc_move_cursor_backw(cur_text_doc,1);
 }
 
-if (event->keyval == '<' && confile.use_textcompbloc == 1)
+	int nbrcarac;
+
+if (event->keyval == '>' && confile.use_textcompbloc == 1)
 {
 	if(strcmp(".html", extension) == 0 || strcmp(".htm", extension) == 0 || strcmp(".php", extension) == 0)
 	{
-		doc_insert_at_cursor (cur_text_doc, ">");
-		doc_move_cursor_backw(cur_text_doc,1);
+		if(strcmp("body", t) == 0 || strcmp("table", t) == 0 || strcmp("form", t) == 0 || strcmp("td", t) == 0 || strcmp("BODY", t) == 0 || strcmp("TABLE", t) == 0 || strcmp("FORM", t) == 0 || strcmp("TD", t) == 0)
+		{
+			nbrcarac = strlen(t);
+			nbrcarac=nbrcarac+3; 
+			if(confile.use_textcompbloc == 1){doc_insert_at_cursor (cur_text_doc, "></");doc_insert_at_cursor (cur_text_doc, t);doc_insert_at_cursor (cur_text_doc, ">");doc_move_cursor_backw(cur_text_doc,nbrcarac);return TRUE;	}
+		}
+
+		if(strcmp("head", t) == 0 || strcmp("script", t) == 0 || strcmp("h1", t) == 0 || strcmp("h2", t) == 0 || strcmp("HEAD", t) == 0 || strcmp("SCRIPT", t) == 0 || strcmp("H1", t) == 0 || strcmp("H2", t) == 0)
+		{
+			nbrcarac = strlen(t);
+			nbrcarac=nbrcarac+3; 
+			if(confile.use_textcompbloc == 1){doc_insert_at_cursor (cur_text_doc, "></");doc_insert_at_cursor (cur_text_doc, t);doc_insert_at_cursor (cur_text_doc, ">");doc_move_cursor_backw(cur_text_doc,nbrcarac);return TRUE;	}
+		}
+
+		if(strcmp("p", t) == 0 || strcmp("html", t) == 0 || strcmp("li", t) == 0 || strcmp("ul", t) == 0 || strcmp("P", t) == 0 || strcmp("HTML", t) == 0 || strcmp("LI", t) == 0 || strcmp("UL", t) == 0)
+		{
+			nbrcarac = strlen(t);
+			nbrcarac=nbrcarac+3; 
+			if(confile.use_textcompbloc == 1){doc_insert_at_cursor (cur_text_doc, "></");doc_insert_at_cursor (cur_text_doc, t);doc_insert_at_cursor (cur_text_doc, ">");doc_move_cursor_backw(cur_text_doc,nbrcarac);return TRUE;	}
+		}
+
+		if(strcmp("h3", t) == 0 || strcmp("div", t) == 0 || strcmp("th", t) == 0 || strcmp("span", t) == 0 || strcmp("H3", t) == 0 || strcmp("DIV", t) == 0 || strcmp("TH", t) == 0 || strcmp("SPAN", t) == 0)
+		{
+			nbrcarac = strlen(t);
+			nbrcarac=nbrcarac+3; 
+			if(confile.use_textcompbloc == 1){doc_insert_at_cursor (cur_text_doc, "></");doc_insert_at_cursor (cur_text_doc, t);doc_insert_at_cursor (cur_text_doc, ">");doc_move_cursor_backw(cur_text_doc,nbrcarac);return TRUE;	}
+		}
+
+		if(strcmp("font", t) == 0 || strcmp("b", t) == 0 || strcmp("option", t) == 0 || strcmp("select", t) == 0 || strcmp("FONT", t) == 0 || strcmp("B", t) == 0 || strcmp("OPTION", t) == 0 || strcmp("SELECT", t) == 0)
+		{
+			nbrcarac = strlen(t);
+			nbrcarac=nbrcarac+3; 
+			if(confile.use_textcompbloc == 1){doc_insert_at_cursor (cur_text_doc, "></");doc_insert_at_cursor (cur_text_doc, t);doc_insert_at_cursor (cur_text_doc, ">");doc_move_cursor_backw(cur_text_doc,nbrcarac);return TRUE;	}
+		}
+
+		if(strcmp("u", t) == 0 || strcmp("textarea", t) == 0 || strcmp("s", t) == 0 || strcmp("ol", t) == 0 || strcmp("U", t) == 0 || strcmp("TEXTAREA", t) == 0 || strcmp("S", t) == 0 || strcmp("OL", t) == 0)
+		{
+			nbrcarac = strlen(t);
+			nbrcarac=nbrcarac+3; 
+			if(confile.use_textcompbloc == 1){doc_insert_at_cursor (cur_text_doc, "></");doc_insert_at_cursor (cur_text_doc, t);doc_insert_at_cursor (cur_text_doc, ">");doc_move_cursor_backw(cur_text_doc,nbrcarac);return TRUE;	}
+		}
+
+
 	}
 }
 
