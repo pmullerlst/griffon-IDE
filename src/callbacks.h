@@ -436,4 +436,7 @@ void term_long_rm (gpointer user_data);
 void term_aspiration_web (gpointer user_data);
 void term_df (gpointer user_data);
 void term_comp_targz (gpointer user_data);
+void add_todo_com(void);
+void add_todo_bug(void);
+void add_todo_fixme(void);
 

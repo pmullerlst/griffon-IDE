@@ -4600,7 +4600,7 @@ void scan_include             (void)
   FILE *fich;
   char carac;
 
-  char motrch[100],motrch2[100],motrch3[100],motrch4[100],motrch5[100],motrch6[100],motrch7[100],motrch8[100],motrch9[100],motrch10[100],motrch11[100],motrch12[100],mot_autocomp[500],mot[1000],mot2[1000],ligne[10],mot3[1000];
+  char motrch[100],motrch2[100],motrch3[100],motrch4[100],motrch5[100],motrch6[100],motrch7[100],motrch8[100],motrch9[100],motrch10[100],motrch11[100],motrch12[100],mot_autocomp[500],mot[1000],mot2[1000],ligne[10],mot3[1000],motrch13[100],motrch14[100],motrch15[100];
   int nbapparition=0,nbcarac=0,nbmot=0,counter=0;
   int nbligne=1;
 	char *extension;
@@ -4609,6 +4609,7 @@ void scan_include             (void)
 	
      icon_affiche_bug();
 	clear_list_include ();
+	clear_list_todo ();
 
   nbapparition=0,nbcarac=0,nbmot=0,nbligne=1;
   mot[0]='\0';
@@ -4627,6 +4628,9 @@ void scan_include             (void)
   motrch10[0]='\0';
   motrch11[0]='\0';
   motrch12[0]='\0';
+  motrch13[0]='\0';
+  motrch14[0]='\0';
+  motrch15[0]='\0';
 
 	strcpy(motrch,"include");
 	strcpy(motrch2,"require");
@@ -4640,6 +4644,9 @@ void scan_include             (void)
 	strcpy(motrch10,"for");
 	strcpy(motrch11,"case");
 	strcpy(motrch12,"unless");
+	strcpy(motrch13,"TODO");
+	strcpy(motrch14,"FIXME");
+	strcpy(motrch15,"BUG");
 	
 	GtkTextIter itstart, itend;
 
@@ -4742,6 +4749,26 @@ void scan_include             (void)
 			{
 		    sprintf(ligne,"%d",nbligne); 
 		 	 add_to_list_fc(a[1],ligne);
+	     }
+
+    mot[0]='\0';
+    ligne[0]='\0';
+    counter=0;  
+	    }
+	} 
+
+	//******************************* pour todolist
+  if(counter==5)
+  {
+	  strncat(mot,&carac,1);
+  
+	    if (carac =='\n' || carac =='\r')
+	    {
+			gchar **b = g_strsplit (mot, "\n", -1);
+			if(b[0]!='\0')
+			{
+		    sprintf(ligne,"%d",nbligne); 
+		 	 add_to_list_todo(b[0],ligne);
 	     }
 
     mot[0]='\0';
@@ -4866,6 +4893,17 @@ if (counter==0)
 				instruction=0;   
 	    }			
 
+				//******TODO 
+		  if (strncmp(motrch13,mot,strlen(motrch13))==0 || strncmp(motrch14,mot,strlen(motrch14))==0 || strncmp(motrch15,mot,strlen(motrch15))==0) 
+	    {
+	      nbapparition++;
+	      if(nbapparition==1)
+			{
+			  nbcarac--;
+			}
+	        
+			counter=5;// mode fonction      
+	    }	
 
 	}
 
@@ -5826,5 +5864,66 @@ void keyrelase_search(void)
 	}
 }
 
+//******************************* Ajout de todo list dans un fichier  
+void add_todo_com(void)
+{
 
+	if (! get_page_text()) return;
+
+   char *extension;
+
+   if(strrchr(cur_text_doc->file_name,'.'))
+	{
+	extension = strrchr(cur_text_doc->file_name,'.');
+	if (strcmp(".pl", extension) == 0){doc_insert_at_cursor (cur_text_doc, "\n\n#\n# TODO : \n#\n");}
+	if (strcmp(".sh", extension) == 0){doc_insert_at_cursor (cur_text_doc, "\n\n#\n# TODO : \n#\n");}
+	if (strcmp(".c", extension) == 0 || strcmp(".h", extension) == 0){doc_insert_at_cursor (cur_text_doc, "\n\n/*\n* TODO : \n*/\n");}
+	if (strcmp(".htm", extension) == 0 || strcmp(".html", extension) == 0){doc_insert_at_cursor (cur_text_doc, "\n<!-- TODO -->\n");}
+	if (strcmp(".php", extension) == 0){doc_insert_at_cursor (cur_text_doc, "\n\n/*\n* TODO : \n*/\n");}
+	if (strcmp(".txt", extension) == 0){doc_insert_at_cursor (cur_text_doc, "\n\n/*\n* TODO : \n*/\n");}
+	}else{doc_insert_at_cursor (cur_text_doc, "\n\n/*\n* TODO : \n*/\n");}
+
+}
+
+//******************************* Ajout de todo list dans un fichier  
+void add_todo_bug(void)
+{
+
+	if (! get_page_text()) return;
+
+   char *extension;
+
+   if(strrchr(cur_text_doc->file_name,'.'))
+	{
+	extension = strrchr(cur_text_doc->file_name,'.');
+	if (strcmp(".pl", extension) == 0){doc_insert_at_cursor (cur_text_doc, "\n\n#\n# BUG : \n#\n");}
+	if (strcmp(".sh", extension) == 0){doc_insert_at_cursor (cur_text_doc, "\n\n#\n# BUG : \n#\n");}
+	if (strcmp(".c", extension) == 0 || strcmp(".h", extension) == 0){doc_insert_at_cursor (cur_text_doc, "\n\n/*\n* BUG : \n*/\n");}
+	if (strcmp(".htm", extension) == 0 || strcmp(".html", extension) == 0){doc_insert_at_cursor (cur_text_doc, "\n<!-- BUG -->\n");}
+	if (strcmp(".php", extension) == 0){doc_insert_at_cursor (cur_text_doc, "\n\n/*\n* BUG : \n*/\n");}
+	if (strcmp(".txt", extension) == 0){doc_insert_at_cursor (cur_text_doc, "\n\n/*\n* BUG : \n*/\n");}
+	}else{doc_insert_at_cursor (cur_text_doc, "\n\n/*\n* BUG : \n*/\n");}
+
+}
+
+//******************************* Ajout de todo list dans un fichier  
+void add_todo_fixme(void)
+{
+
+	if (! get_page_text()) return;
+
+   char *extension;
+
+   if(strrchr(cur_text_doc->file_name,'.'))
+	{
+	extension = strrchr(cur_text_doc->file_name,'.');
+	if (strcmp(".pl", extension) == 0){doc_insert_at_cursor (cur_text_doc, "\n\n#\n# FIXME : \n#\n");}
+	if (strcmp(".sh", extension) == 0){doc_insert_at_cursor (cur_text_doc, "\n\n#\n# FIXME : \n#\n");}
+	if (strcmp(".c", extension) == 0 || strcmp(".h", extension) == 0){doc_insert_at_cursor (cur_text_doc, "\n\n/*\n* FIXME : \n*/\n");}
+	if (strcmp(".htm", extension) == 0 || strcmp(".html", extension) == 0){doc_insert_at_cursor (cur_text_doc, "\n<!-- FIXME -->\n");}
+	if (strcmp(".php", extension) == 0){doc_insert_at_cursor (cur_text_doc, "\n\n/*\n* FIXME : \n*/\n");}
+	if (strcmp(".txt", extension) == 0){doc_insert_at_cursor (cur_text_doc, "\n\n/*\n* FIXME : \n*/\n");}
+	}else{doc_insert_at_cursor (cur_text_doc, "\n\n/*\n* FIXME : \n*/\n");}
+
+}
 

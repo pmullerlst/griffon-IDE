@@ -85,7 +85,9 @@ GtkTreeSelection *selection_myadmin ;
 GtkWidget *toolbar;
 GtkTreeSelection *selection_file; 
 GtkListStore *store;
+GtkListStore *store_todo;
 GtkWidget* view_list;
+GtkWidget* view_list_todo;
 GtkListStore *store_book;
 GtkWidget* view_list_book;
 GtkWidget *view_a;
@@ -1450,9 +1452,13 @@ GtkWidget* create_tea_main_window (void)
       G_CALLBACK(on_changed_scan), NULL);
 
 	//*******************************
-    button_include1 = gtk_button_new_with_label (_("Start the scan"));
+    button_include1 = gtk_button_new_with_label (_("Start searching functions and variables"));
     gtk_widget_show(GTK_WIDGET(button_include1));
     gtk_box_pack_start(GTK_BOX(vbox4), button_include1, FALSE, FALSE, 0);
+
+  g_signal_connect ((gpointer) button_include1, "clicked",
+                    G_CALLBACK (scan_include),
+                    NULL);
 
 	 GtkWidget *button_include2;
     button_include2 = gtk_button_new_with_label (_("Open files include"));
@@ -2308,7 +2314,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
 	gtk_entry_completion_set_model(completion_entry_http, GTK_TREE_MODEL(model_entry_http));
 	//****************************
 
-	gtk_entry_set_text (GTK_ENTRY (entry_web), _("http://griffon.lasotel.fr/main.php?version=1.6.5"));
+	gtk_entry_set_text (GTK_ENTRY (entry_web), _("http://griffon.lasotel.fr/en/auteurs.html"));
 
   button2 = gtk_button_new_from_stock (" Charger l'URL ");
   gtk_widget_show (GTK_WIDGET(button2));
@@ -2643,6 +2649,118 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook_down), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_down), 5), TRUE);
 
 
+//*************************** TODO LIST
+
+  vbox4 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_container_add (GTK_CONTAINER (notebook_down), GTK_WIDGET(vbox4));
+  gtk_widget_show (GTK_WIDGET(vbox4));  
+
+  scrolledwindow5 = gtk_scrolled_window_new (NULL, NULL);
+  gtk_widget_show (GTK_WIDGET(scrolledwindow5));
+		 gtk_box_pack_start(GTK_BOX(vbox4), GTK_WIDGET(scrolledwindow5), TRUE, TRUE, 1);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_CORNER_TOP_LEFT);
+
+    GtkTreeModel      *model_todo;
+    GtkTreeViewColumn *col_todo, *col2_todo;
+    GtkCellRenderer   *renderer_todo;
+	 GtkTreeSelection *selection_scan_todo;
+
+    model_todo = GTK_TREE_MODEL(create_liststore_todo());
+ 
+    view_list_todo = gtk_tree_view_new_with_model(model_todo);
+
+    col_todo = gtk_tree_view_column_new();
+    gtk_tree_view_column_set_title(col_todo, (_("Todo List")));
+
+    col2_todo = gtk_tree_view_column_new();
+    gtk_tree_view_column_set_title(col2_todo, "Line");
+ 
+    renderer_todo = gtk_cell_renderer_pixbuf_new();
+    gtk_tree_view_column_pack_start(col_todo, renderer_todo, FALSE);
+    gtk_tree_view_column_set_attributes(col_todo, renderer_todo,
+                                        "pixbuf", COL_ICON,
+                                        NULL);
+ 
+    renderer_todo = gtk_cell_renderer_text_new();
+    gtk_tree_view_column_pack_start(col_todo, renderer_todo, TRUE);
+    gtk_tree_view_column_set_attributes(col_todo, renderer_todo,
+                                        "text", COL_TEXT,
+                                        NULL);
+ 
+    renderer_todo = gtk_cell_renderer_text_new();
+    gtk_tree_view_column_pack_start(col2_todo, renderer_todo, TRUE);
+    gtk_tree_view_column_set_attributes(col2_todo, renderer_todo,
+                                        "text", COL_TEXT2,
+                                        NULL);
+
+    gtk_tree_view_append_column(GTK_TREE_VIEW(view_list_todo), col_todo);
+    gtk_tree_view_append_column(GTK_TREE_VIEW(view_list_todo), col2_todo);
+    gtk_widget_show(GTK_WIDGET(view_list_todo));
+	gtk_container_add (GTK_CONTAINER (scrolledwindow5), GTK_WIDGET(view_list_todo));
+
+	gtk_tree_view_set_grid_lines (GTK_TREE_VIEW(view_list_todo),GTK_TREE_VIEW_GRID_LINES_BOTH);
+	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view_list_todo),TRUE);
+
+	selection_scan_todo = gtk_tree_view_get_selection(GTK_TREE_VIEW(view_list_todo));
+
+	 g_signal_connect(selection_scan_todo, "changed",  
+      G_CALLBACK(on_changed_scan), NULL);
+
+	//*******************************
+	 GtkWidget *hbox_todo = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_container_add (GTK_CONTAINER (vbox4), GTK_WIDGET(hbox_todo));
+  gtk_widget_show (GTK_WIDGET(hbox_todo));  
+
+    GtkWidget *button_com = gtk_button_new_with_label (_("Insert TODO in the current file and todo list"));
+    gtk_widget_show(GTK_WIDGET(button_com));
+    gtk_box_pack_start(GTK_BOX(hbox_todo), button_com, FALSE, FALSE, 0);
+
+  g_signal_connect ((gpointer) button_com, "clicked",
+                    G_CALLBACK (add_todo_com),
+                    NULL);
+
+    GtkWidget *button_bug = gtk_button_new_with_label (_("Insert BUG in the current file and todo list"));
+    gtk_widget_show(GTK_WIDGET(button_bug));
+    gtk_box_pack_start(GTK_BOX(hbox_todo), button_bug, FALSE, FALSE, 0);
+
+  g_signal_connect ((gpointer) button_bug, "clicked",
+                    G_CALLBACK (add_todo_bug),
+                    NULL);
+
+    GtkWidget *button_fixme = gtk_button_new_with_label (_("Insert FIXME in the current file and todo list"));
+    gtk_widget_show(GTK_WIDGET(button_fixme));
+    gtk_box_pack_start(GTK_BOX(hbox_todo), button_fixme, FALSE, FALSE, 0);
+
+  g_signal_connect ((gpointer) button_fixme, "clicked",
+                    G_CALLBACK (add_todo_fixme),
+                    NULL);
+
+
+    button_include1 = gtk_button_new_with_label (_("Start searching for words: TODO, FIXME, BUG in the current file (!save the file before!)"));
+    gtk_widget_show(GTK_WIDGET(button_include1));
+    gtk_box_pack_start(GTK_BOX(vbox4), button_include1, FALSE, FALSE, 0);
+
+  g_signal_connect ((gpointer) button_include1, "clicked",
+                    G_CALLBACK (scan_include),
+                    NULL);
+
+  label_note3 = gtk_label_new (_("Todo list"));
+  gtk_widget_show (GTK_WIDGET(label_note3));
+  gtk_widget_set_size_request (label_note3, 100, 20);
+
+  hbox_note = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_widget_show (GTK_WIDGET(hbox_note));
+  gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_down), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_down), 6), hbox_note);
+
+  image2 = gtk_image_new_from_stock ("gtk-yes", GTK_ICON_SIZE_SMALL_TOOLBAR);
+  gtk_widget_show (GTK_WIDGET(image2));
+  gtk_box_pack_start (GTK_BOX (hbox_note), image2, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (hbox_note), label_note3, TRUE, TRUE, 0);		
+
+  gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook_down), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_down), 6), TRUE);
+//***********************
+
   label_note4 = gtk_label_new (_("Tools"));
   gtk_widget_show (GTK_WIDGET(label_note4));
 
@@ -2718,10 +2836,6 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
                     G_CALLBACK (clear_note),
                     NULL);
 
-  g_signal_connect ((gpointer) button_include1, "clicked",
-                    G_CALLBACK (scan_include),
-                    NULL);
-
   g_signal_connect ((gpointer) button_proj1, "clicked",
                     G_CALLBACK (on_mni_project_open),
                     NULL);
@@ -2762,7 +2876,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
 		gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook2),0);
   no_onglet_open() ;  
 
-	webkit_web_view_load_uri(webView, "http://griffon.lasotel.fr/main.php?version=1.6.5");
+	webkit_web_view_load_uri(webView, "http://griffon.lasotel.fr/en/auteurs.html");
 	webkit_web_view_load_uri(webView_myadmin, "https://www.google.fr/");
 	webkit_web_view_load_uri(webView_myadmin_traduc, "https://translate.google.fr/?hl=fr&tab=wT");
 	webkit_web_view_load_uri(webView_myadmin_aide, "https://www.google.fr/");
@@ -3814,6 +3928,13 @@ void  switch_html_page()
     store = gtk_list_store_new(3, GDK_TYPE_PIXBUF, G_TYPE_STRING,G_TYPE_STRING);
     return store;
 }
+
+//**************************** liste vIEW TEST
+ GtkListStore * create_liststore_todo()
+{ 
+    store_todo = gtk_list_store_new(3, GDK_TYPE_PIXBUF, G_TYPE_STRING,G_TYPE_STRING);
+    return store_todo;
+}
  
 void add_to_list(gchar *str,gchar *str2)
 {
@@ -3879,7 +4000,24 @@ void add_to_list_err(gchar *str,gchar *str2)
                        -1);	
 }
 
+void add_to_list_todo(gchar *str,gchar *str2)
+{
+    GtkTreeIter    iter;
+    GdkPixbuf     *icon;
+
+  icon = gdk_pixbuf_new_from_file("/usr/local/share/griffon/images/griffon_bug.png", NULL);
+ 
+    gtk_list_store_append(store_todo, &iter);
+    gtk_list_store_set(store_todo, &iter,
+                       COL_ICON, icon,
+//																	COL_ICON,NULL,
+                       COL_TEXT, str,
+							  COL_TEXT2, str2,
+                       -1);	
+}
+
 void clear_list_include (){gtk_list_store_clear(store);}
+void clear_list_todo (){gtk_list_store_clear(store_todo);}
 
 void on_changed_scan (GtkWidget *widget)
 {
