@@ -3189,7 +3189,7 @@ if (event->keyval == '>' && confile.use_textcompbloc == 1)
 			if(confile.use_textcompbloc == 1){doc_insert_at_cursor (cur_text_doc, "></");doc_insert_at_cursor (cur_text_doc, t);doc_insert_at_cursor (cur_text_doc, ">");doc_move_cursor_backw(cur_text_doc,nbrcarac);return TRUE;	}
 		}
 
-		if(strcmp("u", t) == 0 || strcmp("textarea", t) == 0 || strcmp("s", t) == 0 || strcmp("ol", t) == 0 || strcmp("U", t) == 0 || strcmp("TEXTAREA", t) == 0 || strcmp("S", t) == 0 || strcmp("OL", t) == 0)
+		if(strcmp("u", t) == 0 || strcmp("textarea", t) == 0 || strcmp("s", t) == 0 || strcmp("ol", t) == 0 || strcmp("U", t) == 0 || strcmp("TEXTAREA", t) == 0 || strcmp("S", t) == 0 || strcmp("OL", t) == 0 || strcmp("HR", t) == 0 || strcmp("hr", t) == 0)
 		{
 			nbrcarac = strlen(t);
 			nbrcarac=nbrcarac+3; 
