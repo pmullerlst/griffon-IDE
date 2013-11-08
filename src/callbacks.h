@@ -163,7 +163,6 @@ void on_mni_templates_click (GtkMenuItem *menuitem);
 void on_mni_morse_encode ();
 void on_mni_morse_decode ();
 void on_mni_set_hl_mode (GtkMenuItem *menuitem);
-void select_color_cb_delete (gpointer user_data);
 gboolean on_editor_keypress ( GtkWidget *widget, GdkEventKey *event, gpointer data);
 void on_mni_unindent ();
 void on_mni_indent ();
@@ -439,4 +438,5 @@ void term_comp_targz (gpointer user_data);
 void add_todo_com(void);
 void add_todo_bug(void);
 void add_todo_fixme(void);
+void close_color_select();
 

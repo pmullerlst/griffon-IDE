@@ -1421,76 +1421,29 @@ void on_mni_get_src ()
 	statusbar_msg (_("Scan links [OK]"));
 }
 
-void select_color_cb ()
-{
-/***** A CORRIGER
-
-  GdkColor color;
-  GtkColorChooser *colorsel;
-colorsel=gtk_color_selection_dialog_get_color_selection (user_data);
-  gtk_color_selection_get_current_color (colorsel, &color);
-  gchar *s = g_strdup_printf("#%02x%02x%02x", color.red / 256, color.green / 256, color.blue / 256);
-
-  gchar *cm;
-  gchar *t;
-  gchar *buf = doc_get_sel (cur_text_doc);
-
-  if (! buf)
-     doc_insert_at_cursor (cur_text_doc, s);
-  else
-      {
-       gchar *cm = g_strdup (confile.fmt_color_function);
-
-       if (strstr (cm, "@color"))
-          {
-           t = g_str_replace (cm, "@color", s);
-           g_free (cm);
-           cm = t;
-          }
-
-       if (strstr (cm, "@text"))
-          {
-           t = g_str_replace (cm, "@text", buf);
-           g_free (cm);
-           cm = t;
-          }
-
-       doc_rep_sel (cur_text_doc, cm);
-       g_free (cm);
-       g_free (buf);
-      }
-	gtk_widget_destroy (GTK_WIDGET(user_data));
-  g_free (s);*/
-}
-
-void select_color_cb_delete (gpointer user_data){	gtk_widget_destroy (GTK_WIDGET(user_data));}
-
 void on_mni_markup_select_color_activate ()
 {
   if (! get_page_text()) return;
   
-/**** A CORRIGER
+	dlg_colorsel = gtk_color_chooser_dialog_new("Select Color",(GtkWindow *)tea_main_window);
+	gtk_widget_show (dlg_colorsel);
 
-  dlg_colorsel = gtk_color_selection_dialog_new (_("Séléctionnez une couleur"));
+  g_signal_connect ((gpointer) dlg_colorsel, "response",
+                    G_CALLBACK (close_color_select),
+                    NULL);
 
-GtkWidget *ok_button, *cancel_button;
+}
 
-g_object_get (dlg_colorsel,
-	"ok-button", &ok_button,
-	"cancel-button", &cancel_button,
-	NULL);
+#define TO_HEX(x) (int) ((gdouble) x * 255.0)
 
-  g_signal_connect (ok_button,
-                    "clicked",
-                    G_CALLBACK (select_color_cb),
-                    (gpointer) dlg_colorsel);
+void close_color_select()
+{
+	GdkRGBA color;
+	gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(dlg_colorsel), &color);
+	gchar *s = g_strdup_printf ("#%02x%02x%02x",TO_HEX(color.red),TO_HEX(color.green),TO_HEX(color.blue));
 
-  g_signal_connect (cancel_button,
-                            "clicked",
-                            G_CALLBACK (select_color_cb_delete),
-                            (gpointer) dlg_colorsel);
-
-  gtk_widget_show (dlg_colorsel);*/
+	doc_insert_at_cursor (cur_text_doc, s);
+	gtk_widget_destroy(dlg_colorsel);
 }
 
 void on_mni_file_backup ()
