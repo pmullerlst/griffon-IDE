@@ -5794,64 +5794,6 @@ void open_include             (void)
   fclose(fich);
 }
 
-//******************************* Ajout de mot de base pour l'autocomp par rapport au type de fichier  
-void add_word_autocomp_file(void)
-{
-
-/*	if (! get_page_text()) return;
-	gchar* file_autocomp=NULL;
- 
-   char *extension;
-
-   if(strrchr(cur_text_doc->file_name,'.'))
-	{
-	extension = strrchr(cur_text_doc->file_name,'.');
-	if (strcmp(".pl", extension) == 0){file_autocomp="/usr/local/share/griffon/doc/perl";}
-	if (strcmp(".sh", extension) == 0){file_autocomp="/usr/local/share/griffon/doc/bash";}
-	if (strcmp(".c", extension) == 0 || strcmp(".h", extension) == 0){file_autocomp="/usr/local/share/griffon/doc/c";}
-	if (strcmp(".htm", extension) == 0 || strcmp(".html", extension) == 0){file_autocomp="/usr/local/share/griffon/doc/html";}
-	if (strcmp(".php", extension) == 0){file_autocomp="/usr/local/share/griffon/doc/php";}
-	}
-
-	if(file_autocomp!=NULL)
-	{
-	  FILE *fich;
-	  char carac;
-	  char mot[800];
-		mot[0]='\0';
-
-  fich=fopen(file_autocomp,"r");
-
-
-  if (fich==NULL){return ;}
-  else
-  {
-	  while ((carac =fgetc(fich)) != EOF)
-	  {    
-		  if (carac =='\n')
-		  {			
-
-		 	gl_autocomp = glist_add_not_dup (gl_autocomp, mot, 3);
-			mot[0]='\0';
-
-	          if (gl_autocomp)
-             {
-              g_completion_clear_items (at_editor);
-              g_completion_add_items (at_editor, gl_autocomp);
-             }	
-
-		  }
-		  else
-		  {
-		   strncat(mot,&carac,1);
-		   }
-		}   
-	}
-
-	fclose(fich);
-
-	}*/
-}
 
 //******************************* Keyrelase for search
 void keyrelase_search(void)

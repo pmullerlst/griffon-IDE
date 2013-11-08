@@ -3367,7 +3367,7 @@ GtkWidget* doc_window (void)
 
 			gtk_box_pack_start(GTK_BOX(vbox1), GTK_WIDGET(scrolledWindow_doc), TRUE, TRUE, 1);
 
-   webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/DOC/doc.html");
+   webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/DOC/doc_en.html");
 
   return window1;
 }

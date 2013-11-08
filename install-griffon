@@ -4,6 +4,8 @@
 # Script d'installation de griffon 
 #
 
+[ ! -e /usr/bin/gsettings ] || link=`gsettings get com.canonical.Unity.Launcher favorites | sed "s/.$//"`
+[ ! -e /usr/bin/gsettings ] || gsettings set com.canonical.Unity.Launcher favorites "$link, 'griffon.desktop']"
 [ ! -e /usr/local/bin/griffon ] || sudo rm -rf /usr/local/bin/griffon
 [ ! -e /usr/bin/griffon ] || sudo rm -rf /usr/bin/griffon
 

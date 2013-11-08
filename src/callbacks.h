@@ -281,7 +281,6 @@ void open_include             (void);
 void gen_doc_html (void);
 gboolean on_editor_keyrelease ();
 void delete_autocomp_tips();
-void add_word_autocomp_file(void);
 void on_mni_autocomp_file_open ();
 void keyrelase_search(void);
 void start_php_script            (void);
