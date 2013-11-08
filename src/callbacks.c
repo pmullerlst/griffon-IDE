@@ -4729,6 +4729,46 @@ void scan_include             (void)
     counter=0;  
 	    }
 	} 
+
+	//******************************* pour todolist
+  if(counter==6)
+  {
+	  strncat(mot,&carac,1);
+  
+	    if (carac =='\n' || carac =='\r')
+	    {
+			gchar **b = g_strsplit (mot, "\n", -1);
+			if(b[0]!='\0')
+			{
+		    sprintf(ligne,"%d",nbligne); 
+		 	 add_to_list_todo_fixme(b[0],ligne);
+	     }
+
+    mot[0]='\0';
+    ligne[0]='\0';
+    counter=0;  
+	    }
+	} 
+
+	//******************************* pour todolist
+  if(counter==7)
+  {
+	  strncat(mot,&carac,1);
+  
+	    if (carac =='\n' || carac =='\r')
+	    {
+			gchar **b = g_strsplit (mot, "\n", -1);
+			if(b[0]!='\0')
+			{
+		    sprintf(ligne,"%d",nbligne); 
+		 	 add_to_list_todo_bug(b[0],ligne);
+	     }
+
+    mot[0]='\0';
+    ligne[0]='\0';
+    counter=0;  
+	    }
+	} 
     
 if (counter==0)
 {    
@@ -4847,7 +4887,7 @@ if (counter==0)
 	    }			
 
 				//******TODO 
-		  if (strncmp(motrch13,mot,strlen(motrch13))==0 || strncmp(motrch14,mot,strlen(motrch14))==0 || strncmp(motrch15,mot,strlen(motrch15))==0) 
+		  if (strncmp(motrch13,mot,strlen(motrch13))==0) 
 	    {
 	      nbapparition++;
 	      if(nbapparition==1)
@@ -4857,6 +4897,32 @@ if (counter==0)
 	        
 			counter=5;// mode fonction      
 	    }	
+
+				//******TODO 
+		  if (strncmp(motrch14,mot,strlen(motrch14))==0) 
+	    {
+	      nbapparition++;
+	      if(nbapparition==1)
+			{
+			  nbcarac--;
+			}
+	        
+			counter=6;// mode fonction      
+	    }	
+
+				//******TODO 
+		  if (strncmp(motrch15,mot,strlen(motrch15))==0) 
+	    {
+	      nbapparition++;
+	      if(nbapparition==1)
+			{
+			  nbcarac--;
+			}
+	        
+			counter=7;// mode fonction      
+	    }	
+
+
 
 	}
 

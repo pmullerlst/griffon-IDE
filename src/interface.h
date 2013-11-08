@@ -276,6 +276,8 @@ void paste_vte(GtkWidget *tv,GdkEventButton *event,  gpointer user_data);
 void copy_vte(GtkWidget *tv,GdkEventButton *event,  gpointer user_data);
 void term_search_google(gpointer user_data);
 void add_to_list_todo(gchar *str,gchar *str2);
+void add_to_list_todo_bug(gchar *str,gchar *str2);
+void add_to_list_todo_fixme(gchar *str,gchar *str2);
  GtkListStore * create_liststore_todo();
 void clear_list_todo ();
 

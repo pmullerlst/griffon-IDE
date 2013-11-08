@@ -3946,7 +3946,6 @@ void add_to_list(gchar *str,gchar *str2)
     gtk_list_store_append(store, &iter);
     gtk_list_store_set(store, &iter,
                        COL_ICON, icon,
-//																COL_ICON,NULL,
                        COL_TEXT, str,
 							  COL_TEXT2, str2,
                        -1);	
@@ -3962,7 +3961,6 @@ void add_to_list_fc(gchar *str,gchar *str2)
     gtk_list_store_append(store, &iter);
     gtk_list_store_set(store, &iter,
                        COL_ICON, icon,
-//																COL_ICON,NULL,
                        COL_TEXT, str,
 							  COL_TEXT2, str2,
                        -1);	
@@ -3978,7 +3976,6 @@ void add_to_list_var(gchar *str,gchar *str2)
     gtk_list_store_append(store, &iter);
     gtk_list_store_set(store, &iter,
                        COL_ICON, icon,
-//																COL_ICON,NULL,
                        COL_TEXT, str,
 							  COL_TEXT2, str2,
                        -1);	
@@ -3994,7 +3991,6 @@ void add_to_list_err(gchar *str,gchar *str2)
     gtk_list_store_append(store, &iter);
     gtk_list_store_set(store, &iter,
                        COL_ICON, icon,
-//																	COL_ICON,NULL,
                        COL_TEXT, str,
 							  COL_TEXT2, str2,
                        -1);	
@@ -4010,7 +4006,36 @@ void add_to_list_todo(gchar *str,gchar *str2)
     gtk_list_store_append(store_todo, &iter);
     gtk_list_store_set(store_todo, &iter,
                        COL_ICON, icon,
-//																	COL_ICON,NULL,
+                       COL_TEXT, str,
+							  COL_TEXT2, str2,
+                       -1);	
+}
+
+void add_to_list_todo_bug(gchar *str,gchar *str2)
+{
+    GtkTreeIter    iter;
+    GdkPixbuf     *icon;
+
+  icon = gdk_pixbuf_new_from_file("/usr/local/share/griffon/images/griffon_advance.png", NULL);
+ 
+    gtk_list_store_append(store_todo, &iter);
+    gtk_list_store_set(store_todo, &iter,
+                       COL_ICON, icon,
+                       COL_TEXT, str,
+							  COL_TEXT2, str2,
+                       -1);	
+}
+
+void add_to_list_todo_fixme(gchar *str,gchar *str2)
+{
+    GtkTreeIter    iter;
+    GdkPixbuf     *icon;
+
+  icon = gdk_pixbuf_new_from_file("/usr/local/share/griffon/images/griffon_exe.png", NULL);
+ 
+    gtk_list_store_append(store_todo, &iter);
+    gtk_list_store_set(store_todo, &iter,
+                       COL_ICON, icon,
                        COL_TEXT, str,
 							  COL_TEXT2, str2,
                        -1);	
