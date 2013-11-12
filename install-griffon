@@ -79,8 +79,6 @@ fi
 		txt="Completion of the installation..."
 	fi
 
-	sleep 1
-
 cat <<EOF
 XXX
 $txt
