@@ -85,7 +85,17 @@ done) | dialog --backtitle "Installation Griffon IDE" --title " Installation Gri
 
 log=`cat install.log`
 if [[ ! "$log" =~ "scons: done building targets" ]]; then
+	echo "################################ ERROR INSTALL ################################"
 	echo $log
+	echo ""
+	echo "###############################################################################"
+	echo ""
+	echo "Verify that the following package are installed : "
+	echo "For Ubuntu/Mint"
+	echo "# apt-get install autoconf vte-2.90-dev webkitgtk-3.0-dev gtksourceview-3.0-dev libgtk-3-dev libnotify-dev scons"
+	echo ""
+	echo "For Debian" 
+	echo "# apt-get install autoconf libglib2.0-dev libvte-2.90-dev libwebkitgtk-3.0-dev libgtksourceview-3.0-dev libnotify-dev scons"
 fi
 
 else
