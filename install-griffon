@@ -26,6 +26,13 @@ echo ""
 exit
 fi
 
+if [ ! -e /usr/bin/gdialog ] 
+then
+	CMD_DIAL="dialog"
+else
+	CMD_DIAL="gdialog"
+fi
+
 	i=0
 	size=16
 
@@ -80,7 +87,7 @@ $txt
 XXX
 EOF
 
-done) | dialog --backtitle "Installation Griffon IDE" --title " Installation Griffon IDE " --gauge "\ninstallation images files \n" 10 60 0
+done) | $CMD_DIAL --backtitle "Griffon IDE" --title "Griffon IDE " --gauge "\ninstallation files \n" 10 60 0
 
 
 log=`cat install.log`
@@ -91,19 +98,34 @@ if [[ ! "$log" =~ "scons: done building targets" ]]; then
 	echo " Verify that the following package are installed : " >> install.log
 	echo "" >> install.log
 	echo " For Ubuntu/Mint" >> install.log
-	echo " # apt-get install autoconf vte-2.90-dev webkitgtk-3.0-dev gtksourceview-3.0-dev libgtk-3-dev libnotify-dev scons" >> install.log
+	echo " # apt-get install vte-2.90-dev webkitgtk-3.0-dev gtksourceview-3.0-dev libgtk-3-dev libnotify-dev scons" >> install.log
 	echo "" >> install.log
 	echo " For Debian" >> install.log
-	echo " # apt-get install autoconf libglib2.0-dev libvte-2.90-dev libwebkitgtk-3.0-dev libgtksourceview-3.0-dev libnotify-dev scons" >> install.log
-	dialog --backtitle "Error Installation Griffon IDE" --title "file error install.log" --scrollbar --textbox install.log 0 0
+	echo " # apt-get install libglib2.0-dev libvte-2.90-dev libwebkitgtk-3.0-dev libgtksourceview-3.0-dev libnotify-dev scons" >> install.log
+
+	if [ "$CMD_DIAL" = "gdialog" ]
+	then
+	$CMD_DIAL --backtitle "Error Installation Griffon IDE" --title "file error install.log" --scrollbar --textbox install.log 60 100
+	else
+	$CMD_DIAL --backtitle "Error Installation Griffon IDE" --title "file error install.log" --scrollbar --textbox install.log 0 0
+	fi
+
 else
-		dialog --backtitle "Installation Griffon IDE" --title "Successful installation" --msgbox "\nSuccessful installation Griffon IDE\n\n" 0 0
+		$CMD_DIAL --backtitle "Installation Griffon IDE" --title "Successful installation" --msgbox "\nSuccessful installation Griffon IDE\n\n" 0 0
 fi
 
 else
+
+	if [ ! -e /usr/bin/gdialog ] 
+	then
+		CMD_DIAL="dialog"
+	else
+		CMD_DIAL="gdialog"
+	fi
+
 	if [ -e /usr/bin/dialog ] 
 	then
-		dialog --backtitle "Installation Griffon IDE" --title "Error installation" --msgbox "\nYou must be logged in with root user to install Griffon IDE\n\n" 0 0
+		$CMD_DIAL --backtitle "Installation Griffon IDE" --title "Error installation" --msgbox "\nYou must be logged in with root user to install Griffon IDE\n\n" 0 0
 	else
 		echo "You must be logged in with root user to install Griffon IDE"
 	fi
