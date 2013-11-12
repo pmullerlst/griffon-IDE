@@ -6,7 +6,7 @@
 if [ $EUID -eq 0 ]
 then
 
-if [ ! -e /usr/bin/dialog || ! -e /usr/bin/gdialog ] 
+if [[ ! -e /usr/bin/dialog || ! -e /usr/bin/gdialog || `lsb_release -ds` =~ "Debian" ]] 
 then
 #[ ! -e /usr/bin/gsettings ] || link=`gsettings get com.canonical.Unity.Launcher favorites | sed "s/.$//"`
 #[ ! -e /usr/bin/gsettings ] || gsettings set com.canonical.Unity.Launcher favorites "$link, 'griffon.desktop']"
