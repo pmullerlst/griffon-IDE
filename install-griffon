@@ -8,8 +8,8 @@ then
 
 if [[ ! -e /usr/bin/dialog || ! -e /usr/bin/gdialog || `lsb_release -ds` =~ "Debian" ]] 
 then
-#[ ! -e /usr/bin/gsettings ] || link=`gsettings get com.canonical.Unity.Launcher favorites | sed "s/.$//"`
-#[ ! -e /usr/bin/gsettings ] || gsettings set com.canonical.Unity.Launcher favorites "$link, 'griffon.desktop']"
+[ ! -e /usr/bin/gsettings ] || link=`gsettings get com.canonical.Unity.Launcher favorites | sed "s/.$//"`
+[[ ! -e /usr/bin/gsettings && "$link" =~ "application" ]] || gsettings set com.canonical.Unity.Launcher favorites "$link, 'griffon.desktop']"
 [ ! -e /usr/local/bin/griffon ] || sudo rm -rf /usr/local/bin/griffon
 [ ! -e /usr/bin/griffon ] || sudo rm -rf /usr/bin/griffon
 
@@ -44,8 +44,8 @@ fi
 
 	if [ "$i" -eq "2" ]
 	then
-	#[ ! -e /usr/bin/gsettings ] || link=`gsettings get com.canonical.Unity.Launcher favorites | sed "s/.$//"`
-	#[ ! -e /usr/bin/gsettings ] || gsettings set com.canonical.Unity.Launcher favorites "$link, 'griffon.desktop']"
+	[ ! -e /usr/bin/gsettings ] || link=`gsettings get com.canonical.Unity.Launcher favorites | sed "s/.$//"`
+	[[ ! -e /usr/bin/gsettings && "$link" =~ "application" ]] || gsettings set com.canonical.Unity.Launcher favorites "$link, 'griffon.desktop']"
 	[ ! -e /usr/local/bin/griffon ] || rm -rf /usr/local/bin/griffon
 	[ ! -e /usr/bin/griffon ] || rm -rf /usr/bin/griffon
 		txt="Building from source..."
