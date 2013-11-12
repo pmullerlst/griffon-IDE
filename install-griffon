@@ -1,9 +1,13 @@
 #!/bin/bash
 
-#
-# Script d'installation de griffon 
-#
+# BASH script edited with Griffon: http://griffon.lasotel.fr
+# Date of creation of the script : Fri Nov  8 16:01:50 2013
 
+if [ $EUID -eq 0 ]
+then
+
+if [ ! -e /usr/bin/dialog ] 
+then
 [ ! -e /usr/bin/gsettings ] || link=`gsettings get com.canonical.Unity.Launcher favorites | sed "s/.$//"`
 [ ! -e /usr/bin/gsettings ] || gsettings set com.canonical.Unity.Launcher favorites "$link, 'griffon.desktop']"
 [ ! -e /usr/local/bin/griffon ] || sudo rm -rf /usr/local/bin/griffon
@@ -19,3 +23,73 @@ sudo cp -rf autocomp/* /usr/local/share/griffon/autocomp/
 [ -d /usr/local/share/griffon/images ] || sudo mkdir /usr/local/share/griffon/images/
 sudo cp -rf pixmaps/* /usr/local/share/griffon/images/
 echo ""
+exit
+fi
+
+	i=0
+	size=16
+
+(while [ $i -lt $size ]; do
+	((i=i+1))
+	echo $(((100*$i)/$size))
+
+	txt="Creating shortcuts..."
+
+	if [ "$i" -eq "2" ]
+	then
+	[ ! -e /usr/bin/gsettings ] || link=`gsettings get com.canonical.Unity.Launcher favorites | sed "s/.$//"`
+	[ ! -e /usr/bin/gsettings ] || gsettings set com.canonical.Unity.Launcher favorites "$link, 'griffon.desktop']"
+	[ ! -e /usr/local/bin/griffon ] || rm -rf /usr/local/bin/griffon
+	[ ! -e /usr/bin/griffon ] || rm -rf /usr/bin/griffon
+		txt="Building from source..."
+	fi
+
+	if [ "$i" -eq "3" ]
+	then
+	scons install > install.log 2>&1
+	txt="Copying desktop files"
+	fi
+
+	if [ "$i" -eq "6" ]
+	then
+	cp -rf pixmaps/griffon_icon.png /usr/share/pixmaps/griffon_icon.png
+	cp -rf griffon.desktop /usr/share/applications/
+		txt="Copying autocomp files"
+	fi
+
+	if [ "$i" -eq "8" ]
+	then
+	[ -d /usr/local/share/griffon/autocomp ] || mkdir /usr/local/share/griffon/autocomp/
+	cp -rf autocomp/* /usr/local/share/griffon/autocomp/
+		txt="Copying images files"
+	fi
+
+
+	if [ "$i" -ge "10" ]
+	then
+	[ -d /usr/local/share/griffon/images ] || mkdir /usr/local/share/griffon/images/
+	cp -rf pixmaps/* /usr/local/share/griffon/images/
+		txt="Completion of the installation..."
+	fi
+
+	sleep 1
+
+cat <<EOF
+XXX
+$txt
+XXX
+EOF
+
+done) | dialog --backtitle "Installation Griffon IDE" --title " Installation Griffon IDE " --gauge "\ninstallation images files \n" 10 60 0
+
+
+log=`cat install.log`
+if [[ ! "$log" =~ "scons: done building targets" ]]; then
+	echo $log
+fi
+
+else
+	echo "You must be logged in with root user to install Griffon IDE"
+fi
+
+
