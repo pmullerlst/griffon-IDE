@@ -2314,7 +2314,7 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
 	gtk_entry_completion_set_model(completion_entry_http, GTK_TREE_MODEL(model_entry_http));
 	//****************************
 
-	gtk_entry_set_text (GTK_ENTRY (entry_web), _("http://griffon.lasotel.fr/en/auteurs.html"));
+	gtk_entry_set_text (GTK_ENTRY (entry_web), _("http://griffon.lasotel.fr/main.html"));
 
   button2 = gtk_button_new_from_stock (" Charger l'URL ");
   gtk_widget_show (GTK_WIDGET(button2));
@@ -2872,11 +2872,11 @@ gtk_widget_show(GTK_WIDGET(tool_sep));
   g_signal_connect (notebook3, "create-window",
                     G_CALLBACK (window_creation_function), NULL);
 
-		gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_down),4);
+		gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_down),0);
 		gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook2),0);
   no_onglet_open() ;  
 
-	webkit_web_view_load_uri(webView, "http://griffon.lasotel.fr/en/auteurs.html");
+	webkit_web_view_load_uri(webView, "http://griffon.lasotel.fr/main.html");
 	webkit_web_view_load_uri(webView_myadmin, "https://www.google.fr/");
 	webkit_web_view_load_uri(webView_myadmin_traduc, "https://translate.google.fr/?hl=fr&tab=wT");
 	webkit_web_view_load_uri(webView_myadmin_aide, "https://www.google.fr/");
