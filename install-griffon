@@ -10,7 +10,7 @@ if [[ ! -e /usr/bin/dialog || ! -e /usr/bin/gdialog || `lsb_release -ds` =~ "Deb
 then
 [ ! -e /usr/bin/gsettings ] || link=`gsettings get com.canonical.Unity.Launcher favorites 2>/dev/null | sed "s/.$//"`
 
-	if [["$link" =~ "application" ]]
+	if [[ "$link" =~ "application" ]]
 	then
 	[ ! -e /usr/bin/gsettings ] || gsettings set com.canonical.Unity.Launcher favorites "$link, 'griffon.desktop']"
 	fi
