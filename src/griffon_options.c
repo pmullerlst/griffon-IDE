@@ -185,7 +185,8 @@ static GtkWidget* wnd_options_encoding (void)
  
   GtkWidget *page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (page);
-  gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW(wnd), page);
+  //gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW(wnd), page);
+		gtk_container_add((GtkContainer *)wnd,page);
 
   GtkWidget *fr1 = gtk_frame_new (_("Defaults"));   
   gtk_widget_show (fr1);

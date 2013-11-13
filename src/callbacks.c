@@ -117,7 +117,6 @@ void file_new (void)
   tabs_reload ();
 	no_onglet_open();
 	statusbar_msg (_("New File [OK]"));
-		//gtk_notebook_set_current_page(notebook3,1);
 }
 
 void on_mni_new_file_activate ()
@@ -4506,6 +4505,9 @@ void term_nice(gpointer user_data){vte_terminal_feed_child (user_data,"nice -n 1
 void term_comp_targz(gpointer user_data){vte_terminal_feed_child (user_data,"tar -zcvf file.tar.gz /path/dir_or_file",-1);}
 void term_decomp_targz(gpointer user_data){vte_terminal_feed_child (user_data,"tar -zxvf file.tar.gz",-1);}
 void term_diff(gpointer user_data){vte_terminal_feed_child (user_data,"diff file1 file2",-1);}
+void term_git_status(gpointer user_data){vte_terminal_feed_child (user_data,"git status\n",-1);}
+void term_git_commit(gpointer user_data){vte_terminal_feed_child (user_data,"git commit -a\n",-1);}
+void term_git_push(gpointer user_data){vte_terminal_feed_child (user_data,"git push origin master\n",-1);}
 
 //******************************* Perl insert help
 void perl_print            (void){  doc_insert_at_cursor (cur_text_doc, "print \" \";\n\n"); }

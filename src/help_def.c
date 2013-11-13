@@ -17,7 +17,6 @@
 #include <gtksourceview/gtksourceview.h>
 #include <gtksourceview/gtksourcebuffer.h>
 #include <gtksourceview/gtksourcelanguage.h>
-//#include <gtkspell/gtkspell.h>
 #include <vte/vte.h>
                  
 #include "griffon_text_document.h"
@@ -824,6 +823,9 @@ void  on_changed2(GtkWidget *tt, GdkEvent *eventt, gpointer *user_data)
 				if (strcmp("2.0 (term", a[0]) == 0){term_comp_targz(user_data);return;}
 				if (strcmp("2.1 (term", a[0]) == 0){term_decomp_targz(user_data);return;}
 				if (strcmp("2.2 (term", a[0]) == 0){term_diff(user_data);return;}
+				if (strcmp("2.3 (term", a[0]) == 0){term_git_status(user_data);return;}
+				if (strcmp("2.4 (term", a[0]) == 0){term_git_commit(user_data);return;}
+				if (strcmp("2.5 (term", a[0]) == 0){term_git_push(user_data);return;}
 
 			 if (! get_page_text()){ log_to_memo (_("You must open a file to use for help."), NULL, LM_ERROR);return;}
 
@@ -1588,6 +1590,12 @@ GtkTreeModel *create_and_fill_model_term (void)
   gtk_tree_store_set(treestore, &child,COLUMN, (_("2.1 (term) : Unzip with tar.gz")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
   gtk_tree_store_set(treestore, &child,COLUMN, (_("2.2 (term) :  Difference between two files")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.3 (term) :  Git status")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.4 (term) :  Git commit")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.5 (term) :  Git push")),-1);
 
   return GTK_TREE_MODEL(treestore);
 }
