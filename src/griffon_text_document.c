@@ -65,19 +65,19 @@ void indent_real(GtkWidget *text_view)
 {
 	GtkTextIter iter;
 	gchar *ind, *str;
-	
+
 	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_view));
 	
 	gtk_text_buffer_get_iter_at_mark(GTK_TEXT_BUFFER(buffer), &iter, gtk_text_buffer_get_insert(GTK_TEXT_BUFFER(buffer)));
 	ind = compute_indentation(buffer, gtk_text_iter_get_line(&iter));
 	str = g_strconcat("\n", ind, NULL);
-        gtk_text_buffer_insert(GTK_TEXT_BUFFER(buffer), &iter, str, -1);
+	gtk_text_buffer_insert(GTK_TEXT_BUFFER(buffer), &iter, str, -1);
 	g_free(str);
 	g_free(ind);
-	
+
 	gtk_text_view_scroll_mark_onscreen(
-		GTK_TEXT_VIEW(text_view),
-		gtk_text_buffer_get_insert(GTK_TEXT_BUFFER(buffer)));
+	GTK_TEXT_VIEW(text_view),
+	gtk_text_buffer_get_insert(GTK_TEXT_BUFFER(buffer)));
 }
 
 void doc_indent_selection (t_note_page *doc, gboolean unindent)
@@ -85,7 +85,7 @@ void doc_indent_selection (t_note_page *doc, gboolean unindent)
 	GtkTextIter itstart,itend;
 	if (gtk_text_buffer_get_selection_bounds(GTK_TEXT_BUFFER(doc->text_buffer),&itstart,&itend)) {
 		GtkTextMark *end;
-	
+
 		end = gtk_text_buffer_create_mark(GTK_TEXT_BUFFER(doc->text_buffer),NULL,&itend,TRUE);
 		if (gtk_text_iter_get_line_offset(&itstart)>0) {
 			gtk_text_iter_set_line_index(&itstart,0);
@@ -192,18 +192,17 @@ void doc_indent_selection (t_note_page *doc, gboolean unindent)
 
 gint widget_get_string_size (GtkWidget *w, gchar *s) 
 {
-  gint r = -1;
+	gint r = -1;
 
-  PangoLayout *l = gtk_widget_create_pango_layout (w, s);
-  if (l)
-     {
-      pango_layout_get_pixel_size (l, &r, NULL);
-      g_object_unref (G_OBJECT (l));
-     }
+	PangoLayout *l = gtk_widget_create_pango_layout (w, s);
+	if (l)
+	{
+		pango_layout_get_pixel_size (l, &r, NULL);
+		g_object_unref (G_OBJECT (l));
+	}
 
-  return r;
+	return r;
 }
-
 
 static gint textview_calculate_real_tab_width(GtkWidget *textview, gint tab_size) {
 	gchar *tab_string;
@@ -270,7 +269,7 @@ gboolean doc_textview_expose_event_lcb(GtkWidget * widget, GdkEventExpose * even
 		pomstr = g_strdup_printf("%d",i+1);
 		pango_layout_set_text(l,pomstr,-1);
 
-      g_free(pomstr);
+		g_free(pomstr);
 	}
 	g_object_unref(G_OBJECT(l));
 	return TRUE;
@@ -286,295 +285,288 @@ void document_set_line_numbers(t_note_page* doc, gboolean value) {
 		gtk_text_view_set_left_margin(GTK_TEXT_VIEW(doc->text_view),0);
 		gtk_text_view_set_border_window_size(GTK_TEXT_VIEW(doc->text_view),GTK_TEXT_WINDOW_LEFT,0);
 	}
-  doc->linenums = value;
-
+	doc->linenums = value;
 }
 
 
 static void msg_wrong_encoding (gchar *filename)
 {	
 	icon_stop_logmemo();
-
-  log_to_memo (_("Sorry, but I can not determine the character set %s. try again and select it manually."), filename, LM_ERROR);
+	log_to_memo (_("Sorry, but I can not determine the character set %s. try again and select it manually."), filename, LM_ERROR);
 }
 
 
 void do_backup (gchar *file_name, gboolean do_check)
 {
-  if (do_check)
-     if (! confile.do_backup)
-        return;
+	if (do_check)
+		if (! confile.do_backup)
+			return;
 
-  if (! g_file_test (file_name, G_FILE_TEST_EXISTS))
-     return;
+	if (! g_file_test (file_name, G_FILE_TEST_EXISTS))
+		return;
 
-  gchar *bak = g_strconcat (file_name, ".bak", NULL);
-  
-  if (copy_file (file_name, bak))
-  {
-	  icon_ok_logmemo();
-     log_to_memo (_("%s is created"), bak, LM_NORMAL);
-   }  
-  else
-  {
-	   icon_nosave_logmemo();
-	   icon_affiche_nosave ();
+	gchar *bak = g_strconcat (file_name, ".bak", NULL);
+
+	if (copy_file (file_name, bak))
+	{
+		icon_ok_logmemo();
+		log_to_memo (_("%s is created"), bak, LM_NORMAL);
+	}
+	else
+	{
+		icon_nosave_logmemo();
+		icon_affiche_nosave ();
 		controle_save_page_icon_no();
-      log_to_memo (_("Can not save to %s"), file_name, LM_ERROR);
-   }                    
-  g_free (bak);
+		log_to_memo (_("Can not save to %s"), file_name, LM_ERROR);
+	}
+	g_free (bak);
 }
 
 
 gboolean text_doc_save (t_note_page *doc, gchar *a_filename)
 {
-
-  if (doc->readonly)
-     {
-     icon_log_logmemo();
-     icon_affiche_nosave ();
+	if (doc->readonly)
+	{
+		icon_log_logmemo();
+		icon_affiche_nosave ();
 		controle_save_page_icon_no();
+		log_to_memo (_("The file is read-only."), NULL, LM_ERROR);
+		return FALSE;
+	}
 
-      log_to_memo (_("The file is read-only."), NULL, LM_ERROR);
-      return FALSE;
-     }
+	gboolean result;
+	gchar *filename = get_l_filename (a_filename);
 
-  gboolean result;
-  gchar *filename = get_l_filename (a_filename);
+	if (! filename)
+		return FALSE;
 
-  if (! filename)
-     return FALSE;
-
-  if (is_rtf (filename))
-     {
-     icon_nosave_logmemo();
-
-      log_to_memo (_("Griffon can't save RTF. Because."), filename, LM_ERROR);
-      g_free (filename);
-      return FALSE;
-     }
+	if (is_rtf (filename))
+	{
+		icon_nosave_logmemo();
+		log_to_memo (_("Griffon can't save RTF. Because."), filename, LM_ERROR);
+		g_free (filename);
+		return FALSE;
+	}
  
-  if (g_file_test (filename, G_FILE_TEST_EXISTS))
-  if (access (filename, W_OK) != 0)
-     {
-	   icon_nosave_logmemo();
-	   icon_affiche_nosave ();
+	if (g_file_test (filename, G_FILE_TEST_EXISTS))
+		if (access (filename, W_OK) != 0)
+		{
+			icon_nosave_logmemo();
+			icon_affiche_nosave ();
+			controle_save_page_icon_no();
+			log_to_memo (_("%s is not writable for you!"), filename, LM_ERROR);
+			g_free (filename); 
+			return FALSE;
+		}
+
+	if (g_file_test (filename, G_FILE_TEST_IS_DIR))
+	{
+		icon_nosave_logmemo();
+		icon_affiche_nosave ();
 		controle_save_page_icon_no();
 
-      log_to_memo (_("%s is not writable for you!"), filename, LM_ERROR);
-      g_free (filename); 
-      return FALSE;
-     }
+		log_to_memo (_("And how I can save this text file as a directory?!"), NULL, LM_ERROR);
+		g_free (filename);
+		return FALSE;
+	}
 
-  if (g_file_test (filename, G_FILE_TEST_IS_DIR))
-     {
-     icon_nosave_logmemo();
-     icon_affiche_nosave ();
-		controle_save_page_icon_no();
+	if (g_utf8_collate (doc->encoding, "UTF-8") == 0)
+	{
+		do_backup (filename, TRUE);
+		result = doc_save_buffer_to_file (GTK_TEXT_BUFFER(doc->text_buffer), filename);
+	}
+	else
+	if (g_utf8_collate (doc->encoding, CURR_LOCALE) == 0)
+	{
+		do_backup (filename, TRUE);
+		result = doc_save_buffer_to_file_l (GTK_TEXT_BUFFER(doc->text_buffer), filename);
+	}
+	else
+	{
+		do_backup (filename, TRUE);
+		result = doc_save_buffer_to_file_iconv (GTK_TEXT_BUFFER(doc->text_buffer), filename, doc->encoding);
+	}
 
-      log_to_memo (_("And how I can save this text file as a directory?!"), NULL, LM_ERROR);
-      g_free (filename);
-      return FALSE;
-     }
+	if (g_utf8_collate (filename, confile.tea_rc) == 0)
+	{
+		confile_reload();
+		doc_update_all();
+		update_enc_menu();
+		icon_log_logmemo();
+		log_to_memo (_("config reloaded"), NULL, LM_NORMAL);
+	}
 
-  if (g_utf8_collate (doc->encoding, "UTF-8") == 0)
-      {
-       do_backup (filename, TRUE);
-       result = doc_save_buffer_to_file (GTK_TEXT_BUFFER(doc->text_buffer), filename);
-      }
-  else
-  if (g_utf8_collate (doc->encoding, CURR_LOCALE) == 0)
-     {
-      do_backup (filename, TRUE);
-      result = doc_save_buffer_to_file_l (GTK_TEXT_BUFFER(doc->text_buffer), filename);
-      }
-  else
-     {
-      do_backup (filename, TRUE);
-      result = doc_save_buffer_to_file_iconv (GTK_TEXT_BUFFER(doc->text_buffer), filename, doc->encoding);
-     }
+	if (g_utf8_collate (filename, confile.tea_hotkeys) == 0)
+	{
+		reload_hotkeys ();
+		icon_log_logmemo();
+		log_to_memo (_("hotkeys reloaded"), NULL, LM_NORMAL);
+	}
 
-  if (g_utf8_collate (filename, confile.tea_rc) == 0)
-     {
-      confile_reload();
-      doc_update_all();
-      update_enc_menu();
-       icon_log_logmemo();
-      log_to_memo (_("config reloaded"), NULL, LM_NORMAL);
-     }
+	if (g_utf8_collate (filename, confile.user_menu_file) == 0)
+	{
+		reload_usermenu ();
+		icon_log_logmemo();
+		log_to_memo (_("user menu reloaded"), NULL, LM_NORMAL);
+	}
 
-  if (g_utf8_collate (filename, confile.tea_hotkeys) == 0)
-     {
-      reload_hotkeys ();
-       icon_log_logmemo();
-      log_to_memo (_("hotkeys reloaded"), NULL, LM_NORMAL);
-     }
+	if (g_utf8_collate (filename, confile.tea_kwas_bookmarks) == 0)
+	{
+		glist_strings_free (gl_tea_kwas_bookmarks); 
+		if (g_file_test (confile.tea_kwas_bookmarks, G_FILE_TEST_EXISTS))
+		gl_tea_kwas_bookmarks = load_file_to_glist (confile.tea_kwas_bookmarks);
+		icon_log_logmemo();
+		log_to_memo (_("kwas bookmarks reloaded"), NULL, LM_NORMAL);
+	}
 
-  if (g_utf8_collate (filename, confile.user_menu_file) == 0)
-     {
-      reload_usermenu ();
-       icon_log_logmemo();
-      log_to_memo (_("user menu reloaded"), NULL, LM_NORMAL);
-     }
+	if (g_utf8_collate (filename, confile.tea_autoreplace) == 0)
+		reload_autoreplace ();
 
-  if (g_utf8_collate (filename, confile.tea_kwas_bookmarks) == 0)
-     {
-      glist_strings_free (gl_tea_kwas_bookmarks); 
-      if (g_file_test (confile.tea_kwas_bookmarks, G_FILE_TEST_EXISTS))
-          gl_tea_kwas_bookmarks = load_file_to_glist (confile.tea_kwas_bookmarks);
-		 icon_log_logmemo();
-      log_to_memo (_("kwas bookmarks reloaded"), NULL, LM_NORMAL);
-     }
+	if (g_utf8_collate (filename, confile.iconv_file) == 0)
+	{
+		get_iconv_sup();
+		update_enc_menu();
+		icon_log_logmemo();
+		log_to_memo (_("%s reloaded"), confile.iconv_file, LM_NORMAL);
+	}
 
-  if (g_utf8_collate (filename, confile.tea_autoreplace) == 0)
-      reload_autoreplace ();
+	if (g_utf8_collate (filename, confile.bmx_file) == 0)
+	{
+		bmx_reload ();
+		icon_log_logmemo();
+		log_to_memo (_("%s reloaded"), confile.bmx_file, LM_NORMAL);
+	}
 
-  if (g_utf8_collate (filename, confile.iconv_file) == 0)
-     {
-      get_iconv_sup();
-      update_enc_menu();
-       icon_log_logmemo();
-      log_to_memo (_("%s reloaded"), confile.iconv_file, LM_NORMAL);
-     }
-
-  if (g_utf8_collate (filename, confile.bmx_file) == 0)
-     {
-      bmx_reload ();
-       icon_log_logmemo();
-      log_to_memo (_("%s reloaded"), confile.bmx_file, LM_NORMAL);
-     }
-
-		
-  doc->hl_mode = ch_str (doc->hl_mode, get_hl_name (doc->file_name));
-  gtk_text_buffer_set_modified (GTK_TEXT_BUFFER(doc->text_buffer), FALSE);  
+	doc->hl_mode = ch_str (doc->hl_mode, get_hl_name (doc->file_name));
+	gtk_text_buffer_set_modified (GTK_TEXT_BUFFER(doc->text_buffer), FALSE);  
 	scan_include();
 
-   char *extension;
-   if(strrchr(doc->file_name,'.'))
+	char *extension;
+	if(strrchr(doc->file_name,'.'))
 	{
-	extension = strrchr(doc->file_name,'.');
+		extension = strrchr(doc->file_name,'.');
 
-	if (strcmp(".htm", extension) == 0 || strcmp(".html", extension) == 0 || strcmp(".php", extension) == 0)
-	{
-	focus_web ();
-	}
+		if (strcmp(".htm", extension) == 0 || strcmp(".html", extension) == 0 || strcmp(".php", extension) == 0)
+		{
+		focus_web ();
+		}
 	}
 
 	controle_save_page_icon();
-  g_free (filename);
+	g_free (filename);
 
-  return result;
+	return result;
 }
 
 
 gchar* doc_get_sel (t_note_page *doc) 
 {
-  GtkTextIter start;
-  GtkTextIter end;
-  if (gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER(doc->text_buffer), &start, &end))
-     return (gtk_text_buffer_get_text (GTK_TEXT_BUFFER(doc->text_buffer), &start, &end, FALSE));
-  else
-      return NULL;
+	GtkTextIter start;
+	GtkTextIter end;
+	if (gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER(doc->text_buffer), &start, &end))
+		return (gtk_text_buffer_get_text (GTK_TEXT_BUFFER(doc->text_buffer), &start, &end, FALSE));
+	else
+	return NULL;
 }
 
 
 gboolean doc_is_sel (GtkTextBuffer *text_buffer)
 {
-  return gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER(text_buffer), NULL, NULL);
+	return gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER(text_buffer), NULL, NULL);
 }
 
 
 gchar* doc_get_buf (GtkTextBuffer *text_buffer)
 {
-  GtkTextIter itstart, itend;
+	GtkTextIter itstart, itend;
 
-  gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(text_buffer), &itstart, 0);
-  gtk_text_buffer_get_iter_at_offset(GTK_TEXT_BUFFER(text_buffer), &itend, gtk_text_buffer_get_char_count (GTK_TEXT_BUFFER(text_buffer)));
+	gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(text_buffer), &itstart, 0);
+	gtk_text_buffer_get_iter_at_offset(GTK_TEXT_BUFFER(text_buffer), &itend, gtk_text_buffer_get_char_count (GTK_TEXT_BUFFER(text_buffer)));
 
-  return gtk_text_buffer_get_text (GTK_TEXT_BUFFER(text_buffer), &itstart, &itend, FALSE);
+	return gtk_text_buffer_get_text (GTK_TEXT_BUFFER(text_buffer), &itstart, &itend, FALSE);
 }
 
 
 void doc_select_line (t_note_page *doc, gint line)
 {
-  GtkTextIter itstart, itend;
-  gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(doc->text_buffer), &itstart, line - 1);
-  itend = itstart;
-  if (gtk_text_iter_forward_to_line_end (&itend))
-     {
-      gtk_text_buffer_place_cursor (GTK_TEXT_BUFFER(doc->text_buffer), &itstart);
-      GtkTextMark *m = gtk_text_buffer_get_mark (GTK_TEXT_BUFFER(doc->text_buffer), "insert");
-      if (m)
-        {
-         gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW(doc->text_view), m, 0.0, TRUE, 0.0, 0.0);
-         gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "selection_bound", &itend);
-        }
-     } 
+	GtkTextIter itstart, itend;
+	gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(doc->text_buffer), &itstart, line - 1);
+	itend = itstart;
+	if (gtk_text_iter_forward_to_line_end (&itend))
+	{
+		gtk_text_buffer_place_cursor (GTK_TEXT_BUFFER(doc->text_buffer), &itstart);
+		GtkTextMark *m = gtk_text_buffer_get_mark (GTK_TEXT_BUFFER(doc->text_buffer), "insert");
+			if (m)
+			{
+				gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW(doc->text_view), m, 0.0, TRUE, 0.0, 0.0);
+				gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "selection_bound", &itend);
+			}
+	} 
 }
 
 
 gboolean doc_save_buffer_to_file (GtkTextBuffer *text_buffer, gchar *filename)
 {
-  gchar *t = doc_get_buf (text_buffer);
-  if (! t)
-     return FALSE;
-  gboolean r = save_string_to_file (filename, t);
-  g_free (t);
-  return r;
+	gchar *t = doc_get_buf (text_buffer);
+	if (! t)
+		return FALSE;
+	gboolean r = save_string_to_file (filename, t);
+	g_free (t);
+	return r;
 }
 
 
 gboolean doc_save_buffer_to_file_l (GtkTextBuffer *text_buffer, gchar *filename)
 {
-  gsize bytes_read;
-  gsize bytes_written;
-  gchar *buf = doc_get_buf (text_buffer);
+	gsize bytes_read;
+	gsize bytes_written;
+	gchar *buf = doc_get_buf (text_buffer);
 
-  if (! buf)
-     return FALSE;
+	if (! buf)
+		return FALSE;
 
-  gchar *lbuf = g_locale_from_utf8 (buf, -1, &bytes_read, &bytes_written, NULL);
-  gboolean result = save_string_to_file (filename, lbuf);
+	gchar *lbuf = g_locale_from_utf8 (buf, -1, &bytes_read, &bytes_written, NULL);
+	gboolean result = save_string_to_file (filename, lbuf);
 
-  g_free (buf);
-  g_free (lbuf);
-                        
-  return result;
+	g_free (buf);
+	g_free (lbuf);
+
+	return result;
 }
 
 
 gboolean doc_save_buffer_to_file_iconv (GtkTextBuffer *text_buffer, gchar *filename, gchar *enc)
 {
-  gchar *t;
-  gboolean result = FALSE;
-  gsize bytes_read;
-  gsize bytes_written;
+	gchar *t;
+	gboolean result = FALSE;
+	gsize bytes_read;
+	gsize bytes_written;
 
-  gchar *buf = doc_get_buf (text_buffer);
-  if (! buf)
-     return FALSE;
+	gchar *buf = doc_get_buf (text_buffer);
+	if (! buf)
+		return FALSE;
 
-  t  = g_convert (buf, -1, enc, "UTF-8", &bytes_read, &bytes_written, NULL);
+	t  = g_convert (buf, -1, enc, "UTF-8", &bytes_read, &bytes_written, NULL);
 
-  if (! t)
-     {
-      g_free (buf);
-      return FALSE;
-     }
+	if (! t)
+	{
+		g_free (buf);
+		return FALSE;
+	}
 
-  result = save_string_to_file (filename, t);
+	result = save_string_to_file (filename, t);
 
-  g_free (buf);
-  g_free (t);
+	g_free (buf);
+	g_free (t);
 
-  return result;
+	return result;
 }
 
 void on_button_close (GtkWidget *wid, gpointer data)
 {
 	gtk_widget_get_name(wid);
 	icon_affiche_ok();
-  page_del_by_index (find_index_by_page (data));
+	page_del_by_index (find_index_by_page (data));
 	no_onglet_open();
 	delete_autocomp_tips();
 }
@@ -582,21 +574,20 @@ void on_button_close (GtkWidget *wid, gpointer data)
 
 t_note_page* page_create_new (void)
 {
-  t_note_page *page = (t_note_page *) g_malloc (sizeof (t_note_page));
+	t_note_page *page = (t_note_page *) g_malloc (sizeof (t_note_page));
 
-  page->position = 1;
-  page->readonly = FALSE;
-  page->current_path = NULL;
-  page->last_searched_text = NULL;
-  page->hl_mode = g_strdup (HL_PO);
+	page->position = 1;
+	page->readonly = FALSE;
+	page->current_path = NULL;
+	page->last_searched_text = NULL;
+	page->hl_mode = g_strdup (HL_PO);
 
-  page->scrolledwindow = gtk_scrolled_window_new (NULL, NULL);
-
+	page->scrolledwindow = gtk_scrolled_window_new (NULL, NULL);
 
 	page->text_buffer = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
-  page->text_view = gtk_source_view_new_with_buffer(page->text_buffer);
-  gtk_source_view_set_highlight_current_line((GtkSourceView *)page->text_view,TRUE);
-	 gtk_source_view_set_show_right_margin((GtkSourceView *)page->text_view,TRUE);
+	page->text_view = gtk_source_view_new_with_buffer(page->text_buffer);
+	gtk_source_view_set_highlight_current_line((GtkSourceView *)page->text_view,TRUE);
+	gtk_source_view_set_show_right_margin((GtkSourceView *)page->text_view,TRUE);
 
 	if(confile.use_infotext == 1){gtk_source_view_set_draw_spaces((GtkSourceView *)page->text_view,GTK_SOURCE_DRAW_SPACES_ALL);}
 
@@ -613,8 +604,8 @@ t_note_page* page_create_new (void)
 
 	g_object_set (word_provider, "priority", 10, NULL);
 
- GtkSourceBuffer *tmpbuffer = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
- GtkWidget *srctmp= gtk_source_view_new_with_buffer(tmpbuffer);
+	GtkSourceBuffer *tmpbuffer = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
+	GtkWidget *srctmp= gtk_source_view_new_with_buffer(tmpbuffer);
 
 
 		gchar lecture[1024];
@@ -640,175 +631,175 @@ t_note_page* page_create_new (void)
 	g_object_set (word_provider2, "priority", 10, NULL);
 	}
 	
-  page->encoding = g_strdup ("UTF-8");
-  page->linenums = FALSE;
+	page->encoding = g_strdup ("UTF-8");
+	page->linenums = FALSE;
  
-  if (confile.word_wrap == 1)
-     gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (page->text_view), GTK_WRAP_WORD);
-  else
-      gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (page->text_view), GTK_WRAP_NONE);
+	if (confile.word_wrap == 1)
+		gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (page->text_view), GTK_WRAP_WORD);
+	else
+		gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (page->text_view), GTK_WRAP_NONE);
 
-  gtk_container_add (GTK_CONTAINER (page->scrolledwindow), GTK_WIDGET(page->text_view));
+	gtk_container_add (GTK_CONTAINER (page->scrolledwindow), GTK_WIDGET(page->text_view));
 
 	gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(page->text_buffer), "search","foreground", "white","background", "blue","weight", PANGO_WEIGHT_BOLD,NULL);
 	gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(page->text_buffer), "err2","foreground", "black","background", "pink","weight", PANGO_WEIGHT_BOLD,NULL);
-  gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(page->text_buffer), "gray_bg","foreground", "white","background", "gray","weight", PANGO_WEIGHT_BOLD,NULL);
+	gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(page->text_buffer), "gray_bg","foreground", "white","background", "gray","weight", PANGO_WEIGHT_BOLD,NULL);
 
-  page->tab_label = gtk_label_new (NULL);
+	page->tab_label = gtk_label_new (NULL);
 
 	gtk_widget_set_can_focus (GTK_WIDGET (page->tab_label), FALSE);
 
-  page->hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-  page->but = gtk_button_new_with_label (_("x"));
+	page->hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	page->but = gtk_button_new_with_label (_("x"));
 
 
 	gtk_widget_set_can_focus (GTK_WIDGET (page->hbox), FALSE);
 	gtk_widget_set_can_focus (GTK_WIDGET (page->but), FALSE);
 
- 	page->icon = gtk_image_new_from_stock (GTK_STOCK_SAVE,GTK_ICON_SIZE_MENU);
+	page->icon = gtk_image_new_from_stock (GTK_STOCK_SAVE,GTK_ICON_SIZE_MENU);
 	gtk_box_pack_start (GTK_BOX (page->hbox), page->icon, FALSE, FALSE, 0);
 	gtk_widget_show (GTK_WIDGET(page->icon));
 
-  gtk_box_pack_start (GTK_BOX(page->hbox), page->tab_label, FALSE, FALSE, 0);
-  gtk_box_pack_start (GTK_BOX(page->hbox), page->but, FALSE, FALSE, 0);
-  
-  gtk_widget_show (GTK_WIDGET(page->hbox));  
-  gtk_widget_show (GTK_WIDGET(page->tab_label));
- 	gtk_widget_set_has_tooltip(page->but,FALSE);
+	gtk_box_pack_start (GTK_BOX(page->hbox), page->tab_label, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX(page->hbox), page->but, FALSE, FALSE, 0);
 
-  g_signal_connect ((gpointer) page->but, "clicked",
+	gtk_widget_show (GTK_WIDGET(page->hbox));  
+	gtk_widget_show (GTK_WIDGET(page->tab_label));
+	gtk_widget_set_has_tooltip(page->but,FALSE);
+
+	g_signal_connect ((gpointer) page->but, "clicked",
                     G_CALLBACK (on_button_close),
                     page);
   
-  page->b_saved = FALSE;
-  page->file_name = g_strdup ("noname");
+	page->b_saved = FALSE;
+	page->file_name = g_strdup ("noname");
 
 
-  g_signal_connect (G_OBJECT (page->text_view), "key_press_event",
+	g_signal_connect (G_OBJECT (page->text_view), "key_press_event",
                     G_CALLBACK (on_editor_keypress), page);
 
 
-  g_signal_connect (G_OBJECT (page->text_view), "key_release_event",
+	g_signal_connect (G_OBJECT (page->text_view), "key_release_event",
                     G_CALLBACK (on_editor_keyrelease), page);
 
-  g_signal_connect (G_OBJECT (page->text_buffer), "insert_text", 
+	g_signal_connect (G_OBJECT (page->text_buffer), "insert_text", 
                     G_CALLBACK (controle_save_page_icon_no), page->text_view);
                     		                                      		                    		
 
-  dox = g_list_append (dox, page);
-  gtk_notebook_append_page_menu (GTK_NOTEBOOK(notebook1), page->scrolledwindow, page->hbox, NULL);
+	dox = g_list_append (dox, page);
+	gtk_notebook_append_page_menu (GTK_NOTEBOOK(notebook1), page->scrolledwindow, page->hbox, NULL);
 
-		gtk_source_view_set_show_line_marks((GtkSourceView *)page->text_view,TRUE);
-		gtk_source_view_set_show_line_numbers((GtkSourceView *)page->text_view,TRUE);		
+	gtk_source_view_set_show_line_marks((GtkSourceView *)page->text_view,TRUE);
+	gtk_source_view_set_show_line_numbers((GtkSourceView *)page->text_view,TRUE);		
 
 
-  FILE *fich;
-  char carac;
+	FILE *fich;
+	char carac;
 	char mot[100];
 	mot[0]='\0';
 
-  if(fopen(confile.tea_theme,"r"))
+	if(fopen(confile.tea_theme,"r"))
 	{
 		fich=fopen(confile.tea_theme,"r");
-  	while ((carac =fgetc(fich)) != EOF)
-  	{    
-	  	if (carac =='\n')
-	  	{
+		while ((carac =fgetc(fich)) != EOF)
+		{    
+			if (carac =='\n')
+			{
 			break;
-	  	}
-	  	else
-	  	{
-	   	strncat(mot,&carac,1);
-	   	}
-		}   
+			}
+			else
+			{
+				strncat(mot,&carac,1);
+			}
+		}
 	fclose(fich);
 	}
 	else{strcpy(mot, "classic");}
 
 	GtkSourceStyleSchemeManager* sm = gtk_source_style_scheme_manager_new();
- 	GtkSourceStyleScheme* scheme = gtk_source_style_scheme_manager_get_scheme(sm, mot);
- 	gtk_source_buffer_set_style_scheme(page->text_buffer , scheme);
+	GtkSourceStyleScheme* scheme = gtk_source_style_scheme_manager_get_scheme(sm, mot);
+	gtk_source_buffer_set_style_scheme(page->text_buffer , scheme);
 
 	gtk_box_pack_start (GTK_BOX (page->hbox), srctmp, FALSE, TRUE, 0);
 
 	gtk_widget_show (GTK_WIDGET(page->but)); 
-  gtk_widget_show (GTK_WIDGET(page->text_view));
-  gtk_widget_show (GTK_WIDGET(page->scrolledwindow));
+	gtk_widget_show (GTK_WIDGET(page->text_view));
+	gtk_widget_show (GTK_WIDGET(page->scrolledwindow));
 	gtk_widget_grab_focus (GTK_WIDGET(page->text_view));
 
-  return page;
+	return page;
 }
 
 void theme_cobalt ()
 {
 	if (! get_page_text()) return;
 	GtkSourceStyleSchemeManager* sm = gtk_source_style_scheme_manager_new();
- 	GtkSourceStyleScheme* scheme = gtk_source_style_scheme_manager_get_scheme(sm, "cobalt");
- 	gtk_source_buffer_set_style_scheme(cur_text_doc->text_buffer , scheme);
+	GtkSourceStyleScheme* scheme = gtk_source_style_scheme_manager_get_scheme(sm, "cobalt");
+	gtk_source_buffer_set_style_scheme(cur_text_doc->text_buffer , scheme);
 
- 	gtk_source_buffer_set_style_scheme(log_memo_textbuffer , scheme);
- 	gtk_source_buffer_set_style_scheme(buffer_note , scheme);
+	gtk_source_buffer_set_style_scheme(log_memo_textbuffer , scheme);
+	gtk_source_buffer_set_style_scheme(buffer_note , scheme);
 
 	create_empty_file (confile.tea_theme, "cobalt\n");
 	confile.theme = "cobalt";
- 	gtk_source_buffer_set_style_scheme(buffer_projet , scheme);
+	gtk_source_buffer_set_style_scheme(buffer_projet , scheme);
 }
 
 void theme_classic ()
 {
 	if (! get_page_text()) return;
 	GtkSourceStyleSchemeManager* sm = gtk_source_style_scheme_manager_new();
- 	GtkSourceStyleScheme* scheme = gtk_source_style_scheme_manager_get_scheme(sm, "classic");
- 	gtk_source_buffer_set_style_scheme(cur_text_doc->text_buffer , scheme);
+	GtkSourceStyleScheme* scheme = gtk_source_style_scheme_manager_get_scheme(sm, "classic");
+	gtk_source_buffer_set_style_scheme(cur_text_doc->text_buffer , scheme);
 	create_empty_file (confile.tea_theme, "classic\n");
 	confile.theme = "classic";
- 	gtk_source_buffer_set_style_scheme(log_memo_textbuffer , scheme);
- 	gtk_source_buffer_set_style_scheme(buffer_note , scheme);
- 	gtk_source_buffer_set_style_scheme(buffer_projet , scheme);
+	gtk_source_buffer_set_style_scheme(log_memo_textbuffer , scheme);
+	gtk_source_buffer_set_style_scheme(buffer_note , scheme);
+	gtk_source_buffer_set_style_scheme(buffer_projet , scheme);
 }
 
 void theme_kate  ()
 {
 	if (! get_page_text()) return;
 	GtkSourceStyleSchemeManager* sm = gtk_source_style_scheme_manager_new();
- 	GtkSourceStyleScheme* scheme = gtk_source_style_scheme_manager_get_scheme(sm, "kate");
- 	gtk_source_buffer_set_style_scheme(cur_text_doc->text_buffer , scheme);
+	GtkSourceStyleScheme* scheme = gtk_source_style_scheme_manager_get_scheme(sm, "kate");
+	gtk_source_buffer_set_style_scheme(cur_text_doc->text_buffer , scheme);
 	create_empty_file (confile.tea_theme, "kate\n");
-		confile.theme = "kate";
- 	gtk_source_buffer_set_style_scheme(log_memo_textbuffer , scheme);
- 	gtk_source_buffer_set_style_scheme(buffer_note , scheme);
- 	gtk_source_buffer_set_style_scheme(buffer_projet , scheme);
+	confile.theme = "kate";
+	gtk_source_buffer_set_style_scheme(log_memo_textbuffer , scheme);
+	gtk_source_buffer_set_style_scheme(buffer_note , scheme);
+	gtk_source_buffer_set_style_scheme(buffer_projet , scheme);
 }
 
 void theme_oblivion  ()
 {
 	if (! get_page_text()) return;
 	GtkSourceStyleSchemeManager* sm = gtk_source_style_scheme_manager_new();
- 	GtkSourceStyleScheme* scheme = gtk_source_style_scheme_manager_get_scheme(sm, "oblivion");
- 	gtk_source_buffer_set_style_scheme(cur_text_doc->text_buffer , scheme);
+	GtkSourceStyleScheme* scheme = gtk_source_style_scheme_manager_get_scheme(sm, "oblivion");
+	gtk_source_buffer_set_style_scheme(cur_text_doc->text_buffer , scheme);
 	create_empty_file (confile.tea_theme, "oblivion\n");
 	confile.theme = "oblivion";
- 	gtk_source_buffer_set_style_scheme(log_memo_textbuffer , scheme);
- 	gtk_source_buffer_set_style_scheme(buffer_note , scheme);
- 	gtk_source_buffer_set_style_scheme(buffer_projet , scheme);
+	gtk_source_buffer_set_style_scheme(log_memo_textbuffer , scheme);
+	gtk_source_buffer_set_style_scheme(buffer_note , scheme);
+	gtk_source_buffer_set_style_scheme(buffer_projet , scheme);
 }
 
 void theme_tango  ()
 {
 	if (! get_page_text()) return;
 	GtkSourceStyleSchemeManager* sm = gtk_source_style_scheme_manager_new();
- 	GtkSourceStyleScheme* scheme = gtk_source_style_scheme_manager_get_scheme(sm, "tango");
- 	gtk_source_buffer_set_style_scheme(cur_text_doc->text_buffer , scheme);
+	GtkSourceStyleScheme* scheme = gtk_source_style_scheme_manager_get_scheme(sm, "tango");
+	gtk_source_buffer_set_style_scheme(cur_text_doc->text_buffer , scheme);
 	create_empty_file (confile.tea_theme, "tango\n");
-		confile.theme = "tango";
- 	gtk_source_buffer_set_style_scheme(buffer_projet , scheme);
+	confile.theme = "tango";
+	gtk_source_buffer_set_style_scheme(buffer_projet , scheme);
 }
 
 void auto_hl_griffon_perl ()
 {
 	if (! get_page_text()) return;
 	GtkSourceLanguageManager *lm_perl;
-   GtkSourceLanguage *language_perl = NULL;
+	GtkSourceLanguage *language_perl = NULL;
 
 	lm_perl = gtk_source_language_manager_new();
 	g_object_ref (lm_perl);
@@ -816,7 +807,7 @@ void auto_hl_griffon_perl ()
                            lm_perl, (GDestroyNotify) g_object_unref);
 
 	lm_perl = g_object_get_data (G_OBJECT (cur_text_doc->text_buffer), "languages-manager");
-	 language_perl = gtk_source_language_manager_get_language (lm_perl,"perl");
+	language_perl = gtk_source_language_manager_get_language (lm_perl,"perl");
 	gtk_source_buffer_set_language (cur_text_doc->text_buffer, language_perl);	
 }
 
@@ -824,7 +815,7 @@ void auto_hl_griffon_php ()
 {
 	if (! get_page_text()) return;
 	GtkSourceLanguageManager *lm_php;
-   GtkSourceLanguage *language_php = NULL;
+	GtkSourceLanguage *language_php = NULL;
 
 	lm_php = gtk_source_language_manager_new();
 	g_object_ref (lm_php);
@@ -832,7 +823,7 @@ void auto_hl_griffon_php ()
                            lm_php, (GDestroyNotify) g_object_unref);
 
 	lm_php = g_object_get_data (G_OBJECT (cur_text_doc->text_buffer), "languages-manager");
-	 language_php = gtk_source_language_manager_get_language (lm_php,"php");
+	language_php = gtk_source_language_manager_get_language (lm_php,"php");
 	gtk_source_buffer_set_language (cur_text_doc->text_buffer, language_php);	
 }
 
@@ -840,7 +831,7 @@ void auto_hl_griffon_c ()
 {
 	if (! get_page_text()) return;
 	GtkSourceLanguageManager *lm_c;
-   GtkSourceLanguage *language_c = NULL;
+	GtkSourceLanguage *language_c = NULL;
 
 	lm_c = gtk_source_language_manager_new();
 	g_object_ref (lm_c);
@@ -848,7 +839,7 @@ void auto_hl_griffon_c ()
                            lm_c, (GDestroyNotify) g_object_unref);
 
 	lm_c = g_object_get_data (G_OBJECT (cur_text_doc->text_buffer), "languages-manager");
-	 language_c = gtk_source_language_manager_get_language (lm_c,"c");
+	language_c = gtk_source_language_manager_get_language (lm_c,"c");
 	gtk_source_buffer_set_language (cur_text_doc->text_buffer, language_c);
 }
 
@@ -856,7 +847,7 @@ void auto_hl_griffon_python ()
 {
 	if (! get_page_text()) return;
 	GtkSourceLanguageManager *lm_c;
-   GtkSourceLanguage *language_c = NULL;
+	GtkSourceLanguage *language_c = NULL;
 
 	lm_c = gtk_source_language_manager_new();
 	g_object_ref (lm_c);
@@ -864,7 +855,7 @@ void auto_hl_griffon_python ()
                            lm_c, (GDestroyNotify) g_object_unref);
 
 	lm_c = g_object_get_data (G_OBJECT (cur_text_doc->text_buffer), "languages-manager");
-	 language_c = gtk_source_language_manager_get_language (lm_c,"python");
+	language_c = gtk_source_language_manager_get_language (lm_c,"python");
 	gtk_source_buffer_set_language (cur_text_doc->text_buffer, language_c);
 }
 
@@ -872,7 +863,7 @@ void auto_hl_griffon_java ()
 {
 	if (! get_page_text()) return;
 	GtkSourceLanguageManager *lm_c;
-   GtkSourceLanguage *language_c = NULL;
+	GtkSourceLanguage *language_c = NULL;
 
 	lm_c = gtk_source_language_manager_new();
 	g_object_ref (lm_c);
@@ -880,14 +871,14 @@ void auto_hl_griffon_java ()
                            lm_c, (GDestroyNotify) g_object_unref);
 
 	lm_c = g_object_get_data (G_OBJECT (cur_text_doc->text_buffer), "languages-manager");
-	 language_c = gtk_source_language_manager_get_language (lm_c,"java");
+	language_c = gtk_source_language_manager_get_language (lm_c,"java");
 	gtk_source_buffer_set_language (cur_text_doc->text_buffer, language_c);
 }
 void auto_hl_griffon_ruby ()
 {
 	if (! get_page_text()) return;
 	GtkSourceLanguageManager *lm_c;
-   GtkSourceLanguage *language_c = NULL;
+	GtkSourceLanguage *language_c = NULL;
 
 	lm_c = gtk_source_language_manager_new();
 	g_object_ref (lm_c);
@@ -895,7 +886,7 @@ void auto_hl_griffon_ruby ()
                            lm_c, (GDestroyNotify) g_object_unref);
 
 	lm_c = g_object_get_data (G_OBJECT (cur_text_doc->text_buffer), "languages-manager");
-	 language_c = gtk_source_language_manager_get_language (lm_c,"ruby");
+	language_c = gtk_source_language_manager_get_language (lm_c,"ruby");
 	gtk_source_buffer_set_language (cur_text_doc->text_buffer, language_c);
 }
 
@@ -903,7 +894,7 @@ void auto_hl_griffon_xml ()
 {
 	if (! get_page_text()) return;
 	GtkSourceLanguageManager *lm_c;
-   GtkSourceLanguage *language_c = NULL;
+	GtkSourceLanguage *language_c = NULL;
 
 	lm_c = gtk_source_language_manager_new();
 	g_object_ref (lm_c);
@@ -911,7 +902,7 @@ void auto_hl_griffon_xml ()
                            lm_c, (GDestroyNotify) g_object_unref);
 
 	lm_c = g_object_get_data (G_OBJECT (cur_text_doc->text_buffer), "languages-manager");
-	 language_c = gtk_source_language_manager_get_language (lm_c,"xml");
+	language_c = gtk_source_language_manager_get_language (lm_c,"xml");
 	gtk_source_buffer_set_language (cur_text_doc->text_buffer, language_c);
 }
 
@@ -919,7 +910,7 @@ void auto_hl_griffon_javascript ()
 {
 	if (! get_page_text()) return;
 	GtkSourceLanguageManager *lm_c;
-   GtkSourceLanguage *language_c = NULL;
+	GtkSourceLanguage *language_c = NULL;
 
 	lm_c = gtk_source_language_manager_new();
 	g_object_ref (lm_c);
@@ -927,7 +918,7 @@ void auto_hl_griffon_javascript ()
                            lm_c, (GDestroyNotify) g_object_unref);
 
 	lm_c = g_object_get_data (G_OBJECT (cur_text_doc->text_buffer), "languages-manager");
-	 language_c = gtk_source_language_manager_get_language (lm_c,"javascript");
+	language_c = gtk_source_language_manager_get_language (lm_c,"javascript");
 	gtk_source_buffer_set_language (cur_text_doc->text_buffer, language_c);
 }
 
@@ -956,7 +947,7 @@ void auto_hl_griffon_css ()
                            lm_css, (GDestroyNotify) g_object_unref);
 
 	lm_css = g_object_get_data (G_OBJECT (cur_text_doc->text_buffer), "languages-manager");
-	 language_css = gtk_source_language_manager_get_language (lm_css,"css");
+	language_css = gtk_source_language_manager_get_language (lm_css,"css");
 	gtk_source_buffer_set_language (cur_text_doc->text_buffer, language_css);
 }
 
@@ -971,7 +962,7 @@ void auto_hl_griffon_cpp ()
                            lm_css, (GDestroyNotify) g_object_unref);
 
 	lm_css = g_object_get_data (G_OBJECT (cur_text_doc->text_buffer), "languages-manager");
-	 language_css = gtk_source_language_manager_get_language (lm_css,"cpp");
+	language_css = gtk_source_language_manager_get_language (lm_css,"cpp");
 	gtk_source_buffer_set_language (cur_text_doc->text_buffer, language_css);
 }
 
@@ -986,7 +977,7 @@ void auto_hl_griffon_sh ()
                            lm_sh, (GDestroyNotify) g_object_unref);
 
 	lm_sh = g_object_get_data (G_OBJECT (cur_text_doc->text_buffer), "languages-manager");
-	 language_sh = gtk_source_language_manager_get_language (lm_sh,"sh");
+	language_sh = gtk_source_language_manager_get_language (lm_sh,"sh");
 	gtk_source_buffer_set_language (cur_text_doc->text_buffer, language_sh);
 }
 
@@ -994,14 +985,14 @@ void auto_hl_griffon_po ()
 {
 	if (! get_page_text()) return;
 	GtkSourceLanguageManager *lm_po;
-GtkSourceLanguage *language_po = NULL;
+	GtkSourceLanguage *language_po = NULL;
 	lm_po = gtk_source_language_manager_new();
 	g_object_ref (lm_po);
 	g_object_set_data_full ( G_OBJECT (cur_text_doc->text_buffer), "languages-manager",
                            lm_po, (GDestroyNotify) g_object_unref);
 
 	lm_po = g_object_get_data (G_OBJECT (cur_text_doc->text_buffer), "languages-manager");
-	 language_po = gtk_source_language_manager_get_language (lm_po,"po");
+	language_po = gtk_source_language_manager_get_language (lm_po,"po");
 	gtk_source_buffer_set_language (cur_text_doc->text_buffer, language_po);
 }
 
@@ -1009,279 +1000,277 @@ void auto_hl_griffon_html ()
 {
 	if (! get_page_text()) return;
 	GtkSourceLanguageManager *lm_html;
-GtkSourceLanguage *language_html = NULL;
+	GtkSourceLanguage *language_html = NULL;
 	lm_html = gtk_source_language_manager_new();
 	g_object_ref (lm_html);
 	g_object_set_data_full ( G_OBJECT (cur_text_doc->text_buffer), "languages-manager",
                            lm_html, (GDestroyNotify) g_object_unref);
 
 	lm_html = g_object_get_data (G_OBJECT (cur_text_doc->text_buffer), "languages-manager");
-	 language_html = gtk_source_language_manager_get_language (lm_html,"html");
+	language_html = gtk_source_language_manager_get_language (lm_html,"html");
 	gtk_source_buffer_set_language (cur_text_doc->text_buffer, language_html);
 }
 
 gpointer glist_find_by_index (GList *list, int i)
 {
-  return g_list_nth_data (list, i);
+	return g_list_nth_data (list, i);
 }
-
 
 t_note_page* get_page (void)
 {
-  cur_text_doc = NULL;
+	cur_text_doc = NULL;
 
-  gint i = gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook1));
-  if (i == -1)
-    return NULL;
-  else
-      cur_text_doc = (t_note_page *) g_list_nth_data (dox, i);
+	gint i = gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook1));
+	if (i == -1)
+		return NULL;
+	else
+		cur_text_doc = (t_note_page *) g_list_nth_data (dox, i);
 
-  return cur_text_doc;
+	return cur_text_doc;
 }
 
 
 t_note_page* get_page_by_index (int i)
 {
-  return (t_note_page *) g_list_nth_data (dox, i);
+	return (t_note_page *) g_list_nth_data (dox, i);
 }
 
 
 void page_del_by_index (int i)
 {
-  t_note_page *page;
+	t_note_page *page;
 
-  if (i != -1)
-     {
-      page = glist_find_by_index (dox, i);
-       icon_log_logmemo();
-      log_to_memo (_("%s is closed"), page->file_name, LM_NORMAL);
-      dox = g_list_remove (dox, page);
-      page_free (page);
-      gtk_notebook_remove_page (GTK_NOTEBOOK(notebook1), i);
-      update_recent_list_menu (FALSE);
-     }
+	if (i != -1)
+	{
+		page = glist_find_by_index (dox, i);
+		icon_log_logmemo();
+		log_to_memo (_("%s is closed"), page->file_name, LM_NORMAL);
+		dox = g_list_remove (dox, page);
+		page_free (page);
+		gtk_notebook_remove_page (GTK_NOTEBOOK(notebook1), i);
+		update_recent_list_menu (FALSE);
+	}
 }
 
 
 t_note_page* doc_clear_new (void) 
 {
-  t_note_page *doc = page_create_new ();
-  doc->file_name = get_noname_name ();
-  gtk_label_set_label (GTK_LABEL(doc->tab_label), doc->file_name);
-  doc_apply_settings (doc);
-  gtk_notebook_set_current_page (GTK_NOTEBOOK(notebook1), g_list_length (dox) - 1);
-  return doc;
+	t_note_page *doc = page_create_new ();
+	doc->file_name = get_noname_name ();
+	gtk_label_set_label (GTK_LABEL(doc->tab_label), doc->file_name);
+	doc_apply_settings (doc);
+	gtk_notebook_set_current_page (GTK_NOTEBOOK(notebook1), g_list_length (dox) - 1);
+	return doc;
 }
 
 
 t_note_page* doc_open_file (gchar *a_filename)
 {
-  if (! a_filename)
-     return NULL;
+	if (! a_filename)
+		return NULL;
 
-  gsize length;
-  GError *error;
-  gchar *buf;
-  gchar *newlabel;
-  gsize bytes_read;
-  gsize bytes_written;
-  gchar *enc;
-  gchar *t;
-  gchar *filename;
+	gsize length;
+	GError *error;
+	gchar *buf;
+	gchar *newlabel;
+	gsize bytes_read;
+	gsize bytes_written;
+	gchar *enc;
+	gchar *t;
+	gchar *filename;
 
-  t_note_page* page = NULL;
+	t_note_page* page = NULL;
 
-  if (! g_file_test (a_filename, G_FILE_TEST_EXISTS))
-     {
-     icon_stop_logmemo();
-      log_to_memo (_("%s does not exist!"), a_filename, LM_ERROR);
-      return NULL;       
-     }
+	if (! g_file_test (a_filename, G_FILE_TEST_EXISTS))
+	{
+		icon_stop_logmemo();
+		log_to_memo (_("%s does not exist!"), a_filename, LM_ERROR);
+		return NULL;       
+	}
     
-  if (access (a_filename, R_OK) != 0)
-     {
-	     icon_stop_logmemo();
-      log_to_memo (_("You do not have permission to %s"), a_filename, LM_ERROR);
-      return NULL;
-     }
+	if (access (a_filename, R_OK) != 0)
+	{
+		icon_stop_logmemo();
+		log_to_memo (_("You do not have permission to %s"), a_filename, LM_ERROR);
+		return NULL;
+	}
 
 
-  filename = g_strdup (a_filename);
+	filename = g_strdup (a_filename);
 
-  if (g_file_test (a_filename, G_FILE_TEST_IS_SYMLINK))
-     {
-      g_free (filename);
-      filename = (gchar *) g_malloc (2048);
-      if(readlink (a_filename, filename, 2048)){printf("\n");}
-     
-      if (access (filename, R_OK) != 0)
-        {
-        icon_stop_logmemo();      
-         log_to_memo (_("You do not have permission to %s"), filename, LM_ERROR);
-         g_free (filename);
-         return NULL;
-        }
-     }
+	if (g_file_test (a_filename, G_FILE_TEST_IS_SYMLINK))
+	{
+		g_free (filename);
+		filename = (gchar *) g_malloc (2048);
+		if(readlink (a_filename, filename, 2048)){printf("\n");}
 
-   char *extension;
-   if(strrchr(filename,'.'))
+		if (access (filename, R_OK) != 0)
+		{
+			icon_stop_logmemo();      
+			log_to_memo (_("You do not have permission to %s"), filename, LM_ERROR);
+			g_free (filename);
+			return NULL;
+		}
+	}
+
+	char *extension;
+	if(strrchr(filename,'.'))
 	{ 
-	extension = strrchr(filename,'.');
+		extension = strrchr(filename,'.');
 	if (strcmp(".jpg", extension) == 0 || strcmp(".png", extension) == 0 || strcmp(".gif", extension) == 0  || strcmp(".jpeg", extension) == 0)
 	{
-	char type[150];
-	strcpy(type,"file://");
-	strcat(type,filename);
-	gtk_entry_set_text (GTK_ENTRY (entry_web), _(type));
-	focus_web ();
-	return NULL;
+		char type[150];
+		strcpy(type,"file://");
+		strcat(type,filename);
+		gtk_entry_set_text (GTK_ENTRY (entry_web), _(type));
+		focus_web ();
+		return NULL;
 	}
 	
 	if (strcmp(".htm", extension) == 0 || strcmp(".html", extension) == 0 )
 	{
-	char type[150];
-	strcpy(type,"file://");
-	strcat(type,filename);
-	gtk_entry_set_text (GTK_ENTRY (entry_web), _(type));
-	focus_web ();
+		char type[150];
+		strcpy(type,"file://");
+		strcat(type,filename);
+		gtk_entry_set_text (GTK_ENTRY (entry_web), _(type));
+		focus_web ();
 	}
 	}
 
-   if (is_rtf (filename))
-      {
-       buf = text_load_rtf (filename);
-       page = doc_ins_to_new (buf); 
-       g_free (buf);
-       g_free (page->file_name);
+	if (is_rtf (filename))
+	{
+		buf = text_load_rtf (filename);
+		page = doc_ins_to_new (buf); 
+		g_free (buf);
+		g_free (page->file_name);
+		page->file_name = get_8_filename (filename);
+		page->b_saved = TRUE;
 
-       page->file_name = get_8_filename (filename);
-       page->b_saved = TRUE;
- 
-       newlabel = g_path_get_basename (page->file_name);
-       gtk_label_set_label (GTK_LABEL(page->tab_label), newlabel);
-                
-       doc_apply_settings (page);
-       editor_set_pos (page, 0);
-       gtk_text_buffer_set_modified (GTK_TEXT_BUFFER(page->text_buffer), FALSE);
+		newlabel = g_path_get_basename (page->file_name);
+		gtk_label_set_label (GTK_LABEL(page->tab_label), newlabel);
+
+		doc_apply_settings (page);
+		editor_set_pos (page, 0);
+		gtk_text_buffer_set_modified (GTK_TEXT_BUFFER(page->text_buffer), FALSE);
 		icon_ok_logmemo();
-       log_to_memo (_("%s is opened"), page->file_name, LM_NORMAL);
+		log_to_memo (_("%s is opened"), page->file_name, LM_NORMAL);
 
-       g_free (filename);
-       g_free (newlabel);
-       tabs_reload ();
-     
-       return page;
-      }   
+		g_free (filename);
+		g_free (newlabel);
+		tabs_reload ();
 
-  if (! g_file_get_contents (filename, &buf, &length, &error))
-     {
-      g_free (filename);
-      return NULL;  
-     }
-  
+		return page;
+	}   
 
-  page = doc_clear_new ();
-   
-  if (page->encoding)
-     g_free (page->encoding);
-
-  if (cur_settings.selected_enc)
-      page->encoding = g_strdup (cur_settings.selected_enc);
-  else
-      page->encoding = g_strdup (confile.default_charset);
-    
-  if (g_utf8_collate (page->encoding, CHARSET_JAPANESE) == 0)
-     {
-      enc = detect_charset_ja (buf);
-      page->encoding = ch_str (page->encoding, enc);
-     }
-
-  if (g_utf8_collate (page->encoding, CHARSET_AUTODETECT) == 0)
-     {
-      enc = enc_guess (buf);
-      if (enc)
-         page->encoding = ch_str (page->encoding, enc);
-      else
-          {
-           g_free (buf);
-           page_del_by_index (gtk_notebook_get_current_page ((GtkNotebook *) notebook1));
-           msg_wrong_encoding (filename); 
-           g_free (filename);
-           return NULL; 
-          }
-         }
-           
-  if (g_utf8_collate (page->encoding, "UTF-8") == 0)
-     {
-      if (! g_utf8_validate (buf, -1, NULL))
-          {
-           g_free (buf);
-           page_del_by_index (gtk_notebook_get_current_page ((GtkNotebook *) notebook1));
-           msg_wrong_encoding (filename); 
-           g_free (filename);
-           return NULL; 
-          }
-
-       gtk_text_buffer_set_text (GTK_TEXT_BUFFER(page->text_buffer), buf, length);
-      }
-  else
-  if (g_utf8_collate (page->encoding, CURR_LOCALE) == 0)
-     {
-      t = g_locale_to_utf8 (buf, length, &bytes_read, &bytes_written, &error);
-
-      if (! t)
-         {
-          g_free (buf);
-          page_del_by_index (gtk_notebook_get_current_page ((GtkNotebook *) notebook1));
-          msg_wrong_encoding (filename); 
-          g_free (filename);
-          return NULL; 
-         }
-
-      gtk_text_buffer_set_text (GTK_TEXT_BUFFER(page->text_buffer), t, bytes_written);
-      g_free (t);
-     }
-  else
-      { 
-       t = g_convert (buf, length, "UTF-8", page->encoding, &bytes_read, &bytes_written, &error);
-       if (! t)
-          {
-           g_free (buf);
-           page_del_by_index (gtk_notebook_get_current_page ((GtkNotebook *) notebook1));
-           msg_wrong_encoding (filename); 
-           g_free (filename);
-           return NULL; 
-          }
-
-       gtk_text_buffer_set_text (GTK_TEXT_BUFFER(page->text_buffer), t, bytes_written);
-       g_free (t);
-      }
-
-  g_free (page->file_name);
-  page->file_name = get_8_filename (filename);
-
-  page->b_saved = TRUE;
-
-  newlabel = g_path_get_basename (page->file_name);
-  gtk_label_set_label (GTK_LABEL(page->tab_label), newlabel);
-                
-  doc_apply_settings (page);
-  editor_set_pos (page, 0);
-
-  page->hl_mode = ch_str (page->hl_mode, get_hl_name (page->file_name));
-  icon_ok_logmemo();
-  log_to_memo (_("%s is opened"), page->file_name, LM_NORMAL);
+	if (! g_file_get_contents (filename, &buf, &length, &error))
+	{
+		g_free (filename);
+		return NULL;  
+	}
 
 
-  if (confile.scan_for_links_on_doc_open == 1)
-      scan_links();
+	page = doc_clear_new ();
 
-  if (confile.do_hl_on_fileopen)
-     apply_hl (page);
+	if (page->encoding)
+		g_free (page->encoding);
 
-  gtk_text_buffer_set_modified (GTK_TEXT_BUFFER(page->text_buffer), FALSE);
+	if (cur_settings.selected_enc)
+		page->encoding = g_strdup (cur_settings.selected_enc);
+	else
+		page->encoding = g_strdup (confile.default_charset);
 
-  tabs_reload ();
+	if (g_utf8_collate (page->encoding, CHARSET_JAPANESE) == 0)
+	{
+		enc = detect_charset_ja (buf);
+		page->encoding = ch_str (page->encoding, enc);
+	}
+
+	if (g_utf8_collate (page->encoding, CHARSET_AUTODETECT) == 0)
+	{
+		enc = enc_guess (buf);
+		if (enc)
+		page->encoding = ch_str (page->encoding, enc);
+		else
+		{
+			g_free (buf);
+			page_del_by_index (gtk_notebook_get_current_page ((GtkNotebook *) notebook1));
+			msg_wrong_encoding (filename); 
+			g_free (filename);
+			return NULL; 
+		}
+	}
+
+	if (g_utf8_collate (page->encoding, "UTF-8") == 0)
+	{
+		if (! g_utf8_validate (buf, -1, NULL))
+		{
+			g_free (buf);
+			page_del_by_index (gtk_notebook_get_current_page ((GtkNotebook *) notebook1));
+			msg_wrong_encoding (filename); 
+			g_free (filename);
+			return NULL; 
+		}
+
+	gtk_text_buffer_set_text (GTK_TEXT_BUFFER(page->text_buffer), buf, length);
+	}
+	else
+		if (g_utf8_collate (page->encoding, CURR_LOCALE) == 0)
+		{
+			t = g_locale_to_utf8 (buf, length, &bytes_read, &bytes_written, &error);
+
+		if (! t)
+		{
+			g_free (buf);
+			page_del_by_index (gtk_notebook_get_current_page ((GtkNotebook *) notebook1));
+			msg_wrong_encoding (filename); 
+			g_free (filename);
+			return NULL; 
+		}
+
+		gtk_text_buffer_set_text (GTK_TEXT_BUFFER(page->text_buffer), t, bytes_written);
+		g_free (t);
+		}
+		else
+		{ 
+			t = g_convert (buf, length, "UTF-8", page->encoding, &bytes_read, &bytes_written, &error);
+			if (! t)
+			{
+				g_free (buf);
+				page_del_by_index (gtk_notebook_get_current_page ((GtkNotebook *) notebook1));
+				msg_wrong_encoding (filename); 
+				g_free (filename);
+				return NULL; 
+			}
+
+		gtk_text_buffer_set_text (GTK_TEXT_BUFFER(page->text_buffer), t, bytes_written);
+		g_free (t);
+		}
+
+	g_free (page->file_name);
+	page->file_name = get_8_filename (filename);
+
+	page->b_saved = TRUE;
+
+	newlabel = g_path_get_basename (page->file_name);
+	gtk_label_set_label (GTK_LABEL(page->tab_label), newlabel);
+
+	doc_apply_settings (page);
+	editor_set_pos (page, 0);
+
+	page->hl_mode = ch_str (page->hl_mode, get_hl_name (page->file_name));
+	icon_ok_logmemo();
+	log_to_memo (_("%s is opened"), page->file_name, LM_NORMAL);
+
+
+	if (confile.scan_for_links_on_doc_open == 1)
+		scan_links();
+
+	if (confile.do_hl_on_fileopen)
+		apply_hl (page);
+
+	gtk_text_buffer_set_modified (GTK_TEXT_BUFFER(page->text_buffer), FALSE);
+
+	tabs_reload ();
 	no_onglet_open() ;
 	controle_save_page_icon();
 
@@ -1290,20 +1279,20 @@ t_note_page* doc_open_file (gchar *a_filename)
 
 	gtk_window_set_title (GTK_WINDOW (tea_main_window), page->file_name);
 
- GtkSourceBuffer *tmpbuffer = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
- GtkWidget *srctmp= gtk_source_view_new_with_buffer(tmpbuffer);
+	GtkSourceBuffer *tmpbuffer = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
+	GtkWidget *srctmp= gtk_source_view_new_with_buffer(tmpbuffer);
 
 	gchar* file_autocomp=NULL;
 	gchar* titre_autocomp="";
 
-   if(strrchr(page->file_name,'.'))
+	if(strrchr(page->file_name,'.'))
 	{
-	extension = strrchr(page->file_name,'.');
-	if (strcmp(".pl", extension) == 0){file_autocomp="/usr/local/share/griffon/autocomp/perl";titre_autocomp="[PERL] AutoComp";}
-	if (strcmp(".sh", extension) == 0){file_autocomp="/usr/local/share/griffon/autocomp/bash";titre_autocomp="[BASH] AutoComp";}
-	if (strcmp(".c", extension) == 0 || strcmp(".h", extension) == 0){file_autocomp="/usr/local/share/griffon/autocomp/c";titre_autocomp="[C] AutoComp";}
-	if (strcmp(".htm", extension) == 0 || strcmp(".html", extension) == 0){file_autocomp="/usr/local/share/griffon/autocomp/html";titre_autocomp="[HTML] AutoComp";}
-	if (strcmp(".php", extension) == 0){file_autocomp="/usr/local/share/griffon/autocomp/php";titre_autocomp="[PHP] AutoComp";}
+		extension = strrchr(page->file_name,'.');
+		if (strcmp(".pl", extension) == 0){file_autocomp="/usr/local/share/griffon/autocomp/perl";titre_autocomp="[PERL] AutoComp";}
+		if (strcmp(".sh", extension) == 0){file_autocomp="/usr/local/share/griffon/autocomp/bash";titre_autocomp="[BASH] AutoComp";}
+		if (strcmp(".c", extension) == 0 || strcmp(".h", extension) == 0){file_autocomp="/usr/local/share/griffon/autocomp/c";titre_autocomp="[C] AutoComp";}
+		if (strcmp(".htm", extension) == 0 || strcmp(".html", extension) == 0){file_autocomp="/usr/local/share/griffon/autocomp/html";titre_autocomp="[HTML] AutoComp";}
+		if (strcmp(".php", extension) == 0){file_autocomp="/usr/local/share/griffon/autocomp/php";titre_autocomp="[PHP] AutoComp";}
 	}
 
 	if(file_autocomp!=NULL)
@@ -1333,203 +1322,202 @@ t_note_page* doc_open_file (gchar *a_filename)
 	}
 
 	gtk_box_pack_start (GTK_BOX (page->hbox), srctmp, FALSE, TRUE, 0);
-  g_free (filename);
-  g_free (newlabel);
-  g_free (buf);
+	g_free (filename);
+	g_free (newlabel);
+	g_free (buf);
 	griffon_notify(_("The file is open and available in the Editor tab"));
 
 
-  return page;
+	return page;
 }
 
 
 void doc_apply_settings (t_note_page *doc)
 {
-  if (! doc) return;
-  
-  PangoFontDescription *font_desc = pango_font_description_from_string (confile.editor_font);
-  gtk_widget_modify_font (GTK_WIDGET(doc->text_view), font_desc);
-  pango_font_description_free (font_desc);
+	if (! doc) return;
 
-  g_object_set (G_OBJECT (tag_comment), "foreground", confile.tag_comment, "font", confile.tag_comment_font, NULL);
-  g_object_set (G_OBJECT (tag_identifier), "foreground", confile.tag_identifier, "font", confile.tag_identifier_font, NULL);
-  g_object_set (G_OBJECT (tag_digit), "foreground", confile.tag_digit, "font", confile.tag_digit_font, NULL);
-  g_object_set (G_OBJECT (tag_string), "foreground", confile.tag_string, "font", confile.tag_string_font, NULL);
-  g_object_set (G_OBJECT (tag_html_tag), "foreground", confile.tag_html_tag, "font", confile.tag_html_tag_font, NULL);
-  g_object_set (G_OBJECT (tag_preprocessor), "foreground", confile.tag_preprocessor, "font", confile.tag_preprocessor_font, NULL);
-  g_object_set (G_OBJECT (tag_type), "foreground", confile.tag_type, "font", confile.tag_type_font, NULL);
-   
-  GdkColor background;
-  GdkColor text;
-  GdkColor selection;
-  GdkColor sel_text;
+	PangoFontDescription *font_desc = pango_font_description_from_string (confile.editor_font);
+	gtk_widget_modify_font (GTK_WIDGET(doc->text_view), font_desc);
+	pango_font_description_free (font_desc);
 
-  gdk_color_parse (confile.text_foreground, &text);
-  gdk_color_parse (confile.text_background, &background);
-  gdk_color_parse (confile.text_sel_background, &selection);
-  gdk_color_parse (confile.text_sel_foreground, &sel_text);
-  
-  widget_set_colors (GTK_WIDGET(doc->text_view), &background, &text, &selection, &sel_text);  
-  doc_set_tabsize (doc, confile.tab_size);
+	g_object_set (G_OBJECT (tag_comment), "foreground", confile.tag_comment, "font", confile.tag_comment_font, NULL);
+	g_object_set (G_OBJECT (tag_identifier), "foreground", confile.tag_identifier, "font", confile.tag_identifier_font, NULL);
+	g_object_set (G_OBJECT (tag_digit), "foreground", confile.tag_digit, "font", confile.tag_digit_font, NULL);
+	g_object_set (G_OBJECT (tag_string), "foreground", confile.tag_string, "font", confile.tag_string_font, NULL);
+	g_object_set (G_OBJECT (tag_html_tag), "foreground", confile.tag_html_tag, "font", confile.tag_html_tag_font, NULL);
+	g_object_set (G_OBJECT (tag_preprocessor), "foreground", confile.tag_preprocessor, "font", confile.tag_preprocessor_font, NULL);
+	g_object_set (G_OBJECT (tag_type), "foreground", confile.tag_type, "font", confile.tag_type_font, NULL);
+
+	GdkColor background;
+	GdkColor text;
+	GdkColor selection;
+	GdkColor sel_text;
+
+	gdk_color_parse (confile.text_foreground, &text);
+	gdk_color_parse (confile.text_background, &background);
+	gdk_color_parse (confile.text_sel_background, &selection);
+	gdk_color_parse (confile.text_sel_foreground, &sel_text);
+
+	widget_set_colors (GTK_WIDGET(doc->text_view), &background, &text, &selection, &sel_text);  
+	doc_set_tabsize (doc, confile.tab_size);
 }
 
 
 void widget_apply_colors (GtkWidget *w)
 {
-  if (! w) return;
-  
-  GdkColor background;
-  GdkColor text;
-  GdkColor selection;
-  GdkColor sel_text;
+	if (! w) return;
 
-  gdk_color_parse (confile.text_foreground, &text);
-  gdk_color_parse (confile.text_background, &background);
-  gdk_color_parse (confile.text_sel_background, &selection);
-  gdk_color_parse (confile.text_sel_foreground, &sel_text);
+	GdkColor background;
+	GdkColor text;
+	GdkColor selection;
+	GdkColor sel_text;
+
+	gdk_color_parse (confile.text_foreground, &text);
+	gdk_color_parse (confile.text_background, &background);
+	gdk_color_parse (confile.text_sel_background, &selection);
+	gdk_color_parse (confile.text_sel_foreground, &sel_text);
   
-  widget_set_colors (GTK_WIDGET(w), &background, &text, &selection, &sel_text);  
+	widget_set_colors (GTK_WIDGET(w), &background, &text, &selection, &sel_text);  
 }
 
-           
+
 void page_free (t_note_page *page)
 {
-  gchar *f = get_l_filename (page->file_name);
-   
-  if (strcmp (f, confile.crapbook_file) != 0)
-     if (page->b_saved && confile.prompt_on_not_saved && gtk_text_buffer_get_modified (GTK_TEXT_BUFFER(page->text_buffer))) 
-       if (dlg_question (tea_main_window, _("%s is modified but not saved, save?"), page->file_name))
-          text_doc_save (page, page->file_name);
-      
-  if (strcmp (f, confile.crapbook_file) == 0)
-      doc_save_buffer_to_file (GTK_TEXT_BUFFER(page->text_buffer), confile.crapbook_file); 
-  else 
-      if (g_file_test (f, G_FILE_TEST_EXISTS))
-          add_recent_internal (page);
+	gchar *f = get_l_filename (page->file_name);
 
-  g_free (f); 
+	if (strcmp (f, confile.crapbook_file) != 0)
+		if (page->b_saved && confile.prompt_on_not_saved && gtk_text_buffer_get_modified (GTK_TEXT_BUFFER(page->text_buffer))) 
+			if (dlg_question (tea_main_window, _("%s is modified but not saved, save?"), page->file_name))
+				text_doc_save (page, page->file_name);
 
-  g_free (page->last_searched_text);
-  g_free (page->encoding);
-  g_free (page->hl_mode);
-  g_free (page->file_name);
-  g_free (page->current_path);
+	if (strcmp (f, confile.crapbook_file) == 0)
+		doc_save_buffer_to_file (GTK_TEXT_BUFFER(page->text_buffer), confile.crapbook_file); 
+	else 
+		if (g_file_test (f, G_FILE_TEST_EXISTS))
+			add_recent_internal (page);
 
-  g_free (page);
+	g_free (f); 
 
-  tabs_reload ();
+	g_free (page->last_searched_text);
+	g_free (page->encoding);
+	g_free (page->hl_mode);
+	g_free (page->file_name);
+	g_free (page->current_path);
+
+	g_free (page);
+
+	tabs_reload ();
 }
 
 
 void doc_insert_at_cursor (t_note_page* doc, gchar *text)
 {
-  if (! text)
-     return;
-  gtk_text_buffer_begin_user_action (GTK_TEXT_BUFFER(doc->text_buffer));
-  gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER(doc->text_buffer), text, -1);
-  gtk_text_buffer_end_user_action (GTK_TEXT_BUFFER(doc->text_buffer));
+	if (! text)
+		return;
+	gtk_text_buffer_begin_user_action (GTK_TEXT_BUFFER(doc->text_buffer));
+	gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER(doc->text_buffer), text, -1);
+	gtk_text_buffer_end_user_action (GTK_TEXT_BUFFER(doc->text_buffer));
 }
 
-      
+
 void doc_update_cb (gpointer data)
 {
-  if (data)
-     doc_apply_settings ((t_note_page*) data);
+	if (data)
+		doc_apply_settings ((t_note_page*) data);
 }
 
 
 void doc_update_all (void)
 {
-  set_lm_colors ();
-  if (confile.do_show_main_toolbar)
-     gtk_widget_show (GTK_WIDGET(tb_main_toolbar));
-  else
-      gtk_widget_hide (tb_main_toolbar);
+	set_lm_colors ();
+	if (confile.do_show_main_toolbar)
+		gtk_widget_show (GTK_WIDGET(tb_main_toolbar));
+	else
+		gtk_widget_hide (tb_main_toolbar);
 }
 
 
 gint editor_get_pos (t_note_page* doc)
 {
-  if (! doc->text_buffer && ! doc->text_view)
-     return 0;
+	if (! doc->text_buffer && ! doc->text_view)
+		return 0;
 
-  GtkTextMark *mark;
-  GtkTextIter it;
-  mark = gtk_text_buffer_get_mark (GTK_TEXT_BUFFER(doc->text_buffer), "insert");
-  gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(doc->text_buffer), &it, mark);
-  return gtk_text_iter_get_offset (&it);
+	GtkTextMark *mark;
+	GtkTextIter it;
+	mark = gtk_text_buffer_get_mark (GTK_TEXT_BUFFER(doc->text_buffer), "insert");
+	gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(doc->text_buffer), &it, mark);
+	return gtk_text_iter_get_offset (&it);
 }
 
 
 void tv_logmemo_set_pos (guint pos )
 {
-  GtkTextIter it;
-  gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(log_memo_textbuffer), &it, pos);
-  gtk_text_buffer_place_cursor (GTK_TEXT_BUFFER(log_memo_textbuffer), &it);
-  gtk_text_view_scroll_to_iter (GTK_TEXT_VIEW(tv_logmemo), &it, 0.0, FALSE, 0.0, 0.0);
+	GtkTextIter it;
+	gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(log_memo_textbuffer), &it, pos);
+	gtk_text_buffer_place_cursor (GTK_TEXT_BUFFER(log_memo_textbuffer), &it);
+	gtk_text_view_scroll_to_iter (GTK_TEXT_VIEW(tv_logmemo), &it, 0.0, FALSE, 0.0, 0.0);
 }
 
 
 gboolean doc_reload_text (t_note_page *doc, gchar *filename, gchar *enc)
 {
-  gsize *length=NULL;
-  GError *error;
-  gchar *buf;
-  gchar *t;
-  gsize bytes_read;
-  gsize bytes_written;
+	gsize *length=NULL;
+	GError *error;
+	gchar *buf;
+	gchar *t;
+	gsize bytes_read;
+	gsize bytes_written;
 
-  if (! g_file_get_contents (filename, &buf, length, &error))
-     return FALSE;
-  else
-  if (g_utf8_collate (enc, CURR_LOCALE) == 0)
-     {
-      gchar *t = g_locale_to_utf8 (buf, (gssize )length, &bytes_read, &bytes_written, NULL);
+	if (! g_file_get_contents (filename, &buf, length, &error))
+		return FALSE;
+	else
+		if (g_utf8_collate (enc, CURR_LOCALE) == 0)
+		{
+			gchar *t = g_locale_to_utf8 (buf, (gssize )length, &bytes_read, &bytes_written, NULL);
 
-      if (! t)
-         {
-          g_free (buf);
-          return FALSE;
-         }
+		if (! t)
+		{
+			g_free (buf);
+			return FALSE;
+		}
 
-      gtk_text_buffer_set_text (GTK_TEXT_BUFFER(doc->text_buffer), t, bytes_written);
+		gtk_text_buffer_set_text (GTK_TEXT_BUFFER(doc->text_buffer), t, bytes_written);
+		g_free (buf);
+		g_free (t);
 
-      g_free (buf);
-      g_free (t);
+		return TRUE;
+		}
 
-      return TRUE;
-     }
-  
-  else
-      if (g_utf8_collate (enc, "UTF-8") == 0)
-        {
-         if (! g_utf8_validate (buf, -1, NULL))
-            {
-             g_free (buf);
-             return FALSE;
-            }
+	else
+		if (g_utf8_collate (enc, "UTF-8") == 0)
+		{
+			if (! g_utf8_validate (buf, -1, NULL))
+			{
+				g_free (buf);
+				return FALSE;
+			}
 
-         gtk_text_buffer_set_text (GTK_TEXT_BUFFER(doc->text_buffer), buf, *length);
+		gtk_text_buffer_set_text (GTK_TEXT_BUFFER(doc->text_buffer), buf, *length);
 
-         g_free (buf);
-         return TRUE;
-        }
-       else
+		g_free (buf);
+		return TRUE;
+		}
+		else
            {//not UTF-8
-            t = g_convert (buf, (gssize)length, "UTF-8", enc, &bytes_read, &bytes_written, &error);
-            if (! t)
-               {
-                g_free (buf);
-                return FALSE;
-               }
+		t = g_convert (buf, (gssize)length, "UTF-8", enc, &bytes_read, &bytes_written, &error);
+		if (! t)
+		{
+			g_free (buf);
+			return FALSE;
+		}
 
-            gtk_text_buffer_set_text (GTK_TEXT_BUFFER(doc->text_buffer), t, bytes_written);
+		gtk_text_buffer_set_text (GTK_TEXT_BUFFER(doc->text_buffer), t, bytes_written);
 
-            g_free (buf);
-            g_free (t);
-            
-            return TRUE;
-      }
+		g_free (buf);
+		g_free (t);
+
+		return TRUE;
+	}
 }
 
 
