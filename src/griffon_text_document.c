@@ -1544,59 +1544,59 @@ gint get_n_page_by_filename (gchar const *filename)
 
 void log_to_memo (gchar *m1, gchar* m2, gint mode)
 {
-  if (! log_memo_textbuffer)
-     return;
+	if (! log_memo_textbuffer)
+		return;
 
-  gchar *prefix = g_strdup_printf  (" ");
-  gchar *st;
+	gchar *prefix = g_strdup_printf  (" ");
+	gchar *st;
 
-		gchar *buf = get_time (confile.date_time);
+	gchar *buf = get_time (confile.date_time);
 
-  if (! m2)
-     {
-      st = g_strconcat (prefix, m1, "\n________________________________________________________\n", NULL);
+	if (! m2)
+	{
+		st = g_strconcat (prefix, m1, "\n________________________________________________________\n", NULL);
 
-      GtkTextIter it;
-      gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(log_memo_textbuffer), &it, 0);
-      gtk_text_buffer_place_cursor (GTK_TEXT_BUFFER(log_memo_textbuffer), &it);
+		GtkTextIter it;
+		gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(log_memo_textbuffer), &it, 0);
+		gtk_text_buffer_place_cursor (GTK_TEXT_BUFFER(log_memo_textbuffer), &it);
 
-      if (mode == LM_NORMAL)
-          gtk_text_buffer_insert_with_tags_by_name (GTK_TEXT_BUFFER(log_memo_textbuffer), &it, st, -1, "lm_normal", NULL);
-      else
-          if (mode == LM_ERROR)
-             gtk_text_buffer_insert_with_tags_by_name (GTK_TEXT_BUFFER(log_memo_textbuffer), &it, st, -1, "lm_error", NULL);
-      else
-          if (mode == LM_ADVICE)
-             gtk_text_buffer_insert_with_tags_by_name (GTK_TEXT_BUFFER(log_memo_textbuffer), &it, st, -1, "lm_advice", NULL);
-      else
-          if (mode == LM_GREET)
-             gtk_text_buffer_insert_with_tags_by_name (GTK_TEXT_BUFFER(log_memo_textbuffer), &it, st, -1, "lm_greet", NULL);
+		if (mode == LM_NORMAL)
+			gtk_text_buffer_insert_with_tags_by_name (GTK_TEXT_BUFFER(log_memo_textbuffer), &it, st, -1, "lm_normal", NULL);
+		else
+			if (mode == LM_ERROR)
+				gtk_text_buffer_insert_with_tags_by_name (GTK_TEXT_BUFFER(log_memo_textbuffer), &it, st, -1, "lm_error", NULL);
+		else
+			if (mode == LM_ADVICE)
+				gtk_text_buffer_insert_with_tags_by_name (GTK_TEXT_BUFFER(log_memo_textbuffer), &it, st, -1, "lm_advice", NULL);
+		else
+			if (mode == LM_GREET)
+				gtk_text_buffer_insert_with_tags_by_name (GTK_TEXT_BUFFER(log_memo_textbuffer), &it, st, -1, "lm_greet", NULL);
 
-      g_free (st);
-      g_free (prefix);
-					g_free (buf);
-      tv_logmemo_set_pos (0);
-      return;
-     }
+				g_free (st);
+				g_free (prefix);
+				g_free (buf);
+				tv_logmemo_set_pos (0);
+				return;
+	}
  
-		gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER(log_memo_textbuffer), "\t", -1);
-		gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER(log_memo_textbuffer), buf, -1);
-		gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER(log_memo_textbuffer), "\t", -1);
+	gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER(log_memo_textbuffer), "\t", -1);
+	gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER(log_memo_textbuffer), buf, -1);
+	gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER(log_memo_textbuffer), "\t", -1);
 
-  gulong len = strlen (m1) + strlen (m2) + 32024;
-  gchar *message = g_malloc (len);
+	gulong len = strlen (m1) + strlen (m2) + 32024;
+	gchar *message = g_malloc (len);
 
-  g_snprintf (message, len, m1, m2);
-  gchar *s = g_strconcat (prefix, message, "\n________________________________________________________\n", NULL);
+	g_snprintf (message, len, m1, m2);
+	gchar *s = g_strconcat (prefix, message, "\n________________________________________________________\n", NULL);
+
+	gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER(log_memo_textbuffer), s, -1);
+
+	g_free (message);
+	g_free (s);
+	g_free (prefix);
+	tv_logmemo_set_pos (0);
   
-  gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER(log_memo_textbuffer), s, -1);
-
-  g_free (message);
-  g_free (s);
-  g_free (prefix);
-  tv_logmemo_set_pos (0);
-  
-  return;
+	return;
 }
 
 
@@ -1613,130 +1613,129 @@ gboolean find_space (gunichar ch)
 
 gboolean find_quote (gunichar ch)
 {
-  if ((ch == '"') || (ch == '\'')) 
-     return TRUE;
-  else
-      return FALSE; 
+	if ((ch == '"') || (ch == '\'')) 
+		return TRUE;
+	else
+		return FALSE; 
 }
 
 
 gchar* doc_get_current_word (t_note_page *doc, GtkTextIter *itstart, GtkTextIter *itend) 
 {
-  GtkTextIter ittemp;
-  GtkTextMark *mark = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(doc->text_buffer));
-  gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(doc->text_buffer), &ittemp, mark);
-  
-  *itstart = ittemp;
-  *itend = ittemp;
+	GtkTextIter ittemp;
+	GtkTextMark *mark = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(doc->text_buffer));
+	gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(doc->text_buffer), &ittemp, mark);
 
-  if (! gtk_text_iter_forward_find_char (itend, (GtkTextCharPredicate) find_space, NULL, NULL))
-      gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(doc->text_buffer), itend);
+	*itstart = ittemp;
+	*itend = ittemp;
 
-  if (! gtk_text_iter_backward_find_char (itstart, (GtkTextCharPredicate)find_space, NULL, NULL))
-     gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(doc->text_buffer), itstart); 
-    else     
-       gtk_text_iter_forward_char (itstart);  
-         
-  return (gtk_text_buffer_get_text (GTK_TEXT_BUFFER(doc->text_buffer), itstart, itend, FALSE));
+	if (! gtk_text_iter_forward_find_char (itend, (GtkTextCharPredicate) find_space, NULL, NULL))
+		gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(doc->text_buffer), itend);
+
+	if (! gtk_text_iter_backward_find_char (itstart, (GtkTextCharPredicate)find_space, NULL, NULL))
+		gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(doc->text_buffer), itstart); 
+	else     
+		gtk_text_iter_forward_char (itstart);  
+		return (gtk_text_buffer_get_text (GTK_TEXT_BUFFER(doc->text_buffer), itstart, itend, FALSE));
 }
 
 
 void doc_set_new_text (t_note_page *doc, GtkTextIter *itstart, GtkTextIter *itend, gchar *text) 
 {
-  gtk_text_buffer_begin_user_action (GTK_TEXT_BUFFER(doc->text_buffer));
+	gtk_text_buffer_begin_user_action (GTK_TEXT_BUFFER(doc->text_buffer));
 
-  gtk_text_buffer_delete (GTK_TEXT_BUFFER(doc->text_buffer), itstart, itend);   
-  gtk_text_buffer_insert (GTK_TEXT_BUFFER(doc->text_buffer), itstart, text, -1);
+	gtk_text_buffer_delete (GTK_TEXT_BUFFER(doc->text_buffer), itstart, itend);   
+	gtk_text_buffer_insert (GTK_TEXT_BUFFER(doc->text_buffer), itstart, text, -1);
 
-  gtk_text_buffer_end_user_action (GTK_TEXT_BUFFER(doc->text_buffer));
+	gtk_text_buffer_end_user_action (GTK_TEXT_BUFFER(doc->text_buffer));
 }
 
 
 void doc_rep_sel (t_note_page *page, const gchar *newstring)
 {
-  if (! newstring)
-     return; 
+	if (! newstring)
+		return; 
 
-  GtkTextIter start;
-  GtkTextIter end;
-  if (gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER(page->text_buffer), &start, &end))
-     doc_set_new_text (page, &start, &end,(gchar *) newstring);  
+	GtkTextIter start;
+	GtkTextIter end;
+	if (gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER(page->text_buffer), &start, &end))
+		doc_set_new_text (page, &start, &end,(gchar *) newstring);  
 }
 
 
 gchar* get_c_url (t_note_page *doc) 
 {
-  GtkTextIter ittemp;
-  GtkTextIter itstart;
-  GtkTextIter itend;
-  gchar *filename;
+	GtkTextIter ittemp;
+	GtkTextIter itstart;
+	GtkTextIter itend;
+	gchar *filename;
 
-  GtkTextMark *mark = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(doc->text_buffer));
-  gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(doc->text_buffer), &ittemp, mark);
+	GtkTextMark *mark = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(doc->text_buffer));
+	gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(doc->text_buffer), &ittemp, mark);
 
-  itstart = ittemp;
-  itend = ittemp;
+	itstart = ittemp;
+	itend = ittemp;
 
-  if (! gtk_text_iter_forward_find_char (&itend, (GtkTextCharPredicate)find_quote, NULL, NULL))
-      gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(doc->text_buffer), &itend);
+	if (! gtk_text_iter_forward_find_char (&itend, (GtkTextCharPredicate)find_quote, NULL, NULL))
+		gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(doc->text_buffer), &itend);
 
-  if (! gtk_text_iter_backward_find_char (&itstart, (GtkTextCharPredicate)find_quote, NULL, NULL))
-     gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(doc->text_buffer), &itstart); 
-    else     
-       gtk_text_iter_forward_char (&itstart);  
+	if (! gtk_text_iter_backward_find_char (&itstart, (GtkTextCharPredicate)find_quote, NULL, NULL))
+		gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(doc->text_buffer), &itstart); 
+		else     
+			gtk_text_iter_forward_char (&itstart);  
 
-  gchar *result = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(doc->text_buffer), &itstart, &itend, FALSE);
+	gchar *result = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(doc->text_buffer), &itstart, &itend, FALSE);
 
-  if (g_utf8_get_char (result) == '#')
-     {
-      goto_local_label (result);
-      g_free (result);
-      return NULL;
-     }
+	if (g_utf8_get_char (result) == '#')
+	{
+		goto_local_label (result);
+		g_free (result);
+		return NULL;
+	}
 
-  gchar *dir = g_path_get_dirname (doc->file_name);
+	gchar *dir = g_path_get_dirname (doc->file_name);
 
-  if (g_utf8_get_char (result) == G_DIR_SEPARATOR)  
-     filename = create_full_path (g_utf8_find_next_char (result, NULL), dir);
-  else
-      filename = create_full_path (result, dir);
+	if (g_utf8_get_char (result) == G_DIR_SEPARATOR)  
+		filename = create_full_path (g_utf8_find_next_char (result, NULL), dir);
+	else
+		filename = create_full_path (result, dir);
 
-  g_free (dir);
-  g_free (result);
-  gchar *result2 = strdup (filename);
-  g_free (filename);
+	g_free (dir);
+	g_free (result);
+	gchar *result2 = strdup (filename);
+	g_free (filename);
 
-  return result2;
+	return result2;
 }
 
 
 gboolean doc_search_f (t_note_page *doc, const gchar *text) 
 {
-  if (! text)
-      return FALSE; 
+	if (! text)
+		return FALSE; 
 
-  GtkTextIter ittemp;
-  GtkTextIter end;
-  GtkTextIter match_start;
-  GtkTextIter match_end;
-  gboolean result = FALSE;
+	GtkTextIter ittemp;
+	GtkTextIter end;
+	GtkTextIter match_start;
+	GtkTextIter match_end;
+	gboolean result = FALSE;
 
-  gtk_text_buffer_get_bounds (GTK_TEXT_BUFFER(doc->text_buffer), &ittemp, &end);
+	gtk_text_buffer_get_bounds (GTK_TEXT_BUFFER(doc->text_buffer), &ittemp, &end);
 
-  if (gtk_text_iter_forward_search (&ittemp, text, GTK_TEXT_SEARCH_TEXT_ONLY, &match_start, &match_end, &end))
-     {
-      gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "insert", &match_end);
-      gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "selection_bound", &match_start);
-      gtk_text_view_scroll_to_iter (GTK_TEXT_VIEW(doc->text_view), &match_start, 0.0, TRUE, 0.0, 0.0 );
+	if (gtk_text_iter_forward_search (&ittemp, text, GTK_TEXT_SEARCH_TEXT_ONLY, &match_start, &match_end, &end))
+	{
+		gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "insert", &match_end);
+		gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "selection_bound", &match_start);
+		gtk_text_view_scroll_to_iter (GTK_TEXT_VIEW(doc->text_view), &match_start, 0.0, TRUE, 0.0, 0.0 );
 
-			  GtkTextIter itstart, itend;
-			  gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &itstart, 0);
-			  gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &itend, gtk_text_buffer_get_char_count (GTK_TEXT_BUFFER(doc->text_buffer)));
+		GtkTextIter itstart, itend;
+		gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &itstart, 0);
+		gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &itend, gtk_text_buffer_get_char_count (GTK_TEXT_BUFFER(doc->text_buffer)));
 
-      g_free (doc->last_searched_text);
-      doc->last_searched_text = g_strdup (text); 
-      result = TRUE;
-     }
+		g_free (doc->last_searched_text);
+		doc->last_searched_text = g_strdup (text); 
+		result = TRUE;
+	}
 
 
 	GtkTextIter start_find, end_find;
@@ -1747,426 +1746,425 @@ gboolean doc_search_f (t_note_page *doc, const gchar *text)
 
 	gtk_text_buffer_remove_tag_by_name(GTK_TEXT_BUFFER(doc->text_buffer), "search", &start_find, &end_find);
 
-     if (! text){return FALSE;}else{
-	while ( gtk_text_iter_forward_search(&start_find, text, GTK_TEXT_SEARCH_TEXT_ONLY | GTK_TEXT_SEARCH_VISIBLE_ONLY, &start_match, &end_match, NULL) )
-					{
-          gtk_text_buffer_apply_tag_by_name(GTK_TEXT_BUFFER(doc->text_buffer), "search", 
-              &start_match, &end_match);
-          int offset = gtk_text_iter_get_offset(&end_match);
-          gtk_text_buffer_get_iter_at_offset(GTK_TEXT_BUFFER(doc->text_buffer), 
-              &start_find, offset);
-					}
-			}
+	if (! text){return FALSE;}else{
+		while ( gtk_text_iter_forward_search(&start_find, text, GTK_TEXT_SEARCH_TEXT_ONLY | GTK_TEXT_SEARCH_VISIBLE_ONLY, &start_match, &end_match, NULL) )
+		{
+			gtk_text_buffer_apply_tag_by_name(GTK_TEXT_BUFFER(doc->text_buffer), "search", 
+			&start_match, &end_match);
+			int offset = gtk_text_iter_get_offset(&end_match);
+			gtk_text_buffer_get_iter_at_offset(GTK_TEXT_BUFFER(doc->text_buffer), 
+			&start_find, offset);
+		}
+	}
+
 	gtk_widget_grab_focus (GTK_WIDGET(doc->text_view));
 
-   return result;
+	return result;
 }
 
 
 gboolean doc_search_f_next (t_note_page *doc) 
 {
-  gboolean result = FALSE;
-  if (! doc->last_searched_text)
-     return FALSE;
+	gboolean result = FALSE;
+	if (! doc->last_searched_text)
+		return FALSE;
 
-  GtkTextIter ittemp;
-  GtkTextIter end;
-  GtkTextIter match_start;
-  GtkTextIter match_end;
-  GtkTextMark *mark = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(doc->text_buffer));
-  gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(doc->text_buffer), &ittemp, mark);
+	GtkTextIter ittemp;
+	GtkTextIter end;
+	GtkTextIter match_start;
+	GtkTextIter match_end;
+	GtkTextMark *mark = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(doc->text_buffer));
+	gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(doc->text_buffer), &ittemp, mark);
 
-  gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(doc->text_buffer), &end); 
+	gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(doc->text_buffer), &end); 
 
-  if (gtk_text_iter_forward_search (&ittemp, doc->last_searched_text, GTK_TEXT_SEARCH_TEXT_ONLY, &match_start, &match_end, &end))
-     {
-      gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "insert", &match_end);
-      gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "selection_bound", &match_start);
-      gtk_text_view_scroll_to_iter (GTK_TEXT_VIEW(doc->text_view), &match_start, 0.0, TRUE, 0.0, 0.0 );
+	if (gtk_text_iter_forward_search (&ittemp, doc->last_searched_text, GTK_TEXT_SEARCH_TEXT_ONLY, &match_start, &match_end, &end))
+	{
+		gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "insert", &match_end);
+		gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "selection_bound", &match_start);
+		gtk_text_view_scroll_to_iter (GTK_TEXT_VIEW(doc->text_view), &match_start, 0.0, TRUE, 0.0, 0.0 );
 
-      result = TRUE;
-     }
+		result = TRUE;
+	}
 
-  return result;
+	return result;
 }
 
 
 void doc_replace_all (t_note_page *doc, const gchar *text, const gchar *new_text) 
 {
-  if (! text)
-      return;
- 
-  if (! new_text)
-      return;
+	if (! text)
+		return;
 
-  if (doc_search_f (doc, text))
-     {
-      doc_rep_sel (doc, new_text);
-      while (doc_search_f_next (doc))
-             doc_rep_sel (doc, new_text);
-     }  
+	if (! new_text)
+		return;
+
+	if (doc_search_f (doc, text))
+	{
+		doc_rep_sel (doc, new_text);
+			while (doc_search_f_next (doc))
+				doc_rep_sel (doc, new_text);
+	}  
 }
 
 
 gint find_index_by_page (t_note_page *page)
 {
- gint i = -1;
+	gint i = -1;
 
- GList *p = g_list_first (dox);
+	GList *p = g_list_first (dox);
 
- while (p)
-       {
-        i++;  
-        if (page == p->data){return i;}
-        p = g_list_next (p);  
-       }
+	while (p)
+	{
+		i++;  
+		if (page == p->data){return i;}
+		p = g_list_next (p);  
+	}
 
- return i;
+	return i;
 }
 
 
 gchar* get_c_url_pure (t_note_page *doc) 
 {
-  GtkTextIter ittemp;
-  GtkTextIter itstart;
-  GtkTextIter itend;
+	GtkTextIter ittemp;
+	GtkTextIter itstart;
+	GtkTextIter itend;
 
-  GtkTextMark *mark = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(doc->text_buffer));
-  gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(doc->text_buffer), &ittemp, mark);
+	GtkTextMark *mark = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(doc->text_buffer));
+	gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(doc->text_buffer), &ittemp, mark);
 
-  itstart = ittemp;
-  itend = ittemp;
+	itstart = ittemp;
+	itend = ittemp;
 
-  if (! gtk_text_iter_forward_find_char (&itend, (GtkTextCharPredicate)find_quote, NULL, NULL))
-      gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(doc->text_buffer), &itend);
+	if (! gtk_text_iter_forward_find_char (&itend, (GtkTextCharPredicate)find_quote, NULL, NULL))
+		gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(doc->text_buffer), &itend);
 
-  if (! gtk_text_iter_backward_find_char (&itstart, (GtkTextCharPredicate)find_quote, NULL, NULL))
-     gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(doc->text_buffer), &itstart); 
-    else     
-       gtk_text_iter_forward_char (&itstart);  
-  
-  gchar *result = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(doc->text_buffer), &itstart, &itend, FALSE);
+	if (! gtk_text_iter_backward_find_char (&itstart, (GtkTextCharPredicate)find_quote, NULL, NULL))
+		gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(doc->text_buffer), &itstart); 
+	else     
+		gtk_text_iter_forward_char (&itstart);  
 
-  return result;
+	gchar *result = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(doc->text_buffer), &itstart, &itend, FALSE);
+
+	return result;
 }
 
 
 t_note_page* doc_ins_to_new (const gchar *newstring)
 {
-  if (! newstring) 
-     return NULL;
+	if (! newstring) 
+		return NULL;
 
-  t_note_page *page = doc_clear_new ();
-  gtk_window_set_title (GTK_WINDOW (tea_main_window), page->file_name);
-  gtk_widget_grab_focus (GTK_WIDGET(page->text_view));
-  doc_insert_at_cursor (page, (gchar *)newstring);
-  tabs_reload ();
-  return page;
+	t_note_page *page = doc_clear_new ();
+	gtk_window_set_title (GTK_WINDOW (tea_main_window), page->file_name);
+	gtk_widget_grab_focus (GTK_WIDGET(page->text_view));
+	doc_insert_at_cursor (page, (gchar *)newstring);
+	tabs_reload ();
+	return page;
 }
 
 
 t_note_page* get_page_text (void)
 {
-  cur_text_doc = NULL;
+	cur_text_doc = NULL;
 
-  gint i = gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook1));
-  if (i == -1)
-    return NULL;
-  else
-      cur_text_doc = (t_note_page *) g_list_nth_data (dox, i);
+	gint i = gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook1));
+	if (i == -1)
+		return NULL;
+	else
+		cur_text_doc = (t_note_page *) g_list_nth_data (dox, i);
 
-  return cur_text_doc;
+	return cur_text_doc;
 }
 
 
 void set_title (t_note_page *t)
 {
-  if (! t)
-     return;
+	if (! t)
+		return;
 
-  if (! t->file_name)
-     return;      
+	if (! t->file_name)
+		return;      
  //strlen (t->file_name)
-  if (! g_utf8_validate (t->file_name, -1, NULL))
-      return;
+	if (! g_utf8_validate (t->file_name, -1, NULL))
+		return;
 
-  gchar *nc = NULL;
+	gchar *nc = NULL;
 
-  if (confile.main_wnd_show_full_path)
+	if (confile.main_wnd_show_full_path)
 	{
-      nc = g_strdup (t->file_name);
+		nc = g_strdup (t->file_name);
 	}
-  else
+	else
 	{ 
-      nc = g_path_get_basename (t->file_name);
+		nc = g_path_get_basename (t->file_name);
 	}
 
-  gtk_window_set_title (GTK_WINDOW (tea_main_window), nc);
-  statusbar_msg (t->encoding);
+	gtk_window_set_title (GTK_WINDOW (tea_main_window), nc);
+	statusbar_msg (t->encoding);
 
-  g_free (nc);
+	g_free (nc);
 
-		gchar **a = g_strsplit (t->file_name, "_", -1);
-		if (strcmp("noname", a[0]) == 0){ return;}else{gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,g_path_get_dirname (t->file_name));}
+	gchar **a = g_strsplit (t->file_name, "_", -1);
+	if (strcmp("noname", a[0]) == 0){ return;}else{gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,g_path_get_dirname (t->file_name));}
 
 }
   
 
 t_note_page* open_file_std (gchar const *f)
 {
-  cur_text_doc = doc_open_file ((gchar *)f);
-  tabs_reload ();
-  set_title (cur_text_doc);
-  return cur_text_doc;
+	cur_text_doc = doc_open_file ((gchar *)f);
+	tabs_reload ();
+	set_title (cur_text_doc);
+	return cur_text_doc;
 }
 
 
 void doc_move_to_pos_bw (t_note_page* doc, gint pos)
 {
-  if (! doc->text_buffer && ! doc->text_view)
-     return;
+	if (! doc->text_buffer && ! doc->text_view)
+		return;
 
-  GtkTextMark *mark;
-  GtkTextIter it;
-  mark = gtk_text_buffer_get_mark (GTK_TEXT_BUFFER(doc->text_buffer), "insert");
-  gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(doc->text_buffer), &it, mark);
-  
-  if (gtk_text_iter_backward_chars (&it, pos))
-      gtk_text_buffer_place_cursor (GTK_TEXT_BUFFER(doc->text_buffer), &it);
-  }
+	GtkTextMark *mark;
+	GtkTextIter it;
+	mark = gtk_text_buffer_get_mark (GTK_TEXT_BUFFER(doc->text_buffer), "insert");
+	gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(doc->text_buffer), &it, mark);
+
+	if (gtk_text_iter_backward_chars (&it, pos))
+		gtk_text_buffer_place_cursor (GTK_TEXT_BUFFER(doc->text_buffer), &it);
+}
 
 void doc_move_to_pos_bw_quote (t_note_page* doc)
 {
-  if (! doc->text_buffer && ! doc->text_view)
-     return;
+	if (! doc->text_buffer && ! doc->text_view)
+		return;
 
-  GtkTextMark *mark;
-  GtkTextIter it;
-  mark = gtk_text_buffer_get_mark (GTK_TEXT_BUFFER(doc->text_buffer), "insert");
-  gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(doc->text_buffer), &it, mark);
-  
-  if (gtk_text_iter_backward_find_char (&it, (GtkTextCharPredicate)find_quote, NULL, NULL))
-      gtk_text_buffer_place_cursor (GTK_TEXT_BUFFER(doc->text_buffer), &it);
+	GtkTextMark *mark;
+	GtkTextIter it;
+	mark = gtk_text_buffer_get_mark (GTK_TEXT_BUFFER(doc->text_buffer), "insert");
+	gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(doc->text_buffer), &it, mark);
+
+	if (gtk_text_iter_backward_find_char (&it, (GtkTextCharPredicate)find_quote, NULL, NULL))
+		gtk_text_buffer_place_cursor (GTK_TEXT_BUFFER(doc->text_buffer), &it);
 }
 
 
 void editor_set_pos (t_note_page *doc, guint pos)
 {
-  GtkTextIter it;
-  GtkTextMark* m; 
+	GtkTextIter it;
+	GtkTextMark* m; 
 
-  gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &it, pos);
-  gtk_text_buffer_place_cursor (GTK_TEXT_BUFFER(doc->text_buffer), &it);
-  m = gtk_text_buffer_get_mark (GTK_TEXT_BUFFER(doc->text_buffer), "insert");
-  if (m)
-     gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW(doc->text_view), m, 0.0, TRUE, 0.0, 0.0);
+	gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &it, pos);
+	gtk_text_buffer_place_cursor (GTK_TEXT_BUFFER(doc->text_buffer), &it);
+	m = gtk_text_buffer_get_mark (GTK_TEXT_BUFFER(doc->text_buffer), "insert");
+	if (m)
+		gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW(doc->text_view), m, 0.0, TRUE, 0.0, 0.0);
 }
  
 
 void editor_goto_selection (t_note_page *doc)
 {
-  GtkTextIter start;
-  GtkTextIter end;
+	GtkTextIter start;
+	GtkTextIter end;
 
-  if (gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER(doc->text_buffer), &start, &end))
-      gtk_text_view_scroll_to_iter (GTK_TEXT_VIEW(doc->text_view), &start, 0.0, TRUE, 0.0, 0.0); 
+	if (gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER(doc->text_buffer), &start, &end))
+		gtk_text_view_scroll_to_iter (GTK_TEXT_VIEW(doc->text_view), &start, 0.0, TRUE, 0.0, 0.0); 
 }
 
 
 gboolean doc_search_f_ncase (t_note_page *doc, const gchar *text) 
 {
-  if (! text)
-     return FALSE;
+	if (! text)
+		return FALSE;
 
-  gboolean result = FALSE;
+	gboolean result = FALSE;
 
-  gchar *f = g_utf8_strdown (text, -1);
+	gchar *f = g_utf8_strdown (text, -1);
+
+	GtkTextIter start;
+	GtkTextIter end;
+	GtkTextIter ittemp;
+	GtkTextIter b_end;
+
+	GtkTextMark *mark = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(doc->text_buffer));
+	gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(doc->text_buffer), &ittemp, mark);
+
+	gtk_text_iter_forward_chars (&ittemp, g_utf8_strlen (f, -1));
+
+	gint int_char_offset = gtk_text_iter_get_offset (&ittemp);
+
+	gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(doc->text_buffer), &b_end);
+
+	gchar *t = gtk_text_buffer_get_slice (GTK_TEXT_BUFFER(doc->text_buffer), &ittemp, &b_end, FALSE);
+	gchar *x = g_utf8_strdown (t, -1);
+
+	gchar *found = strstr (x, f);
  
-  GtkTextIter start;
-  GtkTextIter end;
-  GtkTextIter ittemp;
-  GtkTextIter b_end;
-
-  GtkTextMark *mark = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(doc->text_buffer));
-  gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(doc->text_buffer), &ittemp, mark);
-
-  gtk_text_iter_forward_chars (&ittemp, g_utf8_strlen (f, -1));
-  
-  gint int_char_offset = gtk_text_iter_get_offset (&ittemp);
-
-  gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(doc->text_buffer), &b_end);
-
-  gchar *t = gtk_text_buffer_get_slice (GTK_TEXT_BUFFER(doc->text_buffer), &ittemp, &b_end, FALSE);
-  gchar *x = g_utf8_strdown (t, -1);
-
-  gchar *found = strstr (x, f);
- 
-  if (found)
-     {
-      glong i = g_utf8_pointer_to_offset (x, found) + int_char_offset;
-      gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &start, i);
-      gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &end,
+	if (found)
+	{
+		glong i = g_utf8_pointer_to_offset (x, found) + int_char_offset;
+		gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &start, i);
+		gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &end,
                                           i + g_utf8_strlen (f, -1));
 
-      gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "insert", &start);
-      gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "selection_bound", &end);
-      g_free (doc->last_searched_text);
-      doc->last_searched_text = g_strdup (text); 
-      result = TRUE;
-     }     
+		gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "insert", &start);
+		gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "selection_bound", &end);
+		g_free (doc->last_searched_text);
+		doc->last_searched_text = g_strdup (text); 
+		result = TRUE;
+	}     
 
-  g_free (t);
-  g_free (x);
-  g_free (f);
+	g_free (t);
+	g_free (x);
+	g_free (f);
 
-  return result;
+	return result;
 }
 
 
 gboolean doc_search_f_next_ncase (t_note_page *doc) 
 {
-  if (! doc->last_searched_text)
-      return FALSE;
+	if (! doc->last_searched_text)
+		return FALSE;
 
-  GtkTextIter start;
-  GtkTextIter end;
+	GtkTextIter start;
+	GtkTextIter end;
 
-  gchar *f = g_utf8_strdown (doc->last_searched_text, -1);
+	gchar *f = g_utf8_strdown (doc->last_searched_text, -1);
 
-  gboolean result = FALSE;
-  GtkTextIter ittemp;
-  GtkTextIter b_end;
-  GtkTextMark *mark = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(doc->text_buffer));
-  gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(doc->text_buffer), &ittemp, mark);
+	gboolean result = FALSE;
+	GtkTextIter ittemp;
+	GtkTextIter b_end;
+	GtkTextMark *mark = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(doc->text_buffer));
+	gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(doc->text_buffer), &ittemp, mark);
 
-  gtk_text_iter_forward_chars (&ittemp, g_utf8_strlen (f, -1));
-  gint int_char_offset = gtk_text_iter_get_offset (&ittemp);
-  gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(doc->text_buffer), &b_end);
+	gtk_text_iter_forward_chars (&ittemp, g_utf8_strlen (f, -1));
+	gint int_char_offset = gtk_text_iter_get_offset (&ittemp);
+	gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(doc->text_buffer), &b_end);
 
-  gchar *t = gtk_text_buffer_get_slice (GTK_TEXT_BUFFER(doc->text_buffer), &ittemp, &b_end, FALSE);
-  gchar *x = g_utf8_strdown (t, -1);
-  gchar *found = strstr (x, f);
+	gchar *t = gtk_text_buffer_get_slice (GTK_TEXT_BUFFER(doc->text_buffer), &ittemp, &b_end, FALSE);
+	gchar *x = g_utf8_strdown (t, -1);
+	gchar *found = strstr (x, f);
 
-  if (found)
-     {
-      glong i = g_utf8_pointer_to_offset (x, found) + int_char_offset;
-  
-      gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &start, i);
-      gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &end, i + g_utf8_strlen (f, -1));
-      gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "insert", &start);
-      gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "selection_bound", &end);
+	if (found)
+	{
+		glong i = g_utf8_pointer_to_offset (x, found) + int_char_offset;
 
-      result = TRUE;
-     }     
+		gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &start, i);
+		gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &end, i + g_utf8_strlen (f, -1));
+		gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "insert", &start);
+		gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "selection_bound", &end);
 
-  g_free (t);
-  g_free (x);
-  g_free (f);
-  return result;
+		result = TRUE;
+	}     
+
+	g_free (t);
+	g_free (x);
+	g_free (f);
+	return result;
 }
 
 
 gchar* upcase_each_first_letter_ofw (t_note_page *doc)
 {
-  gunichar u;
-  
-  GtkTextIter start;
-  GtkTextIter end;
+	gunichar u;
+	GtkTextIter start;
+	GtkTextIter end;
 
-  if (! gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER(doc->text_buffer), &start, &end))
-      return NULL; 
- 
-  GString* gs = g_string_sized_new (1024);
+	if (! gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER(doc->text_buffer), &start, &end))
+		return NULL; 
 
-  do
-    {
-     if (gtk_text_iter_equal (&start, &end))
-        break;
+	GString* gs = g_string_sized_new (1024);
 
-     u = gtk_text_iter_get_char (&start);
+	do
+	{
+		if (gtk_text_iter_equal (&start, &end))
+			break;
 
-     if ( gtk_text_iter_starts_word (&start))        
-        u = g_unichar_toupper (u); 
-     
-     gs = g_string_append_unichar (gs, u);        
-    }  
-   while ( gtk_text_iter_forward_char (&start) );
+		u = gtk_text_iter_get_char (&start);
 
-  gchar *s = gs->str;
-  g_string_free (gs, FALSE);
+		if ( gtk_text_iter_starts_word (&start))        
+			u = g_unichar_toupper (u); 
 
-  return s;
+			gs = g_string_append_unichar (gs, u);        
+	}  
+		while ( gtk_text_iter_forward_char (&start) );
+
+	gchar *s = gs->str;
+	g_string_free (gs, FALSE);
+
+	return s;
 }
 
 
 gchar* doc_get_word_at_left (t_note_page *doc, GtkTextIter *itstart, GtkTextIter *itend) 
 {
-  GtkTextIter ittemp;
-  GtkTextMark *mark = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(doc->text_buffer));
-  gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(doc->text_buffer), &ittemp, mark);
-  
-  *itstart = ittemp;
-  *itend = ittemp;
-  
-  if (! gtk_text_iter_backward_find_char (itstart,(GtkTextCharPredicate) find_space, NULL, NULL))
-     gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(doc->text_buffer), itstart); 
-  else     
-      gtk_text_iter_forward_char (itstart);  
-         
-  return (gtk_text_buffer_get_text (GTK_TEXT_BUFFER(doc->text_buffer), itstart, itend, FALSE));
-}
+	GtkTextIter ittemp;
+	GtkTextMark *mark = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(doc->text_buffer));
+	gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(doc->text_buffer), &ittemp, mark);
 
+	*itstart = ittemp;
+	*itend = ittemp;
+
+	if (! gtk_text_iter_backward_find_char (itstart,(GtkTextCharPredicate) find_space, NULL, NULL))
+		gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(doc->text_buffer), itstart); 
+	else     
+		gtk_text_iter_forward_char (itstart);  
+
+	return (gtk_text_buffer_get_text (GTK_TEXT_BUFFER(doc->text_buffer), itstart, itend, FALSE));
+}
 
 void doc_move_cursor_forw (t_note_page *doc, gint i) 
 {
-  GtkTextIter ittemp;
-  GtkTextMark *mark = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(doc->text_buffer));
-  gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(doc->text_buffer), &ittemp, mark);
+	GtkTextIter ittemp;
+	GtkTextMark *mark = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(doc->text_buffer));
+	gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(doc->text_buffer), &ittemp, mark);
 
-  if (gtk_text_iter_forward_chars (&ittemp, i))
-     {
-      gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "insert", &ittemp);
-      gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "selection_bound", &ittemp);
-     } 
+	if (gtk_text_iter_forward_chars (&ittemp, i))
+	{
+		gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "insert", &ittemp);
+		gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "selection_bound", &ittemp);
+	} 
 }
 
 
 void doc_move_cursor_backw (t_note_page *doc, gint i) 
 {
-  GtkTextIter ittemp;
-  GtkTextMark *mark = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(doc->text_buffer));
-  gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(doc->text_buffer), &ittemp, mark);
+	GtkTextIter ittemp;
+	GtkTextMark *mark = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(doc->text_buffer));
+	gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(doc->text_buffer), &ittemp, mark);
 
-  if (gtk_text_iter_backward_chars (&ittemp, i))
-     {
-      gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "insert", &ittemp);
-      gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "selection_bound", &ittemp);
-     }
+	if (gtk_text_iter_backward_chars (&ittemp, i))
+	{
+		gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "insert", &ittemp);
+		gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "selection_bound", &ittemp);
+	}
 }
 
 
 gboolean predicate_find_tag_end (gunichar ch)
 {
-  if (ch == '>')
-     return TRUE;
-  else 
-      return FALSE;
+	if (ch == '>')
+		return TRUE;
+	else 
+		return FALSE;
 }
 
 
 void doc_move_cursor_backw_middle_tags (t_note_page *doc) 
 {
-  GtkTextIter ittemp;
-  GtkTextMark *mark = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(doc->text_buffer));
-  gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(doc->text_buffer), &ittemp, mark);
+	GtkTextIter ittemp;
+	GtkTextMark *mark = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(doc->text_buffer));
+	gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(doc->text_buffer), &ittemp, mark);
 
-  if (gtk_text_iter_backward_find_char (&ittemp, (GtkTextCharPredicate)predicate_find_tag_end, NULL, NULL))
-  if (gtk_text_iter_backward_find_char (&ittemp, (GtkTextCharPredicate)predicate_find_tag_end, NULL, NULL))
-  if (gtk_text_iter_forward_char (&ittemp))
-     {
-      gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "insert", &ittemp);
-      gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "selection_bound", &ittemp);
-     }
+	if (gtk_text_iter_backward_find_char (&ittemp, (GtkTextCharPredicate)predicate_find_tag_end, NULL, NULL))
+	if (gtk_text_iter_backward_find_char (&ittemp, (GtkTextCharPredicate)predicate_find_tag_end, NULL, NULL))
+	if (gtk_text_iter_forward_char (&ittemp))
+	{
+		gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "insert", &ittemp);
+		gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "selection_bound", &ittemp);
+	}
 }
 
 
@@ -2175,34 +2173,34 @@ void test_save_onglet ()
 
 	if (! get_page_text()) return;
 
-  gchar *f = get_l_filename (cur_text_doc->file_name);
-   
-  if (strcmp (f, confile.crapbook_file) != 0)
-  {
-     if (cur_text_doc->b_saved && confile.prompt_on_not_saved && gtk_text_buffer_get_modified (GTK_TEXT_BUFFER(cur_text_doc->text_buffer))) 
-     {icon_affiche_nosave ();controle_save_page_icon_no();}
-     else{icon_affiche_save ();}
-  }   
+	gchar *f = get_l_filename (cur_text_doc->file_name);
+
+	if (strcmp (f, confile.crapbook_file) != 0)
+	{
+		if (cur_text_doc->b_saved && confile.prompt_on_not_saved && gtk_text_buffer_get_modified (GTK_TEXT_BUFFER(cur_text_doc->text_buffer))) 
+		{icon_affiche_nosave ();controle_save_page_icon_no();}
+		else{icon_affiche_save ();}
+	}   
 }
 
 void doc_header_source_switch ()
 {
-  gchar *f = get_c_header_fname (cur_text_doc->file_name);
-  if (f)
-     {
-      handle_file (f, 0);
-      g_free (f);
-      return;
-     }
+	gchar *f = get_c_header_fname (cur_text_doc->file_name);
+	if (f)
+	{
+		handle_file (f, 0);
+		g_free (f);
+		return;
+	}
 
-  f = get_c_source_fname (cur_text_doc->file_name);
+	f = get_c_source_fname (cur_text_doc->file_name);
 
-  if (f)
-     {
-      handle_file (f, 0);
-      g_free (f);
-      return;
-     }
+	if (f)
+	{
+		handle_file (f, 0);
+		g_free (f);
+		return;
+	}
 }
 
 
