@@ -1,4 +1,4 @@
-//GtkEntry *ent_hotkey; 
+
 GtkWidget *wnd_options;
 
 GtkWidget *ent_def_save_dir; 
@@ -45,7 +45,6 @@ GtkWidget *cb_use_snippets;
 GtkWidget *cb_use_ext_image_viewer;
 GtkWidget *cb_do_hl_on_fileopen;
 GtkWidget *cb_do_backup;
-//GtkCheckButton *cb_do_enc_autodetect;
 GtkWidget *cb_ins_spaces_on_tab_press;
 GtkWidget *cb_do_autorep;
 GtkWidget *cb_do_show_main_toolbar;
@@ -107,19 +106,11 @@ GtkWidget *ent_tag_string_font;
 GtkWidget *ent_tag_html_tag_font;
 GtkWidget *ent_tag_preprocessor_font;
 GtkWidget *ent_tag_type_font;
-//GtkEntry *ent_tag_spellcheck_font;
 GtkWidget *ent_editor_font;
 
 GtkWidget *ent_ext_pic_editor;
 GtkWidget *ent_ext_pic_viewer;
 
-/*
-GtkCheckButton *cb_enc_det_shift_jis; 
-GtkCheckButton *cb_enc_det_euc_jp;
-GtkCheckButton *cb_enc_det_gb18030;
-GtkCheckButton *cb_enc_det_big5;
-GtkCheckButton *cb_enc_det_iso_2022_jp;
-*/
 
 GtkWidget *cb_enc_det_cp1251; 
 GtkWidget *cb_enc_det_koi8r;

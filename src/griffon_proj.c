@@ -165,7 +165,6 @@ void tea_proj_free (t_tea_project *p)
   g_free (p);
 }
 
-//xmms now plays Depeche Mode - Enjoy the Silence
 void tea_proj_run (t_tea_project *p)
 {
   if (! p)
@@ -218,7 +217,6 @@ GtkWidget* create_proj_props_window (t_tea_project *p)
   GtkWidget *bt_apply = gtk_button_new_from_stock (GTK_STOCK_OK);
   gtk_widget_show (bt_apply);
   gtk_container_add (GTK_CONTAINER (hbox1), bt_apply);
- // g_signal_connect (bt_apply, "clicked", G_CALLBACK (cb_proj_on_bt_apply), pair);
 
   gtk_window_set_position (GTK_WINDOW(wnd_proj_props), GTK_WIN_POS_CENTER);   
   gtk_window_set_modal (GTK_WINDOW(wnd_proj_props), TRUE);

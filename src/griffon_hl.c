@@ -18,7 +18,6 @@
 #include <gtksourceview/gtksourcebuffer.h>
 #include <gtksourceview/gtksourcelanguage.h>
 #include <string.h>
-
 #include "griffon_text_document.h"
 #include "griffon_hl.h"
 #include "griffon_config.h"
@@ -249,7 +248,7 @@ void doc_spaces_to_tabs (t_note_page *doc, gint tabsize)
   g_free (new_text);
 }
 
-//FIXME?
+
 GList* add_recent_item_composed (GList *list, t_note_page *doc)
 {
   if (! doc) return list;
@@ -263,16 +262,9 @@ GList* add_recent_item_composed (GList *list, t_note_page *doc)
   return l;
 }
 
-//FIXME?
+
 void add_recent_internal (t_note_page *doc)
 {
-  /*if (g_list_length (recent_list) > confile.max_recent_items)
-    {
-     GList *p = g_list_last (recent_list);
-     g_free (p->data);
-     recent_list = g_list_delete_link (recent_list, p);
-    }
-*/
   recent_list = add_recent_item_composed (recent_list, doc);
 }
 
@@ -330,7 +322,6 @@ void remove_tags (t_note_page *doc)
   GtkTextIter itstart, itend;
   gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &itstart, 0);
   gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &itend, gtk_text_buffer_get_char_count (GTK_TEXT_BUFFER(doc->text_buffer)));
-  //gtk_text_buffer_remove_all_tags (doc->text_buffer, &itstart, &itend);
 }                   
 
 
@@ -503,7 +494,6 @@ void prepare_hl_c (void)
   g_hash_table_insert (c_t_types, "volatile", "volatile");  
 }
 
-//n.p. Scorn - Vae Solis - On Ice
 void prepare_hl_php (void)
 {
   php_t_keywords = g_hash_table_new ( g_str_hash, g_str_equal);
@@ -566,7 +556,6 @@ void prepare_hl_php (void)
   g_hash_table_insert (php_t_keywords, "__METHOD_", "__METHOD__");
 }
 
-//Object and Free Pascal keywords
 void prepare_hl_pas (void)
 {
   pas_t_keywords = g_hash_table_new ( g_str_hash, g_str_equal);
@@ -740,7 +729,6 @@ void do_hl_php (t_note_page *doc)
        c = iter;
       }
 
-   //keywords
    do
      {
       if (gtk_text_iter_starts_word (&iter))
@@ -778,8 +766,6 @@ void do_hl_php (t_note_page *doc)
         }
 
   while ( gtk_text_iter_forward_char (&iter));
-
-  //end keywords
 
   gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &iter, 0);
   a = iter;
@@ -869,7 +855,6 @@ void do_hl_php (t_note_page *doc)
 
 void do_hl_bash (t_note_page *doc)
 {
-	//auto_hl_griffon_bash ();
 
    GtkTextIter iter;
    GtkTextIter a;
@@ -886,7 +871,6 @@ void do_hl_bash (t_note_page *doc)
        a = iter;
       }
 
-   //keywords
    do
      {
       if (gtk_text_iter_starts_word (&iter))
@@ -925,8 +909,6 @@ void do_hl_bash (t_note_page *doc)
         }
 
   while ( gtk_text_iter_forward_char (&iter));
-
-  //end keywords
 
   gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &iter, 0);
   a = iter;
@@ -997,7 +979,6 @@ void do_hl_po (t_note_page *doc)
        a = iter;
       }
 
-   //keywords
    do
      {
       if (gtk_text_iter_starts_word (&iter))
@@ -1036,8 +1017,6 @@ void do_hl_po (t_note_page *doc)
         }
 
   while ( gtk_text_iter_forward_char (&iter));
-
-  //end keywords
 
   gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &iter, 0);
   a = iter;
@@ -1106,7 +1085,6 @@ void do_hl_pascal (t_note_page *doc)
        a = iter;
       }
 
-   //keywords
    do
      {
       if (gtk_text_iter_starts_word (&iter))
@@ -1157,7 +1135,6 @@ void do_hl_pascal (t_note_page *doc)
 
   while ( gtk_text_iter_forward_char (&iter));
 
-  //end keywords
 
   gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &iter, 0);
   a = iter;
@@ -1208,7 +1185,6 @@ void do_hl_pascal (t_note_page *doc)
 }
 
 
-//n.p. Scorn - Vae Solis - Suck And Eat You
 void do_python_hl (t_note_page *doc)
 {
    GtkTextIter iter;
@@ -1226,7 +1202,7 @@ void do_python_hl (t_note_page *doc)
        a = iter;
       }
 
-   //keywords
+
    do
      {
       if (gtk_text_iter_starts_word (&iter))
@@ -1265,7 +1241,6 @@ void do_python_hl (t_note_page *doc)
 
   while ( gtk_text_iter_forward_char (&iter));
 
-  //end keywords
 
   gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &iter, 0);
   a = iter;
@@ -1381,7 +1356,6 @@ typedef struct
               } t_s_switcher;
                   
 
-//n.p. Public Image Limited "Another"
 void do_hl_spell_check2 ()
 {
 	printf("\n");

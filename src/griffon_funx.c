@@ -25,7 +25,6 @@
 #include <gtksourceview/gtksourceview.h>
 #include <gtksourceview/gtksourcebuffer.h>
 #include <gtksourceview/gtksourcelanguage.h>
-//#include <gtkspell/gtkspell.h>
 #include<stdlib.h>
 #include "griffon_defs.h"
 #include "griffon_config.h"
@@ -37,23 +36,13 @@
 #include "griffon_gtk_utils.h"
 #include "callbacks.h"
 
-
-/* from:
- * time.c
- * This file is part of gedit
- *
- * Copyright (C) 2002 Paolo Maggi
-
-changed by roxton
-*/
-
 gchar* get_time (const gchar* format)
 {
-  	gchar *out = NULL;
+	gchar *out = NULL;
 	gchar *out_utf8 = NULL;
-  	time_t clock;
-  	struct tm *now;
-  	size_t out_length = 0;
+	time_t clock;
+	struct tm *now;
+	size_t out_length = 0;
 	gchar *locale_format;
 
 	if (strlen (format) == 0)
@@ -64,15 +53,15 @@ gchar* get_time (const gchar* format)
 	if (! locale_format)
 		return g_strdup (" ");
 
-  	clock = time (NULL);
-  	now = localtime (&clock);
+	clock = time (NULL);
+	now = localtime (&clock);
 
 	do
 	{
 		out_length += 255;
 		out = g_realloc (out, out_length);
 	}
-  	while (strftime (out, out_length, locale_format, now) == 0);
+	while (strftime (out, out_length, locale_format, now) == 0);
 
 	g_free (locale_format);
 
@@ -87,16 +76,11 @@ gchar* get_time (const gchar* format)
 			out_utf8 = g_strdup (" ");
 	}
 
-  	return out_utf8;
+	return out_utf8;
 }
 
-
-//from Anjuta ::
-//    utilities.c
-//  Copyright (C) 2000  Kh. Naba Kumar Singh
 #define FILE_BUFFER_SIZE 65535
-gboolean
-copy_file (gchar * src, gchar * dest)
+gboolean copy_file (gchar * src, gchar * dest)
 {
 	FILE *input_fp, *output_fp;
 	gchar buffer[FILE_BUFFER_SIZE];
@@ -148,58 +132,30 @@ copy_file (gchar * src, gchar * dest)
 
 	return error;
 }
-//
 
-
-//from Bluefish:: bf_lib.c and gtk_easy
-
-/**
- * window_destroy:
- * @windowname: a #GtkWidget pointer to the window
- * 
- * Remove grab and signals and then destroy window
- * 
- * Return value: void
- **/
 void window_destroy(GtkWidget * windowname) {
 	g_signal_handlers_destroy(G_OBJECT(windowname));
 	gtk_grab_remove(windowname);
 	gtk_widget_destroy(windowname);
 }
 
-
-/**
- * ending_slash:
- * @dirname: a #const gchar * with a diretory name
- *
- * makes sure the last character of the newly allocated
- * string it returns is a '/'
- *
- * Return value: a newly allocated gchar * dirname that does end on a '/'
- **/
-gchar *ending_slash(const gchar *dirname) {
-	if (!dirname) {
+gchar *ending_slash(const gchar *dirname)
+{
+	if (!dirname)
+	{
 		return g_strdup("");
 	}
 
-	if (dirname[strlen(dirname)-1] == G_DIR_SEPARATOR) {
+	if (dirname[strlen(dirname)-1] == G_DIR_SEPARATOR)
+	{
 		return g_strdup(dirname);
 	} else {
 		return g_strconcat(dirname, G_DIR_SEPARATOR_S, NULL);
 	}
 }
 
-
-/**
- * most_efficient_filename:
- * @filename: a gchar * with a possibly inefficient filename like /hello/../tmp/../myfile
- *
- * tries to eliminate any dir/../ combinations in filename
- * this function could do evern better, it should also remove /./ entries
- *
- * Return value: the same gchar * as passed to the function
- **/
-gchar *most_efficient_filename(gchar *filename) {
+gchar *most_efficient_filename(gchar *filename)
+{
 	gint i,j, len;
 
 	len = strlen(filename);
@@ -217,21 +173,6 @@ gchar *most_efficient_filename(gchar *filename) {
 	return filename;
 }
 
-/**
- * create_relative_link_to:
- * @current_filepath: a #gchar * with the current filename
- * @link_to_filepath: a #gchar * with a file to link to
- *
- * creates a newly allocated relative link from current_filepath
- * to link_to_filepath
- *
- * if current_filepath == NULL it returns the most efficient filepath
- * for link_to_filepath
- *
- * if link_to_filepath == NULL it will return NULL
- *
- * Return value: a newly allocated gchar * with the relative link
- **/
 gchar *create_relative_link_to(gchar * current_filepath, gchar * link_to_filepath)
 {
 	gchar *returnstring = NULL;
@@ -249,7 +190,6 @@ gchar *create_relative_link_to(gchar * current_filepath, gchar * link_to_filepat
 	}
 	eff_current_filepath = most_efficient_filename(g_strdup(current_filepath));
 	eff_link_to_filepath = most_efficient_filename(g_strdup(link_to_filepath));
-	/* get the size of the directory of the current_filename */
 	current_filename_length = strlen(strrchr(eff_current_filepath, G_DIR_SEPARATOR))-1;
 	link_to_filename_length = strlen(strrchr(eff_link_to_filepath, G_DIR_SEPARATOR))-1;
 	current_dirname_length = strlen(eff_current_filepath) - current_filename_length;
@@ -261,8 +201,6 @@ gchar *create_relative_link_to(gchar * current_filepath, gchar * link_to_filepat
 		maxcommonlen = link_to_dirname_length;
 	}
 
-	/* first lets get the common basedir for both dir+file  by comparing the
-	   common path in the directories */
 	common_lenght = 0;
 	while ((strncmp(eff_current_filepath, eff_link_to_filepath, common_lenght + 1)) == 0) {
 		common_lenght++;
@@ -271,7 +209,7 @@ gchar *create_relative_link_to(gchar * current_filepath, gchar * link_to_filepat
 			break;
 		}
 	}
-	/* this is the common length, but we need the common directories */
+
 	if (eff_current_filepath[common_lenght] != G_DIR_SEPARATOR) {
 		gchar *ltmp = &eff_current_filepath[common_lenght];
 		while ((*ltmp != G_DIR_SEPARATOR) && (common_lenght > 0)) {
@@ -280,8 +218,6 @@ gchar *create_relative_link_to(gchar * current_filepath, gchar * link_to_filepat
 		}
 	}
 
-	/* now we need to count how much deeper (in directories) the current_filename
-	   is compared to the link_to_file, that is the amount of ../ we need to add */
 	deeper_dirs = 0;
 	for (count = common_lenght+1; count <= current_dirname_length; count++) {
 		if (eff_current_filepath[count] == G_DIR_SEPARATOR) {
@@ -289,7 +225,6 @@ gchar *create_relative_link_to(gchar * current_filepath, gchar * link_to_filepat
 		}
 	}
 
-	/* now we know everything we need to know we can create the relative link */
 	returnstring = g_malloc0((strlen(link_to_filepath) - common_lenght + 3 * deeper_dirs + 1) * sizeof(gchar *));
 	count = deeper_dirs;
 	while (count) {
@@ -302,22 +237,7 @@ gchar *create_relative_link_to(gchar * current_filepath, gchar * link_to_filepat
 	return returnstring;
 }
 
-/**
- * create_full_path:
- * @filename: a gchar * with the (relative or not) filename
- * @basedir: a gchar * with a basedir or NULL for current dir
- *
- * if filename is already absolute, it returns it
- * else it will use basedir if available, else the current dir
- * to add to the filename to form the full path
- *
- * it does use most_efficient_filename() to remote unwanted dir/../ entries
- *
- * Return value: a newly allocated gchar * with the full path
- **/
-
-
-gchar *create_full_path(gchar const * filename, gchar *basedir) {
+	gchar *create_full_path(gchar const * filename, gchar *basedir) {
 	gchar *absolute_filename;
 	gchar *tmpcdir;
 
@@ -338,247 +258,227 @@ gchar *create_full_path(gchar const * filename, gchar *basedir) {
 	absolute_filename = most_efficient_filename(absolute_filename);
 	return absolute_filename;
 }
-//
-
-
 
 gint noname_name_counter = -1;
 gint noname_kwas_counter = -1;
 
 gchar* get_noname_name (void) 
 {
-  ++noname_name_counter;
-  if (noname_name_counter >= G_MAXINT)
-     noname_name_counter = 0;
-  return g_strdup_printf ("noname_%d", noname_name_counter);
+	++noname_name_counter;
+	if (noname_name_counter >= G_MAXINT)
+		noname_name_counter = 0;
+	return g_strdup_printf ("noname_%d", noname_name_counter);
 }
-
 
 gchar* get_kwas_name (void) 
 {
-  ++noname_kwas_counter;
-  if (noname_name_counter >= G_MAXINT)
-     noname_name_counter = 0;
-  return g_strdup_printf ("kwas_%d", noname_kwas_counter);
+	++noname_kwas_counter;
+	if (noname_name_counter >= G_MAXINT)
+		noname_name_counter = 0;
+	return g_strdup_printf ("kwas_%d", noname_kwas_counter);
 }
-
 
 int get_value (int total, int perc)
 {
-  return (int) (total / 100) * perc;
+	return (int) (total / 100) * perc;
 }
-
 
 int get_percent (int total, int value)
 {
-  return (int) (value / total) * 100;
+	return (int) (value / total) * 100;
 }
-
 
 GtkWidget* new_menu_item_with_udata (const gchar *label, GtkWidget *parent, gpointer f, gpointer data)
 {
-  GtkWidget *item;
+	GtkWidget *item;
 
-  item = gtk_menu_item_new_with_label (label);
-  gtk_widget_show (item);
-  gtk_container_add (GTK_CONTAINER (parent), item);
-  gtk_widget_set_name (item, label);
+	item = gtk_menu_item_new_with_label (label);
+	gtk_widget_show (item);
+	gtk_container_add (GTK_CONTAINER (parent), item);
+	gtk_widget_set_name (item, label);
 
-  if (f)
-     g_signal_connect ((gpointer) item, "activate", G_CALLBACK (f), data);
-
-  return item;
+	if (f)
+		g_signal_connect ((gpointer) item, "activate", G_CALLBACK (f), data);
+	return item;
 }
-
 
 GtkWidget* new_menu_item (const gchar *label, GtkWidget *parent, gpointer f)
 {
-  GtkWidget *item;
+	GtkWidget *item;
 
-  item = gtk_menu_item_new_with_label (label);
-  gtk_widget_show (item);
-  gtk_container_add (GTK_CONTAINER (parent), item);
-  gtk_widget_set_name (item, label);
+	item = gtk_menu_item_new_with_label (label);
+	gtk_widget_show (item);
+	gtk_container_add (GTK_CONTAINER (parent), item);
+	gtk_widget_set_name (item, label);
 
-  if (f)
-     g_signal_connect ((gpointer) item, "activate", G_CALLBACK (f), NULL);
+	if (f)
+		g_signal_connect ((gpointer) item, "activate", G_CALLBACK (f), NULL);
 
-  return item;
+	return item;
 }
 
 
 GtkWidget* new_menu_sep (GtkWidget *parent)
 {
-  GtkWidget *mni_sep = gtk_menu_item_new ();
-  gtk_widget_show (mni_sep);
-  gtk_container_add (GTK_CONTAINER (parent), mni_sep);
-  gtk_widget_set_name (mni_sep, "-x-");
-  gtk_widget_set_sensitive (mni_sep, FALSE);
-  return mni_sep;
+	GtkWidget *mni_sep = gtk_menu_item_new ();
+	gtk_widget_show (mni_sep);
+	gtk_container_add (GTK_CONTAINER (parent), mni_sep);
+	gtk_widget_set_name (mni_sep, "-x-");
+	gtk_widget_set_sensitive (mni_sep, FALSE);
+	return mni_sep;
 }
-
 
 GtkWidget* new_menu_tof (GtkWidget *parent)
 {
-//  GtkWidget *mni_tof = gtk_tearoff_menu_item_new();
-	  GtkWidget *mni_tof = gtk_menu_item_new();
-  gtk_widget_set_name (mni_tof, "-x-");
-  gtk_widget_show (mni_tof);
-  gtk_container_add (GTK_CONTAINER (parent), mni_tof);
+	GtkWidget *mni_tof = gtk_menu_item_new();
+	gtk_widget_set_name (mni_tof, "-x-");
+	gtk_widget_show (mni_tof);
+	gtk_container_add (GTK_CONTAINER (parent), mni_tof);
 	return mni_tof;
 }
 
-
 GtkWidget* new_menu_submenu (GtkWidget *parent)
 {
-  GtkWidget *mni_menu = gtk_menu_new ();
-  gtk_widget_set_name (mni_menu, "-x-");
-  gtk_menu_item_set_submenu (GTK_MENU_ITEM (parent), mni_menu);
-  return mni_menu;
+	GtkWidget *mni_menu = gtk_menu_new ();
+	gtk_widget_set_name (mni_menu, "-x-");
+	gtk_menu_item_set_submenu (GTK_MENU_ITEM (parent), mni_menu);
+	return mni_menu;
 }
-
 
 void goto_local_label (const gchar *l)
 {
-  gchar *t = g_utf8_find_next_char (l, NULL);
-  gchar *s = g_strconcat ("<a name=\"", t, NULL);
+	gchar *t = g_utf8_find_next_char (l, NULL);
+	gchar *s = g_strconcat ("<a name=\"", t, NULL);
 
-  GtkTextIter iter;
-  GtkTextIter match_start;
+	GtkTextIter iter;
+	GtkTextIter match_start;
 
-  GtkTextMark *m = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(cur_text_doc->text_buffer)); 
-  gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &iter, m);
+	GtkTextMark *m = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(cur_text_doc->text_buffer)); 
+	gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &iter, m);
 
-  if (gtk_text_iter_forward_search  (&iter, s, GTK_TEXT_SEARCH_TEXT_ONLY, &match_start, NULL, NULL))
-     {
-      gtk_text_buffer_place_cursor (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &match_start );
-      gtk_text_view_scroll_to_iter (GTK_TEXT_VIEW(cur_text_doc->text_view), &match_start, 0.0, TRUE, 0.0, 0.0 );
-      gtk_text_view_place_cursor_onscreen (GTK_TEXT_VIEW (cur_text_doc->text_view));
-     }
+	if (gtk_text_iter_forward_search  (&iter, s, GTK_TEXT_SEARCH_TEXT_ONLY, &match_start, NULL, NULL))
+	{
+		gtk_text_buffer_place_cursor (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &match_start );
+		gtk_text_view_scroll_to_iter (GTK_TEXT_VIEW(cur_text_doc->text_view), &match_start, 0.0, TRUE, 0.0, 0.0 );
+		gtk_text_view_place_cursor_onscreen (GTK_TEXT_VIEW (cur_text_doc->text_view));
+	}
 
-  g_free (s);
+	g_free (s);
 }
-
 
 void handle_file (gchar const *filename, gint mode)
 {
-  if (! filename)
-     return;
- 
-  gchar *cmd = NULL;
+	if (! filename)
+		return;
+
+	gchar *cmd = NULL;
+
+	gint i = get_n_page_by_filename (filename);
+
+	if (i != -1)
+	{
+		gtk_notebook_set_current_page (GTK_NOTEBOOK(notebook1), i);
+		return;
+	} 
+
+	if (! g_file_test (filename, G_FILE_TEST_EXISTS))
+		return;
+
+	if (is_image (filename))
+	{
+		if (mode != 0)
+		{
+			cmd = g_strdup_printf (confile.ext_pic_editor, filename);
+			if(system (cmd) == -1){printf("\n");}
+			g_free (cmd);
+			return;
+		}
+
+	if (confile.use_ext_image_viewer)
+	{
+		cmd = g_strdup_printf (confile.ext_pic_editor, filename);
+		if(system (cmd) == -1){printf("\n");}
+			g_free(cmd);
+				return;
+	}
+	else  
+		create_wnd_imgviewer (filename);
+
+	return;
+	}
   
-  gint i = get_n_page_by_filename (filename);
+	if (! get_page_text() )
+		cur_settings.selected_enc = ch_str (cur_settings.selected_enc, confile.default_charset);
+	else
+		cur_settings.selected_enc = ch_str (cur_settings.selected_enc, cur_text_doc->encoding);
 
-  if (i != -1)
-     {
-      gtk_notebook_set_current_page (GTK_NOTEBOOK(notebook1), i);
-      return;
-     } 
-
-  if (! g_file_test (filename, G_FILE_TEST_EXISTS))
-     return;
- 
-  if (is_image (filename))
-     {
-      if (mode != 0)
-         {
-          cmd = g_strdup_printf (confile.ext_pic_editor, filename);
-							if(system (cmd) == -1){printf("\n");}
-          g_free (cmd);
-          return;
-         }
-
-      if (confile.use_ext_image_viewer)
-         {
-          cmd = g_strdup_printf (confile.ext_pic_editor, filename);
-							if(system (cmd) == -1){printf("\n");}
-          g_free(cmd);
-          return;        
-         }
-      else  
-          create_wnd_imgviewer (filename);
-
-      return;
-     }
-  
-  if (! get_page_text() )
-     cur_settings.selected_enc = ch_str (cur_settings.selected_enc, confile.default_charset);
-  else
-      cur_settings.selected_enc = ch_str (cur_settings.selected_enc, cur_text_doc->encoding);
-
-  open_file_std (filename);
+	open_file_std (filename);
 }
-
 
 void handle_file_enc (gchar *filename, gchar *enc)
 {
-  if (! filename)
-     return;
- 
-  
-  gint i = get_n_page_by_filename (filename);
+	if (! filename)
+		return;
 
-  if (i != -1)
-     {
-      gtk_notebook_set_current_page (GTK_NOTEBOOK(notebook1), i);
-      return;
-     } 
+	gint i = get_n_page_by_filename (filename);
 
-  if (! g_file_test (filename, G_FILE_TEST_EXISTS))
-     return;
- 
-  
-  cur_settings.selected_enc = ch_str (cur_settings.selected_enc, enc);
+	if (i != -1)
+	{
+		gtk_notebook_set_current_page (GTK_NOTEBOOK(notebook1), i);
+		return;
+	} 
 
-  open_file_std (filename);
+	if (! g_file_test (filename, G_FILE_TEST_EXISTS))
+		return;
+
+	cur_settings.selected_enc = ch_str (cur_settings.selected_enc, enc);
+
+	open_file_std (filename);
 }
-
-      
 
 void kwas_handle_file (gchar *filename, int mode)
 {
-  if (! filename)
-     return;
- 
-  gchar *cmd = NULL;
-  
-  gint i = get_n_page_by_filename (filename);
+	if (! filename)
+		return;
 
-  if (i != -1)
-     {
-      gtk_notebook_set_current_page (GTK_NOTEBOOK(notebook1), i);
-      return;
-     } 
+	gchar *cmd = NULL;
 
-  if (! g_file_test (filename, G_FILE_TEST_EXISTS))
-     return;
- 
-  if (is_image (filename))
-     {
-      if (mode != 0)
-         {
-          cmd = g_strdup_printf (confile.ext_pic_editor, filename);
-							if(system (cmd) == -1){printf("\n");}
-          g_free (cmd);
-          return;
-         }
+	gint i = get_n_page_by_filename (filename);
 
-      if (confile.use_ext_image_viewer)
-         {
-          cmd = g_strdup_printf (confile.ext_pic_editor, filename);
-							if(system (cmd) == -1){printf("\n");}
-          g_free(cmd);
-          return;        
-         }
-      else  
-          create_wnd_imgviewer (filename);
+	if (i != -1)
+	{
+		gtk_notebook_set_current_page (GTK_NOTEBOOK(notebook1), i);
+		return;
+	} 
 
-      return;
-     }
+	if (! g_file_test (filename, G_FILE_TEST_EXISTS))
+		return;
 
-  open_file_std (filename);
+	if (is_image (filename))
+	{
+		if (mode != 0)
+		{
+			cmd = g_strdup_printf (confile.ext_pic_editor, filename);
+				if(system (cmd) == -1){printf("\n");}
+					g_free (cmd);
+				return;
+		}
+
+	if (confile.use_ext_image_viewer)
+	{
+		cmd = g_strdup_printf (confile.ext_pic_editor, filename);
+			if(system (cmd) == -1){printf("\n");}
+				g_free(cmd);
+			return;        
+	}
+	else  
+		create_wnd_imgviewer (filename);
+
+	return;
+	}
+
+	open_file_std (filename);
 }
-
 
 t_image_info* get_image_info (gchar *filename)
 {
@@ -799,96 +699,6 @@ gchar* get_8_filename (const gchar *filename)
   return g_filename_to_utf8 (filename, -1, &bytes_read, &bytes_written, NULL);  
 }
 
-/*
-void make_stats (t_note_page *doc)
-{
-  gboolean selected = TRUE;
-  gchar *text;
-  gint words = 0;
-  gint chars = 0;
-  gint white_chars = 0;
-  gint lines = 0;
-  gint bytes = 0;
-  GtkTextIter start;
-  GtkTextIter end;
-  gunichar ch;
-
-  if (doc_is_sel (doc->text_buffer))
-     gtk_text_buffer_get_selection_bounds (doc->text_buffer, &start, &end);
-  else
-      {
-       gtk_text_buffer_get_start_iter (doc->text_buffer, &start); 
-       gtk_text_buffer_get_end_iter (doc->text_buffer, &end); 
-       selected = FALSE;
-      }  
-
-  lines = gtk_text_buffer_get_line_count (doc->text_buffer);
-  text =  gtk_text_buffer_get_text (doc->text_buffer, &start, &end, FALSE);
-  bytes = strlen (text);
-
-  do 
-    {
-     ch = gtk_text_iter_get_char (&start);
-     if (g_unichar_isspace (ch))
-        white_chars++;
-     if (gtk_text_iter_starts_word (&start))
-        words++; 
-
-     chars++;
-    }
-  while ( (gtk_text_iter_forward_char (&start)) && ( ! gtk_text_iter_equal (&start, &end)) ); 
-
-
-  gchar *s_bytes = g_strdup_printf(_("bytes: %d\n"), bytes);
-  gchar *s_lines = g_strdup_printf(_("lines: %d\n"), lines);
-  gchar *s_words = g_strdup_printf(_("words: %d\n"), words);
-  gchar *s_chars = g_strdup_printf(_("chars: %d\n"), chars);
-  gchar *s_charsnsp = g_strdup_printf(_("chars non-space: %d\n"), chars - white_chars);
-
-  gchar *result;
-
-  if (! selected)
-     result = g_strconcat (_("stats for "),
-                           doc->file_name,
-                           ":\n",
-                           s_charsnsp,
-                           s_chars,
-                           s_words,
-                           s_lines,
-                           s_bytes,
-                           NULL);
-   else
-       result = g_strconcat (_("stats for the selection"),
-                             ":\n",
-                             s_charsnsp,
-                             s_chars,
-                             s_words,
-                             s_bytes,
-                             NULL);
-
-  log_to_memo (result, NULL, LM_NORMAL);
-
-  g_free (s_bytes);
-  g_free (s_charsnsp);
-  g_free (s_chars);
-  g_free (s_words);
-  g_free (s_lines);
-  g_free (result);
-  g_free (text);
-}
-*/
-
-
-//from Gedit - plugin
-/*
- * docinfo.c
- * This file is part of gedit
- *
- * Copyright (C) 2002 Paolo Maggi
-
-modified by roxton
-*/
-
 void make_stats (t_note_page *doc)
 {
   if (! doc)
@@ -976,8 +786,6 @@ void make_stats (t_note_page *doc)
                              s_words,
                              s_bytes,
                              NULL);
-
-  //log_to_memo (result, NULL, LM_NORMAL);
 
   g_free (s_bytes);
   g_free (s_charsnsp);
@@ -1251,7 +1059,6 @@ void build_menu_from_glist (GList *list, gpointer menu, gpointer callback)
 }
 
 
-//current music: Radiohead - OK Computer - Paranoid Andriod
 void build_menu_wudata_from_glist (GList *list, gpointer menu, gpointer callback, gpointer udata)
 {
 	int nbr=1;

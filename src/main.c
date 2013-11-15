@@ -53,9 +53,7 @@ int main (int argc, char *argv[])
   textdomain (GETTEXT_PACKAGE);
 #endif
 
-//  gtk_set_locale ();
   gtk_init (&argc, &argv);
-//    splash_screen ();
 
   signal (SIGABRT, sig_handler);
   signal (SIGTERM, sig_handler);
@@ -68,8 +66,6 @@ int main (int argc, char *argv[])
 
   g_argv = argv;
   g_argc = argc;
-
- // gtk_init_add (tea_init, NULL);
   
   update_enc_menu ();
   bmx_reload ();
@@ -77,12 +73,10 @@ int main (int argc, char *argv[])
   prepare_hl_all ();
 
   reload_snippets ();   
-  //reload_dicts ();
   reload_usermenu ();
   reload_sessions ();
   reload_templates ();
 
-  //reload_hotkeys ();
   reload_autoreplace ();
   update_recent_list_menu (TRUE);
 

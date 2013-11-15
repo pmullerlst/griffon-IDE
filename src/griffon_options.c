@@ -60,14 +60,6 @@ static void cb_on_bt_apply ()
    l = add_to_glist_combined_str (l, "tag_color_lm_error_fg", (gchar *)gtk_entry_get_text (GTK_ENTRY (ent_tag_color_lm_error_fg)));
    l = add_to_glist_combined_str (l, "tag_color_lm_error_bg", (gchar *)gtk_entry_get_text (GTK_ENTRY (ent_tag_color_lm_error_bg)));
 
-   //l = add_to_glist_combined_str (l, "tag_comment", gtk_entry_get_text (GTK_ENTRY (ent_tag_comment)));
-   //l = add_to_glist_combined_str (l, "tag_identifier", gtk_entry_get_text (GTK_ENTRY (ent_tag_identifier)));
-   //l = add_to_glist_combined_str (l, "tag_digit", gtk_entry_get_text (GTK_ENTRY (ent_tag_digit)));
-   //l = add_to_glist_combined_str (l, "tag_string", gtk_entry_get_text (GTK_ENTRY (ent_tag_string)));
-   //l = add_to_glist_combined_str (l, "tag_html_tag", gtk_entry_get_text (GTK_ENTRY (ent_tag_html_tag)));
-
-   //l = add_to_glist_combined_str (l, "tag_preprocessor", gtk_entry_get_text (GTK_ENTRY (ent_tag_preprocessor)));
-   //l = add_to_glist_combined_str (l, "tag_type", gtk_entry_get_text (GTK_ENTRY (ent_tag_type)));
    l = add_to_glist_combined_str (l, "tag_spellcheck", (gchar *)gtk_entry_get_text (GTK_ENTRY (ent_tag_spellcheck)));
 
    l = add_to_glist_combined_str (l, "text_foreground", (gchar *)gtk_entry_get_text (GTK_ENTRY (ent_text_foreground)));
@@ -117,12 +109,10 @@ static void cb_on_bt_apply ()
 
    l = add_to_glist_combined_bool (l, "show_line_nums", gtk_toggle_button_get_active ((GtkToggleButton *)cb_show_line_nums));
    l = add_to_glist_combined_bool (l, "word_wrap", gtk_toggle_button_get_active ((GtkToggleButton *)cb_word_wrap));
-   //l = add_to_glist_combined_bool (l, "use_autocomp", gtk_toggle_button_get_active (&cb_use_autocomp->toggle_button));
    l = add_to_glist_combined_bool (l, "use_def_save_dir", gtk_toggle_button_get_active ((GtkToggleButton *)cb_use_def_save_dir));
    l = add_to_glist_combined_bool (l, "use_def_open_dir", gtk_toggle_button_get_active ((GtkToggleButton *)cb_use_def_open_dir));
    l = add_to_glist_combined_bool (l, "use_auto_indent", gtk_toggle_button_get_active ((GtkToggleButton *)cb_use_auto_indent));
 	l = add_to_glist_combined_bool (l, "use_infotext", gtk_toggle_button_get_active ((GtkToggleButton *)cb_use_infotext));
-	//l = add_to_glist_combined_bool (l, "use_spellcheck", gtk_toggle_button_get_active (&cb_use_spellcheck->toggle_button));
 		l = add_to_glist_combined_bool (l, "use_textcompbloc", gtk_toggle_button_get_active ((GtkToggleButton *)cb_use_textcompbloc));
 
    l = add_to_glist_combined_bool (l, "ins_spaces_on_tab_press", gtk_toggle_button_get_active ((GtkToggleButton *)cb_ins_spaces_on_tab_press));
@@ -153,19 +143,12 @@ static void cb_on_bt_apply ()
    l = add_to_glist_combined_bool (l, "show_hidden_files", gtk_toggle_button_get_active ((GtkToggleButton *)cb_show_hidden_files));
    l = add_to_glist_combined_bool (l, "do_autorep", gtk_toggle_button_get_active ((GtkToggleButton *)cb_do_autorep));
 
-//   l = add_to_glist_combined_int (l, "logmemo_lines_max", gtk_spin_button_get_value_as_int (sb_logmemo_lines_max));  
    l = add_to_glist_combined_int (l, "famous_history_max", gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(sb_famous_history_max)));  
    l = add_to_glist_combined_int (l, "max_recent_items", gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(sb_max_recent_items)));  
-   //l = add_to_glist_combined_int (l, "autocomp_wordlen_min", gtk_spin_button_get_value_as_int (sb_autocomp_wordlen_min));  
-   //l = add_to_glist_combined_int (l, "autocomp_list_items_max", gtk_spin_button_get_value_as_int (sb_autocomp_list_items_max));  
-
 
    l = add_to_glist_combined_int (l, "thumb_width", gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(sb_thumb_width)));  
    l = add_to_glist_combined_int (l, "thumb_height", gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(sb_thumb_height)));  
 
-
-  // l = add_to_glist_combined_int (l, "saveopen_w", gtk_spin_button_get_value_as_int (sb_saveopen_w));  
-  // l = add_to_glist_combined_int (l, "saveopen_h", gtk_spin_button_get_value_as_int (sb_saveopen_h));  
    l = add_to_glist_combined_int (l, "tab_size", gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(sb_tab_size)));  
  
    glist_save_to_file (l, confile.tea_rc);
@@ -185,7 +168,6 @@ static GtkWidget* wnd_options_encoding (void)
  
   GtkWidget *page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (page);
-  //gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW(wnd), page);
 		gtk_container_add((GtkContainer *)wnd,page);
 
   GtkWidget *fr1 = gtk_frame_new (_("Defaults"));   
@@ -244,8 +226,6 @@ static GtkWidget* wnd_options_limits (void)
   GtkWidget *page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (page);
 
-  //sb_logmemo_lines_max = tea_spinbutton (page, _("Logmemo nombre de lignes limite"), confile.logmemo_lines_max);
-  //sb_famous_history_max = tea_spinbutton (page, _("History limit text input"), confile.famous_history_max);
   sb_max_recent_items = tea_spinbutton (page, _("Max of recent files"), confile.max_recent_items); 
 
   return page;
@@ -268,10 +248,7 @@ static GtkWidget* wnd_options_interface (void)
   GtkWidget *page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (page);
   
-  //sb_saveopen_w = tea_spinbutton (page, _("Save / Open dialogs width cents fors"), confile.saveopen_w);
-  //sb_saveopen_h = tea_spinbutton (page, _("Save / Open dialog boxes up to hundred"), confile.saveopen_h);
   cb_main_wnd_show_full_path = tea_checkbox (page, _("Show full path in window title"), &confile.main_wnd_show_full_path); 
-  //cb_do_show_main_toolbar = tea_checkbox (page, _("View the main toolbar"), confile.do_show_main_toolbar); 
 
   sb_thumb_width = tea_spinbutton (page, _("Width of the image thumbnail"), confile.thumb_width);
   sb_thumb_height = tea_spinbutton (page, _("Thumbnail image height"), confile.thumb_height);
@@ -289,7 +266,6 @@ static GtkWidget* wnd_options_switches (void)
   cb_start_with_blank_file = tea_checkbox (page, _("Griffon start with an empty file"), &confile.start_with_blank_file); 
   cb_do_det_scripts_by_content = tea_checkbox (page, _("Determine the syntax of the file contents"), &confile.do_det_scripts_by_content); 
   cb_xhtml_mode = tea_checkbox (page, _("XHTML Mode for Markup"), &confile.xhtml_mode); 
-  //cb_show_hidden_files = tea_checkbox (page, _("Show hidden files in Kwas"), confile.show_hidden_files); 
   cb_use_snippets = tea_checkbox (page, _("Use snippets"), &confile.use_snippets); 
   cb_use_ext_image_viewer = tea_checkbox (page, _("Use external image viewer"), &confile.use_ext_image_viewer);
   cb_do_hl_on_fileopen = tea_checkbox (page, _("Syntax coloring to open the file"), &confile.do_hl_on_fileopen);
@@ -309,7 +285,6 @@ static GtkWidget* wnd_options_confirmations (void)
   
   cb_prompt_on_not_saved = tea_checkbox (page, _("Warn before closing a modified file"), &confile.prompt_on_not_saved); 
   cb_prompt_on_file_exists = tea_checkbox (page, _("Overwrite existing file"), &confile.prompt_on_file_exists); 
-  //cb_warn_about_aliens = tea_checkbox (page, _("Warn me about those little green men in a toilet"), confile.warn_about_aliens); 
  
   return page;
 }
@@ -321,10 +296,6 @@ static GtkWidget* wnd_options_maintenance (void)
   gtk_widget_show (page);
   
   gtk_box_set_homogeneous (GTK_BOX(page), FALSE);
-
-  /*GtkWidget *b = tea_button_at_box (page, _("Saving the current configuration" ), cb_backup_config, NULL);
-  b = tea_button_at_box (page, _("Restoring a Configuration" ), cb_restore_config, NULL);
-  b = tea_button_at_box (page, _("Réinitialiser config par défaut" ), cb_config_reset, NULL);*/
     
   return page;
 }
@@ -348,18 +319,6 @@ static GtkWidget* wnd_options_colors (void)
   
   page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (page);
- /* gtk_notebook_append_page (notebook, page, gtk_label_new (_("Coloration syntaxique")));
- 
-  ent_tag_comment = tea_color_selector (page, _("Commentaires"), confile.tag_comment);
-  ent_tag_identifier = tea_color_selector (page, _("Identificateurs"), confile.tag_identifier);
-  ent_tag_digit = tea_color_selector (page, _("Chiffres"), confile.tag_digit); 
-  ent_tag_string = tea_color_selector (page, _("String"), confile.tag_string);
-  ent_tag_html_tag = tea_color_selector (page, _("HTML tags"), confile.tag_html_tag);
-  ent_tag_preprocessor = tea_color_selector (page, _("Preprocessor"), confile.tag_preprocessor);
-  ent_tag_type = tea_color_selector (page, _("Types"), confile.tag_type);
-
-  page = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (page);*/
   gtk_notebook_append_page (GTK_NOTEBOOK(notebook), page, gtk_label_new (_("IDE")));
  
   ent_tag_color_lm_error_fg = tea_color_selector (page, _("Errors avant-plan (logmemo)"), confile.tag_color_lm_error_fg);
@@ -442,9 +401,6 @@ static GtkWidget* wnd_options_coauthor (void)
   GtkWidget *page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (page);
 
-  //cb_use_autocomp = tea_checkbox (page, _("Automatic word completion"), confile.use_autocomp);
-  //sb_autocomp_wordlen_min = tea_spinbutton (page, _("Mininum autocompletion word length"), confile.autocomp_wordlen_min);
-  //sb_autocomp_list_items_max = tea_spinbutton (page, _("Autocompletion list items maximum"), confile.autocomp_list_items_max);
   cb_do_autorep = tea_checkbox (page, _("automatic replacement"), &confile.do_autorep);
 		cb_use_textcompbloc = tea_checkbox (page, _("Autocompletion of tags and block {} () ..."), &confile.use_textcompbloc);
   return page;
@@ -485,10 +441,6 @@ GtkWidget* wnd_options_create (void)
 
   gtk_notebook_set_current_page (GTK_NOTEBOOK(notebook), confile.last_prefs_tab);
 
- /* g_signal_connect ((gpointer) notebook, "switch_page",
-                    G_CALLBACK (on_kwas_notebook_switch_page),
-                    NULL);*/
-
   GtkWidget *hbox1 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_widget_show (hbox1);
   gtk_container_add (GTK_CONTAINER (vbox1), hbox1);
@@ -504,7 +456,6 @@ GtkWidget* wnd_options_create (void)
   g_signal_connect (bt_apply, "clicked", G_CALLBACK (cb_on_bt_apply), wnd_options);
 
   gtk_window_set_position (GTK_WINDOW(wnd_options), GTK_WIN_POS_CENTER);   
- // gtk_window_set_modal (wnd_options, TRUE);
 
   gtk_widget_show (wnd_options);
   return wnd_options;

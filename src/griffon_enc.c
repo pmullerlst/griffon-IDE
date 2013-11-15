@@ -18,7 +18,6 @@
 #include "rox_strings.h"
 
 
-
 gboolean enc_is_finnish (const gchar *s)
 {
   gchar *a[8] = {
@@ -338,8 +337,6 @@ gboolean enc_is_portuguese (const gchar *s)
   return FALSE; 
 }
 
-
-//JIS X 0208-1990
 gboolean enc_is_iso_2022_jp (const gchar *s) 
 {
   gchar *a[4] = {
@@ -357,21 +354,6 @@ gboolean enc_is_iso_2022_jp (const gchar *s)
   return FALSE; 
 }
 
-
-/*
-GB = Guo Biao = Guojia Biaojun = National Standard
-
-JIS = Japanese Industrial Standard
-JIS = ISO-2022-JP
-Shift-JIS = SJIS or MS Kanji or CP_932
-EUC-JP
-GB2312 = Chinese Simplified
-Big5 = Chinese Traditional
-*/
-
-
-//Leafpad code by Tarot Osuji <tarot@sdf.lonestar.org>
-//modified by roxton
 gchar *detect_charset_zh(const gchar *text)
 {
 	guint8 c = *text;
@@ -462,4 +444,3 @@ gchar *detect_charset_ja(const gchar *text)
 	return charset;
 }
 
-//end of the code from Leafpad

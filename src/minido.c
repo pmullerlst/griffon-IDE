@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <libintl.h>
 #define _(String) gettext (String)
-/* Stuff needed by stat to access file dates */
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>

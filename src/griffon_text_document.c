@@ -79,53 +79,35 @@ void indent_real(GtkWidget *text_view)
 		GTK_TEXT_VIEW(text_view),
 		gtk_text_buffer_get_insert(GTK_TEXT_BUFFER(buffer)));
 }
-///////////////////////////////
 
-
-//from Bluefish::document.c
-/**
- * doc_toggle_highlighting_cb:
- * @doc: a #Tdocument*
- * @unindent: #gboolean
- *
- * Indent the selected block in current document.
- * Set unindent to TRUE to unindent.
- *
- * Return value: void
- **/
 void doc_indent_selection (t_note_page *doc, gboolean unindent)
  {
 	GtkTextIter itstart,itend;
 	if (gtk_text_buffer_get_selection_bounds(GTK_TEXT_BUFFER(doc->text_buffer),&itstart,&itend)) {
 		GtkTextMark *end;
 	
-		/* we have a selection, now we loop trough the characters, and for every newline	we add or remove a tab, we set the end with a mark */
 		end = gtk_text_buffer_create_mark(GTK_TEXT_BUFFER(doc->text_buffer),NULL,&itend,TRUE);
 		if (gtk_text_iter_get_line_offset(&itstart)>0) {
 			gtk_text_iter_set_line_index(&itstart,0);
 		}	
 		while(gtk_text_iter_compare(&itstart,&itend) < 0) {
 			GtkTextMark *cur;
-/*			if (firstrun && !gtk_text_iter_starts_line(&itstart)) {
-				gtk_text_iter_forward_line(&itstart);
-			}
-			firstrun = FALSE;*/
+
 			cur = gtk_text_buffer_create_mark(GTK_TEXT_BUFFER(doc->text_buffer),NULL,&itstart,TRUE);
 			if (unindent) {
-				/* when unindenting we try to set itend to the end of the indenting step
-				which might be a tab or 'tabsize' spaces, then we delete that part */
+
 				gboolean cont=TRUE;
 				gunichar cchar = gtk_text_iter_get_char(&itstart);
-				if (cchar == 9) { /* 9 is ascii for tab */
+				if (cchar == 9) { 
 					itend = itstart;
 					cont = gtk_text_iter_forward_char(&itend);
-				} else if (cchar == 32) { /* 32 is ascii for space */
+				} else if (cchar == 32) { 
 					gchar *tmpstr;
 					gint i=0;
 					itend = itstart;
 					gtk_text_iter_forward_chars(&itend,confile.tab_size);
 					tmpstr = gtk_text_buffer_get_text(GTK_TEXT_BUFFER(doc->text_buffer),&itstart,&itend,FALSE);
-					//DEBUG_MSG("tab_width=%d, strlen(tmpstr)=%d, tmpstr='%s'\n",main_v->props.editor_tab_width,strlen(tmpstr),tmpstr);
+
 					while (cont && tmpstr[i] != '\0') {
 						cont = (tmpstr[i] == ' ');
 						i++;
@@ -143,23 +125,23 @@ void doc_indent_selection (t_note_page *doc, gboolean unindent)
 				}
 #ifdef DEBUG
 				else {
-					//DEBUG_MSG("doc_indent_selection, NOT continue!!\n");
+
 				}
 #endif
-			} else { /* indent */
+			} else {
 				gchar *indentstring;
 				gint indentlen;
 				if (confile.ins_spaces_on_tab_press) {
                                           indentstring = g_strnfill (confile.tab_size, ' '); 
                   
-					//indentstring = bf_str_repeat(" ", confile.tab_size);
+
 					indentlen = confile.tab_size;
 				} else {
 					indentstring = g_strdup("\t");
 					indentlen=1;
 				}
 				gtk_text_buffer_insert(GTK_TEXT_BUFFER(doc->text_buffer),&itstart,indentstring,indentlen);
-				//doc_unre_add(doc, indentstring, offsetstart, offsetstart+indentlen, UndoInsert);
+
 				g_free(indentstring);
 			}
 			gtk_text_buffer_get_iter_at_mark(GTK_TEXT_BUFFER(doc->text_buffer),&itstart,cur);
@@ -169,7 +151,7 @@ void doc_indent_selection (t_note_page *doc, gboolean unindent)
 		}
 		gtk_text_buffer_delete_mark(GTK_TEXT_BUFFER(doc->text_buffer),end);
 	} else {
-		/* there is no selection, work on the current line */
+
 		GtkTextIter iter;
 		gtk_text_buffer_get_iter_at_mark(GTK_TEXT_BUFFER(doc->text_buffer),&iter,gtk_text_buffer_get_insert(GTK_TEXT_BUFFER(doc->text_buffer)));
 		gtk_text_iter_set_line_offset(&iter,0);
@@ -192,7 +174,7 @@ void doc_indent_selection (t_note_page *doc, gboolean unindent)
 				gtk_text_iter_forward_chars(&itend,deletelen);
 				gtk_text_buffer_delete(GTK_TEXT_BUFFER(doc->text_buffer),&iter,&itend);
 			}
-		} else { /* indent */
+		} else {
 			gchar *indentstring;
 			gint indentlen;
 			if (confile.ins_spaces_on_tab_press) {
@@ -207,21 +189,7 @@ void doc_indent_selection (t_note_page *doc, gboolean unindent)
 		}
 	}
 }
-//////////////////////
 
-
-//from Bluefish:: gtk_easy.c, modified by roxton
-
-/**
- * widget_get_string_size:
- * @widget: #GtkWidget* to put the string on
- * @string: #ghcar* with the string
- *
- * This function will calculate the width in pixels from the
- * string passed to it in string, using the font from widget
- *
- * Return value: #gint pixels
- */
 gint widget_get_string_size (GtkWidget *w, gchar *s) 
 {
   gint r = -1;
@@ -237,13 +205,6 @@ gint widget_get_string_size (GtkWidget *w, gchar *s)
 }
 
 
-//from Bluefish:: document.c
-/**
- * This function is taken from gtksourceview
- * Copyright (C) 2001
- * Mikael Hermansson <tyan@linux.se>
- * Chris Phelps <chicane@reninet.com>
- */
 static gint textview_calculate_real_tab_width(GtkWidget *textview, gint tab_size) {
 	gchar *tab_string;
 	gint counter = 0;
@@ -260,24 +221,15 @@ static gint textview_calculate_real_tab_width(GtkWidget *textview, gint tab_size
 	tab_string[tab_size] = '\0';
 	tab_width =  widget_get_string_size(textview, tab_string);
 	g_free(tab_string);
-/*	if (tab_width < 0) tab_width = 0;*/
+
 	return tab_width;
 }
 
-/**
- * doc_set_tabsize:
- * @doc: a #Tdocument
- * @tabsize: a #gint with the tab size
- *
- * this function will set the textview from doc to use the tabsize
- * described by tabsize
- *
- * Return value: void
- **/
+
 void doc_set_tabsize(t_note_page *doc, gint tabsize) {
 	PangoTabArray *tab_array;
 	gint pixels = textview_calculate_real_tab_width(GTK_WIDGET(doc->text_view), tabsize);
-	//DEBUG_MSG("doc_set_tabsize, tabsize=%d, pixels=%d\n", tabsize, pixels);
+
 	tab_array = pango_tab_array_new (1, TRUE);
 	pango_tab_array_set_tab (tab_array, 0, PANGO_TAB_LEFT, pixels);
 	gtk_text_view_set_tabs (GTK_TEXT_VIEW (doc->text_view), tab_array);
@@ -285,8 +237,6 @@ void doc_set_tabsize(t_note_page *doc, gint tabsize) {
 }
 
 
- //from Bluefish :: document.c
-/* contributed by Oskar Swida <swida@aragorn.pb.bialystok.pl>, with help from the gedit source */
 gboolean doc_textview_expose_event_lcb(GtkWidget * widget, GdkEventExpose * event) {
 	GtkTextView *view = (GtkTextView*)widget;
 	GdkRectangle rect;
@@ -320,22 +270,13 @@ gboolean doc_textview_expose_event_lcb(GtkWidget * widget, GdkEventExpose * even
 		pomstr = g_strdup_printf("%d",i+1);
 		pango_layout_set_text(l,pomstr,-1);
 
-		//gtk_paint_layout(widget->style,win,GTK_WIDGET_STATE(widget),FALSE,NULL,widget,NULL,2,w,l);
       g_free(pomstr);
 	}
 	g_object_unref(G_OBJECT(l));
 	return TRUE;
 }
 
-/**
- * document_set_line_numbers:
- * @doc: a #Tdocument*
- * @value: a #gboolean
- *
- * Show or hide linenumbers (at the left of the main GtkTextView).
- *
- * Return value: void
- **/
+
 void document_set_line_numbers(t_note_page* doc, gboolean value) {
 	if (value) {
 		gtk_text_view_set_left_margin(GTK_TEXT_VIEW(doc->text_view),2);
@@ -353,7 +294,7 @@ void document_set_line_numbers(t_note_page* doc, gboolean value) {
 static void msg_wrong_encoding (gchar *filename)
 {	
 	icon_stop_logmemo();
-	//gtk_notebook_set_current_page(notebook_down,0);
+
   log_to_memo (_("Sorry, but I can not determine the character set %s. try again and select it manually."), filename, LM_ERROR);
 }
 
@@ -379,7 +320,6 @@ void do_backup (gchar *file_name, gboolean do_check)
 	   icon_nosave_logmemo();
 	   icon_affiche_nosave ();
 		controle_save_page_icon_no();
-	   //gtk_notebook_set_current_page(notebook_down,0);
       log_to_memo (_("Can not save to %s"), file_name, LM_ERROR);
    }                    
   g_free (bak);
@@ -394,7 +334,7 @@ gboolean text_doc_save (t_note_page *doc, gchar *a_filename)
      icon_log_logmemo();
      icon_affiche_nosave ();
 		controle_save_page_icon_no();
-     //gtk_notebook_set_current_page(notebook_down,0);
+
       log_to_memo (_("The file is read-only."), NULL, LM_ERROR);
       return FALSE;
      }
@@ -408,7 +348,7 @@ gboolean text_doc_save (t_note_page *doc, gchar *a_filename)
   if (is_rtf (filename))
      {
      icon_nosave_logmemo();
-     //gtk_notebook_set_current_page(notebook_down,0);
+
       log_to_memo (_("Griffon can't save RTF. Because."), filename, LM_ERROR);
       g_free (filename);
       return FALSE;
@@ -420,7 +360,7 @@ gboolean text_doc_save (t_note_page *doc, gchar *a_filename)
 	   icon_nosave_logmemo();
 	   icon_affiche_nosave ();
 		controle_save_page_icon_no();
-	   //gtk_notebook_set_current_page(notebook_down,0);
+
       log_to_memo (_("%s is not writable for you!"), filename, LM_ERROR);
       g_free (filename); 
       return FALSE;
@@ -431,7 +371,7 @@ gboolean text_doc_save (t_note_page *doc, gchar *a_filename)
      icon_nosave_logmemo();
      icon_affiche_nosave ();
 		controle_save_page_icon_no();
-     //gtk_notebook_set_current_page(notebook_down,0);
+
       log_to_memo (_("And how I can save this text file as a directory?!"), NULL, LM_ERROR);
       g_free (filename);
       return FALSE;
@@ -456,7 +396,6 @@ gboolean text_doc_save (t_note_page *doc, gchar *a_filename)
 
   if (g_utf8_collate (filename, confile.tea_rc) == 0)
      {
-      //confile_free ();
       confile_reload();
       doc_update_all();
       update_enc_menu();
@@ -514,7 +453,7 @@ gboolean text_doc_save (t_note_page *doc, gchar *a_filename)
    if(strrchr(doc->file_name,'.'))
 	{
 	extension = strrchr(doc->file_name,'.');
-	//********************************* TEST si le fichier est une page web on affiche dans le mini web
+
 	if (strcmp(".htm", extension) == 0 || strcmp(".html", extension) == 0 || strcmp(".php", extension) == 0)
 	{
 	focus_web ();
@@ -652,7 +591,6 @@ t_note_page* page_create_new (void)
   page->hl_mode = g_strdup (HL_PO);
 
   page->scrolledwindow = gtk_scrolled_window_new (NULL, NULL);
-  //gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (page->scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
 
 	page->text_buffer = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
@@ -660,15 +598,8 @@ t_note_page* page_create_new (void)
   gtk_source_view_set_highlight_current_line((GtkSourceView *)page->text_view,TRUE);
 	 gtk_source_view_set_show_right_margin((GtkSourceView *)page->text_view,TRUE);
 
-	//********************
-	//if(confile.use_spellcheck == 1 ){page->spell = gtkspell_new_attach(GTK_TEXT_VIEW(page->text_view), NULL, NULL);}
-	//********************
-
-
-//************* visualisation des tabulations
 	if(confile.use_infotext == 1){gtk_source_view_set_draw_spaces((GtkSourceView *)page->text_view,GTK_SOURCE_DRAW_SPACES_ALL);}
 
-	//****TEST AUTOCOMPLETION
 	completion = gtk_source_view_get_completion ((GtkSourceView *)page->text_view);
 
 		word_provider = gtk_source_completion_words_new (NULL, NULL);
@@ -682,7 +613,6 @@ t_note_page* page_create_new (void)
 
 	g_object_set (word_provider, "priority", 10, NULL);
 
-	//********** FILE ADD AUTOCOMP PERSO
  GtkSourceBuffer *tmpbuffer = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
  GtkWidget *srctmp= gtk_source_view_new_with_buffer(tmpbuffer);
 
@@ -710,8 +640,6 @@ t_note_page* page_create_new (void)
 	g_object_set (word_provider2, "priority", 10, NULL);
 	}
 	
-	//****************
-
   page->encoding = g_strdup ("UTF-8");
   page->linenums = FALSE;
  
@@ -720,8 +648,6 @@ t_note_page* page_create_new (void)
   else
       gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (page->text_view), GTK_WRAP_NONE);
 
-//  gtk_container_set_border_width (GTK_CONTAINER (page->text_view), 1);
-
   gtk_container_add (GTK_CONTAINER (page->scrolledwindow), GTK_WIDGET(page->text_view));
 
 	gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(page->text_buffer), "search","foreground", "white","background", "blue","weight", PANGO_WEIGHT_BOLD,NULL);
@@ -729,12 +655,12 @@ t_note_page* page_create_new (void)
   gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(page->text_buffer), "gray_bg","foreground", "white","background", "gray","weight", PANGO_WEIGHT_BOLD,NULL);
 
   page->tab_label = gtk_label_new (NULL);
-  //GTK_WIDGET_UNSET_FLAGS (page->tab_label, GTK_CAN_FOCUS);
+
 	gtk_widget_set_can_focus (GTK_WIDGET (page->tab_label), FALSE);
 
   page->hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   page->but = gtk_button_new_with_label (_("x"));
- // page->dclicked_y = 0;
+
 
 	gtk_widget_set_can_focus (GTK_WIDGET (page->hbox), FALSE);
 	gtk_widget_set_can_focus (GTK_WIDGET (page->but), FALSE);
@@ -742,8 +668,6 @@ t_note_page* page_create_new (void)
  	page->icon = gtk_image_new_from_stock (GTK_STOCK_SAVE,GTK_ICON_SIZE_MENU);
 	gtk_box_pack_start (GTK_BOX (page->hbox), page->icon, FALSE, FALSE, 0);
 	gtk_widget_show (GTK_WIDGET(page->icon));
-
-//  style = gtk_widget_get_style (tea_main_window);
 
   gtk_box_pack_start (GTK_BOX(page->hbox), page->tab_label, FALSE, FALSE, 0);
   gtk_box_pack_start (GTK_BOX(page->hbox), page->but, FALSE, FALSE, 0);
@@ -810,9 +734,7 @@ t_note_page* page_create_new (void)
 	gtk_widget_show (GTK_WIDGET(page->but)); 
   gtk_widget_show (GTK_WIDGET(page->text_view));
   gtk_widget_show (GTK_WIDGET(page->scrolledwindow));
-	//set_dnd_accept (page->text_view);
 	gtk_widget_grab_focus (GTK_WIDGET(page->text_view));
-	//auto_hl_griffon_perl ();
 
   return page;
 }
@@ -1172,7 +1094,6 @@ t_note_page* doc_open_file (gchar *a_filename)
   if (! g_file_test (a_filename, G_FILE_TEST_EXISTS))
      {
      icon_stop_logmemo();
-     //gtk_notebook_set_current_page(notebook_down,0);
       log_to_memo (_("%s does not exist!"), a_filename, LM_ERROR);
       return NULL;       
      }
@@ -1180,7 +1101,6 @@ t_note_page* doc_open_file (gchar *a_filename)
   if (access (a_filename, R_OK) != 0)
      {
 	     icon_stop_logmemo();
-	     //gtk_notebook_set_current_page(notebook_down,0);
       log_to_memo (_("You do not have permission to %s"), a_filename, LM_ERROR);
       return NULL;
      }
@@ -1196,17 +1116,13 @@ t_note_page* doc_open_file (gchar *a_filename)
      
       if (access (filename, R_OK) != 0)
         {
-        icon_stop_logmemo();   
-        //gtk_notebook_set_current_page(notebook_down,0);     
+        icon_stop_logmemo();      
          log_to_memo (_("You do not have permission to %s"), filename, LM_ERROR);
          g_free (filename);
          return NULL;
         }
      }
 
-   //printf("[OPEN FILE] check IMG file\n");
-
-	//********************************* TEST si le fichier est une image si oui on affiche dans le mini web
    char *extension;
    if(strrchr(filename,'.'))
 	{ 
@@ -1218,12 +1134,9 @@ t_note_page* doc_open_file (gchar *a_filename)
 	strcat(type,filename);
 	gtk_entry_set_text (GTK_ENTRY (entry_web), _(type));
 	focus_web ();
-	//gtk_notebook_set_current_page(notebook_down,4);
 	return NULL;
 	}
 	
-
-	//********************************* TEST si le fichier est une page web on affiche dans le mini web
 	if (strcmp(".htm", extension) == 0 || strcmp(".html", extension) == 0 )
 	{
 	char type[150];
@@ -1371,15 +1284,12 @@ t_note_page* doc_open_file (gchar *a_filename)
   tabs_reload ();
 	no_onglet_open() ;
 	controle_save_page_icon();
-	//do_hl_c (cur_text_doc);
 
 	clear_remove_tags (cur_text_doc);
 	scan_include(); 
 
-	//******************************* Ajout de l'autocomp de base
 	gtk_window_set_title (GTK_WINDOW (tea_main_window), page->file_name);
 
-	//********** FILE ADD AUTOCOMP PERSO
  GtkSourceBuffer *tmpbuffer = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
  GtkWidget *srctmp= gtk_source_view_new_with_buffer(tmpbuffer);
 
@@ -1428,7 +1338,6 @@ t_note_page* doc_open_file (gchar *a_filename)
   g_free (buf);
 	griffon_notify(_("The file is open and available in the Editor tab"));
 
-	//gtk_notebook_set_current_page(notebook3,1);
 
   return page;
 }
@@ -1531,7 +1440,6 @@ void doc_update_cb (gpointer data)
 
 void doc_update_all (void)
 {
-  //g_list_foreach (dox, doc_update_cb, NULL);
   set_lm_colors ();
   if (confile.do_show_main_toolbar)
      gtk_widget_show (GTK_WIDGET(tb_main_toolbar));
@@ -1651,18 +1559,6 @@ void log_to_memo (gchar *m1, gchar* m2, gint mode)
   if (! log_memo_textbuffer)
      return;
 
-/*  if ((++log_to_memo_counter) == confile.logmemo_lines_max)
-     {
-      log_to_memo_counter = 0;
-      GtkTextIter itstart, itend;
-      gtk_text_buffer_get_bounds (log_memo_textbuffer, &itstart, &itend);   
-      gtk_text_buffer_delete (log_memo_textbuffer, &itstart, &itend);
-     }*/
-
-  /*if (confile.msg_counter == G_MAXINT)
-     confile.msg_counter = 0;
-*/
-//  gchar *prefix = g_strdup_printf  ("(%d) ", ++confile.msg_counter);
   gchar *prefix = g_strdup_printf  (" ");
   gchar *st;
 
@@ -1718,7 +1614,6 @@ void log_to_memo (gchar *m1, gchar* m2, gint mode)
 
 gboolean find_space (gunichar ch)
 {
-	//****** POUR LAUTOCOMP
   if (g_unichar_isspace (ch) || (ch == '\0') || (ch == ')') || (ch == '\'') || (ch == '=')  || (ch == ',') || (ch == '(') || (ch == '\"') || (ch == '`')  || (ch == '{')  || (ch == '[')  || (ch == '<'  || (ch == '>')  || (ch == '?') || (ch == '-')  || (ch == ':')  || (ch == '}')  || (ch == ']') || (ch == '!') || (ch == '+') || (ch == ';') )) 
      return TRUE;
   else
@@ -1737,7 +1632,6 @@ gboolean find_quote (gunichar ch)
 }
 
 
-//n.p. Nirvana - I Hate Myself And I Want To Die
 gchar* doc_get_current_word (t_note_page *doc, GtkTextIter *itstart, GtkTextIter *itend) 
 {
   GtkTextIter ittemp;
@@ -1814,9 +1708,7 @@ gchar* get_c_url (t_note_page *doc)
 
   gchar *dir = g_path_get_dirname (doc->file_name);
 
-  //if (result [0] == G_DIR_SEPARATOR)
   if (g_utf8_get_char (result) == G_DIR_SEPARATOR)  
-      //filename = create_full_path ((result+1), dir);
      filename = create_full_path (g_utf8_find_next_char (result, NULL), dir);
   else
       filename = create_full_path (result, dir);
@@ -1852,9 +1744,6 @@ gboolean doc_search_f (t_note_page *doc, const gchar *text)
 			  GtkTextIter itstart, itend;
 			  gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &itstart, 0);
 			  gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(doc->text_buffer), &itend, gtk_text_buffer_get_char_count (GTK_TEXT_BUFFER(doc->text_buffer)));
-				 //gtk_text_buffer_remove_tag_by_name  (doc->text_buffer,"search",&itstart,&itend);
-
-					//gtk_text_buffer_apply_tag_by_name (doc->text_buffer, "search", &match_start, &match_end);  
 
       g_free (doc->last_searched_text);
       doc->last_searched_text = g_strdup (text); 
@@ -1862,7 +1751,6 @@ gboolean doc_search_f (t_note_page *doc, const gchar *text)
      }
 
 
-	//****************************** bg word backward
 	GtkTextIter start_find, end_find;
 	GtkTextIter start_match, end_match;
 
@@ -1907,9 +1795,6 @@ gboolean doc_search_f_next (t_note_page *doc)
       gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "insert", &match_end);
       gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(doc->text_buffer), "selection_bound", &match_start);
       gtk_text_view_scroll_to_iter (GTK_TEXT_VIEW(doc->text_view), &match_start, 0.0, TRUE, 0.0, 0.0 );
-
-					//gtk_text_buffer_apply_tag_by_name (doc->text_buffer, "search", &match_start, &match_end);  
-
 
       result = TRUE;
      }
@@ -2062,8 +1947,6 @@ void doc_move_to_pos_bw (t_note_page* doc, gint pos)
       gtk_text_buffer_place_cursor (GTK_TEXT_BUFFER(doc->text_buffer), &it);
   }
 
-
-//n.p. Albinoni - Adagio G-moll
 void doc_move_to_pos_bw_quote (t_note_page* doc)
 {
   if (! doc->text_buffer && ! doc->text_view)

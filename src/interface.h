@@ -18,19 +18,19 @@ struct _TestProvider
 
 typedef struct
 {
-GtkWidget *vbox2, *scrolledwindow3;
-GtkWidget *vte_add;
-GtkWidget *label_term;
-GtkWidget * hbox_term_tab;
-GtkWidget * image_term_tab;
-GtkWidget * button_close_term;
-int num_tab;
+	GtkWidget *vbox2, *scrolledwindow3;
+	GtkWidget *vte_add;
+	GtkWidget *label_term;
+	GtkWidget * hbox_term_tab;
+	GtkWidget * image_term_tab;
+	GtkWidget * button_close_term;
+	int num_tab;
 } term_page;
 
 GtkListStore *model_entry;
 
 typedef struct contact {
-  char *name;
+	char *name;
 } contact;
 
 typedef enum {
@@ -40,21 +40,21 @@ typedef enum {
 GtkListStore *model_entry_http;
 
 typedef struct contact_http {
-  char *name;
+	char *name;
 } contact_http;
 
 typedef enum {
-  CONTACT_NAME_HTTP = 0
+	CONTACT_NAME_HTTP = 0
 } ContactCol_http;
 
 GtkListStore *model_entry_http2;
 
 typedef struct contact_http2 {
-  char *name;
+	char *name;
 } contact_http2;
 
 typedef enum {
-  CONTACT_NAME_HTTP2 = 0
+	CONTACT_NAME_HTTP2 = 0
 } ContactCol_http2;
 
 void switch_filechooser ();

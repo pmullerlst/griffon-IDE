@@ -12,11 +12,6 @@
 #  include "config.h"
 #endif
 
-
-
-/*
- * Standard gettext macros.
- */
 #ifdef ENABLE_NLS
 #  include <libintl.h>
 #  undef _
@@ -36,8 +31,6 @@
 #  define N_(String) (String)
 #endif
 
-
-
 #define cTEA_TEMP "tea_temp_file"
 #define ERRO g_print("%s\n", strerror (errno))
 #define DBM(x) g_print("%s\n", x)
@@ -48,7 +41,6 @@
 #define CHARSET_JAPANESE "Japanese autodetect"
 #define CHARSET_CHINESE "Chinese autodetect"
 #define CHARSET_AUTODETECT "autodetect"
-
 
 #define LM_ERROR 13
 #define LM_NORMAL 14
@@ -74,13 +66,11 @@
 #define HL_BASH "BASH Script"
 #define HL_PO "gettext PO file"
 
-
 #define TEA_PIX_MAINICON PACKAGE_DATA_DIR"/tea/pixmaps/tea_icon_v2.png"
 #define TEA_PIX_LGM PACKAGE_DATA_DIR"/tea/pixmaps/lgm.png"
 #define TEA_PIX_DIR PACKAGE_DATA_DIR"/tea/pixmaps/"
 #define TEA_DOC_DIR PACKAGE_DATA_DIR"/tea/doc/"
 #define TEA_DATA_DIR PACKAGE_DATA_DIR"/tea/"
-
 
 void buffer_insert_text ( GtkTextIter *arg1,gpointer user_data);
 

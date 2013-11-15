@@ -1,12 +1,4 @@
 /***************************************************************************
-                          tea_funx.h  -  description
-                             -------------------
-    begin                : Fri Dec 12 2003
-    copyright            : (C) 2003-2204 by Peter 'Roxton' Semiletov
-    email                : tea@list.ru
- ***************************************************************************/
-
-/***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *

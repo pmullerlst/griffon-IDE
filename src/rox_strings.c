@@ -34,13 +34,6 @@
 #include "griffon_hl.h"
 #include "interface.h"
 
-//*  Glimmer - misc.c
-/*
-Chris Phelps <chicane@reninet.com>
-
-Alejandro Dubrovsky <s328940@student.uq.edu.au>
-modified by roxton
-*/
 gchar* g_str_replace (const gchar *input, const gchar *replace, const gchar *with)
 {
    gchar *text = g_strdup (input);
@@ -55,12 +48,6 @@ gchar* g_str_replace (const gchar *input, const gchar *replace, const gchar *wit
    g_free (text);
    return (value);
 }
-//
-
-//from gaim:: html.c
-// *
-// * Copyright (C) 1998-1999, Mark Spencer <markster@marko.net>
-// *               2003, Nathan Walp <faceprint@faceprint.com>
 
 gchar *strip_html(const gchar *text)
 {
@@ -105,24 +92,13 @@ gchar *strip_html(const gchar *text)
 	text2[j] = '\0';
 	return text2;
 }
-//end of gaim code
 
-
-/*
- * tNumber2Roman - convert a number to Roman Numerals
- *
- * returns the number of characters written
- */
-
-//taken from misc.c of Antiword
-//Copyright (C) 1998-2003 A.J. van Os; Released under GNU GPL
-//mod. by me, roxton
 size_t tNumber2Roman(guint uiNumber, int bUpperCase, char *szOutput)
 {
 	char	*outp, *p, *q;
 	guint	uiNextVal, uiValue;
 
-	uiNumber %= 4000;	/* Very high numbers can't be represented */
+	uiNumber %= 4000;	
 	if (uiNumber == 0) {
 		szOutput[0] = '\0';
 		return 0;
@@ -142,7 +118,7 @@ size_t tNumber2Roman(guint uiNumber, int bUpperCase, char *szOutput)
 		}
 		q = p + 1;
 		uiNextVal = uiValue / (uint)(char)*q;
-		if ((int)*q == 2) {		/* magic */
+		if ((int)*q == 2) {		
 			uiNextVal /= (guint)(char)*(q += 2);
 		}
 		if (uiNumber + uiNextVal >= uiValue) {
@@ -153,7 +129,7 @@ size_t tNumber2Roman(guint uiNumber, int bUpperCase, char *szOutput)
 			uiValue /= (guint)(char)(*p++);
 		}
 	}
-} /* end of tNumber2Roman */
+} 
 
 
 gchar* get_file_ver_name (const gchar *name)
@@ -347,27 +323,6 @@ gchar* string_from_glist_raw (GList *list)
   
   return result;
 }
-
-
-/*GList* glist_enclose (GList* list, gchar *a, gchar *b)
-{
-  GList *p = g_list_first (list);
-  gchar *t = NULL;
-
-  while (p)
-        {
-         if (a)
-            t = g_strconcat (a, (gchar*) p->data, b, NULL);
-          else 
-              t = g_strconcat ((gchar*) p->data, b, NULL);
-        
-         g_free (p->data);
-         (gchar*) p->data = t;
-         p = g_list_next (p);
-        }
-
-  return list;
-}*/
 
 
 void glist_print (GList* list)
@@ -732,8 +687,7 @@ gchar* enc_guess (const gchar *s)
       enc_guess_value = g_strdup ("ISO-8859-2");
       return enc_guess_value;
      }   
- 
-  //enc_guess_value = g_strdup ("UTF-8");
+
   return NULL;
 } 
 
@@ -861,7 +815,7 @@ gchar* parse_rtf_hex_str (const gchar *s)
   for (i = 0; st[i]; i++)
       {
        if ((st[i] == '\\') && (st[i+1]) == '\'')
-          //hex char
+          
           {
            hex = g_malloc (3);
            hex[0] = st [i+2];
@@ -872,7 +826,7 @@ gchar* parse_rtf_hex_str (const gchar *s)
            gs = g_string_append_c (gs, (gchar) code);
            g_free (hex); 
           }
-       else //non-hex                 
+       else                
            if ((st[i] == '\\') && (st[i+1] == 'p') &&  (st[i+2] == 'a'))                  
               {
                i = i + 4;
@@ -1011,16 +965,6 @@ gchar* wrap_raw (gchar *s, gint str_len)
 
 
 void wrap_on_spaces (gchar *str, gint width)
-/* 
-Copyright (C) 1997-2003 Stuart Parmenter //Balsa::misc.c
-
-libbalsa_wrap_string
-   wraps given string replacing spaces with '\n'.  do changes in place.
-   lnbeg - line beginning position, sppos - space position, 
-   te - tab's extra space.
-modified by roxton
-
-*/
 {
   const gint minl = width / 2;
 
@@ -1180,7 +1124,7 @@ gchar * str_replace_all(char const * const original,char const * const pattern,c
      const char * oriptr;
      const char * patloc;
    
-     // find how many times the pattern occurs in the original string
+
         for (oriptr = original; strstr(oriptr, pattern); oriptr = patloc + patlen)
         {
 						patloc = strstr(oriptr, pattern);
@@ -1188,27 +1132,25 @@ gchar * str_replace_all(char const * const original,char const * const pattern,c
         }
       
         {
-          // allocate memory for the new string
+
           size_t const retlen = orilen + patcnt * (replen - patlen);
           char * const returned = (char *) malloc( sizeof(char) * (retlen + 1) );
       
           if (returned != NULL)
           {
-            // copy the original string, 
-            // replacing all the instances of the pattern
+
             char * retptr = returned;
             for (oriptr = original; strstr(oriptr, pattern); oriptr = patloc + patlen)
             {
 									patloc = strstr(oriptr, pattern);
               size_t const skplen = patloc - oriptr;
-              // copy the section until the occurence of the pattern
               strncpy(retptr, oriptr, skplen);
               retptr += skplen;
-              // copy the replacement 
+              
               strncpy(retptr, replacement, replen);
               retptr += replen;
             }
-            // copy the rest of the string.
+            
             strcpy(retptr, oriptr);
           }
           return returned;

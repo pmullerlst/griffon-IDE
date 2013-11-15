@@ -31,11 +31,9 @@ GHashTable *php_t_keywords;
 GHashTable *bash_t_keywords;
 GHashTable *po_t_keywords;
 
-//GHashTable *ht_perl_keywords;
 void do_errors_hl (GtkTextView *text_view);
 void set_lm_colors (void);
 void clear_remove_tags (t_note_page *doc);
-//void do_hl_c (t_note_page *doc);
 void apply_hl (t_note_page *doc);
 void remove_tags (t_note_page *doc);
 void create_tags (void);

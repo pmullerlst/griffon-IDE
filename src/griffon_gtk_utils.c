@@ -77,7 +77,6 @@ GtkWidget* tea_font_selector (GtkWidget *container, gchar *caption, gchar *value
   if (value)
      gtk_entry_set_text (GTK_ENTRY(x), value);
 
-//  gtk_entry_set_editable (x, FALSE);
 
   GtkWidget *bt = gtk_font_button_new_with_font (value);
   gtk_widget_show (GTK_WIDGET(bt));
@@ -86,16 +85,6 @@ GtkWidget* tea_font_selector (GtkWidget *container, gchar *caption, gchar *value
   
   return x;
 }
-
-
-/*static void cb_select_color (GtkColorButton *widget, gpointer user_data) 
-{
-  GdkColor color;
-  gtk_color_button_get_color (widget, &color);  
-  gchar *t = g_strdup_printf ("#%02x%02x%02x", color.red / 256, color.green / 256, color.blue / 256);
-  gtk_entry_set_text (GTK_ENTRY (user_data), t);  
-  g_free (t);
-}*/
 
 
 GtkWidget* tea_color_selector (GtkWidget *container, gchar *caption, gchar *value)
@@ -115,17 +104,9 @@ GtkWidget* tea_color_selector (GtkWidget *container, gchar *caption, gchar *valu
   if (value)
      gtk_entry_set_text (GTK_ENTRY(x), value);
 
- // gtk_entry_set_editable (x, FALSE);
-
   GdkColor color;
   gdk_color_parse (value, &color);
 
- /* GtkWidget *bt = gtk_color_button_new_with_color (&color);
-  gtk_widget_show (GTK_WIDGET(bt));
-  gtk_box_pack_start (GTK_BOX(b), GTK_WIDGET(bt), FALSE, FALSE, 1);*/
-
-//  g_signal_connect (bt, "color-set", G_CALLBACK (cb_select_color), x);
-  
   return x;
 }
 
@@ -177,15 +158,7 @@ void logmemo_set_pos (GtkTextView *v, guint pos)
 
 GList* add_combo_hist_with_def (GList *l)
 {
-/*  if (strlen (gtk_entry_get_text (c->entry)) == 0)
-     if (def)
-        gtk_entry_set_text (c->entry, def);  
 
-  l = add_to_list_with_limit (l, gtk_entry_get_text (c->entry), max);
-
-  if (l)
-    gtk_combo_set_popdown_strings (c, l);
-*/
   return l;
 }
 
@@ -207,13 +180,10 @@ GtkWidget* tea_dir_selector (GtkWidget *container, gchar *caption, gchar *value)
   if (value)
      gtk_entry_set_text (GTK_ENTRY(x), value);
 
-//  gtk_entry_set_editable (x, FALSE);
-
   GtkWidget *bt = gtk_button_new_with_label (_("Choose"));
   gtk_widget_show (GTK_WIDGET(bt));
   gtk_box_pack_start (GTK_BOX(b), GTK_WIDGET(bt), FALSE, FALSE, 1);
- // g_signal_connect (bt, "clicked", G_CALLBACK (cb_select_dir), x);
-  
+
   return x;
 }
 
@@ -227,23 +197,9 @@ GtkWidget* tea_combo (GtkWidget *container, gchar *caption)
   GtkWidget *x = gtk_label_new (caption);  
   gtk_widget_show (GTK_WIDGET(x));
   gtk_box_pack_start (GTK_BOX(b), GTK_WIDGET(x), FALSE, FALSE, 1);
-/*  x = gtk_combo_new ();   
-  gtk_widget_show (GTK_WIDGET(x));
-  gtk_box_pack_start (b, x, TRUE, TRUE, 1);
 
-  gtk_combo_set_popdown_strings   (x, strings);
-  */
-  //if (value)
-   //  gtk_entry_set_text (GTK_COMBO (x)->entry, value);
-
-  //return GTK_COMBO (x)->entry;
 	return FALSE;
 }
-
-//from Gedit ::gedit_view.c
-// * Copyright (C) 1998, 1999 Alex Roberts, Evan Lawrence
-// * Copyright (C) 2000, 2002 Chema Celorio, Paolo Maggi
-//mod. by roxton
 
 void widget_set_colors (GtkWidget *w, GdkColor *background, GdkColor *text,
                         GdkColor *selection, GdkColor *sel_text)
@@ -266,7 +222,7 @@ void widget_set_colors (GtkWidget *w, GdkColor *background, GdkColor *text,
      gtk_widget_modify_text (GTK_WIDGET (w), GTK_STATE_ACTIVE, sel_text);
     }
 }
-//
+
 
 gboolean dlg_question (GtkWidget *parent, gchar *prompt, gchar *val)
 {
@@ -330,11 +286,9 @@ gint dlg_question_params (gchar *prompt, gchar *val, gchar *b1, gchar *b2)
   GtkWidget *label = gtk_label_new (s);
   gtk_label_set_line_wrap (GTK_LABEL(label), TRUE); 
   gtk_widget_show (GTK_WIDGET(label));
-//  gtk_box_pack_start (GTK_DIALOG (dialog)->vbox, label, FALSE, TRUE, 1);
 
   GtkWidget *bt1 = gtk_button_new_with_label (b1) ;
   gtk_widget_show (GTK_WIDGET(bt1));
- // gtk_box_pack_start (GTK_DIALOG (dialog)->vbox, bt1, FALSE, TRUE, 1);
 
   t_ppair *p = g_malloc (sizeof (t_ppair));
   p->a = dialog;
@@ -347,7 +301,6 @@ gint dlg_question_params (gchar *prompt, gchar *val, gchar *b1, gchar *b2)
   
   GtkWidget *bt2 = gtk_button_new_with_label (b2) ;
   gtk_widget_show (GTK_WIDGET(bt2));
- // gtk_box_pack_start (GTK_DIALOG (dialog)->vbox, bt2, FALSE, TRUE, 1);
 
   p = g_malloc (sizeof (t_ppair));
   p->a = dialog;
@@ -391,7 +344,6 @@ void dlg_info (GtkWidget *parent, gchar *prompt, gchar *val)
 
   GtkWidget *label = gtk_label_new (s);
   gtk_widget_show (GTK_WIDGET(label));
- // gtk_box_pack_start (GTK_DIALOG (dialog)->vbox, label, FALSE, TRUE, 1);
   gtk_label_set_line_wrap (GTK_LABEL(label), TRUE); 
   gtk_dialog_run (GTK_DIALOG (dialog));
   gtk_widget_destroy (dialog);
@@ -417,12 +369,10 @@ void dlg_info_with_image (GtkWidget *parent, gchar *prompt, gchar *val, gchar *i
     {
      GtkWidget *img = gtk_image_new_from_file (image);
      gtk_widget_show (GTK_WIDGET(img));
- //    gtk_box_pack_start (GTK_DIALOG (dialog)->vbox, img, FALSE, TRUE, 1);
     }
 
   GtkWidget *label = gtk_label_new (s);
   gtk_widget_show (GTK_WIDGET(label));
-//  gtk_box_pack_start (GTK_DIALOG (dialog)->vbox, label, FALSE, TRUE, 1);
   gtk_label_set_line_wrap (GTK_LABEL(label), TRUE); 
   
   gtk_dialog_run (GTK_DIALOG (dialog));
@@ -464,8 +414,6 @@ static void find_menuitem_cb (GtkWidget *widget, gpointer data)
 
   gchar const *s = gtk_widget_get_name (widget);
 
-  //dbm (s);
-
   if (g_utf8_collate (data, s) == 0)
      {
       mni_temp = widget;       
@@ -482,6 +430,5 @@ GtkWidget* find_menuitem (GtkContainer *widget, gchar *widget_name)
   if (widget)
      gtk_container_foreach (widget, find_menuitem_cb, widget_name);
 
-  //dbm (gtk_widget_get_name (menu_item_temp));
   return mni_temp;
 }
