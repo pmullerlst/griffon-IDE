@@ -439,4 +439,12 @@ void close_color_select();
 void term_git_status(gpointer user_data);
 void term_git_commit(gpointer user_data);
 void term_git_push(gpointer user_data);
+void term_iptables_drop(gpointer user_data);
+void term_iptables_clean(gpointer user_data);
+void iptables_drop_all (void);
+void iptables_accept_lo (void);
+void iptables_accept_port (void);
+void iptables_accept_port_ip (void);
+
+
 

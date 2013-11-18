@@ -19,4 +19,6 @@ gboolean util_treeview_match_all_words_callback(GtkTreeModel *pTreeModel, gint n
 gboolean util_match_all_words_in_sentence(gchar* pszWords, gchar* pszSentence);
 gboolean util_match_word_in_sentence(gchar* pszWord, gchar* pszSentence);
 void term_help(  GtkWidget *tv,GdkEventButton *event,  gpointer user_data);
+GtkTreeModel *create_and_fill_model_iptables (void);
+GtkWidget* centre_iptables (void);
 

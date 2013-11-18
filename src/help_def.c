@@ -783,6 +783,7 @@ void  on_changed(GtkWidget *widget, gpointer statusbar)
 				if (strcmp("[CSS]", value) == 0){help_css();}
 				if (strcmp("[JAVASCRIPT/JQUERY]", value) == 0){help_javascript();}      
 				if (strcmp("[HTACCESS]", value) == 0){centre_htaccess();}
+				if (strcmp("[IPTABLES]", value) == 0){centre_iptables();}
                                                         
 	 gtk_tree_selection_unselect_all(GTK_TREE_SELECTION(widget));                                        
     g_free(value);
@@ -810,6 +811,12 @@ void  on_changed2(GtkWidget *tt, GdkEvent *eventt, gpointer *user_data)
 				gchar **a = g_strsplit (value, ")", -1);   
 				gchar **a2 = g_strsplit (a[0], "(", -1);                      
 
+            //*************** APPEL AU FONCTION IPTABLE
+				if (strcmp("1.1 (iptables", a[0]) == 0){iptables_drop_all();return;}
+				if (strcmp("1.2 (iptables", a[0]) == 0){iptables_accept_lo();return;}
+				if (strcmp("1.3 (iptables", a[0]) == 0){iptables_accept_port();return;}
+				if (strcmp("1.4 (iptables", a[0]) == 0){iptables_accept_port_ip();return;}
+
             //*************** APPEL AU FONCTION TERM
 				if (strcmp("1.1 (term", a[0]) == 0){term_df(user_data);return;}
 				if (strcmp("1.2 (term", a[0]) == 0){term_aspiration_web(user_data);return;}
@@ -826,6 +833,8 @@ void  on_changed2(GtkWidget *tt, GdkEvent *eventt, gpointer *user_data)
 				if (strcmp("2.3 (term", a[0]) == 0){term_git_status(user_data);return;}
 				if (strcmp("2.4 (term", a[0]) == 0){term_git_commit(user_data);return;}
 				if (strcmp("2.5 (term", a[0]) == 0){term_git_push(user_data);return;}
+				if (strcmp("2.6 (term", a[0]) == 0){term_iptables_drop(user_data);return;}
+				if (strcmp("2.7 (term", a[0]) == 0){term_iptables_clean(user_data);return;}
 
 			 if (! get_page_text()){ log_to_memo (_("You must open a file to use for help."), NULL, LM_ERROR);return;}
 
@@ -1148,6 +1157,7 @@ GtkWidget * create_view_and_model (char clef[50])
  if (strcmp("css", clef) == 0){model = create_and_fill_model_css();}
  if (strcmp("javascript", clef) == 0){model = create_and_fill_model_javascript();}
  if (strcmp("htaccess", clef) == 0){model = create_and_fill_model_htaccess();}
+ if (strcmp("iptables", clef) == 0){model = create_and_fill_model_iptables();}
  if (strcmp("term", clef) == 0){model = create_and_fill_model_term();}
  /*else{   
 	gtk_notebook_set_current_page(notebook3,1);
@@ -1552,6 +1562,55 @@ GtkWidget* centre_htaccess (void)
 
 }
 
+//******************************* fenetre aide iptables
+GtkWidget* centre_iptables (void)
+{
+	gtk_widget_destroy(window1);
+
+  window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title (GTK_WINDOW (window1), _((_("Aide IPTABLES"))));
+    gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
+	gtk_window_resize (GTK_WINDOW (window1), 430, 600);
+  gtk_widget_show (GTK_WIDGET(window1));
+
+  GtkWidget *view;
+  GtkWidget *vbox;
+  GtkWidget *statusbar;
+
+  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_container_add(GTK_CONTAINER(window1), vbox);
+	gtk_widget_show (GTK_WIDGET(vbox));
+
+    GtkWidget *scrolledWindow = gtk_scrolled_window_new(NULL, NULL);
+	  gtk_widget_show (GTK_WIDGET(scrolledWindow));
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow),
+            GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	  gtk_box_pack_start(GTK_BOX(vbox), scrolledWindow, TRUE, TRUE, 1);
+
+  view = create_view_and_model("iptables");
+  gtk_widget_show (GTK_WIDGET(view));
+  selection2 = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
+	gtk_widget_show (GTK_WIDGET(selection2));
+	gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
+
+  statusbar = gtk_statusbar_new();
+  gtk_box_pack_start(GTK_BOX(vbox), statusbar, FALSE, TRUE, 1);
+	gtk_widget_show (GTK_WIDGET(statusbar));
+
+	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view),TRUE);
+	gtk_tree_view_set_enable_tree_lines (GTK_TREE_VIEW(view),TRUE);	
+	gtk_tree_view_expand_all (GTK_TREE_VIEW(view));
+	
+
+	 g_signal_connect(G_OBJECT(view), "button-release-event",  
+      G_CALLBACK(on_changed2), NULL);
+
+	gtk_widget_grab_focus (view);
+
+  return window1;
+
+}
+
 //******************************* template tree aide term
 GtkTreeModel *create_and_fill_model_term (void)
 {
@@ -1589,17 +1648,45 @@ GtkTreeModel *create_and_fill_model_term (void)
   gtk_tree_store_append(treestore, &child, &toplevel);
   gtk_tree_store_set(treestore, &child,COLUMN, (_("2.1 (term) : Unzip with tar.gz")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.2 (term) :  Difference between two files")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.2 (term) : Difference between two files")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.3 (term) :  Git status")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.3 (term) : Git status")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.4 (term) :  Git commit")),-1);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.4 (term) : Git commit")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.5 (term) :  Git push")),-1);
-
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.5 (term) : Git push")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.6 (term) : IPTABLES DROP IP")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.7 (term) : IPTABLES cleaning rules")),-1);
   return GTK_TREE_MODEL(treestore);
 }
 
+//******************************* template tree aide IPTABLES
+GtkTreeModel *create_and_fill_model_iptables (void)
+{
+  GtkTreeStore *treestore;
+  GtkTreeIter toplevel, child;
+
+  treestore = gtk_tree_store_new(NUM_COLS,
+                  G_TYPE_STRING);
+
+  gtk_tree_store_append(treestore, &toplevel, NULL);
+  gtk_tree_store_set(treestore, &toplevel,
+                     COLUMN, "1 Base [Iptables]",
+                     -1);
+
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.1 (iptables) : DROP ALL")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.2 (iptables) : ACCEPT loop back (ping)")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.3 (iptables) : ACCEPT port (port=1000)")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.4 (iptables) : ACCEPT port/IP (port=1000 IP=192.192.192.1)")),-1);
+
+  return GTK_TREE_MODEL(treestore);
+}
 
 //************** VTE HELP
 void term_help(GtkWidget *tv,GdkEventButton *event,  gpointer user_data)

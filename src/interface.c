@@ -2799,6 +2799,12 @@ static GtkTreeModel * create_and_fill_model_help (void)
 	gtk_tree_store_append(treestore, &child, &toplevel);
 	gtk_tree_store_set(treestore, &child,COLUMN, "[HTACCESS]",-1);
 
+
+	gtk_tree_store_append(treestore, &toplevel, NULL);
+	gtk_tree_store_set(treestore, &toplevel,COLUMN, (_("Sys Admin")),-1);
+	gtk_tree_store_append(treestore, &child, &toplevel);
+	gtk_tree_store_set(treestore, &child,COLUMN, "[IPTABLES]",-1);
+
 	return GTK_TREE_MODEL(treestore);
 }
 

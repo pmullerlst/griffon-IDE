@@ -4306,6 +4306,8 @@ void term_diff(gpointer user_data){vte_terminal_feed_child (user_data,"diff file
 void term_git_status(gpointer user_data){vte_terminal_feed_child (user_data,"git status\n",-1);}
 void term_git_commit(gpointer user_data){vte_terminal_feed_child (user_data,"git commit -a\n",-1);}
 void term_git_push(gpointer user_data){vte_terminal_feed_child (user_data,"git push origin master\n",-1);}
+void term_iptables_drop(gpointer user_data){vte_terminal_feed_child (user_data,"iptables -A INPUT -s 192.192.192.1 -j DROP",-1);}
+void term_iptables_clean(gpointer user_data){vte_terminal_feed_child (user_data,"iptables -F\niptables -t nat -F\niptables -t mangle -F\niptables -X\n",-1);}
 
 void perl_print            (void){  doc_insert_at_cursor (cur_text_doc, "print \" \";\n\n"); }
 void perl_if            (void){  doc_insert_at_cursor (cur_text_doc, "if ()\n{\n\n}\n\n"); }
@@ -4842,6 +4844,12 @@ void html_div ()
 	g_free (buf);
 	g_free (t);
 }
+
+//*********************** IPTABLES HELP
+void iptables_drop_all (void){doc_insert_at_cursor (cur_text_doc, "iptables -P INPUT DROP\niptables -P OUTPUT DROP\niptables -P FORWARD DROP\n"); }
+void iptables_accept_lo (void){doc_insert_at_cursor (cur_text_doc, "iptables -A INPUT -i eth0 -p icmp -j ACCEPT\niptables -A OUTPUT -o eth0 -p icmp -j ACCEPT\n"); }
+void iptables_accept_port (void){doc_insert_at_cursor (cur_text_doc, "iptables -A INPUT -p tcp --source-port 1000 -j ACCEPT\niptables -A INPUT -p tcp --destination-port 1000 -j ACCEPT\niptables -A OUTPUT -p tcp --source-port 1000 -j ACCEPT\niptables -A OUTPUT -p tcp --destination-port 1000 -j ACCEPT\n"); }
+void iptables_accept_port_ip (void){doc_insert_at_cursor (cur_text_doc, "iptables -A INPUT --src 192.192.192.1 -p tcp --destination-port 1000 -j ACCEPT\niptables -A OUTPUT --dst 192.192.192.1 -p tcp --source-port 1000 -j ACCEPT\n"); }
 
 //*********************** HTACCESS HELP
 void htaccess_charset_utf8 (void){doc_insert_at_cursor (cur_text_doc, "AddDefaultCharset utf-8\n"); }
