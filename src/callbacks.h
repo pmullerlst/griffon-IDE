@@ -445,6 +445,8 @@ void iptables_drop_all (void);
 void iptables_accept_lo (void);
 void iptables_accept_port (void);
 void iptables_accept_port_ip (void);
+void iptables_log(void);
+void iptables_clean (void);
 
 
 

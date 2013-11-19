@@ -4850,6 +4850,8 @@ void iptables_drop_all (void){doc_insert_at_cursor (cur_text_doc, "iptables -P I
 void iptables_accept_lo (void){doc_insert_at_cursor (cur_text_doc, "iptables -A INPUT -i eth0 -p icmp -j ACCEPT\niptables -A OUTPUT -o eth0 -p icmp -j ACCEPT\n"); }
 void iptables_accept_port (void){doc_insert_at_cursor (cur_text_doc, "iptables -A INPUT -p tcp --source-port 1000 -j ACCEPT\niptables -A INPUT -p tcp --destination-port 1000 -j ACCEPT\niptables -A OUTPUT -p tcp --source-port 1000 -j ACCEPT\niptables -A OUTPUT -p tcp --destination-port 1000 -j ACCEPT\n"); }
 void iptables_accept_port_ip (void){doc_insert_at_cursor (cur_text_doc, "iptables -A INPUT --src 192.192.192.1 -p tcp --destination-port 1000 -j ACCEPT\niptables -A OUTPUT --dst 192.192.192.1 -p tcp --source-port 1000 -j ACCEPT\n"); }
+void iptables_log(void){doc_insert_at_cursor (cur_text_doc, "iptables -N log_drop\niptables -A log_drop -j LOG --log-prefix '[IpTables DROP]'\niptables -A log_drop -j DROP\n\niptables -A FORWARD -j log_drop\niptables -A INPUT -j log_drop\niptables -A OUTPUT -j log_drop\n"); }
+void iptables_clean (void){doc_insert_at_cursor (cur_text_doc, "iptables -F\niptables -t nat -F\niptables -t mangle -F\niptables -X\n"); }
 
 //*********************** HTACCESS HELP
 void htaccess_charset_utf8 (void){doc_insert_at_cursor (cur_text_doc, "AddDefaultCharset utf-8\n"); }

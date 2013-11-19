@@ -816,6 +816,8 @@ void  on_changed2(GtkWidget *tt, GdkEvent *eventt, gpointer *user_data)
 				if (strcmp("1.2 (iptables", a[0]) == 0){iptables_accept_lo();return;}
 				if (strcmp("1.3 (iptables", a[0]) == 0){iptables_accept_port();return;}
 				if (strcmp("1.4 (iptables", a[0]) == 0){iptables_accept_port_ip();return;}
+				if (strcmp("1.5 (iptables", a[0]) == 0){iptables_log();return;}
+				if (strcmp("1.6 (iptables", a[0]) == 0){iptables_clean();return;}
 
             //*************** APPEL AU FONCTION TERM
 				if (strcmp("1.1 (term", a[0]) == 0){term_df(user_data);return;}
@@ -1684,6 +1686,10 @@ GtkTreeModel *create_and_fill_model_iptables (void)
   gtk_tree_store_set(treestore, &child,COLUMN, (_("1.3 (iptables) : ACCEPT port (port=1000)")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
   gtk_tree_store_set(treestore, &child,COLUMN, (_("1.4 (iptables) : ACCEPT port/IP (port=1000 IP=192.192.192.1)")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.5 (iptables) : Sys LOG iptables")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.6 (iptables) : IPTABLES cleaning rules")),-1);
 
   return GTK_TREE_MODEL(treestore);
 }
