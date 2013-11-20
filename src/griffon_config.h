@@ -30,6 +30,8 @@ typedef struct
 	gchar *user_menu_file;
 	gchar *tea_todo;
 	gchar *tea_sftp;	
+	gchar *tea_miniweb_history;	
+	gchar *tea_myadmin_history;	
 	gchar *tea_theme;	
 	gchar *tea_ftp;
 	gchar *tea_myadmin;

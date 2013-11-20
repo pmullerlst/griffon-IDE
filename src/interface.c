@@ -2547,7 +2547,7 @@ GtkWidget* create_tea_main_window (void)
 	gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook3),1);
 
 	window_run = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-
+	back_history ();
 	return tea_main_window;
 }
 
@@ -3798,6 +3798,50 @@ void enter_web ()
 	{	
 		tampon_web = gtk_editable_get_chars(GTK_EDITABLE(entry_web),0, -1);
 		webkit_web_view_load_uri(webView, tampon_web);
+
+		if (! g_file_test (confile.tea_miniweb_history, G_FILE_TEST_EXISTS))
+		{
+		create_empty_file (confile.tea_miniweb_history, "");
+		}
+
+		if (g_file_test (confile.tea_miniweb_history, G_FILE_TEST_EXISTS))
+		{
+			FILE *fich;
+			char carac;
+			char mot[100];
+			mot[0]='\0';
+			int check=0;
+	
+			fich=fopen(confile.tea_miniweb_history,"r");
+			while ((carac =fgetc(fich)) != EOF)
+			{
+				if (carac =='\n')
+				{
+					if (strncmp(mot,tampon_web,strlen(mot))==0 ){check=1;}
+					mot[0]='\0';
+				}
+				else
+				{
+					strncat(mot,&carac,1);
+				}
+			}
+
+			fclose(fich);
+
+			if(check==0)
+			{
+				if (! g_file_test (confile.tea_miniweb_history, G_FILE_TEST_EXISTS))
+				{
+					create_empty_file (confile.tea_miniweb_history, (gchar *)tampon_web);
+					save_string_to_file_add(confile.tea_miniweb_history,"\n");
+				}
+				else
+				{
+					save_string_to_file_add(confile.tea_miniweb_history,(gchar *)tampon_web);
+					save_string_to_file_add(confile.tea_miniweb_history,"\n");
+				}
+			}
+		}
 	}
 }
 
@@ -3810,6 +3854,52 @@ void enter_myweb ()
 	{
 		tampon_myweb = gtk_editable_get_chars(GTK_EDITABLE(entry_myadmin),0, -1);
 		webkit_web_view_load_uri(webView_myadmin, tampon_myweb);
+
+		if (! g_file_test (confile.tea_myadmin_history, G_FILE_TEST_EXISTS))
+		{
+		create_empty_file (confile.tea_myadmin_history, "");
+		}
+
+		if (g_file_test (confile.tea_myadmin_history, G_FILE_TEST_EXISTS))
+		{
+			FILE *fich;
+			char carac;
+			char mot[100];
+			mot[0]='\0';
+			int check=0;
+	
+			fich=fopen(confile.tea_myadmin_history,"r");
+			while ((carac =fgetc(fich)) != EOF)
+			{
+				if (carac =='\n')
+				{
+					if (strncmp(mot,tampon_myweb,strlen(mot))==0 ){check=1;}
+					mot[0]='\0';
+				}
+				else
+				{
+					strncat(mot,&carac,1);
+				}
+			}
+
+			fclose(fich);
+
+			if(check==0)
+			{
+				if (! g_file_test (confile.tea_myadmin_history, G_FILE_TEST_EXISTS))
+				{
+					create_empty_file (confile.tea_myadmin_history, (gchar *)tampon_myweb);
+					save_string_to_file_add(confile.tea_myadmin_history,"\n");
+				}
+				else
+				{
+					save_string_to_file_add(confile.tea_myadmin_history,(gchar *)tampon_myweb);
+					save_string_to_file_add(confile.tea_myadmin_history,"\n");
+				}
+			}
+		}
+
+
 	}
 }
 
@@ -4597,4 +4687,57 @@ void switch_filechooser ()
 			gchar **a = g_strsplit (cur_text_doc->file_name, "_", -1);
 			if (strcmp("noname", a[0]) != 0 ){gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,g_path_get_dirname (cur_text_doc->file_name));}
 	}
+}
+
+//*********************** RELOAD HISTORIQUE DES ENTRY
+void back_history ()
+{
+	GtkTreeIter iter_entry;
+	FILE *fich;
+	char carac;
+	char mot[100];
+	mot[0]='\0';
+
+	if(fopen(confile.tea_miniweb_history,"rt"))
+	{
+	fich=fopen(confile.tea_miniweb_history,"r");
+
+		while ((carac =fgetc(fich)) != EOF)
+		{
+			if (carac =='\n')
+			{
+				gtk_list_store_append(model_entry_http, &iter_entry);
+				gtk_list_store_set(model_entry_http, &iter_entry, CONTACT_NAME_HTTP, mot,  -1);
+				mot[0]='\0';
+			}
+			else
+			{
+				strncat(mot,&carac,1);
+			}
+		}
+	fclose(fich);
+	}
+
+	mot[0]='\0';
+
+	if(fopen(confile.tea_myadmin_history,"rt"))
+	{
+	fich=fopen(confile.tea_myadmin_history,"r");
+
+		while ((carac =fgetc(fich)) != EOF)
+		{
+			if (carac =='\n')
+			{
+				gtk_list_store_append(model_entry_http2, &iter_entry);
+				gtk_list_store_set(model_entry_http2, &iter_entry, CONTACT_NAME_HTTP2, mot,  -1);
+				mot[0]='\0';
+			}
+			else
+			{
+				strncat(mot,&carac,1);
+			}
+		}
+	fclose(fich);
+	}
+
 }
