@@ -187,6 +187,7 @@ void confile_free (void)
 	g_free (confile.tea_sftp);
 	g_free (confile.tea_miniweb_history);
 	g_free (confile.tea_myadmin_history);
+	g_free (confile.tea_cmd_history);
 	g_free (confile.tea_theme);  
 	g_free (confile.theme);
 	g_free (confile.tea_ftp);  
@@ -689,6 +690,7 @@ void confile_reload (void)
 	confile.tea_sftp = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "griffon_sftp", NULL);
 	confile.tea_miniweb_history = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "minieb_history", NULL);
 	confile.tea_myadmin_history = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "myadmin_history", NULL);
+	confile.tea_cmd_history = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "cmd_history", NULL);
 	confile.tea_theme = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "griffon_theme", NULL); 
 	confile.tea_ftp = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "griffon_ftp", NULL);
 	confile.tea_rc = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "griffon_rc", NULL);
@@ -731,6 +733,9 @@ void confile_reload (void)
 
 	if (! g_file_test (confile.tea_ftp, G_FILE_TEST_EXISTS))
 		create_empty_file (confile.tea_ftp, "");
+
+	if (! g_file_test (confile.tea_cmd_history, G_FILE_TEST_EXISTS))
+		create_empty_file (confile.tea_cmd_history, "");
 
 	if (! g_file_test (confile.tea_myadmin, G_FILE_TEST_EXISTS))
 		create_empty_file (confile.tea_myadmin, "http://search.cpan.org/\nhttp://www.php.net/manual/fr/index.php\nhttp://developer.gnome.org/gtk2/stable/\nhttp://PhpMyadmin1\nhttp://PhpMyadmin2\nhttp://PhpMyadmin3\n");

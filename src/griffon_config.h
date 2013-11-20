@@ -32,6 +32,7 @@ typedef struct
 	gchar *tea_sftp;	
 	gchar *tea_miniweb_history;	
 	gchar *tea_myadmin_history;	
+	gchar *tea_cmd_history;	
 	gchar *tea_theme;	
 	gchar *tea_ftp;
 	gchar *tea_myadmin;

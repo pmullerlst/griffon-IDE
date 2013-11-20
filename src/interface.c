@@ -2548,6 +2548,7 @@ GtkWidget* create_tea_main_window (void)
 
 	window_run = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	back_history ();
+	save_string_to_file_vide(confile.tea_cmd_history,"");
 	return tea_main_window;
 }
 
@@ -3840,6 +3841,11 @@ void enter_web ()
 					save_string_to_file_add(confile.tea_miniweb_history,(gchar *)tampon_web);
 					save_string_to_file_add(confile.tea_miniweb_history,"\n");
 				}
+
+				GtkTreeIter iter_entry;
+				gtk_list_store_append(model_entry_http, &iter_entry);
+				gtk_list_store_set(model_entry_http, &iter_entry, CONTACT_NAME_HTTP, gtk_entry_get_text (GTK_ENTRY (entry_web)),  -1);
+
 			}
 		}
 	}
@@ -3896,6 +3902,11 @@ void enter_myweb ()
 					save_string_to_file_add(confile.tea_myadmin_history,(gchar *)tampon_myweb);
 					save_string_to_file_add(confile.tea_myadmin_history,"\n");
 				}
+
+				GtkTreeIter iter_entry;
+				gtk_list_store_append(model_entry_http2, &iter_entry);
+				gtk_list_store_set(model_entry_http2, &iter_entry, CONTACT_NAME_HTTP2, gtk_entry_get_text (GTK_ENTRY (entry_myadmin)),  -1);
+
 			}
 		}
 
@@ -3946,10 +3957,6 @@ void myadmin_get_url ()
 {
 	gchar const *url=webkit_web_view_get_uri(webView_myadmin);
 	gtk_entry_set_text (GTK_ENTRY (entry_myadmin), _(url));
-
-	GtkTreeIter iter_entry;
-	gtk_list_store_append(model_entry_http2, &iter_entry);
-	gtk_list_store_set(model_entry_http2, &iter_entry, CONTACT_NAME_HTTP2, gtk_entry_get_text (GTK_ENTRY (entry_myadmin)),  -1);
 }
 
 //*********************** GET URL MINIWEB
@@ -3957,10 +3964,6 @@ void miniweb_get_url ()
 {
 	gchar const *url=webkit_web_view_get_uri(webView);
 	gtk_entry_set_text (GTK_ENTRY (entry_web), _(url));
-
-	GtkTreeIter iter_entry;
-	gtk_list_store_append(model_entry_http, &iter_entry);
-	gtk_list_store_set(model_entry_http, &iter_entry, CONTACT_NAME_HTTP, gtk_entry_get_text (GTK_ENTRY (entry_web)),  -1);
 }
 
 //*********************** MINIWEB MODE SOURCE

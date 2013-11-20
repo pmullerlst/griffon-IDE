@@ -827,9 +827,36 @@ gboolean on_ent_search_key_press_event (GdkEventKey *event)
 	{
 		doc_search_f (cur_text_doc, gtk_entry_get_text (GTK_ENTRY(ent_search)));gtk_widget_grab_focus (GTK_WIDGET(cur_text_doc->text_view));
 
+			FILE *fich;
+			char carac;
+			char mot[100];
+			mot[0]='\0';
+			int check=0;
+	
+			fich=fopen(confile.tea_cmd_history,"r");
+			while ((carac =fgetc(fich)) != EOF)
+			{
+				if (carac =='\n')
+				{
+					if (strncmp(mot,gtk_entry_get_text (GTK_ENTRY(ent_search)),strlen(mot))==0 ){check=1;}
+					mot[0]='\0';
+				}
+				else
+				{
+					strncat(mot,&carac,1);
+				}
+			}
+
+			fclose(fich);
+
+		if(check==0)
+		{
 		GtkTreeIter iter_entry;
 		gtk_list_store_append(model_entry, &iter_entry);
 		gtk_list_store_set(model_entry, &iter_entry, CONTACT_NAME, gtk_entry_get_text (GTK_ENTRY(ent_search)),  -1);
+		save_string_to_file_add(confile.tea_cmd_history,(gchar *)gtk_entry_get_text (GTK_ENTRY(ent_search)));
+		save_string_to_file_add(confile.tea_cmd_history,"\n");
+		}
 
 	}
 
@@ -914,9 +941,36 @@ void on_mni_search_repall ()
 	set_fam_text ((_("Text to find the text to replace")));
 	gchar const *s = gtk_entry_get_text (GTK_ENTRY(ent_search));
 
-	GtkTreeIter iter_entry;
-	gtk_list_store_append(model_entry, &iter_entry);
-	gtk_list_store_set(model_entry, &iter_entry, CONTACT_NAME, gtk_entry_get_text (GTK_ENTRY(ent_search)),  -1);
+			FILE *fich;
+			char carac;
+			char mot[100];
+			mot[0]='\0';
+			int check=0;
+	
+			fich=fopen(confile.tea_cmd_history,"r");
+			while ((carac =fgetc(fich)) != EOF)
+			{
+				if (carac =='\n')
+				{
+					if (strncmp(mot,gtk_entry_get_text (GTK_ENTRY(ent_search)),strlen(mot))==0 ){check=1;}
+					mot[0]='\0';
+				}
+				else
+				{
+					strncat(mot,&carac,1);
+				}
+			}
+
+			fclose(fich);
+
+		if(check==0)
+		{
+		GtkTreeIter iter_entry;
+		gtk_list_store_append(model_entry, &iter_entry);
+		gtk_list_store_set(model_entry, &iter_entry, CONTACT_NAME, gtk_entry_get_text (GTK_ENTRY(ent_search)),  -1);
+		save_string_to_file_add(confile.tea_cmd_history,(gchar *)gtk_entry_get_text (GTK_ENTRY(ent_search)));
+		save_string_to_file_add(confile.tea_cmd_history,"\n");
+		}
 
 	if (! strstr (s, "~"))
 	return; 
@@ -1281,9 +1335,36 @@ void on_mni_goto_line ()
 	set_fam_text ("0");
 	doc_select_line (cur_text_doc, strtol (gtk_entry_get_text GTK_ENTRY((ent_search)), NULL, 10));
 
-	GtkTreeIter iter_entry;
-	gtk_list_store_append(model_entry, &iter_entry);
-	gtk_list_store_set(model_entry, &iter_entry, CONTACT_NAME, gtk_entry_get_text (GTK_ENTRY(ent_search)),  -1);
+			FILE *fich;
+			char carac;
+			char mot[100];
+			mot[0]='\0';
+			int check=0;
+	
+			fich=fopen(confile.tea_cmd_history,"r");
+			while ((carac =fgetc(fich)) != EOF)
+			{
+				if (carac =='\n')
+				{
+					if (strncmp(mot,gtk_entry_get_text (GTK_ENTRY(ent_search)),strlen(mot))==0 ){check=1;}
+					mot[0]='\0';
+				}
+				else
+				{
+					strncat(mot,&carac,1);
+				}
+			}
+
+			fclose(fich);
+
+		if(check==0)
+		{
+		GtkTreeIter iter_entry;
+		gtk_list_store_append(model_entry, &iter_entry);
+		gtk_list_store_set(model_entry, &iter_entry, CONTACT_NAME, gtk_entry_get_text (GTK_ENTRY(ent_search)),  -1);
+		save_string_to_file_add(confile.tea_cmd_history,(gchar *)gtk_entry_get_text (GTK_ENTRY(ent_search)));
+		save_string_to_file_add(confile.tea_cmd_history,"\n");
+		}
 }
 
 //*********************** ASCII TO HTML
@@ -2587,9 +2668,36 @@ void on_mni_quest_find ()
 	if (! get_page_text()) return;
 	doc_search_f (cur_text_doc, gtk_entry_get_text (GTK_ENTRY(ent_search)));
 
-	GtkTreeIter iter_entry;
-	gtk_list_store_append(model_entry, &iter_entry);
-	gtk_list_store_set(model_entry, &iter_entry, CONTACT_NAME, gtk_entry_get_text GTK_ENTRY((ent_search)),  -1);
+			FILE *fich;
+			char carac;
+			char mot[100];
+			mot[0]='\0';
+			int check=0;
+	
+			fich=fopen(confile.tea_cmd_history,"r");
+			while ((carac =fgetc(fich)) != EOF)
+			{
+				if (carac =='\n')
+				{
+					if (strncmp(mot,gtk_entry_get_text (GTK_ENTRY(ent_search)),strlen(mot))==0 ){check=1;}
+					mot[0]='\0';
+				}
+				else
+				{
+					strncat(mot,&carac,1);
+				}
+			}
+
+			fclose(fich);
+
+		if(check==0)
+		{
+		GtkTreeIter iter_entry;
+		gtk_list_store_append(model_entry, &iter_entry);
+		gtk_list_store_set(model_entry, &iter_entry, CONTACT_NAME, gtk_entry_get_text (GTK_ENTRY(ent_search)),  -1);
+		save_string_to_file_add(confile.tea_cmd_history,(gchar *)gtk_entry_get_text (GTK_ENTRY(ent_search)));
+		save_string_to_file_add(confile.tea_cmd_history,"\n");
+		}
 }
 
 void on_mni_quest_find_next ()
