@@ -2446,12 +2446,9 @@ void on_mni_kill_formatting_on_each_line ()
 void on_mni_file_crapbook ()
 {
 
-	if (! g_file_test (confile.crapbook_file, G_FILE_TEST_EXISTS))
-		create_empty_file (confile.crapbook_file, _((_("Post your selections here ..."))));
-
 	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer_note), "", -1);
-	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("\nPour afficher les notes [ALT+M]\n")), -1);
-	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("Pour integrer une séléction dans la note [CTR+E]\n\n____________________________________________________________________________________________________________________________________________________\n\n")), -1);
+	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("\nTo view notes [ALT+M]\n")), -1);
+	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("To integrate a selection in the note  [CTR+E]\n\n____________________________________________________________________________________________________________________________________________________\n\n")), -1);
 
 	gchar lecture[1024];
 	FILE *fichier;
@@ -2462,8 +2459,6 @@ void on_mni_file_crapbook ()
 	}
 
 	fclose(fichier);
-	statusbar_msg (_("Open Crapbook [OK]"));
-	handle_file_enc (confile.crapbook_file, 0);
 }
 
 //*********************** SPELLCHECK

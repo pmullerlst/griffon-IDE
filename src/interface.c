@@ -2549,6 +2549,8 @@ GtkWidget* create_tea_main_window (void)
 	window_run = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	back_history ();
 	save_string_to_file_vide(confile.tea_cmd_history,"");
+	on_mni_file_crapbook ();
+
 	return tea_main_window;
 }
 
@@ -2675,9 +2677,10 @@ GtkWidget* close_tools2 (void)
 //*********************** EFFACER LES NOTES
 GtkWidget* clear_note (void)
 {
+	save_string_to_file_vide(confile.crapbook_file,"");
 	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer_note), "", -1);
-	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("\nPour afficher les notes [ALT+M]\n")), -1);
-	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("Pour integrer une séléction dans la note [CTR+E]\n\n____________________________________________________________________________________________________________________________________________________\n\n")), -1);
+	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("\nTo view notes [ALT+M]\n")), -1);
+	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("To integrate a selection in the note  [CTR+E]\n\n____________________________________________________________________________________________________________________________________________________\n\n")), -1);
 	return NULL;
 }
 
