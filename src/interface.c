@@ -593,7 +593,7 @@ GtkWidget* create_tea_main_window (void)
 	tea_main_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_maximize (GTK_WINDOW(tea_main_window));
 	gtk_widget_set_name (tea_main_window, "tea_main_window");
-	gtk_window_set_title (GTK_WINDOW (tea_main_window), _("Griffon 1.6.5"));
+	gtk_window_set_title (GTK_WINDOW (tea_main_window), _("Griffon 1.6.6"));
 
 	//*********************** ICON MAIN WINDOW
 	gtk_window_set_icon_from_file (GTK_WINDOW(tea_main_window),"/usr/local/share/griffon/images/griffon_button.png",NULL);
@@ -1647,7 +1647,7 @@ GtkWidget* create_tea_main_window (void)
 
 	gtk_box_pack_start (GTK_BOX (vbox), scrolledWindow_editor, TRUE, TRUE, 0);
 
-	webkit_web_view_load_uri(webView_editor, "http://griffon.lasotel.fr/main.php?version=1.6.5");
+	webkit_web_view_load_uri(webView_editor, "http://griffon.lasotel.fr/main.php?version=1.6.6");
 
 	notebook1 = gtk_notebook_new ();
 	gtk_widget_set_name (notebook1, "notebook1");
@@ -2456,6 +2456,49 @@ GtkWidget* create_tea_main_window (void)
 
 	g_signal_connect ((gpointer) button_include1, "clicked",G_CALLBACK (scan_include),NULL);
 
+
+	scrolledwindow4 = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_show (GTK_WIDGET(scrolledwindow4));
+	gtk_box_pack_start(GTK_BOX(vbox4), GTK_WIDGET(scrolledwindow4), TRUE, TRUE, 1);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow4), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow4), GTK_CORNER_TOP_LEFT);
+
+	PangoFontDescription *font_desc_todo;
+	GtkWidget *sView_todo;
+	GtkSourceLanguageManager *lm_todo;
+	GtkSourceLanguage *language_todo = NULL;
+
+	buffer_todo = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
+
+	sView_todo = gtk_source_view_new_with_buffer(buffer_todo);
+	font_desc_todo = pango_font_description_from_string ("mono 8");
+	gtk_widget_modify_font (sView_todo, font_desc_todo);
+	pango_font_description_free (font_desc_todo);
+
+	gtk_source_view_set_show_right_margin(GTK_SOURCE_VIEW(sView_todo),TRUE);
+	gtk_source_view_set_show_line_numbers(GTK_SOURCE_VIEW(sView_todo),TRUE);
+	gtk_source_view_set_highlight_current_line(GTK_SOURCE_VIEW(sView_todo),TRUE);
+	gtk_source_view_set_show_line_marks(GTK_SOURCE_VIEW(sView_todo),TRUE);
+
+	lm_todo = gtk_source_language_manager_new();
+	g_object_ref (lm_todo);
+	g_object_set_data_full ( G_OBJECT (buffer_todo), "languages-manager",lm_todo, (GDestroyNotify) g_object_unref);
+
+	lm_todo = g_object_get_data (G_OBJECT (buffer_todo), "languages-manager");
+	language_todo = gtk_source_language_manager_get_language (lm_todo,"perl");
+	gtk_source_buffer_set_language (buffer_todo, language_todo);
+
+	gtk_source_buffer_set_style_scheme(buffer_todo, scheme);
+
+	gtk_container_add (GTK_CONTAINER (scrolledwindow4), GTK_WIDGET(sView_todo));
+	gtk_widget_show_all (GTK_WIDGET(scrolledwindow4));
+
+	GtkWidget *button_todo = gtk_button_new_with_label (_("DELETE"));
+	gtk_widget_show(GTK_WIDGET(button_todo));
+	gtk_box_pack_start(GTK_BOX(vbox4), button_todo, FALSE, FALSE, 0);
+
+	g_signal_connect ((gpointer) button_todo, "clicked",G_CALLBACK (delete_todo),NULL);
+
 	label_note3 = gtk_label_new (_("Todo list"));
 	gtk_widget_show (GTK_WIDGET(label_note3));
 	gtk_widget_set_size_request (label_note3, 100, 20);
@@ -2520,7 +2563,7 @@ GtkWidget* create_tea_main_window (void)
 	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
 	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);
 	tv_logmemo_set_pos (0);
-	log_to_memo ("\n\n(C)2013 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.6.5 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
+	log_to_memo ("\n\n(C)2013 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.6.6 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
 	tv_logmemo_set_pos (0);
 	ui_init ();
 
@@ -2550,6 +2593,7 @@ GtkWidget* create_tea_main_window (void)
 	back_history ();
 	save_string_to_file_vide(confile.tea_cmd_history,"");
 	on_mni_file_crapbook ();
+	on_mni_file_todolist ();
 
 	return tea_main_window;
 }
@@ -2719,7 +2763,7 @@ GtkWidget* create_about1 (void)
 	gtk_widget_show (GTK_WIDGET(image1));
 	gtk_box_pack_start (GTK_BOX (vbox1), image1, TRUE, TRUE, 0);
 
-	label1 = gtk_label_new (_("\n    Griffon IDE 1.6.5 \n\n    Auteur \t\t: Philippe Muller \n    Email \t\t: pmuller@lasotel.fr\n\n    Developer and Administrator GNU/Linux system Lasotel (Lyon).    \n\n"));
+	label1 = gtk_label_new (_("\n    Griffon IDE 1.6.6 \n\n    Auteur \t\t: Philippe Muller \n    Email \t\t: pmuller@lasotel.fr\n\n    Developer and Administrator GNU/Linux system Lasotel (Lyon).    \n\n"));
 	gtk_widget_show (GTK_WIDGET(label1));
 	gtk_box_pack_start (GTK_BOX (vbox1), label1, FALSE, FALSE, 0);
 
@@ -3040,7 +3084,7 @@ GtkWidget* version_window (void)
 
 	gtk_container_add(GTK_CONTAINER(vbox1), GTK_WIDGET(webView_doc));
 
-	webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/version.php?version=1.6.5");
+	webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/version.php?version=1.6.6");
 
 	return window1;
 }
@@ -3067,7 +3111,7 @@ GtkWidget* rapport_window (void)
 
 	gtk_container_add(GTK_CONTAINER(vbox1), GTK_WIDGET(webView_doc));
 
-	webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/bug_rapport.php?clef=1.6.5");
+	webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/bug_rapport.php?clef=1.6.6");
 
 	return window1;
 }
@@ -4747,3 +4791,12 @@ void back_history ()
 	}
 
 }
+
+//********************* DELETE LOG TODOLIST
+void delete_todo()
+{
+	create_empty_file (confile.tea_todo, "");
+	on_mni_file_todolist ();
+}
+
+

@@ -61,7 +61,7 @@ void switch_filechooser ();
 GtkWidget *menu_vte;
 WebKitWebView *webView, *webView_myadmin, *webView_source,*webView_myadmin_traduc,*webView_myadmin_aide,*webView_editor;
 char liste_mount[1000];
-GtkSourceBuffer *buffer_api, *buffer_note, *buffer_scan, *log_memo_textbuffer, *buffer_include, *buffer_projet;
+GtkSourceBuffer *buffer_api, *buffer_note, *buffer_scan, *log_memo_textbuffer, *buffer_include, *buffer_projet, *buffer_todo;
 GtkWidget *sr_wnd,*win_tips_autocomp;
 GtkWidget *scrolledWindow_editor;
 GtkWidget *tea_main_window;
@@ -281,4 +281,5 @@ void add_to_list_todo_fixme(gchar *str,gchar *str2);
  GtkListStore * create_liststore_todo();
 void clear_list_todo ();
 void back_history ();
+void delete_todo();
 

@@ -2461,6 +2461,21 @@ void on_mni_file_crapbook ()
 	fclose(fichier);
 }
 
+//************************* TODOLIST HISTORY
+void on_mni_file_todolist ()
+{
+	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer_todo), "", -1);
+	gchar lecture[1024];
+	FILE *fichier;
+	fichier = fopen(confile.tea_todo,"rt");
+	while(fgets(lecture, 1024, fichier))
+	{
+		gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_todo),g_locale_to_utf8(lecture, -1, NULL, NULL, NULL) , -1);
+	}
+
+	fclose(fichier);
+}
+
 //*********************** SPELLCHECK
 void on_mni_spellcheck (GtkMenuItem *menuitem)
 {
@@ -4830,7 +4845,7 @@ void scan_include             (void)
 //*********************** HELP PERL
 void perl_read (void){  doc_insert_at_cursor (cur_text_doc, (_("open (FILE, \"file_path\");\nwhile ($line=<FILE>)\n{\nprint $line;\n}\n\nclose FILE;\n\n"))); }
 void perl_writh (void){  doc_insert_at_cursor (cur_text_doc, (_("open (FILE, \">>file_path\");\nprint FILE \"Text written to the file\";\nnclose FILE;\n\n"))); }
-void perl_writh2 (void){  doc_insert_at_cursor (cur_text_doc, (_("open (FICHIER, \">nom_du_fichier\");\nprint FILE \"Text written to the file\";\nnclose FILE;\n\n"))); }
+void perl_writh2 (void){  doc_insert_at_cursor (cur_text_doc, (_("open (FILE, \">file_name\");\nprint FILE \"Text written to the file\";\nnclose FILE;\n\n"))); }
 void perl_regular(void){  doc_insert_at_cursor (cur_text_doc, (_("$chaine =~/chaine recherchée/"))); }
 void perl_replace (void){  doc_insert_at_cursor (cur_text_doc, (_("$chaine =~ s/chaine recherchée/chaine de remplacement/g;\n\n"))); }
 
@@ -5134,7 +5149,7 @@ void mount_sftp (void)
 		gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,total_path);
 
 		icon_log_logmemo();
-		log_to_memo (_("%s montage SFTP dans le répertoire Griffon_MONTAGE_SFTP"), tampon_sftp, LM_NORMAL);
+		log_to_memo (_("%s mount SFTP in MOUNT/"), tampon_sftp, LM_NORMAL);
 		statusbar_msg (_("Mount [OK]"));
 		griffon_notify(_("Mount SFTP"));
 		icon_affiche_net ();
@@ -5211,7 +5226,7 @@ void mount_ftp (void)
 		gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,total_path);
 
 		icon_log_logmemo();
-		log_to_memo (_("%s montage FTP dans le répertoire Griffon_MONTAGE_SFTP"), tampon_sftp, LM_NORMAL);
+		log_to_memo (_("%s mount FTP in MOUNT/"), tampon_sftp, LM_NORMAL);
 		statusbar_msg (_("Mount [OK]"));
 		griffon_notify(_("Mount FTP"));
 		icon_affiche_net ();
@@ -5659,9 +5674,11 @@ void keyrelase_search(void)
 	}
 }
 
-//*********************** AJOUT DE TODO DANS UN FICHIER
+//*********************** AJOUT DE TODO DANS UN FICHIER + LOG
 void add_todo_com(void)
 {
+	time_t date;
+	date = time(NULL);
 
 	if (! get_page_text()) return;
 
@@ -5677,10 +5694,27 @@ void add_todo_com(void)
 		if (strcmp(".txt", extension) == 0){doc_insert_at_cursor (cur_text_doc, "\n\n/*\n* TODO : \n*/\n");}
 		}else{doc_insert_at_cursor (cur_text_doc, "\n\n/*\n* TODO : \n*/\n");}
 
+		gchar *msg;
+		gint row;
+		GtkTextIter iter;
+		gtk_text_buffer_get_iter_at_mark(GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&iter, gtk_text_buffer_get_insert(GTK_TEXT_BUFFER(cur_text_doc->text_buffer)));
+		row = gtk_text_iter_get_line(&iter);
+		msg = g_strdup_printf("LINE %d", row+1);
+
+		save_string_to_file_add(confile.tea_todo,"[TODO] : ");
+		save_string_to_file_add(confile.tea_todo, cur_text_doc->file_name);
+		save_string_to_file_add(confile.tea_todo," ");
+		save_string_to_file_add(confile.tea_todo,msg);
+		save_string_to_file_add(confile.tea_todo," ");
+		save_string_to_file_add(confile.tea_todo,ctime(&date));
+		save_string_to_file_add(confile.tea_todo,"\n");
+		on_mni_file_todolist ();
 }
 
 void add_todo_bug(void)
 {
+	time_t date;
+	date = time(NULL);
 
 	if (! get_page_text()) return;
 
@@ -5696,10 +5730,28 @@ void add_todo_bug(void)
 		if (strcmp(".php", extension) == 0){doc_insert_at_cursor (cur_text_doc, "\n\n/*\n* BUG : \n*/\n");}
 		if (strcmp(".txt", extension) == 0){doc_insert_at_cursor (cur_text_doc, "\n\n/*\n* BUG : \n*/\n");}
 		}else{doc_insert_at_cursor (cur_text_doc, "\n\n/*\n* BUG : \n*/\n");}
+
+		gchar *msg;
+		gint row;
+		GtkTextIter iter;
+		gtk_text_buffer_get_iter_at_mark(GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&iter, gtk_text_buffer_get_insert(GTK_TEXT_BUFFER(cur_text_doc->text_buffer)));
+		row = gtk_text_iter_get_line(&iter);
+		msg = g_strdup_printf("LINE %d", row+1);
+
+		save_string_to_file_add(confile.tea_todo,"[BUG] : ");
+		save_string_to_file_add(confile.tea_todo, cur_text_doc->file_name);
+		save_string_to_file_add(confile.tea_todo," ");
+		save_string_to_file_add(confile.tea_todo,msg);
+		save_string_to_file_add(confile.tea_todo," ");
+		save_string_to_file_add(confile.tea_todo,ctime(&date));
+		save_string_to_file_add(confile.tea_todo,"\n");
+		on_mni_file_todolist ();
 }
 
 void add_todo_fixme(void)
 {
+	time_t date;
+	date = time(NULL);
 
 	if (! get_page_text()) return;
 
@@ -5715,5 +5767,21 @@ void add_todo_fixme(void)
 		if (strcmp(".php", extension) == 0){doc_insert_at_cursor (cur_text_doc, "\n\n/*\n* FIXME : \n*/\n");}
 		if (strcmp(".txt", extension) == 0){doc_insert_at_cursor (cur_text_doc, "\n\n/*\n* FIXME : \n*/\n");}
 		}else{doc_insert_at_cursor (cur_text_doc, "\n\n/*\n* FIXME : \n*/\n");}
+
+		gchar *msg;
+		gint row;
+		GtkTextIter iter;
+		gtk_text_buffer_get_iter_at_mark(GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&iter, gtk_text_buffer_get_insert(GTK_TEXT_BUFFER(cur_text_doc->text_buffer)));
+		row = gtk_text_iter_get_line(&iter);
+		msg = g_strdup_printf("LINE %d", row+1);
+
+		save_string_to_file_add(confile.tea_todo,"[FIXME] : ");
+		save_string_to_file_add(confile.tea_todo, cur_text_doc->file_name);
+		save_string_to_file_add(confile.tea_todo," ");
+		save_string_to_file_add(confile.tea_todo,msg);
+		save_string_to_file_add(confile.tea_todo," ");
+		save_string_to_file_add(confile.tea_todo,ctime(&date));
+		save_string_to_file_add(confile.tea_todo,"\n");
+		on_mni_file_todolist ();
 }
 
