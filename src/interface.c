@@ -2432,17 +2432,32 @@ GtkWidget* create_tea_main_window (void)
 	gtk_container_add (GTK_CONTAINER (vbox4), GTK_WIDGET(hbox_todo));
 	gtk_widget_show (GTK_WIDGET(hbox_todo));  
 
+	GtkWidget *icon_bug = gtk_image_new_from_file("/usr/local/share/griffon/images/griffon_bug.png");
+	gtk_widget_set_size_request (icon_bug, 35, 10);
+	gtk_box_pack_start (GTK_BOX (hbox_todo), icon_bug, FALSE, FALSE, 0);
+	gtk_widget_show (GTK_WIDGET(icon_bug));
+
 	GtkWidget *button_com = gtk_button_new_with_label (_("Insert TODO in the current file and todo list"));
 	gtk_widget_show(GTK_WIDGET(button_com));
 	gtk_box_pack_start(GTK_BOX(hbox_todo), button_com, FALSE, FALSE, 0);
 
 	g_signal_connect ((gpointer) button_com, "clicked",G_CALLBACK (add_todo_com),NULL);
 
+	GtkWidget *icon_bug2 = gtk_image_new_from_file("/usr/local/share/griffon/images/griffon_advance.png");
+	gtk_widget_set_size_request (icon_bug2, 35, 10);
+	gtk_box_pack_start (GTK_BOX (hbox_todo), icon_bug2, FALSE, FALSE, 0);
+	gtk_widget_show (GTK_WIDGET(icon_bug2));
+
 	GtkWidget *button_bug = gtk_button_new_with_label (_("Insert BUG in the current file and todo list"));
 	gtk_widget_show(GTK_WIDGET(button_bug));
 	gtk_box_pack_start(GTK_BOX(hbox_todo), button_bug, FALSE, FALSE, 0);
 
 	g_signal_connect ((gpointer) button_bug, "clicked",G_CALLBACK (add_todo_bug),NULL);
+
+	GtkWidget *icon_bug3 = gtk_image_new_from_file("/usr/local/share/griffon/images/griffon_exe.png");
+	gtk_widget_set_size_request (icon_bug3, 35, 10);
+	gtk_box_pack_start (GTK_BOX (hbox_todo), icon_bug3, FALSE, FALSE, 0);
+	gtk_widget_show (GTK_WIDGET(icon_bug3));
 
 	GtkWidget *button_fixme = gtk_button_new_with_label (_("Insert FIXME in the current file and todo list"));
 	gtk_widget_show(GTK_WIDGET(button_fixme));
@@ -2493,7 +2508,7 @@ GtkWidget* create_tea_main_window (void)
 	gtk_container_add (GTK_CONTAINER (scrolledwindow4), GTK_WIDGET(sView_todo));
 	gtk_widget_show_all (GTK_WIDGET(scrolledwindow4));
 
-	GtkWidget *button_todo = gtk_button_new_with_label (_("DELETE"));
+	GtkWidget *button_todo = gtk_button_new_with_label (_("DELETE LOGS"));
 	gtk_widget_show(GTK_WIDGET(button_todo));
 	gtk_box_pack_start(GTK_BOX(vbox4), button_todo, FALSE, FALSE, 0);
 

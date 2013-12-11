@@ -23,9 +23,9 @@ echo "Install Griffon"
 sudo scons install > install.log 2>&1
 sudo cp -rf pixmaps/griffon_icon.png /usr/share/pixmaps/griffon_icon.png
 sudo cp -rf griffon.desktop /usr/share/applications/ 
-[ -d /usr/local/share/griffon/autocomp ] || sudo mkdir /usr/local/share/griffon/autocomp/
+[ -d /usr/local/share/griffon/autocomp ] || sudo mkdir -p /usr/local/share/griffon/autocomp/
 sudo cp -rf autocomp/* /usr/local/share/griffon/autocomp/
-[ -d /usr/local/share/griffon/images ] || sudo mkdir /usr/local/share/griffon/images/
+[ -d /usr/local/share/griffon/images ] || sudo mkdir -p /usr/local/share/griffon/images/
 sudo cp -rf pixmaps/* /usr/local/share/griffon/images/
 echo ""
 
@@ -96,7 +96,7 @@ fi
 
 	if [ "$i" -eq "8" ]
 	then
-	[ -d /usr/local/share/griffon/autocomp ] || mkdir /usr/local/share/griffon/autocomp/
+	[ -d /usr/local/share/griffon/autocomp ] || mkdir -p /usr/local/share/griffon/autocomp/
 	cp -rf autocomp/* /usr/local/share/griffon/autocomp/
 		txt="Copying images files"
 	fi
@@ -104,7 +104,7 @@ fi
 
 	if [ "$i" -ge "10" ]
 	then
-	[ -d /usr/local/share/griffon/images ] || mkdir /usr/local/share/griffon/images/
+	[ -d /usr/local/share/griffon/images ] || mkdir -p /usr/local/share/griffon/images/
 	cp -rf pixmaps/* /usr/local/share/griffon/images/
 		txt="Completion of the installation..."
 	fi

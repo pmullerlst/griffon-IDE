@@ -2453,12 +2453,16 @@ void on_mni_file_crapbook ()
 	gchar lecture[1024];
 	FILE *fichier;
 	fichier = fopen(confile.crapbook_file,"rt");
-	while(fgets(lecture, 1024, fichier))
-	{
-		gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note),g_locale_to_utf8(lecture, -1, NULL, NULL, NULL) , -1);
-	}
 
-	fclose(fichier);
+	if(fichier!=NULL)
+	{
+		while(fgets(lecture, 1024, fichier))
+		{
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note),g_locale_to_utf8(lecture, -1, NULL, NULL, NULL) , -1);
+		}
+
+		fclose(fichier);
+	}
 }
 
 //************************* TODOLIST HISTORY
@@ -2468,12 +2472,16 @@ void on_mni_file_todolist ()
 	gchar lecture[1024];
 	FILE *fichier;
 	fichier = fopen(confile.tea_todo,"rt");
-	while(fgets(lecture, 1024, fichier))
-	{
-		gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_todo),g_locale_to_utf8(lecture, -1, NULL, NULL, NULL) , -1);
-	}
 
-	fclose(fichier);
+	if(fichier!=NULL)
+	{
+		while(fgets(lecture, 1024, fichier))
+		{
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_todo),g_locale_to_utf8(lecture, -1, NULL, NULL, NULL) , -1);
+		}
+
+		fclose(fichier);
+	}
 }
 
 //*********************** SPELLCHECK
