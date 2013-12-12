@@ -1,10 +1,10 @@
 [Desktop Entry]
 Name=Griffon 1.6.6
 Comment=IDE
-Exec=griffon
+Exec=griffon %f
 Icon=/usr/share/pixmaps/griffon_icon.png
 Terminal=false
-MultipleArgs=true
-Categories=Development;IDE;
+Categories=GNOME;GTK;Development;IDE;
+Keywords=Text;Editor;Plaintext;Write;IDE;
 Type=Application
 
