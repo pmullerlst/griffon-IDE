@@ -2599,7 +2599,7 @@ GtkWidget* create_tea_main_window (void)
 	no_onglet_open() ;  
 
 	webkit_web_view_load_uri(webView, "http://griffon.lasotel.fr/main.html");
-	webkit_web_view_load_uri(webView_myadmin, "https://www.google.fr/");
+	webkit_web_view_load_uri(webView_myadmin, "http://griffon.lasotel.fr/en/");
 	webkit_web_view_load_uri(webView_myadmin_traduc, "https://translate.google.fr/?hl=fr&tab=wT");
 	webkit_web_view_load_uri(webView_myadmin_aide, "https://www.google.fr/");
 	gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook3),1);
@@ -4134,7 +4134,7 @@ void new_terminal ()
 	page_term->vte_add = vte_terminal_new();
 
 	vte_terminal_set_background_image_file (VTE_TERMINAL(page_term->vte_add),"/usr/local/share/griffon/images/griffon_bg2.png");
-	vte_terminal_set_background_saturation (VTE_TERMINAL(page_term->vte_add),0.1);
+	vte_terminal_set_background_saturation (VTE_TERMINAL(page_term->vte_add),0.3);
 
 	vte_terminal_set_scroll_on_keystroke(VTE_TERMINAL (page_term->vte_add), TRUE);
 	gtk_box_pack_start(GTK_BOX(page_term->vbox2), GTK_WIDGET(page_term->vte_add), TRUE, TRUE, 1);
@@ -4242,7 +4242,7 @@ void window_debug ()
 	NULL);
 
 	vte_terminal_set_background_image_file (VTE_TERMINAL(vte_add),"/usr/local/share/griffon/images/griffon_bg2.png");
-	vte_terminal_set_background_saturation (VTE_TERMINAL(vte_add),0.1);
+	vte_terminal_set_background_saturation (VTE_TERMINAL(vte_add),0.3);
 
 	vte_terminal_set_scroll_on_keystroke(VTE_TERMINAL (vte_add), TRUE);
 	gtk_container_add (GTK_CONTAINER (vbox2), GTK_WIDGET(vte_add));	
@@ -4336,7 +4336,7 @@ void new_terminal_ssh (gchar *serveur,gchar *user)
 	NULL); 
 
 	vte_terminal_set_background_image_file (VTE_TERMINAL(page_term->vte_add),"/usr/local/share/griffon/images/griffon_bg2.png");
-	vte_terminal_set_background_saturation (VTE_TERMINAL(page_term->vte_add),0.1);
+	vte_terminal_set_background_saturation (VTE_TERMINAL(page_term->vte_add),0.3);
 
 	vte_terminal_set_scroll_on_keystroke(VTE_TERMINAL (page_term->vte_add), TRUE);
 	gtk_box_pack_start(GTK_BOX(page_term->vbox2), GTK_WIDGET(page_term->vte_add), TRUE, TRUE, 1);
