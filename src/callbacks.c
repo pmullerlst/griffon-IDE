@@ -5299,7 +5299,7 @@ GtkWidget* w_sftp_mount (void)
 	gtk_widget_show (GTK_WIDGET(hbox2));
 	gtk_box_pack_start (GTK_BOX (vbox1), hbox2, TRUE, TRUE, 0);
 
-	label2 = gtk_label_new (_("Server name or ip: "));
+	label2 = gtk_label_new (_("Server name or ip : \t"));
 	gtk_widget_show (GTK_WIDGET(label2));
 	gtk_box_pack_start (GTK_BOX (hbox2), label2, FALSE, FALSE, 0);
 	gtk_label_set_justify (GTK_LABEL (label2), GTK_JUSTIFY_LEFT);
@@ -5313,7 +5313,7 @@ GtkWidget* w_sftp_mount (void)
 	gtk_widget_show (GTK_WIDGET(hbox3));
 	gtk_box_pack_start (GTK_BOX (vbox1), hbox3, TRUE, TRUE, 0);
 
-	label3 = gtk_label_new (_("User : "));
+	label3 = gtk_label_new (_("User : \t\t\t\t\t"));
 	gtk_widget_show (GTK_WIDGET(label3));
 	gtk_box_pack_start (GTK_BOX (hbox3), label3, FALSE, FALSE, 0);
 	gtk_label_set_justify (GTK_LABEL (label3), GTK_JUSTIFY_LEFT);
@@ -5327,7 +5327,7 @@ GtkWidget* w_sftp_mount (void)
 	gtk_widget_show (GTK_WIDGET(hbox4));
 	gtk_box_pack_start (GTK_BOX (vbox1), hbox4, TRUE, TRUE, 0);
 
-	label4 = gtk_label_new (_("Path on the server: "));
+	label4 = gtk_label_new (_("Path on the server : \t"));
 	gtk_widget_show (GTK_WIDGET(label4));
 	gtk_box_pack_start (GTK_BOX (hbox4), label4, FALSE, FALSE, 0);
 	gtk_label_set_justify (GTK_LABEL (label4), GTK_JUSTIFY_LEFT);
@@ -5394,7 +5394,7 @@ GtkWidget* w_ftp_mount (void)
 	gtk_widget_show (GTK_WIDGET(hbox2));
 	gtk_box_pack_start (GTK_BOX (vbox1), hbox2, TRUE, TRUE, 0);
 
-	label2 = gtk_label_new (_("Server name or ip: "));
+	label2 = gtk_label_new (_("Server name or ip :\t"));
 	gtk_widget_show (GTK_WIDGET(label2));
 	gtk_box_pack_start (GTK_BOX (hbox2), label2, FALSE, FALSE, 0);
 	gtk_label_set_justify (GTK_LABEL (label2), GTK_JUSTIFY_LEFT);
@@ -5408,7 +5408,7 @@ GtkWidget* w_ftp_mount (void)
 	gtk_widget_show (GTK_WIDGET(hbox3));
 	gtk_box_pack_start (GTK_BOX (vbox1), hbox3, TRUE, TRUE, 0);
 
-	label3 = gtk_label_new (_("User : "));
+	label3 = gtk_label_new (_("User : \t\t\t\t\t"));
 	gtk_widget_show (GTK_WIDGET(label3));
 	gtk_box_pack_start (GTK_BOX (hbox3), label3, FALSE, FALSE, 0);
 	gtk_label_set_justify (GTK_LABEL (label3), GTK_JUSTIFY_LEFT);
@@ -5421,7 +5421,7 @@ GtkWidget* w_ftp_mount (void)
 	gtk_widget_show (GTK_WIDGET(hbox4));
 	gtk_box_pack_start (GTK_BOX (vbox1), hbox4, TRUE, TRUE, 0);
 
-	label4 = gtk_label_new (_("Password : "));
+	label4 = gtk_label_new (_("Password :\t\t\t"));
 	gtk_widget_show (GTK_WIDGET(label4));
 	gtk_box_pack_start (GTK_BOX (hbox4), label4, FALSE, FALSE, 0);
 	gtk_label_set_justify (GTK_LABEL (label4), GTK_JUSTIFY_LEFT);

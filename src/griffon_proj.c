@@ -33,6 +33,8 @@ static GtkWidget *ent_dir_makefile;
 static GtkWidget *ent_dir_source;
 static GtkWidget *ent_file_executable;
 
+GtkWidget *entry_proj_path,*entry_proj_command,*entry_proj_make_path,*entry_proj_name,*entry_proj_run,*entry_proj_info,*entry_proj_icon;
+
 static GtkWidget* mk_page_main (t_tea_project *p)
 {
   GtkWidget *page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
@@ -223,4 +225,189 @@ GtkWidget* create_proj_props_window (t_tea_project *p)
 
   gtk_widget_show (wnd_proj_props);
   return wnd_proj_props;
+}
+
+//*********************** NEW PROJECT
+GtkWidget* new_project_window (void)
+{
+	GtkWidget *window1,*frame1,*vbox1,*hbox2,*label2,*hbox1,*button1,*button2,*label1,*hbox3,*label3,*hbox4,*label4,*hbox5,*label5,*hbox6,*label6,*hbox7,*label7,*hbox8,*label8;  
+
+	icon_affiche_stop();
+	
+	window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_title (GTK_WINDOW (window1), _((_("New Project"))));
+	gtk_window_set_position (GTK_WINDOW (window1), GTK_WIN_POS_CENTER);
+  gtk_widget_show(GTK_WIDGET(window1));
+
+	frame1 = gtk_frame_new (NULL);
+	gtk_widget_show (GTK_WIDGET(frame1));
+	gtk_container_add (GTK_CONTAINER (window1), frame1);
+	gtk_container_set_border_width (GTK_CONTAINER (frame1), 4);
+	gtk_frame_set_label_align (GTK_FRAME (frame1), 0.02, 0.55);
+
+	vbox1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_widget_show (GTK_WIDGET(vbox1));
+	gtk_container_add (GTK_CONTAINER (frame1), vbox1);
+
+	hbox2 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox2));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox2, TRUE, TRUE, 0);
+
+	label2 = gtk_label_new (_("Projetc name : \t"));
+	gtk_widget_show (GTK_WIDGET(label2));
+	gtk_box_pack_start (GTK_BOX (hbox2), label2, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label2), GTK_JUSTIFY_LEFT);
+
+	entry_proj_name = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(entry_proj_name));
+	gtk_box_pack_start (GTK_BOX (hbox2), entry_proj_name, FALSE, FALSE, 0);
+	gtk_widget_grab_focus(GTK_WIDGET(entry_proj_name));
+
+	hbox3 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox3));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox3, TRUE, TRUE, 0);
+
+	label3 = gtk_label_new (_("Path : \t\t\t\t"));
+	gtk_widget_show (GTK_WIDGET(label3));
+	gtk_box_pack_start (GTK_BOX (hbox3), label3, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label3), GTK_JUSTIFY_LEFT);
+
+	entry_proj_path = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(entry_proj_path));
+	gtk_box_pack_start (GTK_BOX (hbox3), entry_proj_path, FALSE, FALSE, 0);
+
+	hbox4 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox4));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox4, TRUE, TRUE, 0);
+
+	label4 = gtk_label_new (_("Make path : \t\t"));
+	gtk_widget_show (GTK_WIDGET(label4));
+	gtk_box_pack_start (GTK_BOX (hbox4), label4, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label4), GTK_JUSTIFY_LEFT);
+
+	entry_proj_make_path = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(entry_proj_make_path));
+	gtk_box_pack_start (GTK_BOX (hbox4), entry_proj_make_path, FALSE, FALSE, 0);
+
+	//**************
+	hbox5 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox5));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox5, TRUE, TRUE, 0);
+
+	label5 = gtk_label_new (_("Make command : \t"));
+	gtk_widget_show (GTK_WIDGET(label5));
+	gtk_box_pack_start (GTK_BOX (hbox5), label5, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label5), GTK_JUSTIFY_LEFT);
+
+	entry_proj_command = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(entry_proj_command));
+	gtk_box_pack_start (GTK_BOX (hbox5), entry_proj_command, FALSE, FALSE, 0);
+
+	//**************
+	hbox6 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox6));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox6, TRUE, TRUE, 0);
+
+	label6 = gtk_label_new (_("Run target : \t\t"));
+	gtk_widget_show (GTK_WIDGET(label6));
+	gtk_box_pack_start (GTK_BOX (hbox6), label6, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label6), GTK_JUSTIFY_LEFT);
+
+	entry_proj_run = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(entry_proj_run));
+	gtk_box_pack_start (GTK_BOX (hbox6), entry_proj_run, FALSE, FALSE, 0);
+
+	//**************
+	hbox7 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox7));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox7, TRUE, TRUE, 0);
+
+	label7 = gtk_label_new (_("Info/Note : \t\t"));
+	gtk_widget_show (GTK_WIDGET(label7));
+	gtk_box_pack_start (GTK_BOX (hbox7), label7, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label7), GTK_JUSTIFY_LEFT);
+
+	entry_proj_info = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(entry_proj_info));
+	gtk_box_pack_start (GTK_BOX (hbox7), entry_proj_info, FALSE, FALSE, 0);
+
+	//**************
+	hbox8 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox8));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox8, TRUE, TRUE, 0);
+
+	label8 = gtk_label_new (_("Icon/IMG : \t\t"));
+	gtk_widget_show (GTK_WIDGET(label8));
+	gtk_box_pack_start (GTK_BOX (hbox8), label8, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label8), GTK_JUSTIFY_LEFT);
+
+	entry_proj_icon = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(entry_proj_icon));
+	gtk_box_pack_start (GTK_BOX (hbox8), entry_proj_icon, FALSE, FALSE, 0);
+
+	hbox1 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox1));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox1, FALSE, FALSE, 0);
+
+	button1 = gtk_button_new_from_stock ("gtk-cancel");
+	gtk_widget_show (GTK_WIDGET(button1));
+	gtk_box_pack_start (GTK_BOX (hbox1), button1, TRUE, TRUE, 0);
+	gtk_button_set_relief (GTK_BUTTON (button1), GTK_RELIEF_NONE);
+
+
+	button2 = gtk_button_new_from_stock ("gtk-apply");
+	gtk_widget_show (GTK_WIDGET(button2));
+	gtk_box_pack_start (GTK_BOX (hbox1), button2, TRUE, TRUE, 0);
+	gtk_button_set_relief (GTK_BUTTON (button2), GTK_RELIEF_NONE);
+
+	label1 = gtk_label_new (_("New Project"));
+	gtk_widget_show (GTK_WIDGET(label1));
+	gtk_frame_set_label_widget (GTK_FRAME (frame1), label1);
+	gtk_label_set_justify (GTK_LABEL (label1), GTK_JUSTIFY_LEFT);
+
+	g_signal_connect_swapped ((gpointer) button1, "clicked",G_CALLBACK (icon_affiche_ok),NULL);	
+	g_signal_connect_swapped ((gpointer) button1, "clicked",G_CALLBACK (gtk_widget_destroy), window1);
+	g_signal_connect_swapped ((gpointer) button2, "clicked",G_CALLBACK (icon_affiche_ok), NULL);	
+	g_signal_connect_swapped ((gpointer) button2, "clicked",G_CALLBACK (save_projects),NULL);	
+	g_signal_connect_swapped ((gpointer) button2, "clicked",G_CALLBACK (gtk_widget_destroy), window1);
+	g_signal_connect_swapped ((gpointer) button1, "clicked",G_CALLBACK (gtk_widget_destroy), window1);
+
+	return window1;
+}
+
+//*********************** SAVE PROJECTS
+void save_projects (void)
+{
+	gchar *tmp_proj_command;
+	gchar *tmp_proj_make_path;
+	gchar *tmp_proj_name;
+	gchar *tmp_proj_path;
+	gchar *tmp_proj_run;
+	gchar *tmp_proj_info;
+	gchar *tmp_proj_icon;
+
+	tmp_proj_command = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_command),0, -1);
+	tmp_proj_make_path = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_make_path),0, -1);
+	tmp_proj_name = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_name),0, -1);
+	tmp_proj_path = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_path),0, -1);
+	tmp_proj_run = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_run),0, -1);
+	tmp_proj_info = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_info),0, -1);
+	tmp_proj_icon = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_icon),0, -1);
+
+	save_string_to_file_add(confile.projects,tmp_proj_name);
+	save_string_to_file_add(confile.projects,";");
+	save_string_to_file_add(confile.projects,tmp_proj_path);
+	save_string_to_file_add(confile.projects,";");
+	save_string_to_file_add(confile.projects,tmp_proj_make_path);
+	save_string_to_file_add(confile.projects,";");
+	save_string_to_file_add(confile.projects,tmp_proj_run);
+	save_string_to_file_add(confile.projects,";");
+	save_string_to_file_add(confile.projects,tmp_proj_command);
+	save_string_to_file_add(confile.projects,";");
+	save_string_to_file_add(confile.projects,tmp_proj_info);
+	save_string_to_file_add(confile.projects,";");
+	save_string_to_file_add(confile.projects,tmp_proj_icon);
+	save_string_to_file_add(confile.projects,";\n");
+
+	load_projects_list();
 }

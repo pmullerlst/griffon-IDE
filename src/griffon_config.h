@@ -39,6 +39,7 @@ typedef struct
 	gchar *current_movie;
 	gchar *cm_mplayer;
 	gchar *theme;
+	gchar *projects;
 	gchar *iconv_file;
 	gchar *bmx_file;
 	gchar *sessions_dir;

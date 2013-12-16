@@ -5,7 +5,7 @@ typedef struct
   gchar *dir_makefile;
   gchar *dir_source;
   gchar *file_executable;
-
+  gchar *cmd_make;
 
 } t_tea_project;
 
@@ -24,6 +24,7 @@ void tea_proj_save (t_tea_project *p);
 void tea_proj_save_as (t_tea_project *p, gchar *name);
 void tea_proj_free (t_tea_project *p);
 void tea_proj_run (t_tea_project *p);
-
+GtkWidget* new_project_window (void);
+void save_projects (void);
 
 

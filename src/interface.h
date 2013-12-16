@@ -6,6 +6,7 @@ typedef struct _TestProvider TestProvider;
 typedef struct _TestProviderClass TestProviderClass;
 
 
+
 struct _TestProvider
 {
 	GObject parent;
@@ -282,4 +283,10 @@ void add_to_list_todo_fixme(gchar *str,gchar *str2);
 void clear_list_todo ();
 void back_history ();
 void delete_todo();
-
+void load_projects_list();
+void open_project(gpointer data);
+void window_make_project ();
+void run_make_project ();
+void window_debug_project ();
+void run_debug_project ();
+void delete_project(gpointer data);
