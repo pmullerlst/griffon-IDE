@@ -787,7 +787,6 @@ GtkWidget* create_tea_main_window (void)
 	mni_functions_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
 	mni_temp = new_menu_tof (mni_functions_menu);
 
-	mni_temp = new_menu_item (_("Insert a file path PATH"), mni_functions_menu, selection_path);
 
 	mni_temp = new_menu_item (_("Analyze text UNIversal"), mni_functions_menu, NULL);
 	mni_utils_unitaz_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
@@ -1006,17 +1005,6 @@ GtkWidget* create_tea_main_window (void)
 	mni_ide = new_menu_item (_("Projects"), menubar1, NULL);
 	mni_ide_menu = new_menu_submenu (GTK_WIDGET(mni_ide));
 	mni_temp = new_menu_tof (mni_ide_menu);
-
-	mni_temp = new_menu_item (_("New Project"), mni_ide_menu, on_mni_project_new);
-	mni_temp = new_menu_item (_("Open a project"), mni_ide_menu, on_mni_project_open);
-	mni_temp = new_menu_item (_("Save the project"), mni_ide_menu, on_mni_show_project_save);
-	mni_temp = new_menu_item (_("Save the project under"), mni_ide_menu, on_mni_project_save_as);
-	mni_temp = new_menu_item (_("Ownership of the project"), mni_ide_menu, on_mni_show_project_props);
-	mni_temp = new_menu_item (_("Make"), mni_ide_menu, on_mni_project_make);
-	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_F11, GDK_SHIFT_MASK,GTK_ACCEL_VISIBLE);
-
-	mni_temp = new_menu_item (_("Run"), mni_ide_menu, window_debug);  
-	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_F12, GDK_SHIFT_MASK,GTK_ACCEL_VISIBLE);
 
 	mni_temp = new_menu_item (_("Mount a server SFTP (SSH)"), mni_ide_menu, w_sftp_mount);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_F9, GDK_SHIFT_MASK,GTK_ACCEL_VISIBLE);
@@ -1818,114 +1806,9 @@ GtkWidget* create_tea_main_window (void)
 	gtk_container_add (GTK_CONTAINER (notebook_down), GTK_WIDGET(vbox_proj));
 	gtk_widget_show (GTK_WIDGET(vbox_proj)); 
 
-	hbox_proj = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-	gtk_box_pack_start (GTK_BOX (vbox_proj), hbox_proj, FALSE, TRUE, 0);
-	gtk_widget_show (GTK_WIDGET(hbox_proj));  
 
-	vbox2_proj = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-	gtk_box_pack_start (GTK_BOX (hbox_proj), vbox2_proj, TRUE, TRUE, 0);
-	gtk_widget_show (GTK_WIDGET(vbox2_proj)); 
 
-	GtkWidget *toolbar_projet;
-	toolbar_projet = gtk_toolbar_new ();
-	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_projet), GTK_TOOLBAR_ICONS);
-	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_projet),GTK_ICON_SIZE_SMALL_TOOLBAR);
-
-	GtkToolItem *tool_projet_new = gtk_tool_button_new_from_stock(GTK_STOCK_NEW  );
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_projet ), tool_projet_new, -1);
-	gtk_widget_show(GTK_WIDGET(tool_projet_new));
-	g_signal_connect ((gpointer) tool_projet_new, "clicked",G_CALLBACK (on_mni_project_new),NULL);
-	gtk_tool_item_set_tooltip_text(tool_projet_new,_("Nouveau projet"));
-
-	GtkToolItem *tool_projet_open = gtk_tool_button_new_from_stock(GTK_STOCK_OPEN  );
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_projet ), tool_projet_open, -1);
-	gtk_widget_show(GTK_WIDGET(tool_projet_open));
-	g_signal_connect ((gpointer) tool_projet_open, "clicked",G_CALLBACK (on_mni_project_open),NULL);
-	gtk_tool_item_set_tooltip_text(tool_projet_open,_("Ouvrir un projet"));
-
-	GtkToolItem *tool_projet_save_as = gtk_tool_button_new_from_stock(GTK_STOCK_SAVE_AS  );
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_projet ), tool_projet_save_as, -1);
-	gtk_widget_show(GTK_WIDGET(tool_projet_save_as));
-	g_signal_connect ((gpointer) tool_projet_save_as, "clicked",G_CALLBACK (on_mni_project_save_as),NULL);
-	gtk_tool_item_set_tooltip_text(tool_projet_save_as,_("Saving a project"));
-
-	tool_sep=gtk_separator_tool_item_new();
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_projet), tool_sep, -1);
-	gtk_widget_show(GTK_WIDGET(tool_sep));
-
-	GtkToolItem *tool_projet_make = gtk_tool_button_new_from_stock(GTK_STOCK_CONVERT  );
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_projet ), tool_projet_make, -1);
-	gtk_widget_show(GTK_WIDGET(tool_projet_make));
-	g_signal_connect ((gpointer) tool_projet_make, "clicked",G_CALLBACK (on_mni_project_make),NULL);
-	gtk_tool_item_set_tooltip_text(tool_projet_make,_("Make the project"));
-
-	GtkToolItem *tool_projet_run = gtk_tool_button_new_from_stock(GTK_STOCK_EXECUTE   );
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_projet ), tool_projet_run, -1);
-	gtk_widget_show(GTK_WIDGET(tool_projet_run));
-	g_signal_connect ((gpointer) tool_projet_run, "clicked",G_CALLBACK (on_mni_show_project_run),NULL);
-	gtk_tool_item_set_tooltip_text(tool_projet_run,_("Run the project"));
-
-	gtk_box_pack_start (GTK_BOX (vbox2_proj), toolbar_projet, FALSE, FALSE, 0);
-	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_projet), GTK_TOOLBAR_ICONS);
-	gtk_widget_show (GTK_WIDGET(toolbar_projet)); 
-
-	button_proj1 = gtk_button_new_with_label (_("Ouvrir un projet"));
-	gtk_widget_show(GTK_WIDGET(button_proj1));
-	gtk_box_pack_start(GTK_BOX(vbox2_proj), button_proj1, FALSE, FALSE, 0);
-
-	button_proj2 = gtk_button_new_with_label (_("Saving a project"));
-	gtk_widget_show(GTK_WIDGET(button_proj2));
-	gtk_box_pack_start(GTK_BOX(vbox2_proj), button_proj2, FALSE, FALSE, 0);
-
-	button_proj3 = gtk_button_new_with_label (_("Make the project"));
-	gtk_widget_show(GTK_WIDGET(button_proj3));
-	gtk_box_pack_start(GTK_BOX(vbox2_proj), button_proj3, FALSE, FALSE, 0);
-
-	button_proj4 = gtk_button_new_with_label (_("Executer le projet"));
-	gtk_widget_show(GTK_WIDGET(button_proj4));
-	gtk_box_pack_start(GTK_BOX(vbox2_proj), button_proj4, FALSE, FALSE, 0);
-
-	button_proj5 = gtk_button_new_with_label (_("Nouveau projet"));
-	gtk_widget_show(GTK_WIDGET(button_proj5));
-	gtk_box_pack_start(GTK_BOX(vbox2_proj), button_proj5, FALSE, FALSE, 0);
-
-	scrolledwindow3 = gtk_scrolled_window_new (NULL, NULL);
-	gtk_box_pack_start (GTK_BOX (vbox_proj), scrolledwindow3, TRUE, TRUE, 0);
-
-	gtk_widget_show (GTK_WIDGET(scrolledwindow3));
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow3), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow3), GTK_CORNER_TOP_LEFT);
-
-	PangoFontDescription *font_desc_projet;
-	GtkWidget *sView_projet;
-	GtkSourceLanguageManager *lm_projet;
-	GtkSourceLanguage *language_projet = NULL;
-
-	buffer_projet = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
-
-	sView_projet = gtk_source_view_new_with_buffer(buffer_projet);
-	font_desc_projet = pango_font_description_from_string ("mono 8");
-	gtk_widget_modify_font (sView_projet, font_desc_projet);
-	pango_font_description_free (font_desc_projet);
-
-	gtk_text_view_set_editable (GTK_TEXT_VIEW(sView_projet), FALSE);
-	gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(sView_projet),FALSE);
-
-	gtk_source_view_set_show_right_margin(GTK_SOURCE_VIEW(sView_projet),TRUE);
-	gtk_source_view_set_show_line_marks(GTK_SOURCE_VIEW(sView_projet),TRUE);
-	gtk_source_buffer_set_style_scheme(buffer_projet , scheme);
-	lm_projet = gtk_source_language_manager_new();
-	g_object_ref (lm_projet);
-	g_object_set_data_full ( G_OBJECT (buffer_projet), "languages-manager",lm_projet, (GDestroyNotify) g_object_unref);
-
-	lm_projet = g_object_get_data (G_OBJECT (buffer_projet), "languages-manager");
-	language_projet = gtk_source_language_manager_get_language (lm_projet,"sh");
-	gtk_source_buffer_set_language (buffer_projet, language_projet);
-
-	gtk_container_add (GTK_CONTAINER (scrolledwindow3), GTK_WIDGET(sView_projet));
-	gtk_widget_show_all (GTK_WIDGET(scrolledwindow3));
-
-	label_note2 = gtk_label_new (_("Projets"));
+	label_note2 = gtk_label_new (_("Projects"));
 	gtk_widget_show (GTK_WIDGET(label_note2));
 	gtk_widget_set_size_request (label_note2, 100, 20);
 
@@ -2583,11 +2466,6 @@ GtkWidget* create_tea_main_window (void)
 	ui_init ();
 
 	g_signal_connect ((gpointer) button_note1, "clicked",G_CALLBACK (clear_note),NULL);
-	g_signal_connect ((gpointer) button_proj1, "clicked",G_CALLBACK (on_mni_project_open),NULL);
-	g_signal_connect ((gpointer) button_proj2, "clicked",G_CALLBACK (on_mni_project_save_as),NULL);
-	g_signal_connect ((gpointer) button_proj3, "clicked",G_CALLBACK (on_mni_project_make),NULL);
-	g_signal_connect ((gpointer) button_proj4, "clicked",G_CALLBACK (on_mni_show_project_run),NULL);
-	g_signal_connect ((gpointer) button_proj5, "clicked",G_CALLBACK (on_mni_project_new),NULL);
 	g_signal_connect (notebook_down, "create-window",G_CALLBACK (window_creation_function), NULL);
 	g_signal_connect (notebook2, "create-window",G_CALLBACK (window_creation_function), NULL);
 	g_signal_connect (notebook_myadmin, "create-window",G_CALLBACK (window_creation_function), NULL);

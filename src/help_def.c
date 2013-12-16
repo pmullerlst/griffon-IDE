@@ -906,7 +906,7 @@ void  on_changed2(GtkWidget *tt, GdkEvent *eventt, gpointer *user_data)
             if (strcmp("4.1 (bash", a[0]) == 0){window_grep();}
             if (strcmp("4.2 (bash", a[0]) == 0){awk();}
             if (strcmp("4.3 (bash", a[0]) == 0){sed();}
-            if (strcmp("4.4 (bash", a[0]) == 0){win_scp();}
+            if (strcmp("4.4 (bash", a[0]) == 0){}
             if (strcmp("5.1 (bash", a[0]) == 0){reNULL_bash();}
             if (strcmp("5.2 (bash", a[0]) == 0){reECRASER_bash();}
             if (strcmp("5.3 (bash", a[0]) == 0){reRAJOUTER_bash();}
