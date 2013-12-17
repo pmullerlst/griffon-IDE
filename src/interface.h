@@ -67,7 +67,7 @@ GtkWidget *sr_wnd,*win_tips_autocomp;
 GtkWidget *scrolledWindow_editor;
 GtkWidget *tea_main_window;
 GtkWidget *mainvbox,*filechooserwidget2;
-GtkWidget *cmb_famous, *hbox_bar;   
+GtkWidget *cmb_famous, *hbox_bar,*hbox_bar2;   
 GtkWidget *ent_search;
 GtkWidget *cmb_famous2;   
 GtkWidget *ent_search2;

@@ -1554,12 +1554,16 @@ GtkWidget* create_tea_main_window (void)
 	gtk_container_add(GTK_CONTAINER(notebook3), GTK_WIDGET(vbox));
 	gtk_widget_show (GTK_WIDGET(vbox));
 
-	hbox_bar = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	hbox_bar = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox_bar, FALSE, TRUE, 0);
 	gtk_widget_show (GTK_WIDGET(hbox_bar));
 
 	tb_main_toolbar = create_hardcoded_toolbar ();
 	gtk_box_pack_start (GTK_BOX (hbox_bar), tb_main_toolbar, FALSE, TRUE, 0);
+
+	hbox_bar2 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_box_pack_start (GTK_BOX (hbox_bar), hbox_bar2, FALSE, TRUE, 0);
+	gtk_widget_show (GTK_WIDGET(hbox_bar2));
 
 	GtkWidget* toolbar_manager = gtk_toolbar_new ();
 	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_manager), GTK_TOOLBAR_ICONS); 
@@ -1597,7 +1601,7 @@ GtkWidget* create_tea_main_window (void)
 
 	gtk_toolbar_set_show_arrow (GTK_TOOLBAR(toolbar_manager),FALSE);
 	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_manager), GTK_TOOLBAR_ICONS); 
-	gtk_box_pack_start (GTK_BOX (hbox_bar), toolbar_manager, TRUE , TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox_bar2), toolbar_manager, TRUE , TRUE, 0);
 	gtk_widget_show(GTK_WIDGET(toolbar_manager));
 
 	GtkToolItem *tool_sep2;
@@ -1636,7 +1640,7 @@ GtkWidget* create_tea_main_window (void)
 
 	icon_ok = gtk_image_new_from_file("/usr/local/share/griffon/images/griffon_ok.png");
 	gtk_widget_set_size_request (icon_ok, 35, 10);
-	gtk_box_pack_start (GTK_BOX (hbox_bar), icon_ok, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox_bar2), icon_ok, FALSE, FALSE, 0);
 	gtk_widget_show (GTK_WIDGET(icon_ok));
 
 	webView_editor = WEBKIT_WEB_VIEW(webkit_web_view_new());
@@ -2433,6 +2437,8 @@ GtkWidget* create_tea_main_window (void)
 	gtk_source_buffer_set_language (buffer_todo, language_todo);
 
 	gtk_source_buffer_set_style_scheme(buffer_todo, scheme);
+	gtk_text_view_set_editable ((GtkTextView *)sView_todo, FALSE);
+	gtk_text_view_set_cursor_visible((GtkTextView *)sView_todo,FALSE);
 
 	gtk_container_add (GTK_CONTAINER (scrolledwindow4), GTK_WIDGET(sView_todo));
 	gtk_widget_show_all (GTK_WIDGET(scrolledwindow4));
@@ -2543,7 +2549,7 @@ GtkWidget* icon_affiche_ok (void)
 	gtk_widget_destroy(icon_ok);
 	icon_ok = gtk_image_new_from_file("/usr/local/share/griffon/images/griffon_ok.png");
 	gtk_widget_set_size_request (icon_ok, 35, 10);
-	gtk_box_pack_start (GTK_BOX (hbox_bar), icon_ok, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox_bar2), icon_ok, FALSE, FALSE, 0);
 	gtk_widget_show (GTK_WIDGET(icon_ok));
 	return window_center;
 }
@@ -2553,7 +2559,7 @@ GtkWidget* icon_affiche_stop (void)
 	gtk_widget_destroy(icon_ok);
 	icon_ok = gtk_image_new_from_file("/usr/local/share/griffon/images/griffon_stop.png");
 	gtk_widget_set_size_request (icon_ok, 35, 10);
-	gtk_box_pack_start (GTK_BOX (hbox_bar), icon_ok, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox_bar2), icon_ok, FALSE, FALSE, 0);
 	gtk_widget_show (GTK_WIDGET(icon_ok));
 	return window_center;
 }
@@ -2563,7 +2569,7 @@ GtkWidget* icon_affiche_net (void)
 	gtk_widget_destroy(icon_ok);
 	icon_ok = gtk_image_new_from_file("/usr/local/share/griffon/images/griffon_net.png");
 	gtk_widget_set_size_request (icon_ok, 35, 10);
-	gtk_box_pack_start (GTK_BOX (hbox_bar), icon_ok, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox_bar2), icon_ok, FALSE, FALSE, 0);
 	gtk_widget_show (GTK_WIDGET(icon_ok));
 	return window_center;
 }
@@ -2573,7 +2579,7 @@ GtkWidget* icon_affiche_bug (void)
 	gtk_widget_destroy(icon_ok);
 	icon_ok = gtk_image_new_from_file("/usr/local/share/griffon/images/griffon_advance.png");
 	gtk_widget_set_size_request (icon_ok, 35, 10);
-	gtk_box_pack_start (GTK_BOX (hbox_bar), icon_ok, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox_bar2), icon_ok, FALSE, FALSE, 0);
 	gtk_widget_show (GTK_WIDGET(icon_ok));
 	return window_center;
 }
@@ -2583,7 +2589,7 @@ GtkWidget* icon_affiche_save (void)
 	gtk_widget_destroy(icon_ok);
 	icon_ok = gtk_image_new_from_file("/usr/local/share/griffon/images/griffon_save.png");
 	gtk_widget_set_size_request (icon_ok, 35, 10);
-	gtk_box_pack_start (GTK_BOX (hbox_bar), icon_ok, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox_bar2), icon_ok, FALSE, FALSE, 0);
 	gtk_widget_show (GTK_WIDGET(icon_ok));
 	save_controle=1;
 	controle_save_page_icon();
@@ -2595,7 +2601,7 @@ GtkWidget* icon_affiche_nosave (void)
 	gtk_widget_destroy(icon_ok);
 	icon_ok = gtk_image_new_from_file("/usr/local/share/griffon/images/griffon_nosave.png");
 	gtk_widget_set_size_request (icon_ok, 35, 10);
-	gtk_box_pack_start (GTK_BOX (hbox_bar), icon_ok, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox_bar2), icon_ok, FALSE, FALSE, 0);
 	gtk_widget_show (GTK_WIDGET(icon_ok));
 	controle_save_page_icon_no();
 	return window_center;
