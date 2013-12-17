@@ -5139,6 +5139,7 @@ void delete_project(gpointer data)
 	char carac;
 	int ligne=1;
 	char file[9000];
+	file[0]='\0';
 
 	if(fopen(confile.projects,"rt"))
 	{
@@ -5148,22 +5149,30 @@ void delete_project(gpointer data)
 		{
 			if (carac =='\n')
 			{
-			ligne++;
-			strncat(file,"\n",1);
+				if(ligne!=(int)data){strncat(file,"\n",1);}
+				ligne++;
 			}
 			else
 			{
 				if(ligne!=(int)data)
 				{
-				strncat(file,&carac,1);
+					strncat(file,&carac,1);
 				}
 			}
 		}
 	fclose(fich);
 	}
 
-	save_string_to_file_vide(confile.projects,"");
-	if(ligne>1){save_string_to_file_add(confile.projects,file);}
+	if(strlen(file)>5)
+	{
+		save_string_to_file_vide(confile.projects,"");
+		save_string_to_file_add(confile.projects,file);
+	}
+	else
+	{
+		save_string_to_file_vide(confile.projects," ");
+	}
+
 	file[0]='\0';
 
 	load_projects_list();
