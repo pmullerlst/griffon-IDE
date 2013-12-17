@@ -5163,7 +5163,7 @@ void delete_project(gpointer data)
 	}
 
 	save_string_to_file_vide(confile.projects,"");
-	if(ligne>1){save_string_to_file_add(confile.projects,file);
+	if(ligne>1){save_string_to_file_add(confile.projects,file);}
 	file[0]='\0';
 
 	load_projects_list();
