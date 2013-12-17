@@ -5246,7 +5246,8 @@ void mount_ftp (void)
 //*********************** UMOUNT SFTP/FTP
 void umount_sftp (void)
 {
-	if(tampon_sftp!=NULL)
+
+	if(strlen(liste_mount)>4)
 	{
 		int systemRet =system (liste_mount);
 		if(systemRet == -1){return;}

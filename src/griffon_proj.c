@@ -33,7 +33,8 @@ static GtkWidget *ent_dir_makefile;
 static GtkWidget *ent_dir_source;
 static GtkWidget *ent_file_executable;
 
-GtkWidget *entry_proj_path,*entry_proj_command,*entry_proj_make_path,*entry_proj_name,*entry_proj_run,*entry_proj_info,*entry_proj_icon;
+GtkWidget *entry_proj_path,*entry_proj_command,*entry_proj_make_path,*entry_proj_name,*entry_proj_run,*entry_proj_info,*entry_proj_icon,*entry_proj_url;
+GtkWidget *entry_proj_sftp_ip,*entry_proj_sftp_user,*entry_proj_sftp_path;
 
 static GtkWidget* mk_page_main (t_tea_project *p)
 {
@@ -230,7 +231,7 @@ GtkWidget* create_proj_props_window (t_tea_project *p)
 //*********************** NEW PROJECT
 GtkWidget* new_project_window (void)
 {
-	GtkWidget *window1,*frame1,*vbox1,*hbox2,*label2,*hbox1,*button1,*button2,*label1,*hbox3,*label3,*hbox4,*label4,*hbox5,*label5,*hbox6,*label6,*hbox7,*label7,*hbox8,*label8;  
+	GtkWidget *window1,*frame1,*vbox1,*hbox2,*label2,*hbox1,*button1,*button2,*label1,*hbox3,*label3,*hbox4,*label4,*hbox5,*label5,*hbox6,*label6,*hbox7,*label7,*hbox8,*label8,*hbox9,*label9;  
 	GtkWidget *button_icon,*button_command,*button_make_path,*button_path,*button_run;
 	icon_affiche_stop();
 	
@@ -366,6 +367,65 @@ GtkWidget* new_project_window (void)
 	gtk_widget_show (GTK_WIDGET(button_icon));
 	gtk_box_pack_start (GTK_BOX (hbox8), button_icon, TRUE, TRUE, 0);
 
+	//**************
+	hbox9 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox9));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox9, TRUE, TRUE, 0);
+
+	label9 = gtk_label_new (_("URL/HTTP : \t\t"));
+	gtk_widget_show (GTK_WIDGET(label9));
+	gtk_box_pack_start (GTK_BOX (hbox9), label9, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label9), GTK_JUSTIFY_LEFT);
+
+	entry_proj_url = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(entry_proj_url));
+	gtk_box_pack_start (GTK_BOX (hbox9), entry_proj_url, FALSE, FALSE, 0);
+	gtk_entry_set_text (GTK_ENTRY (entry_proj_url), _("http://"));
+
+	//**************
+	hbox9 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox9));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox9, TRUE, TRUE, 0);
+
+	label9 = gtk_label_new (_("SFTP IP : \t\t\t"));
+	gtk_widget_show (GTK_WIDGET(label9));
+	gtk_box_pack_start (GTK_BOX (hbox9), label9, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label9), GTK_JUSTIFY_LEFT);
+
+	entry_proj_sftp_ip = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(entry_proj_sftp_ip));
+	gtk_box_pack_start (GTK_BOX (hbox9), entry_proj_sftp_ip, FALSE, FALSE, 0);
+
+	//**************
+	hbox9 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox9));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox9, TRUE, TRUE, 0);
+
+	label9 = gtk_label_new (_("SFTP USER : \t\t"));
+	gtk_widget_show (GTK_WIDGET(label9));
+	gtk_box_pack_start (GTK_BOX (hbox9), label9, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label9), GTK_JUSTIFY_LEFT);
+
+	entry_proj_sftp_user = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(entry_proj_sftp_user));
+	gtk_box_pack_start (GTK_BOX (hbox9), entry_proj_sftp_user, FALSE, FALSE, 0);
+	gtk_entry_set_text (GTK_ENTRY (entry_proj_sftp_user), _("root"));
+
+	//**************
+	hbox9 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox9));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox9, TRUE, TRUE, 0);
+
+	label9 = gtk_label_new (_("SFTP PATH : \t\t"));
+	gtk_widget_show (GTK_WIDGET(label9));
+	gtk_box_pack_start (GTK_BOX (hbox9), label9, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label9), GTK_JUSTIFY_LEFT);
+
+	entry_proj_sftp_path = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(entry_proj_sftp_path));
+	gtk_box_pack_start (GTK_BOX (hbox9), entry_proj_sftp_path, FALSE, FALSE, 0);
+	gtk_entry_set_text (GTK_ENTRY (entry_proj_sftp_path), _("/"));
+
 	hbox1 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_widget_show (GTK_WIDGET(hbox1));
 	gtk_box_pack_start (GTK_BOX (vbox1), hbox1, FALSE, FALSE, 0);
@@ -411,6 +471,10 @@ void save_projects (void)
 	gchar *tmp_proj_run;
 	gchar *tmp_proj_info;
 	gchar *tmp_proj_icon;
+	gchar *tmp_proj_url;
+	gchar *tmp_proj_sftp_ip;
+	gchar *tmp_proj_sftp_user;
+	gchar *tmp_proj_sftp_path;
 
 	tmp_proj_command = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_command),0, -1);
 	tmp_proj_make_path = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_make_path),0, -1);
@@ -419,6 +483,10 @@ void save_projects (void)
 	tmp_proj_run = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_run),0, -1);
 	tmp_proj_info = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_info),0, -1);
 	tmp_proj_icon = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_icon),0, -1);
+	tmp_proj_url = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_url),0, -1);
+	tmp_proj_sftp_ip = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_sftp_ip),0, -1);
+	tmp_proj_sftp_user = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_sftp_user),0, -1);
+	tmp_proj_sftp_path = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_sftp_path),0, -1);
 
 	save_string_to_file_add(confile.projects,tmp_proj_name);
 	save_string_to_file_add(confile.projects,";");
@@ -433,6 +501,14 @@ void save_projects (void)
 	save_string_to_file_add(confile.projects,tmp_proj_info);
 	save_string_to_file_add(confile.projects,";");
 	save_string_to_file_add(confile.projects,tmp_proj_icon);
+	save_string_to_file_add(confile.projects,";");
+	save_string_to_file_add(confile.projects,tmp_proj_url);
+	save_string_to_file_add(confile.projects,";");
+	save_string_to_file_add(confile.projects,tmp_proj_sftp_ip);
+	save_string_to_file_add(confile.projects,";");
+	save_string_to_file_add(confile.projects,tmp_proj_sftp_user);
+	save_string_to_file_add(confile.projects,":");
+	save_string_to_file_add(confile.projects,tmp_proj_sftp_path);
 	save_string_to_file_add(confile.projects,";\n");
 
 	load_projects_list();

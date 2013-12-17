@@ -4753,7 +4753,7 @@ void load_projects_list()
 {
 	FILE *fich;
 	char carac;
-	char mot[1000];
+	char mot[3000];
 	mot[0]='\0';
 
 	gtk_widget_destroy(vbox_proj_main);
@@ -4795,7 +4795,7 @@ GtkWidget *notebook_proj,*label_note4,*hbox_note,*image2;
 			{
 			ligne++;
 			gchar **a = g_strsplit (mot, ";", -1);
-
+			gchar **b=NULL;
 			if(a[0])
 			{
 
@@ -4844,7 +4844,7 @@ GtkWidget *notebook_proj,*label_note4,*hbox_note,*image2;
 
 			gtk_container_add (GTK_CONTAINER (scrolledwindow4), (GtkWidget *)sView_projet2);
 
-			if(a[6])
+			if(strlen(a[6])>3)
 			{
 			pixbuf = gdk_pixbuf_new_from_file(a[6], NULL);
 			gtk_text_buffer_get_end_iter(GTK_TEXT_BUFFER(buffer_projet2), &itFin);
@@ -4866,11 +4866,25 @@ GtkWidget *notebook_proj,*label_note4,*hbox_note,*image2;
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("[MAKE CMD] \t: ")), -1);
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[4])), -1);
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
+
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("[SFTP IP] \t: ")), -1);
+			if(strlen(a[8])>1){gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[8])), -1);}
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("[SFTP USER] \t: ")), -1);
+			if(a[9]!=NULL){b = g_strsplit (a[9], ":", -1);}
+			if(b[0]!=NULL){gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(b[0])), -1);}
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("[SFTP PATH] \t: ")), -1);
+			if(b[1]!=NULL){gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(b[1])), -1);}
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
+
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n[INFO] : \n\n")), -1);
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[5])), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n\n[URL/HTTP] : ")), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[7])), -1);
 
 			gtk_widget_show (GTK_WIDGET(sView_projet2)); 
-			gtk_widget_set_size_request (scrolledwindow4, 350, 150);
+			//gtk_widget_set_size_request (scrolledwindow4, 350, 150);
 
 			ligne_tab=ligne-1;
 			label_note4 = gtk_label_new (_(a[0]));
@@ -4899,7 +4913,6 @@ GtkWidget *notebook_proj,*label_note4,*hbox_note,*image2;
 		}
 	fclose(fich);
 	}
-
 }
 
 //********************* OPEN PROJECTS
@@ -4935,6 +4948,89 @@ void open_project(gpointer data)
 
 					gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,p_dir_source);
 					griffon_notify(_("Opening the project"));
+
+					if(strlen(a[7])>4)
+					{
+						webkit_web_view_load_uri(webView, a[7]);
+					}
+
+					if(strlen(a[8])>1 && strlen(a[9])>1)
+					{
+						char mot2[150];
+						char mot3[150];
+						gchar *tampon_utilisateur;
+						gchar *tampon_chemin;
+						gchar *tampon_sftp;
+
+						const char *home_dir = g_getenv ("HOME");
+
+						FILE *fichier = NULL;
+						fichier = fopen("/usr/bin/sshfs",  "r");
+
+						if (fichier == NULL)
+						{
+						icon_stop_logmemo();
+						log_to_memo (_("You must install the curlftpfs to use the mounting  SFTP"), NULL, LM_ERROR);
+						statusbar_msg (_("Mount [ERROR]"));
+						}
+						else
+						{
+						gchar **b = g_strsplit (a[9], ":", -1);
+						tampon_sftp = a[8];
+						tampon_utilisateur = b[0];
+						tampon_chemin = b[1];
+//						tampon_chemin = "/";
+
+						int systemRet=0;
+						if(sshadd==NULL){systemRet =system ("ssh-add");sshadd="ok";}
+						if(systemRet == -1){return;}
+
+						strcpy(mot2,"mkdir -p ");
+						strcat(mot2,home_dir);
+						strcat(mot2,"/MOUNT/");
+
+						strcat(mot2,tampon_sftp);
+						systemRet =system (mot2);
+						if(systemRet == -1){return;}
+
+						strcpy(mot3,"sshfs ");
+						strcat(mot3,tampon_utilisateur);
+						strcat(mot3,"@");				
+						strcat(mot3,tampon_sftp);
+						strcat(mot3,":");
+						strcat(mot3,tampon_chemin);	
+
+						strcat(liste_mount,"fusermount -u ");
+						strcat(liste_mount,home_dir);
+						strcat(liste_mount,"/MOUNT/");
+						strcat(liste_mount,tampon_sftp);
+						strcat(liste_mount," ; ");
+
+						new_terminal_ssh (tampon_sftp,tampon_utilisateur);
+
+						strcat(mot3," ");
+						strcat(mot3,home_dir);
+						strcat(mot3,"/MOUNT/");
+
+						strcat(mot3,tampon_sftp);	
+						systemRet =system (mot3);
+						if(systemRet == -1){return;}
+
+						char total_path[300];total_path[0]='\0';
+						strcat(total_path,home_dir);
+						strcat(total_path,"/MOUNT/");
+						strcat(total_path,tampon_sftp);		
+						gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,total_path);
+
+						icon_log_logmemo();
+						log_to_memo (_("%s mount SFTP in MOUNT/"), tampon_sftp, LM_NORMAL);
+						statusbar_msg (_("Mount [OK]"));
+						griffon_notify(_("Mount SFTP"));
+						icon_affiche_net ();
+						fclose(fichier);
+						}
+					}
+
 				}
 
 			mot[0]='\0';
