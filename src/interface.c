@@ -639,7 +639,6 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("Add a bookmark"), mni_file_menu, on_mni_file_add_bookmark);
 
 	mni_temp = new_menu_item (_("Doc Gen"), mni_file_menu, gen_doc_html);
-
 	mni_temp = new_menu_sep (mni_file_menu);
 
 	mni_temp = new_menu_item (_("Open"), mni_file_menu, on_mni_file_open_activate);
@@ -4871,7 +4870,7 @@ GtkWidget *notebook_proj,*label_note4,*hbox_note,*image2;
 			label_note4 = gtk_label_new (_(a[0]));
 			gtk_widget_show (GTK_WIDGET(label_note4));
 
-			gtk_widget_set_size_request (label_note4, 50, 20);
+			gtk_widget_set_size_request (label_note4, 100, 25);
 
 			hbox_note = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 			gtk_widget_show (GTK_WIDGET(hbox_note));

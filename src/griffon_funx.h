@@ -68,3 +68,4 @@ gboolean is_pascal (const gchar *f);
 void create_empty_file (gchar *filename, gchar *first_line);
 void goto_local_label (const gchar *l);
 
+
