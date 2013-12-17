@@ -26,5 +26,6 @@ void tea_proj_free (t_tea_project *p);
 void tea_proj_run (t_tea_project *p);
 GtkWidget* new_project_window (void);
 void save_projects (void);
-
+void open_dialog_path(gpointer data);
+void open_dialog_path_dir(gpointer data);
 

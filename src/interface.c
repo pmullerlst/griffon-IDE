@@ -4757,18 +4757,16 @@ void load_projects_list()
 	gtk_box_pack_start (GTK_BOX (vbox_proj), vbox_proj_main, TRUE, TRUE, 0);
 	gtk_widget_show (GTK_WIDGET(vbox_proj_main)); 
 
-	GtkWidget *scrolledwindow5;
+GtkWidget *notebook_proj,*label_note4,*hbox_note,*image2;
 
-	scrolledwindow5 = gtk_scrolled_window_new (NULL, NULL);
-	gtk_widget_show (GTK_WIDGET(scrolledwindow5));
-	gtk_box_pack_start(GTK_BOX(vbox_proj_main), GTK_WIDGET(scrolledwindow5), TRUE, TRUE, 1);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_CORNER_TOP_LEFT);
+	notebook_proj = gtk_notebook_new ();  
+	gtk_widget_show (GTK_WIDGET(notebook_proj));  
+	gtk_box_pack_start (GTK_BOX (vbox_proj_main), notebook_proj, TRUE, TRUE, 0);  
+	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook_proj), GTK_POS_LEFT);
+	gtk_notebook_set_group_name (GTK_NOTEBOOK (notebook_proj), "wnote");	
+	gtk_notebook_set_scrollable(GTK_NOTEBOOK (notebook_proj),TRUE);
 
-	GtkWidget *vbox_proj_main2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-	gtk_container_add (GTK_CONTAINER (scrolledwindow5), (GtkWidget *)vbox_proj_main2);
-	gtk_widget_show (GTK_WIDGET(vbox_proj_main2)); 
-
+	GtkWidget *vbox_proj_main2;
 	GtkWidget *toolbar_proj;
 	GtkToolItem *tool_proj_new;
 	GtkToolItem *tool_proj_delete;
@@ -4777,6 +4775,8 @@ void load_projects_list()
 	GtkSourceBuffer *buffer_projet2;
 	GtkWidget *scrolledwindow4;
 	int ligne=0;
+	int ligne_tab=0;
+
 	GdkPixbuf *pixbuf;
 	GtkTextIter itFin;
 
@@ -4793,6 +4793,11 @@ void load_projects_list()
 
 			if(a[0])
 			{
+
+			vbox_proj_main2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+			gtk_container_add (GTK_CONTAINER (notebook_proj), (GtkWidget *)vbox_proj_main2);
+			gtk_widget_show (GTK_WIDGET(vbox_proj_main2)); 
+
 			toolbar_proj = gtk_toolbar_new ();
 			gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_proj), GTK_TOOLBAR_ICONS);
 			gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_proj),GTK_ICON_SIZE_SMALL_TOOLBAR);
@@ -4815,7 +4820,7 @@ void load_projects_list()
 
 			scrolledwindow4 = gtk_scrolled_window_new (NULL, NULL);
 			gtk_widget_show (GTK_WIDGET(scrolledwindow4));
-			gtk_box_pack_start(GTK_BOX(vbox_proj_main2), GTK_WIDGET(scrolledwindow4), FALSE, FALSE, 1);
+			gtk_box_pack_start(GTK_BOX(vbox_proj_main2), GTK_WIDGET(scrolledwindow4), TRUE, TRUE, 1);
 			gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow4), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 			gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow4), GTK_CORNER_TOP_LEFT);
 
@@ -4841,14 +4846,44 @@ void load_projects_list()
 			gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_projet2),&itFin,pixbuf);
 			}
 
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[0])), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(" - SOURCE DIR : ")), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[1])), -1);
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n\n")), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[0])), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n\n")), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("[SOURCE DIR] \t: ")), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[1])), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("[MAKE DIR] \t: ")), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[2])), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("[RUN CMD] \t: ")), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[3])), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("[MAKE CMD] \t: ")), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[4])), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n[INFO] : \n\n")), -1);
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[5])), -1);
 
 			gtk_widget_show (GTK_WIDGET(sView_projet2)); 
 			gtk_widget_set_size_request (scrolledwindow4, 350, 150);
+
+			ligne_tab=ligne-1;
+			label_note4 = gtk_label_new (_(a[0]));
+			gtk_widget_show (GTK_WIDGET(label_note4));
+
+			gtk_widget_set_size_request (label_note4, 50, 20);
+
+			hbox_note = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+			gtk_widget_show (GTK_WIDGET(hbox_note));
+			gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_proj), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_proj), ligne_tab), hbox_note);
+
+			image2 = gtk_image_new_from_stock ("gtk-directory", GTK_ICON_SIZE_SMALL_TOOLBAR);
+			gtk_widget_show (GTK_WIDGET(image2));
+			gtk_box_pack_start (GTK_BOX (hbox_note), image2, TRUE, TRUE, 0);
+			gtk_box_pack_start (GTK_BOX (hbox_note), label_note4, TRUE, TRUE, 0);	
+
+			gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook_proj), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_proj), ligne_tab), TRUE);
+
 			}
 			mot[0]='\0';
 			}
