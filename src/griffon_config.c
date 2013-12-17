@@ -725,7 +725,7 @@ void confile_reload (void)
 		create_empty_file (confile.tea_rc, "#Fichier de configuration Griffon IDE.");
 
 	if (! g_file_test (confile.tea_todo, G_FILE_TEST_EXISTS))
-		create_empty_file (confile.tea_todo, "<?xml version=\"1.0\"?><columns name=\"Team\">\n<column name=\"Date\" type=\"current_date\"></column>\n<column name=\"Status\" type=\"string\">\n<value>Arrêt de production</value>\n<value>Critique</value>\n<value type=\"default\">Mineur</value>\n<value>Suggestion</value>\n</column>\n<column name=\"User\" type=\"string\">\n<value>Pierre</value>\n<value>Paul</value>\n<value type=\"default\">Jacques</value>\n</column>\n<column name=\"Notes\" type=\"string\">\n</column>\n</columns>\n");
+		create_empty_file (confile.tea_todo, "");
 
 	if (! g_file_test (confile.tea_sftp, G_FILE_TEST_EXISTS))
 		create_empty_file (confile.tea_sftp, "");
