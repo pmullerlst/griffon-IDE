@@ -4880,13 +4880,23 @@ GtkWidget *notebook_proj,*label_note4,*hbox_note,*image2;
 			if(b[1]!=NULL){gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(b[1])), -1);}
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
 
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("[FTP IP] \t: ")), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[10])), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("[FTP USER] \t: ")), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[11])), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("[FTP PASSWORD] \t: ")), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[12])), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
+
+
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n[INFO] : \n\n")), -1);
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[5])), -1);
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n\n[URL/HTTP] : ")), -1);
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[7])), -1);
 
 			gtk_widget_show (GTK_WIDGET(sView_projet2)); 
-			//gtk_widget_set_size_request (scrolledwindow4, 350, 150);
 
 			ligne_tab=ligne-1;
 			label_note4 = gtk_label_new (_(a[0]));
@@ -4951,11 +4961,13 @@ void open_project(gpointer data)
 					gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,p_dir_source);
 					griffon_notify(_("Opening the project"));
 
+					//********** CHARGE URL
 					if(strlen(a[7])>4)
 					{
 						webkit_web_view_load_uri(webView, a[7]);
 					}
 
+					//********** CHARGE SFTP
 					if(strlen(a[8])>1 && strlen(a[9])>1)
 					{
 						char mot2[150];
@@ -5031,6 +5043,77 @@ void open_project(gpointer data)
 						icon_affiche_net ();
 						fclose(fichier);
 						}
+					}
+
+					//********** CHARGE FTP
+					if(strlen(a[10])>1 && strlen(a[11])>1  && strlen(a[12])>1)
+					{
+						char mot3[150];
+						char mot2[150];
+						gchar *tampon_utilisateur_ftp;
+						gchar *tampon_passwd_ftp;
+						gchar *tampon_sftp;
+
+						const char *home_dir = g_getenv ("HOME");
+
+						FILE *fichier = NULL;
+						fichier = fopen("/usr/bin/curlftpfs",  "r");
+
+						if (fichier == NULL)
+						{
+						icon_stop_logmemo();
+						log_to_memo (_("You must install the curlftpfs to use the mounting FTP"), NULL, LM_ERROR);
+						statusbar_msg (_("Mount [ERROR]"));
+						}
+						else
+						{
+						tampon_sftp = a[10];
+						tampon_utilisateur_ftp = a[11];
+						tampon_passwd_ftp = a[12];
+
+						strcpy(mot2,"mkdir -p ");
+						strcat(mot2,home_dir);
+						strcat(mot2,"/MOUNT/");
+						strcat(mot2,tampon_sftp);
+						int systemRet =system (mot2);
+						if(systemRet == -1){return;}
+
+						strcpy(mot3,"curlftpfs ");
+						strcat(mot3,tampon_utilisateur_ftp);
+						strcat(mot3,":");				
+						strcat(mot3,tampon_passwd_ftp);
+						strcat(mot3,"@");
+						strcat(mot3,tampon_sftp);		
+
+						strcat(mot3," ");
+						strcat(mot3,home_dir);
+						strcat(mot3,"/MOUNT/");
+						strcat(mot3,tampon_sftp);
+		
+						strcat(liste_mount,"fusermount -u ");
+						strcat(liste_mount,home_dir);
+						strcat(liste_mount,"/MOUNT/");
+						strcat(liste_mount,tampon_sftp);
+						strcat(liste_mount," ; ");
+
+						systemRet =system (mot3);
+						if(systemRet == -1){return;}
+
+						char total_path[300];total_path[0]='\0';
+						strcat(total_path,home_dir);
+						strcat(total_path,"/MOUNT/");
+						strcat(total_path,tampon_sftp);		
+						gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,total_path);
+
+						icon_log_logmemo();
+						log_to_memo (_("%s mount FTP in MOUNT/"), tampon_sftp, LM_NORMAL);
+						statusbar_msg (_("Mount [OK]"));
+						griffon_notify(_("Mount FTP"));
+						icon_affiche_net ();
+						ftp_reload();
+						fclose(fichier);
+						}
+
 					}
 
 				}
