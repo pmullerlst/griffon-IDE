@@ -4846,6 +4846,8 @@ GtkWidget *notebook_proj,*label_note4,*hbox_note,*image2;
 
 			gtk_container_add (GTK_CONTAINER (scrolledwindow4), (GtkWidget *)sView_projet2);
 
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n\n\t")), -1);
+
 			if(strlen(a[6])>3)
 			{
 			pixbuf = gdk_pixbuf_new_from_file(a[6], NULL);
@@ -4853,9 +4855,9 @@ GtkWidget *notebook_proj,*label_note4,*hbox_note,*image2;
 			gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_projet2),&itFin,pixbuf);
 			}
 
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n\n")), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n\n======= [ ")), -1);
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[0])), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n\n")), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(" ] ======= \n\n")), -1);
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("[SOURCE DIR] \t: ")), -1);
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[1])), -1);
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
@@ -4891,7 +4893,7 @@ GtkWidget *notebook_proj,*label_note4,*hbox_note,*image2;
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
 
 
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n[INFO] : \n\n")), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n_____________________________________________________\n\n===== [ INFO ] ===== \n\n")), -1);
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[5])), -1);
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n\n[URL/HTTP] : ")), -1);
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[7])), -1);
@@ -4902,7 +4904,7 @@ GtkWidget *notebook_proj,*label_note4,*hbox_note,*image2;
 			label_note4 = gtk_label_new (_(a[0]));
 			gtk_widget_show (GTK_WIDGET(label_note4));
 
-			gtk_widget_set_size_request (label_note4, 100, 25);
+			gtk_widget_set_size_request (label_note4, 100, 20);
 
 			hbox_note = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 			gtk_widget_show (GTK_WIDGET(hbox_note));
