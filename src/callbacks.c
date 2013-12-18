@@ -5794,3 +5794,46 @@ void add_todo_fixme(void)
 		on_mni_file_todolist ();
 }
 
+//********************* INSERT DIALOG FILE PATH
+void insert_dialog_path()
+{
+	if (! get_page_text()) return;
+	GtkWidget *dialog;
+	dialog = gtk_file_chooser_dialog_new ("Open File",
+				      (GtkWindow *)tea_main_window,
+				      GTK_FILE_CHOOSER_ACTION_OPEN,
+				      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				      GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+				      NULL);
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+	{
+		char *filename;
+		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
+		doc_insert_at_cursor (cur_text_doc, filename);
+		g_free (filename);
+	}
+	gtk_widget_destroy (dialog);
+}
+
+//********************* INSERT DIALOG FILE PATH DIR
+void insert_dialog_path_dir()
+{
+	if (! get_page_text()) return;
+	GtkWidget *dialog;
+	dialog = gtk_file_chooser_dialog_new ("Open File",
+				      (GtkWindow *)tea_main_window,
+				       GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
+				      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				      GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+				      NULL);
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+	{
+		char *filename;
+		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
+		doc_insert_at_cursor (cur_text_doc, filename);
+		g_free (filename);
+	}
+	gtk_widget_destroy (dialog);
+}

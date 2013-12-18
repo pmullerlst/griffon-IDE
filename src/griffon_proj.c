@@ -509,7 +509,7 @@ void save_projects (void)
 	save_string_to_file_add(confile.projects,tmp_proj_sftp_user);
 	save_string_to_file_add(confile.projects,":");
 	save_string_to_file_add(confile.projects,tmp_proj_sftp_path);
-	save_string_to_file_add(confile.projects,";\n");
+	save_string_to_file_add(confile.projects,";;;;;;;;;;;;;;;;;;;;;;\n");
 
 	load_projects_list();
 }

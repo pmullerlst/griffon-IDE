@@ -820,6 +820,8 @@ GtkWidget* create_tea_main_window (void)
 	mni_ins_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
 	mni_temp = new_menu_tof (mni_ins_menu);
 
+	mni_temp = new_menu_item (_("Path file"), mni_ins_menu, insert_dialog_path);
+	mni_temp = new_menu_item (_("Path directory"), mni_ins_menu, insert_dialog_path_dir);
 	mni_temp = new_menu_item (_("Date/Time"), mni_ins_menu, on_mni_funx_ins_time);
 	mni_temp = new_menu_item (_("Dump menu"), mni_ins_menu, on_mni_dump_menu);
 
