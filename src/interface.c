@@ -4764,7 +4764,8 @@ void load_projects_list()
 	gtk_box_pack_start (GTK_BOX (vbox_proj), vbox_proj_main, TRUE, TRUE, 0);
 	gtk_widget_show (GTK_WIDGET(vbox_proj_main)); 
 
-GtkWidget *notebook_proj,*label_note4,*hbox_note,*image2;
+	GtkWidget *notebook_proj,*label_note4,*hbox_note,*image2;
+	GdkPixbuf *pixbuf_icon;
 
 	notebook_proj = gtk_notebook_new ();  
 	gtk_widget_show (GTK_WIDGET(notebook_proj));  
@@ -4910,7 +4911,17 @@ GtkWidget *notebook_proj,*label_note4,*hbox_note,*image2;
 			gtk_widget_show (GTK_WIDGET(hbox_note));
 			gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_proj), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_proj), ligne_tab), hbox_note);
 
+			if(strlen(a[6])>3)
+			{
+			pixbuf_icon=gdk_pixbuf_new_from_file(a[6],NULL);
+			pixbuf_icon=gdk_pixbuf_scale_simple(pixbuf_icon,40,40,GDK_INTERP_BILINEAR);
+			image2=gtk_image_new_from_pixbuf(pixbuf_icon);
+			}
+			else
+			{
 			image2 = gtk_image_new_from_stock ("gtk-directory", GTK_ICON_SIZE_SMALL_TOOLBAR);
+			}
+
 			gtk_widget_show (GTK_WIDGET(image2));
 			gtk_box_pack_start (GTK_BOX (hbox_note), image2, TRUE, TRUE, 0);
 			gtk_box_pack_start (GTK_BOX (hbox_note), label_note4, TRUE, TRUE, 0);	
