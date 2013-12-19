@@ -4777,6 +4777,7 @@ void load_projects_list()
 	GtkWidget *vbox_proj_main2;
 	GtkWidget *toolbar_proj;
 	GtkToolItem *tool_proj_new;
+	GtkToolItem *tool_proj_edit;
 	GtkToolItem *tool_proj_delete;
 	PangoFontDescription *font_desc_projet;
 	GtkWidget *sView_projet2;
@@ -4809,12 +4810,18 @@ void load_projects_list()
 			toolbar_proj = gtk_toolbar_new ();
 			gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_proj), GTK_TOOLBAR_ICONS);
 			gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_proj),GTK_ICON_SIZE_SMALL_TOOLBAR);
-			tool_proj_new = gtk_tool_button_new_from_stock(GTK_STOCK_OPEN);
 
+			tool_proj_new = gtk_tool_button_new_from_stock(GTK_STOCK_OPEN);
 			gtk_toolbar_insert(GTK_TOOLBAR(toolbar_proj), tool_proj_new, -1);
 			gtk_widget_show(GTK_WIDGET(tool_proj_new));
 			g_signal_connect_swapped ((gpointer) tool_proj_new, "clicked",G_CALLBACK (open_project),(gpointer)ligne);
 			gtk_tool_item_set_tooltip_text(tool_proj_new,_("Open project"));
+
+			tool_proj_edit = gtk_tool_button_new_from_stock(GTK_STOCK_EDIT);
+			gtk_toolbar_insert(GTK_TOOLBAR(toolbar_proj), tool_proj_edit, -1);
+			gtk_widget_show(GTK_WIDGET(tool_proj_edit));
+			g_signal_connect_swapped ((gpointer) tool_proj_edit, "clicked",G_CALLBACK (update_project_window),(gpointer)ligne);
+			gtk_tool_item_set_tooltip_text(tool_proj_edit,_("Update project"));
 
 			tool_proj_delete = gtk_tool_button_new_from_stock(GTK_STOCK_REMOVE);
 			gtk_toolbar_insert(GTK_TOOLBAR(toolbar_proj), tool_proj_delete, -1);

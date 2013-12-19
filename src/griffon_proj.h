@@ -28,4 +28,6 @@ GtkWidget* new_project_window (void);
 void save_projects (void);
 void open_dialog_path(gpointer data);
 void open_dialog_path_dir(gpointer data);
+void update_projects (gpointer data);
+void update_project_window (gpointer data);
 

@@ -19,6 +19,7 @@
 #include <gtksourceview/gtksourceview.h>
 #include <gtksourceview/gtksourcebuffer.h>
 #include <gtksourceview/gtksourcelanguage.h>
+#include <string.h>
 
 #include "interface.h"
 #include "callbacks.h"
@@ -612,4 +613,394 @@ void open_dialog_path_dir(gpointer data)
 		g_free (filename);
 	}
 	gtk_widget_destroy (dialog);
+}
+
+//*********************** UPDATE INTERFACE PROJECT
+void update_project_window (gpointer data)
+{
+
+	gchar **a=NULL;
+	gchar **b=NULL;
+
+	FILE *fich;
+	char carac;
+	char mot[1000];
+	mot[0]='\0';
+	int ligne=0;
+
+	if(fopen(confile.projects,"rt"))
+	{
+	fich=fopen(confile.projects,"r");
+
+		while ((carac =fgetc(fich)) != EOF)
+		{
+			if (carac =='\n')
+			{
+			ligne++;
+				if(ligne==(int)data)
+				{
+					a = g_strsplit (mot, ";", -1);
+					b = g_strsplit (a[9], ":", -1);
+				}
+
+			mot[0]='\0';
+			}
+			else
+			{
+				strncat(mot,&carac,1);
+			}
+		}
+	fclose(fich);
+	}
+
+
+	GtkWidget *window1,*frame1,*vbox1,*hbox2,*label2,*hbox1,*button1,*button2,*label1,*hbox3,*label3,*hbox4,*label4,*hbox5,*label5,*hbox6,*label6,*hbox7,*label7,*hbox8,*label8,*hbox9,*label9;  
+	GtkWidget *button_icon,*button_command,*button_make_path,*button_path,*button_run;
+	icon_affiche_stop();
+	
+	window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_title (GTK_WINDOW (window1), _((_("Update Project"))));
+	gtk_window_set_position (GTK_WINDOW (window1), GTK_WIN_POS_CENTER);
+	gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
+  gtk_widget_show(GTK_WIDGET(window1));
+
+	frame1 = gtk_frame_new (NULL);
+	gtk_widget_show (GTK_WIDGET(frame1));
+	gtk_container_add (GTK_CONTAINER (window1), frame1);
+	gtk_container_set_border_width (GTK_CONTAINER (frame1), 4);
+	gtk_frame_set_label_align (GTK_FRAME (frame1), 0.02, 0.55);
+
+	vbox1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_widget_show (GTK_WIDGET(vbox1));
+	gtk_container_add (GTK_CONTAINER (frame1), vbox1);
+
+	hbox2 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox2));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox2, TRUE, TRUE, 0);
+
+	label2 = gtk_label_new (_("Projetc name : \t"));
+	gtk_widget_show (GTK_WIDGET(label2));
+	gtk_box_pack_start (GTK_BOX (hbox2), label2, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label2), GTK_JUSTIFY_LEFT);
+
+	entry_proj_name = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(entry_proj_name));
+	gtk_box_pack_start (GTK_BOX (hbox2), entry_proj_name, FALSE, FALSE, 0);
+	gtk_widget_grab_focus(GTK_WIDGET(entry_proj_name));
+	gtk_entry_set_text (GTK_ENTRY (entry_proj_name), _(a[0]));
+
+	hbox3 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox3));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox3, TRUE, TRUE, 0);
+
+	label3 = gtk_label_new (_("Path : \t\t\t\t"));
+	gtk_widget_show (GTK_WIDGET(label3));
+	gtk_box_pack_start (GTK_BOX (hbox3), label3, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label3), GTK_JUSTIFY_LEFT);
+
+	entry_proj_path = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(entry_proj_path));
+	gtk_box_pack_start (GTK_BOX (hbox3), entry_proj_path, FALSE, FALSE, 0);
+	gtk_entry_set_text (GTK_ENTRY (entry_proj_path), _(a[1]));
+
+	button_path = gtk_button_new_from_stock ("gtk-open");
+	gtk_widget_show (GTK_WIDGET(button_path));
+	gtk_box_pack_start (GTK_BOX (hbox3), button_path, TRUE, TRUE, 0);
+
+	hbox4 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox4));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox4, TRUE, TRUE, 0);
+
+	label4 = gtk_label_new (_("Make path : \t\t"));
+	gtk_widget_show (GTK_WIDGET(label4));
+	gtk_box_pack_start (GTK_BOX (hbox4), label4, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label4), GTK_JUSTIFY_LEFT);
+
+	entry_proj_make_path = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(entry_proj_make_path));
+	gtk_box_pack_start (GTK_BOX (hbox4), entry_proj_make_path, FALSE, FALSE, 0);
+	gtk_entry_set_text (GTK_ENTRY (entry_proj_make_path), _(a[2]));
+
+	button_make_path = gtk_button_new_from_stock ("gtk-open");
+	gtk_widget_show (GTK_WIDGET(button_make_path));
+	gtk_box_pack_start (GTK_BOX (hbox4), button_make_path, TRUE, TRUE, 0);
+
+	//**************
+	hbox5 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox5));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox5, TRUE, TRUE, 0);
+
+	label5 = gtk_label_new (_("Make command : \t"));
+	gtk_widget_show (GTK_WIDGET(label5));
+	gtk_box_pack_start (GTK_BOX (hbox5), label5, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label5), GTK_JUSTIFY_LEFT);
+
+	entry_proj_command = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(entry_proj_command));
+	gtk_box_pack_start (GTK_BOX (hbox5), entry_proj_command, FALSE, FALSE, 0);
+	gtk_entry_set_text (GTK_ENTRY (entry_proj_command), _(a[4]));
+
+	button_command = gtk_button_new_from_stock ("gtk-open");
+	gtk_widget_show (GTK_WIDGET(button_command));
+	gtk_box_pack_start (GTK_BOX (hbox5), button_command, TRUE, TRUE, 0);
+
+	//**************
+	hbox6 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox6));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox6, TRUE, TRUE, 0);
+
+	label6 = gtk_label_new (_("Run target : \t\t"));
+	gtk_widget_show (GTK_WIDGET(label6));
+	gtk_box_pack_start (GTK_BOX (hbox6), label6, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label6), GTK_JUSTIFY_LEFT);
+
+	entry_proj_run = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(entry_proj_run));
+	gtk_box_pack_start (GTK_BOX (hbox6), entry_proj_run, FALSE, FALSE, 0);
+	gtk_entry_set_text (GTK_ENTRY (entry_proj_run), _(a[3]));
+
+	button_run = gtk_button_new_from_stock ("gtk-open");
+	gtk_widget_show (GTK_WIDGET(button_run));
+	gtk_box_pack_start (GTK_BOX (hbox6), button_run, TRUE, TRUE, 0);
+
+	//**************
+	hbox7 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox7));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox7, TRUE, TRUE, 0);
+
+	label7 = gtk_label_new (_("Info/Note : \t\t"));
+	gtk_widget_show (GTK_WIDGET(label7));
+	gtk_box_pack_start (GTK_BOX (hbox7), label7, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label7), GTK_JUSTIFY_LEFT);
+
+	entry_proj_info = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(entry_proj_info));
+	gtk_box_pack_start (GTK_BOX (hbox7), entry_proj_info, FALSE, FALSE, 0);
+	gtk_entry_set_width_chars (GTK_ENTRY(entry_proj_info),50);
+	gtk_entry_set_text (GTK_ENTRY (entry_proj_info), _(a[5]));
+
+	//**************
+	hbox8 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox8));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox8, TRUE, TRUE, 0);
+
+	label8 = gtk_label_new (_("Icon/IMG : \t\t"));
+	gtk_widget_show (GTK_WIDGET(label8));
+	gtk_box_pack_start (GTK_BOX (hbox8), label8, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label8), GTK_JUSTIFY_LEFT);
+
+	entry_proj_icon = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(entry_proj_icon));
+	gtk_box_pack_start (GTK_BOX (hbox8), entry_proj_icon, FALSE, FALSE, 0);
+	gtk_entry_set_text (GTK_ENTRY (entry_proj_icon), _(a[6]));
+
+	button_icon = gtk_button_new_from_stock ("gtk-open");
+	gtk_widget_show (GTK_WIDGET(button_icon));
+	gtk_box_pack_start (GTK_BOX (hbox8), button_icon, TRUE, TRUE, 0);
+
+	//**************
+	hbox9 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox9));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox9, TRUE, TRUE, 0);
+
+	label9 = gtk_label_new (_("URL/HTTP : \t\t"));
+	gtk_widget_show (GTK_WIDGET(label9));
+	gtk_box_pack_start (GTK_BOX (hbox9), label9, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label9), GTK_JUSTIFY_LEFT);
+
+	entry_proj_url = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(entry_proj_url));
+	gtk_box_pack_start (GTK_BOX (hbox9), entry_proj_url, FALSE, FALSE, 0);
+	gtk_entry_set_text (GTK_ENTRY (entry_proj_url), _(a[7]));
+
+	//**************
+	hbox9 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox9));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox9, TRUE, TRUE, 0);
+
+	label9 = gtk_label_new (_("SFTP IP : \t\t\t"));
+	gtk_widget_show (GTK_WIDGET(label9));
+	gtk_box_pack_start (GTK_BOX (hbox9), label9, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label9), GTK_JUSTIFY_LEFT);
+
+	entry_proj_sftp_ip = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(entry_proj_sftp_ip));
+	gtk_box_pack_start (GTK_BOX (hbox9), entry_proj_sftp_ip, FALSE, FALSE, 0);
+	gtk_entry_set_text (GTK_ENTRY (entry_proj_sftp_ip), _(a[8]));
+
+	//**************
+	hbox9 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox9));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox9, TRUE, TRUE, 0);
+
+	label9 = gtk_label_new (_("SFTP USER : \t\t"));
+	gtk_widget_show (GTK_WIDGET(label9));
+	gtk_box_pack_start (GTK_BOX (hbox9), label9, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label9), GTK_JUSTIFY_LEFT);
+
+	entry_proj_sftp_user = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(entry_proj_sftp_user));
+	gtk_box_pack_start (GTK_BOX (hbox9), entry_proj_sftp_user, FALSE, FALSE, 0);
+	gtk_entry_set_text (GTK_ENTRY (entry_proj_sftp_user), _(b[0]));
+
+	//**************
+	hbox9 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox9));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox9, TRUE, TRUE, 0);
+
+	label9 = gtk_label_new (_("SFTP PATH : \t\t"));
+	gtk_widget_show (GTK_WIDGET(label9));
+	gtk_box_pack_start (GTK_BOX (hbox9), label9, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label9), GTK_JUSTIFY_LEFT);
+
+	entry_proj_sftp_path = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(entry_proj_sftp_path));
+	gtk_box_pack_start (GTK_BOX (hbox9), entry_proj_sftp_path, FALSE, FALSE, 0);
+	gtk_entry_set_text (GTK_ENTRY (entry_proj_sftp_path), _(b[1]));
+
+	//**************
+	hbox9 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox9));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox9, TRUE, TRUE, 0);
+
+	label9 = gtk_label_new (_("FTP IP : \t\t\t"));
+	gtk_widget_show (GTK_WIDGET(label9));
+	gtk_box_pack_start (GTK_BOX (hbox9), label9, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label9), GTK_JUSTIFY_LEFT);
+
+	entry_proj_ftp_ip = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(entry_proj_ftp_ip));
+	gtk_box_pack_start (GTK_BOX (hbox9), entry_proj_ftp_ip, FALSE, FALSE, 0);
+	gtk_entry_set_text (GTK_ENTRY (entry_proj_ftp_ip), _(a[10]));
+
+	//**************
+	hbox9 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox9));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox9, TRUE, TRUE, 0);
+
+	label9 = gtk_label_new (_("FTP USER : \t\t"));
+	gtk_widget_show (GTK_WIDGET(label9));
+	gtk_box_pack_start (GTK_BOX (hbox9), label9, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label9), GTK_JUSTIFY_LEFT);
+
+	entry_proj_ftp_user = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(entry_proj_ftp_user));
+	gtk_box_pack_start (GTK_BOX (hbox9), entry_proj_ftp_user, FALSE, FALSE, 0);
+	gtk_entry_set_text (GTK_ENTRY (entry_proj_ftp_user), _(a[11]));
+
+	//**************
+	hbox9 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox9));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox9, TRUE, TRUE, 0);
+
+	label9 = gtk_label_new (_("FTP PASSWORD : \t"));
+	gtk_widget_show (GTK_WIDGET(label9));
+	gtk_box_pack_start (GTK_BOX (hbox9), label9, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label9), GTK_JUSTIFY_LEFT);
+
+	entry_proj_ftp_pass = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(entry_proj_ftp_pass));
+	gtk_box_pack_start (GTK_BOX (hbox9), entry_proj_ftp_pass, FALSE, FALSE, 0);
+	gtk_entry_set_text (GTK_ENTRY (entry_proj_ftp_pass), _(a[12]));
+
+	hbox1 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox1));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox1, FALSE, FALSE, 0);
+
+	button1 = gtk_button_new_from_stock ("gtk-cancel");
+	gtk_widget_show (GTK_WIDGET(button1));
+	gtk_box_pack_start (GTK_BOX (hbox1), button1, TRUE, TRUE, 0);
+	gtk_button_set_relief (GTK_BUTTON (button1), GTK_RELIEF_NONE);
+
+
+	button2 = gtk_button_new_from_stock ("gtk-apply");
+	gtk_widget_show (GTK_WIDGET(button2));
+	gtk_box_pack_start (GTK_BOX (hbox1), button2, TRUE, TRUE, 0);
+	gtk_button_set_relief (GTK_BUTTON (button2), GTK_RELIEF_NONE);
+
+	label1 = gtk_label_new (_("New Project"));
+	gtk_widget_show (GTK_WIDGET(label1));
+	gtk_frame_set_label_widget (GTK_FRAME (frame1), label1);
+	gtk_label_set_justify (GTK_LABEL (label1), GTK_JUSTIFY_LEFT);
+
+	g_signal_connect_swapped ((gpointer) button_icon, "clicked",G_CALLBACK (open_dialog_path),entry_proj_icon);
+	g_signal_connect_swapped ((gpointer) button_command, "clicked",G_CALLBACK (open_dialog_path),entry_proj_command);
+	g_signal_connect_swapped ((gpointer) button_make_path, "clicked",G_CALLBACK (open_dialog_path_dir),entry_proj_make_path);
+	g_signal_connect_swapped ((gpointer) button_path, "clicked",G_CALLBACK (open_dialog_path_dir),entry_proj_path);
+	g_signal_connect_swapped ((gpointer) button_run, "clicked",G_CALLBACK (open_dialog_path),entry_proj_run);
+	g_signal_connect_swapped ((gpointer) button1, "clicked",G_CALLBACK (icon_affiche_ok),NULL);	
+	g_signal_connect_swapped ((gpointer) button1, "clicked",G_CALLBACK (gtk_widget_destroy), window1);
+	g_signal_connect_swapped ((gpointer) button2, "clicked",G_CALLBACK (icon_affiche_ok), NULL);	
+	g_signal_connect_swapped ((gpointer) button2, "clicked",G_CALLBACK (update_projects),data);	
+	g_signal_connect_swapped ((gpointer) button2, "clicked",G_CALLBACK (gtk_widget_destroy), window1);
+	g_signal_connect_swapped ((gpointer) button1, "clicked",G_CALLBACK (gtk_widget_destroy), window1);
+
+}
+
+
+//*********************** UPDATE PROJECTS
+void update_projects (gpointer data)
+{
+	gchar *tmp_proj_command;
+	gchar *tmp_proj_make_path;
+	gchar *tmp_proj_name;
+	gchar *tmp_proj_path;
+	gchar *tmp_proj_run;
+	gchar *tmp_proj_info;
+	gchar *tmp_proj_icon;
+	gchar *tmp_proj_url;
+	gchar *tmp_proj_sftp_ip;
+	gchar *tmp_proj_sftp_user;
+	gchar *tmp_proj_sftp_path;
+	gchar *tmp_proj_ftp_ip;
+	gchar *tmp_proj_ftp_user;
+	gchar *tmp_proj_ftp_pass;
+
+	tmp_proj_command = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_command),0, -1);
+	tmp_proj_make_path = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_make_path),0, -1);
+	tmp_proj_name = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_name),0, -1);
+	tmp_proj_path = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_path),0, -1);
+	tmp_proj_run = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_run),0, -1);
+	tmp_proj_info = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_info),0, -1);
+	tmp_proj_icon = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_icon),0, -1);
+	tmp_proj_url = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_url),0, -1);
+	tmp_proj_sftp_ip = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_sftp_ip),0, -1);
+	tmp_proj_sftp_user = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_sftp_user),0, -1);
+	tmp_proj_sftp_path = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_sftp_path),0, -1);
+	tmp_proj_ftp_ip = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_ftp_ip),0, -1);
+	tmp_proj_ftp_user = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_ftp_user),0, -1);
+	tmp_proj_ftp_pass = gtk_editable_get_chars(GTK_EDITABLE(entry_proj_ftp_pass),0, -1);
+
+	delete_project((gpointer) data);
+
+	save_string_to_file_add(confile.projects,tmp_proj_name);
+	save_string_to_file_add(confile.projects,";");
+	save_string_to_file_add(confile.projects,tmp_proj_path);
+	save_string_to_file_add(confile.projects,";");
+	save_string_to_file_add(confile.projects,tmp_proj_make_path);
+	save_string_to_file_add(confile.projects,";");
+	save_string_to_file_add(confile.projects,tmp_proj_run);
+	save_string_to_file_add(confile.projects,";");
+	save_string_to_file_add(confile.projects,tmp_proj_command);
+	save_string_to_file_add(confile.projects,";");
+	save_string_to_file_add(confile.projects,tmp_proj_info);
+	save_string_to_file_add(confile.projects,";");
+	save_string_to_file_add(confile.projects,tmp_proj_icon);
+	save_string_to_file_add(confile.projects,";");
+	save_string_to_file_add(confile.projects,tmp_proj_url);
+	save_string_to_file_add(confile.projects,";");
+	save_string_to_file_add(confile.projects,tmp_proj_sftp_ip);
+	save_string_to_file_add(confile.projects,";");
+	save_string_to_file_add(confile.projects,tmp_proj_sftp_user);
+	save_string_to_file_add(confile.projects,":");
+	save_string_to_file_add(confile.projects,tmp_proj_sftp_path);
+	save_string_to_file_add(confile.projects,";");
+	save_string_to_file_add(confile.projects,tmp_proj_ftp_ip);
+	save_string_to_file_add(confile.projects,";");
+	save_string_to_file_add(confile.projects,tmp_proj_ftp_user);
+	save_string_to_file_add(confile.projects,";");
+	save_string_to_file_add(confile.projects,tmp_proj_ftp_pass);
+	save_string_to_file_add(confile.projects,";;;;;;;;;;;;;;;;;;;\n");
+
+	load_projects_list();
 }
