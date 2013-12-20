@@ -5112,12 +5112,14 @@ void mount_sftp (void)
 
 		if (fichier == NULL)
 		{
+		fclose(fichier); 
 		icon_stop_logmemo();
 		log_to_memo (_("You must install the curlftpfs to use the mounting  SFTP"), NULL, LM_ERROR);
 		statusbar_msg (_("Mount [ERROR]"));
 		}
 		else
 		{
+		fclose(fichier); 
 		tampon_sftp = gtk_editable_get_chars(GTK_EDITABLE(entry_sftp),0, -1);
 		tampon_utilisateur = gtk_editable_get_chars(GTK_EDITABLE(entry_utilisateur),0, -1);
 		tampon_chemin = gtk_editable_get_chars(GTK_EDITABLE(entry_chemin),0, -1);
@@ -5196,12 +5198,14 @@ void mount_ftp (void)
 
 	if (fichier == NULL)
 	{
+		fclose(fichier); 
 		icon_stop_logmemo();
 		log_to_memo (_("You must install the curlftpfs to use the mounting FTP"), NULL, LM_ERROR);
 		statusbar_msg (_("Mount [ERROR]"));
 	}
 	else
 	{
+		fclose(fichier); 
 		tampon_sftp = gtk_editable_get_chars(GTK_EDITABLE(entry_ftp),0, -1);
 		tampon_utilisateur_ftp = gtk_editable_get_chars(GTK_EDITABLE(entry_utilisateur_ftp),0, -1);
 		tampon_passwd_ftp = gtk_editable_get_chars(GTK_EDITABLE(entry_passwd_ftp),0, -1);
@@ -5572,12 +5576,14 @@ void open_gimp (void)
 	
 	if (fichier == NULL)
 	{
+		fclose(fichier); 
 		icon_stop_logmemo();
 		log_to_memo (_("You must install the gimp to use the edition image"), NULL, LM_ERROR);
 		statusbar_msg (_("You must install the gimp to use the edition image"));
 	}
 	else
 	{
+		fclose(fichier); 
 		char mot[150];
 		gchar *tampon_web;
 		tampon_web = gtk_editable_get_chars(GTK_EDITABLE(entry_web),0, -1);
@@ -5860,7 +5866,8 @@ void on_execut_diff (void)
 	FILE *fichier = NULL;
 	fichier = fopen("/usr/bin/diff",  "r");
 	
-	if (fichier == NULL){return;}
+	if (fichier == NULL){fclose(fichier); return;}
+	fclose(fichier); 
 
 	if(cur_text_doc->file_name==NULL)
 	{

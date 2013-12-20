@@ -2623,12 +2623,14 @@ GtkWidget* man_page (void)
 
 	if (fichier == NULL)
 		{
+		fclose(fichier); 
 		icon_stop_logmemo();
 		log_to_memo (_("You must install the DevHelp"), NULL, LM_ERROR);
 		statusbar_msg (_("Search DevHelp [ERROR]"));
 		}
 	else
 		{
+		fclose(fichier); 
 		strcpy(mot,"devhelp -s ");
 		strcat(mot,titre);
 		strcat(mot," &");
@@ -5018,12 +5020,14 @@ void open_project(gpointer data)
 
 						if (fichier == NULL)
 						{
+						fclose(fichier); 
 						icon_stop_logmemo();
 						log_to_memo (_("You must install the curlftpfs to use the mounting  SFTP"), NULL, LM_ERROR);
 						statusbar_msg (_("Mount [ERROR]"));
 						}
 						else
 						{
+						fclose(fichier); 
 						gchar **b = g_strsplit (a[9], ":", -1);
 						tampon_sftp = a[8];
 						tampon_utilisateur = b[0];
@@ -5096,12 +5100,14 @@ void open_project(gpointer data)
 
 						if (fichier == NULL)
 						{
+						fclose(fichier); 
 						icon_stop_logmemo();
 						log_to_memo (_("You must install the curlftpfs to use the mounting FTP"), NULL, LM_ERROR);
 						statusbar_msg (_("Mount [ERROR]"));
 						}
 						else
 						{
+						fclose(fichier); 
 						tampon_sftp = a[10];
 						tampon_utilisateur_ftp = a[11];
 						tampon_passwd_ftp = a[12];
