@@ -5857,6 +5857,11 @@ void on_execut_diff (void)
 {
 	if (! get_page_text()) return;
 
+	FILE *fichier = NULL;
+	fichier = fopen("/usr/bin/diff",  "r");
+	
+	if (fichier == NULL){return;}
+
 	if(cur_text_doc->file_name==NULL)
 	{
 		icon_stop_logmemo();
