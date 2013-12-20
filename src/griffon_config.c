@@ -191,7 +191,8 @@ void confile_free (void)
 	g_free (confile.tea_theme);  
 	g_free (confile.theme);
 	g_free (confile.projects);
-	g_free (confile.tea_ftp);  
+	g_free (confile.tea_ftp);
+	g_free (confile.file_tmp);  
 	g_free (confile.tea_myadmin);  
 	g_free (confile.sessions_dir);
 	g_free (confile.tea_rc);
@@ -695,6 +696,7 @@ void confile_reload (void)
 	confile.tea_theme = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "griffon_theme", NULL); 
 	confile.projects = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "griffon_projects", NULL); 
 	confile.tea_ftp = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "griffon_ftp", NULL);
+	confile.file_tmp = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "griffon_tmp", NULL);
 	confile.tea_rc = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "griffon_rc", NULL);
 	confile.tea_ui = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "griffon_ui", NULL);
 	confile.tea_gl_famous = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "griffon_gl_famous", NULL);
@@ -738,6 +740,9 @@ void confile_reload (void)
 
 	if (! g_file_test (confile.tea_ftp, G_FILE_TEST_EXISTS))
 		create_empty_file (confile.tea_ftp, "");
+
+	if (! g_file_test (confile.file_tmp, G_FILE_TEST_EXISTS))
+		create_empty_file (confile.file_tmp, "");
 
 	if (! g_file_test (confile.tea_cmd_history, G_FILE_TEST_EXISTS))
 		create_empty_file (confile.tea_cmd_history, "");

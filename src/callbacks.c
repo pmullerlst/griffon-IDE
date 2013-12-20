@@ -206,12 +206,26 @@ void file_save (void)
 		on_mni_file_save_as_activate (NULL, NULL);
 	}
 	else
+	{
 		if (text_doc_save (cur_text_doc, cur_text_doc->file_name))
 		icon_save_logmemo();		      	
 		log_to_memo (_("%s Save File [OK]"), cur_text_doc->file_name, LM_NORMAL);
 		griffon_notify(_("Save [OK]"));
 		statusbar_msg (_("Save [OK]"));
 		icon_affiche_save (); 
+		on_execut_diff ();
+
+		//*********** Pour le diff
+		GtkTextIter start;
+		GtkTextIter end;
+		char *text;
+		gtk_text_buffer_get_start_iter ((GtkTextBuffer *)cur_text_doc->text_buffer, &start);
+		gtk_text_buffer_get_end_iter ((GtkTextBuffer *)cur_text_doc->text_buffer, &end);
+		text = gtk_text_buffer_get_text ((GtkTextBuffer *)cur_text_doc->text_buffer, &start, &end, FALSE);       
+		g_file_set_contents (confile.file_tmp, text, -1, NULL);
+		g_free (text);
+
+	}
 }
 
 //*********************** FILE SAVE MENU CLICK
@@ -5836,4 +5850,58 @@ void insert_dialog_path_dir()
 		g_free (filename);
 	}
 	gtk_widget_destroy (dialog);
+}
+
+//*********************** EXECUTER UN DIFF
+void on_execut_diff (void)
+{
+	if (! get_page_text()) return;
+
+	if(cur_text_doc->file_name==NULL)
+	{
+		icon_stop_logmemo();
+
+		log_to_memo (_("The script is not saved or is not selected"), NULL, LM_ERROR);
+		statusbar_msg (_("Diff [Error]"));
+	}
+	else
+	{
+		icon_log_logmemo();
+		log_to_memo (_("Diff %s [OK]"), cur_text_doc->file_name, LM_NORMAL);
+
+		gchar *standard_output = NULL;
+		gchar *standard_error = NULL;
+		GError *err = NULL;
+
+		gchar *diff="diff ";
+		gchar *tmp=" ";
+		gchar *cmd = g_strconcat (diff,cur_text_doc->file_name,tmp,confile.file_tmp, NULL); 
+
+		gsize bytes_read;
+		gsize bytes_written;
+		gchar *x = NULL;
+
+		if (! g_spawn_command_line_sync  (cmd, &standard_output, &standard_error, NULL, &err))
+		{
+
+		g_error_free (err);
+		return;
+		}
+		else
+		{
+			x = g_locale_to_utf8 (standard_output, -1, &bytes_read, &bytes_written, NULL);
+			log_to_memo (x, NULL, LM_NORMAL);
+			g_free (x);
+
+			x = g_locale_to_utf8 (standard_error, -1, &bytes_read, &bytes_written, NULL);
+			log_to_memo (x, NULL, LM_NORMAL);
+
+			g_free (x);
+			do_errors_hl (GTK_TEXT_VIEW(tv_logmemo));
+		}
+
+		g_free (cmd);
+		g_free (standard_output);
+		g_free (standard_error);
+	}
 }

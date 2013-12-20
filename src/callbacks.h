@@ -450,4 +450,5 @@ void iptables_clean (void);
 void on_mni_file_todolist ();
 void insert_dialog_path();
 void insert_dialog_path_dir();
+void on_execut_diff (void);
 

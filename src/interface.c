@@ -2539,6 +2539,7 @@ GtkWidget* create_tea_main_window (void)
 	window_run = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	back_history ();
 	save_string_to_file_vide(confile.tea_cmd_history,"");
+	save_string_to_file_vide(confile.file_tmp,"");
 	on_mni_file_crapbook ();
 	on_mni_file_todolist ();
 	load_projects_list();
@@ -4686,7 +4687,21 @@ void switch_filechooser ()
 	 if(cur_text_doc->file_name!=NULL)
 		{
 			gchar **a = g_strsplit (cur_text_doc->file_name, "_", -1);
-			if (strcmp("noname", a[0]) != 0 ){gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,g_path_get_dirname (cur_text_doc->file_name));}
+			if (strcmp("noname", a[0]) != 0 )
+			{
+				gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,g_path_get_dirname (cur_text_doc->file_name));
+
+				//*********** Pour le diff
+				GtkTextIter start;
+				GtkTextIter end;
+				char *text;
+				gtk_text_buffer_get_start_iter ((GtkTextBuffer *)cur_text_doc->text_buffer, &start);
+				gtk_text_buffer_get_end_iter ((GtkTextBuffer *)cur_text_doc->text_buffer, &end);
+				text = gtk_text_buffer_get_text ((GtkTextBuffer *)cur_text_doc->text_buffer, &start, &end, FALSE);       
+				g_file_set_contents (confile.file_tmp, text, -1, NULL);
+				g_free (text);
+
+			}
 	}
 }
 
