@@ -809,6 +809,10 @@ void  on_changed2(GtkWidget *tt, GdkEvent *eventt, gpointer *user_data)
     gtk_tree_model_get(model, &iter, COLUMN, &value,  -1);
       
 				gchar **a = g_strsplit (value, ")", -1);   
+
+		if(a[1]!=NULL)
+		{
+
 				gchar **a2 = g_strsplit (a[0], "(", -1);                      
 
             //*************** APPEL AU FONCTION IPTABLE
@@ -1059,10 +1063,9 @@ void  on_changed2(GtkWidget *tt, GdkEvent *eventt, gpointer *user_data)
 				
 	 //gtk_tree_selection_unselect_all(GTK_TREE_SELECTION(selection2));                                        
     g_free(value);
-  }
-	
+			}
+		}
 }
-
 
 //********************************* Fonction de recherche dans le treeview
 gboolean util_match_word_in_sentence(gchar* pszWord, gchar* pszSentence)
@@ -1166,6 +1169,7 @@ GtkWidget * create_view_and_model (char clef[50])
 	}*/
   gtk_tree_view_set_model(GTK_TREE_VIEW(view), model);
   g_object_unref(model); 
+
 
   return view;
 }
