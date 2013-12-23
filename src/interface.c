@@ -1704,6 +1704,13 @@ GtkWidget* create_tea_main_window (void)
 	g_signal_connect ((gpointer) tool_info_new, "clicked",G_CALLBACK (new_file_log_edit),NULL);
 	gtk_tool_item_set_tooltip_text(tool_info_new,_("Open the logs in a file"));
 
+	GtkToolItem *tool_info_clear = gtk_tool_button_new_from_stock(GTK_STOCK_CLEAR );
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_info ), tool_info_clear, -1);
+	gtk_widget_show(GTK_WIDGET(tool_info_clear));
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_info), GTK_TOOLBAR_ICONS);
+	g_signal_connect ((gpointer) tool_info_clear, "clicked",G_CALLBACK (clear_info),NULL);
+	gtk_tool_item_set_tooltip_text(tool_info_clear,_("Clear info logs"));
+
 	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_info),GTK_ICON_SIZE_SMALL_TOOLBAR);
 
 	gtk_box_pack_start (GTK_BOX (vbox2), toolbar_info, FALSE, FALSE, 0);
@@ -2516,6 +2523,7 @@ GtkWidget* create_tea_main_window (void)
 	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);
 	tv_logmemo_set_pos (0);
 	log_to_memo ("\n\n(C)2013 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.6.6 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
+	tv_logmemo_set_pos (0);
 	tv_logmemo_set_pos (0);
 	ui_init ();
 
@@ -5398,6 +5406,25 @@ void delete_project(gpointer data)
 	file[0]='\0';
 
 	load_projects_list();
+}
+
+//********************* CLEAR LOG INFO
+void clear_info()
+{
+	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(log_memo_textbuffer), "", -1);
+
+	GdkPixbuf *pixbuf;
+	GtkTextBuffer* buffer_img;
+	GtkTextIter itFin;
+	pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/images/griffon_start.png", NULL);
+	buffer_img = gtk_text_view_get_buffer(GTK_TEXT_VIEW(tv_logmemo));
+	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
+	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
+	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);
+	tv_logmemo_set_pos (0);
+	log_to_memo ("\n\n(C)2013 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.6.6 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
+	tv_logmemo_set_pos (0);
+	tv_logmemo_set_pos (0);
 }
 
 

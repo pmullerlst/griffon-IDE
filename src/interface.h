@@ -290,3 +290,4 @@ void run_make_project ();
 void window_debug_project ();
 void run_debug_project ();
 void delete_project(gpointer data);
+void clear_info();
