@@ -1327,6 +1327,16 @@ t_note_page* doc_open_file (gchar *a_filename)
 	g_free (buf);
 	griffon_notify(_("The file is open and available in the Editor tab"));
 
+		//*********** Pour le diff
+		GtkTextIter start;
+		GtkTextIter end;
+		char *text;
+		gtk_text_buffer_get_start_iter ((GtkTextBuffer *)page->text_buffer, &start);
+		gtk_text_buffer_get_end_iter ((GtkTextBuffer *)page->text_buffer, &end);
+		text = gtk_text_buffer_get_text ((GtkTextBuffer *)page->text_buffer, &start, &end, FALSE);       
+		g_file_set_contents (confile.file_tmp, text, -1, NULL);
+		g_free (text);
+
 
 	return page;
 }
