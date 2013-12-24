@@ -5112,7 +5112,6 @@ void mount_sftp (void)
 
 		if (fichier == NULL)
 		{
-		fclose(fichier); 
 		icon_stop_logmemo();
 		log_to_memo (_("You must install the curlftpfs to use the mounting  SFTP"), NULL, LM_ERROR);
 		statusbar_msg (_("Mount [ERROR]"));
@@ -5198,7 +5197,6 @@ void mount_ftp (void)
 
 	if (fichier == NULL)
 	{
-		fclose(fichier); 
 		icon_stop_logmemo();
 		log_to_memo (_("You must install the curlftpfs to use the mounting FTP"), NULL, LM_ERROR);
 		statusbar_msg (_("Mount [ERROR]"));
@@ -5576,7 +5574,6 @@ void open_gimp (void)
 	
 	if (fichier == NULL)
 	{
-		fclose(fichier); 
 		icon_stop_logmemo();
 		log_to_memo (_("You must install the gimp to use the edition image"), NULL, LM_ERROR);
 		statusbar_msg (_("You must install the gimp to use the edition image"));
@@ -5863,10 +5860,20 @@ void on_execut_diff (void)
 {
 	if (! get_page_text()) return;
 
+	gchar *fname = g_path_get_basename (cur_text_doc->file_name);
+	gchar *changelog_file = g_strconcat (confile.changelog,"/",fname, NULL); 
+
+	gchar *datetime = get_time (confile.date_time);
+	save_string_to_file_add(changelog_file,datetime);
+	save_string_to_file_add(changelog_file,"______________________________________\n");
+
+	if (! g_file_test (changelog_file, G_FILE_TEST_EXISTS))
+		create_empty_file (changelog_file, "");
+
 	FILE *fichier = NULL;
 	fichier = fopen("/usr/bin/diff",  "r");
 	
-	if (fichier == NULL){fclose(fichier); return;}
+	if (fichier == NULL){return;}
 	fclose(fichier); 
 
 	if(cur_text_doc->file_name==NULL)
@@ -5903,9 +5910,11 @@ void on_execut_diff (void)
 		{
 			x = g_locale_to_utf8 (standard_output, -1, &bytes_read, &bytes_written, NULL);
 			log_to_memo (x, NULL, LM_NORMAL);
+			save_string_to_file_add(changelog_file,(gchar *)x);
 			g_free (x);
 
 			x = g_locale_to_utf8 (standard_error, -1, &bytes_read, &bytes_written, NULL);
+			save_string_to_file_add(changelog_file,(gchar *)x);
 			log_to_memo (x, NULL, LM_NORMAL);
 
 			g_free (x);
@@ -5915,5 +5924,7 @@ void on_execut_diff (void)
 		g_free (cmd);
 		g_free (standard_output);
 		g_free (standard_error);
+		g_free (changelog_file);
+		g_free (fname);
 	}
 }

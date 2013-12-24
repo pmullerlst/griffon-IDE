@@ -26,6 +26,7 @@ typedef struct
 	gchar *snippets_dir;
 	gchar *crapbook_file;
 	gchar *tmp_dir;
+	gchar *changelog;
 	gchar *tmp_file;
 	gchar *user_menu_file;
 	gchar *tea_todo;

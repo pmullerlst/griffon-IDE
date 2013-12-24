@@ -534,6 +534,17 @@ static GtkWidget* create_hardcoded_toolbar (void)
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_sep, -1);
 	gtk_widget_show(GTK_WIDGET(tool_sep));
 
+	GtkToolItem *tool_log = gtk_tool_button_new_from_stock(GTK_STOCK_DIALOG_INFO  );
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_log, -1);
+	gtk_widget_show(GTK_WIDGET(tool_log));
+	g_signal_connect ((gpointer) tool_log, "clicked",G_CALLBACK (show_changelogs),NULL);
+	gtk_tool_item_set_tooltip_text(tool_log,(_("ChangeLogs for current file")));
+	gtk_tool_button_set_label(GTK_TOOL_BUTTON(tool_log),"ChangeLogs");
+
+	tool_sep=gtk_separator_tool_item_new();
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_sep, -1);
+	gtk_widget_show(GTK_WIDGET(tool_sep));
+
 	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar), GTK_TOOLBAR_ICONS); 
 	gtk_style_context_add_class (gtk_widget_get_style_context (toolbar),"primary-toolbar");
 	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar),GTK_ICON_SIZE_SMALL_TOOLBAR);
@@ -2506,7 +2517,7 @@ GtkWidget* create_tea_main_window (void)
 
 	tag_lm_error = gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(log_memo_textbuffer), "lm_error","foreground", "red", NULL);
 
-	gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(log_memo_textbuffer), "lm_normal","foreground", "black", NULL);
+	gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(log_memo_textbuffer), "lm_normal","foreground", "gray", NULL);
 
 	gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(log_memo_textbuffer), "lm_advice","foreground", "navy", NULL);
 
@@ -2551,6 +2562,7 @@ GtkWidget* create_tea_main_window (void)
 	on_mni_file_crapbook ();
 	on_mni_file_todolist ();
 	load_projects_list();
+
 	return tea_main_window;
 }
 
@@ -2631,7 +2643,6 @@ GtkWidget* man_page (void)
 
 	if (fichier == NULL)
 		{
-		fclose(fichier); 
 		icon_stop_logmemo();
 		log_to_memo (_("You must install the DevHelp"), NULL, LM_ERROR);
 		statusbar_msg (_("Search DevHelp [ERROR]"));
@@ -5028,7 +5039,6 @@ void open_project(gpointer data)
 
 						if (fichier == NULL)
 						{
-						fclose(fichier); 
 						icon_stop_logmemo();
 						log_to_memo (_("You must install the curlftpfs to use the mounting  SFTP"), NULL, LM_ERROR);
 						statusbar_msg (_("Mount [ERROR]"));
@@ -5108,7 +5118,6 @@ void open_project(gpointer data)
 
 						if (fichier == NULL)
 						{
-						fclose(fichier); 
 						icon_stop_logmemo();
 						log_to_memo (_("You must install the curlftpfs to use the mounting FTP"), NULL, LM_ERROR);
 						statusbar_msg (_("Mount [ERROR]"));
@@ -5427,4 +5436,78 @@ void clear_info()
 	tv_logmemo_set_pos (0);
 }
 
+//********************* AFFICHAGE CHANGELOG
+void show_changelogs()
+{
+	if (! get_page_text()) return;
+	GtkWidget *window1;  
+
+	window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_title (GTK_WINDOW (window1), _((_("ChangeLogs"))));
+	gtk_window_set_position (GTK_WINDOW (window1), GTK_WIN_POS_CENTER);
+	gtk_widget_show(GTK_WIDGET(window1));
+	gtk_window_resize (GTK_WINDOW (window1), 900, 500);
+
+	GtkWidget *vbox3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_container_add (GTK_CONTAINER (window1), GTK_WIDGET(vbox3));
+	gtk_widget_show (GTK_WIDGET(vbox3));  
+
+	GtkWidget *scrolledwindow4 = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_show (GTK_WIDGET(scrolledwindow4));
+	gtk_box_pack_start(GTK_BOX(vbox3), GTK_WIDGET(scrolledwindow4), TRUE, TRUE, 1);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow4), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow4), GTK_CORNER_TOP_LEFT);
+
+	PangoFontDescription *font_desc_note;
+	GtkWidget *sView_note;
+	GtkSourceLanguageManager *lm_note;
+	GtkSourceLanguage *language_note = NULL;
+
+	GtkSourceBuffer *buffer_note2 = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
+
+	sView_note = gtk_source_view_new_with_buffer(buffer_note2);
+	font_desc_note = pango_font_description_from_string ("mono 8");
+	gtk_widget_modify_font (sView_note, font_desc_note);
+	pango_font_description_free (font_desc_note);
+
+	gtk_source_view_set_show_right_margin(GTK_SOURCE_VIEW(sView_note),TRUE);
+	gtk_source_view_set_show_line_numbers(GTK_SOURCE_VIEW(sView_note),TRUE);
+	gtk_source_view_set_highlight_current_line(GTK_SOURCE_VIEW(sView_note),TRUE);
+	gtk_source_view_set_show_line_marks(GTK_SOURCE_VIEW(sView_note),TRUE);
+
+	GtkSourceCompletion *completion = gtk_source_view_get_completion (GTK_SOURCE_VIEW(sView_note));
+	create_completion (GTK_SOURCE_VIEW(sView_note), completion);
+
+	lm_note = gtk_source_language_manager_new();
+	g_object_ref (lm_note);
+	g_object_set_data_full ( G_OBJECT (buffer_note2), "languages-manager",lm_note, (GDestroyNotify) g_object_unref);
+
+	lm_note = g_object_get_data (G_OBJECT (buffer_note2), "languages-manager");
+	language_note = gtk_source_language_manager_get_language (lm_note,"diff");
+	gtk_source_buffer_set_language (buffer_note2, language_note);
+
+	gtk_container_add (GTK_CONTAINER (scrolledwindow4), GTK_WIDGET(sView_note));
+	gtk_widget_show_all (GTK_WIDGET(scrolledwindow4));
+
+	gchar *fname = g_path_get_basename (cur_text_doc->file_name);
+	gchar *changelog_file = g_strconcat (confile.changelog,"/",fname, NULL); 
+
+	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer_note2), "", -1);
+	gchar lecture[1024];
+	FILE *fichier;
+	fichier = fopen(changelog_file,"rt");
+
+	if(fichier!=NULL)
+	{
+		while(fgets(lecture, 1024, fichier))
+		{
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note2),g_locale_to_utf8(lecture, -1, NULL, NULL, NULL) , -1);
+		}
+	fclose(fichier);
+	}
+
+
+		g_free (changelog_file);
+		g_free (fname);
+}
 

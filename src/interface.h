@@ -291,3 +291,4 @@ void window_debug_project ();
 void run_debug_project ();
 void delete_project(gpointer data);
 void clear_info();
+void show_changelogs();

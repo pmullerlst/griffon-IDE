@@ -242,6 +242,7 @@ void confile_free (void)
 	g_free (confile.default_charset);
 	g_free (confile.tea_autocomp);
 	g_free (confile.tea_autoreplace);
+	g_free (confile.changelog);
 }
 
 void get_iconv_sup (void)
@@ -704,13 +705,17 @@ void confile_reload (void)
 	confile.tea_kwas_bookmarks = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "griffon_kwas_bookmarks", NULL);
 	confile.tea_recent = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "griffon_recent", NULL);
 	confile.tea_hotkeys = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "griffon_hotkeys", NULL);
+	confile.changelog = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "changelogs", NULL);
+
 	if (! g_file_test (confile.tea_main_dir, G_FILE_TEST_IS_DIR))
 	{
 		if (chdir (s)){printf("\n");}
 
 		if (mkdir (".griffon", S_IRUSR | S_IWUSR | S_IXUSR) == -1) 
 			DBM ("mkdir griffon_dir failed");
+
 		if (chdir (s)){printf("\n");}
+
 			if (mkdir ("templates", S_IRUSR | S_IWUSR | S_IXUSR) == -1)
 				DBM ("mkdir templates failed");
 
@@ -719,6 +724,16 @@ void confile_reload (void)
 
 			if (mkdir ("todo", S_IRUSR | S_IWUSR | S_IXUSR) == -1)
 				DBM ("mkdir todo failed");
+
+			if (chdir (s)){printf("\n");}
+	}
+
+	if (! g_file_test (confile.changelog, G_FILE_TEST_IS_DIR))
+	{
+		if (chdir (confile.tea_main_dir)){printf("\n");}
+
+			if (mkdir ("changelogs", S_IRUSR | S_IWUSR | S_IXUSR) == -1)
+				DBM ("mkdir changelogs failed");
 
 			if (chdir (s)){printf("\n");}
 	}
