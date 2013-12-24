@@ -3970,7 +3970,7 @@ GtkWidget* sed (void)
 	gtk_box_pack_start (GTK_BOX (hbox5), entry_sed7, TRUE, TRUE, 0);
 	gtk_widget_set_size_request (entry_sed7, 2, -1);
 
-	checkbutton_sed3 = gtk_check_button_new_with_mnemonic (_("Supprimer les lignes avec le mot recherch\303\251"));
+	checkbutton_sed3 = gtk_check_button_new_with_mnemonic (_("Delete rows with the search word"));
 	gtk_widget_show (GTK_WIDGET(checkbutton_sed3));
 	gtk_box_pack_start (GTK_BOX (vbox7), checkbutton_sed3, FALSE, FALSE, 0);
 
@@ -4022,7 +4022,7 @@ GtkWidget* sed (void)
 	gtk_widget_show (GTK_WIDGET(vbox4));
 	gtk_box_pack_start (GTK_BOX (vbox3), vbox4, FALSE, FALSE, 0);
 
-	label5 = gtk_label_new (_("Fichier"));
+	label5 = gtk_label_new (_("File"));
 	gtk_widget_show (GTK_WIDGET(label5));
 	gtk_box_pack_start (GTK_BOX (vbox4), label5, FALSE, FALSE, 0);
 	gtk_misc_set_alignment (GTK_MISC (label5), 0.48, 0.5);
@@ -4031,7 +4031,7 @@ GtkWidget* sed (void)
 	gtk_widget_show (GTK_WIDGET(entry_sed1));
 	gtk_box_pack_start (GTK_BOX (vbox4), entry_sed1, FALSE, FALSE, 0);
 
-	label6 = gtk_label_new (_("Mot recherch\303\251"));
+	label6 = gtk_label_new (_("search word"));
 	gtk_widget_show (GTK_WIDGET(label6));
 	gtk_box_pack_start (GTK_BOX (vbox4), label6, FALSE, FALSE, 0);
 
@@ -4039,7 +4039,7 @@ GtkWidget* sed (void)
 	gtk_widget_show (GTK_WIDGET(entry_sed2));
 	gtk_box_pack_start (GTK_BOX (vbox4), entry_sed2, FALSE, FALSE, 0);
 
-	checkbutton_sed7 = gtk_check_button_new_with_mnemonic (_("Fichier de redirection"));
+	checkbutton_sed7 = gtk_check_button_new_with_mnemonic (_("Redirection file"));
 	gtk_widget_show (GTK_WIDGET(checkbutton_sed7));
 	gtk_box_pack_start (GTK_BOX (vbox4), checkbutton_sed7, FALSE, FALSE, 0);
 
@@ -4868,8 +4868,8 @@ void scan_include             (void)
 void perl_read (void){  doc_insert_at_cursor (cur_text_doc, (_("open (FILE, \"file_path\");\nwhile ($line=<FILE>)\n{\nprint $line;\n}\n\nclose FILE;\n\n"))); }
 void perl_writh (void){  doc_insert_at_cursor (cur_text_doc, (_("open (FILE, \">>file_path\");\nprint FILE \"Text written to the file\";\nnclose FILE;\n\n"))); }
 void perl_writh2 (void){  doc_insert_at_cursor (cur_text_doc, (_("open (FILE, \">file_name\");\nprint FILE \"Text written to the file\";\nnclose FILE;\n\n"))); }
-void perl_regular(void){  doc_insert_at_cursor (cur_text_doc, (_("$chaine =~/chaine recherchée/"))); }
-void perl_replace (void){  doc_insert_at_cursor (cur_text_doc, (_("$chaine =~ s/chaine recherchée/chaine de remplacement/g;\n\n"))); }
+void perl_regular(void){  doc_insert_at_cursor (cur_text_doc, (_("$string =~/string search/"))); }
+void perl_replace (void){  doc_insert_at_cursor (cur_text_doc, (_("$string =~ s/string search/string replacement/g;\n\n"))); }
 
 void start_php_script            (void)
 {
@@ -4886,14 +4886,14 @@ void perl_saisie_clavier (void){doc_insert_at_cursor (cur_text_doc, (_("#  <STDI
 void perl_empiler_tableau (void){doc_insert_at_cursor (cur_text_doc, (_("# Stacks value at end of table\npush $array, (\"value\");\n\n"))); }
 void perl_empiler_tableau_start (void){doc_insert_at_cursor (cur_text_doc, (_("# Stacks value at beginning of table\nshift $array, (\"value\");\n\n"))); }
 void perl_arguments (void){doc_insert_at_cursor (cur_text_doc, (_("# the ARGV array contains the list of program arguments.\n$argument0 = $ARGV[0];\n\n"))); }
-void perl_split (void){doc_insert_at_cursor (cur_text_doc, (_("# découpe la variable $chaine par rapport au séparateur \";\" et place le résultat dans un tableau\n@tableau = split(/;/, $chaine);\n\n"))); }
-void perl_dbi_connexion (void){doc_insert_at_cursor (cur_text_doc, (_("\nuse DBI;\n\n$bd = 'nom_de_base';\n$serveur = 'localhost';\t\t\n$identifiant = 'root';\t\t\n$motdepasse  = 'admin';\t\t\n\n\n$dbh = DBI->connect( \"DBI:mysql:$bd:$serveur\", $identifiant, $motdepasse ) or die \"Connexion impossible à la base de données $bd !\";\n\n"))); }
+void perl_split (void){doc_insert_at_cursor (cur_text_doc, (_("# cutting the $string variable with respect to the separator \";\" and places the result in a array\n@array = split(/;/, $string);\n\n"))); }
+void perl_dbi_connexion (void){doc_insert_at_cursor (cur_text_doc, (_("\nuse DBI;\n\n$bd = 'base_name';\n$server = 'localhost';\t\t\n$login = 'root';\t\t\n$passwd  = 'admin';\t\t\n\n\n$dbh = DBI->connect( \"DBI:mysql:$bd:$server\", $login, $passwd) or die \"Connexion impossible à la base de données $bd !\";\n\n"))); }
 void perl_dbi_select_while (void){doc_insert_at_cursor (cur_text_doc, (_("# Loop on a MySql query\n$query = \"SELECT group_attribute FROM table WHERE condition\";\n$sth = $dbh->prepare($query);\n$sth->execute;\n\nwhile($row = $sth->fetchrow_hashref)\n{\n\n\t# Recovery values   \n\t$champs_mysql = \"$row->{champs_mysql}\";\n\n}"))); }
 void perl_dbi_query (void){doc_insert_at_cursor (cur_text_doc, (_("# single MySql query\n$query = \"\";\n$sth = $dbh->do($query);\n\n"))); }
 void perl_chop (void){doc_insert_at_cursor (cur_text_doc, (_("chop($string);\n\n"))); }
-void perl_mime_mail_simple (void){doc_insert_at_cursor (cur_text_doc, (_("use MIME::Lite;\n\n####### ENVOI EMAIL\nmy $Message = new MIME::Lite\nFrom =>\"NOM FROM <from\\@from.net>\",\nTo =>$email_destination,\nSubject =>$sujet,\nType    =>\'TEXT\',\nData =>\"$message\",\nContent-Transfer-Encoding => \'quoted-printable\';\n\n$Message->send;\n\n"))); }
+void perl_mime_mail_simple (void){doc_insert_at_cursor (cur_text_doc, (_("use MIME::Lite;\n\n####### SEND EMAIL\nmy $Message = new MIME::Lite\nFrom =>\"NAME FROM <from\\@from.net>\",\nTo =>$email_to,\nSubject =>$subject,\nType    =>\'TEXT\',\nData =>\"$message\",\nContent-Transfer-Encoding => \'quoted-printable\';\n\n$Message->send;\n\n"))); }
 void perl_date (void){doc_insert_at_cursor (cur_text_doc, (_("($sec,$min,$hour,$day,$month,$year,$sday,$aday,$isdst) = localtime(time);\n$month=$month+1;\nif($month<10){$month=\"0\".$month;}\nif($day<10){$day=\"0\".$day;}\n$year=1900+$year;\n\n$date_sql=$year.\"-\".$month.\"-\".$day;\n\n"))); }
-void perl_mime_mail_pj (void){doc_insert_at_cursor (cur_text_doc, (_("use MIME::Lite;\n\n####### ENVOI EMAIL AVEC PJ\nmy $Message = new MIME::Lite\nFrom =>\"NOM_FROM <from\\@from.net>\",\nTo =>$email_destination,\nSubject =>$sujet,\nType =>\'multipart/mixed\';\n\nattach $Message\nType =>'TEXT',\nData =>$message;\n\nattach $Message\nType =>\'application/txt\',\nPath =>$chemin_local_du_fichier,\nFilename =>$nom_fichier_txt;\n\n$Message->send;\n\n"))); }
+void perl_mime_mail_pj (void){doc_insert_at_cursor (cur_text_doc, (_("use MIME::Lite;\n\n####### SEND EMAIL ATTACH\nmy $Message = new MIME::Lite\nFrom =>\"NAME_FROM <from\\@from.net>\",\nTo =>$email_to,\nSubject =>$subject,\nType =>\'multipart/mixed\';\n\nattach $Message\nType =>'TEXT',\nData =>$message;\n\nattach $Message\nType =>\'application/txt\',\nPath =>$local_path_file,\nFilename =>$name_file_txt;\n\n$Message->send;\n\n"))); }
 void perl_dbi_query_select (void){doc_insert_at_cursor (cur_text_doc, (_("$query2 = \"SELECT group_attribut FROM table WHERE condition\";\n$sth2 = $dbh->prepare($query2);\n$sth2->execute;\n\n$row2 = $sth2->fetchrow_hashref;\n$value_mysql = \"$row2->{value_mysql}\";\n\n"))); }
 void perl_uri_encode (void){doc_insert_at_cursor (cur_text_doc, (_("use URI::Escape;\n\n$url_encode = uri_escape($url_encoder);\n\n"))); }
 void perl_url_get (void){doc_insert_at_cursor (cur_text_doc, (_("use LWP::Simple;\n\n$return = get($url);\n\n"))); }

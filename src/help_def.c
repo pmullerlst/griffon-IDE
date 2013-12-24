@@ -557,7 +557,7 @@ GtkTreeModel *create_and_fill_model_perl (void)
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
-                     COLUMN, (_("4 Chaîne de carctères")),
+                     COLUMN, (_("4 String")),
                      -1);
                      
   gtk_tree_store_append(treestore, &child, &toplevel);
@@ -1525,7 +1525,7 @@ GtkWidget* centre_htaccess (void)
 	gtk_widget_destroy(window1);
 
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (window1), _((_("Aide Htaccess"))));
+  gtk_window_set_title (GTK_WINDOW (window1), _((_("Help Htaccess"))));
     gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
 	gtk_window_resize (GTK_WINDOW (window1), 430, 600);
   gtk_widget_show (GTK_WIDGET(window1));
@@ -1574,7 +1574,7 @@ GtkWidget* centre_iptables (void)
 	gtk_widget_destroy(window1);
 
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (window1), _((_("Aide IPTABLES"))));
+  gtk_window_set_title (GTK_WINDOW (window1), _((_("Help IPTABLES"))));
     gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
 	gtk_window_resize (GTK_WINDOW (window1), 430, 600);
   gtk_widget_show (GTK_WIDGET(window1));
@@ -1707,7 +1707,7 @@ void term_help(GtkWidget *tv,GdkEventButton *event,  gpointer user_data)
 	gtk_widget_destroy(window1);
 
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (window1), _((_("Aide Htaccess"))));
+  gtk_window_set_title (GTK_WINDOW (window1), _((_("Help Htaccess"))));
     gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
 	gtk_window_resize (GTK_WINDOW (window1), 430, 600);
   gtk_widget_show (GTK_WIDGET(window1));
