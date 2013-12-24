@@ -5475,9 +5475,6 @@ void show_changelogs()
 	gtk_source_view_set_highlight_current_line(GTK_SOURCE_VIEW(sView_note),TRUE);
 	gtk_source_view_set_show_line_marks(GTK_SOURCE_VIEW(sView_note),TRUE);
 
-	GtkSourceCompletion *completion = gtk_source_view_get_completion (GTK_SOURCE_VIEW(sView_note));
-	create_completion (GTK_SOURCE_VIEW(sView_note), completion);
-
 	lm_note = gtk_source_language_manager_new();
 	g_object_ref (lm_note);
 	g_object_set_data_full ( G_OBJECT (buffer_note2), "languages-manager",lm_note, (GDestroyNotify) g_object_unref);
