@@ -1377,6 +1377,10 @@ GtkWidget* create_tea_main_window (void)
 	gtk_container_add (GTK_CONTAINER (notebook2), GTK_WIDGET(vbox_sftp));
 	gtk_widget_show (GTK_WIDGET(vbox_sftp)); 
 
+	search_sftp = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(search_sftp));
+	gtk_box_pack_start (GTK_BOX (vbox_sftp), search_sftp, FALSE, FALSE, 0);
+
 	scrolledWindow_sftp = gtk_scrolled_window_new(NULL, NULL);
 	gtk_widget_show (GTK_WIDGET(scrolledWindow_sftp));
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow_sftp),GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
@@ -1387,7 +1391,7 @@ GtkWidget* create_tea_main_window (void)
 	selection_sftp = gtk_tree_view_get_selection(GTK_TREE_VIEW(view_sftp));
 	gtk_container_add(GTK_CONTAINER(scrolledWindow_sftp), GTK_WIDGET(view_sftp));
 
-	g_signal_connect(selection_sftp, "changed",G_CALLBACK(on_changed_sftp), statusbar);
+	g_signal_connect(view_sftp, "button-release-event",G_CALLBACK(on_changed_sftp), selection_sftp);
 
 	GtkWidget *button_vide_sftp = gtk_button_new_with_label (_("Clear history"));
 	gtk_widget_show(GTK_WIDGET(button_vide_sftp));
@@ -1428,6 +1432,10 @@ GtkWidget* create_tea_main_window (void)
 	gtk_container_add (GTK_CONTAINER (notebook2), GTK_WIDGET(vbox_ftp));
 	gtk_widget_show (GTK_WIDGET(vbox_ftp)); 
 
+	search_ftp = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(search_ftp));
+	gtk_box_pack_start (GTK_BOX (vbox_ftp), search_ftp, FALSE, FALSE, 0);
+
 	scrolledWindow_ftp = gtk_scrolled_window_new(NULL, NULL);
 	gtk_widget_show (GTK_WIDGET(scrolledWindow_ftp));
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow_ftp),GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
@@ -1438,7 +1446,7 @@ GtkWidget* create_tea_main_window (void)
 	selection_ftp = gtk_tree_view_get_selection(GTK_TREE_VIEW(view_ftp));
 	gtk_container_add(GTK_CONTAINER(scrolledWindow_ftp), GTK_WIDGET(view_ftp));
 
-	g_signal_connect(selection_ftp, "changed",G_CALLBACK(on_changed_ftp), statusbar);
+	g_signal_connect(view_ftp, "button-release-event",G_CALLBACK(on_changed_ftp), selection_ftp);
 
 	GtkWidget *button_vide_ftp = gtk_button_new_with_label (_("Clear history"));
 	gtk_widget_show(GTK_WIDGET(button_vide_ftp));
@@ -3286,6 +3294,11 @@ GtkWidget * create_view_and_model_sftp (void)
 	gtk_tree_view_column_set_title(col, (_("\nHistory SFTP\n")));
 	gtk_tree_view_append_column(GTK_TREE_VIEW(view_sftp), col);
 
+	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(view_sftp),FALSE);
+	gtk_tree_view_set_search_equal_func(GTK_TREE_VIEW(view_sftp),(GtkTreeViewSearchEqualFunc) util_treeview_match_all_words_callback, NULL, NULL);
+
+	gtk_tree_view_set_search_entry((GtkTreeView *)view_sftp,(GtkEntry *)search_sftp);
+
 	renderer = gtk_cell_renderer_text_new();
 	gtk_tree_view_column_pack_start(col, renderer, TRUE);
 	gtk_tree_view_column_add_attribute(col, renderer, "text", COLUMN);
@@ -3303,16 +3316,19 @@ GtkWidget * create_view_and_model_sftp (void)
 }
 
 //*********************** MATCH DES FONCTION SFTP
-void  on_changed_sftp(GtkWidget *widget)
+void  on_changed_sftp(GtkWidget *widget,GdkEventKey *event,gpointer data)
 {
 	GtkTreeIter iter;
 	GtkTreeModel *model;
 	char *value;
 	char mot[150];
 
+	if(widget==NULL){printf(" ");}
+	if(event==NULL){printf(" ");}
+
 	const char *home_dir = g_getenv ("HOME");
 
-	if (gtk_tree_selection_get_selected(GTK_TREE_SELECTION(widget), &model, &iter))
+	if (gtk_tree_selection_get_selected(GTK_TREE_SELECTION(data), &model, &iter))
 	{
 		gtk_tree_model_get(model, &iter, COLUMN, &value,  -1);  
 		strcpy(mot,value);
@@ -3374,7 +3390,7 @@ void  sftp_reload()
 	gtk_widget_show (GTK_WIDGET(selection_sftp));
 	gtk_container_add(GTK_CONTAINER(scrolledWindow_sftp), GTK_WIDGET(view_sftp));
 
-	g_signal_connect(selection_sftp, "changed",G_CALLBACK(on_changed_sftp), NULL);  
+	g_signal_connect(view_sftp, "button-release-event",G_CALLBACK(on_changed_sftp), selection_sftp);
 }
 
 //*********************** FTP TREEVIEW
@@ -3425,6 +3441,11 @@ GtkWidget * create_view_and_model_ftp (void)
 	gtk_tree_view_column_set_title(col, "\nHistory FTP\n");
 	gtk_tree_view_append_column(GTK_TREE_VIEW(view_ftp), col);
 
+	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(view_ftp),FALSE);
+	gtk_tree_view_set_search_equal_func(GTK_TREE_VIEW(view_ftp),(GtkTreeViewSearchEqualFunc) util_treeview_match_all_words_callback, NULL, NULL);
+
+	gtk_tree_view_set_search_entry((GtkTreeView *)view_ftp,(GtkEntry *)search_ftp);
+
 	renderer = gtk_cell_renderer_text_new();
 	gtk_tree_view_column_pack_start(col, renderer, TRUE);
 	gtk_tree_view_column_add_attribute(col, renderer, "text", COLUMN);
@@ -3442,16 +3463,19 @@ GtkWidget * create_view_and_model_ftp (void)
 }
 
 //*********************** MATCH FONCTION TREEVIEW FTP
-void  on_changed_ftp(GtkWidget *widget)
+void  on_changed_ftp(GtkWidget *widget,GdkEventKey *event,gpointer data)
 {
 	GtkTreeIter iter;
 	GtkTreeModel *model;
 	char *value;
 	char mot[150];
 
+	if(widget==NULL){printf(" ");}
+	if(event==NULL){printf(" ");}
+
 	const char *home_dir = g_getenv ("HOME");
 
-	if (gtk_tree_selection_get_selected(GTK_TREE_SELECTION(widget), &model, &iter))
+	if (gtk_tree_selection_get_selected(GTK_TREE_SELECTION(data), &model, &iter))
 	{
 		gtk_tree_model_get(model, &iter, COLUMN, &value,  -1);  
 		strcpy(mot,value);
@@ -3506,7 +3530,7 @@ void  ftp_reload()
 	gtk_widget_show (GTK_WIDGET(selection_ftp));
 	gtk_container_add(GTK_CONTAINER(scrolledWindow_ftp), GTK_WIDGET(view_ftp));
 
-	g_signal_connect(selection_ftp, "changed",G_CALLBACK(on_changed_ftp), NULL);
+	g_signal_connect(view_ftp, "button-release-event",G_CALLBACK(on_changed_ftp), selection_ftp);
 }
 
 //*********************** CLEAR HISTORIQUE FTP
