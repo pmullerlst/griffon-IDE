@@ -3267,9 +3267,12 @@ GtkTreeModel * create_and_fill_model_sftp (void)
 	{
 		if (carac =='\n')
 		{
-			gtk_tree_store_append(treestore, &child, &toplevel);
-			gtk_tree_store_set(treestore, &child,COLUMN, mot,-1);
-			mot[0]='\0';
+			if(strlen(mot)>3)
+			{
+				gtk_tree_store_append(treestore, &child, &toplevel);
+				gtk_tree_store_set(treestore, &child,COLUMN, mot,-1);
+				mot[0]='\0';
+			}
 		}
 		else
 		{
@@ -3414,9 +3417,12 @@ GtkTreeModel * create_and_fill_model_ftp (void)
 	{
 		if (carac =='\n')
 		{
-			gtk_tree_store_append(treestore, &child, &toplevel);
-			gtk_tree_store_set(treestore, &child,COLUMN, mot,-1);
-			mot[0]='\0';
+			if(strlen(mot)>3)
+			{
+				gtk_tree_store_append(treestore, &child, &toplevel);
+				gtk_tree_store_set(treestore, &child,COLUMN, mot,-1);
+				mot[0]='\0';
+			}
 		}
 		else
 		{
