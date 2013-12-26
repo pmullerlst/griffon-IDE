@@ -5092,13 +5092,11 @@ void open_project(gpointer data)
 						strcat(total_path,"/MOUNT/");
 						strcat(total_path,tampon_sftp);		
 						gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,total_path);
-
 						icon_log_logmemo();
 						log_to_memo (_("%s mount SFTP in MOUNT/"), tampon_sftp, LM_NORMAL);
 						statusbar_msg (_("Mount [OK]"));
 						griffon_notify(_("Mount SFTP"));
 						icon_affiche_net ();
-						fclose(fichier);
 						}
 					}
 
@@ -5169,7 +5167,6 @@ void open_project(gpointer data)
 						griffon_notify(_("Mount FTP"));
 						icon_affiche_net ();
 						ftp_reload();
-						fclose(fichier);
 						}
 
 					}
