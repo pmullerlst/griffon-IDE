@@ -1256,6 +1256,10 @@ GtkWidget* create_tea_main_window (void)
 	gtk_container_add (GTK_CONTAINER (notebook2), GTK_WIDGET(vbox4));
 	gtk_widget_show (GTK_WIDGET(vbox4));  
 
+	search_in = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(search_in));
+	gtk_box_pack_start (GTK_BOX (vbox4), search_in, FALSE, FALSE, 0);
+
 	scrolledwindow5 = gtk_scrolled_window_new (NULL, NULL);
 	gtk_widget_show (GTK_WIDGET(scrolledwindow5));
 	gtk_box_pack_start(GTK_BOX(vbox4), GTK_WIDGET(scrolledwindow5), TRUE, TRUE, 1);
@@ -1271,6 +1275,11 @@ GtkWidget* create_tea_main_window (void)
 	model = GTK_TREE_MODEL(create_liststore());
 
 	view_list = gtk_tree_view_new_with_model(model);
+
+	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(view_list),FALSE);
+	gtk_tree_view_set_search_equal_func(GTK_TREE_VIEW(view_list),(GtkTreeViewSearchEqualFunc) util_treeview_match_all_words_callback, NULL, NULL);
+
+	gtk_tree_view_set_search_entry((GtkTreeView *)view_list,(GtkEntry *)search_in);
 
 	col = gtk_tree_view_column_new();
 	gtk_tree_view_column_set_title(col, (_("List of include / functions     ")));
@@ -1300,7 +1309,7 @@ GtkWidget* create_tea_main_window (void)
 
 	selection_scan = gtk_tree_view_get_selection(GTK_TREE_VIEW(view_list));
 
-	g_signal_connect(selection_scan, "changed",G_CALLBACK(on_changed_scan), NULL);
+	g_signal_connect(view_list, "button-release-event",G_CALLBACK(on_changed_scan), selection_scan);
 
 	button_include1 = gtk_button_new_with_label (_("Start searching functions and variables"));
 	gtk_widget_show(GTK_WIDGET(button_include1));
@@ -2387,7 +2396,7 @@ GtkWidget* create_tea_main_window (void)
 
 	selection_scan_todo = gtk_tree_view_get_selection(GTK_TREE_VIEW(view_list_todo));
 
-	g_signal_connect(selection_scan_todo, "changed",G_CALLBACK(on_changed_scan), NULL);
+	g_signal_connect(view_list_todo, "button-release-event",G_CALLBACK(on_changed_scan), selection_scan_todo);
 
 	GtkWidget *hbox_todo = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_container_add (GTK_CONTAINER (vbox4), GTK_WIDGET(hbox_todo));
@@ -3674,13 +3683,16 @@ void clear_list_include (){gtk_list_store_clear(store);}
 void clear_list_todo (){gtk_list_store_clear(store_todo);}
 
 //*********************** ON CLICK TREEVIEW
-void on_changed_scan (GtkWidget *widget)
+void on_changed_scan (GtkWidget *widget,GdkEventKey *event,gpointer data)
 {
 	GtkTreeIter iter;
 	GtkTreeModel *model;
 	char *value;
 
-	if (gtk_tree_selection_get_selected(GTK_TREE_SELECTION(widget), &model, &iter)) 
+	if(widget==NULL){printf(" ");}
+	if(event==NULL){printf(" ");}
+
+	if (gtk_tree_selection_get_selected(GTK_TREE_SELECTION(data), &model, &iter)) 
 	{
 		if (! get_page_text()) return;
 		gtk_tree_model_get(model, &iter, COL_TEXT2, &value,  -1);
