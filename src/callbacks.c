@@ -5147,7 +5147,7 @@ void mount_sftp (void)
 		strcat(liste_mount,"/MOUNT/");
 		strcat(liste_mount,tampon_sftp);
 		strcat(liste_mount," ; ");
-		
+
 		new_terminal_ssh (tampon_sftp,tampon_utilisateur);
 
 		save_string_to_file_add(confile.tea_sftp,tampon_sftp);	
@@ -5177,7 +5177,7 @@ void mount_sftp (void)
 		griffon_notify(_("Mount SFTP"));
 		icon_affiche_net ();
 		sftp_reload();
-		fclose(fichier);
+
 		}
 }
 
@@ -5255,7 +5255,7 @@ void mount_ftp (void)
 		griffon_notify(_("Mount FTP"));
 		icon_affiche_net ();
 		ftp_reload();
-		fclose(fichier);
+
 	}
 }
 
