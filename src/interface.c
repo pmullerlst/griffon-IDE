@@ -3769,13 +3769,16 @@ void on_changed_book (GtkWidget *widget)
 }
 
 //*********************** FONCTION DETACHEMENT DONGLET
-GtkNotebook* window_creation_function (GtkNotebook *source_notebook,gint         x,gint         y)
+GtkNotebook* window_creation_function (GtkNotebook *source_notebook)
 {
 	GtkWidget *window, *notebook;
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_transient_for(GTK_WINDOW(window),GTK_WINDOW(tea_main_window));
 	gtk_window_set_deletable (GTK_WINDOW(window),FALSE);
+	gtk_window_set_position(GTK_WINDOW(window),GTK_WIN_POS_MOUSE);
+	//gtk_window_set_decorated(GTK_WINDOW(window),FALSE);
+	//gtk_window_set_has_resize_grip(GTK_WINDOW(window),TRUE);
 
 	notebook = gtk_notebook_new ();
 	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook), GTK_POS_TOP);
@@ -3788,7 +3791,6 @@ GtkNotebook* window_creation_function (GtkNotebook *source_notebook,gint        
 	gtk_container_add (GTK_CONTAINER (window), GTK_WIDGET(notebook));
 
 	gtk_window_set_default_size (GTK_WINDOW (window), 800, 600);
-	gtk_window_move (GTK_WINDOW (window), x, y);
 
 	gtk_notebook_set_scrollable (GTK_NOTEBOOK (notebook), TRUE);
 	gtk_window_set_title (GTK_WINDOW (window), _((_("Tabs"))));

@@ -3146,7 +3146,7 @@ gboolean on_editor_keyrelease ()
 	msg = g_strdup_printf(" [File] : %s\t\t [Col] : %d \t\t[Ln] : %d/%d", cur_text_doc->file_name,col+1, row+1,row2+1);
 	statusbar_msg(msg);
 
-	gchar *t;
+/*	gchar *t;
 
 	GtkTextIter itstart;
 	GtkTextIter itend;  
@@ -3175,7 +3175,7 @@ gboolean on_editor_keyrelease ()
 		}
 		g_free (t);
 	}
-
+*/
 	return TRUE;
 }
 

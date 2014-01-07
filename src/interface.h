@@ -223,7 +223,7 @@ void insert_image_web();
 GtkListStore *create_liststore_book();
 void add_to_list_book(gchar *str,gchar *str2);
 void on_changed_book (GtkWidget *widget);
-GtkNotebook* window_creation_function (GtkNotebook *source_notebook,gint         x,gint         y);
+GtkNotebook* window_creation_function (GtkNotebook *source_notebook);
 GtkWidget* close_tools2 (void);
 void del_book() ;
 void google_search();
