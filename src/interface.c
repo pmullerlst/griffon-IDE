@@ -5493,6 +5493,25 @@ void show_changelogs()
 	gtk_container_add (GTK_CONTAINER (window1), GTK_WIDGET(vbox3));
 	gtk_widget_show (GTK_WIDGET(vbox3));  
 
+	GtkWidget *toolbar_myadmin;
+	toolbar_myadmin = gtk_toolbar_new ();
+
+	GtkToolItem *tool_exe = gtk_tool_button_new_from_stock(GTK_STOCK_SAVE_AS  );
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_exe, -1);
+	g_signal_connect ((gpointer) tool_exe, "clicked",G_CALLBACK (new_file_changelogs),NULL);
+	gtk_tool_item_set_tooltip_text(tool_exe,_("Save ChangeLogs"));
+
+	GtkToolItem *tool_chmod = gtk_tool_button_new_from_stock(GTK_STOCK_CLEAR  );
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_chmod, -1);
+	g_signal_connect ((gpointer) tool_chmod, "clicked",G_CALLBACK (clean_file_changelogs),NULL);
+	gtk_tool_item_set_tooltip_text(tool_chmod,_("Clean Changelogs"));
+
+	gtk_box_pack_start (GTK_BOX (vbox3), toolbar_myadmin, FALSE, FALSE, 0);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_myadmin), GTK_TOOLBAR_ICONS);
+
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_myadmin),GTK_ICON_SIZE_SMALL_TOOLBAR);
+	gtk_widget_show_all (GTK_WIDGET(toolbar_myadmin));  
+
 	GtkWidget *scrolledwindow4 = gtk_scrolled_window_new (NULL, NULL);
 	gtk_widget_show (GTK_WIDGET(scrolledwindow4));
 	gtk_box_pack_start(GTK_BOX(vbox3), GTK_WIDGET(scrolledwindow4), TRUE, TRUE, 1);
@@ -5504,7 +5523,7 @@ void show_changelogs()
 	GtkSourceLanguageManager *lm_note;
 	GtkSourceLanguage *language_note = NULL;
 
-	GtkSourceBuffer *buffer_note2 = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
+	buffer_note2 = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
 
 	sView_note = gtk_source_view_new_with_buffer(buffer_note2);
 	font_desc_note = pango_font_description_from_string ("mono 8");
@@ -5547,5 +5566,22 @@ void show_changelogs()
 
 		g_free (changelog_file);
 		g_free (fname);
+}
+
+//*********************** CREAT FICHIER DE CHANGELOGS
+void new_file_changelogs ()
+{
+	file_new();
+	gchar *buf = doc_get_buf (GTK_TEXT_BUFFER(buffer_note2));
+	doc_insert_at_cursor (cur_text_doc,buf);
+}
+
+//*********************** CLEAN FICHIER DE CHANGELOGS
+void clean_file_changelogs ()
+{
+	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer_note2), "", -1);
+	gchar *fname = g_path_get_basename (cur_text_doc->file_name);
+	gchar *changelog_file = g_strconcat (confile.changelog,"/",fname, NULL); 
+	create_empty_file (changelog_file, "");
 }
 
