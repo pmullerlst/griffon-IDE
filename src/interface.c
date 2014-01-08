@@ -1735,8 +1735,6 @@ GtkWidget* create_tea_main_window (void)
 	gtk_recent_filter_set_name(filefilter2,"Filter");
 	//gtk_recent_chooser_add_filter(GTK_RECENT_CHOOSER(recent_file), GTK_RECENT_FILTER(filefilter2));
 	gtk_recent_chooser_set_filter(GTK_RECENT_CHOOSER(recent_file), GTK_RECENT_FILTER(filefilter2));
- 
-
 
 	g_signal_connect ((gpointer) recent_file,"item-activated",G_CALLBACK (file_ok_sel_recent),NULL);
 
