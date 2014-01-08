@@ -114,6 +114,7 @@ GtkWidget *vte_add;
 GtkWidget *recent_file;
 GtkWidget *hbox_no;
 GtkWidget *hbox_no2;
+GtkFileFilter* filefilter;
 
 //*********************** AUTOCOMPLEMENTATION 
 struct _TestProviderClass
@@ -1235,6 +1236,26 @@ GtkWidget* create_tea_main_window (void)
 	gtk_widget_show (GTK_WIDGET(filechooserwidget2));
 	gtk_box_pack_start (GTK_BOX (vbox10), filechooserwidget2, TRUE, TRUE, 0);
 
+	filefilter = NULL;
+ 
+	filefilter = gtk_file_filter_new();
+	gtk_file_filter_add_mime_type (GTK_FILE_FILTER(filefilter), "image/png");
+	gtk_file_filter_add_mime_type (GTK_FILE_FILTER(filefilter), "image/jpeg");
+	gtk_file_filter_add_mime_type (GTK_FILE_FILTER(filefilter), "image/gif");
+	gtk_file_filter_add_mime_type (GTK_FILE_FILTER(filefilter), "text/cmd");
+	gtk_file_filter_add_mime_type (GTK_FILE_FILTER(filefilter), "text/css");
+	gtk_file_filter_add_mime_type (GTK_FILE_FILTER(filefilter), "text/plain");
+	gtk_file_filter_add_mime_type (GTK_FILE_FILTER(filefilter), "text/html");
+	gtk_file_filter_add_mime_type (GTK_FILE_FILTER(filefilter), "text/csv");
+	gtk_file_filter_add_mime_type (GTK_FILE_FILTER(filefilter), "text/xml");
+
+	gtk_file_filter_set_name(filefilter,"Filter");
+	//gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(filechooserwidget2), GTK_FILE_FILTER(filefilter));
+	gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(filechooserwidget2), GTK_FILE_FILTER(filefilter));
+ 
+
+
+
 	g_signal_connect ((gpointer) filechooserwidget2,"file-activated",G_CALLBACK (file_ok_sel),NULL);
 
 	if (confile.use_def_open_dir){gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,confile.def_open_dir);}
@@ -1700,6 +1721,22 @@ GtkWidget* create_tea_main_window (void)
 
 	gtk_box_pack_start (GTK_BOX (hbox_no2), recent_file, FALSE, FALSE, 0);
 	gtk_widget_show (GTK_WIDGET(recent_file));
+
+	GtkRecentFilter* filefilter2 = NULL;
+ 
+	filefilter2 = gtk_recent_filter_new ();
+	gtk_recent_filter_add_mime_type (GTK_RECENT_FILTER(filefilter2), "text/cmd");
+	gtk_recent_filter_add_mime_type (GTK_RECENT_FILTER(filefilter2), "text/css");
+	gtk_recent_filter_add_mime_type (GTK_RECENT_FILTER(filefilter2), "text/plain");
+	gtk_recent_filter_add_mime_type(GTK_RECENT_FILTER(filefilter2), "text/html");
+	gtk_recent_filter_add_mime_type (GTK_RECENT_FILTER(filefilter2), "text/csv");
+	gtk_recent_filter_add_mime_type (GTK_RECENT_FILTER(filefilter2), "text/xml");
+
+	gtk_recent_filter_set_name(filefilter2,"Filter");
+	//gtk_recent_chooser_add_filter(GTK_RECENT_CHOOSER(recent_file), GTK_RECENT_FILTER(filefilter2));
+	gtk_recent_chooser_set_filter(GTK_RECENT_CHOOSER(recent_file), GTK_RECENT_FILTER(filefilter2));
+ 
+
 
 	g_signal_connect ((gpointer) recent_file,"item-activated",G_CALLBACK (file_ok_sel_recent),NULL);
 
