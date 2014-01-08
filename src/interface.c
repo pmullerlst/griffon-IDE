@@ -1693,7 +1693,7 @@ GtkWidget* create_tea_main_window (void)
 	manager = gtk_recent_manager_get_default ();
 	recent_file=gtk_recent_chooser_widget_new_for_manager(manager);
 
-	gtk_widget_set_size_request (recent_file, 300, 400);
+	gtk_widget_set_size_request (recent_file, 300, -1);
 	gtk_box_pack_start (GTK_BOX (hbox_no), recent_file, FALSE, FALSE, 0);
 	gtk_widget_show (GTK_WIDGET(recent_file));
 
