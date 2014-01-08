@@ -1698,7 +1698,6 @@ GtkWidget* create_tea_main_window (void)
 	manager = gtk_recent_manager_get_default ();
 	recent_file=gtk_recent_chooser_widget_new_for_manager(manager);
 
-	//gtk_widget_set_size_request (recent_file, 300, -1);
 	gtk_box_pack_start (GTK_BOX (hbox_no2), recent_file, FALSE, FALSE, 0);
 	gtk_widget_show (GTK_WIDGET(recent_file));
 
@@ -1713,7 +1712,7 @@ GtkWidget* create_tea_main_window (void)
 	gtk_widget_show (GTK_WIDGET(image_don));
 	gtk_box_pack_start (GTK_BOX (hbox_no2), image_don, FALSE, FALSE, 0);
 
-	GtkWidget *label_don1 = gtk_label_new (_("\n  You can make a donation,\n  to support the development of Griffon IDE.\n\n  Thank you."));
+	GtkWidget *label_don1 = gtk_label_new (_("\n  You can make a donation,\n  to support the development of Griffon IDE.  \n\n  Thank you."));
 	gtk_widget_show (GTK_WIDGET(label_don1));
 	gtk_box_pack_start (GTK_BOX (hbox_no2), label_don1, FALSE, FALSE, 0);
 
