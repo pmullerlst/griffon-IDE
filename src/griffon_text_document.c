@@ -1338,9 +1338,7 @@ t_note_page* doc_open_file (gchar *a_filename)
 		g_free (text);
 
 	//************ ADD IN HISTORY DEFAULT GTK
-	GtkRecentManager *manager;
-  gchar *uri = g_strconcat("file:/", page->file_name, NULL);
-	manager = gtk_recent_manager_get_default ();
+  gchar *uri = g_strconcat("file://", page->file_name, NULL);
 	gtk_recent_manager_add_item (manager, uri);
 	g_free(uri);
 

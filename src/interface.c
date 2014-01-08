@@ -111,6 +111,8 @@ GtkWidget *filechooserwidget1, *label_tol, *icon_proj, *hbox_proj, *vbox2_proj,*
 GList *combo2_items = NULL;
 GtkWidget *sView_scan;
 GtkWidget *vte_add;
+GtkWidget *recent_file;
+GtkWidget *hbox_no;
 
 //*********************** AUTOCOMPLEMENTATION 
 struct _TestProviderClass
@@ -1680,7 +1682,19 @@ GtkWidget* create_tea_main_window (void)
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow_editor),GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_container_add(GTK_CONTAINER(scrolledWindow_editor), GTK_WIDGET(webView_editor));
 
-	gtk_box_pack_start (GTK_BOX (vbox), scrolledWindow_editor, TRUE, TRUE, 0);
+	hbox_no = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox_no));
+	gtk_box_pack_start (GTK_BOX (vbox), hbox_no, TRUE, TRUE, 0);
+
+	manager = gtk_recent_manager_get_default ();
+	recent_file=gtk_recent_chooser_widget_new_for_manager(manager);
+
+	gtk_box_pack_start (GTK_BOX (hbox_no), recent_file, FALSE, FALSE, 0);
+	gtk_widget_show (GTK_WIDGET(recent_file));
+
+	g_signal_connect ((gpointer) recent_file,"item-activated",G_CALLBACK (file_ok_sel_recent),NULL);
+
+	gtk_box_pack_start (GTK_BOX (hbox_no), scrolledWindow_editor, TRUE, TRUE, 0);
 
 	webkit_web_view_load_uri(webView_editor, "http://griffon.lasotel.fr/main.php?version=1.6.7");
 
@@ -2723,6 +2737,17 @@ GtkWidget* file_ok_sel (void)
 	return NULL;
 }
 
+//*********************** FICHIER SELECTIONNE RECENT
+GtkWidget* file_ok_sel_recent (void)
+{
+	gchar *file_selected;
+	file_selected = gtk_recent_chooser_get_current_uri (GTK_RECENT_CHOOSER( recent_file));
+	gchar *file_selected2=g_filename_from_uri(file_selected,NULL,NULL);
+
+	doc_open_file (file_selected2);
+	return NULL;
+}
+
 //*********************** WINDOW A PROPOS DE GRIFFON
 GtkWidget* create_about1 (void)
 {
@@ -3004,11 +3029,15 @@ void  no_onglet_open()
 		gtk_widget_hide(GTK_WIDGET(notebook1));	
 		gtk_widget_show(GTK_WIDGET(scrolledWindow_editor));
 		gtk_widget_show(GTK_WIDGET(webView_editor));
+		gtk_widget_show(GTK_WIDGET(recent_file));
+		gtk_widget_show(GTK_WIDGET(hbox_no));
 	}
 	else
 	{
 		gtk_widget_hide(GTK_WIDGET(scrolledWindow_editor));	
 		gtk_widget_hide(GTK_WIDGET(webView_editor));	
+		gtk_widget_hide(GTK_WIDGET(recent_file));	
+		gtk_widget_hide(GTK_WIDGET(hbox_no));	
 		gtk_widget_show(GTK_WIDGET(notebook1));
 	}
 }

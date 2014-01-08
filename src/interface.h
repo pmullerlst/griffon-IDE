@@ -58,6 +58,7 @@ typedef enum {
 	CONTACT_NAME_HTTP2 = 0
 } ContactCol_http2;
 
+GtkRecentManager *manager;
 void switch_filechooser ();
 GtkWidget *menu_vte;
 WebKitWebView *webView, *webView_myadmin, *webView_source,*webView_myadmin_traduc,*webView_myadmin_aide,*webView_editor;
@@ -298,3 +299,4 @@ void clear_info();
 void show_changelogs();
 void new_file_changelogs ();
 void clean_file_changelogs ();
+GtkWidget* file_ok_sel_recent (void);
