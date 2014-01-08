@@ -1698,13 +1698,13 @@ GtkWidget* create_tea_main_window (void)
 	manager = gtk_recent_manager_get_default ();
 	recent_file=gtk_recent_chooser_widget_new_for_manager(manager);
 
-	gtk_widget_set_size_request (recent_file, 300, -1);
+	//gtk_widget_set_size_request (recent_file, 300, -1);
 	gtk_box_pack_start (GTK_BOX (hbox_no2), recent_file, FALSE, FALSE, 0);
 	gtk_widget_show (GTK_WIDGET(recent_file));
 
 	g_signal_connect ((gpointer) recent_file,"item-activated",G_CALLBACK (file_ok_sel_recent),NULL);
 
-	GtkWidget *label_don2=gtk_link_button_new_with_label("http://griffon.lasotel.fr/en/","\nDonate\n"); 
+	GtkWidget *label_don2=gtk_link_button_new_with_label("http://griffon.lasotel.fr/donate.html","\nDonate\n"); 
 	gtk_widget_show (GTK_WIDGET(label_don2));
 	gtk_box_pack_start (GTK_BOX (hbox_no2), label_don2, FALSE, FALSE, 0);
 
