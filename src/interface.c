@@ -1686,6 +1686,10 @@ GtkWidget* create_tea_main_window (void)
 	gtk_widget_show (GTK_WIDGET(hbox_no));
 	gtk_box_pack_start (GTK_BOX (vbox), hbox_no, TRUE, TRUE, 0);
 
+	gtk_box_pack_start (GTK_BOX (hbox_no), scrolledWindow_editor, TRUE, TRUE, 0);
+
+	webkit_web_view_load_uri(webView_editor, "http://griffon.lasotel.fr/main.php?version=1.6.7");
+
 	manager = gtk_recent_manager_get_default ();
 	recent_file=gtk_recent_chooser_widget_new_for_manager(manager);
 
@@ -1694,9 +1698,6 @@ GtkWidget* create_tea_main_window (void)
 
 	g_signal_connect ((gpointer) recent_file,"item-activated",G_CALLBACK (file_ok_sel_recent),NULL);
 
-	gtk_box_pack_start (GTK_BOX (hbox_no), scrolledWindow_editor, TRUE, TRUE, 0);
-
-	webkit_web_view_load_uri(webView_editor, "http://griffon.lasotel.fr/main.php?version=1.6.7");
 
 	notebook1 = gtk_notebook_new ();
 	gtk_widget_set_name (notebook1, "notebook1");
