@@ -113,6 +113,7 @@ GtkWidget *sView_scan;
 GtkWidget *vte_add;
 GtkWidget *recent_file;
 GtkWidget *hbox_no;
+GtkWidget *hbox_no2;
 
 //*********************** AUTOCOMPLEMENTATION 
 struct _TestProviderClass
@@ -1690,15 +1691,31 @@ GtkWidget* create_tea_main_window (void)
 
 	webkit_web_view_load_uri(webView_editor, "http://griffon.lasotel.fr/main.php?version=1.6.7");
 
+	hbox_no2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox_no2));
+	gtk_box_pack_start (GTK_BOX (hbox_no), hbox_no2, FALSE, FALSE, 0);
+
 	manager = gtk_recent_manager_get_default ();
 	recent_file=gtk_recent_chooser_widget_new_for_manager(manager);
 
 	gtk_widget_set_size_request (recent_file, 300, -1);
-	gtk_box_pack_start (GTK_BOX (hbox_no), recent_file, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox_no2), recent_file, FALSE, FALSE, 0);
 	gtk_widget_show (GTK_WIDGET(recent_file));
 
 	g_signal_connect ((gpointer) recent_file,"item-activated",G_CALLBACK (file_ok_sel_recent),NULL);
 
+	GtkWidget *label_don2=gtk_link_button_new_with_label("http://griffon.lasotel.fr/en/","\nDonate\n"); 
+	gtk_widget_show (GTK_WIDGET(label_don2));
+	gtk_box_pack_start (GTK_BOX (hbox_no2), label_don2, FALSE, FALSE, 0);
+
+	GtkWidget *image_don; 
+	image_don = gtk_image_new_from_file("/usr/local/share/griffon/images/don_griffon.png");
+	gtk_widget_show (GTK_WIDGET(image_don));
+	gtk_box_pack_start (GTK_BOX (hbox_no2), image_don, FALSE, FALSE, 0);
+
+	GtkWidget *label_don1 = gtk_label_new (_("\n  You can make a donation,\n  to support the development of Griffon IDE.\n\n  Thank you."));
+	gtk_widget_show (GTK_WIDGET(label_don1));
+	gtk_box_pack_start (GTK_BOX (hbox_no2), label_don1, FALSE, FALSE, 0);
 
 	notebook1 = gtk_notebook_new ();
 	gtk_widget_set_name (notebook1, "notebook1");
@@ -2566,7 +2583,7 @@ GtkWidget* create_tea_main_window (void)
 	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
 	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);
 	tv_logmemo_set_pos (0);
-	log_to_memo ("\n\n(C)2013 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.6.7 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
+	log_to_memo ("\n\n(C)2014 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.6.7 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
 	tv_logmemo_set_pos (0);
 	tv_logmemo_set_pos (0);
 	ui_init ();
@@ -5503,7 +5520,7 @@ void clear_info()
 	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
 	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);
 	tv_logmemo_set_pos (0);
-	log_to_memo ("\n\n(C)2013 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.6.7 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
+	log_to_memo ("\n\n(C)2014 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.6.7 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
 	tv_logmemo_set_pos (0);
 	tv_logmemo_set_pos (0);
 }
