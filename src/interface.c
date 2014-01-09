@@ -5738,7 +5738,8 @@ void update_griffon_ubuntu ()
 	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"wget http://griffon.lasotel.fr/download/griffon.tar.gz\n",-1);
 	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"tar -zxvf griffon.tar.gz > /dev/null\n",-1);
 	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"cd /tmp/griffon-* > /dev/null\n",-1);
-	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"clear\n",-1);
+	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"clear && echo \"\" && echo \"\" && echo \"######### You must be logged in with root user to install Griffon IDE #########\" && echo \"\" && echo \"\" \n",-1);
+
 	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"sudo ./install-griffon && cd /tmp/ && sudo rm -r griffon* > /dev/null && clear && echo \"######### You must restart GRIFFON IDE after update ##########\"\n",-1);
 }
 
@@ -5750,6 +5751,6 @@ void update_griffon_ubuntu_beta ()
 	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"wget https://github.com/pmullerlst/griffon-IDE/archive/master.zip\n",-1);
 	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"unzip master.zip > /dev/null\n",-1);
 	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"cd /tmp/griffon-* > /dev/null\n",-1);
-	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"clear\n",-1);
+	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"clear && echo \"\" && echo \"\" && echo \"######### You must be logged in with root user to install Griffon IDE #########\" && echo \"\" && echo \"\" \n",-1);
 	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"sudo ./install-griffon && cd /tmp/ && sudo rm -r griffon* > /dev/null && sudo rm -r master.zip > /dev/null && clear && echo \"######### You must restart GRIFFON IDE after update ##########\"\n",-1);
 }
