@@ -1154,7 +1154,7 @@ GtkWidget* create_tea_main_window (void)
 	mni_what_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
 	mni_temp = new_menu_tof (mni_what_menu);
 
-	mni_temp = new_menu_item (_("Check your version of Griffon IDE and update for ubuntu"), mni_what_menu, version_window);    
+	mni_temp = new_menu_item (_("Check your version of Griffon IDE and update"), mni_what_menu, version_window);    
 	mni_temp = new_menu_item (_("Read the manual / documentation Griffon IDE"), mni_what_menu, doc_window);
 	mni_temp = new_menu_item (_("Send a bug report"), mni_what_menu, rapport_window);
 	mni_temp = new_menu_item (_("About Griffon IDE"), mni_what_menu, create_about1);
@@ -3161,14 +3161,14 @@ GtkWidget* version_window (void)
 
 	webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/version.php?version=1.6.7");
 
-	GtkWidget *button_fixme = gtk_button_new_with_label (_("Update for Ubuntu and Mint"));
+	GtkWidget *button_fixme = gtk_button_new_with_label (_("Update for Ubuntu/Mint/Debian"));
 	gtk_widget_show(GTK_WIDGET(button_fixme));
 	gtk_box_pack_start(GTK_BOX(vbox1), button_fixme, FALSE, FALSE, 0);
 
 	int ubuntu=1;
 	g_signal_connect ((gpointer) button_fixme, "clicked",G_CALLBACK (window_update),(gpointer) ubuntu);
 
-	GtkWidget *button_fixme2 = gtk_button_new_with_label (_("Update for Ubuntu and Mint version BETA"));
+	GtkWidget *button_fixme2 = gtk_button_new_with_label (_("Update for Ubuntu/Mint/Debian version BETA"));
 	gtk_widget_show(GTK_WIDGET(button_fixme2));
 	gtk_box_pack_start(GTK_BOX(vbox1), button_fixme2, FALSE, FALSE, 0);
 
@@ -5696,7 +5696,7 @@ void window_update (GtkWidget *widget,gpointer data)
 	gtk_widget_get_name(widget);
 	window_run = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_transient_for(GTK_WINDOW(window_run),GTK_WINDOW(tea_main_window));
-	gtk_window_resize (GTK_WINDOW (window_run), 900, 500);
+	gtk_window_resize (GTK_WINDOW (window_run), 800, 400);
 	
 	GtkWidget * vbox2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add (GTK_CONTAINER (window_run), GTK_WIDGET(vbox2));
@@ -5734,23 +5734,19 @@ void window_update (GtkWidget *widget,gpointer data)
 void update_griffon_ubuntu ()
 {
 	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"cd /tmp/ > /dev/null\n",-1);
-	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"[ ! -e /tmp/griffon.tar.gz ] || rm -rf /tmp/griffon.tar.gz\n",-1);
-	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"wget http://griffon.lasotel.fr/download/griffon.tar.gz\n",-1);
-	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"tar -zxvf griffon.tar.gz > /dev/null\n",-1);
-	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"cd /tmp/griffon-* > /dev/null\n",-1);
-	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"clear && echo \"\" && echo \"\" && echo \"######### You must be logged in with root user to install Griffon IDE #########\" && echo \"\" && echo \"\" \n",-1);
-
-	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"sudo ./install-griffon && cd /tmp/ && sudo rm -r griffon* > /dev/null && clear && echo \"######### You must restart GRIFFON IDE after update ##########\"\n",-1);
+	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"[ ! -e /tmp/update.sh ] || rm -f /tmp/update.sh\n",-1);
+	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"clear && wget http://griffon.lasotel.fr/update.sh\n",-1);
+	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"chmod u+x update.sh > /dev/null\n",-1);
+	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"clear && ./update.sh\n",-1);
 }
 
 //*********************** UPDATE GRIFFON IDE
 void update_griffon_ubuntu_beta ()
 {
 	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"cd /tmp/ > /dev/null\n",-1);
-	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"[ ! -e /tmp/master.zip ] || rm -rf /tmp/master.zip\n",-1);
-	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"wget https://github.com/pmullerlst/griffon-IDE/archive/master.zip\n",-1);
-	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"unzip master.zip > /dev/null\n",-1);
-	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"cd /tmp/griffon-* > /dev/null\n",-1);
-	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"clear && echo \"\" && echo \"\" && echo \"######### You must be logged in with root user to install Griffon IDE #########\" && echo \"\" && echo \"\" \n",-1);
-	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"sudo ./install-griffon && cd /tmp/ && sudo rm -r griffon* > /dev/null && sudo rm -r master.zip > /dev/null && clear && echo \"######### You must restart GRIFFON IDE after update ##########\"\n",-1);
+	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"[ ! -e /tmp/update_beta.sh ] || rm -f /tmp/update_beta.sh\n",-1);
+	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"clear && wget http://griffon.lasotel.fr/update_beta.sh\n",-1);
+	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"chmod u+x update_beta.sh > /dev/null\n",-1);
+	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"clear && ./update_beta.sh\n",-1);
 }
+
