@@ -1154,7 +1154,7 @@ GtkWidget* create_tea_main_window (void)
 	mni_what_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
 	mni_temp = new_menu_tof (mni_what_menu);
 
-	mni_temp = new_menu_item (_("Check your version of Griffon IDE"), mni_what_menu, version_window);    
+	mni_temp = new_menu_item (_("Check your version of Griffon IDE and update for ubuntu"), mni_what_menu, version_window);    
 	mni_temp = new_menu_item (_("Read the manual / documentation Griffon IDE"), mni_what_menu, doc_window);
 	mni_temp = new_menu_item (_("Send a bug report"), mni_what_menu, rapport_window);
 	mni_temp = new_menu_item (_("About Griffon IDE"), mni_what_menu, create_about1);
@@ -3140,19 +3140,41 @@ GtkWidget* version_window (void)
 	window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
 	gtk_window_set_title (GTK_WINDOW (window1), _((_("Griffon IDE Version"))));
-	gtk_window_resize (GTK_WINDOW (window1), 670, 255);
+	gtk_window_resize (GTK_WINDOW (window1), 670, 300);
 	gtk_widget_show (GTK_WIDGET(window1));
 
 	vbox1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_widget_show (GTK_WIDGET(vbox1));
 	gtk_container_add (GTK_CONTAINER (window1), GTK_WIDGET(vbox1));
 
+	GtkWidget *scrolledwindow5 = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_show (GTK_WIDGET(scrolledwindow5));
+	gtk_box_pack_start(GTK_BOX(vbox1), GTK_WIDGET(scrolledwindow5), TRUE, TRUE, 1);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_CORNER_TOP_LEFT);
+
+
 	webView_doc = WEBKIT_WEB_VIEW(webkit_web_view_new());
 	gtk_widget_show (GTK_WIDGET(webView_doc));
 
-	gtk_container_add(GTK_CONTAINER(vbox1), GTK_WIDGET(webView_doc));
+	gtk_container_add(GTK_CONTAINER(scrolledwindow5), GTK_WIDGET(webView_doc));
 
 	webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/version.php?version=1.6.7");
+
+	GtkWidget *button_fixme = gtk_button_new_with_label (_("Update for Ubuntu and Mint"));
+	gtk_widget_show(GTK_WIDGET(button_fixme));
+	gtk_box_pack_start(GTK_BOX(vbox1), button_fixme, FALSE, FALSE, 0);
+
+	int ubuntu=1;
+	g_signal_connect ((gpointer) button_fixme, "clicked",G_CALLBACK (window_update),(gpointer) ubuntu);
+
+	GtkWidget *button_fixme2 = gtk_button_new_with_label (_("Update for Ubuntu and Mint version BETA"));
+	gtk_widget_show(GTK_WIDGET(button_fixme2));
+	gtk_box_pack_start(GTK_BOX(vbox1), button_fixme2, FALSE, FALSE, 0);
+
+	int ubuntu_beta=2;
+	g_signal_connect ((gpointer) button_fixme2, "clicked",G_CALLBACK (window_update),(gpointer) ubuntu_beta);
+
 
 	return window1;
 }
@@ -5667,3 +5689,67 @@ void clean_file_changelogs ()
 	create_empty_file (changelog_file, "");
 }
 
+//*********************** WINDOW UPDATE
+void window_update (GtkWidget *widget,gpointer data)
+{
+	gtk_widget_destroy (window_run);
+	gtk_widget_get_name(widget);
+	window_run = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_transient_for(GTK_WINDOW(window_run),GTK_WINDOW(tea_main_window));
+	gtk_window_resize (GTK_WINDOW (window_run), 900, 500);
+	
+	GtkWidget * vbox2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_container_add (GTK_CONTAINER (window_run), GTK_WIDGET(vbox2));
+
+	vte_add = vte_terminal_new();
+
+	char** startterm=NULL;
+	g_shell_parse_argv("/bin/bash", NULL, &startterm, NULL);
+
+	vte_terminal_fork_command_full(VTE_TERMINAL(vte_add),VTE_PTY_DEFAULT,NULL, startterm, NULL,  (GSpawnFlags)(G_SPAWN_DO_NOT_REAP_CHILD | G_SPAWN_SEARCH_PATH),  
+	NULL, 
+	NULL, 
+	NULL, 
+	NULL);
+
+	vte_terminal_set_background_image_file (VTE_TERMINAL(vte_add),"/usr/local/share/griffon/images/griffon_bg2.png");
+	vte_terminal_set_background_saturation (VTE_TERMINAL(vte_add),0.3);
+
+	vte_terminal_set_scroll_on_keystroke(VTE_TERMINAL (vte_add), TRUE);
+	gtk_container_add (GTK_CONTAINER (vbox2), GTK_WIDGET(vte_add));	
+
+	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"PS1=\"[\\d \\t]\"\n",-1);
+	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"clear\n",-1);
+
+	g_signal_connect (vte_add, "button-press-event", G_CALLBACK (popup_context_menu_vte), NULL);
+	gtk_widget_show (GTK_WIDGET(vbox2));
+	gtk_widget_show (GTK_WIDGET(vte_add));
+	gtk_widget_show_all (GTK_WIDGET(window_run));
+
+	if((int)data==1){update_griffon_ubuntu ();}
+	if((int)data==2){update_griffon_ubuntu_beta ();}
+}
+
+//*********************** UPDATE GRIFFON IDE
+void update_griffon_ubuntu ()
+{
+	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"cd /tmp/ > /dev/null\n",-1);
+	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"[ ! -e /tmp/griffon.tar.gz ] || rm -rf /tmp/griffon.tar.gz\n",-1);
+	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"wget http://griffon.lasotel.fr/download/griffon.tar.gz\n",-1);
+	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"tar -zxvf griffon.tar.gz > /dev/null\n",-1);
+	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"cd /tmp/griffon-* > /dev/null\n",-1);
+	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"clear\n",-1);
+	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"sudo ./install-griffon && cd /tmp/ && sudo rm -r griffon* > /dev/null && clear && echo \"######### You must restart GRIFFON IDE after update ##########\"\n",-1);
+}
+
+//*********************** UPDATE GRIFFON IDE
+void update_griffon_ubuntu_beta ()
+{
+	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"cd /tmp/ > /dev/null\n",-1);
+	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"[ ! -e /tmp/master.zip ] || rm -rf /tmp/master.zip\n",-1);
+	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"wget https://github.com/pmullerlst/griffon-IDE/archive/master.zip\n",-1);
+	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"unzip master.zip > /dev/null\n",-1);
+	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"cd /tmp/griffon-* > /dev/null\n",-1);
+	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"clear\n",-1);
+	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"sudo ./install-griffon && cd /tmp/ && sudo rm -r griffon* > /dev/null && sudo rm -r master.zip > /dev/null && clear && echo \"######### You must restart GRIFFON IDE after update ##########\"\n",-1);
+}

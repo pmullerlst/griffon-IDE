@@ -300,3 +300,6 @@ void show_changelogs();
 void new_file_changelogs ();
 void clean_file_changelogs ();
 GtkWidget* file_ok_sel_recent (void);
+void update_griffon_ubuntu ();
+void window_update (GtkWidget *widget,gpointer data);
+void update_griffon_ubuntu_beta ();
