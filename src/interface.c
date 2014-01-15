@@ -739,7 +739,7 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_tof (mni_edit_menu);
 
 	mni_temp = new_menu_item (_("Indent"), mni_edit_menu, on_mni_indent);
-	mni_temp = new_menu_item (_("Undindent"), mni_edit_menu, on_mni_unindent);
+	mni_temp = new_menu_item (_("Unindent"), mni_edit_menu, on_mni_unindent);
 
 	mni_temp = new_menu_sep (mni_edit_menu);
 
