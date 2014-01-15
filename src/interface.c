@@ -651,7 +651,7 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("Crapbook"), mni_file_menu, on_mni_file_crapbook);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_M, GDK_MOD1_MASK,GTK_ACCEL_VISIBLE);
 
-	mni_temp = new_menu_item (_("Add a bookmark"), mni_file_menu, on_mni_file_add_bookmark);
+	//mni_temp = new_menu_item (_("Add a bookmark"), mni_file_menu, on_mni_file_add_bookmark);
 
 	mni_temp = new_menu_item (_("Doc Gen"), mni_file_menu, gen_doc_html);
 	mni_temp = new_menu_sep (mni_file_menu);
@@ -662,6 +662,7 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("Last open files"), mni_file_menu, on_mni_load_last_file);
 
 	mni_temp = new_menu_item (_("Open different files"), mni_file_menu, NULL);
+	gtk_widget_hide(mni_temp);
 	mni_opendifferent_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
 	mni_temp = new_menu_item (_("Open a snippet"), mni_opendifferent_menu, on_mni_snippet_file_open_activate);
 	mni_temp = new_menu_item (_("Open a template"), mni_opendifferent_menu, on_mni_templ_file_open_activate);
@@ -674,12 +675,15 @@ GtkWidget* create_tea_main_window (void)
 
 	mni_bookmarks_root = new_menu_item (_("BookMark"), mni_file_menu, NULL);
 	mni_bookmarks_menu = new_menu_submenu (GTK_WIDGET(mni_bookmarks_root));
+	gtk_widget_hide(mni_bookmarks_root);
 
 	mni_sessions = new_menu_item (_("Sessions"), mni_file_menu, NULL); 
 	mni_sessions_menu = new_menu_submenu (GTK_WIDGET(mni_sessions));
+	gtk_widget_hide(mni_sessions);
 
 	mni_templates = new_menu_item (_("Templates"), mni_file_menu, NULL); 
 	mni_templates_menu = new_menu_submenu (GTK_WIDGET(mni_templates));
+	gtk_widget_hide(mni_templates);
 
 	mni_temp = new_menu_sep (mni_file_menu);
 
@@ -691,10 +695,10 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("Save different files"), mni_file_menu, NULL);
 	mni_savedifferent_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
 
-	mni_temp = new_menu_item (_("Save session"), mni_savedifferent_menu, on_mni_file_save_session);
+//	mni_temp = new_menu_item (_("Save session"), mni_savedifferent_menu, on_mni_file_save_session);
 
-	mni_temp = new_menu_item (_("Save as a template"), mni_savedifferent_menu, on_mni_file_save_as_template_activate);
-	mni_temp = new_menu_item (_("Save as a snippet"), mni_savedifferent_menu, on_mni_file_save_as_snippet_activate);
+//	mni_temp = new_menu_item (_("Save as a template"), mni_savedifferent_menu, on_mni_file_save_as_template_activate);
+//	mni_temp = new_menu_item (_("Save as a snippet"), mni_savedifferent_menu, on_mni_file_save_as_snippet_activate);
 
 	mni_temp = new_menu_item (_("Save Version"), mni_savedifferent_menu, on_mni_file_save_version);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_s, GDK_MOD1_MASK,GTK_ACCEL_VISIBLE);
@@ -712,8 +716,8 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("main configuration"), mni_file_configs_menu , on_mni_config_open);
 	mni_temp = new_menu_item (_("Charsets configuration"), mni_file_configs_menu, on_mni_utils_add_encodings_activate);
 	mni_temp = new_menu_item (_("Configuring the User Menu"), mni_file_configs_menu, on_mni_user_menu_open);
-	mni_temp = new_menu_item (_("Bookmark file"), mni_file_configs_menu, on_mni_file_open_bookmark);
-	mni_temp = new_menu_item (_("Config file for todo list"), mni_file_configs_menu, on_mni_file_todo);
+//	mni_temp = new_menu_item (_("Bookmark file"), mni_file_configs_menu, on_mni_file_open_bookmark);
+//	mni_temp = new_menu_item (_("Config file for todo list"), mni_file_configs_menu, on_mni_file_todo);
 	mni_temp = new_menu_item (_("Configuration file MyAdmin"), mni_file_configs_menu, on_mni_file_myadmin);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_n, GDK_MOD1_MASK,GTK_ACCEL_VISIBLE);
 
