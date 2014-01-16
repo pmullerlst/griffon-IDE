@@ -804,9 +804,9 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("Replace All (Command Line FIND_TEXT~TEXTE_REMPLACEMENT)"), mni_quest_menu, on_mni_search_repall);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_F1, 0,GTK_ACCEL_VISIBLE);
 
-	mni_temp = new_menu_item (_("Scan local HTML link (HREF)"), mni_quest_menu, on_mni_get_links );
+	mni_temp = new_menu_item (_("Scan local HTML link"), mni_quest_menu, on_mni_get_links );
 
-	mni_temp = new_menu_item (_("Scan HTML image (SRC)"), mni_quest_menu, on_mni_get_src);
+	mni_temp = new_menu_item (_("Scan HTML image "), mni_quest_menu, on_mni_get_src);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_F7, GDK_SHIFT_MASK,GTK_ACCEL_VISIBLE); 
 
 	//*********************** MENU FUNCTION
