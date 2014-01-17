@@ -715,7 +715,7 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("File autocomp"), mni_file_configs_menu, on_mni_autocomp_file_open);
 	mni_temp = new_menu_item (_("main configuration"), mni_file_configs_menu , on_mni_config_open);
 	mni_temp = new_menu_item (_("Charsets configuration"), mni_file_configs_menu, on_mni_utils_add_encodings_activate);
-	mni_temp = new_menu_item (_("Configuring the User Menu"), mni_file_configs_menu, on_mni_user_menu_open);
+	//mni_temp = new_menu_item (_("Configuring the User Menu"), mni_file_configs_menu, on_mni_user_menu_open);
 //	mni_temp = new_menu_item (_("Bookmark file"), mni_file_configs_menu, on_mni_file_open_bookmark);
 //	mni_temp = new_menu_item (_("Config file for todo list"), mni_file_configs_menu, on_mni_file_todo);
 	mni_temp = new_menu_item (_("Configuration file MyAdmin"), mni_file_configs_menu, on_mni_file_myadmin);
@@ -833,8 +833,9 @@ GtkWidget* create_tea_main_window (void)
 
 	mni_user_menu = new_menu_item (_("User Menu"), mni_functions_menu, NULL);
 	mni_user_menu_menu = new_menu_submenu (GTK_WIDGET(mni_user_menu));
+	gtk_widget_hide(mni_user_menu);
 
-	mni_temp = new_menu_sep (mni_functions_menu);
+//	mni_temp = new_menu_sep (mni_functions_menu);
 
 	mni_temp = new_menu_item (_("Insert"), mni_functions_menu, NULL);
 	mni_ins_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
