@@ -815,7 +815,7 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_tof (mni_functions_menu);
 
 
-	mni_temp = new_menu_item (_("Analyze text UNIversal"), mni_functions_menu, NULL);
+/*	mni_temp = new_menu_item (_("Analyze text UNIversal"), mni_functions_menu, NULL);
 	mni_utils_unitaz_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
 	mni_temp = new_menu_tof (mni_utils_unitaz_menu);
 	mni_temp = new_menu_item (_("UNITAZ sorts with abc"), mni_utils_unitaz_menu, on_mni_tools_unitaz_sort);
@@ -826,9 +826,10 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("Extract words"), mni_utils_unitaz_menu, on_mni_extract_words);
 
 	mni_temp = new_menu_sep (mni_functions_menu);
-
+*/
 	mni_snippets = new_menu_item (_("Snippets"), mni_functions_menu, NULL);
 	mni_snippets_menu = new_menu_submenu (GTK_WIDGET(mni_snippets));
+	gtk_widget_hide(mni_snippets);
 
 	mni_user_menu = new_menu_item (_("User Menu"), mni_functions_menu, NULL);
 	mni_user_menu_menu = new_menu_submenu (GTK_WIDGET(mni_user_menu));
