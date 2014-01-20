@@ -1075,7 +1075,7 @@ GtkWidget* create_tea_main_window (void)
 	mni_nav_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
 	mni_temp = new_menu_tof (mni_nav_menu);
 
-	mni_temp = new_menu_item (_("Scan links in the page"), mni_nav_menu,scan_links);
+	//mni_temp = new_menu_item (_("Scan links in the page"), mni_nav_menu,scan_links);
 
 	mni_links = new_menu_item (_("Links"), mni_nav_menu, NULL);
 	mni_links_menu = new_menu_submenu (GTK_WIDGET(mni_links));
@@ -1095,7 +1095,7 @@ GtkWidget* create_tea_main_window (void)
 
 	mni_temp = new_menu_item (_("Go to first tab"), mni_nav_menu, on_mni_nav_goto_first_tab);
 	mni_temp = new_menu_item (_("Go to the last tab"), mni_nav_menu, on_mni_nav_goto_last_tab);
-	mni_temp = new_menu_item (_("Go to the selection"), mni_nav_menu, on_mni_nav_goto_selection);
+//	mni_temp = new_menu_item (_("Go to the selection"), mni_nav_menu, on_mni_nav_goto_selection);
 
 	mni_temp = new_menu_item (_("Focus on the command line"), mni_nav_menu, on_mni_nav_focus_to_famous);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_W, GDK_CONTROL_MASK,GTK_ACCEL_VISIBLE);
@@ -1109,9 +1109,9 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("Focus on the text"), mni_nav_menu, on_mni_nav_focus_to_text);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_B, GDK_CONTROL_MASK,GTK_ACCEL_VISIBLE);
 
-	mni_temp = new_menu_item (_("Open the cursor"), mni_nav_menu, on_mni_file_open_at_cursor);
+//	mni_temp = new_menu_item (_("Open the cursor"), mni_nav_menu, on_mni_file_open_at_cursor);
 
-	mni_temp = new_menu_item (_("Edit the cursor"), mni_nav_menu, on_mni_file_edit_at_cursor );
+//	mni_temp = new_menu_item (_("Edit the cursor"), mni_nav_menu, on_mni_file_edit_at_cursor );
 
 	//*********************** MENU VIEW
 	mni_temp = new_menu_item (_("View"), menubar1, NULL);
