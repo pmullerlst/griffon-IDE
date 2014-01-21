@@ -31,4 +31,4 @@ void open_dialog_path_dir(gpointer data);
 void update_projects (gpointer data);
 void update_project_window (gpointer data);
 void open_dialog_path_icon(gpointer data);
-static void update_preview_cb (GtkFileChooser *file_chooser, gpointer data);
+void update_preview_cb (GtkFileChooser *file_chooser, gpointer data);

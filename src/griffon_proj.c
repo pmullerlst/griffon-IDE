@@ -594,7 +594,7 @@ void open_dialog_path(gpointer data)
 	gtk_widget_destroy (dialog);
 }
 
-static void update_preview_cb (GtkFileChooser *file_chooser, gpointer data)
+void update_preview_cb (GtkFileChooser *file_chooser, gpointer data)
 {
 	GtkWidget *preview;
 	char *filename;
