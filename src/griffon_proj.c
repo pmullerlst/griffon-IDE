@@ -492,7 +492,7 @@ GtkWidget* new_project_window (void)
 	gtk_frame_set_label_widget (GTK_FRAME (frame1), label1);
 	gtk_label_set_justify (GTK_LABEL (label1), GTK_JUSTIFY_LEFT);
 
-	g_signal_connect_swapped ((gpointer) button_icon, "clicked",G_CALLBACK (open_dialog_path),entry_proj_icon);
+	g_signal_connect_swapped ((gpointer) button_icon, "clicked",G_CALLBACK (open_dialog_path_icon),entry_proj_icon);
 	g_signal_connect_swapped ((gpointer) button_command, "clicked",G_CALLBACK (open_dialog_path),entry_proj_command);
 	g_signal_connect_swapped ((gpointer) button_make_path, "clicked",G_CALLBACK (open_dialog_path_dir),entry_proj_make_path);
 	g_signal_connect_swapped ((gpointer) button_path, "clicked",G_CALLBACK (open_dialog_path_dir),entry_proj_path);
@@ -593,6 +593,57 @@ void open_dialog_path(gpointer data)
 	}
 	gtk_widget_destroy (dialog);
 }
+
+static void update_preview_cb (GtkFileChooser *file_chooser, gpointer data)
+{
+	GtkWidget *preview;
+	char *filename;
+	GdkPixbuf *pixbuf;
+	gboolean have_preview;
+
+	preview = GTK_WIDGET (data);
+	filename = gtk_file_chooser_get_preview_filename (file_chooser);
+
+	pixbuf = gdk_pixbuf_new_from_file_at_size (filename, 128, 128, NULL);
+	have_preview = (pixbuf != NULL);
+	g_free (filename);
+
+	gtk_image_set_from_pixbuf (GTK_IMAGE (preview), pixbuf);
+	if (pixbuf)
+		g_object_unref (pixbuf);
+
+	gtk_file_chooser_set_preview_widget_active (file_chooser, have_preview);
+}
+
+//********************* OPEN DIALOG FILE PATH
+void open_dialog_path_icon(gpointer data)
+{
+	GtkWidget *dialog;
+	dialog = gtk_file_chooser_dialog_new ("Open File",
+				      (GtkWindow *)tea_main_window,
+				      GTK_FILE_CHOOSER_ACTION_OPEN,
+				      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				      GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+				      NULL);
+
+	gtk_file_chooser_set_current_folder((GtkFileChooser *)dialog,"/usr/local/share/griffon/images/projects/");
+
+	GtkWidget *preview;
+	preview = gtk_image_new ();
+
+	gtk_file_chooser_set_preview_widget ((GtkFileChooser *)dialog, preview);
+	g_signal_connect ((GtkFileChooser *)dialog, "update-preview",G_CALLBACK (update_preview_cb), preview);
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+	{
+		char *filename;
+		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
+		gtk_entry_set_text (GTK_ENTRY (data), _(filename));
+		g_free (filename);
+	}
+	gtk_widget_destroy (dialog);
+}
+
 
 //********************* OPEN DIALOG FILE PATH DIR
 void open_dialog_path_dir(gpointer data)
