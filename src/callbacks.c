@@ -3146,6 +3146,8 @@ gboolean on_editor_keyrelease ()
 	msg = g_strdup_printf(" [File] : %s\t\t [Col] : %d \t\t[Ln] : %d/%d", cur_text_doc->file_name,col+1, row+1,row2+1);
 	statusbar_msg(msg);
 
+	g_free (msg);
+
 /*	gchar *t;
 
 	GtkTextIter itstart;
