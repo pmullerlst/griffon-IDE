@@ -37,6 +37,7 @@ static GtkWidget *ent_file_executable;
 GtkWidget *entry_proj_path,*entry_proj_command,*entry_proj_make_path,*entry_proj_name,*entry_proj_run,*entry_proj_info,*entry_proj_icon,*entry_proj_url;
 GtkWidget *entry_proj_sftp_ip,*entry_proj_sftp_user,*entry_proj_sftp_path;
 GtkWidget *entry_proj_ftp_ip,*entry_proj_ftp_user,*entry_proj_ftp_pass;
+GtkFileFilter* filefilter_img;
 
 static GtkWidget* mk_page_main (t_tea_project *p)
 {
@@ -627,6 +628,13 @@ void open_dialog_path_icon(gpointer data)
 				      NULL);
 
 	gtk_file_chooser_set_current_folder((GtkFileChooser *)dialog,"/usr/local/share/griffon/images/projects/");
+
+	filefilter_img = NULL;
+ 
+	filefilter_img = gtk_file_filter_new();
+	gtk_file_filter_add_mime_type (GTK_FILE_FILTER(filefilter_img), "image/png");
+	gtk_file_filter_set_name(filefilter_img,"Filter PNG");
+	gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(dialog), GTK_FILE_FILTER(filefilter_img));
 
 	GtkWidget *preview;
 	preview = gtk_image_new ();
