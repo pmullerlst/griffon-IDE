@@ -974,7 +974,7 @@ void update_project_window (gpointer data)
 	gtk_frame_set_label_widget (GTK_FRAME (frame1), label1);
 	gtk_label_set_justify (GTK_LABEL (label1), GTK_JUSTIFY_LEFT);
 
-	g_signal_connect_swapped ((gpointer) button_icon, "clicked",G_CALLBACK (open_dialog_path),entry_proj_icon);
+	g_signal_connect_swapped ((gpointer) button_icon, "clicked",G_CALLBACK (open_dialog_path_icon),entry_proj_icon);
 	g_signal_connect_swapped ((gpointer) button_command, "clicked",G_CALLBACK (open_dialog_path),entry_proj_command);
 	g_signal_connect_swapped ((gpointer) button_make_path, "clicked",G_CALLBACK (open_dialog_path_dir),entry_proj_make_path);
 	g_signal_connect_swapped ((gpointer) button_path, "clicked",G_CALLBACK (open_dialog_path_dir),entry_proj_path);
