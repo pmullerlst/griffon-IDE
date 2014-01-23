@@ -935,6 +935,9 @@ GtkWidget* create_tea_main_window (void)
 	mni_markup_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
 	mni_temp = new_menu_tof (mni_markup_menu);
 
+	mni_temp = new_menu_item (_("Preview text selection in a web popup"), mni_file_menu, preview_web_popup);
+	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_p, GDK_CONTROL_MASK,GTK_ACCEL_VISIBLE);
+
 	mni_temp = new_menu_item (_("HTML tools"), mni_markup_menu, NULL);
 	mni_html_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
 	mni_temp = new_menu_tof (mni_html_menu);
@@ -5754,5 +5757,54 @@ void update_griffon_ubuntu_beta ()
 	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"clear && wget http://griffon.lasotel.fr/update_beta.sh\n",-1);
 	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"chmod u+x update_beta.sh > /dev/null\n",-1);
 	vte_terminal_feed_child (VTE_TERMINAL(vte_add),"clear && ./update_beta.sh\n",-1);
+}
+
+//*********************** PREVIEW WEB IN POPUP
+void preview_web_popup ()
+{
+/*	if (! get_page_text()) return;
+
+	gchar *buf = doc_get_sel (cur_text_doc);
+	gchar *uri=NULL;
+
+	if (! buf) return;
+
+	 if(cur_text_doc->file_name!=NULL)
+		{
+			gchar **a = g_strsplit (cur_text_doc->file_name, "_", -1);
+			if (strcmp("noname", a[0]) != 0 )
+			{
+				uri = g_strconcat("file:/", g_path_get_dirname (cur_text_doc->file_name), NULL);
+			}
+		}
+
+	GtkWidget *window1;  
+
+	window1 = gtk_window_new (GTK_WINDOW_POPUP);
+	gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
+	gtk_window_set_title (GTK_WINDOW (window1), _((_("Web preview"))));
+	gtk_window_set_position (GTK_WINDOW (window1), GTK_WIN_POS_CENTER);
+	gtk_widget_show(GTK_WIDGET(window1));
+
+	GtkWidget *vbox1;
+	WebKitWebView *webView_doc;
+
+	vbox1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_widget_show (GTK_WIDGET(vbox1));
+	gtk_container_add (GTK_CONTAINER (window1), GTK_WIDGET(vbox1));
+
+	GtkWidget *scrolledwindow5 = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_show (GTK_WIDGET(scrolledwindow5));
+	gtk_box_pack_start(GTK_BOX(vbox1), GTK_WIDGET(scrolledwindow5), TRUE, TRUE, 1);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_CORNER_TOP_LEFT);
+
+	webView_doc = WEBKIT_WEB_VIEW(webkit_web_view_new());
+	gtk_widget_show (GTK_WIDGET(webView_doc));
+
+	gtk_container_add(GTK_CONTAINER(scrolledwindow5), GTK_WIDGET(webView_doc));
+
+	webkit_web_view_load_string (webView_doc,buf,NULL,NULL,uri);
+*/
 }
 

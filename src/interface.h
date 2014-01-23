@@ -303,3 +303,4 @@ GtkWidget* file_ok_sel_recent (void);
 void update_griffon_ubuntu ();
 void window_update (GtkWidget *widget,gpointer data);
 void update_griffon_ubuntu_beta ();
+void preview_web_popup ();
