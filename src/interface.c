@@ -978,7 +978,7 @@ GtkWidget* create_tea_main_window (void)
 /*	mni_temp = new_menu_item (_("Preview text selection in a web popup"), mni_markup_menu, preview_web_popup);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_p, GDK_CONTROL_MASK,GTK_ACCEL_VISIBLE);
 
-	mni_temp = new_menu_item (_("Preview text in a web popup"), mni_markup_menu, preview_web_popup_full);
+	mni_temp = new_menu_item (_("Preview full text in a web popup"), mni_markup_menu, preview_web_popup_full);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_p, GDK_CONTROL_MASK | GDK_MOD1_MASK,GTK_ACCEL_VISIBLE);
 */
 	mni_temp = new_menu_item (_("Bold"), mni_markup_menu, on_mni_Markup_bold_activate);
@@ -5792,7 +5792,7 @@ void preview_web_popup ()
 	gtk_window_set_transient_for(GTK_WINDOW(window1_popup),GTK_WINDOW(tea_main_window));
 	gtk_window_set_title (GTK_WINDOW (window1_popup), _((_("Web preview"))));
 	gtk_window_set_position (GTK_WINDOW (window1_popup), GTK_WIN_POS_CENTER);
-		gtk_window_resize (GTK_WINDOW (window1_popup), 570, 500);
+		gtk_window_resize (GTK_WINDOW (window1_popup), 800, 600);
 	gtk_widget_show(GTK_WIDGET(window1_popup));
 
 	GtkWidget *vbox1;
@@ -5846,7 +5846,7 @@ void preview_web_popup_full ()
 	gtk_window_set_transient_for(GTK_WINDOW(window1_popup),GTK_WINDOW(tea_main_window));
 	gtk_window_set_title (GTK_WINDOW (window1_popup), _((_("Web preview"))));
 	gtk_window_set_position (GTK_WINDOW (window1_popup), GTK_WIN_POS_CENTER);
-		gtk_window_resize (GTK_WINDOW (window1_popup), 570, 500);
+		gtk_window_resize (GTK_WINDOW (window1_popup), 900, 700);
 	gtk_widget_show(GTK_WIDGET(window1_popup));
 
 	GtkWidget *vbox1;
