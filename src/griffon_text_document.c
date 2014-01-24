@@ -678,6 +678,8 @@ t_note_page* page_create_new (void)
 	g_signal_connect (G_OBJECT (page->text_view), "key_press_event",
                     G_CALLBACK (on_editor_keypress), page);
 
+	g_signal_connect (G_OBJECT (page->text_view), "key_press_event",
+                    G_CALLBACK (window_popup_delete), page);
 
 	g_signal_connect (G_OBJECT (page->text_view), "key_release_event",
                     G_CALLBACK (on_editor_keyrelease), page);

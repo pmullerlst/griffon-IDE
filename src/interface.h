@@ -304,3 +304,4 @@ void update_griffon_ubuntu ();
 void window_update (GtkWidget *widget,gpointer data);
 void update_griffon_ubuntu_beta ();
 void preview_web_popup ();
+void window_popup_delete ();
