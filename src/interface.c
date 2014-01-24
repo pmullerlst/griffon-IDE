@@ -975,9 +975,12 @@ GtkWidget* create_tea_main_window (void)
 * TODO : Pour la version 1.6.8
 */
 
-//	mni_temp = new_menu_item (_("Preview text selection in a web popup"), mni_markup_menu, preview_web_popup);
-//	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_p, GDK_CONTROL_MASK,GTK_ACCEL_VISIBLE);
+/*	mni_temp = new_menu_item (_("Preview text selection in a web popup"), mni_markup_menu, preview_web_popup);
+	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_p, GDK_CONTROL_MASK,GTK_ACCEL_VISIBLE);
 
+	mni_temp = new_menu_item (_("Preview text in a web popup"), mni_markup_menu, preview_web_popup_full);
+	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_p, GDK_CONTROL_MASK | GDK_MOD1_MASK,GTK_ACCEL_VISIBLE);
+*/
 	mni_temp = new_menu_item (_("Bold"), mni_markup_menu, on_mni_Markup_bold_activate);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_B, GDK_CONTROL_MASK | GDK_MOD1_MASK,GTK_ACCEL_VISIBLE);
 
@@ -5771,14 +5774,7 @@ void preview_web_popup ()
 {
 	if (! get_page_text()) return;
 
-
-
-/*
-* TODO : Pour la version 1.6.8
-*/
-
-
-/*	gchar *buf = doc_get_sel (cur_text_doc);
+	gchar *buf = doc_get_sel (cur_text_doc);
 	gchar *uri=NULL;
 
 	if (! buf) return;
@@ -5817,8 +5813,63 @@ void preview_web_popup ()
 
 	gtk_container_add(GTK_CONTAINER(scrolledwindow5), GTK_WIDGET(webView_doc));
 
-	webkit_web_view_load_string (webView_doc,buf,NULL,NULL,uri);*/
+	webkit_web_view_load_string (webView_doc,buf,NULL,NULL,uri);
 
+}
+
+//*********************** PREVIEW WEB IN POPUP FULL
+void preview_web_popup_full ()
+{
+	if (! get_page_text()) return;
+
+		GtkTextIter start;
+		GtkTextIter end;
+		gchar *buf;
+		gtk_text_buffer_get_start_iter ((GtkTextBuffer *)cur_text_doc->text_buffer, &start);
+		gtk_text_buffer_get_end_iter ((GtkTextBuffer *)cur_text_doc->text_buffer, &end);
+		buf = gtk_text_buffer_get_text ((GtkTextBuffer *)cur_text_doc->text_buffer, &start, &end, FALSE);       
+
+	gchar *uri=NULL;
+
+	if (! buf) return;
+
+	 if(cur_text_doc->file_name!=NULL)
+		{
+			gchar **a = g_strsplit (cur_text_doc->file_name, "_", -1);
+			if (strcmp("noname", a[0]) != 0 )
+			{
+				uri = g_strconcat("file://", cur_text_doc->file_name, NULL);
+			}
+		}
+
+	window1_popup = gtk_window_new (GTK_WINDOW_POPUP);
+	gtk_window_set_transient_for(GTK_WINDOW(window1_popup),GTK_WINDOW(tea_main_window));
+	gtk_window_set_title (GTK_WINDOW (window1_popup), _((_("Web preview"))));
+	gtk_window_set_position (GTK_WINDOW (window1_popup), GTK_WIN_POS_CENTER);
+		gtk_window_resize (GTK_WINDOW (window1_popup), 570, 500);
+	gtk_widget_show(GTK_WIDGET(window1_popup));
+
+	GtkWidget *vbox1;
+	WebKitWebView *webView_doc;
+
+	vbox1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_widget_show (GTK_WIDGET(vbox1));
+	gtk_container_add (GTK_CONTAINER (window1_popup), GTK_WIDGET(vbox1));
+
+	GtkWidget *scrolledwindow5 = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_show (GTK_WIDGET(scrolledwindow5));
+	gtk_box_pack_start(GTK_BOX(vbox1), GTK_WIDGET(scrolledwindow5), TRUE, TRUE, 1);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_CORNER_TOP_LEFT);
+
+	webView_doc = WEBKIT_WEB_VIEW(webkit_web_view_new());
+	gtk_widget_show (GTK_WIDGET(webView_doc));
+
+	gtk_container_add(GTK_CONTAINER(scrolledwindow5), GTK_WIDGET(webView_doc));
+
+	webkit_web_view_load_string (webView_doc,buf,NULL,NULL,uri);
+	g_free (buf);
+	g_free (uri);
 }
 
 //*********************** WINDOW POPUP HTM PREVIEW DELETE
