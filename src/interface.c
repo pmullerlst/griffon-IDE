@@ -1731,6 +1731,9 @@ GtkWidget* create_tea_main_window (void)
 
 	webkit_web_view_load_uri(webView_editor, "http://griffon.lasotel.fr/main.php?version=1.6.7");
 
+	g_signal_connect(webView_editor, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_editor);
+	g_signal_connect(webView_editor, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_editor);
+
 	hbox_no2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_widget_show (GTK_WIDGET(hbox_no2));
 	gtk_box_pack_start (GTK_BOX (hbox_no), hbox_no2, FALSE, FALSE, 0);
