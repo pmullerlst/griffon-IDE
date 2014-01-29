@@ -5116,7 +5116,7 @@ void load_projects_list()
 			label_note4 = gtk_label_new (_(a[0]));
 			gtk_widget_show (GTK_WIDGET(label_note4));
 
-			gtk_widget_set_size_request (label_note4, 100, 20);
+			gtk_widget_set_size_request (label_note4, 200, 20);
 
 			hbox_note = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 			gtk_widget_show (GTK_WIDGET(hbox_note));
@@ -5125,7 +5125,7 @@ void load_projects_list()
 			if(strlen(a[6])>3)
 			{
 			pixbuf_icon=gdk_pixbuf_new_from_file(a[6],NULL);
-			pixbuf_icon=gdk_pixbuf_scale_simple(pixbuf_icon,40,40,GDK_INTERP_BILINEAR);
+			pixbuf_icon=gdk_pixbuf_scale_simple(pixbuf_icon,20,20,GDK_INTERP_BILINEAR);
 			image2=gtk_image_new_from_pixbuf(pixbuf_icon);
 			}
 			else
