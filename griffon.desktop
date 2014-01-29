@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=Griffon 1.6.7
+Name=Griffon 1.6.8
 Comment=IDE
 Exec=env UBUNTU_MENUPROXY= griffon %f
 Icon=/usr/share/pixmaps/griffon_icon.png

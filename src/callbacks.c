@@ -4937,7 +4937,7 @@ void php_mail (void){doc_insert_at_cursor (cur_text_doc, (_("mail(\"email\",\"su
 void php_insert_id (void){doc_insert_at_cursor (cur_text_doc, (_("$id_insert=mysql_insert_id();\n"))); }
 void php_ftp_connect (void){doc_insert_at_cursor (cur_text_doc, (_("//****** Connexion serveur FTP\n$ftp_connexion = ftp_connect(\"$ip_serveur\");\n$ftp_login = ftp_login($ftp_connexion,\"$login\", \"$password\");\n$ftp_repertoire = ftp_chdir($ftp_connexion,\"/\");\n\n"))); }
 void php_ftp_list_rep (void){doc_insert_at_cursor (cur_text_doc, (_("//******* List files in a $directory in array\n$array = ftp_nlist($ftp_connection,\"$directory\");\n\n"))); }
-void php_ftp_put (void){doc_insert_at_cursor (cur_text_doc, (_("ftp_put($ftp_connection,$path_file,$name_file_put, FTP_BINARY);\n\n"))); }
+void php_ftp_put (void){doc_insert_at_cursor (cur_text_doc, (_("ftp_put($ftp_connection,$name_file_put,$path_file, FTP_BINARY);\n\n"))); }
 void php_ftp_delete (void){doc_insert_at_cursor (cur_text_doc, (_("ftp_delete($ftp_connection, $file_delete);\n\n"))); }
 void php_h_utf8 (void){doc_insert_at_cursor (cur_text_doc, "header(\'Content-type: text/plain; charset=UTF-8\');\n\n"); }
 void php_h_png (void){doc_insert_at_cursor (cur_text_doc, "Header(\"Content-type: image/png\");\n\n"); }
