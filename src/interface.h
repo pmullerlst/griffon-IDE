@@ -307,3 +307,4 @@ void preview_web_popup ();
 void window_popup_delete ();
 void preview_web_popup_full ();
 void window_tweeter_info ();
+void window_devdocs ();

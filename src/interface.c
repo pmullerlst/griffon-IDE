@@ -931,6 +931,8 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("Google translation with text selection tab MyAdmin : EN to FR"), mni_functions_menu, google_traduction_en_fr);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_F7, 0,GTK_ACCEL_VISIBLE);
 
+	mni_temp = new_menu_item (_("Devdocs window"), mni_functions_menu, window_devdocs);
+
 	//*********************** MENU HTML
 	mni_temp = new_menu_item (_("Html"), menubar1, NULL);
 	mni_markup_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
@@ -5814,6 +5816,9 @@ void preview_web_popup ()
 
 	webkit_web_view_load_string (webView_doc,buf,NULL,NULL,uri);
 
+	g_signal_connect(webView_doc, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_doc);
+	g_signal_connect(webView_doc, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_doc);
+
 }
 
 //*********************** PREVIEW WEB IN POPUP FULL
@@ -5867,6 +5872,11 @@ void preview_web_popup_full ()
 	gtk_container_add(GTK_CONTAINER(scrolledwindow5), GTK_WIDGET(webView_doc));
 
 	webkit_web_view_load_string (webView_doc,buf,NULL,NULL,uri);
+
+	g_signal_connect(webView_doc, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_doc);
+	g_signal_connect(webView_doc, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_doc);
+
+
 	g_free (buf);
 	g_free (uri);
 }
@@ -5886,7 +5896,7 @@ void window_tweeter_info ()
 {
 	GtkWidget *window1;
 	GtkWidget *vbox1;
-	WebKitWebView *webView_doc;
+	WebKitWebView *webView_doc2;
 
 	window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
@@ -5905,12 +5915,52 @@ void window_tweeter_info ()
 	gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_CORNER_TOP_LEFT);
 
 
-	webView_doc = WEBKIT_WEB_VIEW(webkit_web_view_new());
-	gtk_widget_show (GTK_WIDGET(webView_doc));
+	webView_doc2 = WEBKIT_WEB_VIEW(webkit_web_view_new());
+	gtk_widget_show (GTK_WIDGET(webView_doc2));
 
-	gtk_container_add(GTK_CONTAINER(scrolledwindow5), GTK_WIDGET(webView_doc));
+	gtk_container_add(GTK_CONTAINER(scrolledwindow5), GTK_WIDGET(webView_doc2));
 
-	webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/tweeter.html");
+	webkit_web_view_load_uri(webView_doc2, "http://griffon.lasotel.fr/tweeter.html");
+
+	g_signal_connect(webView_doc2, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_doc2);
+	g_signal_connect(webView_doc2, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_doc2);
+
+
+}
+
+//*********************** WINDOW DevDoc
+void window_devdocs ()
+{
+	GtkWidget *window1;
+	GtkWidget *vbox1;
+	WebKitWebView *webView_doc2;
+
+	window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
+	gtk_window_set_title (GTK_WINDOW (window1), _((_("Griffon IDE Version"))));
+	gtk_window_resize (GTK_WINDOW (window1), 900, 700);
+	gtk_widget_show (GTK_WIDGET(window1));
+
+	vbox1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_widget_show (GTK_WIDGET(vbox1));
+	gtk_container_add (GTK_CONTAINER (window1), GTK_WIDGET(vbox1));
+
+	GtkWidget *scrolledwindow5 = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_show (GTK_WIDGET(scrolledwindow5));
+	gtk_box_pack_start(GTK_BOX(vbox1), GTK_WIDGET(scrolledwindow5), TRUE, TRUE, 1);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_CORNER_TOP_LEFT);
+
+
+	webView_doc2 = WEBKIT_WEB_VIEW(webkit_web_view_new());
+	gtk_widget_show (GTK_WIDGET(webView_doc2));
+
+	gtk_container_add(GTK_CONTAINER(scrolledwindow5), GTK_WIDGET(webView_doc2));
+
+	webkit_web_view_load_uri(webView_doc2, "http://devdocs.io/");
+
+	g_signal_connect(webView_doc2, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_doc2);
+	g_signal_connect(webView_doc2, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_doc2);
 
 }
 
