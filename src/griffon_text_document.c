@@ -1580,7 +1580,8 @@ void log_to_memo (gchar *m1, gchar* m2, gint mode)
 			gtk_text_buffer_insert_with_tags_by_name (GTK_TEXT_BUFFER(log_memo_textbuffer), &it, st, -1, "lm_normal", NULL);
 		else
 			if (mode == LM_ERROR)
-				gtk_text_buffer_insert_with_tags_by_name (GTK_TEXT_BUFFER(log_memo_textbuffer), &it, st, -1, "lm_error", NULL);
+				{gtk_text_buffer_insert_with_tags_by_name (GTK_TEXT_BUFFER(log_memo_textbuffer), &it, st, -1, "lm_error", NULL);
+				quick_message ("ERROR",st);}
 		else
 			if (mode == LM_ADVICE)
 				gtk_text_buffer_insert_with_tags_by_name (GTK_TEXT_BUFFER(log_memo_textbuffer), &it, st, -1, "lm_advice", NULL);

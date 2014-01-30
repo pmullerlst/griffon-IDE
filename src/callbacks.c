@@ -5119,7 +5119,7 @@ void mount_sftp (void)
 		if (fichier == NULL)
 		{
 		icon_stop_logmemo();
-		log_to_memo (_("You must install the curlftpfs to use the mounting  SFTP"), NULL, LM_ERROR);
+		log_to_memo (_("You must install the curlftpfs and sshfs to use the mounting  SFTP"), NULL, LM_ERROR);
 		statusbar_msg (_("Mount [ERROR]"));
 		}
 		else

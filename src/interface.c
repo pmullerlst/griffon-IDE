@@ -5208,7 +5208,7 @@ void open_project(gpointer data)
 						if (fichier == NULL)
 						{
 						icon_stop_logmemo();
-						log_to_memo (_("You must install the curlftpfs to use the mounting  SFTP"), NULL, LM_ERROR);
+						log_to_memo (_("You must install the curlftpfs and sshfs to use the mounting  SFTP"), NULL, LM_ERROR);
 						statusbar_msg (_("Mount [ERROR]"));
 						}
 						else
@@ -5961,6 +5961,21 @@ void window_devdocs ()
 
 	g_signal_connect(webView_doc2, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_doc2);
 	g_signal_connect(webView_doc2, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_doc2);
+}
 
+//*********************** WINDO DIALOG
+void quick_message (gchar *message,gchar *message2)
+{
+	GtkWidget *dialog = gtk_message_dialog_new ((GtkWindow*)tea_main_window,
+			GTK_DIALOG_DESTROY_WITH_PARENT,
+			GTK_MESSAGE_INFO,
+			GTK_BUTTONS_CLOSE,
+			message,
+			NULL);
+
+	gtk_message_dialog_format_secondary_text((GtkMessageDialog *)dialog,message2,NULL);
+
+	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
 }
 
