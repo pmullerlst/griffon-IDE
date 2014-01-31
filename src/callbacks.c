@@ -3130,26 +3130,26 @@ void delete_autocomp_tips(){if (win_tips_autocomp != NULL){gtk_widget_destroy (G
 //*********************** RELACHEMENT DUNE TOUCHE EN MODE EDITOR
 gboolean on_editor_keyrelease ()
 {
-	printf("LOG ***** TAPE 1.1\n");
+//	printf("LOG ***** TAPE 1.1\n");
 
 	if (! get_page_text()) return FALSE;
-	printf("LOG ***** TAPE 1.2\n");
+//	printf("LOG ***** TAPE 1.2\n");
 	gchar *msg;
 	gint row,row2, col;
 	GtkTextIter iter,iter2;
 
 	gtk_text_buffer_get_end_iter(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &iter2);
 	gtk_text_buffer_get_iter_at_mark(GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&iter, gtk_text_buffer_get_insert(GTK_TEXT_BUFFER(cur_text_doc->text_buffer)));
-	printf("LOG ***** TAPE 1.3\n");
+//	printf("LOG ***** TAPE 1.3\n");
 	row = gtk_text_iter_get_line(&iter);
 	row2 = gtk_text_iter_get_line(&iter2);
 	col = gtk_text_iter_get_line_offset(&iter);
-	printf("LOG ***** TAPE 1.4\n");
+//	printf("LOG ***** TAPE 1.4\n");
 	msg = g_strdup_printf(" [File] : %s\t\t [Col] : %d \t\t[Ln] : %d/%d", cur_text_doc->file_name,col+1, row+1,row2+1);
 	statusbar_msg(msg);
-	printf("LOG ***** TAPE 1.5\n");
+//	printf("LOG ***** TAPE 1.5\n");
 	g_free (msg);
-	printf("LOG ***** TAPE 1.6\n");
+//	printf("LOG ***** TAPE 1.6\n");
 /*	gchar *t;
 
 	GtkTextIter itstart;
@@ -3186,11 +3186,11 @@ gboolean on_editor_keyrelease ()
 //*********************** PRESSION DUNE TOUCHE EN MODE EDITOR
 gboolean on_editor_keypress ( GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
-	printf("LOG ***** TAPE 2.1\n");
+//	printf("LOG ***** TAPE 2.1\n");
 	gtk_widget_get_name(widget);
-	printf("LOG ***** TAPE 2.2\n");
+//	printf("LOG ***** TAPE 2.2\n");
 	if (! get_page_text()) return FALSE;
-	printf("LOG ***** TAPE 2.3\n");
+//	printf("LOG ***** TAPE 2.3\n");
 	t_note_page *page = data;
 	gchar *t;
 	gchar *s;
@@ -3201,9 +3201,9 @@ gboolean on_editor_keypress ( GtkWidget *widget, GdkEventKey *event, gpointer da
 	t = doc_get_word_at_left (cur_text_doc, &itstart, &itend);
 	if (! t)
 		return FALSE;
-	printf("LOG ***** TAPE 2.4\n");
+//	printf("LOG ***** TAPE 2.4\n");
 	guint32 k = gdk_keyval_to_unicode (event->keyval);
-	printf("LOG ***** TAPE 2.5\n");
+//	printf("LOG ***** TAPE 2.5\n");
 	if (confile.do_autorep && ht_autoreplace)
 	{
 		if (g_unichar_isspace (k))
@@ -3229,7 +3229,7 @@ gboolean on_editor_keypress ( GtkWidget *widget, GdkEventKey *event, gpointer da
 		g_free (t); 
 		}
 	}
-	printf("LOG ***** TAPE 2.6\n");
+//	printf("LOG ***** TAPE 2.6\n");
 	char *extension;
 	if (event->keyval == '(')
 	{
@@ -3247,7 +3247,7 @@ gboolean on_editor_keypress ( GtkWidget *widget, GdkEventKey *event, gpointer da
 				doc_move_cursor_backw(cur_text_doc,1);
 		}
 	}
-	printf("LOG ***** TAPE 2.7\n");
+//	printf("LOG ***** TAPE 2.7\n");
 	if(strrchr(cur_text_doc->file_name,'.'))
 	{
 	extension = strrchr(cur_text_doc->file_name,'.');
@@ -3268,7 +3268,7 @@ gboolean on_editor_keypress ( GtkWidget *widget, GdkEventKey *event, gpointer da
 		doc_insert_at_cursor (cur_text_doc, "]");
 		doc_move_cursor_backw(cur_text_doc,1);
 	}
-	printf("LOG ***** TAPE 2.8\n");
+//	printf("LOG ***** TAPE 2.8\n");
 	int nbrcarac;
 
 	if (event->keyval == '>' && confile.use_textcompbloc == 1)
@@ -3319,14 +3319,14 @@ gboolean on_editor_keypress ( GtkWidget *widget, GdkEventKey *event, gpointer da
 
 		}
 	}
-	printf("LOG ***** TAPE 2.9\n");
+//	printf("LOG ***** TAPE 2.9\n");
 	if (event->keyval == '\'' && confile.use_textcompbloc == 1 && strcmp(".txt", extension) != 0)
 	{
 		doc_insert_at_cursor (cur_text_doc, "\'");
 		doc_move_cursor_backw(cur_text_doc,1);
 	}
 }
-	printf("LOG ***** TAPE 2.10\n");
+//	printf("LOG ***** TAPE 2.10\n");
 	if (event->keyval == GDK_KEY_Return)
 		if (confile.use_auto_indent) 
 		{
@@ -3339,7 +3339,7 @@ gboolean on_editor_keypress ( GtkWidget *widget, GdkEventKey *event, gpointer da
 		doc_indent_selection (page, FALSE);
 		return TRUE; 
 	}
-	printf("LOG ***** TAPE 2.11\n");
+//	printf("LOG ***** TAPE 2.11\n");******************************
 	return FALSE;
 }
 
