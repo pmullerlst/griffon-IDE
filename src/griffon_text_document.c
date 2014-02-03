@@ -684,8 +684,13 @@ t_note_page* page_create_new (void)
 	g_signal_connect (G_OBJECT (page->text_view), "key_release_event",
                     G_CALLBACK (on_editor_keyrelease), page);
 
-	g_signal_connect (G_OBJECT (page->text_buffer), "insert_text", 
-                    G_CALLBACK (controle_save_page_icon_no), page->text_view);
+
+/*
+* BUG : test pour trouver le problème
+*/
+
+/*	g_signal_connect (G_OBJECT (page->text_buffer), "insert_text", 
+                    G_CALLBACK (controle_save_page_icon_no), page->text_view);*/
                     		                                      		                    		
 
 	dox = g_list_append (dox, page);
