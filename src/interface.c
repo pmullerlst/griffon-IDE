@@ -6004,6 +6004,7 @@ void quick_message (gchar *message,gchar *message2)
 //*********************** FIND WEB TEXT MYADMIN
 void web_find_myadmin ()
 {
+	webkit_web_view_unmark_text_matches(WEBKIT_WEB_VIEW (webView_myadmin));
 	gchar *search=gtk_editable_get_chars(GTK_EDITABLE(entry_find_web),0, -1);
 	webkit_web_view_mark_text_matches (WEBKIT_WEB_VIEW (webView_myadmin), search, FALSE, 0);
 	webkit_web_view_set_highlight_text_matches (WEBKIT_WEB_VIEW (webView_myadmin), TRUE);
