@@ -2291,6 +2291,28 @@ GtkWidget* create_tea_main_window (void)
 	g_signal_connect ((gpointer) tool_myadmin_new, "clicked",G_CALLBACK (new_web_window),NULL);
 	gtk_tool_item_set_tooltip_text(tool_myadmin_new,_("New window Web"));
 
+	tool_sep=gtk_separator_tool_item_new();
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin ), tool_sep, -1);
+	gtk_widget_show(GTK_WIDGET(tool_sep));
+
+	GtkToolItem *tool_myadmin_find = gtk_tool_button_new_from_stock(GTK_STOCK_FIND    );
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_myadmin_find, -1);
+	gtk_widget_show(GTK_WIDGET(tool_myadmin_find));
+	g_signal_connect ((gpointer) tool_myadmin_find, "clicked",G_CALLBACK (web_find_myadmin),NULL);
+	gtk_tool_item_set_tooltip_text(tool_myadmin_find,_("Find text"));
+
+	GtkToolItem *item_entry3  = gtk_tool_item_new();
+
+	entry_find_web = gtk_entry_new ();     
+	gtk_widget_show (GTK_WIDGET(entry_find_web));
+
+	gtk_entry_set_width_chars (GTK_ENTRY(entry_find_web),20);
+
+	gtk_container_add( GTK_CONTAINER(item_entry3), GTK_WIDGET(entry_find_web) );
+	gtk_toolbar_insert( GTK_TOOLBAR(toolbar_myadmin), GTK_TOOL_ITEM(item_entry3), -1 );
+	gtk_widget_show (GTK_WIDGET(item_entry3));
+
+
 	gtk_box_pack_start (GTK_BOX (hbox_myadmin), toolbar_myadmin, FALSE, FALSE, 0);
 	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_myadmin), GTK_TOOLBAR_ICONS);
 	gtk_widget_show (GTK_WIDGET(toolbar_myadmin)); 
@@ -5977,5 +5999,14 @@ void quick_message (gchar *message,gchar *message2)
 
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
+}
+
+//*********************** FIND WEB TEXT MYADMIN
+void web_find_myadmin ()
+{
+	gchar *search=gtk_editable_get_chars(GTK_EDITABLE(entry_find_web),0, -1);
+	webkit_web_view_mark_text_matches (WEBKIT_WEB_VIEW (webView_myadmin), search, FALSE, 0);
+	webkit_web_view_set_highlight_text_matches (WEBKIT_WEB_VIEW (webView_myadmin), TRUE);
+	webkit_web_view_search_text (WEBKIT_WEB_VIEW (webView_myadmin), search, FALSE, TRUE, TRUE);
 }
 

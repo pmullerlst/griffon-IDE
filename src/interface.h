@@ -73,6 +73,7 @@ GtkWidget *cmb_famous, *hbox_bar,*hbox_bar2;
 GtkWidget *ent_search;
 GtkWidget *cmb_famous2;   
 GtkWidget *ent_search2;
+GtkWidget *entry_find_web;
 GtkWidget *dlg_colorsel;
 GtkWidget *notebook1;
 GtkWidget *notebook3;
@@ -309,3 +310,5 @@ void preview_web_popup_full ();
 void window_tweeter_info ();
 void window_devdocs ();
 void quick_message (gchar *message,gchar *message2);
+void web_find_myadmin ();
+
