@@ -3447,6 +3447,7 @@ void  controle_save()
 
 void  controle_save_page_icon_no()
 {
+	return;
 	if (! get_page_text()) return;
 	if(gtk_widget_get_visible (cur_text_doc->icon)){gtk_widget_set_visible (cur_text_doc->icon,FALSE);}
 
@@ -3454,7 +3455,8 @@ void  controle_save_page_icon_no()
 
 void  controle_save_page_icon() 
 {
-if (! get_page_text()) return;
+	return;
+	if (! get_page_text()) return;
 
 	gchar **a = g_strsplit (cur_text_doc->file_name, "_", -1);
 	if (strcmp("noname", a[0]) == 0) return;
