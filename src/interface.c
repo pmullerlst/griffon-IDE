@@ -314,7 +314,7 @@ gboolean myadmin_new_window (WebKitWebView *web_view,WebKitWebFrame *frame,WebKi
 	gtk_widget_show_all(GTK_WIDGET(web_win->window_web)); 
 
 	g_signal_connect ((gpointer) web_win->entry_myadmin, "activate",G_CALLBACK (enter_myweb_win),web_win->webView_w);
-	g_signal_connect(web_win->webView_w, "load-finished",G_CALLBACK(myadmin_get_url_win), web_win->entry_myadmin);
+	g_signal_connect(web_win->webView_w, "document-load-finished",G_CALLBACK(myadmin_get_url_win), web_win->entry_myadmin);
 	g_signal_connect(web_win->webView_w, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), web_win->webView_w);
 	g_signal_connect(web_win->webView_w, "create-web-view",G_CALLBACK(web_new_w_click_go), web_win->webView_w);
 
@@ -405,7 +405,7 @@ WebKitWebView * web_new_w_click_go(WebKitWebView  *web_view, WebKitWebFrame *fra
 	gtk_box_pack_start(GTK_BOX(web_win->vbox3), GTK_WIDGET(web_win->scrolledWindow), TRUE, TRUE, 1);
 
 	g_signal_connect ((gpointer) web_win->entry_myadmin, "activate",G_CALLBACK (enter_myweb_win),web_win->webView_w);
-	g_signal_connect(web_win->webView_w, "load-finished",G_CALLBACK(myadmin_get_url_win), web_win->entry_myadmin);
+	g_signal_connect(web_win->webView_w, "document-load-finished",G_CALLBACK(myadmin_get_url_win), web_win->entry_myadmin);
 	g_signal_connect(web_win->webView_w, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), web_win->webView_w);
 	g_signal_connect(web_win->webView_w, "create-web-view",G_CALLBACK(web_new_w_click_go), web_win->webView_w);
 	g_signal_connect(web_win->webView_w, "download-requested", G_CALLBACK(download_requested_cb), NULL);
@@ -2199,7 +2199,7 @@ GtkWidget* create_tea_main_window (void)
 
 	g_signal_connect ((gpointer) button2, "clicked",G_CALLBACK (focus_web),NULL);
 	g_signal_connect ((gpointer) entry_web, "activate",G_CALLBACK (enter_web),entry_web);
-	g_signal_connect(webView, "load-finished",G_CALLBACK(miniweb_get_url), NULL);
+	g_signal_connect(webView, "document-load-finished",G_CALLBACK(miniweb_get_url), NULL);
 
 	button_web_image = gtk_button_new_from_stock ((_(" Open with Gimp ")));
 	gtk_widget_show (GTK_WIDGET(button_web_image));
@@ -2383,7 +2383,7 @@ GtkWidget* create_tea_main_window (void)
 	gtk_box_pack_start(GTK_BOX(vbox_myadmin), view_a, FALSE, TRUE, 1);
 
 	g_signal_connect(selection_myadmin, "changed",G_CALLBACK(on_changed_myadmin), statusbar);  
-	g_signal_connect(webView_myadmin, "load-finished",G_CALLBACK(myadmin_get_url), NULL);
+	g_signal_connect(webView_myadmin, "document-load-finished",G_CALLBACK(myadmin_get_url), NULL);
 	g_signal_connect(webView_myadmin, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_myadmin);
 	g_signal_connect(webView_myadmin, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_myadmin);
 
@@ -2414,7 +2414,7 @@ GtkWidget* create_tea_main_window (void)
 
 	gtk_container_add(GTK_CONTAINER(notebook_myadmin), GTK_WIDGET(scrolledWindow_myadmin_traduc));  
 
-	g_signal_connect(webView_myadmin_traduc, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_myadmin);
+	g_signal_connect(webView_myadmin_traduc, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_myadmin_traduc);
 	g_signal_connect(webView_myadmin_traduc, "download-requested", G_CALLBACK(download_requested_cb), NULL);
 	g_signal_connect(webView_myadmin_traduc, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_myadmin_traduc);
 
@@ -4189,12 +4189,12 @@ void myadmin_back (){webkit_web_view_go_back(webView_myadmin);}
 void myadmin_forward (){webkit_web_view_go_forward(webView_myadmin);}
 void myadmin_stop (){webkit_web_view_stop_loading(webView_myadmin);}
 
-void myadmin_reload_win (gpointer user_data){webkit_web_view_reload(user_data);}
-void myadmin_back_win (gpointer user_data){webkit_web_view_go_back(user_data);}
-void myadmin_forward_win (gpointer user_data){webkit_web_view_go_forward(user_data);}
-void myadmin_stop_win (gpointer user_data){webkit_web_view_stop_loading(user_data);}
-void myadmin_source_mode_get_url_win (gpointer user_data){webkit_web_view_set_view_source_mode(user_data,TRUE);webkit_web_view_reload(user_data);}
-void myadmin_view_mode_get_url_win (gpointer user_data){webkit_web_view_set_view_source_mode(user_data,FALSE);webkit_web_view_reload(user_data);}
+void myadmin_reload_win (GtkWidget *widget, gpointer user_data){gtk_widget_get_name(widget);webkit_web_view_reload(user_data);}
+void myadmin_back_win (GtkWidget *widget,gpointer user_data){gtk_widget_get_name(widget);webkit_web_view_go_back(user_data);}
+void myadmin_forward_win (GtkWidget *widget,gpointer user_data){gtk_widget_get_name(widget);webkit_web_view_go_forward(user_data);}
+void myadmin_stop_win (GtkWidget *widget,gpointer user_data){gtk_widget_get_name(widget);webkit_web_view_stop_loading(user_data);}
+void myadmin_source_mode_get_url_win (GtkWidget *widget,gpointer user_data){gtk_widget_get_name(widget);webkit_web_view_set_view_source_mode(user_data,TRUE);webkit_web_view_reload(user_data);}
+void myadmin_view_mode_get_url_win (GtkWidget *widget,gpointer user_data){gtk_widget_get_name(widget);webkit_web_view_set_view_source_mode(user_data,FALSE);webkit_web_view_reload(user_data);}
 
 //*********************** LOAD URL MYADMIN WINDOW
 void enter_myweb_win (GtkWidget* entry, gpointer user_data)
@@ -4209,8 +4209,9 @@ void enter_myweb_win (GtkWidget* entry, gpointer user_data)
 }
 
 //*********************** GET URL MYADMIN WINDOW
-void myadmin_get_url_win (WebKitWebView  *web,gpointer user_data)
+void myadmin_get_url_win (WebKitWebView  *web,WebKitWebFrame *web_frame,gpointer user_data)
 {
+	if(web_frame!=NULL){printf(" ");}
 	gchar const *url=webkit_web_view_get_uri(web);
 	gtk_entry_set_text (GTK_ENTRY (user_data), _(url));
 }
@@ -4766,7 +4767,7 @@ void new_web_window ()
 		gtk_entry_set_text (GTK_ENTRY (web_win->entry_myadmin), _(tampon_myweb));
 	}
 
-	g_signal_connect(web_win->webView_w, "load-finished",G_CALLBACK(myadmin_get_url_win), web_win->entry_myadmin);
+	g_signal_connect(web_win->webView_w, "document-load-finished",G_CALLBACK(myadmin_get_url_win), web_win->entry_myadmin);
 	g_signal_connect(web_win->webView_w, "new-window-policy-decision-requested",  G_CALLBACK(myadmin_new_window), web_win->webView_w);
 	g_signal_connect(web_win->webView_w, "create-web-view",G_CALLBACK(web_new_w_click_go), web_win->webView_w);
 }
@@ -4867,7 +4868,7 @@ void new_web_window_mini ()
 		gtk_entry_set_text (GTK_ENTRY (web_win->entry_myadmin), _(tampon_myweb));
 	}
 
-	g_signal_connect(web_win->webView_w, "load-finished",G_CALLBACK(myadmin_get_url_win), web_win->entry_myadmin);
+	g_signal_connect(web_win->webView_w, "document-load-finished",G_CALLBACK(myadmin_get_url_win), web_win->entry_myadmin);
 	g_signal_connect(web_win->webView_w, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), web_win->webView_w);
 	g_signal_connect(web_win->webView_w, "create-web-view", G_CALLBACK(web_new_w_click_go), web_win->webView_w);
 
