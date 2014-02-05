@@ -3130,32 +3130,30 @@ void delete_autocomp_tips(){if (win_tips_autocomp != NULL){gtk_widget_destroy (G
 //*********************** RELACHEMENT DUNE TOUCHE EN MODE EDITOR
 gboolean on_editor_keyrelease ()
 {
-//	printf("LOG ***** TAPE 1.1\n");
 
 	if (! get_page_text()) return FALSE;
-//	printf("LOG ***** TAPE 1.2\n");
+
 	gchar *msg;
 	gint row,row2, col;
 	GtkTextIter iter,iter2;
 
 	gtk_text_buffer_get_end_iter(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &iter2);
 	gtk_text_buffer_get_iter_at_mark(GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&iter, gtk_text_buffer_get_insert(GTK_TEXT_BUFFER(cur_text_doc->text_buffer)));
-//	printf("LOG ***** TAPE 1.3\n");
+
 	row = gtk_text_iter_get_line(&iter);
 	row2 = gtk_text_iter_get_line(&iter2);
 	col = gtk_text_iter_get_line_offset(&iter);
-//	printf("LOG ***** TAPE 1.4\n");
+
 	msg = g_strdup_printf(" [File] : %s\t\t [Col] : %d \t\t[Ln] : %d/%d", cur_text_doc->file_name,col+1, row+1,row2+1);
 	statusbar_msg(msg);
-//	printf("LOG ***** TAPE 1.5\n");
 	g_free (msg);
-//	printf("LOG ***** TAPE 1.6\n");
+
 /*	gchar *t;
 
 	GtkTextIter itstart;
 	GtkTextIter itend;  
 
-	if(row2<1000)
+	if(row2<300)
 	{
 	GtkTextIter start_find, end_find;
 	GtkTextIter start_match, end_match;
