@@ -2143,7 +2143,7 @@ GtkWidget* create_tea_main_window (void)
 
 	g_signal_connect ((gpointer) entry_find_web_mini, "key_release_event",G_CALLBACK (web_find_mini),NULL);
 
-	gtk_entry_set_width_chars (GTK_ENTRY(entry_find_web_mini),20);
+	gtk_entry_set_width_chars (GTK_ENTRY(entry_find_web_mini),50);
 
 	gtk_container_add( GTK_CONTAINER(item_entry4), GTK_WIDGET(entry_find_web_mini) );
 	gtk_toolbar_insert( GTK_TOOLBAR(toolbar_miniweb), GTK_TOOL_ITEM(item_entry4), -1 );
@@ -2331,7 +2331,7 @@ GtkWidget* create_tea_main_window (void)
 
 	g_signal_connect ((gpointer) entry_find_web, "key_release_event",G_CALLBACK (web_find_myadmin),NULL);
 
-	gtk_entry_set_width_chars (GTK_ENTRY(entry_find_web),20);
+	gtk_entry_set_width_chars (GTK_ENTRY(entry_find_web),50);
 
 	gtk_container_add( GTK_CONTAINER(item_entry3), GTK_WIDGET(entry_find_web) );
 	gtk_toolbar_insert( GTK_TOOLBAR(toolbar_myadmin), GTK_TOOL_ITEM(item_entry3), -1 );
@@ -2414,8 +2414,8 @@ GtkWidget* create_tea_main_window (void)
 
 	gtk_container_add(GTK_CONTAINER(notebook_myadmin), GTK_WIDGET(scrolledWindow_myadmin_traduc));  
 
-	g_signal_connect(webView_myadmin, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_myadmin);
-	g_signal_connect(webView_myadmin, "download-requested", G_CALLBACK(download_requested_cb), NULL);
+	g_signal_connect(webView_myadmin_traduc, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_myadmin);
+	g_signal_connect(webView_myadmin_traduc, "download-requested", G_CALLBACK(download_requested_cb), NULL);
 	g_signal_connect(webView_myadmin_traduc, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_myadmin_traduc);
 
 	label_note3 = gtk_label_new (_("Translation"));
@@ -2435,6 +2435,40 @@ GtkWidget* create_tea_main_window (void)
 	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_myadmin), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_myadmin), 1), hbox_note);
 	gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook_myadmin), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_myadmin), 1), TRUE);
 
+	GtkWidget *vbox_bar = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_container_add (GTK_CONTAINER (notebook_myadmin), GTK_WIDGET(vbox_bar));
+	gtk_widget_show (GTK_WIDGET(vbox_bar));  
+
+	GtkWidget *toolbar_help;
+	toolbar_help = gtk_toolbar_new ();
+
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_help), GTK_TOOLBAR_ICONS);
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_help),GTK_ICON_SIZE_SMALL_TOOLBAR);
+
+	GtkToolItem *tool_help_find = gtk_tool_button_new_from_stock(GTK_STOCK_GO_FORWARD    );
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_help), tool_help_find, -1);
+	gtk_widget_show(GTK_WIDGET(tool_help_find));
+	g_signal_connect ((gpointer) tool_mini_find, "clicked",G_CALLBACK (web_find_web_help),NULL);
+	gtk_tool_item_set_tooltip_text(tool_help_find,_("Find next"));
+
+	GtkToolItem *item_entry5  = gtk_tool_item_new();
+
+	entry_find_web_help = gtk_entry_new ();     
+	gtk_widget_show (GTK_WIDGET(entry_find_web_help));
+
+	g_signal_connect ((gpointer) entry_find_web_help, "key_release_event",G_CALLBACK (web_find_web_help),NULL);
+
+	gtk_entry_set_width_chars (GTK_ENTRY(entry_find_web_help),50);
+
+	gtk_container_add( GTK_CONTAINER(item_entry5), GTK_WIDGET(entry_find_web_help) );
+	gtk_toolbar_insert( GTK_TOOLBAR(toolbar_help), GTK_TOOL_ITEM(item_entry5), -1 );
+	gtk_widget_show (GTK_WIDGET(item_entry5));
+
+	gtk_box_pack_start (GTK_BOX (vbox_bar), toolbar_help, FALSE, FALSE, 0);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_help), GTK_TOOLBAR_ICONS);
+	gtk_widget_show (GTK_WIDGET(toolbar_help)); 
+
+
 	webView_myadmin_aide = WEBKIT_WEB_VIEW(webkit_web_view_new());
 	gtk_widget_show (GTK_WIDGET(webView_myadmin_aide));
 
@@ -2443,11 +2477,13 @@ GtkWidget* create_tea_main_window (void)
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow_myadmin_aide),GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_container_add(GTK_CONTAINER(scrolledWindow_myadmin_aide), GTK_WIDGET(webView_myadmin_aide));
 
-	gtk_container_add(GTK_CONTAINER(notebook_myadmin), GTK_WIDGET(scrolledWindow_myadmin_aide));
+	gtk_box_pack_start (GTK_BOX (vbox_bar), scrolledWindow_myadmin_aide, TRUE, TRUE, 0);
 
-	g_signal_connect(webView_myadmin, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_myadmin_aide);
+	g_signal_connect(webView_myadmin_aide, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_myadmin_aide);
 
-	g_signal_connect(webView_myadmin, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_myadmin_aide);
+	g_signal_connect(webView_myadmin_aide, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_myadmin_aide);
+	g_signal_connect(webView_myadmin_aide, "document-load-finished",G_CALLBACK(web_find_web_help), webView_myadmin_aide);
+	g_signal_connect(webView_myadmin_aide, "download-requested", G_CALLBACK(download_requested_cb), NULL);
 
 	label_note3 = gtk_label_new (_("Help/Search"));
 	gtk_widget_show (GTK_WIDGET(label_note3));
@@ -3987,6 +4023,7 @@ void google_search()
 		strcat(search_google,doc_get_sel (cur_text_doc)); 
 		webkit_web_view_load_uri(webView_myadmin_aide, search_google);
 
+		gtk_entry_set_text (GTK_ENTRY (entry_find_web_help), _(doc_get_sel (cur_text_doc)));
 		griffon_notify(_("The search result is available in the tab: MyAdmin-> Help/Search"));
 	}
 }
@@ -6045,5 +6082,15 @@ void web_find_mini ()
 	webkit_web_view_mark_text_matches (WEBKIT_WEB_VIEW (webView), search, FALSE, 0);
 	webkit_web_view_set_highlight_text_matches (WEBKIT_WEB_VIEW (webView), TRUE);
 	webkit_web_view_search_text (WEBKIT_WEB_VIEW (webView), search, FALSE, TRUE, TRUE);
+}
+
+//*********************** FIND WEB TEXT SEARCH/HELP
+void web_find_web_help ()
+{
+	webkit_web_view_unmark_text_matches(WEBKIT_WEB_VIEW (webView_myadmin_aide));
+	gchar *search=gtk_editable_get_chars(GTK_EDITABLE(entry_find_web_help),0, -1);
+	webkit_web_view_mark_text_matches (WEBKIT_WEB_VIEW (webView_myadmin_aide), search, FALSE, 0);
+	webkit_web_view_set_highlight_text_matches (WEBKIT_WEB_VIEW (webView_myadmin_aide), TRUE);
+	webkit_web_view_search_text (WEBKIT_WEB_VIEW (webView_myadmin_aide), search, FALSE, TRUE, TRUE);
 }
 
