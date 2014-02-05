@@ -74,6 +74,7 @@ GtkWidget *ent_search;
 GtkWidget *cmb_famous2;   
 GtkWidget *ent_search2;
 GtkWidget *entry_find_web;
+GtkWidget *entry_find_web_mini;
 GtkWidget *dlg_colorsel;
 GtkWidget *notebook1;
 GtkWidget *notebook3;
@@ -311,4 +312,5 @@ void window_tweeter_info ();
 void window_devdocs ();
 void quick_message (gchar *message,gchar *message2);
 void web_find_myadmin ();
+void web_find_mini ();
 

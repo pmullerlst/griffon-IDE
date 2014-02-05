@@ -2126,6 +2126,29 @@ GtkWidget* create_tea_main_window (void)
 	g_signal_connect ((gpointer) tool_miniweb_new, "clicked",G_CALLBACK (new_web_window_mini),NULL);
 	gtk_tool_item_set_tooltip_text(tool_miniweb_new,_("New window Web"));
 
+	tool_sep=gtk_separator_tool_item_new();
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_miniweb ), tool_sep, -1);
+	gtk_widget_show(GTK_WIDGET(tool_sep));
+
+	GtkToolItem *tool_mini_find = gtk_tool_button_new_from_stock(GTK_STOCK_GO_FORWARD    );
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_miniweb), tool_mini_find, -1);
+	gtk_widget_show(GTK_WIDGET(tool_mini_find));
+	g_signal_connect ((gpointer) tool_mini_find, "clicked",G_CALLBACK (web_find_mini),NULL);
+	gtk_tool_item_set_tooltip_text(tool_mini_find,_("Find next"));
+
+	GtkToolItem *item_entry4  = gtk_tool_item_new();
+
+	entry_find_web_mini = gtk_entry_new ();     
+	gtk_widget_show (GTK_WIDGET(entry_find_web_mini));
+
+	g_signal_connect ((gpointer) entry_find_web_mini, "key_release_event",G_CALLBACK (web_find_mini),NULL);
+
+	gtk_entry_set_width_chars (GTK_ENTRY(entry_find_web_mini),20);
+
+	gtk_container_add( GTK_CONTAINER(item_entry4), GTK_WIDGET(entry_find_web_mini) );
+	gtk_toolbar_insert( GTK_TOOLBAR(toolbar_miniweb), GTK_TOOL_ITEM(item_entry4), -1 );
+	gtk_widget_show (GTK_WIDGET(item_entry4));
+
 	gtk_box_pack_start (GTK_BOX (vbox3), toolbar_miniweb, FALSE, FALSE, 0);
 	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_miniweb), GTK_TOOLBAR_ICONS);
 	gtk_widget_show (GTK_WIDGET(toolbar_miniweb)); 
@@ -2295,16 +2318,18 @@ GtkWidget* create_tea_main_window (void)
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin ), tool_sep, -1);
 	gtk_widget_show(GTK_WIDGET(tool_sep));
 
-	GtkToolItem *tool_myadmin_find = gtk_tool_button_new_from_stock(GTK_STOCK_FIND    );
+	GtkToolItem *tool_myadmin_find = gtk_tool_button_new_from_stock(GTK_STOCK_GO_FORWARD    );
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_myadmin_find, -1);
 	gtk_widget_show(GTK_WIDGET(tool_myadmin_find));
 	g_signal_connect ((gpointer) tool_myadmin_find, "clicked",G_CALLBACK (web_find_myadmin),NULL);
-	gtk_tool_item_set_tooltip_text(tool_myadmin_find,_("Find text"));
+	gtk_tool_item_set_tooltip_text(tool_myadmin_find,_("Find next"));
 
 	GtkToolItem *item_entry3  = gtk_tool_item_new();
 
 	entry_find_web = gtk_entry_new ();     
 	gtk_widget_show (GTK_WIDGET(entry_find_web));
+
+	g_signal_connect ((gpointer) entry_find_web, "key_release_event",G_CALLBACK (web_find_myadmin),NULL);
 
 	gtk_entry_set_width_chars (GTK_ENTRY(entry_find_web),20);
 
@@ -3977,6 +4002,7 @@ void google_traduction_fr_en()
 		strcpy(search_google,"https://translate.google.fr/?hl=fr&tab=wT#fr/en/");
 		strcat(search_google,doc_get_sel (cur_text_doc));
 		webkit_web_view_load_uri(webView_myadmin_traduc, search_google);
+
 		griffon_notify(_("The result of the translation is available in the tab::\nMyAdmin-> Translation"));
 	}
 }
@@ -6009,5 +6035,15 @@ void web_find_myadmin ()
 	webkit_web_view_mark_text_matches (WEBKIT_WEB_VIEW (webView_myadmin), search, FALSE, 0);
 	webkit_web_view_set_highlight_text_matches (WEBKIT_WEB_VIEW (webView_myadmin), TRUE);
 	webkit_web_view_search_text (WEBKIT_WEB_VIEW (webView_myadmin), search, FALSE, TRUE, TRUE);
+}
+
+//*********************** FIND WEB TEXT MINIWEB
+void web_find_mini ()
+{
+	webkit_web_view_unmark_text_matches(WEBKIT_WEB_VIEW (webView));
+	gchar *search=gtk_editable_get_chars(GTK_EDITABLE(entry_find_web_mini),0, -1);
+	webkit_web_view_mark_text_matches (WEBKIT_WEB_VIEW (webView), search, FALSE, 0);
+	webkit_web_view_set_highlight_text_matches (WEBKIT_WEB_VIEW (webView), TRUE);
+	webkit_web_view_search_text (WEBKIT_WEB_VIEW (webView), search, FALSE, TRUE, TRUE);
 }
 
