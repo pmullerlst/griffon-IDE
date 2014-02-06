@@ -656,7 +656,9 @@ t_note_page* page_create_new (void)
 	gtk_widget_set_can_focus (GTK_WIDGET (page->hbox), FALSE);
 	gtk_widget_set_can_focus (GTK_WIDGET (page->but), FALSE);
 
-	page->icon = gtk_image_new_from_stock (GTK_STOCK_SAVE,GTK_ICON_SIZE_MENU);
+//	page->icon = gtk_image_new_from_stock (GTK_STOCK_SAVE,GTK_ICON_SIZE_MENU);
+	page->icon = gtk_image_new_from_file("/usr/local/share/griffon/images/empty.png");
+
 	gtk_box_pack_start (GTK_BOX (page->hbox), page->icon, FALSE, FALSE, 0);
 	gtk_widget_show (GTK_WIDGET(page->icon));
 
@@ -1300,6 +1302,36 @@ t_note_page* doc_open_file (gchar *a_filename)
 		if (strcmp(".c", extension) == 0 || strcmp(".h", extension) == 0){file_autocomp="/usr/local/share/griffon/autocomp/c";titre_autocomp="[C] AutoComp";}
 		if (strcmp(".htm", extension) == 0 || strcmp(".html", extension) == 0){file_autocomp="/usr/local/share/griffon/autocomp/html";titre_autocomp="[HTML] AutoComp";}
 		if (strcmp(".php", extension) == 0){file_autocomp="/usr/local/share/griffon/autocomp/php";titre_autocomp="[PHP] AutoComp";}
+
+		//********************** ICON FILE MIME
+		gtk_widget_destroy(page->icon);
+
+		if (strcmp(".c", extension) == 0){page->icon = gtk_image_new_from_file("/usr/local/share/griffon/images/c.png");}
+		if (strcmp(".cpp", extension) == 0){page->icon = gtk_image_new_from_file("/usr/local/share/griffon/images/cpp.png");}
+		if (strcmp(".css", extension) == 0){page->icon = gtk_image_new_from_file("/usr/local/share/griffon/images/css.png");}
+		if (strcmp(".csv", extension) == 0){page->icon = gtk_image_new_from_file("/usr/local/share/griffon/images/csv.png");}
+		if (strcmp(".f", extension) == 0){page->icon = gtk_image_new_from_file("/usr/local/share/griffon/images/f.png");}
+		if (strcmp(".h", extension) == 0){page->icon = gtk_image_new_from_file("/usr/local/share/griffon/images/h.png");}
+		if (strcmp(".html", extension) == 0){page->icon = gtk_image_new_from_file("/usr/local/share/griffon/images/html.png");}
+		if (strcmp(".htm", extension) == 0){page->icon = gtk_image_new_from_file("/usr/local/share/griffon/images/html.png");}
+		if (strcmp(".j", extension) == 0){page->icon = gtk_image_new_from_file("/usr/local/share/griffon/images/j.png");}
+		if (strcmp(".java", extension) == 0){page->icon = gtk_image_new_from_file("/usr/local/share/griffon/images/java.png");}
+		if (strcmp(".l", extension) == 0){page->icon = gtk_image_new_from_file("/usr/local/share/griffon/images/l.png");}
+		if (strcmp(".o", extension) == 0){page->icon = gtk_image_new_from_file("/usr/local/share/griffon/images/o.png");}
+		if (strcmp(".p", extension) == 0){page->icon = gtk_image_new_from_file("/usr/local/share/griffon/images/p.png");}
+		if (strcmp(".php", extension) == 0){page->icon = gtk_image_new_from_file("/usr/local/share/griffon/images/php.png");}
+		if (strcmp(".pl", extension) == 0){page->icon = gtk_image_new_from_file("/usr/local/share/griffon/images/pl.png");}
+		if (strcmp(".py", extension) == 0){page->icon = gtk_image_new_from_file("/usr/local/share/griffon/images/py.png");}
+		if (strcmp(".s", extension) == 0){page->icon = gtk_image_new_from_file("/usr/local/share/griffon/images/s.png");}
+		if (strcmp(".sh", extension) == 0){page->icon = gtk_image_new_from_file("/usr/local/share/griffon/images/sh.png");}
+		if (strcmp(".txt", extension) == 0){page->icon = gtk_image_new_from_file("/usr/local/share/griffon/images/txt.png");}
+		if (strcmp(".y", extension) == 0){page->icon = gtk_image_new_from_file("/usr/local/share/griffon/images/y.png");}
+		if (strcmp(".js", extension) == 0){page->icon = gtk_image_new_from_file("/usr/local/share/griffon/images/sh.png");}
+
+		gtk_box_pack_start (GTK_BOX (page->hbox), page->icon, FALSE, FALSE, 0);
+		gtk_box_reorder_child((GtkBox *)page->hbox, page->icon,0);
+		gtk_widget_show (GTK_WIDGET(page->icon));
+
 	}
 
 	if(file_autocomp!=NULL)
