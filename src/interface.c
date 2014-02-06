@@ -2448,7 +2448,7 @@ GtkWidget* create_tea_main_window (void)
 	GtkToolItem *tool_help_find = gtk_tool_button_new_from_stock(GTK_STOCK_GO_FORWARD    );
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_help), tool_help_find, -1);
 	gtk_widget_show(GTK_WIDGET(tool_help_find));
-	g_signal_connect ((gpointer) tool_mini_find, "clicked",G_CALLBACK (web_find_web_help),NULL);
+	g_signal_connect ((gpointer) tool_help_find, "clicked",G_CALLBACK (web_find_web_help),NULL);
 	gtk_tool_item_set_tooltip_text(tool_help_find,_("Find next"));
 
 	GtkToolItem *item_entry5  = gtk_tool_item_new();
