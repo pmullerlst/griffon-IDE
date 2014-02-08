@@ -116,6 +116,7 @@ GtkWidget *hbox_no;
 GtkWidget *hbox_no2;
 GtkFileFilter* filefilter;
 GtkWidget *window1_popup=NULL;
+int win_popup=0;
 
 //*********************** AUTOCOMPLEMENTATION 
 struct _TestProviderClass
@@ -5907,6 +5908,7 @@ void preview_web_popup ()
 	g_signal_connect(webView_doc, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_doc);
 	g_signal_connect(webView_doc, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_doc);
 
+	win_popup=1;
 }
 
 //*********************** PREVIEW WEB IN POPUP FULL
@@ -5964,7 +5966,7 @@ void preview_web_popup_full ()
 	g_signal_connect(webView_doc, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_doc);
 	g_signal_connect(webView_doc, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_doc);
 
-
+	win_popup=1;
 	g_free (buf);
 	g_free (uri);
 }
@@ -5972,10 +5974,10 @@ void preview_web_popup_full ()
 //*********************** WINDOW POPUP HTM PREVIEW DELETE
 void window_popup_delete ()
 {
-	if(window1_popup!=NULL)
+	if(win_popup!=0)
 	{
 	gtk_widget_destroy (window1_popup);
-	window1_popup=NULL;
+	win_popup=0;
 	}
 }
 
