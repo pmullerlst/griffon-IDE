@@ -5972,13 +5972,16 @@ void preview_web_popup_full ()
 }
 
 //*********************** WINDOW POPUP HTM PREVIEW DELETE
-void window_popup_delete ()
+gboolean window_popup_delete ()
 {
 	if(win_popup!=0)
 	{
 	gtk_widget_destroy (window1_popup);
 	win_popup=0;
+	return TRUE;
 	}
+
+	return FALSE;
 }
 
 //*********************** WINDOW TWEETER INFO
