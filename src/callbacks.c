@@ -3148,12 +3148,12 @@ gboolean on_editor_keyrelease ()
 	statusbar_msg(msg);
 	g_free (msg);
 
-/*	gchar *t;
+	gchar *t;
 
 	GtkTextIter itstart;
 	GtkTextIter itend;  
 
-	if(row2<300)
+	if(row2<100)
 	{
 	GtkTextIter start_find, end_find;
 	GtkTextIter start_match, end_match;
@@ -3177,7 +3177,7 @@ gboolean on_editor_keyrelease ()
 		}
 		g_free (t);
 	}
-*/
+
 	return TRUE;
 }
 
