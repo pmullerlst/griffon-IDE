@@ -2387,6 +2387,7 @@ GtkWidget* create_tea_main_window (void)
 	g_signal_connect(webView_myadmin, "document-load-finished",G_CALLBACK(myadmin_get_url), NULL);
 	g_signal_connect(webView_myadmin, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_myadmin);
 	g_signal_connect(webView_myadmin, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_myadmin);
+	g_signal_connect(webView_myadmin, "download-requested", G_CALLBACK(download_requested_cb), NULL);
 
 	label_note3 = gtk_label_new (_("Web"));
 	gtk_widget_show (GTK_WIDGET(label_note3));
@@ -4902,59 +4903,62 @@ void griffon_notify (gchar* txt)
 	notify_notification_show (notification,NULL);
 }
 
-//*********************** FONCTION TELECHARGEMENT WEB
-void download_status_cb(GObject* object)
-{ 
+//******************************** DL WEBKIT
+void download_status_cb(GObject* object, GParamSpec* pspec, gpointer data){ 
 	WebKitDownload *download;
 	WebKitDownloadStatus status;
+
+	if(pspec==NULL){printf(" ");}
+	if(data==NULL){printf(" ");}
 
 	download = WEBKIT_DOWNLOAD(object);
 	status = webkit_download_get_status(download);
 
 	switch (status) {
 		case WEBKIT_DOWNLOAD_STATUS_ERROR:
-		griffon_notify(_("Download error"));
+			griffon_notify(_("Download error"));
 		break;
 		case WEBKIT_DOWNLOAD_STATUS_CREATED:
-		griffon_notify(_("Download created"));
+			griffon_notify(_("Download created"));
 		break;
 		case WEBKIT_DOWNLOAD_STATUS_STARTED:
-		griffon_notify(_("Download started"));
+			griffon_notify(_("Download started"));
 		break;
 		case WEBKIT_DOWNLOAD_STATUS_CANCELLED:
-		griffon_notify(_("Download cancelled"));
+			griffon_notify(_("Download cancelled"));
 		break;
 		case WEBKIT_DOWNLOAD_STATUS_FINISHED:
-		griffon_notify(_("Download finished!"));
+			griffon_notify(_("Download finished!"));
 		break;
 		default:
 		break;
-	}
+		}
 }
 
-//*********************** FONCTION TELECHARGEMENT WEB
-void download_requested_cb(WebKitDownload *download)
+//******************************** TELECHARGEMENT POUR WEBKIT
+void download_requested_cb(WebKitWebView *web_view, WebKitDownload *download, gpointer user_data)
 {
-	gchar const *filename="";
+	const gchar *filename="";
 	gchar* path_dir="";
-
 	gchar *uri1="file://";
 
-	if(! gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2))){log_to_memo (_("Download Error : You must select a directory in the File Selector Tool"), NULL, LM_ERROR);statusbar_msg (_("Download ERROR"));return ;}
+	if(web_view==NULL){printf(" ");}
+	if(user_data==NULL){printf(" ");}
+
+	if(! gtk_file_chooser_get_current_folder ((GtkFileChooser *)filechooserwidget2)){log_to_memo (_("Download Error : You must select a directory in the file selector."), NULL, LM_ERROR);statusbar_msg (_("Download ERROR"));return;}
 
 	filename = webkit_download_get_suggested_filename(download);
-	path_dir=gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2));
+	path_dir=gtk_file_chooser_get_current_folder ((GtkFileChooser *)filechooserwidget2);
 	const gchar * dest_uri = g_strdup_printf("%s%s/%s", uri1, path_dir, filename);
 	gchar * path = g_strdup_printf("%s/%s", path_dir, filename);
 
-	if (g_file_test (path, G_FILE_TEST_EXISTS)){log_to_memo (_("File Error.download exists"), NULL, LM_ERROR);statusbar_msg (_("File download exists [ERROR]"));return;}
-	else{
-				webkit_download_set_destination_uri(download,dest_uri);
+			if (g_file_test (path, G_FILE_TEST_EXISTS)){log_to_memo (_("File Error.download exists"), NULL, LM_ERROR);statusbar_msg (_("File download exists [ERROR]"));return;}
+		else{
+					webkit_download_set_destination_uri(download,dest_uri);
+					g_signal_connect(download, "notify::status",G_CALLBACK(download_status_cb), NULL);
+					}
 
-				g_signal_connect(download, "notify::status",G_CALLBACK(download_status_cb), NULL);
-				}
-
-	return ; 
+	return; 
 }
 
 //*********************** SWITCH DONGLET ET PLACEMENT DANS LE SELECTEUR DE FICHIER
