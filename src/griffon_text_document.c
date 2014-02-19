@@ -1300,7 +1300,7 @@ t_note_page* doc_open_file (gchar *a_filename)
 		if (strcmp(".pl", extension) == 0){file_autocomp="/usr/local/share/griffon/autocomp/perl";titre_autocomp="[PERL] AutoComp";}
 		if (strcmp(".sh", extension) == 0){file_autocomp="/usr/local/share/griffon/autocomp/bash";titre_autocomp="[BASH] AutoComp";}
 		if (strcmp(".c", extension) == 0 || strcmp(".h", extension) == 0){file_autocomp="/usr/local/share/griffon/autocomp/c";titre_autocomp="[C] AutoComp";}
-		if (strcmp(".htm", extension) == 0 || strcmp(".html", extension) == 0){file_autocomp="/usr/local/share/griffon/autocomp/html";titre_autocomp="[HTML] AutoComp";}
+		if (strcmp(".htm", extension) == 0 || strcmp(".html", extension) == 0){file_autocomp="/usr/local/share/griffon/autocomp/html";titre_autocomp="[HTML] AutoComp";preview_web_popup_full ();}
 		if (strcmp(".php", extension) == 0){file_autocomp="/usr/local/share/griffon/autocomp/php";titre_autocomp="[PHP] AutoComp";}
 
 		//********************** ICON FILE MIME

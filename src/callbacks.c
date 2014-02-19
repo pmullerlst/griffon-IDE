@@ -2364,6 +2364,14 @@ void on_mni_edit_select_all ()
 	gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(cur_text_doc->text_buffer),"insert",&start_iter);
 
 	gtk_text_buffer_move_mark_by_name (GTK_TEXT_BUFFER(cur_text_doc->text_buffer),"selection_bound",&end_iter);
+
+	char *extension;
+	if(strrchr(cur_text_doc->file_name,'.'))
+	{
+		extension = strrchr(cur_text_doc->file_name,'.');
+		if (strcmp(".htm", extension) == 0 || strcmp(".html", extension) == 0){preview_web_popup_full ();}
+	}
+
 }
 
 //*********************** SORT CASE INSENSETIVE
