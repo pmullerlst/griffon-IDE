@@ -5890,7 +5890,7 @@ void preview_web_popup ()
 		gtk_window_resize (GTK_WINDOW (window1_popup), 800, 600);
 	gtk_widget_show(GTK_WIDGET(window1_popup));
 
-	gtk_widget_set_opacity(GTK_WIDGET(window1_popup),0.8);
+	//gtk_widget_set_opacity(GTK_WIDGET(window1_popup),0.8);
 
 	GtkWidget *vbox1;
 	WebKitWebView *webView_doc;
@@ -5951,7 +5951,7 @@ void preview_web_popup_full ()
 
 	gtk_widget_show(GTK_WIDGET(window1_popup));
 
-	gtk_widget_set_opacity(GTK_WIDGET(window1_popup),0.8);
+	//gtk_widget_set_opacity(GTK_WIDGET(window1_popup),0.8);
 
 	GtkWidget *vbox1;
 	WebKitWebView *webView_doc;
