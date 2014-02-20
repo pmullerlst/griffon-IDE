@@ -3156,7 +3156,7 @@ gboolean on_editor_keyrelease ()
 	statusbar_msg(msg);
 	g_free (msg);
 
-	gchar *t;
+/*	gchar *t;
 
 	GtkTextIter itstart;
 	GtkTextIter itend;  
@@ -3185,7 +3185,7 @@ gboolean on_editor_keyrelease ()
 		}
 		g_free (t);
 	}
-
+*/
 	return TRUE;
 }
 
