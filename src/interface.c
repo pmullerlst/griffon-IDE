@@ -117,7 +117,9 @@ GtkWidget *hbox_no;
 GtkWidget *hbox_no2;
 GtkFileFilter* filefilter;
 GtkWidget *window1_popup=NULL;
+GtkWidget *window1_popup_line=NULL;
 int win_popup=0;
+	WebKitWebView *webView_doc_line;
 
 //*********************** AUTOCOMPLEMENTATION 
 struct _TestProviderClass
@@ -620,7 +622,7 @@ GtkWidget* create_tea_main_window (void)
 	tea_main_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_maximize (GTK_WINDOW(tea_main_window));
 	gtk_widget_set_name (tea_main_window, "tea_main_window");
-	gtk_window_set_title (GTK_WINDOW (tea_main_window), _("Griffon 1.6.8"));
+	gtk_window_set_title (GTK_WINDOW (tea_main_window), _("Griffon 1.6.9"));
 
 	//*********************** ICON MAIN WINDOW
 	gtk_window_set_icon_from_file (GTK_WINDOW(tea_main_window),"/usr/local/share/griffon/images/griffon_button.png",NULL);
@@ -1729,7 +1731,7 @@ GtkWidget* create_tea_main_window (void)
 
 	gtk_box_pack_start (GTK_BOX (hbox_no), scrolledWindow_editor, TRUE, TRUE, 0);
 
-	webkit_web_view_load_uri(webView_editor, "http://griffon.lasotel.fr/main.php?version=1.6.8");
+	webkit_web_view_load_uri(webView_editor, "http://griffon.lasotel.fr/main.php?version=1.6.9");
 
 	g_signal_connect(webView_editor, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_editor);
 	g_signal_connect(webView_editor, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_editor);
@@ -2723,7 +2725,7 @@ GtkWidget* create_tea_main_window (void)
 	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
 	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);
 	tv_logmemo_set_pos (0);
-	log_to_memo ("\n\n(C)2014 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.6.8 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
+	log_to_memo ("\n\n(C)2014 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.6.9 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
 	tv_logmemo_set_pos (0);
 	tv_logmemo_set_pos (0);
 	ui_init ();
@@ -2752,6 +2754,29 @@ GtkWidget* create_tea_main_window (void)
 	on_mni_file_crapbook ();
 	on_mni_file_todolist ();
 	load_projects_list();
+
+	window1_popup_line = gtk_window_new (GTK_WINDOW_POPUP);
+	gtk_window_set_title (GTK_WINDOW (window1_popup_line), _((_("Web preview"))));
+	gtk_window_set_position (GTK_WINDOW (window1_popup_line), GTK_WIN_POS_CENTER);
+	gtk_window_resize (GTK_WINDOW (window1_popup_line), 400, 300);
+
+	GtkWidget *vbox1;
+
+	vbox1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_widget_show (GTK_WIDGET(vbox1));
+	gtk_container_add (GTK_CONTAINER (window1_popup_line), GTK_WIDGET(vbox1));
+
+	GtkWidget *scrolledwindow5 = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_show (GTK_WIDGET(scrolledwindow5));
+	gtk_box_pack_start(GTK_BOX(vbox1), GTK_WIDGET(scrolledwindow5), TRUE, TRUE, 1);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_CORNER_TOP_LEFT);
+
+	webView_doc_line = WEBKIT_WEB_VIEW(webkit_web_view_new());
+	gtk_widget_show (GTK_WIDGET(webView_doc_line));
+
+	gtk_container_add(GTK_CONTAINER(scrolledwindow5), GTK_WIDGET(webView_doc_line));
+
 
 	return tea_main_window;
 }
@@ -2933,7 +2958,7 @@ GtkWidget* create_about1 (void)
 	gtk_widget_show (GTK_WIDGET(image1));
 	gtk_box_pack_start (GTK_BOX (vbox1), image1, TRUE, TRUE, 0);
 
-	label1 = gtk_label_new (_("\n    Griffon IDE 1.6.8 \n\n    Auteur \t\t: Philippe Muller \n    Email \t\t: pmuller@lasotel.fr\n\n    Developer and Administrator GNU/Linux system Lasotel (Lyon).    \n\n"));
+	label1 = gtk_label_new (_("\n    Griffon IDE 1.6.9 \n\n    Auteur \t\t: Philippe Muller \n    Email \t\t: pmuller@lasotel.fr\n\n    Developer and Administrator GNU/Linux system Lasotel (Lyon).    \n\n"));
 	gtk_widget_show (GTK_WIDGET(label1));
 	gtk_box_pack_start (GTK_BOX (vbox1), label1, FALSE, FALSE, 0);
 
@@ -3265,7 +3290,7 @@ GtkWidget* version_window (void)
 
 	gtk_container_add(GTK_CONTAINER(scrolledwindow5), GTK_WIDGET(webView_doc));
 
-	webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/version.php?version=1.6.8");
+	webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/version.php?version=1.6.9");
 
 	GtkWidget *button_fixme = gtk_button_new_with_label (_("Update for Ubuntu/Mint/Debian"));
 	gtk_widget_show(GTK_WIDGET(button_fixme));
@@ -3307,7 +3332,7 @@ GtkWidget* rapport_window (void)
 
 	gtk_container_add(GTK_CONTAINER(vbox1), GTK_WIDGET(webView_doc));
 
-	webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/bug_rapport.php?clef=1.6.8");
+	webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/bug_rapport.php?clef=1.6.9");
 
 	return window1;
 }
@@ -5690,7 +5715,7 @@ void clear_info()
 	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
 	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);
 	tv_logmemo_set_pos (0);
-	log_to_memo ("\n\n(C)2014 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.6.8 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
+	log_to_memo ("\n\n(C)2014 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.6.9 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
 	tv_logmemo_set_pos (0);
 	tv_logmemo_set_pos (0);
 }
@@ -6112,5 +6137,46 @@ void web_find_web_help ()
 	webkit_web_view_search_text (WEBKIT_WEB_VIEW (webView_myadmin_aide), search, FALSE, TRUE, TRUE);
 }
 
+//*********************** PREVIEW WEB IN POPUP
+gboolean preview_web_popup_line ()
+{
+	if (! get_page_text()) return FALSE;
 
+	GtkTextIter itstart,iter;
+	GtkTextIter itend;
+	gint row;
+	char *extension;
+
+	gtk_text_buffer_get_iter_at_mark(GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&iter, gtk_text_buffer_get_insert(GTK_TEXT_BUFFER(cur_text_doc->text_buffer)));
+	row = gtk_text_iter_get_line(&iter);
+	gtk_text_buffer_get_iter_at_line((GtkTextBuffer *)cur_text_doc->text_buffer,&itstart,row);
+	gtk_text_buffer_get_iter_at_line((GtkTextBuffer *)cur_text_doc->text_buffer,&itend,row+1);
+
+	gchar *buf=gtk_text_buffer_get_text((GtkTextBuffer *)cur_text_doc->text_buffer,&itstart,&itend,FALSE);
+	gchar *uri=NULL;
+
+	if (! buf) return FALSE;
+
+	 if(cur_text_doc->file_name!=NULL)
+		{
+			extension = strrchr(cur_text_doc->file_name,'.');
+			gchar **a = g_strsplit (cur_text_doc->file_name, "_", -1);
+			if (strcmp("noname", a[0]) != 0 )
+			{
+				uri = g_strconcat("file://", cur_text_doc->file_name, NULL);
+			}else{gtk_widget_hide(window1_popup_line);return FALSE;}
+		}
+
+	if (strcmp(".htm", extension) == 0 || strcmp(".html", extension) == 0 || strcmp(".php", extension) == 0 )
+	{
+		gtk_widget_show(GTK_WIDGET(window1_popup_line));
+		webkit_web_view_load_string (webView_doc_line,buf,NULL,NULL,uri);
+
+		g_signal_connect(webView_doc_line, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_doc_line);
+		g_signal_connect(webView_doc_line, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_doc_line);
+	}
+	else{gtk_widget_hide(window1_popup_line);}
+
+	return FALSE;
+}
 

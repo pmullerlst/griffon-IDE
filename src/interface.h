@@ -315,5 +315,5 @@ void quick_message (gchar *message,gchar *message2);
 void web_find_myadmin ();
 void web_find_mini ();
 void web_find_web_help ();
-
+gboolean preview_web_popup_line ();
 
