@@ -6146,11 +6146,27 @@ gboolean preview_web_popup_line ()
 	GtkTextIter itend;
 	gint row;
 	char *extension;
+	gint win_x, win_y;
+	GdkRectangle buf_loc;
+	gint x, y;
+	GdkWindow *win;
 
 	gtk_text_buffer_get_iter_at_mark(GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&iter, gtk_text_buffer_get_insert(GTK_TEXT_BUFFER(cur_text_doc->text_buffer)));
 	row = gtk_text_iter_get_line(&iter);
 	gtk_text_buffer_get_iter_at_line((GtkTextBuffer *)cur_text_doc->text_buffer,&itstart,row);
 	gtk_text_buffer_get_iter_at_line((GtkTextBuffer *)cur_text_doc->text_buffer,&itend,row+1);
+
+  gtk_text_view_get_iter_location (GTK_TEXT_VIEW (cur_text_doc->text_view), &iter, &buf_loc);
+
+  gtk_text_view_buffer_to_window_coords (GTK_TEXT_VIEW (cur_text_doc->text_view),
+                                         GTK_TEXT_WINDOW_WIDGET,
+                                         buf_loc.x, buf_loc.y,
+                                         &win_x, &win_y);
+  win = gtk_text_view_get_window (GTK_TEXT_VIEW (cur_text_doc->text_view), 
+                                  GTK_TEXT_WINDOW_WIDGET);
+  gdk_window_get_origin (win, &x, &y);
+  gtk_window_move (GTK_WINDOW (window1_popup_line), win_x + x, win_y + y + buf_loc.height);
+
 
 	gchar *buf=gtk_text_buffer_get_text((GtkTextBuffer *)cur_text_doc->text_buffer,&itstart,&itend,FALSE);
 	gchar *uri=NULL;
