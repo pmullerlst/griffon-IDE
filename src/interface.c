@@ -2758,7 +2758,7 @@ GtkWidget* create_tea_main_window (void)
 	window1_popup_line = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_window_set_title (GTK_WINDOW (window1_popup_line), _((_("Web preview"))));
 	gtk_window_set_position (GTK_WINDOW (window1_popup_line), GTK_WIN_POS_CENTER);
-	gtk_window_resize (GTK_WINDOW (window1_popup_line), 400, 300);
+	gtk_window_resize (GTK_WINDOW (window1_popup_line), 300, 100);
 
 	GtkWidget *vbox1;
 
@@ -4055,6 +4055,7 @@ void google_search()
 
 		gtk_entry_set_text (GTK_ENTRY (entry_find_web_help), _(doc_get_sel (cur_text_doc)));
 		griffon_notify(_("The search result is available in the tab: MyAdmin-> Help/Search"));
+	preview_web_popup_search ();
 	}
 }
 
@@ -6196,3 +6197,51 @@ gboolean preview_web_popup_line ()
 	return FALSE;
 }
 
+//*********************** PREVIEW WEB IN POPUP SEARCH
+gboolean preview_web_popup_search ()
+{
+	if (! get_page_text()) return FALSE;
+
+	GtkTextIter itstart,iter;
+	GtkTextIter itend;
+	gint row;
+	gint win_x, win_y;
+	GdkRectangle buf_loc;
+	gint x, y;
+	GdkWindow *win;
+
+	gtk_text_buffer_get_iter_at_mark(GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&iter, gtk_text_buffer_get_insert(GTK_TEXT_BUFFER(cur_text_doc->text_buffer)));
+	row = gtk_text_iter_get_line(&iter);
+	gtk_text_buffer_get_iter_at_line((GtkTextBuffer *)cur_text_doc->text_buffer,&itstart,row);
+	gtk_text_buffer_get_iter_at_line((GtkTextBuffer *)cur_text_doc->text_buffer,&itend,row+1);
+
+  gtk_text_view_get_iter_location (GTK_TEXT_VIEW (cur_text_doc->text_view), &iter, &buf_loc);
+
+  gtk_text_view_buffer_to_window_coords (GTK_TEXT_VIEW (cur_text_doc->text_view),
+                                         GTK_TEXT_WINDOW_WIDGET,
+                                         buf_loc.x, buf_loc.y,
+                                         &win_x, &win_y);
+  win = gtk_text_view_get_window (GTK_TEXT_VIEW (cur_text_doc->text_view), 
+                                  GTK_TEXT_WINDOW_WIDGET);
+  gdk_window_get_origin (win, &x, &y);
+  gtk_window_move (GTK_WINDOW (window1_popup_line), win_x + x, win_y + y + buf_loc.height);
+
+	char search_google[980];
+
+	if(doc_get_sel (cur_text_doc))
+	{
+		strcpy(search_google,"<table><tr><td><img src=\"http://griffon.lasotel.fr/images/doc.png\"></td><td><a target=\"_blank\" href=\"https://www.google.fr/#q=");
+		strcat(search_google,doc_get_sel (cur_text_doc)); 
+		strcat(search_google,"\">Google search</a></td></tr></table>"); 
+	}
+
+	gchar *uri=NULL;
+
+		gtk_widget_show(GTK_WIDGET(window1_popup_line));
+		webkit_web_view_load_string (webView_doc_line,search_google,NULL,NULL,uri);
+
+		g_signal_connect(webView_doc_line, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_doc_line);
+		g_signal_connect(webView_doc_line, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_doc_line);
+
+	return FALSE;
+}
