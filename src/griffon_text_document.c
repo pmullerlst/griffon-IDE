@@ -688,6 +688,10 @@ t_note_page* page_create_new (void)
 
 	g_signal_connect (G_OBJECT (page->text_view), "key_press_event",G_CALLBACK (preview_web_popup_line), page);
 
+
+	g_signal_connect (G_OBJECT (page->text_view), "focus-out-event",
+                    G_CALLBACK (hidden_popup), page);
+
 /*
 * BUG : test pour trouver le problème
 */

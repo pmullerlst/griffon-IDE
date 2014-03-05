@@ -317,4 +317,5 @@ void web_find_mini ();
 void web_find_web_help ();
 gboolean preview_web_popup_line ();
 gboolean preview_web_popup_search ();
+gboolean hidden_popup ();
 

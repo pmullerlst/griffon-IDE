@@ -119,6 +119,7 @@ GtkFileFilter* filefilter;
 GtkWidget *window1_popup=NULL;
 GtkWidget *window1_popup_line=NULL;
 int win_popup=0;
+int win_popup_line=0;
 	WebKitWebView *webView_doc_line;
 
 //*********************** AUTOCOMPLEMENTATION 
@@ -2777,6 +2778,8 @@ GtkWidget* create_tea_main_window (void)
 
 	gtk_container_add(GTK_CONTAINER(scrolledwindow5), GTK_WIDGET(webView_doc_line));
 
+	g_signal_connect (G_OBJECT (tea_main_window), "set-focus",
+                    G_CALLBACK (hidden_popup), NULL);
 
 	return tea_main_window;
 }
@@ -6186,13 +6189,14 @@ gboolean preview_web_popup_line ()
 
 	if (strcmp(".htm", extension) == 0 || strcmp(".html", extension) == 0 || strcmp(".php", extension) == 0 )
 	{
+		win_popup_line=1;
 		gtk_widget_show(GTK_WIDGET(window1_popup_line));
 		webkit_web_view_load_string (webView_doc_line,buf,NULL,NULL,uri);
 
 		g_signal_connect(webView_doc_line, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_doc_line);
 		g_signal_connect(webView_doc_line, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_doc_line);
 	}
-	else{gtk_widget_hide(window1_popup_line);}
+	else{gtk_widget_hide(window1_popup_line);win_popup_line=0;}
 
 	return FALSE;
 }
@@ -6237,11 +6241,23 @@ gboolean preview_web_popup_search ()
 
 	gchar *uri=NULL;
 
+		win_popup_line=1;
 		gtk_widget_show(GTK_WIDGET(window1_popup_line));
 		webkit_web_view_load_string (webView_doc_line,search_google,NULL,NULL,uri);
 
 		g_signal_connect(webView_doc_line, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_doc_line);
 		g_signal_connect(webView_doc_line, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_doc_line);
 
+	return FALSE;
+}
+
+//*********************** HIDDEN POPUP
+gboolean hidden_popup ()
+{
+	if(win_popup_line==1)
+	{
+	gtk_widget_hide(window1_popup_line);
+	win_popup_line=0;
+	}
 	return FALSE;
 }
