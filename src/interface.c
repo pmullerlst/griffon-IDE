@@ -6172,7 +6172,7 @@ gboolean preview_web_popup_line ()
   win = gtk_text_view_get_window (GTK_TEXT_VIEW (cur_text_doc->text_view), 
                                   GTK_TEXT_WINDOW_WIDGET);
   gdk_window_get_origin (win, &x, &y);
-  gtk_window_move (GTK_WINDOW (window1_popup_line), win_x + x, win_y + y + buf_loc.height);
+  gtk_window_move (GTK_WINDOW (window1_popup_line), win_x + x + 25, win_y + y + buf_loc.height + 25);
 
 
 	gchar *buf=gtk_text_buffer_get_text((GtkTextBuffer *)cur_text_doc->text_buffer,&itstart,&itend,FALSE);
