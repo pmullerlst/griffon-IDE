@@ -2781,6 +2781,9 @@ GtkWidget* create_tea_main_window (void)
 	g_signal_connect (G_OBJECT (tea_main_window), "set-focus",
                     G_CALLBACK (hidden_popup), NULL);
 
+	g_signal_connect (G_OBJECT (tea_main_window), "set-focus",
+                    G_CALLBACK (window_popup_delete), NULL);
+
 	return tea_main_window;
 }
 
