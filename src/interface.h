@@ -318,4 +318,6 @@ void web_find_web_help ();
 gboolean preview_web_popup_line ();
 gboolean preview_web_popup_search ();
 gboolean hidden_popup ();
+gboolean preview_web_popup_translate ();
+gboolean preview_web_popup_translate2 ();
 

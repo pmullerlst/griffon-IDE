@@ -239,8 +239,8 @@ gboolean myadmin_new_window (WebKitWebView *web_view,WebKitWebFrame *frame,WebKi
 
 	web_win->window_web = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_transient_for(GTK_WINDOW(web_win->window_web),GTK_WINDOW(tea_main_window));
-	gtk_window_resize (GTK_WINDOW (web_win->window_web), 900, 500);
-	gtk_window_maximize (GTK_WINDOW(web_win->window_web));
+	gtk_window_resize (GTK_WINDOW (web_win->window_web), 770, 400);
+	//gtk_window_maximize (GTK_WINDOW(web_win->window_web));
 
 	web_win->vbox3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add (GTK_CONTAINER (web_win->window_web), GTK_WIDGET(web_win->vbox3));
@@ -348,8 +348,8 @@ WebKitWebView * web_new_w_click_go(WebKitWebView  *web_view, WebKitWebFrame *fra
 
 	web_win->window_web = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_transient_for(GTK_WINDOW(web_win->window_web),GTK_WINDOW(tea_main_window));
-	gtk_window_resize (GTK_WINDOW (web_win->window_web), 900, 500);
-	gtk_window_maximize (GTK_WINDOW(web_win->window_web));
+	gtk_window_resize (GTK_WINDOW (web_win->window_web), 770, 400);
+	//gtk_window_maximize (GTK_WINDOW(web_win->window_web));
 
 	web_win->vbox3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add (GTK_CONTAINER (web_win->window_web), GTK_WIDGET(web_win->vbox3));
@@ -4076,7 +4076,7 @@ void google_traduction_fr_en()
 		strcpy(search_google,"https://translate.google.fr/?hl=fr&tab=wT#fr/en/");
 		strcat(search_google,doc_get_sel (cur_text_doc));
 		webkit_web_view_load_uri(webView_myadmin_traduc, search_google);
-
+		preview_web_popup_translate ();
 		griffon_notify(_("The result of the translation is available in the tab::\nMyAdmin-> Translation"));
 	}
 }
@@ -4093,6 +4093,7 @@ void google_traduction_en_fr()
 		strcat(search_google,doc_get_sel (cur_text_doc));
 		webkit_web_view_load_uri(webView_myadmin_traduc, search_google);
 		griffon_notify(_("The result of the translation is available in the tab :\nMyAdmin->Translation"));
+		preview_web_popup_translate2 ();
 	}
 }
 
@@ -6264,3 +6265,104 @@ gboolean hidden_popup ()
 	}
 	return FALSE;
 }
+
+//*********************** PREVIEW WEB IN POPUP TRANSLATE
+gboolean preview_web_popup_translate ()
+{
+	if (! get_page_text()) return FALSE;
+
+	GtkTextIter itstart,iter;
+	GtkTextIter itend;
+	gint row;
+	gint win_x, win_y;
+	GdkRectangle buf_loc;
+	gint x, y;
+	GdkWindow *win;
+
+	gtk_text_buffer_get_iter_at_mark(GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&iter, gtk_text_buffer_get_insert(GTK_TEXT_BUFFER(cur_text_doc->text_buffer)));
+	row = gtk_text_iter_get_line(&iter);
+	gtk_text_buffer_get_iter_at_line((GtkTextBuffer *)cur_text_doc->text_buffer,&itstart,row);
+	gtk_text_buffer_get_iter_at_line((GtkTextBuffer *)cur_text_doc->text_buffer,&itend,row+1);
+
+  gtk_text_view_get_iter_location (GTK_TEXT_VIEW (cur_text_doc->text_view), &iter, &buf_loc);
+
+  gtk_text_view_buffer_to_window_coords (GTK_TEXT_VIEW (cur_text_doc->text_view),
+                                         GTK_TEXT_WINDOW_WIDGET,
+                                         buf_loc.x, buf_loc.y,
+                                         &win_x, &win_y);
+  win = gtk_text_view_get_window (GTK_TEXT_VIEW (cur_text_doc->text_view), 
+                                  GTK_TEXT_WINDOW_WIDGET);
+  gdk_window_get_origin (win, &x, &y);
+  gtk_window_move (GTK_WINDOW (window1_popup_line), win_x + x, win_y + y + buf_loc.height);
+
+	char search_google[980];
+
+	if(doc_get_sel (cur_text_doc))
+	{
+		strcpy(search_google,"<table><tr><td><img src=\"http://griffon.lasotel.fr/images/contribution.png\"></td><td><a target=\"_blank\" href=\"https://translate.google.fr/?hl=fr&tab=wT#fr/en/");
+		strcat(search_google,doc_get_sel (cur_text_doc)); 
+		strcat(search_google,"\">Google translation</a></td></tr></table>"); 
+	}
+
+	gchar *uri=NULL;
+
+		win_popup_line=1;
+		gtk_widget_show(GTK_WIDGET(window1_popup_line));
+		webkit_web_view_load_string (webView_doc_line,search_google,NULL,NULL,uri);
+
+		g_signal_connect(webView_doc_line, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_doc_line);
+		g_signal_connect(webView_doc_line, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_doc_line);
+
+	return FALSE;
+}
+
+//*********************** PREVIEW WEB IN POPUP TRANSLATE
+gboolean preview_web_popup_translate2 ()
+{
+	if (! get_page_text()) return FALSE;
+
+	GtkTextIter itstart,iter;
+	GtkTextIter itend;
+	gint row;
+	gint win_x, win_y;
+	GdkRectangle buf_loc;
+	gint x, y;
+	GdkWindow *win;
+
+	gtk_text_buffer_get_iter_at_mark(GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&iter, gtk_text_buffer_get_insert(GTK_TEXT_BUFFER(cur_text_doc->text_buffer)));
+	row = gtk_text_iter_get_line(&iter);
+	gtk_text_buffer_get_iter_at_line((GtkTextBuffer *)cur_text_doc->text_buffer,&itstart,row);
+	gtk_text_buffer_get_iter_at_line((GtkTextBuffer *)cur_text_doc->text_buffer,&itend,row+1);
+
+  gtk_text_view_get_iter_location (GTK_TEXT_VIEW (cur_text_doc->text_view), &iter, &buf_loc);
+
+  gtk_text_view_buffer_to_window_coords (GTK_TEXT_VIEW (cur_text_doc->text_view),
+                                         GTK_TEXT_WINDOW_WIDGET,
+                                         buf_loc.x, buf_loc.y,
+                                         &win_x, &win_y);
+  win = gtk_text_view_get_window (GTK_TEXT_VIEW (cur_text_doc->text_view), 
+                                  GTK_TEXT_WINDOW_WIDGET);
+  gdk_window_get_origin (win, &x, &y);
+  gtk_window_move (GTK_WINDOW (window1_popup_line), win_x + x, win_y + y + buf_loc.height);
+
+	char search_google[980];
+
+	if(doc_get_sel (cur_text_doc))
+	{
+		strcpy(search_google,"<table><tr><td><img src=\"http://griffon.lasotel.fr/images/contribution.png\"></td><td><a target=\"_blank\" href=\"https://translate.google.fr/?hl=fr&tab=wT#en/fr/");
+		strcat(search_google,doc_get_sel (cur_text_doc)); 
+		strcat(search_google,"\">Google translation</a></td></tr></table>"); 
+	}
+
+	gchar *uri=NULL;
+
+		win_popup_line=1;
+		gtk_widget_show(GTK_WIDGET(window1_popup_line));
+		webkit_web_view_load_string (webView_doc_line,search_google,NULL,NULL,uri);
+
+		g_signal_connect(webView_doc_line, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_doc_line);
+		g_signal_connect(webView_doc_line, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_doc_line);
+
+	return FALSE;
+}
+
