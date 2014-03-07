@@ -3610,7 +3610,7 @@ void  on_changed_sftp(GtkWidget *widget,GdkEventKey *event,gpointer data)
 		int systemRet =system (mot); 
 		if(systemRet == -1){return;}
 
-		new_terminal_ssh (a[0],a[1]);
+		new_terminal_ssh (a[0],a[1],a[2]);
 
 		strcat(liste_mount,"fusermount -u ");
 		strcat(liste_mount,home_dir);
@@ -4575,7 +4575,7 @@ void clear_debug ()
 }
 
 //*********************** NEW TERMINAL SSH
-void new_terminal_ssh (gchar *serveur,gchar *user)
+void new_terminal_ssh (gchar *serveur,gchar *user,gchar *path)
 {
 	term_page *page_term = (term_page *) g_malloc (sizeof (term_page));
 
@@ -4623,6 +4623,10 @@ void new_terminal_ssh (gchar *serveur,gchar *user)
 	vte_terminal_feed_child (VTE_TERMINAL(page_term->vte_add),user,-1);
 	vte_terminal_feed_child (VTE_TERMINAL(page_term->vte_add),"@",-1);
 	vte_terminal_feed_child (VTE_TERMINAL(page_term->vte_add),serveur,-1);
+	vte_terminal_feed_child (VTE_TERMINAL(page_term->vte_add),"\n",-1);
+
+	vte_terminal_feed_child (VTE_TERMINAL(page_term->vte_add),"cd ",-1);
+	vte_terminal_feed_child (VTE_TERMINAL(page_term->vte_add),path,-1);
 	vte_terminal_feed_child (VTE_TERMINAL(page_term->vte_add),"\n",-1);
 
 	gtk_widget_set_can_focus (GTK_WIDGET (page_term->label_term), FALSE);
@@ -5385,7 +5389,7 @@ void open_project(gpointer data)
 						strcat(liste_mount,tampon_sftp);
 						strcat(liste_mount," ; ");
 
-						new_terminal_ssh (tampon_sftp,tampon_utilisateur);
+						new_terminal_ssh (tampon_sftp,tampon_utilisateur,tampon_chemin);
 
 						strcat(mot3," ");
 						strcat(mot3,home_dir);

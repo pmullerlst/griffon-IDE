@@ -5160,7 +5160,7 @@ void mount_sftp (void)
 		strcat(liste_mount,tampon_sftp);
 		strcat(liste_mount," ; ");
 
-		new_terminal_ssh (tampon_sftp,tampon_utilisateur);
+		new_terminal_ssh (tampon_sftp,tampon_utilisateur,tampon_chemin);
 
 		save_string_to_file_add(confile.tea_sftp,tampon_sftp);	
 		save_string_to_file_add(confile.tea_sftp," ");
