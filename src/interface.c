@@ -6206,6 +6206,7 @@ gboolean preview_web_popup_line ()
 
 	if (strcmp(".htm", extension) == 0 || strcmp(".html", extension) == 0 || strcmp(".php", extension) == 0 )
 	{
+		window_popup_delete ();
 		win_popup_line=1;
 		gtk_widget_show(GTK_WIDGET(window1_popup_line));
 		webkit_web_view_load_string (webView_doc_line,buf,NULL,NULL,uri);
@@ -6258,6 +6259,7 @@ gboolean preview_web_popup_search ()
 
 	gchar *uri=NULL;
 
+		window_popup_delete ();
 		win_popup_line=1;
 		gtk_widget_show(GTK_WIDGET(window1_popup_line));
 		webkit_web_view_load_string (webView_doc_line,search_google,NULL,NULL,uri);
@@ -6319,6 +6321,7 @@ gboolean preview_web_popup_translate ()
 
 	gchar *uri=NULL;
 
+		window_popup_delete ();
 		win_popup_line=1;
 		gtk_widget_show(GTK_WIDGET(window1_popup_line));
 		webkit_web_view_load_string (webView_doc_line,search_google,NULL,NULL,uri);
@@ -6369,6 +6372,7 @@ gboolean preview_web_popup_translate2 ()
 
 	gchar *uri=NULL;
 
+		window_popup_delete ();
 		win_popup_line=1;
 		gtk_widget_show(GTK_WIDGET(window1_popup_line));
 		webkit_web_view_load_string (webView_doc_line,search_google,NULL,NULL,uri);
