@@ -297,6 +297,7 @@ gboolean myadmin_new_window (WebKitWebView *web_view,WebKitWebFrame *frame,WebKi
 	g_signal_connect ((gpointer) tool_myadmin_view, "clicked",G_CALLBACK (myadmin_view_mode_get_url_win),web_win->webView_w);
 	gtk_tool_item_set_tooltip_text(tool_myadmin_view,_("Web view"));
 
+
 	gtk_box_pack_start (GTK_BOX(web_win->hbox3), toolbar_myadmin, TRUE, TRUE, 0);
 	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_myadmin), GTK_TOOLBAR_ICONS);
 	gtk_widget_show (GTK_WIDGET(toolbar_myadmin)); 
@@ -322,7 +323,8 @@ gboolean myadmin_new_window (WebKitWebView *web_view,WebKitWebFrame *frame,WebKi
 	g_signal_connect(web_win->webView_w, "document-load-finished",G_CALLBACK(myadmin_get_url_win), web_win->entry_myadmin);
 	g_signal_connect(web_win->webView_w, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), web_win->webView_w);
 	g_signal_connect(web_win->webView_w, "create-web-view",G_CALLBACK(web_new_w_click_go), web_win->webView_w);
-
+	g_signal_connect(web_win->webView_w, "download-requested", G_CALLBACK(download_requested_cb), NULL);
+	g_signal_connect(web_win->webView_w, "web-view-ready",G_CALLBACK(web_new_w_click), web_win->window_web);
 	webkit_web_view_load_uri(web_win->webView_w, uri);
 
 return TRUE;
@@ -4252,6 +4254,17 @@ void myadmin_get_url_win (WebKitWebView  *web,WebKitWebFrame *web_frame,gpointer
 	if(web_frame!=NULL){printf(" ");}
 	gchar const *url=webkit_web_view_get_uri(web);
 	gtk_entry_set_text (GTK_ENTRY (user_data), _(url));
+
+	if (! get_page_text()) return;
+	if(doc_get_sel (cur_text_doc))
+	{
+	webkit_web_view_unmark_text_matches(WEBKIT_WEB_VIEW (web));
+	gchar *search=doc_get_sel (cur_text_doc);
+	webkit_web_view_mark_text_matches (WEBKIT_WEB_VIEW (web), search, FALSE, 0);
+	webkit_web_view_set_highlight_text_matches (WEBKIT_WEB_VIEW (web), TRUE);
+//	webkit_web_view_search_text (WEBKIT_WEB_VIEW (web), search, FALSE, TRUE, TRUE);
+	}
+
 }
 
 //*********************** FONCTION TOOLBAR MINIWEB
