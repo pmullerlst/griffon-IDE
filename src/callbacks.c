@@ -149,6 +149,13 @@ void file_open (void)
 	GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 	NULL);
 
+	GtkWidget *preview;
+	preview = gtk_image_new ();
+
+	gtk_file_chooser_set_preview_widget ((GtkFileChooser *)file_dialog, preview);
+	g_signal_connect ((GtkFileChooser *)file_dialog, "update-preview",G_CALLBACK (update_preview_cb), preview);
+
+
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (file_dialog), TRUE);
 
 	if (confile.use_def_open_dir)

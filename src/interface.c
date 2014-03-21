@@ -1278,6 +1278,11 @@ GtkWidget* create_tea_main_window (void)
 	gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(filechooserwidget2), GTK_FILE_FILTER(filefilter));
  
 
+	GtkWidget *preview;
+	preview = gtk_image_new ();
+
+	gtk_file_chooser_set_preview_widget ((GtkFileChooser *)filechooserwidget2, preview);
+	g_signal_connect ((GtkFileChooser *)filechooserwidget2, "update-preview",G_CALLBACK (update_preview_cb), preview);
 
 
 	g_signal_connect ((gpointer) filechooserwidget2,"file-activated",G_CALLBACK (file_ok_sel),NULL);
