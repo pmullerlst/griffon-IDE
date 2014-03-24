@@ -703,6 +703,9 @@ t_note_page* page_create_new (void)
                     G_CALLBACK (controle_save_page_icon_no), page->text_view);*/
                     		                                      		                    		
 
+	g_signal_connect (G_OBJECT (page->text_view), "populate-popup", 
+                    G_CALLBACK (populate_popup), NULL);
+
 	dox = g_list_append (dox, page);
 	gtk_notebook_append_page_menu (GTK_NOTEBOOK(notebook1), page->scrolledwindow, page->hbox, NULL);
 

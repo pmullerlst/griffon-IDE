@@ -320,4 +320,5 @@ gboolean preview_web_popup_search ();
 gboolean hidden_popup ();
 gboolean preview_web_popup_translate ();
 gboolean preview_web_popup_translate2 ();
+void populate_popup(GtkTextView *view, GtkMenu *menu, gpointer user_data);
 

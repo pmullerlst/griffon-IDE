@@ -6392,3 +6392,42 @@ gboolean preview_web_popup_translate2 ()
 	return FALSE;
 }
 
+//************************ ADD ITEM MENU POPUP
+void populate_popup(GtkTextView *view, GtkMenu *menu, gpointer user_data)
+{
+	GtkWidget *i;
+
+	if(user_data==NULL){printf(" ");}
+	if(view==NULL){printf(" ");}
+
+	i = gtk_separator_menu_item_new();
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
+	gtk_widget_show(i);
+
+	i = gtk_menu_item_new_with_label("Search with Google");
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
+	g_signal_connect(i, "button-release-event",G_CALLBACK(google_search), NULL);
+	gtk_widget_show(i);
+
+	i = gtk_menu_item_new_with_label("HTML Preview text selection in a web popup");
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
+	g_signal_connect(i, "button-release-event",G_CALLBACK(preview_web_popup), NULL);
+	gtk_widget_show(i);
+
+	i = gtk_menu_item_new_with_label("HTML Preview full text in a web popup");
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
+	g_signal_connect(i, "button-release-event",G_CALLBACK(preview_web_popup_full), NULL);
+	gtk_widget_show(i);
+
+	i = gtk_menu_item_new_with_label("Project : Make");
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
+	g_signal_connect(i, "button-release-event",G_CALLBACK(window_make_project), NULL);
+	gtk_widget_show(i);
+
+	i = gtk_menu_item_new_with_label("Project : Run");
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
+	g_signal_connect(i, "button-release-event",G_CALLBACK(window_debug_project), NULL);
+	gtk_widget_show(i);
+
+}
+
