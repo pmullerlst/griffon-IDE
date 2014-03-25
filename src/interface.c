@@ -5938,6 +5938,7 @@ void preview_web_popup ()
 			}
 		}
 
+	window_popup_delete ();
 	window1_popup = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_window_set_transient_for(GTK_WINDOW(window1_popup),GTK_WINDOW(tea_main_window));
 	gtk_window_set_title (GTK_WINDOW (window1_popup), _((_("Web preview"))));
