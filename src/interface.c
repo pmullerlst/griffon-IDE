@@ -5978,6 +5978,7 @@ void preview_web_popup_full ()
 {
 	if (! get_page_text()) return;
 
+		window_popup_delete ();
 		GtkTextIter start;
 		GtkTextIter end;
 		gchar *buf;
