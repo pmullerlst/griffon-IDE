@@ -5098,6 +5098,12 @@ void on_format_button_clicked ()
 	gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), & start, & end);
 	txt=gtk_text_buffer_get_text(GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&start,&end,FALSE);
 
+	gchar *tampon=NULL;
+	gint line = gtk_text_iter_get_line(&start);
+	line++;
+	tampon=g_strdup_printf ("%d", line) ;
+	gchar *txt_d=g_strconcat(tampon,": ",txt,NULL);
+
 	if(! strcmp("", txt) == 0)
 	{
 	gtk_text_buffer_create_tag (
@@ -5125,7 +5131,7 @@ void on_format_button_clicked ()
 	gtk_source_view_set_mark_attributes(GTK_SOURCE_VIEW(cur_text_doc->text_view),"icon_note",attribu,1);
 	gtk_source_buffer_create_source_mark(GTK_SOURCE_BUFFER(cur_text_doc->text_buffer),txt,"icon_note",&itstart);
 
-	add_to_list_book("",txt);
+	add_to_list_book("",txt_d);
 	statusbar_msg (_("BookMark [OK]"));
 	}else{log_to_memo (_("You must select a word or text to use a BookMark"), NULL, LM_ERROR);statusbar_msg (_("BookMark [ERROR]"));}
 }

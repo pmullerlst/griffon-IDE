@@ -4000,8 +4000,6 @@ void on_changed_book (GtkWidget *widget)
 	GtkTreeIter iter;
 	GtkTreeModel *model_book;
 	char *value;
-	GtkTextMark *recup;
-	GtkTextIter  iter2;
 
 	if (! get_page_text()) return;
 
@@ -4009,15 +4007,9 @@ void on_changed_book (GtkWidget *widget)
 	{
 		gtk_tree_model_get(model_book, &iter, COL_TEXT2, &value,  -1);
 
-		if(gtk_text_buffer_get_mark(GTK_TEXT_BUFFER(cur_text_doc->text_buffer),value))
-		{
-			recup=gtk_text_buffer_get_mark(GTK_TEXT_BUFFER(cur_text_doc->text_buffer),value);
-			gtk_text_buffer_get_iter_at_mark(GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&iter2,recup);
-
-			gtk_text_buffer_place_cursor (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &iter2);
-			gtk_text_view_scroll_to_iter (GTK_TEXT_VIEW(cur_text_doc->text_view), &iter2, 0.0, FALSE, 0.0, 0.0);	
-		}else{log_to_memo (_("The BookMark does not match the file being edited."), NULL, LM_ERROR);statusbar_msg (_("BookMark File [ERROR]"));}
-
+		gchar **a = g_strsplit (value, ":", -1);
+		gtk_entry_set_text (GTK_ENTRY (ent_search), a[0]);
+		on_mni_goto_line();
 		gtk_tree_selection_unselect_all(GTK_TREE_SELECTION(widget));	
 	}
 }
@@ -4031,8 +4023,6 @@ GtkNotebook* window_creation_function (GtkNotebook *source_notebook)
 	gtk_window_set_transient_for(GTK_WINDOW(window),GTK_WINDOW(tea_main_window));
 	gtk_window_set_deletable (GTK_WINDOW(window),FALSE);
 	gtk_window_set_position(GTK_WINDOW(window),GTK_WIN_POS_MOUSE);
-	//gtk_window_set_decorated(GTK_WINDOW(window),FALSE);
-	//gtk_window_set_has_resize_grip(GTK_WINDOW(window),TRUE);
 
 	notebook = gtk_notebook_new ();
 	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook), GTK_POS_TOP);
@@ -6223,11 +6213,16 @@ gboolean preview_web_popup_line ()
 	{
 		window_popup_delete ();
 		win_popup_line=1;
+
 		gtk_widget_show(GTK_WIDGET(window1_popup_line));
 		webkit_web_view_load_string (webView_doc_line,buf,NULL,NULL,uri);
 
 		g_signal_connect(webView_doc_line, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_doc_line);
 		g_signal_connect(webView_doc_line, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_doc_line);
+
+		if (g_strrstr(buf,"<")==NULL){gtk_widget_hide(window1_popup_line);return FALSE;}
+		if (g_strrstr(buf,">")==NULL){gtk_widget_hide(window1_popup_line);return FALSE;}
+
 	}
 	else{gtk_widget_hide(window1_popup_line);win_popup_line=0;}
 
