@@ -483,7 +483,7 @@ gchar* doc_get_buf (GtkTextBuffer *text_buffer)
 	gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(text_buffer), &itstart, 0);
 	gtk_text_buffer_get_iter_at_offset(GTK_TEXT_BUFFER(text_buffer), &itend, gtk_text_buffer_get_char_count (GTK_TEXT_BUFFER(text_buffer)));
 
-	return gtk_text_buffer_get_text (GTK_TEXT_BUFFER(text_buffer), &itstart, &itend, FALSE);
+	return gtk_text_buffer_get_text (GTK_TEXT_BUFFER(text_buffer), &itstart, &itend, TRUE);
 }
 
 
@@ -641,6 +641,7 @@ t_note_page* page_create_new (void)
 
 	gtk_container_add (GTK_CONTAINER (page->scrolledwindow), GTK_WIDGET(page->text_view));
 
+	gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(page->text_buffer), "folding","weight", PANGO_WEIGHT_HEAVY,"style",PANGO_STYLE_ITALIC,NULL);
 	gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(page->text_buffer), "search","foreground", "white","background", "blue","weight", PANGO_WEIGHT_BOLD,NULL);
 	gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(page->text_buffer), "err2","foreground", "black","background", "pink","weight", PANGO_WEIGHT_BOLD,NULL);
 	gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(page->text_buffer), "gray_bg","foreground", "white","background", "gray","weight", PANGO_WEIGHT_BOLD,NULL);
@@ -676,6 +677,7 @@ t_note_page* page_create_new (void)
 	page->b_saved = FALSE;
 	page->file_name = g_strdup ("noname");
 
+	g_signal_connect (G_OBJECT (page->text_view), "line-mark-activated",G_CALLBACK (code_folding), NULL);
 
 	g_signal_connect (G_OBJECT (page->text_view), "key_press_event",
                     G_CALLBACK (on_editor_keypress), page);
@@ -688,12 +690,11 @@ t_note_page* page_create_new (void)
 
 	g_signal_connect (G_OBJECT (page->text_view), "key_press_event",G_CALLBACK (preview_web_popup_line), page);
 
-
 	g_signal_connect (G_OBJECT (page->text_view), "focus-out-event",
                     G_CALLBACK (hidden_popup), page);
 
-	g_signal_connect (G_OBJECT (page->text_view), "window_popup_delete",
-                    G_CALLBACK (hidden_popup), page);
+/*	g_signal_connect (G_OBJECT (page->text_view), "window_popup_delete",
+                    G_CALLBACK (hidden_popup), page);*/
 
 /*
 * BUG : test pour trouver le problème

@@ -1703,12 +1703,16 @@ void on_mni_nav_block_start ()
 
 	GtkTextIter iter;
 	gint c = 0;
+	int controle=0;
 
 	GtkTextMark *m = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(cur_text_doc->text_buffer)); 
 	gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &iter, m);
 
 	while (c != -1)
 	{
+		controle++;
+		if(controle==9800){return;}
+
 		if (gtk_text_iter_backward_char (&iter))
 		{
 			if (gtk_text_iter_get_char (&iter) == '}')
@@ -1735,12 +1739,16 @@ void on_mni_nav_block_end ()
 
 	GtkTextIter iter;
 	gint c = 0;
+	int controle=0;
 
 	GtkTextMark *m = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(cur_text_doc->text_buffer)); 
 	gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &iter, m);
 
 	while (c != -1)
 	{
+		controle++;
+		if(controle==9800){return;}
+
 		if (gtk_text_iter_forward_char (&iter))
 		{
 			if (gtk_text_iter_get_char (&iter) == '{')
@@ -3193,6 +3201,8 @@ gboolean on_editor_keyrelease ()
 		g_free (t);
 	}
 */
+
+	code_bg_folding();
 	return TRUE;
 }
 
@@ -3340,6 +3350,9 @@ gboolean on_editor_keypress ( GtkWidget *widget, GdkEventKey *event, gpointer da
 	}
 }
 
+	//if (event->keyval == GDK_KEY_Up){code_bg_folding();}
+	//if (event->keyval == GDK_KEY_Down){code_bg_folding();}
+
 	if (event->keyval == GDK_KEY_Return)
 		if (confile.use_auto_indent) 
 		{
@@ -3350,6 +3363,7 @@ gboolean on_editor_keypress ( GtkWidget *widget, GdkEventKey *event, gpointer da
 	if (event->keyval == GDK_KEY_Tab)
 	{
 		doc_indent_selection (page, FALSE);
+		code_bg_folding();
 		return TRUE; 
 	}
 

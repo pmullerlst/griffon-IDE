@@ -22,6 +22,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <glib.h>
+#include <glib/gprintf.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 #include <vte/vte.h>
@@ -33,6 +34,7 @@
 #include <gtksourceview/gtksourcestyleschememanager.h>
 #include <webkit/webkit.h>
 #include <gtksourceview/completion-providers/words/gtksourcecompletionwords.h>
+#include <gtksourceview/gtksourcemarkattributes.h>
 #include <gtksourceview/gtksourcecompletion.h>
 #include "griffon_text_document.h"
 #include "callbacks.h"
@@ -120,7 +122,9 @@ GtkWidget *window1_popup=NULL;
 GtkWidget *window1_popup_line=NULL;
 int win_popup=0;
 int win_popup_line=0;
-	WebKitWebView *webView_doc_line;
+WebKitWebView *webView_doc_line;
+
+int tab_fold[19000];
 
 //*********************** AUTOCOMPLEMENTATION 
 struct _TestProviderClass
@@ -6431,5 +6435,248 @@ void populate_popup(GtkTextView *view, GtkMenu *menu, gpointer user_data)
 	g_signal_connect(i, "button-release-event",G_CALLBACK(window_debug_project), NULL);
 	gtk_widget_show(i);
 
+	/*i = gtk_menu_item_new_with_label("[BETA TEST] Code folding");
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
+	g_signal_connect(i, "button-release-event",G_CALLBACK(code_folding), NULL);
+	gtk_widget_show(i);
+
+	i = gtk_menu_item_new_with_label("[BETA TEST] Remove code folding");
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
+	g_signal_connect(i, "button-release-event",G_CALLBACK(clear_code_folding), NULL);
+	gtk_widget_show(i);*/
+
 }
+
+//*********************** CODE FOLDING
+void code_folding ()
+{
+	if (! get_page_text()) return;
+	GtkTextIter start,itstart;
+	GtkTextIter end;
+	int controle=0;
+
+	GtkTextIter tmp1;
+	gint c1 = 0;
+
+	GtkTextMark *m1 = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(cur_text_doc->text_buffer)); 
+	gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &tmp1, m1);
+
+	while (c1 != -1)
+	{
+		controle++;
+		if(controle==9800){return;}
+
+		if (gtk_text_iter_backward_char (&tmp1))
+		{
+			if (gtk_text_iter_get_char (&tmp1) == '}')
+			c1++;
+			else
+			if (gtk_text_iter_get_char (&tmp1) == '{')
+			{
+				c1--;
+				if (c1 == -1)
+				if (gtk_text_iter_forward_char (&tmp1))
+				{
+					start=tmp1;
+				}
+			}
+		}
+	}
+
+	controle=0;
+	gint c2 = 0;
+	GtkTextIter tmp2;
+	gint row;
+
+	GtkTextMark *m2 = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(cur_text_doc->text_buffer)); 
+	gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &tmp2, m2);
+
+	while (c2 != -1)
+	{
+		controle++;
+		if(controle==9800){return;}
+
+		if (gtk_text_iter_forward_char (&tmp2))
+		{
+			if (gtk_text_iter_get_char (&tmp2) == '{')
+			c2++;
+			else
+			if (gtk_text_iter_get_char (&tmp2) == '}')
+			{
+				c2--;
+				if (c2 == -1)
+				{
+					row = gtk_text_iter_get_line(&tmp2);
+					gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &end, row);
+				}
+			}
+		}
+	}
+
+
+	gchar *tampon=NULL;
+	gint line=gtk_text_iter_get_line(&start);
+	gint line2=line-1;
+
+	if(tab_fold[row]==1)
+	{
+	clear_code_folding ();
+	tab_fold[row]=2;
+	return;
+	}
+
+	tab_fold[row]=1;
+
+	gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &itstart, line2);
+	tampon=g_strdup_printf ("%d", line) ;
+
+	gtk_text_buffer_create_tag (	GTK_TEXT_BUFFER(cur_text_doc->text_buffer), tampon, "invisible", TRUE, NULL);
+	gtk_text_buffer_apply_tag_by_name (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), tampon, &start, &end);
+
+}
+
+//*********************** CODE FOLDING REMOVE
+void clear_code_folding ()
+{
+	GtkTextIter itstart, itend;
+	gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &itstart, 0);
+	gtk_text_buffer_get_iter_at_offset (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &itend, gtk_text_buffer_get_char_count (GTK_TEXT_BUFFER(cur_text_doc->text_buffer)));
+	gtk_text_buffer_remove_all_tags (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &itstart, &itend);
+	gtk_source_buffer_remove_source_marks((GtkSourceBuffer *)cur_text_doc->text_buffer, &itstart, &itend,NULL);
+	apply_hl (cur_text_doc);
+	code_bg_folding ();
+}
+
+
+//*********************** CODE BG FOLDING
+void code_bg_folding ()
+{
+	if (! get_page_text()) return;
+	GtkTextIter start;
+	GtkTextIter end;
+	GtkTextIter line_iter;
+	int controle=0;
+	gint row1=NULL,row2=NULL;
+
+
+	GtkTextIter tmp1;
+	gint c1 = 0;
+
+	GtkTextMark *m1 = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(cur_text_doc->text_buffer)); 
+	gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &tmp1, m1);
+
+	while (c1 != -1)
+	{
+		controle++;
+		if(controle==9800){return;}
+
+		if (gtk_text_iter_backward_char (&tmp1))
+		{
+			if (gtk_text_iter_get_char (&tmp1) == '}')
+			c1++;
+			else
+			if (gtk_text_iter_get_char (&tmp1) == '{')
+			{
+				c1--;
+				if (c1 == -1)
+				if (gtk_text_iter_forward_char (&tmp1))
+				{
+					row1 = gtk_text_iter_get_line(&tmp1);
+					start=tmp1;
+				}
+			}
+		}else{return;}
+	}
+
+	controle=0;
+	gint c2 = 0;
+	GtkTextIter tmp2;
+
+	GtkTextMark *m2 = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(cur_text_doc->text_buffer)); 
+	gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &tmp2, m2);
+
+	while (c2 != -1)
+	{
+		controle++;
+		if(controle==9800){return;}
+
+		if (gtk_text_iter_forward_char (&tmp2))
+		{
+			if (gtk_text_iter_get_char (&tmp2) == '{')
+			c2++;
+			else
+			if (gtk_text_iter_get_char (&tmp2) == '}')
+			{
+				c2--;
+				if (c2 == -1)
+				{
+					row2 = gtk_text_iter_get_line(&tmp2);
+					gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &end, row2);
+				}
+			}
+		}else{return;}
+	}
+
+	if(row1==row2)
+	{
+		return;
+	}
+
+	GtkTextIter start_find, end_find;
+
+	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &start_find);
+	gtk_text_buffer_get_end_iter(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &end_find);
+
+	gtk_source_buffer_remove_source_marks((GtkSourceBuffer *)cur_text_doc->text_buffer, &start_find, &end_find,NULL);
+
+	gtk_text_buffer_remove_tag_by_name(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), "folding", &start_find, &end_find);
+	gtk_text_buffer_apply_tag_by_name(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), "folding", &start, &end);
+
+	row2--;
+	gchar *tampon=NULL;
+
+	GdkPixbuf *pixbuf_mark;
+	pixbuf_mark = gdk_pixbuf_new_from_file ("/usr/local/share/griffon/images/griffon_list.png", NULL);
+
+	GtkSourceMarkAttributes *attribu=gtk_source_mark_attributes_new();
+	gtk_source_mark_attributes_set_pixbuf(attribu,pixbuf_mark );
+
+	GdkPixbuf *pixbuf_mark2;
+	pixbuf_mark2 = gdk_pixbuf_new_from_file ("/usr/local/share/griffon/images/griffon_down.png", NULL);
+
+	GtkSourceMarkAttributes *attribu2=gtk_source_mark_attributes_new();
+	gtk_source_mark_attributes_set_pixbuf(attribu2,pixbuf_mark2 );
+
+	tampon=g_strdup_printf ("%d", row1) ;
+
+	gtk_source_view_set_mark_attributes(GTK_SOURCE_VIEW(cur_text_doc->text_view),tampon,attribu2,1);
+	gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &line_iter, row1);
+	gtk_source_buffer_create_source_mark(GTK_SOURCE_BUFFER(cur_text_doc->text_buffer),tampon,tampon,&line_iter);
+
+	while(row1!=row2)
+	{
+	row1++;
+	tampon=g_strdup_printf ("%d", row1) ;
+
+	gtk_source_view_set_mark_attributes(GTK_SOURCE_VIEW(cur_text_doc->text_view),tampon,attribu,1);
+	gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &line_iter, row1);
+	gtk_source_buffer_create_source_mark(GTK_SOURCE_BUFFER(cur_text_doc->text_buffer),tampon,tampon,&line_iter);
+	}
+
+	GdkPixbuf *pixbuf_mark3;
+	pixbuf_mark3 = gdk_pixbuf_new_from_file ("/usr/local/share/griffon/images/griffon_up.png", NULL);
+
+	GtkSourceMarkAttributes *attribu3=gtk_source_mark_attributes_new();
+	gtk_source_mark_attributes_set_pixbuf(attribu3,pixbuf_mark3 );
+
+	row2++;
+	tampon=g_strdup_printf ("%d", row2) ;
+
+	gtk_source_view_set_mark_attributes(GTK_SOURCE_VIEW(cur_text_doc->text_view),tampon,attribu3,1);
+	gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &line_iter, row2);
+	gtk_source_buffer_create_source_mark(GTK_SOURCE_BUFFER(cur_text_doc->text_buffer),tampon,tampon,&line_iter);
+
+}
+
+
 
