@@ -3202,6 +3202,7 @@ gboolean on_editor_keyrelease ()
 	}
 */
 
+	preview_web_popup_line ();
 	code_bg_folding();
 	return TRUE;
 }
