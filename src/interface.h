@@ -324,5 +324,5 @@ void populate_popup(GtkTextView *view, GtkMenu *menu, gpointer user_data);
 void code_folding ();
 void clear_code_folding ();
 void code_bg_folding ();
-
+void code_folding_all ();
 

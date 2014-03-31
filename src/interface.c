@@ -6430,15 +6430,15 @@ void populate_popup(GtkTextView *view, GtkMenu *menu, gpointer user_data)
 	g_signal_connect(i, "button-release-event",G_CALLBACK(window_debug_project), NULL);
 	gtk_widget_show(i);
 
-	/*i = gtk_menu_item_new_with_label("[BETA TEST] Code folding");
+	i = gtk_menu_item_new_with_label("[BETA TEST] Code folding ALL");
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
-	g_signal_connect(i, "button-release-event",G_CALLBACK(code_folding), NULL);
+	g_signal_connect(i, "button-release-event",G_CALLBACK(code_folding_all), NULL);
 	gtk_widget_show(i);
 
-	i = gtk_menu_item_new_with_label("[BETA TEST] Remove code folding");
+	i = gtk_menu_item_new_with_label("[BETA TEST] Remove ALL code folding");
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
 	g_signal_connect(i, "button-release-event",G_CALLBACK(clear_code_folding), NULL);
-	gtk_widget_show(i);*/
+	gtk_widget_show(i);
 
 }
 
@@ -6673,5 +6673,94 @@ void code_bg_folding ()
 
 }
 
+//*********************** CODE FOLDING ALL
+void code_folding_all ()
+{
+	if (! get_page_text()) return;
+	GtkTextIter start,itstart;
+	GtkTextIter end,end_buf,start_buf;
+	int controle=0;
 
+	GtkTextIter tmp1;
+	gint c1 = 0;
+
+	gtk_text_buffer_get_end_iter(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &end_buf);
+	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &start_buf);
+
+	GtkTextMark *m1 = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(cur_text_doc->text_buffer)); 
+	gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &tmp1, m1);
+
+	while (c1 != -1)
+	{
+		controle++;
+		if(controle==9800){return;}
+
+		if (gtk_text_iter_backward_char (&tmp1))
+		{
+			if (gtk_text_iter_get_char (&tmp1) == '}')
+			c1++;
+			else
+			if (gtk_text_iter_get_char (&tmp1) == '{')
+			{
+				c1--;
+				if (c1 == -1)
+				if (gtk_text_iter_forward_char (&tmp1))
+				{
+					start=tmp1;
+				}
+			}
+		}
+	}
+
+	controle=0;
+	gint c2 = 0;
+	GtkTextIter tmp2;
+	gint row;
+
+	GtkTextMark *m2 = gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(cur_text_doc->text_buffer)); 
+	gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &tmp2, m2);
+
+	while (c2 != -1)
+	{
+		controle++;
+		if(controle==9800){return;}
+
+		if (gtk_text_iter_forward_char (&tmp2))
+		{
+			if (gtk_text_iter_get_char (&tmp2) == '{')
+			c2++;
+			else
+			if (gtk_text_iter_get_char (&tmp2) == '}')
+			{
+				c2--;
+				if (c2 == -1)
+				{
+					row = gtk_text_iter_get_line(&tmp2);
+					gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &end, row);
+				}
+			}
+		}
+	}
+
+
+	gchar *tampon=NULL;
+	gint line=gtk_text_iter_get_line(&start);
+	gint line2=line-1;
+
+	if(tab_fold[row]==1)
+	{
+	clear_code_folding ();
+	tab_fold[row]=2;
+	return;
+	}
+
+	tab_fold[row]=1;
+
+	gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &itstart, line2);
+	tampon=g_strdup_printf ("%d", line) ;
+
+	gtk_text_buffer_create_tag (	GTK_TEXT_BUFFER(cur_text_doc->text_buffer), tampon, "invisible", TRUE, NULL);
+	gtk_text_buffer_apply_tag_by_name (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), tampon, &start_buf, &start);
+	gtk_text_buffer_apply_tag_by_name (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), tampon, &end, &end_buf);
+}
 
