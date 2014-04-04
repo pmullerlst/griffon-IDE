@@ -5103,7 +5103,7 @@ void on_format_button_clicked ()
 	gint line = gtk_text_iter_get_line(&start);
 	line++;
 	tampon=g_strdup_printf ("%d", line) ;
-	gchar *txt_d=g_strconcat(tampon,": ",txt,NULL);
+	gchar *txt_d=g_strconcat(tampon,": [",cur_text_doc->file_name,"] ",txt,NULL);
 
 	if(! strcmp("", txt) == 0)
 	{
