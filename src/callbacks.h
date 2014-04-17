@@ -277,7 +277,7 @@ GtkWidget* w_ftp_mount (void);
 gchar *tampon_sftp;
 void open_include             (void);
 void gen_doc_html (void);
-gboolean on_editor_keyrelease ();
+gboolean on_editor_keyrelease (GtkWidget *widget, GdkEventKey *event, gpointer data);
 void delete_autocomp_tips();
 void on_mni_autocomp_file_open ();
 void keyrelase_search(void);

@@ -3151,10 +3151,12 @@ typedef struct
 void delete_autocomp_tips(){if (win_tips_autocomp != NULL){gtk_widget_destroy (GTK_WIDGET(win_tips_autocomp));win_tips_autocomp=NULL;}}
 
 //*********************** RELACHEMENT DUNE TOUCHE EN MODE EDITOR
-gboolean on_editor_keyrelease ()
+gboolean on_editor_keyrelease (GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 
 	if (! get_page_text()) return FALSE;
+	if(data==NULL){printf(" ");}
+	if(widget==NULL){printf(" ");}
 
 	gchar *msg;
 	gint row,row2, col;
@@ -3203,7 +3205,10 @@ gboolean on_editor_keyrelease ()
 */
 
 	preview_web_popup_line ();
-	code_bg_folding();
+	
+	if (event->keyval == GDK_KEY_Up){code_bg_folding();}
+	if (event->keyval == GDK_KEY_Down){code_bg_folding();}
+
 	return TRUE;
 }
 

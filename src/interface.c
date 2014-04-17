@@ -6459,7 +6459,7 @@ void code_folding ()
 	while (c1 != -1)
 	{
 		controle++;
-		if(controle==9800){return;}
+		if(controle==1800){return;}
 
 		if (gtk_text_iter_backward_char (&tmp1))
 		{
@@ -6489,7 +6489,7 @@ void code_folding ()
 	while (c2 != -1)
 	{
 		controle++;
-		if(controle==9800){return;}
+		if(controle==1800){return;}
 
 		if (gtk_text_iter_forward_char (&tmp2))
 		{
@@ -6563,7 +6563,7 @@ void code_bg_folding ()
 	while (c1 != -1)
 	{
 		controle++;
-		if(controle==9800){return;}
+		if(controle==1800){return;}
 
 		if (gtk_text_iter_backward_char (&tmp1))
 		{
@@ -6593,7 +6593,7 @@ void code_bg_folding ()
 	while (c2 != -1)
 	{
 		controle++;
-		if(controle==9800){return;}
+		if(controle==1800){return;}
 
 		if (gtk_text_iter_forward_char (&tmp2))
 		{
@@ -6693,7 +6693,7 @@ void code_folding_all ()
 	while (c1 != -1)
 	{
 		controle++;
-		if(controle==9800){return;}
+		if(controle==1800){return;}
 
 		if (gtk_text_iter_backward_char (&tmp1))
 		{
@@ -6723,7 +6723,7 @@ void code_folding_all ()
 	while (c2 != -1)
 	{
 		controle++;
-		if(controle==9800){return;}
+		if(controle==1800){return;}
 
 		if (gtk_text_iter_forward_char (&tmp2))
 		{
