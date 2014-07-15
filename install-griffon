@@ -27,6 +27,7 @@ sudo cp -rf griffon.desktop /usr/share/applications/
 sudo cp -rf autocomp/* /usr/local/share/griffon/autocomp/
 [ -d /usr/local/share/griffon/images ] || sudo mkdir -p /usr/local/share/griffon/images/
 sudo cp -rf pixmaps/* /usr/local/share/griffon/images/
+sudo cp -rf theme /usr/local/share/griffon/
 echo ""
 
 log=`cat install.log`
@@ -106,6 +107,7 @@ fi
 	then
 	[ -d /usr/local/share/griffon/images ] || mkdir -p /usr/local/share/griffon/images/
 	cp -rf pixmaps/* /usr/local/share/griffon/images/
+	cp -rf theme /usr/local/share/griffon/
 		txt="Completion of the installation..."
 	fi
 
