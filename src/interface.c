@@ -4464,7 +4464,7 @@ void window_debug ()
 
 	window_run = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_transient_for(GTK_WINDOW(window_run),GTK_WINDOW(tea_main_window));
-	gtk_window_resize (GTK_WINDOW (window_run), 900, 500);
+	gtk_window_resize (GTK_WINDOW (window_run), 900, 420);
 	
 	GtkWidget * vbox2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add (GTK_CONTAINER (window_run), GTK_WIDGET(vbox2));
@@ -5511,7 +5511,7 @@ void window_make_project ()
 
 	window_run = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_transient_for(GTK_WINDOW(window_run),GTK_WINDOW(tea_main_window));
-	gtk_window_resize (GTK_WINDOW (window_run), 900, 500);
+	gtk_window_resize (GTK_WINDOW (window_run), 900, 420);
 	
 	GtkWidget * vbox2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add (GTK_CONTAINER (window_run), GTK_WIDGET(vbox2));
@@ -5599,7 +5599,7 @@ void window_debug_project ()
 
 	window_run = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_transient_for(GTK_WINDOW(window_run),GTK_WINDOW(tea_main_window));
-	gtk_window_resize (GTK_WINDOW (window_run), 900, 500);
+	gtk_window_resize (GTK_WINDOW (window_run), 900, 420);
 	
 	GtkWidget * vbox2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add (GTK_CONTAINER (window_run), GTK_WIDGET(vbox2));
@@ -6413,27 +6413,27 @@ void populate_popup(GtkTextView *view, GtkMenu *menu, gpointer user_data)
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
 	gtk_widget_show(i);
 
-	i = gtk_menu_item_new_with_label("Search with Google");
+	i = gtk_menu_item_new_with_label("Search with Google [F8]");
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
 	g_signal_connect(i, "button-release-event",G_CALLBACK(google_search), NULL);
 	gtk_widget_show(i);
 
-	i = gtk_menu_item_new_with_label("HTML Preview text selection in a web popup");
+	i = gtk_menu_item_new_with_label("HTML Preview text selection in a web popup [Ctrl+P]");
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
 	g_signal_connect(i, "button-release-event",G_CALLBACK(preview_web_popup), NULL);
 	gtk_widget_show(i);
 
-	i = gtk_menu_item_new_with_label("HTML Preview full text in a web popup");
+	i = gtk_menu_item_new_with_label("HTML Preview full text in a web popup [Ctrl+Alt+P]");
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
 	g_signal_connect(i, "button-release-event",G_CALLBACK(preview_web_popup_full), NULL);
 	gtk_widget_show(i);
 
-	i = gtk_menu_item_new_with_label("Project : Make");
+	i = gtk_menu_item_new_with_label("Project : Make [Shift+F11]");
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
 	g_signal_connect(i, "button-release-event",G_CALLBACK(window_make_project), NULL);
 	gtk_widget_show(i);
 
-	i = gtk_menu_item_new_with_label("Project : Run");
+	i = gtk_menu_item_new_with_label("Project : Run [Shift+F12]");
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
 	g_signal_connect(i, "button-release-event",G_CALLBACK(window_debug_project), NULL);
 	gtk_widget_show(i);
