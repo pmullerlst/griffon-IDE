@@ -4125,7 +4125,7 @@ void enter_web ()
 		{
 			FILE *fich;
 			char carac;
-			char mot[100];
+			char mot[200];
 			mot[0]='\0';
 			int check=0;
 	
@@ -4186,7 +4186,7 @@ void enter_myweb ()
 		{
 			FILE *fich;
 			char carac;
-			char mot[100];
+			char mot[200];
 			mot[0]='\0';
 			int check=0;
 	
