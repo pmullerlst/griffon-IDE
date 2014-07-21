@@ -24,6 +24,7 @@ typedef struct
 	gchar *tea_main_dir;
 	gchar *templates_dir;
 	gchar *snippets_dir;
+	gchar *helps_dir;
 	gchar *crapbook_file;
 	gchar *tmp_dir;
 	gchar *changelog;

@@ -176,6 +176,7 @@ void confile_free (void)
 	g_free (confile.user_menu_file);
 	g_free (confile.crapbook_file);
 	g_free (confile.snippets_dir);
+	g_free (confile.helps_dir);
 	g_free (confile.bmx_file);
 	g_free (confile.date_time);
 	g_free (confile.tea_main_dir);
@@ -685,6 +686,7 @@ void confile_reload (void)
 	confile.bmx_file = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "griffon_bmx", NULL); 
 	confile.sessions_dir = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "sessions", G_DIR_SEPARATOR_S, NULL);
 	confile.snippets_dir = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "snippets", G_DIR_SEPARATOR_S, NULL);
+	confile.helps_dir = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "helps_custom", G_DIR_SEPARATOR_S, NULL);
 	confile.templates_dir = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "templates", G_DIR_SEPARATOR_S, NULL);
 	confile.iconv_file = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "iconv_rc", NULL);
 	confile.crapbook_file = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "crapbook.txt", NULL);
@@ -737,6 +739,17 @@ void confile_reload (void)
 
 			if (chdir (s)){printf("\n");}
 	}
+
+	if (! g_file_test (confile.helps_dir, G_FILE_TEST_IS_DIR))
+	{
+		if (chdir (confile.tea_main_dir)){printf("\n");}
+
+			if (mkdir ("helps_custom", S_IRUSR | S_IWUSR | S_IXUSR) == -1)
+				DBM ("mkdir helps_custom failed");
+
+			if (chdir (s)){printf("\n");}
+	}
+
 
 	if (! g_file_test (confile.tea_rc, G_FILE_TEST_EXISTS))
 		create_empty_file (confile.tea_rc, "#Fichier de configuration Griffon IDE.");

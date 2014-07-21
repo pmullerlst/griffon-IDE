@@ -18,6 +18,7 @@
 #include <gtksourceview/gtksourcebuffer.h>
 #include <gtksourceview/gtksourcelanguage.h>
 #include <vte/vte.h>
+#include <dirent.h>
                  
 #include "griffon_text_document.h"
 #include "griffon_funx.h"
@@ -37,6 +38,8 @@ enum
   NUM_COLS
 } ;
  
+char name_custom[100];
+
   GtkTreeSelection *selection2; 
 	  GtkWidget *window1;
 
@@ -774,17 +777,33 @@ void  on_changed(GtkWidget *widget, gpointer statusbar)
         gtk_statusbar_get_context_id(GTK_STATUSBAR(statusbar), 
             value), value);
 
+		int on_display=0;
+
 				//**************** OPEN WINDOWS HELP
-            if (strcmp("[BASH]", value) == 0){Aide_BASH();}     
-            if (strcmp("[PERL]", value) == 0){centre_perl();}
-            if (strcmp("[PHP]", value) == 0){help_php_window();}
-            if (strcmp("[MYSQL]", value) == 0){help_mysql();} 
-				if (strcmp("[HTML]", value) == 0){help_html();}  
-				if (strcmp("[CSS]", value) == 0){help_css();}
-				if (strcmp("[JAVASCRIPT/JQUERY]", value) == 0){help_javascript();}      
-				if (strcmp("[HTACCESS]", value) == 0){centre_htaccess();}
-				if (strcmp("[IPTABLES]", value) == 0){centre_iptables();}
+            if (strcmp("[BASH]", value) == 0){Aide_BASH();on_display=1;}     
+            if (strcmp("[PERL]", value) == 0){centre_perl();on_display=1;}
+            if (strcmp("[PHP]", value) == 0){help_php_window();on_display=1;}
+            if (strcmp("[MYSQL]", value) == 0){help_mysql();on_display=1;} 
+				if (strcmp("[HTML]", value) == 0){help_html();on_display=1;}  
+				if (strcmp("[CSS]", value) == 0){help_css();on_display=1;}
+				if (strcmp("[JAVASCRIPT/JQUERY]", value) == 0){help_javascript();on_display=1;}      
+				if (strcmp("[HTACCESS]", value) == 0){centre_htaccess();on_display=1;}
+				if (strcmp("[IPTABLES]", value) == 0){centre_iptables();on_display=1;}
                                                         
+				if(on_display==0) 
+				{
+				char rep_path[150];
+				strcpy(rep_path,confile.helps_dir);
+				strcat(rep_path,value);
+
+					if (g_file_test (rep_path, G_FILE_TEST_IS_DIR))
+					{
+					strcpy(name_custom,value);
+					centre_custom();
+					//printf("%s\n",value);
+					}
+				}
+
 	 gtk_tree_selection_unselect_all(GTK_TREE_SELECTION(widget));                                        
     g_free(value);
   }
@@ -1101,6 +1120,46 @@ gboolean util_match_all_words_in_sentence(gchar* pszWords, gchar* pszSentence)
 	return bAllFound;
 }
 
+//******************************* match et envoi des fonction d'aide insert
+void  on_changed_custom(GtkWidget *tt, GdkEvent *eventt) 
+{
+	if(eventt==NULL){printf("\n");}
+	gtk_widget_get_name(tt);
+
+  GtkTreeIter iter;
+  GtkTreeModel *model;
+  char *value;
+
+  if (gtk_tree_selection_get_selected(
+      GTK_TREE_SELECTION(selection2), &model, &iter)) {
+
+		
+    gtk_tree_model_get(model, &iter, COLUMN, &value,  -1);
+
+		char rep_path[200];
+		strcpy(rep_path,confile.helps_dir);
+		strcat(rep_path,name_custom);
+		strcat(rep_path,"/");
+		strcat(rep_path,value);
+		//printf("%s\n",rep_path);
+
+	gchar lecture[1024];
+	FILE *fichier;
+	fichier = fopen(rep_path,"rt");
+
+	if(fichier!=NULL)
+	{
+		while(fgets(lecture, 1024, fichier))
+		{
+			doc_insert_at_cursor (cur_text_doc,g_locale_to_utf8(lecture, -1, NULL, NULL, NULL));
+		}
+	fclose(fichier);
+	}
+
+	}
+}
+
+
 // This is a fairly slow function... perhaps too slow for huge lists?
 gboolean util_treeview_match_all_words_callback(GtkTreeModel *pTreeModel, gint nColumn, const gchar *pszSearchText, GtkTreeIter* pIter)
 {
@@ -1164,6 +1223,7 @@ GtkWidget * create_view_and_model (char clef[50])
  if (strcmp("htaccess", clef) == 0){model = create_and_fill_model_htaccess();}
  if (strcmp("iptables", clef) == 0){model = create_and_fill_model_iptables();}
  if (strcmp("term", clef) == 0){model = create_and_fill_model_term();}
+ if (strcmp("custom", clef) == 0){model = create_and_fill_model_custom();}
  /*else{   
 	gtk_notebook_set_current_page(notebook3,1);
 	}*/
@@ -1748,3 +1808,89 @@ void term_help(GtkWidget *tv,GdkEventButton *event,  gpointer user_data)
   return ;
 }
 
+//******************************* fenetre aide custom
+GtkWidget* centre_custom (void)
+{
+	gtk_widget_destroy(window1);
+
+  window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title (GTK_WINDOW (window1), _((_("Helps Custom"))));
+    gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
+	gtk_window_resize (GTK_WINDOW (window1), 430, 600);
+  gtk_widget_show (GTK_WIDGET(window1));
+
+  GtkWidget *view;
+  GtkWidget *vbox;
+  GtkWidget *statusbar;
+
+  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_container_add(GTK_CONTAINER(window1), vbox);
+	gtk_widget_show (GTK_WIDGET(vbox));
+
+    GtkWidget *scrolledWindow = gtk_scrolled_window_new(NULL, NULL);
+	  gtk_widget_show (GTK_WIDGET(scrolledWindow));
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow),
+            GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	  gtk_box_pack_start(GTK_BOX(vbox), scrolledWindow, TRUE, TRUE, 1);
+
+  view = create_view_and_model("custom");
+  gtk_widget_show (GTK_WIDGET(view));
+  selection2 = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
+	gtk_widget_show (GTK_WIDGET(selection2));
+	gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
+
+  statusbar = gtk_statusbar_new();
+  gtk_box_pack_start(GTK_BOX(vbox), statusbar, FALSE, TRUE, 1);
+	gtk_widget_show (GTK_WIDGET(statusbar));
+
+	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view),TRUE);
+	gtk_tree_view_set_enable_tree_lines (GTK_TREE_VIEW(view),TRUE);	
+	gtk_tree_view_expand_all (GTK_TREE_VIEW(view));
+	
+
+	 g_signal_connect(G_OBJECT(view), "button-release-event",  
+      G_CALLBACK(on_changed_custom), NULL);
+
+	gtk_widget_grab_focus (view);
+
+  return window1;
+
+}
+
+//******************************* template tree aide CUSTOM
+GtkTreeModel *create_and_fill_model_custom (void)
+{
+  GtkTreeStore *treestore;
+  GtkTreeIter toplevel, child;
+
+  treestore = gtk_tree_store_new(NUM_COLS,
+                  G_TYPE_STRING);
+
+  gtk_tree_store_append(treestore, &toplevel, NULL);
+  gtk_tree_store_set(treestore, &toplevel,
+                     COLUMN, "Helps Custom",
+                     -1);
+
+	struct dirent *lecture;
+	DIR *rep;
+	char rep_path[150];
+	strcpy(rep_path,confile.helps_dir);
+	strcat(rep_path,name_custom);
+
+	//printf("%s\n",rep_path);
+
+	rep = opendir(rep_path );
+	while ((lecture = readdir(rep))) 
+	{
+		if(strlen(lecture->d_name)>3)
+		{
+	  gtk_tree_store_append(treestore, &child, &toplevel);
+	  gtk_tree_store_set(treestore, &child,COLUMN, lecture->d_name,-1);
+		}
+	}
+	closedir(rep); 
+
+
+
+  return GTK_TREE_MODEL(treestore);
+}

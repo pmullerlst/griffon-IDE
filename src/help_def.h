@@ -5,6 +5,7 @@ GtkTreeModel *create_and_fill_model_bash (void);
 GtkTreeModel *create_and_fill_model_javascript (void);
 GtkTreeModel *create_and_fill_model_htaccess (void);
 GtkTreeModel *create_and_fill_model_term (void);
+GtkTreeModel *create_and_fill_model_custom (void);
 GtkWidget *create_view_and_model (char clef[50]);
 void  on_changed(GtkWidget *widget, gpointer statusbar);
 GtkWidget *help_php_window (void);
@@ -21,4 +22,5 @@ gboolean util_match_word_in_sentence(gchar* pszWord, gchar* pszSentence);
 void term_help(  GtkWidget *tv,GdkEventButton *event,  gpointer user_data);
 GtkTreeModel *create_and_fill_model_iptables (void);
 GtkWidget* centre_iptables (void);
+GtkWidget* centre_custom (void);
 
