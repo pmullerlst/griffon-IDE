@@ -17,6 +17,9 @@
 #include <gtksourceview/gtksourceview.h>
 #include <gtksourceview/gtksourcebuffer.h>
 #include <gtksourceview/gtksourcelanguage.h>
+#include <gtksourceview/gtksourcelanguagemanager.h>
+#include <gtksourceview/gtksourcestyleschememanager.h>
+
 #include <vte/vte.h>
 #include <dirent.h>
                  
@@ -31,6 +34,7 @@
 #include "griffon_proj.h"
 #include "griffon_gtk_utils.h"
 #include "help_def.h"
+#include "rox_strings.h"
 
 enum
 {
@@ -40,8 +44,9 @@ enum
  
 char name_custom[100];
 
-  GtkTreeSelection *selection2; 
-	  GtkWidget *window1;
+GtkTreeSelection *selection2; 
+GtkWidget *window1;
+GtkWidget *window_custom;
 
 //******************************* template tree aide php
 GtkTreeModel *create_and_fill_model_php (void)
@@ -1827,6 +1832,25 @@ GtkWidget* centre_custom (void)
   gtk_container_add(GTK_CONTAINER(window1), vbox);
 	gtk_widget_show (GTK_WIDGET(vbox));
 
+	GtkWidget* vbox10_help = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_container_add (GTK_CONTAINER (vbox), GTK_WIDGET(vbox10_help));
+	gtk_widget_show (GTK_WIDGET(vbox10_help));  
+
+	GtkWidget* toolbar_manager_help = gtk_toolbar_new ();
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_manager_help), GTK_TOOLBAR_ICONS); 
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_manager_help),GTK_ICON_SIZE_SMALL_TOOLBAR);
+
+	GtkToolItem *tool_mkdir_help = gtk_tool_button_new_from_stock(GTK_STOCK_ADD);
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_manager_help), tool_mkdir_help, -1);
+	gtk_widget_show(GTK_WIDGET(tool_mkdir_help));
+	g_signal_connect ((gpointer) tool_mkdir_help, "clicked",G_CALLBACK (new_helps_custom_window),NULL);
+	gtk_tool_item_set_tooltip_text(tool_mkdir_help,(_("Create a new Help Custom")));
+
+	gtk_toolbar_set_show_arrow (GTK_TOOLBAR(toolbar_manager_help),FALSE);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_manager_help), GTK_TOOLBAR_ICONS); 
+	gtk_box_pack_start (GTK_BOX (vbox10_help), toolbar_manager_help, FALSE , FALSE, 0);
+	gtk_widget_show(GTK_WIDGET(toolbar_manager_help));
+
     GtkWidget *scrolledWindow = gtk_scrolled_window_new(NULL, NULL);
 	  gtk_widget_show (GTK_WIDGET(scrolledWindow));
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow),
@@ -1894,3 +1918,112 @@ GtkTreeModel *create_and_fill_model_custom (void)
 
   return GTK_TREE_MODEL(treestore);
 }
+
+//********************* AFFICHAGE NEW HELP CUSTOM
+void new_helps_custom_window()
+{  
+	window_custom = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_title (GTK_WINDOW (window_custom), _((_("New Help Custom"))));
+	gtk_window_set_position (GTK_WINDOW (window_custom), GTK_WIN_POS_CENTER);
+	gtk_widget_show(GTK_WIDGET(window_custom));
+	gtk_window_resize (GTK_WINDOW (window_custom), 900, 500);
+
+	GtkWidget *vbox3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_container_add (GTK_CONTAINER (window_custom), GTK_WIDGET(vbox3));
+	gtk_widget_show (GTK_WIDGET(vbox3));  
+
+	GtkWidget *toolbar_myadmin;
+	toolbar_myadmin = gtk_toolbar_new ();
+
+	GtkToolItem *item_entry_help_new  = gtk_tool_item_new();
+
+	cmb_famous_help_new = gtk_entry_new ();     
+	ent_search_help_new = cmb_famous_help_new;
+	gtk_widget_show (GTK_WIDGET(cmb_famous_help_new));
+
+	gtk_entry_set_width_chars (GTK_ENTRY(cmb_famous_help_new),50);
+
+	gtk_container_add( GTK_CONTAINER(item_entry_help_new), GTK_WIDGET(cmb_famous_help_new) );
+	gtk_toolbar_insert( GTK_TOOLBAR(toolbar_myadmin), GTK_TOOL_ITEM(item_entry_help_new), -1 );
+	gtk_widget_show (GTK_WIDGET(item_entry_help_new));
+
+	gtk_box_pack_start (GTK_BOX (vbox3), toolbar_myadmin, FALSE, FALSE, 0);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_myadmin), GTK_TOOLBAR_ICONS);
+
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_myadmin),GTK_ICON_SIZE_SMALL_TOOLBAR);
+	gtk_widget_show_all (GTK_WIDGET(toolbar_myadmin));  
+
+	GtkWidget *scrolledwindow4 = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_show (GTK_WIDGET(scrolledwindow4));
+	gtk_box_pack_start(GTK_BOX(vbox3), GTK_WIDGET(scrolledwindow4), TRUE, TRUE, 1);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow4), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow4), GTK_CORNER_TOP_LEFT);
+
+	PangoFontDescription *font_desc_note;
+	GtkWidget *sView_note;
+	GtkSourceLanguageManager *lm_note;
+	GtkSourceLanguage *language_note = NULL;
+
+	buffer_note2 = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
+
+	sView_note = gtk_source_view_new_with_buffer(buffer_note2);
+	font_desc_note = pango_font_description_from_string ("mono 8");
+	gtk_widget_modify_font (sView_note, font_desc_note);
+	pango_font_description_free (font_desc_note);
+
+	gtk_source_view_set_show_right_margin(GTK_SOURCE_VIEW(sView_note),TRUE);
+	gtk_source_view_set_show_line_numbers(GTK_SOURCE_VIEW(sView_note),TRUE);
+	gtk_source_view_set_highlight_current_line(GTK_SOURCE_VIEW(sView_note),TRUE);
+	gtk_source_view_set_show_line_marks(GTK_SOURCE_VIEW(sView_note),TRUE);
+
+	lm_note = gtk_source_language_manager_new();
+	g_object_ref (lm_note);
+	g_object_set_data_full ( G_OBJECT (buffer_note2), "languages-manager",lm_note, (GDestroyNotify) g_object_unref);
+
+	lm_note = g_object_get_data (G_OBJECT (buffer_note2), "languages-manager");
+	language_note = gtk_source_language_manager_get_language (lm_note,"diff");
+	gtk_source_buffer_set_language (buffer_note2, language_note);
+
+	gtk_container_add (GTK_CONTAINER (scrolledwindow4), GTK_WIDGET(sView_note));
+
+	GtkWidget *button2 = gtk_button_new_from_stock ("gtk-apply");
+	gtk_widget_show (GTK_WIDGET(button2));
+	gtk_box_pack_start (GTK_BOX (vbox3), button2, FALSE, TRUE, 0);
+	gtk_button_set_relief (GTK_BUTTON (button2), GTK_RELIEF_NONE);
+
+	g_signal_connect_swapped ((gpointer) button2, "clicked",G_CALLBACK (new_helps_custom),NULL);
+
+	gtk_widget_show_all (GTK_WIDGET(scrolledwindow4));
+
+
+}
+
+//********************* NEW HELP CUSTOM
+void new_helps_custom()
+{ 
+	gchar* dir="";
+	char rep_path[200];
+	strcpy(rep_path,confile.helps_dir);
+	strcat(rep_path,name_custom);
+	strcat(rep_path,"/");
+
+	if(strlen (gtk_entry_get_text (GTK_ENTRY (ent_search_help_new))) != 0)
+	{
+		dir=gtk_editable_get_chars(GTK_EDITABLE(cmb_famous_help_new),0, -1);
+		strcat(rep_path,dir);
+
+		GtkTextIter start;
+		GtkTextIter end;
+		char *text;
+		gtk_text_buffer_get_start_iter ((GtkTextBuffer *)buffer_note2, &start);
+		gtk_text_buffer_get_end_iter ((GtkTextBuffer *)buffer_note2, &end);
+		text = gtk_text_buffer_get_text ((GtkTextBuffer *)buffer_note2, &start, &end, FALSE);
+
+		create_empty_file (rep_path, "");
+		save_string_to_file_add(rep_path,text);
+		centre_custom();
+	}
+
+	gtk_widget_destroy(window_custom);
+}
+

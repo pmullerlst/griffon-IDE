@@ -71,7 +71,9 @@ GtkWidget *tea_main_window;
 GtkWidget *mainvbox,*filechooserwidget2;
 GtkWidget *cmb_famous, *hbox_bar,*hbox_bar2;   
 GtkWidget *ent_search;
-GtkWidget *cmb_famous2;   
+GtkWidget *cmb_famous2;
+GtkWidget *ent_search_help;
+GtkWidget *cmb_famous_help;   
 GtkWidget *ent_search2;
 GtkWidget *entry_find_web;
 GtkWidget *entry_find_web_mini;
@@ -325,4 +327,5 @@ void code_folding ();
 void clear_code_folding ();
 void code_bg_folding ();
 void code_folding_all ();
+void new_dir_cmd_help ();
 

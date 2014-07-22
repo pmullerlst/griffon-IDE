@@ -23,4 +23,7 @@ void term_help(  GtkWidget *tv,GdkEventButton *event,  gpointer user_data);
 GtkTreeModel *create_and_fill_model_iptables (void);
 GtkWidget* centre_iptables (void);
 GtkWidget* centre_custom (void);
-
+GtkWidget *ent_search_help_new;
+GtkWidget *cmb_famous_help_new;  
+void new_helps_custom_window();
+void new_helps_custom();

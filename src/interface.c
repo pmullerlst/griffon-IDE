@@ -124,6 +124,9 @@ GtkWidget *window1_popup_line=NULL;
 int win_popup=0;
 int win_popup_line=0;
 WebKitWebView *webView_doc_line;
+GtkWidget *view_help;
+GtkWidget *vbox_help;
+GtkWidget *statusbar_help;
 
 int tab_fold[19000];
 
@@ -1411,28 +1414,59 @@ GtkWidget* create_tea_main_window (void)
 	gtk_container_add (GTK_CONTAINER (notebook2), GTK_WIDGET(vbox5));
 	gtk_widget_show (GTK_WIDGET(vbox5));  
 
-	GtkWidget *view;
-	GtkTreeSelection *selection; 
 	GtkWidget *vbox;
+	GtkTreeSelection *selection; 
 	GtkWidget *statusbar;
-
-	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-	gtk_container_add(GTK_CONTAINER(vbox5), GTK_WIDGET(vbox));
-	gtk_widget_show (GTK_WIDGET(vbox));
-
-	view = create_view_and_model_help();
-	gtk_widget_show (GTK_WIDGET(view));
-	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
-	gtk_box_pack_start(GTK_BOX(vbox), view, TRUE, TRUE, 1);
-
 	statusbar = gtk_statusbar_new();
-	gtk_box_pack_start(GTK_BOX(vbox), statusbar, FALSE, TRUE, 1);
-	gtk_widget_show (GTK_WIDGET(statusbar));
+
+	vbox_help = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_container_add(GTK_CONTAINER(vbox5), GTK_WIDGET(vbox_help));
+	gtk_widget_show (GTK_WIDGET(vbox_help));
+
+	view_help = create_view_and_model_help();
+	gtk_widget_show (GTK_WIDGET(view_help));
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view_help));
+	gtk_box_pack_start(GTK_BOX(vbox_help), view_help, TRUE, TRUE, 1);
+
+	statusbar_help = gtk_statusbar_new();
+	gtk_box_pack_start(GTK_BOX(vbox_help), statusbar_help, FALSE, TRUE, 1);
+	gtk_widget_show (GTK_WIDGET(statusbar_help));
 	
-	g_signal_connect(selection, "changed",  G_CALLBACK(on_changed), statusbar);
+	g_signal_connect(selection, "changed",  G_CALLBACK(on_changed), statusbar_help);
 
 	label_note5 = gtk_label_new (_("Help"));
 	gtk_widget_show (GTK_WIDGET(label_note5));
+
+	GtkWidget* vbox10_help = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_container_add (GTK_CONTAINER (vbox5), GTK_WIDGET(vbox10_help));
+	gtk_widget_show (GTK_WIDGET(vbox10_help));  
+
+	GtkWidget* toolbar_manager_help = gtk_toolbar_new ();
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_manager_help), GTK_TOOLBAR_ICONS); 
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_manager_help),GTK_ICON_SIZE_SMALL_TOOLBAR);
+
+	GtkToolItem *tool_mkdir_help = gtk_tool_button_new_from_stock(GTK_STOCK_ADD);
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_manager_help), tool_mkdir_help, -1);
+	gtk_widget_show(GTK_WIDGET(tool_mkdir_help));
+	g_signal_connect ((gpointer) tool_mkdir_help, "clicked",G_CALLBACK (new_dir_cmd_help),NULL);
+	gtk_tool_item_set_tooltip_text(tool_mkdir_help,(_("Create a new family assistance")));
+
+	GtkToolItem *item_entry_help  = gtk_tool_item_new();
+
+	cmb_famous_help = gtk_entry_new ();     
+	ent_search_help = cmb_famous_help;
+	gtk_widget_show (GTK_WIDGET(cmb_famous_help));
+
+	gtk_entry_set_width_chars (GTK_ENTRY(cmb_famous_help),50);
+
+	gtk_container_add( GTK_CONTAINER(item_entry_help), GTK_WIDGET(cmb_famous_help) );
+	gtk_toolbar_insert( GTK_TOOLBAR(toolbar_manager_help), GTK_TOOL_ITEM(item_entry_help), -1 );
+	gtk_widget_show (GTK_WIDGET(item_entry_help));
+
+	gtk_toolbar_set_show_arrow (GTK_TOOLBAR(toolbar_manager_help),FALSE);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_manager_help), GTK_TOOLBAR_ICONS); 
+	gtk_box_pack_start (GTK_BOX (vbox10_help), toolbar_manager_help, FALSE , FALSE, 0);
+	gtk_widget_show(GTK_WIDGET(toolbar_manager_help));
 
 	//*********************** ONGLET SFTP
 	gtk_widget_set_size_request (label_note5, 50, 20);
@@ -4665,6 +4699,37 @@ void new_terminal_ssh (gchar *serveur,gchar *user,gchar *path)
 
 	g_signal_connect (page_term->vte_add, "button-press-event", G_CALLBACK (popup_context_menu_vte), NULL);
 	g_signal_connect (page_term->vte_add, "child-exited", G_CALLBACK (on_button_close_term), NULL);
+}
+
+//*********************** CREAT REPERTOIRE HELP
+void new_dir_cmd_help ()
+{
+
+	gchar* dir="";
+
+		char rep_path[200];
+		strcpy(rep_path,confile.helps_dir);
+
+	if(strlen (gtk_entry_get_text (GTK_ENTRY (ent_search_help))) != 0)
+	{
+		dir=gtk_editable_get_chars(GTK_EDITABLE(cmb_famous_help),0, -1);
+		strcat(rep_path,dir);
+		if (mkdir (rep_path, S_IRUSR | S_IWUSR | S_IXUSR) == -1){log_to_memo (_("Creat Help Custom Error."), NULL, LM_ERROR);statusbar_msg (_("Creat Help Custom [ERROR]"));}
+		else{log_to_memo (_("Creat Help Custom %s"), rep_path, LM_NORMAL); statusbar_msg (_("Creat Help Custom [OK]"));
+		griffon_notify(_("The Help Custom is created."));
+
+		gtk_widget_destroy(view_help);
+		GtkTreeSelection *selection;
+		view_help = create_view_and_model_help();
+		gtk_widget_show (GTK_WIDGET(view_help));
+		selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view_help));
+		gtk_box_pack_start(GTK_BOX(vbox_help), view_help, TRUE, TRUE, 1);
+		g_signal_connect(selection, "changed",  G_CALLBACK(on_changed), statusbar_help);
+
+		return;
+				}
+	}
+	else{log_to_memo (_("Creat Help Custom Error : you must enter the name in the command line"), NULL, LM_ERROR);statusbar_msg (_("Creat Help Custom [ERROR]"));}
 }
 
 //*********************** CREAT REPERTOIRE
