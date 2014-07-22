@@ -27,3 +27,8 @@ GtkWidget *ent_search_help_new;
 GtkWidget *cmb_famous_help_new;  
 void new_helps_custom_window();
 void new_helps_custom();
+void delete_helps_custom_window();
+void delete_helps_custom();
+void rm_dir_cmd_help();
+void delete_helps_custom_dir();
+

@@ -328,4 +328,6 @@ void clear_code_folding ();
 void code_bg_folding ();
 void code_folding_all ();
 void new_dir_cmd_help ();
+void reload_dir_cmd_help ();
+
 

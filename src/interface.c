@@ -1445,6 +1445,12 @@ GtkWidget* create_tea_main_window (void)
 	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_manager_help), GTK_TOOLBAR_ICONS); 
 	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_manager_help),GTK_ICON_SIZE_SMALL_TOOLBAR);
 
+	GtkToolItem *tool_rmmkdir_help = gtk_tool_button_new_from_stock(GTK_STOCK_REMOVE);
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_manager_help), tool_rmmkdir_help, -1);
+	gtk_widget_show(GTK_WIDGET(tool_rmmkdir_help));
+	g_signal_connect ((gpointer) tool_rmmkdir_help, "clicked",G_CALLBACK (rm_dir_cmd_help),NULL);
+	gtk_tool_item_set_tooltip_text(tool_rmmkdir_help,(_("Delete a family assistance")));
+
 	GtkToolItem *tool_mkdir_help = gtk_tool_button_new_from_stock(GTK_STOCK_ADD);
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_manager_help), tool_mkdir_help, -1);
 	gtk_widget_show(GTK_WIDGET(tool_mkdir_help));
@@ -4730,6 +4736,18 @@ void new_dir_cmd_help ()
 				}
 	}
 	else{log_to_memo (_("Creat Help Custom Error : you must enter the name in the command line"), NULL, LM_ERROR);statusbar_msg (_("Creat Help Custom [ERROR]"));}
+}
+
+//*********************** RELOAD REPERTOIRE HELP
+void reload_dir_cmd_help ()
+{
+	gtk_widget_destroy(view_help);
+	GtkTreeSelection *selection;
+	view_help = create_view_and_model_help();
+	gtk_widget_show (GTK_WIDGET(view_help));
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view_help));
+	gtk_box_pack_start(GTK_BOX(vbox_help), view_help, TRUE, TRUE, 1);
+	g_signal_connect(selection, "changed",  G_CALLBACK(on_changed), statusbar_help);
 }
 
 //*********************** CREAT REPERTOIRE

@@ -47,6 +47,7 @@ char name_custom[100];
 GtkTreeSelection *selection2; 
 GtkWidget *window1;
 GtkWidget *window_custom;
+GtkWidget* combo;
 
 //******************************* template tree aide php
 GtkTreeModel *create_and_fill_model_php (void)
@@ -1840,6 +1841,12 @@ GtkWidget* centre_custom (void)
 	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_manager_help), GTK_TOOLBAR_ICONS); 
 	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_manager_help),GTK_ICON_SIZE_SMALL_TOOLBAR);
 
+	GtkToolItem *tool_rmmkdir_help = gtk_tool_button_new_from_stock(GTK_STOCK_REMOVE);
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_manager_help), tool_rmmkdir_help, -1);
+	gtk_widget_show(GTK_WIDGET(tool_rmmkdir_help));
+	g_signal_connect ((gpointer) tool_rmmkdir_help, "clicked",G_CALLBACK (delete_helps_custom_window),NULL);
+	gtk_tool_item_set_tooltip_text(tool_rmmkdir_help,(_("Delete Help Custom")));
+
 	GtkToolItem *tool_mkdir_help = gtk_tool_button_new_from_stock(GTK_STOCK_ADD);
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_manager_help), tool_mkdir_help, -1);
 	gtk_widget_show(GTK_WIDGET(tool_mkdir_help));
@@ -2027,3 +2034,131 @@ void new_helps_custom()
 	gtk_widget_destroy(window_custom);
 }
 
+//********************* AFFICHAGE DELETE HELP CUSTOM
+void delete_helps_custom_window()
+{  
+	window_custom = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_title (GTK_WINDOW (window_custom), _((_("New Help Custom"))));
+	gtk_window_set_position (GTK_WINDOW (window_custom), GTK_WIN_POS_CENTER);
+	gtk_widget_show(GTK_WIDGET(window_custom));
+	gtk_window_resize (GTK_WINDOW (window_custom), 300, 50);
+
+	GtkWidget *vbox3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_container_add (GTK_CONTAINER (window_custom), GTK_WIDGET(vbox3));
+	gtk_widget_show (GTK_WIDGET(vbox3));
+
+	combo=gtk_combo_box_text_new();
+
+	struct dirent *lecture;
+	DIR *rep;
+	char rep_path[150];
+	strcpy(rep_path,confile.helps_dir);
+	strcat(rep_path,name_custom);
+
+
+	rep = opendir(rep_path );
+	while ((lecture = readdir(rep))) 
+	{
+		if(strlen(lecture->d_name)>3)
+		{
+			gtk_combo_box_text_append ((GtkComboBoxText*)combo,NULL, lecture->d_name);
+		}
+	}
+	closedir(rep); 
+
+
+	gtk_box_pack_start (GTK_BOX (vbox3), combo, TRUE, TRUE, 0);
+	gtk_widget_show (GTK_WIDGET(combo));
+
+	GtkWidget *button2 = gtk_button_new_from_stock ("gtk-delete");
+	gtk_widget_show (GTK_WIDGET(button2));
+	gtk_box_pack_start (GTK_BOX (vbox3), button2, TRUE, TRUE, 0);
+	gtk_button_set_relief (GTK_BUTTON (button2), GTK_RELIEF_NONE);
+
+	g_signal_connect_swapped ((gpointer) button2, "clicked",G_CALLBACK (delete_helps_custom),NULL);
+
+}
+
+//********************* DELETE HELP CUSTOM
+void delete_helps_custom()
+{ 
+	gchar* dir="";
+	char rep_path[200];
+	strcpy(rep_path,confile.helps_dir);
+	strcat(rep_path,name_custom);
+	strcat(rep_path,"/");
+
+
+	if(gtk_combo_box_text_get_active_text((GtkComboBoxText*)combo) != NULL)
+	{
+		dir=gtk_combo_box_text_get_active_text((GtkComboBoxText*)combo);
+		strcat(rep_path,dir);
+
+		remove(rep_path);
+		centre_custom();
+	}
+
+	gtk_widget_destroy(window_custom);
+}
+
+//********************* AFFICHAGE DELETE HELP CUSTOM
+void rm_dir_cmd_help()
+{  
+	window_custom = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_title (GTK_WINDOW (window_custom), _((_("Delete Help Custom"))));
+	gtk_window_set_position (GTK_WINDOW (window_custom), GTK_WIN_POS_CENTER);
+	gtk_widget_show(GTK_WIDGET(window_custom));
+	gtk_window_resize (GTK_WINDOW (window_custom), 300, 50);
+
+	GtkWidget *vbox3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_container_add (GTK_CONTAINER (window_custom), GTK_WIDGET(vbox3));
+	gtk_widget_show (GTK_WIDGET(vbox3));
+
+	combo=gtk_combo_box_text_new();
+
+	struct dirent *lecture;
+	DIR *rep;
+	char rep_path[150];
+	strcpy(rep_path,confile.helps_dir);
+
+	rep = opendir(rep_path );
+	while ((lecture = readdir(rep))) 
+	{
+		if(strlen(lecture->d_name)>3)
+		{
+			gtk_combo_box_text_append ((GtkComboBoxText*)combo,NULL, lecture->d_name);
+		}
+	}
+	closedir(rep); 
+
+
+	gtk_box_pack_start (GTK_BOX (vbox3), combo, TRUE, TRUE, 0);
+	gtk_widget_show (GTK_WIDGET(combo));
+
+	GtkWidget *button2 = gtk_button_new_from_stock ("gtk-delete");
+	gtk_widget_show (GTK_WIDGET(button2));
+	gtk_box_pack_start (GTK_BOX (vbox3), button2, TRUE, TRUE, 0);
+	gtk_button_set_relief (GTK_BUTTON (button2), GTK_RELIEF_NONE);
+
+	g_signal_connect_swapped ((gpointer) button2, "clicked",G_CALLBACK (delete_helps_custom_dir),NULL);
+
+}
+
+//********************* DELETE HELP CUSTOM
+void delete_helps_custom_dir()
+{ 
+	gchar* dir="";
+	char rep_path[200];
+	strcpy(rep_path,confile.helps_dir);
+
+	if(gtk_combo_box_text_get_active_text((GtkComboBoxText*)combo) != NULL)
+	{
+		dir=gtk_combo_box_text_get_active_text((GtkComboBoxText*)combo);
+		strcat(rep_path,dir);
+
+		remove(rep_path);
+		reload_dir_cmd_help ();
+	}
+
+	gtk_widget_destroy(window_custom);
+}
