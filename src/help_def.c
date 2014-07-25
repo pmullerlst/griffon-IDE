@@ -1942,6 +1942,16 @@ void new_helps_custom_window()
 	GtkWidget *toolbar_myadmin;
 	toolbar_myadmin = gtk_toolbar_new ();
 
+	GtkToolItem *item_entry_help_new2  = gtk_tool_item_new();
+
+	GtkWidget* label_note4 = gtk_label_new (_("Name : "));    
+	gtk_widget_show (GTK_WIDGET(label_note4));
+
+	gtk_container_add( GTK_CONTAINER(item_entry_help_new2), GTK_WIDGET(label_note4) );
+	gtk_toolbar_insert( GTK_TOOLBAR(toolbar_myadmin), GTK_TOOL_ITEM(item_entry_help_new2), -1 );
+	gtk_widget_show (GTK_WIDGET(item_entry_help_new2));
+
+
 	GtkToolItem *item_entry_help_new  = gtk_tool_item_new();
 
 	cmb_famous_help_new = gtk_entry_new ();     
