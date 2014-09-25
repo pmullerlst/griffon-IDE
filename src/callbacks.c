@@ -3396,6 +3396,12 @@ void on_mni_autorep_file_open ()
 	open_file_std (confile.tea_autoreplace);
 }
 
+void on_mni_custom_term_file_open ()
+{
+	cur_settings.selected_enc = ch_str (cur_settings.selected_enc, "UTF-8");
+	open_file_std (confile.custom_term);
+}
+
 //*********************** AUTOCOMP FILE OPEN
 void on_mni_autocomp_file_open ()
 {

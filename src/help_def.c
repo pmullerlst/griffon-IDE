@@ -817,6 +817,32 @@ void  on_changed(GtkWidget *widget, gpointer statusbar)
 }
 
 
+//******************************* match et envoi des fonction d'aide insert pour custom term
+void  on_changed_term(GtkWidget *tt, GdkEvent *eventt, gpointer user_data) 
+{
+	if(eventt==NULL){printf("\n");}
+	gtk_widget_get_name(tt);
+
+  GtkTreeIter iter;
+  GtkTreeModel *model;
+  char *value;
+
+  if (gtk_tree_selection_get_selected(
+      GTK_TREE_SELECTION(selection2), &model, &iter)) {
+
+
+		gtk_tree_model_get(model, &iter, COLUMN, &value,  -1);
+      
+		gchar **a = g_strsplit (value, "[CMD]", -1);   
+
+		if(a[1]!=NULL)
+		{
+			vte_terminal_feed_child (user_data,a[1],-1);
+		}
+
+	}
+}
+
 //******************************* match et envoi des fonction d'aide insert
 void  on_changed2(GtkWidget *tt, GdkEvent *eventt, gpointer *user_data) 
 {
@@ -1697,40 +1723,26 @@ GtkTreeModel *create_and_fill_model_term (void)
                      COLUMN, "1 Base [Term]",
                      -1);
 
-  gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.1 (term) : Disk Usage")),-1);
-  gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.2 (term) : Extractors website WGET")),-1);
-  gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.3 (term) : RM on a large number of files")),-1);
-  gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.4 (term) : FIND find a file by name")),-1);
-  gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.5 (term) : SCREEN Launch a screen or recover")),-1);
-  gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.6 (term) : WC number of lines to output or file")),-1);
-  gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.7 (term) : WGET download web page")),-1);
-  gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.8 (term) : List files and directories in color")),-1);
-  gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.9 (term) : NICE Launch a script or command heavy with low priority")),-1);
-  gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.0 (term) : Compression with tar.gz")),-1);
-  gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.1 (term) : Unzip with tar.gz")),-1);
-  gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.2 (term) : Difference between two files")),-1);
-  gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.3 (term) : Git status")),-1);
-  gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.4 (term) : Git commit")),-1);
-  gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.5 (term) : Git push")),-1);
-  gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.6 (term) : IPTABLES DROP IP")),-1);
-  gtk_tree_store_append(treestore, &child, &toplevel);
-  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.7 (term) : IPTABLES cleaning rules")),-1);
+	char rep_path[200];
+	strcpy(rep_path,confile.custom_term);
+
+	gchar lecture[1024];
+	FILE *fichier;
+	fichier = fopen(rep_path,"rt");
+	gchar **a;
+
+	if(fichier!=NULL)
+	{
+		while(fgets(lecture, 1024, fichier))
+		{
+		a = g_strsplit (lecture, "\n", -1);
+		gtk_tree_store_append(treestore, &child, &toplevel);
+		gtk_tree_store_set(treestore, &child,COLUMN, (_(a[0])),-1);
+		}
+	fclose(fichier);
+	}
+
+
   return GTK_TREE_MODEL(treestore);
 }
 
@@ -1786,6 +1798,25 @@ void term_help(GtkWidget *tv,GdkEventButton *event,  gpointer user_data)
   gtk_container_add(GTK_CONTAINER(window1), vbox);
 	gtk_widget_show (GTK_WIDGET(vbox));
 
+	GtkWidget* vbox10_help = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_container_add (GTK_CONTAINER (vbox), GTK_WIDGET(vbox10_help));
+	gtk_widget_show (GTK_WIDGET(vbox10_help));  
+
+	GtkWidget* toolbar_manager_help = gtk_toolbar_new ();
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_manager_help), GTK_TOOLBAR_ICONS); 
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_manager_help),GTK_ICON_SIZE_SMALL_TOOLBAR);
+
+	GtkToolItem *tool_rmmkdir_help = gtk_tool_button_new_from_stock(GTK_STOCK_EDIT);
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_manager_help), tool_rmmkdir_help, -1);
+	gtk_widget_show(GTK_WIDGET(tool_rmmkdir_help));
+	g_signal_connect ((gpointer) tool_rmmkdir_help, "clicked",G_CALLBACK (on_mni_custom_term_file_open),NULL);
+	gtk_tool_item_set_tooltip_text(tool_rmmkdir_help,(_("Edit Help Custom file in tab editor")));
+
+	gtk_toolbar_set_show_arrow (GTK_TOOLBAR(toolbar_manager_help),FALSE);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_manager_help), GTK_TOOLBAR_ICONS); 
+	gtk_box_pack_start (GTK_BOX (vbox10_help), toolbar_manager_help, FALSE , FALSE, 0);
+	gtk_widget_show(GTK_WIDGET(toolbar_manager_help));
+
     GtkWidget *scrolledWindow = gtk_scrolled_window_new(NULL, NULL);
 	  gtk_widget_show (GTK_WIDGET(scrolledWindow));
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow),
@@ -1807,7 +1838,7 @@ void term_help(GtkWidget *tv,GdkEventButton *event,  gpointer user_data)
 	gtk_tree_view_expand_all (GTK_TREE_VIEW(view));
 	
 	 g_signal_connect(view, "button-release-event",  
-      G_CALLBACK(on_changed2), user_data);
+      G_CALLBACK(on_changed_term), user_data);
 
 	gtk_widget_grab_focus (view);
 
