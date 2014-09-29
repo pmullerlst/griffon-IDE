@@ -1833,7 +1833,7 @@ GtkWidget* create_tea_main_window (void)
 	gtk_widget_show (GTK_WIDGET(image_don));
 	gtk_box_pack_start (GTK_BOX (hbox_no2), image_don, FALSE, FALSE, 0);
 
-	GtkWidget *label_don1 = gtk_label_new (_("\n  You can make a donation,\n  to support the development of Griffon IDE.  \n\n  Thank you.\n\n"));
+	GtkWidget *label_don1 = gtk_label_new (_("\n  You can make a donation,\n  to support the development of Griffon IDE.  \n\n  Thank you.\n\n  Files in todo/bug/fix list :\n"));
 	gtk_widget_show (GTK_WIDGET(label_don1));
 	gtk_box_pack_start (GTK_BOX (hbox_no2), label_don1, FALSE, FALSE, 0);
 
