@@ -142,6 +142,8 @@ GtkWidget *mni_links;
 GtkWidget *mni_links_menu;
 GtkWidget *mni_sort_menu;
 GtkWidget *notebook2;
+GtkWidget *combo_todo;
+GtkWidget *combo_todo_main;
 GtkWidget *mni_tabs;
 GtkWidget *mni_tabs_menu;
 GtkWidget *notebook_down, *notebook_term;
@@ -329,5 +331,5 @@ void code_bg_folding ();
 void code_folding_all ();
 void new_dir_cmd_help ();
 void reload_dir_cmd_help ();
-
+void open_todo_combo_main (void);
 

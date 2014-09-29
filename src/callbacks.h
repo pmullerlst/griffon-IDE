@@ -452,5 +452,6 @@ void insert_dialog_path();
 void insert_dialog_path_dir();
 void on_execut_diff (void);
 void on_mni_custom_term_file_open ();
+void open_todo_combo (void);
 
 

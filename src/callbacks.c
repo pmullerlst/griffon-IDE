@@ -5784,7 +5784,7 @@ void add_todo_com(void)
 		save_string_to_file_add(confile.tea_todo,msg);
 		save_string_to_file_add(confile.tea_todo," ");
 		save_string_to_file_add(confile.tea_todo,ctime(&date));
-		save_string_to_file_add(confile.tea_todo,"\n");
+		//save_string_to_file_add(confile.tea_todo,"\n");
 		on_mni_file_todolist ();
 }
 
@@ -5821,7 +5821,7 @@ void add_todo_bug(void)
 		save_string_to_file_add(confile.tea_todo,msg);
 		save_string_to_file_add(confile.tea_todo," ");
 		save_string_to_file_add(confile.tea_todo,ctime(&date));
-		save_string_to_file_add(confile.tea_todo,"\n");
+		//save_string_to_file_add(confile.tea_todo,"\n");
 		on_mni_file_todolist ();
 }
 
@@ -5858,7 +5858,7 @@ void add_todo_fixme(void)
 		save_string_to_file_add(confile.tea_todo,msg);
 		save_string_to_file_add(confile.tea_todo," ");
 		save_string_to_file_add(confile.tea_todo,ctime(&date));
-		save_string_to_file_add(confile.tea_todo,"\n");
+		//save_string_to_file_add(confile.tea_todo,"\n");
 		on_mni_file_todolist ();
 }
 
@@ -5977,5 +5977,38 @@ void on_execut_diff (void)
 		g_free (standard_error);
 		g_free (changelog_file);
 		g_free (fname);
+	}
+}
+
+//*********************** OPEN FILE TODO COMBO
+void open_todo_combo (void)
+{
+	gchar* file_combo="";
+	gchar **a;
+
+	if(gtk_combo_box_text_get_active_text((GtkComboBoxText*)combo_todo) != NULL)
+	{
+		file_combo=gtk_combo_box_text_get_active_text((GtkComboBoxText*)combo_todo);
+		a = g_strsplit (file_combo, " ", -1);
+
+		cur_settings.selected_enc = ch_str (cur_settings.selected_enc, "UTF-8");
+		open_file_std (a[2]);
+	}
+}
+
+//*********************** OPEN FILE TODO COMBO
+void open_todo_combo_main (void)
+{
+	gchar* file_combo="";
+	//gchar **a;
+
+	if(gtk_combo_box_text_get_active_text((GtkComboBoxText*)combo_todo_main) != NULL)
+	{
+		file_combo=gtk_combo_box_text_get_active_text((GtkComboBoxText*)combo_todo_main);
+		//a = g_strsplit (file_combo, " ", -1);
+
+		cur_settings.selected_enc = ch_str (cur_settings.selected_enc, "UTF-8");
+//		open_file_std (a[2]);
+		open_file_std (file_combo);
 	}
 }

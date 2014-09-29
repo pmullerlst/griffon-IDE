@@ -1833,9 +1833,34 @@ GtkWidget* create_tea_main_window (void)
 	gtk_widget_show (GTK_WIDGET(image_don));
 	gtk_box_pack_start (GTK_BOX (hbox_no2), image_don, FALSE, FALSE, 0);
 
-	GtkWidget *label_don1 = gtk_label_new (_("\n  You can make a donation,\n  to support the development of Griffon IDE.  \n\n  Thank you."));
+	GtkWidget *label_don1 = gtk_label_new (_("\n  You can make a donation,\n  to support the development of Griffon IDE.  \n\n  Thank you.\n\n"));
 	gtk_widget_show (GTK_WIDGET(label_don1));
 	gtk_box_pack_start (GTK_BOX (hbox_no2), label_don1, FALSE, FALSE, 0);
+
+	combo_todo_main=gtk_combo_box_text_new();
+	gtk_box_pack_start (GTK_BOX (hbox_no2), combo_todo_main, FALSE, FALSE, 0);
+	gtk_widget_show (GTK_WIDGET(combo_todo_main));
+
+	gchar lecture_combo_main[1024];
+	FILE *fichier_combo_main;
+	fichier_combo_main = fopen(confile.tea_todo,"rt");
+	gchar **a_main;
+
+	if(fichier_combo_main!=NULL)
+	{
+		while(fgets(lecture_combo_main, 1024, fichier_combo_main))
+		{
+				a_main = g_strsplit (lecture_combo_main, " ", -1);
+				if(a_main[2]!=NULL)
+				{
+				gtk_combo_box_text_append ((GtkComboBoxText*)combo_todo_main,NULL, a_main[2]);
+				}
+		}
+
+		fclose(fichier_combo_main);
+	}
+
+	g_signal_connect ((gpointer) combo_todo_main, "changed",G_CALLBACK (open_todo_combo_main),NULL);
 
 	notebook1 = gtk_notebook_new ();
 	gtk_widget_set_name (notebook1, "notebook1");
@@ -2590,6 +2615,13 @@ GtkWidget* create_tea_main_window (void)
 	gtk_container_add (GTK_CONTAINER (notebook_down), GTK_WIDGET(vbox4));
 	gtk_widget_show (GTK_WIDGET(vbox4));  
 
+	button_include1 = gtk_button_new_with_label (_("Start searching for words: TODO, FIXME, BUG in the current file (!save the file before!)"));
+	gtk_widget_show(GTK_WIDGET(button_include1));
+	gtk_box_pack_start(GTK_BOX(vbox4), button_include1, FALSE, FALSE, 0);
+
+	g_signal_connect ((gpointer) button_include1, "clicked",G_CALLBACK (scan_include),NULL);
+
+
 	scrolledwindow5 = gtk_scrolled_window_new (NULL, NULL);
 	gtk_widget_show (GTK_WIDGET(scrolledwindow5));
 	gtk_box_pack_start(GTK_BOX(vbox4), GTK_WIDGET(scrolledwindow5), TRUE, TRUE, 1);
@@ -2672,12 +2704,31 @@ GtkWidget* create_tea_main_window (void)
 
 	g_signal_connect ((gpointer) button_fixme, "clicked",G_CALLBACK (add_todo_fixme),NULL);
 
-	button_include1 = gtk_button_new_with_label (_("Start searching for words: TODO, FIXME, BUG in the current file (!save the file before!)"));
-	gtk_widget_show(GTK_WIDGET(button_include1));
-	gtk_box_pack_start(GTK_BOX(vbox4), button_include1, FALSE, FALSE, 0);
 
-	g_signal_connect ((gpointer) button_include1, "clicked",G_CALLBACK (scan_include),NULL);
+	combo_todo=gtk_combo_box_text_new();
+	gtk_box_pack_start (GTK_BOX (vbox4), combo_todo, FALSE, FALSE, 0);
+	gtk_widget_show (GTK_WIDGET(combo_todo));
 
+	gchar lecture_combo[1024];
+	FILE *fichier_combo;
+	fichier_combo = fopen(confile.tea_todo,"rt");
+	gchar **a;
+
+	if(fichier_combo!=NULL)
+	{
+		while(fgets(lecture_combo, 1024, fichier_combo))
+		{
+				a = g_strsplit (lecture_combo, "\n", -1);
+				if(a[0]!=NULL)
+				{
+				gtk_combo_box_text_append ((GtkComboBoxText*)combo_todo,NULL, lecture_combo);
+				}
+		}
+
+		fclose(fichier_combo);
+	}
+
+	g_signal_connect ((gpointer) combo_todo, "changed",G_CALLBACK (open_todo_combo),NULL);
 
 	scrolledwindow4 = gtk_scrolled_window_new (NULL, NULL);
 	gtk_widget_show (GTK_WIDGET(scrolledwindow4));
@@ -2722,6 +2773,7 @@ GtkWidget* create_tea_main_window (void)
 	gtk_box_pack_start(GTK_BOX(vbox4), button_todo, FALSE, FALSE, 0);
 
 	g_signal_connect ((gpointer) button_todo, "clicked",G_CALLBACK (delete_todo),NULL);
+
 
 	label_note3 = gtk_label_new (_("Todo list"));
 	gtk_widget_show (GTK_WIDGET(label_note3));
