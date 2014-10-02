@@ -258,7 +258,7 @@ GtkWidget* new_project_window (void)
 	gtk_widget_show (GTK_WIDGET(hbox2));
 	gtk_box_pack_start (GTK_BOX (vbox1), hbox2, TRUE, TRUE, 0);
 
-	label2 = gtk_label_new (_("Projetc name : \t"));
+	label2 = gtk_label_new (_("Project name : \t\t"));
 	gtk_widget_show (GTK_WIDGET(label2));
 	gtk_box_pack_start (GTK_BOX (hbox2), label2, FALSE, FALSE, 0);
 	gtk_label_set_justify (GTK_LABEL (label2), GTK_JUSTIFY_LEFT);
@@ -272,7 +272,7 @@ GtkWidget* new_project_window (void)
 	gtk_widget_show (GTK_WIDGET(hbox3));
 	gtk_box_pack_start (GTK_BOX (vbox1), hbox3, TRUE, TRUE, 0);
 
-	label3 = gtk_label_new (_("Path : \t\t\t\t"));
+	label3 = gtk_label_new (_("Path : \t\t\t"));
 	gtk_widget_show (GTK_WIDGET(label3));
 	gtk_box_pack_start (GTK_BOX (hbox3), label3, FALSE, FALSE, 0);
 	gtk_label_set_justify (GTK_LABEL (label3), GTK_JUSTIFY_LEFT);
@@ -737,7 +737,7 @@ void update_project_window (gpointer data)
 	gtk_widget_show (GTK_WIDGET(hbox2));
 	gtk_box_pack_start (GTK_BOX (vbox1), hbox2, TRUE, TRUE, 0);
 
-	label2 = gtk_label_new (_("Projetc name : \t"));
+	label2 = gtk_label_new (_("Project name : \t\t"));
 	gtk_widget_show (GTK_WIDGET(label2));
 	gtk_box_pack_start (GTK_BOX (hbox2), label2, FALSE, FALSE, 0);
 	gtk_label_set_justify (GTK_LABEL (label2), GTK_JUSTIFY_LEFT);
@@ -752,7 +752,7 @@ void update_project_window (gpointer data)
 	gtk_widget_show (GTK_WIDGET(hbox3));
 	gtk_box_pack_start (GTK_BOX (vbox1), hbox3, TRUE, TRUE, 0);
 
-	label3 = gtk_label_new (_("Path : \t\t\t\t"));
+	label3 = gtk_label_new (_("Path : \t\t\t"));
 	gtk_widget_show (GTK_WIDGET(label3));
 	gtk_box_pack_start (GTK_BOX (hbox3), label3, FALSE, FALSE, 0);
 	gtk_label_set_justify (GTK_LABEL (label3), GTK_JUSTIFY_LEFT);
