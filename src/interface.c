@@ -18,6 +18,7 @@
 #include <signal.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <ctype.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <string.h>
@@ -127,6 +128,7 @@ WebKitWebView *webView_doc_line;
 GtkWidget *view_help;
 GtkWidget *vbox_help;
 GtkWidget *statusbar_help;
+WebKitWebView *webView_doc;
 
 int tab_fold[19000];
 
@@ -610,8 +612,8 @@ GtkWidget* create_tea_main_window (void)
 
 	FILE *fich;
 	char carac;
-	char mot[100];
-	mot[0]='\0';
+	char mot2[100];
+	mot2[0]='\0';
 
 	//*********************** LOAD THEME
 	if(fopen(confile.tea_theme,"r"))
@@ -625,12 +627,12 @@ GtkWidget* create_tea_main_window (void)
 				}
 				else
 				{
-				strncat(mot,&carac,1);
+				strncat(mot2,&carac,1);
 				}
 			}
 	fclose(fich);
 	}
-	else{strcpy(mot, "classic");}
+	else{strcpy(mot2, "classic");}
 
 
 	GtkWidget *button_web_current;
@@ -956,6 +958,8 @@ GtkWidget* create_tea_main_window (void)
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_F7, 0,GTK_ACCEL_VISIBLE);
 
 	mni_temp = new_menu_item (_("Devdocs window"), mni_functions_menu, window_devdocs);
+	mni_temp = new_menu_item (_("Chrono"), mni_functions_menu, window_chrono);
+	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_space, GDK_CONTROL_MASK,GTK_ACCEL_VISIBLE);
 
 	//*********************** MENU HTML
 	mni_temp = new_menu_item (_("Html"), menubar1, NULL);
@@ -994,7 +998,6 @@ GtkWidget* create_tea_main_window (void)
 
 	fill_entities_special_menu ();
 	mni_temp = new_menu_sep (mni_markup_menu);
-
 
 	mni_temp = new_menu_item (_("Preview text selection in a web popup"), mni_markup_menu, preview_web_popup);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_p, GDK_CONTROL_MASK,GTK_ACCEL_VISIBLE);
@@ -1793,7 +1796,107 @@ GtkWidget* create_tea_main_window (void)
 
 	gtk_box_pack_start (GTK_BOX (hbox_no), scrolledWindow_editor, TRUE, TRUE, 0);
 
-	webkit_web_view_load_uri(webView_editor, "http://griffon.lasotel.fr/main.php?version=1.7.2");
+
+	int nb_line_todo = 0;
+	int nb_line_bug = 0;
+	int nb_line_fixme = 0;
+	FILE *fich_todo;
+
+	char motrch[100],motrch2[100],motrch3[100], mot[2000],path[100];
+	int nbapparition=0,nbcarac=0,nbmot=0,counter=0;
+	int nbligne=1;	
+
+	nbapparition=0,nbcarac=0,nbmot=0,nbligne=1;
+	mot[0]='\0';
+	motrch[0]='\0';
+	motrch2[0]='\0';
+	motrch3[0]='\0';
+	strcpy(motrch,"TODO");
+	strcpy(motrch2,"BUG");
+	strcpy(motrch3,"FIXME");
+
+	fich_todo=fopen(confile.tea_todo,"r");
+
+	while ((carac =fgetc(fich_todo)) != EOF)
+	{
+
+		if(counter==1)
+		{
+			strncat(mot,&carac,1);
+
+			if (carac =='\n' || carac =='\r')
+			{
+
+			gchar **a = g_strsplit (mot, "\"", -1);
+
+			if(a[1]!='\0')
+			{
+				//strcpy(path,t);
+				strcat(path,a[1]);
+				if(g_file_test (path, G_FILE_TEST_EXISTS)){doc_open_file (path);}
+			}
+
+		path[0]='\0';
+		mot[0]='\0';
+		counter=0;		  
+			}
+		}
+
+	if (counter==0)
+	{
+		if (carac =='\n' || carac =='\r')
+		{
+			mot[0]='\0';
+			nbligne++;
+		}
+			nbcarac++;
+			if (mot[0] != '\0' && isalnum(carac) != 0){strncat(mot,&carac,1);}
+
+			if (mot[0] != '\0' && isalnum(carac) == 0)
+			{
+				if (strncmp(motrch,mot,strlen(motrch))==0)
+				{
+					nbapparition++;
+					nb_line_todo++;
+					if(nbapparition==1){nbcarac--;}
+					counter=1;      
+				}	
+
+				if (strncmp(motrch2,mot,strlen(motrch2))==0)
+				{
+					nbapparition++;
+					nb_line_bug++;
+					if(nbapparition==1){nbcarac--;}
+					counter=1;      
+				}	
+
+				if (strncmp(motrch3,mot,strlen(motrch3))==0)
+				{
+					nbapparition++;
+					nb_line_fixme++;
+					if(nbapparition==1){nbcarac--;}
+					counter=1;      
+				}	
+
+
+			}
+
+			if (mot[0] == '\0' && isalnum(carac) != 0)
+			{
+				strncat(mot,&carac,1);     
+				nbmot++;
+			}
+		}
+	}
+	fclose(fich_todo);
+	
+gchar* tampon_todo=g_strdup_printf ("%d", nb_line_todo) ;
+gchar* tampon_bug=g_strdup_printf ("%d", nb_line_bug) ;
+gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
+
+	gchar *uri_main = g_strconcat("http://griffon.lasotel.fr/main.php?version=1.7.2&todo=", tampon_todo,"&bug=",tampon_bug,"&fixme=",tampon_fixme, NULL);
+
+	webkit_web_view_load_uri(webView_editor, uri_main);
 
 	g_signal_connect(webView_editor, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_editor);
 	g_signal_connect(webView_editor, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_editor);
@@ -6923,5 +7026,37 @@ void code_folding_all ()
 	gtk_text_buffer_create_tag (	GTK_TEXT_BUFFER(cur_text_doc->text_buffer), tampon, "invisible", TRUE, NULL);
 	gtk_text_buffer_apply_tag_by_name (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), tampon, &start_buf, &start);
 	gtk_text_buffer_apply_tag_by_name (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), tampon, &end, &end_buf);
+}
+
+//*********************** WINDOW CHRONO
+void window_chrono ()
+{
+	GtkWidget *window1;
+	GtkWidget *vbox1;
+	WebKitWebView *webView_doc2;
+
+	window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
+	gtk_window_set_title (GTK_WINDOW (window1), _((_("Griffon IDE Version"))));
+	gtk_window_resize (GTK_WINDOW (window1), 450, 120);
+	gtk_widget_show (GTK_WIDGET(window1));
+
+	vbox1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_widget_show (GTK_WIDGET(vbox1));
+	gtk_container_add (GTK_CONTAINER (window1), GTK_WIDGET(vbox1));
+
+	GtkWidget *scrolledwindow5 = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_show (GTK_WIDGET(scrolledwindow5));
+	gtk_box_pack_start(GTK_BOX(vbox1), GTK_WIDGET(scrolledwindow5), TRUE, TRUE, 1);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_CORNER_TOP_LEFT);
+
+	webView_doc2 = WEBKIT_WEB_VIEW(webkit_web_view_new());
+	gtk_widget_show (GTK_WIDGET(webView_doc2));
+
+	gtk_container_add(GTK_CONTAINER(scrolledwindow5), GTK_WIDGET(webView_doc2));
+
+	webkit_web_view_load_uri(webView_doc2, "http://griffon.lasotel.fr/counter/index.html");
+
 }
 
