@@ -961,6 +961,9 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("Chrono"), mni_functions_menu, window_chrono);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_space, GDK_CONTROL_MASK,GTK_ACCEL_VISIBLE);
 
+	mni_temp = new_menu_item (_("Last modified date of the file"), mni_functions_menu, window_chrono_stats_file);
+	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_space, GDK_SHIFT_MASK,GTK_ACCEL_VISIBLE);
+
 	//*********************** MENU HTML
 	mni_temp = new_menu_item (_("Html"), menubar1, NULL);
 	mni_markup_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
@@ -7060,3 +7063,54 @@ void window_chrono ()
 
 }
 
+//*********************** WINDOW CHRONO STATS FILE
+void window_chrono_stats_file ()
+{
+	if (! get_page_text()) return;
+
+	if(cur_text_doc->file_name!=NULL)
+	{
+	struct stat s; //inscrit la date de deniere modif du fichier de voc
+	stat(cur_text_doc->file_name,&s);
+	struct tm *p;
+	time_t fff=s.st_mtime;
+	p=localtime(&fff);
+//	printf("le %d/%d/%d, ", p->tm_mday, p->tm_mon+1, 1900 + p->tm_year);
+//	printf("et il est %02uh %02umin %02usec.\n", p->tm_hour, p->tm_min, p->tm_sec);
+
+	gchar* tampon_annee=g_strdup_printf ("%d", 1900 + p->tm_year) ;
+	gchar* tampon_mois=g_strdup_printf ("%d", p->tm_mon+1) ;
+	gchar* tampon_day=g_strdup_printf ("%d", p->tm_mday) ;
+	gchar* tampon_heure=g_strdup_printf ("%d", p->tm_hour) ;
+	gchar* tampon_min=g_strdup_printf ("%d",  p->tm_sec) ;
+
+	gchar *uri_main = g_strconcat("http://griffon.lasotel.fr/counter/stats.php?annee=", tampon_annee,"&mois=",tampon_mois,"&day=",tampon_day,"&heure=",tampon_heure,"&min=",tampon_min, NULL);
+
+	GtkWidget *window1;
+	GtkWidget *vbox1;
+	WebKitWebView *webView_doc2;
+
+	window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
+	gtk_window_set_title (GTK_WINDOW (window1), _((_("Griffon IDE Version"))));
+	gtk_window_resize (GTK_WINDOW (window1), 550, 150);
+	gtk_widget_show (GTK_WIDGET(window1));
+
+	vbox1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_widget_show (GTK_WIDGET(vbox1));
+	gtk_container_add (GTK_CONTAINER (window1), GTK_WIDGET(vbox1));
+
+	GtkWidget *scrolledwindow5 = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_show (GTK_WIDGET(scrolledwindow5));
+	gtk_box_pack_start(GTK_BOX(vbox1), GTK_WIDGET(scrolledwindow5), TRUE, TRUE, 1);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_CORNER_TOP_LEFT);
+
+	webView_doc2 = WEBKIT_WEB_VIEW(webkit_web_view_new());
+	gtk_widget_show (GTK_WIDGET(webView_doc2));
+
+	gtk_container_add(GTK_CONTAINER(scrolledwindow5), GTK_WIDGET(webView_doc2));
+
+	webkit_web_view_load_uri(webView_doc2, uri_main);
+	}
+}
