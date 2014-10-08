@@ -4558,7 +4558,7 @@ void term_search_google(gpointer user_data)
 //*********************** MENU POPUP TERMINAL
 gboolean popup_context_menu_vte(GtkWidget *tv, GdkEventButton *event)
 {
-	GtkWidget *menu_item,*menu_item2,*menu_item3,*menu_item4,*menu_item5;
+	GtkWidget *menu_item,*menu_item2,*menu_item3,*menu_item4,*menu_item5,*menu_item6;
 	gboolean ret = FALSE;
 
 	if (event->type == GDK_BUTTON_PRESS && event->button == 3)
@@ -4592,6 +4592,10 @@ gboolean popup_context_menu_vte(GtkWidget *tv, GdkEventButton *event)
 		menu_item5 = gtk_menu_item_new_with_label (_("Help"));
 		g_signal_connect(menu_item5, "button-release-event", G_CALLBACK(term_help), tv);
 		gtk_menu_shell_append(GTK_MENU_SHELL(menu_vte), menu_item5);
+
+		menu_item6 = gtk_menu_item_new_with_label (_("Chrono"));
+		g_signal_connect(menu_item6, "button-release-event", G_CALLBACK(window_chrono), tv);
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu_vte), menu_item6);
 
 		gtk_widget_show_all(GTK_WIDGET(menu_vte));
 
@@ -6705,6 +6709,11 @@ void populate_popup(GtkTextView *view, GtkMenu *menu, gpointer user_data)
 	i = gtk_menu_item_new_with_label("[BETA TEST] Remove ALL code folding");
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
 	g_signal_connect(i, "button-release-event",G_CALLBACK(clear_code_folding), NULL);
+	gtk_widget_show(i);
+
+	i = gtk_menu_item_new_with_label("Last modified date of the file");
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
+	g_signal_connect(i, "button-release-event",G_CALLBACK(window_chrono_stats_file), NULL);
 	gtk_widget_show(i);
 
 }
