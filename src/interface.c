@@ -567,6 +567,17 @@ static GtkWidget* create_hardcoded_toolbar (void)
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_sep, -1);
 	gtk_widget_show(GTK_WIDGET(tool_sep));
 
+	GtkToolItem *tool_add_file_session = gtk_tool_button_new_from_stock(GTK_STOCK_ADD  );
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_add_file_session, -1);
+	gtk_widget_show(GTK_WIDGET(tool_add_file_session));
+	g_signal_connect ((gpointer) tool_add_file_session, "clicked",G_CALLBACK (save_file_in_project_tab),NULL);
+	gtk_tool_item_set_tooltip_text(tool_add_file_session,(_("Add file in project session")));
+	gtk_tool_button_set_label(GTK_TOOL_BUTTON(tool_add_file_session),"File project");
+
+	tool_sep=gtk_separator_tool_item_new();
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_sep, -1);
+	gtk_widget_show(GTK_WIDGET(tool_sep));
+
 	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar), GTK_TOOLBAR_ICONS); 
 	gtk_style_context_add_class (gtk_widget_get_style_context (toolbar),"primary-toolbar");
 	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar),GTK_ICON_SIZE_SMALL_TOOLBAR);
@@ -5524,6 +5535,42 @@ void load_projects_list()
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n\n[URL/HTTP] : ")), -1);
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[7])), -1);
 
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n\n[FILES SESSION] : \n\n")), -1);
+	//***************** Ouverture des fichiers de session du projet
+
+	gchar *file_session = g_strconcat(confile.sessions,a[0], NULL);
+
+	if (g_file_test (file_session, G_FILE_TEST_EXISTS))
+	{
+	FILE *fich_session;
+	char carac_session;
+	char mot_session[1000];
+	mot_session[0]='\0';
+
+	if(fopen(file_session,"rt"))
+	{
+	fich_session=fopen(file_session,"r");
+
+		while ((carac_session =fgetc(fich_session)) != EOF)
+		{
+			if (carac_session =='\n')
+			{
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(mot_session)), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
+			mot_session[0]='\0';
+			}
+			else
+			{
+				strncat(mot_session,&carac_session,1);
+			}
+		}
+	fclose(fich_session);
+	}
+	}
+
+
+
+
 			gtk_widget_show (GTK_WIDGET(sView_projet2)); 
 
 			ligne_tab=ligne-1;
@@ -5763,6 +5810,38 @@ void open_project(gpointer data)
 			}
 		}
 	fclose(fich);
+	}
+
+	//***************** Ouverture des fichiers de session du projet
+
+	gchar *file_session = g_strconcat(confile.sessions,p_project_name, NULL);
+
+	if (g_file_test (file_session, G_FILE_TEST_EXISTS))
+	{
+	FILE *fich_session;
+	char carac_session;
+	char mot_session[1000];
+	mot_session[0]='\0';
+
+	if(fopen(file_session,"rt"))
+	{
+	fich_session=fopen(file_session,"r");
+
+		while ((carac_session =fgetc(fich_session)) != EOF)
+		{
+			if (carac_session =='\n')
+			{
+			cur_settings.selected_enc = ch_str (cur_settings.selected_enc, "UTF-8");
+			open_file_std (mot_session);
+			mot_session[0]='\0';
+			}
+			else
+			{
+				strncat(mot_session,&carac_session,1);
+			}
+		}
+	fclose(fich_session);
+	}
 	}
 
 }
@@ -7123,3 +7202,31 @@ void window_chrono_stats_file ()
 	webkit_web_view_load_uri(webView_doc2, uri_main);
 	}
 }
+
+//*********************** SAVE FILE EDIT IN PROJECT TAB
+void save_file_in_project_tab ()
+{
+	if (! get_page_text()) return;
+
+	if (! g_file_test (confile.sessions, G_FILE_TEST_IS_DIR))
+	{
+			if (mkdir (confile.sessions, S_IRUSR | S_IWUSR | S_IXUSR) == -1)
+				DBM ("mkdir sessions_project failed");
+	}
+
+	gchar *file_session = g_strconcat(confile.sessions,p_project_name, NULL);
+
+	if(p_project_name!=NULL)
+	{
+		if (! g_file_test (file_session, G_FILE_TEST_EXISTS))
+			create_empty_file (file_session, "");
+
+	save_string_to_file_add(file_session,cur_text_doc->file_name);
+	save_string_to_file_add(file_session,"\n");
+	}
+	else
+	{
+		log_to_memo (_("No project open"), NULL, LM_ERROR);statusbar_msg (_("Add file in project ERROR"));
+	}
+}
+

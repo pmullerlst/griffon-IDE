@@ -28,6 +28,7 @@
 #include "griffon_proj.h"
 #include "rox_strings.h"
 #include "griffon_config.h"
+#include "griffon_text_document.h"
 
 static GtkWidget *ent_project_name;
 static GtkWidget *ent_dir_makefile;
@@ -981,6 +982,10 @@ void update_project_window (gpointer data)
 	gtk_widget_show (GTK_WIDGET(label1));
 	gtk_frame_set_label_widget (GTK_FRAME (frame1), label1);
 	gtk_label_set_justify (GTK_LABEL (label1), GTK_JUSTIFY_LEFT);
+
+	gchar *file_session = g_strconcat(confile.sessions,a[0], NULL);
+	cur_settings.selected_enc = ch_str (cur_settings.selected_enc, "UTF-8");
+	open_file_std (file_session);
 
 	g_signal_connect_swapped ((gpointer) button_icon, "clicked",G_CALLBACK (open_dialog_path_icon),entry_proj_icon);
 	g_signal_connect_swapped ((gpointer) button_command, "clicked",G_CALLBACK (open_dialog_path),entry_proj_command);

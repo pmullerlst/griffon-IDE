@@ -334,4 +334,5 @@ void reload_dir_cmd_help ();
 void open_todo_combo_main (void);
 void window_chrono ();
 void window_chrono_stats_file ();
+void save_file_in_project_tab ();
 

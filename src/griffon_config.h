@@ -47,6 +47,7 @@ typedef struct
 	gchar *iconv_file;
 	gchar *bmx_file;
 	gchar *sessions_dir;
+	gchar *sessions;
 	gchar *tea_rc;
 	gchar *tea_ui;
 	gchar *tea_gl_famous;

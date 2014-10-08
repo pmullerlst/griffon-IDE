@@ -197,6 +197,7 @@ void confile_free (void)
 	g_free (confile.file_tmp);  
 	g_free (confile.tea_myadmin);  
 	g_free (confile.sessions_dir);
+	g_free (confile.sessions);
 	g_free (confile.tea_rc);
 	g_free (confile.tea_ui);
 	g_free (confile.tea_gl_famous);
@@ -686,6 +687,7 @@ void confile_reload (void)
 	confile.tea_autoreplace = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "griffon_autoreplace", NULL); 
 	confile.bmx_file = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "griffon_bmx", NULL); 
 	confile.sessions_dir = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "sessions", G_DIR_SEPARATOR_S, NULL);
+	confile.sessions = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "sessions_project", G_DIR_SEPARATOR_S, NULL);
 	confile.snippets_dir = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "snippets", G_DIR_SEPARATOR_S, NULL);
 	confile.helps_dir = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "helps_custom", G_DIR_SEPARATOR_S, NULL);
 	confile.templates_dir = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "templates", G_DIR_SEPARATOR_S, NULL);
@@ -725,6 +727,9 @@ void confile_reload (void)
 
 			if (mkdir ("sessions", S_IRUSR | S_IWUSR | S_IXUSR) == -1)
 				DBM ("mkdir sessions failed");
+
+			if (mkdir ("sessions_project", S_IRUSR | S_IWUSR | S_IXUSR) == -1)
+				DBM ("mkdir sessions_project failed");
 
 			if (mkdir ("todo", S_IRUSR | S_IWUSR | S_IXUSR) == -1)
 				DBM ("mkdir todo failed");
