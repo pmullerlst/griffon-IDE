@@ -643,7 +643,7 @@ GtkWidget* create_tea_main_window (void)
 			}
 	fclose(fich);
 	}
-	else{strcpy(mot2, "classic");}
+	else{strcpy(mot2, "cobalt");}
 
 
 	GtkWidget *button_web_current;
