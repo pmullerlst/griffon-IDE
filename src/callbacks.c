@@ -5953,13 +5953,13 @@ void on_execut_diff (void)
 		else
 		{
 			x = g_locale_to_utf8 (standard_output, -1, &bytes_read, &bytes_written, NULL);
-			log_to_memo (x, NULL, LM_NORMAL);
+			log_to_memo (x, NULL, LM_GREET);
 			save_string_to_file_add(changelog_file,(gchar *)x);
 			g_free (x);
 
 			x = g_locale_to_utf8 (standard_error, -1, &bytes_read, &bytes_written, NULL);
 			save_string_to_file_add(changelog_file,(gchar *)x);
-			log_to_memo (x, NULL, LM_NORMAL);
+			log_to_memo (x, NULL, LM_GREET);
 
 			g_free (x);
 			do_errors_hl (GTK_TEXT_VIEW(tv_logmemo));
