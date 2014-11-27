@@ -1497,8 +1497,8 @@ void doc_update_all (void)
 	set_lm_colors ();
 	if (confile.do_show_main_toolbar)
 		gtk_widget_show (GTK_WIDGET(tb_main_toolbar));
-	else
-		gtk_widget_hide (tb_main_toolbar);
+	//else
+		//gtk_widget_hide (tb_main_toolbar);
 }
 
 

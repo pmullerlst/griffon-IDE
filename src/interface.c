@@ -582,10 +582,10 @@ static GtkWidget* create_hardcoded_toolbar (void)
 	gtk_style_context_add_class (gtk_widget_get_style_context (toolbar),"primary-toolbar");
 	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar),GTK_ICON_SIZE_SMALL_TOOLBAR);
 
-	if (confile.do_show_main_toolbar)
+	//if (confile.do_show_main_toolbar)
 		gtk_widget_show (GTK_WIDGET(toolbar));
-	else
-		gtk_widget_hide (GTK_WIDGET(toolbar));
+	//else
+	//	gtk_widget_hide (GTK_WIDGET(toolbar));
 
 	return toolbar;
 }

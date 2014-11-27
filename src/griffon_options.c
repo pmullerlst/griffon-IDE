@@ -156,7 +156,7 @@ static void cb_on_bt_apply ()
    glist_strings_free (l);
    confile_reload ();
    doc_update_all();
-   update_enc_menu();
+//   update_enc_menu();
 }
 
 
@@ -290,7 +290,7 @@ static GtkWidget* wnd_options_confirmations (void)
 }
 
 
-static GtkWidget* wnd_options_maintenance (void)
+/*static GtkWidget* wnd_options_maintenance (void)
 {
   GtkWidget *page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (page);
@@ -298,10 +298,10 @@ static GtkWidget* wnd_options_maintenance (void)
   gtk_box_set_homogeneous (GTK_BOX(page), FALSE);
     
   return page;
-}
+}*/
 
 
-static GtkWidget* wnd_options_colors (void)
+/*static GtkWidget* wnd_options_colors (void)
 {
   GtkWidget *notebook = gtk_notebook_new ();         
   gtk_widget_show (notebook);
@@ -325,7 +325,7 @@ static GtkWidget* wnd_options_colors (void)
   ent_tag_color_lm_error_bg = tea_color_selector (page, _("Errors arrière-plan du texte (logmemo)"), confile.tag_color_lm_error_bg);
 
   return notebook ;
-}
+}*/
 
 
 static GtkWidget* wnd_options_fonts (void)
@@ -432,12 +432,12 @@ GtkWidget* wnd_options_create (void)
   gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_fonts (), gtk_label_new (_("Fonts")));
   gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_editor (), gtk_label_new (_("Editeur")));
   gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_browsers (), gtk_label_new (_("Navigateurs")));
-  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_colors (), gtk_label_new (_("Couleurs")));
+  //gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_colors (), gtk_label_new (_("Couleurs")));
   gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_commands (), gtk_label_new (_("Commandes")));
   gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_paths (), gtk_label_new (_("Paths")));
   gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_coauthor (), gtk_label_new (_("complementation")));
   gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_confirmations (), gtk_label_new (_("Confirmations")));
-  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_maintenance (), gtk_label_new (_("Maintenance")));
+  //gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_maintenance (), gtk_label_new (_("Maintenance")));
 
   gtk_notebook_set_current_page (GTK_NOTEBOOK(notebook), confile.last_prefs_tab);
 

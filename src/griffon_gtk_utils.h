@@ -15,5 +15,5 @@ gint dlg_question_params (gchar *prompt, gchar *val, gchar *b1, gchar *b2);
 void dlg_info (GtkWidget *parent, gchar *prompt, gchar *val);
 GtkWidget* tea_button_at_box (GtkWidget *container, gchar *caption, gpointer callback, gpointer user_data);
 void dlg_info_with_image (GtkWidget *parent, gchar *prompt, gchar *val, gchar *image);
-void cb_on_bt_close (GtkWidget *w); 
+void cb_on_bt_close (GtkWidget *w2,gpointer w); 
 GtkWidget* find_menuitem (GtkContainer *widget, gchar *widget_name);

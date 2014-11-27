@@ -401,8 +401,10 @@ GtkWidget* tea_button_at_box (GtkWidget *container, gchar *caption, gpointer cal
 }
 
 
-void cb_on_bt_close (GtkWidget *w) 
+//void cb_on_bt_close (GtkWidget *w) 
+void cb_on_bt_close (GtkWidget *w2,gpointer w)
 {
+	if(w2==NULL){printf(" ");}
   window_destroy (w);
 }
 
