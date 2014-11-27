@@ -189,7 +189,8 @@ void confile_free (void)
 	g_free (confile.tea_miniweb_history);
 	g_free (confile.tea_myadmin_history);
 	g_free (confile.tea_cmd_history);
-	g_free (confile.tea_theme);  
+	g_free (confile.tea_theme);
+	g_free (confile.tea_theme_gtk);  
 	g_free (confile.theme);
 	g_free (confile.custom_term);
 	g_free (confile.projects);
@@ -700,6 +701,7 @@ void confile_reload (void)
 	confile.tea_myadmin_history = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "myadmin_history", NULL);
 	confile.tea_cmd_history = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "cmd_history", NULL);
 	confile.tea_theme = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "griffon_theme", NULL);
+	confile.tea_theme_gtk = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "griffon_theme_gtk", NULL);
 	confile.custom_term = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "griffon_custom_term", NULL); 
 	confile.projects = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "griffon_projects", NULL); 
 	confile.tea_ftp = g_strconcat (confile.tea_main_dir, G_DIR_SEPARATOR_S, "griffon_ftp", NULL);
@@ -769,6 +771,10 @@ void confile_reload (void)
 
 	if (! g_file_test (confile.tea_theme, G_FILE_TEST_EXISTS))
 		{create_empty_file (confile.tea_theme, "classic\n");confile.theme="classic";}
+
+	if (! g_file_test (confile.tea_theme_gtk, G_FILE_TEST_EXISTS))
+		{create_empty_file (confile.tea_theme_gtk, "classic\n");confile.tea_theme_gtk="classic";}
+
 
 	if (! g_file_test (confile.custom_term, G_FILE_TEST_EXISTS))
 		{create_empty_file (confile.custom_term, "1.1 (term) : Disk Usage [CMD] df -h\n1.2 (term) : Extractors website WGET [CMD] wget -r -k -E -np http://website.net\n1.3 (term) : RM on a large number of files [CMD] find /path/dir/ -name \"name_file*\" -exec rm {} \\;\n1.4 (term) : FIND find a file by name [CMD] find /path/dir/ -name \"name_file*\"\n1.5 (term) : SCREEN Launch a screen or recover [CMD] screen -x -R\n1.6 (term) : WC number of lines to output or file [CMD] wc -l\n1.7 (term) : WGET download web page [CMD] wget 'http://url.web.net' -O /path/dir/file.html\n1.8 (term) : List files and directories in color [CMD] ls -l --color | more\n1.9 (term) : NICE Launch a script or command heavy with low priority [CMD] nice -n 19 ./script\n2.0 (term) : Compression with tar.gz [CMD] tar -zcvf file.tar.gz /path/dir_or_file\n2.1 (term) : Unzip with tar.gz [CMD] tar -zxvf file.tar.gz\n2.2 (term) : Difference between two files [CMD] diff file1 file2\n2.3 (term) : Git status [CMD] git status\n2.4 (term) : Git commit [CMD] git commit -a\n2.5 (term) : Git push [CMD] git push origin master\n2.6 (term) : IPTABLES DROP IP [CMD] iptables -A INPUT -s 192.192.192.1 -j DROP\n2.7 (term) : IPTABLES cleaning rules [CMD] iptables -F;iptables -t nat -F;iptables -t mangle -F;iptables -X\n");}

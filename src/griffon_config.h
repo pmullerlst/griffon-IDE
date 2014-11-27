@@ -36,6 +36,7 @@ typedef struct
 	gchar *tea_myadmin_history;	
 	gchar *tea_cmd_history;	
 	gchar *tea_theme;	
+	gchar *tea_theme_gtk;	
 	gchar *tea_ftp;
 	gchar *file_tmp;
 	gchar *tea_myadmin;

@@ -609,17 +609,43 @@ void fill_entities_special_menu (void)
 //*********************** MAIN WINDOW
 GtkWidget* create_tea_main_window (void)
 {
+	confile_reload();
+	//*********************** LOAD NOTIFY
+	notify_init ("libnotify");
 
+	FILE *fich_gtk;
+	char carac_gtk;
+	char mot_gtk[100];
+	mot_gtk[0]='\0';
+
+	//*********************** LOAD THEME GTK
+	if(fopen(confile.tea_theme_gtk,"r"))
+	{
+		fich_gtk=fopen(confile.tea_theme_gtk,"r");
+			while ((carac_gtk =fgetc(fich_gtk)) != EOF)
+			{
+				if (carac_gtk =='\n')
+				{
+				break;
+				}
+				else
+				{
+				strncat(mot_gtk,&carac_gtk,1);
+				}
+			}
+	fclose(fich_gtk);
+	}
+	else{strcpy(mot_gtk, "classic");}
+
+	if (strncmp("classic",mot_gtk,strlen("classic"))==0)
+	{
 	GtkCssProvider * css_theme=gtk_css_provider_new();
 	GdkDisplay *display = gdk_display_get_default ();
 	GdkScreen *screen = gdk_display_get_default_screen (display);
  
 	gtk_style_context_add_provider_for_screen(screen,GTK_STYLE_PROVIDER (css_theme),GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 	gtk_css_provider_load_from_path (css_theme,"/usr/local/share/griffon/theme/gtk-3.0/gtk.css",NULL);
-
-	confile_reload();
-	//*********************** LOAD NOTIFY
-	notify_init ("libnotify");
+	}
 
 	FILE *fich;
 	char carac;
@@ -1206,6 +1232,11 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("Theme Kate"), mni_theme_menu, theme_kate  );
 	mni_temp = new_menu_item (_("Theme Oblivion"), mni_theme_menu, theme_oblivion );
 	mni_temp = new_menu_item (_("Theme Tango"), mni_theme_menu, theme_tango  );
+
+	mni_temp = new_menu_item (_("Themes GTK"), mni_view_menu, NULL);
+	mni_theme_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
+	mni_temp = new_menu_item (_("GTK Theme Classic Black (Default)"), mni_theme_menu, classic_gtk_theme  );   
+	mni_temp = new_menu_item (_("GTK No Theme "), mni_theme_menu, no_gtk_theme );
 
 	mni_temp = new_menu_item (_("Help"), menubar1, NULL);
 	mni_what_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
@@ -7250,5 +7281,23 @@ void save_file_in_project_tab ()
 	{
 		log_to_memo (_("No project open"), NULL, LM_ERROR);statusbar_msg (_("Add file in project ERROR"));
 	}
+}
+
+//*********************** NO GTK THEME
+void no_gtk_theme ()
+{
+	create_empty_file (confile.tea_theme_gtk, "");
+	save_string_to_file_add(confile.tea_theme_gtk,"no_theme");
+	save_string_to_file_add(confile.tea_theme_gtk,"\n");
+	quick_message ("Restart","You must restart Griffon to apply the changes.");
+}
+
+//*********************** classic GTK THEME
+void classic_gtk_theme ()
+{
+	create_empty_file (confile.tea_theme_gtk, "");
+	save_string_to_file_add(confile.tea_theme_gtk,"classic");
+	save_string_to_file_add(confile.tea_theme_gtk,"\n");
+	quick_message ("Restart","You must restart Griffon to apply the changes.");
 }
 
