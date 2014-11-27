@@ -5194,12 +5194,41 @@ void mount_sftp (void)
 
 		new_terminal_ssh (tampon_sftp,tampon_utilisateur,tampon_chemin);
 
+	FILE *fich;
+	char carac;
+	char mot[100];
+	mot[0]='\0';
+	int doublon=0;
+
+	fich=fopen(confile.tea_sftp,"r");
+	while ((carac =fgetc(fich)) != EOF)
+	{
+		if (carac ==' ' || carac =='\n')
+		{
+			if(strlen(mot)>3)
+			{
+				if (strcmp(tampon_sftp, mot) == 0){doublon=1;}
+				mot[0]='\0';
+			}
+				mot[0]='\0';
+		}
+		else
+		{
+			strncat(mot,&carac,1);
+		}
+	}
+
+	fclose(fich);
+
+	if(doublon==0)
+	{
 		save_string_to_file_add(confile.tea_sftp,tampon_sftp);	
 		save_string_to_file_add(confile.tea_sftp," ");
 		save_string_to_file_add(confile.tea_sftp,tampon_utilisateur);
 		save_string_to_file_add(confile.tea_sftp," ");
 		save_string_to_file_add(confile.tea_sftp,tampon_chemin);
 		save_string_to_file_add(confile.tea_sftp," \n");
+	}
 
 		strcat(mot," ");
 		strcat(mot,home_dir);
@@ -5277,12 +5306,41 @@ void mount_ftp (void)
 		strcat(liste_mount,tampon_sftp);
 		strcat(liste_mount," ; ");
 
+	FILE *fich;
+	char carac;
+	char mot[100];
+	mot[0]='\0';
+	int doublon=0;
+
+	fich=fopen(confile.tea_ftp,"r");
+	while ((carac =fgetc(fich)) != EOF)
+	{
+		if (carac ==' ' || carac =='\n')
+		{
+			if(strlen(mot)>3)
+			{
+				if (strcmp(tampon_sftp, mot) == 0){doublon=1;}
+				mot[0]='\0';
+			}
+				mot[0]='\0';
+		}
+		else
+		{
+			strncat(mot,&carac,1);
+		}
+	}
+
+	fclose(fich);
+
+	if(doublon==0)
+	{
 		save_string_to_file_add(confile.tea_ftp,tampon_sftp);	
 		save_string_to_file_add(confile.tea_ftp," ");
 		save_string_to_file_add(confile.tea_ftp,tampon_utilisateur_ftp);
 		save_string_to_file_add(confile.tea_ftp," ");
 		save_string_to_file_add(confile.tea_ftp,tampon_passwd_ftp);
 		save_string_to_file_add(confile.tea_ftp," \n");		
+ }
 
 		systemRet =system (mot);
 		if(systemRet == -1){return;}
