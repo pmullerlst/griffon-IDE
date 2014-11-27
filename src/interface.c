@@ -637,7 +637,7 @@ GtkWidget* create_tea_main_window (void)
 	}
 	else{strcpy(mot_gtk, "classic");}
 
-	if (strncmp("classic",mot_gtk,strlen("classic"))==0)
+	if (strncmp("classic",mot_gtk,strlen("classic"))==0 && fopen("/usr/local/share/griffon/theme/gtk-3.0/gtk.css","r"))
 	{
 	GtkCssProvider * css_theme=gtk_css_provider_new();
 	GdkDisplay *display = gdk_display_get_default ();
@@ -3502,6 +3502,109 @@ void  no_onglet_open()
 		gtk_widget_show(GTK_WIDGET(webView_editor));
 		gtk_widget_show(GTK_WIDGET(recent_file));
 		gtk_widget_show(GTK_WIDGET(hbox_no));
+
+	char carac;
+	int nb_line_todo = 0;
+	int nb_line_bug = 0;
+	int nb_line_fixme = 0;
+	FILE *fich_todo;
+
+	char motrch[100],motrch2[100],motrch3[100], mot[2000],path[100];
+	int nbapparition=0,nbcarac=0,nbmot=0,counter=0;
+	int nbligne=1;	
+
+	nbapparition=0,nbcarac=0,nbmot=0,nbligne=1;
+	mot[0]='\0';
+	motrch[0]='\0';
+	motrch2[0]='\0';
+	motrch3[0]='\0';
+	strcpy(motrch,"TODO");
+	strcpy(motrch2,"BUG");
+	strcpy(motrch3,"FIXME");
+
+	fich_todo=fopen(confile.tea_todo,"r");
+
+	while ((carac =fgetc(fich_todo)) != EOF)
+	{
+
+		if(counter==1)
+		{
+			strncat(mot,&carac,1);
+
+			if (carac =='\n' || carac =='\r')
+			{
+
+			gchar **a = g_strsplit (mot, "\"", -1);
+
+			if(a[1]!='\0')
+			{
+				//strcpy(path,t);
+				strcat(path,a[1]);
+				if(g_file_test (path, G_FILE_TEST_EXISTS)){doc_open_file (path);}
+			}
+
+		path[0]='\0';
+		mot[0]='\0';
+		counter=0;		  
+			}
+		}
+
+	if (counter==0)
+	{
+		if (carac =='\n' || carac =='\r')
+		{
+			mot[0]='\0';
+			nbligne++;
+		}
+			nbcarac++;
+			if (mot[0] != '\0' && isalnum(carac) != 0){strncat(mot,&carac,1);}
+
+			if (mot[0] != '\0' && isalnum(carac) == 0)
+			{
+				if (strncmp(motrch,mot,strlen(motrch))==0)
+				{
+					nbapparition++;
+					nb_line_todo++;
+					if(nbapparition==1){nbcarac--;}
+					counter=1;      
+				}	
+
+				if (strncmp(motrch2,mot,strlen(motrch2))==0)
+				{
+					nbapparition++;
+					nb_line_bug++;
+					if(nbapparition==1){nbcarac--;}
+					counter=1;      
+				}	
+
+				if (strncmp(motrch3,mot,strlen(motrch3))==0)
+				{
+					nbapparition++;
+					nb_line_fixme++;
+					if(nbapparition==1){nbcarac--;}
+					counter=1;      
+				}	
+
+
+			}
+
+			if (mot[0] == '\0' && isalnum(carac) != 0)
+			{
+				strncat(mot,&carac,1);     
+				nbmot++;
+			}
+		}
+	}
+	fclose(fich_todo);
+	
+	gchar* tampon_todo=g_strdup_printf ("%d", nb_line_todo) ;
+	gchar* tampon_bug=g_strdup_printf ("%d", nb_line_bug) ;
+	gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
+
+	gchar *uri_main = g_strconcat("http://griffon.lasotel.fr/main.php?version=1.7.3&todo=", tampon_todo,"&bug=",tampon_bug,"&fixme=",tampon_fixme, NULL);
+
+	webkit_web_view_load_uri(webView_editor, uri_main);
+
 	}
 	else
 	{
@@ -7276,6 +7379,7 @@ void save_file_in_project_tab ()
 
 	save_string_to_file_add(file_session,cur_text_doc->file_name);
 	save_string_to_file_add(file_session,"\n");
+	load_projects_list();
 	}
 	else
 	{
