@@ -5196,8 +5196,8 @@ void mount_sftp (void)
 
 	FILE *fich;
 	char carac;
-	char mot[100];
-	mot[0]='\0';
+	char mot_d[100];
+	mot_d[0]='\0';
 	int doublon=0;
 
 	fich=fopen(confile.tea_sftp,"r");
@@ -5205,16 +5205,16 @@ void mount_sftp (void)
 	{
 		if (carac ==' ' || carac =='\n')
 		{
-			if(strlen(mot)>3)
+			if(strlen(mot_d)>3)
 			{
-				if (strcmp(tampon_sftp, mot) == 0){doublon=1;}
-				mot[0]='\0';
+				if (strcmp(tampon_sftp, mot_d) == 0){doublon=1;}
+				mot_d[0]='\0';
 			}
-				mot[0]='\0';
+				mot_d[0]='\0';
 		}
 		else
 		{
-			strncat(mot,&carac,1);
+			strncat(mot_d,&carac,1);
 		}
 	}
 
@@ -5308,8 +5308,8 @@ void mount_ftp (void)
 
 	FILE *fich;
 	char carac;
-	char mot[100];
-	mot[0]='\0';
+	char mot_d[100];
+	mot_d[0]='\0';
 	int doublon=0;
 
 	fich=fopen(confile.tea_ftp,"r");
@@ -5317,16 +5317,16 @@ void mount_ftp (void)
 	{
 		if (carac ==' ' || carac =='\n')
 		{
-			if(strlen(mot)>3)
+			if(strlen(mot_d)>3)
 			{
-				if (strcmp(tampon_sftp, mot) == 0){doublon=1;}
-				mot[0]='\0';
+				if (strcmp(tampon_sftp, mot_d) == 0){doublon=1;}
+				mot_d[0]='\0';
 			}
-				mot[0]='\0';
+				mot_d[0]='\0';
 		}
 		else
 		{
-			strncat(mot,&carac,1);
+			strncat(mot_d,&carac,1);
 		}
 	}
 
