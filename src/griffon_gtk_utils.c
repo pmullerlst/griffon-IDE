@@ -204,7 +204,13 @@ GtkWidget* tea_combo (GtkWidget *container, gchar *caption)
 void widget_set_colors (GtkWidget *w, GdkColor *background, GdkColor *text,
                         GdkColor *selection, GdkColor *sel_text)
 {
-  if (background)
+	if(w==NULL){printf(" ");}
+	if(background==NULL){printf(" ");}
+	if(selection==NULL){printf(" ");}
+	if(sel_text==NULL){printf(" ");}
+	if(text==NULL){printf(" ");}
+
+/*  if (background)
      gtk_widget_modify_base (GTK_WIDGET (w), GTK_STATE_NORMAL, background);
 
   if (text)
@@ -220,7 +226,7 @@ void widget_set_colors (GtkWidget *w, GdkColor *background, GdkColor *text,
     {
      gtk_widget_modify_text (GTK_WIDGET (w), GTK_STATE_SELECTED, sel_text);
      gtk_widget_modify_text (GTK_WIDGET (w), GTK_STATE_ACTIVE, sel_text);
-    }
+    }*/
 }
 
 
@@ -230,9 +236,9 @@ gboolean dlg_question (GtkWidget *parent, gchar *prompt, gchar *val)
    GtkWidget *dialog = gtk_dialog_new_with_buttons (NULL, 
                                                     GTK_WINDOW (parent),
                                                     GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                                                    GTK_STOCK_OK,
+                                                    "_OK",
                                                     GTK_RESPONSE_ACCEPT,
-                                                    GTK_STOCK_CANCEL,
+                                                    "_Cancel",
                                                     GTK_RESPONSE_REJECT, 
                                                     NULL);
   gchar *s; 
@@ -333,7 +339,7 @@ void dlg_info (GtkWidget *parent, gchar *prompt, gchar *val)
   GtkWidget *dialog = gtk_dialog_new_with_buttons (NULL, 
                                                    GTK_WINDOW (parent),
                                                    GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                                                   GTK_STOCK_OK,
+                                                   "_OK",
                                                    GTK_RESPONSE_ACCEPT,
                                                    NULL);
   gchar *s; 
@@ -356,7 +362,7 @@ void dlg_info_with_image (GtkWidget *parent, gchar *prompt, gchar *val, gchar *i
   GtkWidget *dialog = gtk_dialog_new_with_buttons (NULL, 
                                                    GTK_WINDOW (parent),
                                                    GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                                                   GTK_STOCK_OK,
+                                                   "_OK",
                                                    GTK_RESPONSE_ACCEPT,
                                                    NULL);
   gchar *s; 

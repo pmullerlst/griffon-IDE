@@ -145,8 +145,8 @@ void file_open (void)
 	icon_affiche_ok();
 	GtkWidget *file_dialog = gtk_file_chooser_dialog_new (_("File open"),GTK_WINDOW(tea_main_window),
 	GTK_FILE_CHOOSER_ACTION_OPEN,
-	GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-	GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+	"_Cancel", GTK_RESPONSE_CANCEL,
+	"_Open", GTK_RESPONSE_ACCEPT,
 	NULL);
 
 	GtkWidget *preview;
@@ -600,8 +600,8 @@ void on_mni_file_save_session ()
 	GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Save session as"),
 	GTK_WINDOW(tea_main_window),
 	GTK_FILE_CHOOSER_ACTION_SAVE,
-	GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-	GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
+	"_Cancel", GTK_RESPONSE_CANCEL,
+	"_Save", GTK_RESPONSE_ACCEPT,
 	NULL);
 
 	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), confile.sessions_dir);
@@ -634,8 +634,8 @@ void on_mni_session_file_open_activate ()
 	GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Open file session"),
 	GTK_WINDOW(tea_main_window),
 	GTK_FILE_CHOOSER_ACTION_OPEN,
-	GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-	GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+	"_Cancel", GTK_RESPONSE_CANCEL,
+	"_Open", GTK_RESPONSE_ACCEPT,
 	NULL);
 
 	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), confile.sessions_dir);
@@ -1041,8 +1041,8 @@ void show_save_as_dlg (int mode)
 	GtkWidget *file_dialog = gtk_file_chooser_dialog_new (_("Save as ..."),
 	GTK_WINDOW(tea_main_window),
 	GTK_FILE_CHOOSER_ACTION_SAVE,
-	GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-	GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
+	"_Cancel", GTK_RESPONSE_CANCEL,
+	"_Save", GTK_RESPONSE_ACCEPT,
 	NULL);
 
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (file_dialog), TRUE);
@@ -1893,8 +1893,8 @@ void on_mni_snippet_file_open_activate ()
 	GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Open file:"),
 	GTK_WINDOW(tea_main_window),
 	GTK_FILE_CHOOSER_ACTION_OPEN,
-	GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-	GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+	"_Cancel", GTK_RESPONSE_CANCEL,
+	"_Open", GTK_RESPONSE_ACCEPT,
 	NULL);
 
 	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), confile.snippets_dir);
@@ -2890,8 +2890,8 @@ void on_mni_templ_file_open_activate ()
 	GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Open file:"),
 	GTK_WINDOW(tea_main_window),
 	GTK_FILE_CHOOSER_ACTION_OPEN,
-	GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-	GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+	"_Cancel", GTK_RESPONSE_CANCEL,
+	"_Open", GTK_RESPONSE_ACCEPT,
 	NULL);
 
 	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), confile.templates_dir);
@@ -2996,8 +2996,8 @@ void on_mni_open_open_movie ()
 	GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Open a movie:"),
 	GTK_WINDOW(tea_main_window),
 	GTK_FILE_CHOOSER_ACTION_OPEN,
-	GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-	GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+	"_Cancel", GTK_RESPONSE_CANCEL,
+	"_Open", GTK_RESPONSE_ACCEPT,
 	NULL);
 
 	gchar *t;
@@ -3520,8 +3520,8 @@ void on_mni_project_save_as ()
 	GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Save a project"),
 	GTK_WINDOW(tea_main_window),
 	GTK_FILE_CHOOSER_ACTION_SAVE,
-	GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-	GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
+	"_Cancel", GTK_RESPONSE_CANCEL,
+	"_Save", GTK_RESPONSE_ACCEPT,
 	NULL);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
@@ -3556,8 +3556,8 @@ void on_mni_project_open ()
 	GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Open a project"),
 	GTK_WINDOW(tea_main_window),
 	GTK_FILE_CHOOSER_ACTION_OPEN,
-	GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-	GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+	"_Cancel", GTK_RESPONSE_CANCEL,
+	"_Open", GTK_RESPONSE_ACCEPT,
 	NULL);
 
 	if (confile.use_def_open_dir){gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog),confile.def_open_dir);}
@@ -3748,7 +3748,7 @@ GtkWidget* window_grep (void)
 	gtk_widget_show (GTK_WIDGET(hbox6));
 	gtk_container_add (GTK_CONTAINER (alignment4), hbox6);
 
-	image5 = gtk_image_new_from_stock ("gtk-bold", GTK_ICON_SIZE_BUTTON);
+	image5 = gtk_image_new_from_icon_name ("format-text-bold", GTK_ICON_SIZE_BUTTON);
 	gtk_widget_show (GTK_WIDGET(image5));
 	gtk_box_pack_start (GTK_BOX (hbox6), image5, FALSE, FALSE, 0);
 
@@ -3768,7 +3768,7 @@ GtkWidget* window_grep (void)
 	gtk_widget_show (GTK_WIDGET(hbox5));
 	gtk_container_add (GTK_CONTAINER (alignment3), hbox5);
 
-	image4 = gtk_image_new_from_stock ("gtk-select-font", GTK_ICON_SIZE_BUTTON);
+	image4 = gtk_image_new_from_icon_name ("format-text-bold", GTK_ICON_SIZE_BUTTON);
 	gtk_widget_show (GTK_WIDGET(image4));
 	gtk_box_pack_start (GTK_BOX (hbox5), image4, FALSE, FALSE, 0);
 
@@ -3788,7 +3788,7 @@ GtkWidget* window_grep (void)
 	gtk_widget_show (GTK_WIDGET(hbox4));
 	gtk_container_add (GTK_CONTAINER (alignment2), hbox4);
 
-	image3 = gtk_image_new_from_stock ("gtk-refresh", GTK_ICON_SIZE_BUTTON);
+	image3 = gtk_image_new_from_icon_name ("view-refresh", GTK_ICON_SIZE_BUTTON);
 	gtk_widget_show (GTK_WIDGET(image3));
 	gtk_box_pack_start (GTK_BOX (hbox4), image3, FALSE, FALSE, 0);
 
@@ -3808,7 +3808,7 @@ GtkWidget* window_grep (void)
 	gtk_widget_show (GTK_WIDGET(hbox3));
 	gtk_container_add (GTK_CONTAINER (alignment1), hbox3);
 
-	image2 = gtk_image_new_from_stock ("gtk-new", GTK_ICON_SIZE_BUTTON);
+	image2 = gtk_image_new_from_icon_name ("document-new", GTK_ICON_SIZE_BUTTON);
 	gtk_widget_show (GTK_WIDGET(image2));
 	gtk_box_pack_start (GTK_BOX (hbox3), image2, FALSE, FALSE, 0);
 
@@ -3852,12 +3852,12 @@ GtkWidget* window_grep (void)
 	gtk_widget_show (GTK_WIDGET(hbox1));
 	gtk_box_pack_start (GTK_BOX (vbox1), hbox1, TRUE, TRUE, 0);
 
-	button1 = gtk_button_new_from_stock ("gtk-cancel");
+	button1 = gtk_button_new_with_label ("_Cancel");
 	gtk_widget_show (GTK_WIDGET(button1));
 	gtk_box_pack_start (GTK_BOX (hbox1), button1, FALSE, TRUE, 23);
 	gtk_button_set_relief (GTK_BUTTON (button1), GTK_RELIEF_NONE);
 
-	button2 = gtk_button_new_from_stock ("gtk-apply");
+	button2 = gtk_button_new_with_label ("_Apply");
 	gtk_widget_show (GTK_WIDGET(button2));
 	gtk_box_pack_start (GTK_BOX (hbox1), button2, TRUE, TRUE, 23);
 	gtk_button_set_relief (GTK_BUTTON (button2), GTK_RELIEF_NONE);
@@ -3970,7 +3970,7 @@ GtkWidget* sed (void)
 	gtk_widget_show (GTK_WIDGET(hbox3));
 	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook1), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook1), 0), hbox3);
 
-	image2 = gtk_image_new_from_stock ("gtk-find-and-replace", GTK_ICON_SIZE_BUTTON);
+	image2 = gtk_image_new_from_icon_name ("edit-find-replace", GTK_ICON_SIZE_BUTTON);
 	gtk_widget_show (GTK_WIDGET(image2));
 	gtk_box_pack_start (GTK_BOX (hbox3), image2, TRUE, TRUE, 0);
 
@@ -4020,7 +4020,7 @@ GtkWidget* sed (void)
 	gtk_widget_show (GTK_WIDGET(hbox4));
 	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook1), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook1), 1), hbox4);
 
-	image3 = gtk_image_new_from_stock ("gtk-clear", GTK_ICON_SIZE_BUTTON);
+	image3 = gtk_image_new_from_icon_name ("edit-clear", GTK_ICON_SIZE_BUTTON);
 	gtk_widget_show (GTK_WIDGET(image3));
 	gtk_box_pack_start (GTK_BOX (hbox4), image3, TRUE, TRUE, 0);
 
@@ -4044,7 +4044,7 @@ GtkWidget* sed (void)
 	gtk_widget_show (GTK_WIDGET(hbox6));
 	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook1), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook1), 2), hbox6);
 
-	image4 = gtk_image_new_from_stock ("gtk-add", GTK_ICON_SIZE_BUTTON);
+	image4 = gtk_image_new_from_icon_name ("list-add", GTK_ICON_SIZE_BUTTON);
 	gtk_widget_show (GTK_WIDGET(image4));
 	gtk_box_pack_start (GTK_BOX (hbox6), image4, TRUE, TRUE, 0);
 
@@ -4089,12 +4089,12 @@ GtkWidget* sed (void)
 	gtk_widget_show (GTK_WIDGET(hbox1));
 	gtk_box_pack_start (GTK_BOX (vbox1), hbox1, TRUE, TRUE, 0);
 
-	button1 = gtk_button_new_from_stock ("gtk-cancel");
+	button1 = gtk_button_new_with_label ("_Cancel");
 	gtk_widget_show (GTK_WIDGET(button1));
 	gtk_box_pack_start (GTK_BOX (hbox1), button1, FALSE, TRUE, 23);
 	gtk_button_set_relief (GTK_BUTTON (button1), GTK_RELIEF_NONE);
 
-	button2 = gtk_button_new_from_stock ("gtk-apply");
+	button2 = gtk_button_new_with_label ("_Apply");
 	gtk_widget_show (GTK_WIDGET(button2));
 	gtk_box_pack_start (GTK_BOX (hbox1), button2, TRUE, TRUE, 23);
 	gtk_button_set_relief (GTK_BUTTON (button2), GTK_RELIEF_NONE);
@@ -4209,7 +4209,7 @@ GtkWidget* case_window (void)
 	gtk_widget_show (GTK_WIDGET(hbox1));
 	gtk_box_pack_start (GTK_BOX (vbox1), hbox1, FALSE, TRUE, 0);
 
-	image1 = gtk_image_new_from_stock ("gtk-properties", GTK_ICON_SIZE_BUTTON);
+	image1 = gtk_image_new_from_icon_name ("document-properties", GTK_ICON_SIZE_BUTTON);
 	gtk_widget_show (GTK_WIDGET(image1));
 	gtk_box_pack_start (GTK_BOX (hbox1), image1, TRUE, TRUE, 7);
 
@@ -4223,7 +4223,7 @@ GtkWidget* case_window (void)
 	gtk_box_pack_start (GTK_BOX (hbox1), spinbutton1, FALSE, TRUE, 4);
 	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (spinbutton1), TRUE);
 
-	button1 = gtk_button_new_from_stock ("gtk-apply");
+	button1 = gtk_button_new_with_label ("_Apply");
 	gtk_widget_show (GTK_WIDGET(button1));
 	gtk_box_pack_start (GTK_BOX (vbox1), button1, FALSE, FALSE, 0);
 	gtk_button_set_relief (GTK_BUTTON (button1), GTK_RELIEF_NONE);
@@ -4297,7 +4297,7 @@ GtkWidget* awk (void)
 	gtk_widget_show (GTK_WIDGET(hbox3));
 	gtk_container_add (GTK_CONTAINER (alignment1), hbox3);
 
-	image1 = gtk_image_new_from_stock ("gtk-zoom-100", GTK_ICON_SIZE_BUTTON);
+	image1 = gtk_image_new_from_icon_name ("zoom-original", GTK_ICON_SIZE_BUTTON);
 	gtk_widget_show (GTK_WIDGET(image1));
 	gtk_box_pack_start (GTK_BOX (hbox3), image1, FALSE, FALSE, 0);
 
@@ -4329,7 +4329,7 @@ GtkWidget* awk (void)
 	gtk_widget_show (GTK_WIDGET(vbox4));
 	gtk_box_pack_start (GTK_BOX (vbox3), vbox4, FALSE, FALSE, 0);
 
-	image2 = gtk_image_new_from_stock ("gtk-copy", GTK_ICON_SIZE_BUTTON);
+	image2 = gtk_image_new_from_icon_name ("text-x-generic", GTK_ICON_SIZE_BUTTON);
 	gtk_widget_show (GTK_WIDGET(image2));
 	gtk_container_add (GTK_CONTAINER (vbox4), image2);
 
@@ -4354,12 +4354,12 @@ GtkWidget* awk (void)
 	gtk_widget_show (GTK_WIDGET(hbox1));
 	gtk_box_pack_start (GTK_BOX (vbox1), hbox1, TRUE, TRUE, 0);
 
-	button1 = gtk_button_new_from_stock ("gtk-cancel");
+	button1 =gtk_button_new_with_label ("_Cancel");
 	gtk_widget_show (GTK_WIDGET(button1));
 	gtk_box_pack_start (GTK_BOX (hbox1), button1, FALSE, TRUE, 23);
 	gtk_button_set_relief (GTK_BUTTON (button1), GTK_RELIEF_NONE);
 
-	button2 = gtk_button_new_from_stock ("gtk-apply");
+	button2 =gtk_button_new_with_label ("_Apply");
 	gtk_widget_show (GTK_WIDGET(button2));
 	gtk_box_pack_start (GTK_BOX (hbox1), button2, TRUE, TRUE, 23);
 	gtk_button_set_relief (GTK_BUTTON (button2), GTK_RELIEF_NONE);
@@ -5460,13 +5460,13 @@ GtkWidget* w_sftp_mount (void)
 	gtk_widget_show (GTK_WIDGET(hbox1));
 	gtk_box_pack_start (GTK_BOX (vbox1), hbox1, FALSE, FALSE, 0);
 
-	button1 = gtk_button_new_from_stock ("gtk-cancel");
+	button1 = gtk_button_new_with_label ("_Cancel");
 	gtk_widget_show (GTK_WIDGET(button1));
 	gtk_box_pack_start (GTK_BOX (hbox1), button1, TRUE, TRUE, 0);
 	gtk_button_set_relief (GTK_BUTTON (button1), GTK_RELIEF_NONE);
 
 
-	button2 = gtk_button_new_from_stock ("gtk-apply");
+	button2 =gtk_button_new_with_label ("_Apply");
 	gtk_widget_show (GTK_WIDGET(button2));
 	gtk_box_pack_start (GTK_BOX (hbox1), button2, TRUE, TRUE, 0);
 	gtk_button_set_relief (GTK_BUTTON (button2), GTK_RELIEF_NONE);
@@ -5553,13 +5553,13 @@ GtkWidget* w_ftp_mount (void)
 	gtk_widget_show (GTK_WIDGET(hbox1));
 	gtk_box_pack_start (GTK_BOX (vbox1), hbox1, FALSE, FALSE, 0);
 
-	button1 = gtk_button_new_from_stock ("gtk-cancel");
+	button1 = gtk_button_new_with_label ("_Cancel");
 	gtk_widget_show (GTK_WIDGET(button1));
 	gtk_box_pack_start (GTK_BOX (hbox1), button1, TRUE, TRUE, 0);
 	gtk_button_set_relief (GTK_BUTTON (button1), GTK_RELIEF_NONE);
 
 
-	button2 = gtk_button_new_from_stock ("gtk-apply");
+	button2 = gtk_button_new_with_label ("_Apply");
 	gtk_widget_show (GTK_WIDGET(button2));
 	gtk_box_pack_start (GTK_BOX (hbox1), button2, TRUE, TRUE, 0);
 	gtk_button_set_relief (GTK_BUTTON (button2), GTK_RELIEF_NONE);
@@ -5921,8 +5921,8 @@ void insert_dialog_path()
 	dialog = gtk_file_chooser_dialog_new ("Open File",
 				      (GtkWindow *)tea_main_window,
 				      GTK_FILE_CHOOSER_ACTION_OPEN,
-				      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				      GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+				      "_Cancel", GTK_RESPONSE_CANCEL,
+				      "_Open", GTK_RESPONSE_ACCEPT,
 				      NULL);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
@@ -5943,8 +5943,8 @@ void insert_dialog_path_dir()
 	dialog = gtk_file_chooser_dialog_new ("Open File",
 				      (GtkWindow *)tea_main_window,
 				       GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
-				      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				      GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+				      "_Cancel", GTK_RESPONSE_CANCEL,
+				      "_Open", GTK_RESPONSE_ACCEPT,
 				      NULL);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)

@@ -1402,7 +1402,7 @@ void doc_apply_settings (t_note_page *doc)
 	if (! doc) return;
 
 	PangoFontDescription *font_desc = pango_font_description_from_string (confile.editor_font);
-	gtk_widget_modify_font (GTK_WIDGET(doc->text_view), font_desc);
+	gtk_widget_override_font (GTK_WIDGET(doc->text_view), font_desc);
 	pango_font_description_free (font_desc);
 
 	g_object_set (G_OBJECT (tag_comment), "foreground", confile.tag_comment, "font", confile.tag_comment_font, NULL);

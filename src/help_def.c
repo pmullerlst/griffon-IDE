@@ -1806,7 +1806,7 @@ void term_help(GtkWidget *tv,GdkEventButton *event,  gpointer user_data)
 	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_manager_help), GTK_TOOLBAR_ICONS); 
 	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_manager_help),GTK_ICON_SIZE_SMALL_TOOLBAR);
 
-	GtkToolItem *tool_rmmkdir_help = gtk_tool_button_new_from_stock(GTK_STOCK_EDIT);
+	GtkToolItem *tool_rmmkdir_help = gtk_tool_button_new(gtk_image_new_from_icon_name("list-add",GTK_ICON_SIZE_SMALL_TOOLBAR),"Edit Help Custom file in tab editor");;
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_manager_help), tool_rmmkdir_help, -1);
 	gtk_widget_show(GTK_WIDGET(tool_rmmkdir_help));
 	g_signal_connect ((gpointer) tool_rmmkdir_help, "clicked",G_CALLBACK (on_mni_custom_term_file_open),NULL);
@@ -1815,7 +1815,7 @@ void term_help(GtkWidget *tv,GdkEventButton *event,  gpointer user_data)
 	gtk_toolbar_set_show_arrow (GTK_TOOLBAR(toolbar_manager_help),FALSE);
 	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_manager_help), GTK_TOOLBAR_ICONS); 
 	gtk_box_pack_start (GTK_BOX (vbox10_help), toolbar_manager_help, FALSE , FALSE, 0);
-	gtk_widget_show(GTK_WIDGET(toolbar_manager_help));
+	gtk_widget_show_all(GTK_WIDGET(toolbar_manager_help));
 
     GtkWidget *scrolledWindow = gtk_scrolled_window_new(NULL, NULL);
 	  gtk_widget_show (GTK_WIDGET(scrolledWindow));
@@ -1872,13 +1872,13 @@ GtkWidget* centre_custom (void)
 	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_manager_help), GTK_TOOLBAR_ICONS); 
 	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_manager_help),GTK_ICON_SIZE_SMALL_TOOLBAR);
 
-	GtkToolItem *tool_rmmkdir_help = gtk_tool_button_new_from_stock(GTK_STOCK_REMOVE);
+	GtkToolItem *tool_rmmkdir_help = gtk_tool_button_new(gtk_image_new_from_icon_name("_Delete",GTK_ICON_SIZE_SMALL_TOOLBAR),"Delete Help Custom");
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_manager_help), tool_rmmkdir_help, -1);
 	gtk_widget_show(GTK_WIDGET(tool_rmmkdir_help));
 	g_signal_connect ((gpointer) tool_rmmkdir_help, "clicked",G_CALLBACK (delete_helps_custom_window),NULL);
 	gtk_tool_item_set_tooltip_text(tool_rmmkdir_help,(_("Delete Help Custom")));
 
-	GtkToolItem *tool_mkdir_help = gtk_tool_button_new_from_stock(GTK_STOCK_ADD);
+	GtkToolItem *tool_mkdir_help = gtk_tool_button_new(gtk_image_new_from_icon_name("list-add",GTK_ICON_SIZE_SMALL_TOOLBAR),"Create a new Help Custom");
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_manager_help), tool_mkdir_help, -1);
 	gtk_widget_show(GTK_WIDGET(tool_mkdir_help));
 	g_signal_connect ((gpointer) tool_mkdir_help, "clicked",G_CALLBACK (new_helps_custom_window),NULL);
@@ -1887,7 +1887,7 @@ GtkWidget* centre_custom (void)
 	gtk_toolbar_set_show_arrow (GTK_TOOLBAR(toolbar_manager_help),FALSE);
 	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_manager_help), GTK_TOOLBAR_ICONS); 
 	gtk_box_pack_start (GTK_BOX (vbox10_help), toolbar_manager_help, FALSE , FALSE, 0);
-	gtk_widget_show(GTK_WIDGET(toolbar_manager_help));
+	gtk_widget_show_all(GTK_WIDGET(toolbar_manager_help));
 
     GtkWidget *scrolledWindow = gtk_scrolled_window_new(NULL, NULL);
 	  gtk_widget_show (GTK_WIDGET(scrolledWindow));
@@ -2016,7 +2016,7 @@ void new_helps_custom_window()
 
 	sView_note = gtk_source_view_new_with_buffer(buffer_note2);
 	font_desc_note = pango_font_description_from_string ("mono 8");
-	gtk_widget_modify_font (sView_note, font_desc_note);
+	gtk_widget_override_font (sView_note, font_desc_note);
 	pango_font_description_free (font_desc_note);
 
 	gtk_source_view_set_show_right_margin(GTK_SOURCE_VIEW(sView_note),TRUE);
@@ -2034,7 +2034,7 @@ void new_helps_custom_window()
 
 	gtk_container_add (GTK_CONTAINER (scrolledwindow4), GTK_WIDGET(sView_note));
 
-	GtkWidget *button2 = gtk_button_new_from_stock ("gtk-apply");
+	GtkWidget *button2 = gtk_button_new_with_label ("_Apply");
 	gtk_widget_show (GTK_WIDGET(button2));
 	gtk_box_pack_start (GTK_BOX (vbox3), button2, FALSE, TRUE, 0);
 	gtk_button_set_relief (GTK_BUTTON (button2), GTK_RELIEF_NONE);
@@ -2111,7 +2111,7 @@ void delete_helps_custom_window()
 	gtk_box_pack_start (GTK_BOX (vbox3), combo, TRUE, TRUE, 0);
 	gtk_widget_show (GTK_WIDGET(combo));
 
-	GtkWidget *button2 = gtk_button_new_from_stock ("gtk-delete");
+	GtkWidget *button2 = gtk_button_new_with_label ("_Delete");
 	gtk_widget_show (GTK_WIDGET(button2));
 	gtk_box_pack_start (GTK_BOX (vbox3), button2, TRUE, TRUE, 0);
 	gtk_button_set_relief (GTK_BUTTON (button2), GTK_RELIEF_NONE);
@@ -2176,7 +2176,7 @@ void rm_dir_cmd_help()
 	gtk_box_pack_start (GTK_BOX (vbox3), combo, TRUE, TRUE, 0);
 	gtk_widget_show (GTK_WIDGET(combo));
 
-	GtkWidget *button2 = gtk_button_new_from_stock ("gtk-delete");
+	GtkWidget *button2 = gtk_button_new_with_label ("_Delete");
 	gtk_widget_show (GTK_WIDGET(button2));
 	gtk_box_pack_start (GTK_BOX (vbox3), button2, TRUE, TRUE, 0);
 	gtk_button_set_relief (GTK_BUTTON (button2), GTK_RELIEF_NONE);

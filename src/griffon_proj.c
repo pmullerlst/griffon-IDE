@@ -212,7 +212,7 @@ GtkWidget* create_proj_props_window (t_tea_project *p)
   gtk_widget_show (hbox1);
   gtk_container_add (GTK_CONTAINER (vbox1), hbox1);
 
-  GtkWidget *bt_close = gtk_button_new_from_stock (GTK_STOCK_CLOSE);
+  GtkWidget *bt_close = gtk_button_new_with_label("_Close");
   gtk_widget_show (bt_close);
   gtk_container_add (GTK_CONTAINER (hbox1), bt_close);
   g_signal_connect (bt_close, "clicked", G_CALLBACK (cb_on_bt_close), wnd_proj_props);
@@ -221,7 +221,7 @@ GtkWidget* create_proj_props_window (t_tea_project *p)
   pair->a = wnd_proj_props;
   pair->b = p;
 
-  GtkWidget *bt_apply = gtk_button_new_from_stock (GTK_STOCK_OK);
+  GtkWidget *bt_apply = gtk_button_new_with_label("_OK");
   gtk_widget_show (bt_apply);
   gtk_container_add (GTK_CONTAINER (hbox1), bt_apply);
 
@@ -282,7 +282,7 @@ GtkWidget* new_project_window (void)
 	gtk_widget_show (GTK_WIDGET(entry_proj_path));
 	gtk_box_pack_start (GTK_BOX (hbox3), entry_proj_path, FALSE, FALSE, 0);
 
-	button_path = gtk_button_new_from_stock ("gtk-open");
+	button_path = gtk_button_new_with_label ("_Open");
 	gtk_widget_show (GTK_WIDGET(button_path));
 	gtk_box_pack_start (GTK_BOX (hbox3), button_path, TRUE, TRUE, 0);
 
@@ -299,7 +299,7 @@ GtkWidget* new_project_window (void)
 	gtk_widget_show (GTK_WIDGET(entry_proj_make_path));
 	gtk_box_pack_start (GTK_BOX (hbox4), entry_proj_make_path, FALSE, FALSE, 0);
 
-	button_make_path = gtk_button_new_from_stock ("gtk-open");
+	button_make_path = gtk_button_new_with_label ("_Open");
 	gtk_widget_show (GTK_WIDGET(button_make_path));
 	gtk_box_pack_start (GTK_BOX (hbox4), button_make_path, TRUE, TRUE, 0);
 
@@ -317,7 +317,7 @@ GtkWidget* new_project_window (void)
 	gtk_widget_show (GTK_WIDGET(entry_proj_command));
 	gtk_box_pack_start (GTK_BOX (hbox5), entry_proj_command, FALSE, FALSE, 0);
 
-	button_command = gtk_button_new_from_stock ("gtk-open");
+	button_command = gtk_button_new_with_label ("_Open");
 	gtk_widget_show (GTK_WIDGET(button_command));
 	gtk_box_pack_start (GTK_BOX (hbox5), button_command, TRUE, TRUE, 0);
 
@@ -335,7 +335,7 @@ GtkWidget* new_project_window (void)
 	gtk_widget_show (GTK_WIDGET(entry_proj_run));
 	gtk_box_pack_start (GTK_BOX (hbox6), entry_proj_run, FALSE, FALSE, 0);
 
-	button_run = gtk_button_new_from_stock ("gtk-open");
+	button_run = gtk_button_new_with_label ("_Open");
 	gtk_widget_show (GTK_WIDGET(button_run));
 	gtk_box_pack_start (GTK_BOX (hbox6), button_run, TRUE, TRUE, 0);
 
@@ -367,7 +367,7 @@ GtkWidget* new_project_window (void)
 	gtk_widget_show (GTK_WIDGET(entry_proj_icon));
 	gtk_box_pack_start (GTK_BOX (hbox8), entry_proj_icon, FALSE, FALSE, 0);
 
-	button_icon = gtk_button_new_from_stock ("gtk-open");
+	button_icon = gtk_button_new_with_label ("_Open");
 	gtk_widget_show (GTK_WIDGET(button_icon));
 	gtk_box_pack_start (GTK_BOX (hbox8), button_icon, TRUE, TRUE, 0);
 
@@ -478,13 +478,13 @@ GtkWidget* new_project_window (void)
 	gtk_widget_show (GTK_WIDGET(hbox1));
 	gtk_box_pack_start (GTK_BOX (vbox1), hbox1, FALSE, FALSE, 0);
 
-	button1 = gtk_button_new_from_stock ("gtk-cancel");
+	button1 = gtk_button_new_with_label ("_Cancel");
 	gtk_widget_show (GTK_WIDGET(button1));
 	gtk_box_pack_start (GTK_BOX (hbox1), button1, TRUE, TRUE, 0);
 	gtk_button_set_relief (GTK_BUTTON (button1), GTK_RELIEF_NONE);
 
 
-	button2 = gtk_button_new_from_stock ("gtk-apply");
+	button2 = gtk_button_new_with_label ("_Apply");
 	gtk_widget_show (GTK_WIDGET(button2));
 	gtk_box_pack_start (GTK_BOX (hbox1), button2, TRUE, TRUE, 0);
 	gtk_button_set_relief (GTK_BUTTON (button2), GTK_RELIEF_NONE);
@@ -582,8 +582,8 @@ void open_dialog_path(gpointer data)
 	dialog = gtk_file_chooser_dialog_new ("Open File",
 				      (GtkWindow *)tea_main_window,
 				      GTK_FILE_CHOOSER_ACTION_OPEN,
-				      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				      GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+				      "_Cancel", GTK_RESPONSE_CANCEL,
+				      "_Open", GTK_RESPONSE_ACCEPT,
 				      NULL);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
@@ -624,8 +624,8 @@ void open_dialog_path_icon(gpointer data)
 	dialog = gtk_file_chooser_dialog_new ("Open File",
 				      (GtkWindow *)tea_main_window,
 				      GTK_FILE_CHOOSER_ACTION_OPEN,
-				      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				      GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+				      "_Cancel", GTK_RESPONSE_CANCEL,
+				      "_Open", GTK_RESPONSE_ACCEPT,
 				      NULL);
 
 	gtk_file_chooser_set_current_folder((GtkFileChooser *)dialog,"/usr/local/share/griffon/images/projects/");
@@ -661,8 +661,8 @@ void open_dialog_path_dir(gpointer data)
 	dialog = gtk_file_chooser_dialog_new ("Open File",
 				      (GtkWindow *)tea_main_window,
 				       GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
-				      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				      GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+				      "_Cancel", GTK_RESPONSE_CANCEL,
+				      "_Open", GTK_RESPONSE_ACCEPT,
 				      NULL);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
@@ -697,7 +697,7 @@ void update_project_window (gpointer data)
 			if (carac =='\n')
 			{
 			ligne++;
-				if(ligne==(int)data)
+				if(ligne==(intptr_t)data)
 				{
 					a = g_strsplit (mot, ";", -1);
 					b = g_strsplit (a[9], ":", -1);
@@ -763,7 +763,7 @@ void update_project_window (gpointer data)
 	gtk_box_pack_start (GTK_BOX (hbox3), entry_proj_path, FALSE, FALSE, 0);
 	gtk_entry_set_text (GTK_ENTRY (entry_proj_path), _(a[1]));
 
-	button_path = gtk_button_new_from_stock ("gtk-open");
+	button_path = gtk_button_new_with_label ("_Open");
 	gtk_widget_show (GTK_WIDGET(button_path));
 	gtk_box_pack_start (GTK_BOX (hbox3), button_path, TRUE, TRUE, 0);
 
@@ -781,7 +781,7 @@ void update_project_window (gpointer data)
 	gtk_box_pack_start (GTK_BOX (hbox4), entry_proj_make_path, FALSE, FALSE, 0);
 	gtk_entry_set_text (GTK_ENTRY (entry_proj_make_path), _(a[2]));
 
-	button_make_path = gtk_button_new_from_stock ("gtk-open");
+	button_make_path = gtk_button_new_with_label ("_Open");
 	gtk_widget_show (GTK_WIDGET(button_make_path));
 	gtk_box_pack_start (GTK_BOX (hbox4), button_make_path, TRUE, TRUE, 0);
 
@@ -800,7 +800,7 @@ void update_project_window (gpointer data)
 	gtk_box_pack_start (GTK_BOX (hbox5), entry_proj_command, FALSE, FALSE, 0);
 	gtk_entry_set_text (GTK_ENTRY (entry_proj_command), _(a[4]));
 
-	button_command = gtk_button_new_from_stock ("gtk-open");
+	button_command = gtk_button_new_with_label ("_Open");
 	gtk_widget_show (GTK_WIDGET(button_command));
 	gtk_box_pack_start (GTK_BOX (hbox5), button_command, TRUE, TRUE, 0);
 
@@ -819,7 +819,7 @@ void update_project_window (gpointer data)
 	gtk_box_pack_start (GTK_BOX (hbox6), entry_proj_run, FALSE, FALSE, 0);
 	gtk_entry_set_text (GTK_ENTRY (entry_proj_run), _(a[3]));
 
-	button_run = gtk_button_new_from_stock ("gtk-open");
+	button_run = gtk_button_new_with_label ("_Open");
 	gtk_widget_show (GTK_WIDGET(button_run));
 	gtk_box_pack_start (GTK_BOX (hbox6), button_run, TRUE, TRUE, 0);
 
@@ -854,7 +854,7 @@ void update_project_window (gpointer data)
 	gtk_box_pack_start (GTK_BOX (hbox8), entry_proj_icon, FALSE, FALSE, 0);
 	gtk_entry_set_text (GTK_ENTRY (entry_proj_icon), _(a[6]));
 
-	button_icon = gtk_button_new_from_stock ("gtk-open");
+	button_icon = gtk_button_new_with_label ("_Open");
 	gtk_widget_show (GTK_WIDGET(button_icon));
 	gtk_box_pack_start (GTK_BOX (hbox8), button_icon, TRUE, TRUE, 0);
 
@@ -967,13 +967,13 @@ void update_project_window (gpointer data)
 	gtk_widget_show (GTK_WIDGET(hbox1));
 	gtk_box_pack_start (GTK_BOX (vbox1), hbox1, FALSE, FALSE, 0);
 
-	button1 = gtk_button_new_from_stock ("gtk-cancel");
+	button1 = gtk_button_new_with_label ("_Cancel");
 	gtk_widget_show (GTK_WIDGET(button1));
 	gtk_box_pack_start (GTK_BOX (hbox1), button1, TRUE, TRUE, 0);
 	gtk_button_set_relief (GTK_BUTTON (button1), GTK_RELIEF_NONE);
 
 
-	button2 = gtk_button_new_from_stock ("gtk-apply");
+	button2 = gtk_button_new_with_label ("_Apply");
 	gtk_widget_show (GTK_WIDGET(button2));
 	gtk_box_pack_start (GTK_BOX (hbox1), button2, TRUE, TRUE, 0);
 	gtk_button_set_relief (GTK_BUTTON (button2), GTK_RELIEF_NONE);

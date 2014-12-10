@@ -29,7 +29,7 @@ GtkWidget *tip_window_new (gchar *tip)
 	gtk_container_add (GTK_CONTAINER (eb), label);
 
 	pfd = pango_font_description_from_string ("courier");
-	gtk_widget_modify_font (label, pfd);
+	gtk_widget_override_font (label, pfd);
 	return win;
 }
 
@@ -51,7 +51,7 @@ GtkWidget *tip_window_new_autocomp (gchar *tip)
 	gtk_container_add (GTK_CONTAINER (eb), label);
 
 	pfd = pango_font_description_from_string ("courier");
-	gtk_widget_modify_font (label, pfd);
+	gtk_widget_override_font (label, pfd);
 
 	return win;
 }
