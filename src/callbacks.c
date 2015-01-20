@@ -3156,9 +3156,6 @@ void delete_autocomp_tips(){if (win_tips_autocomp != NULL){gtk_widget_destroy (G
 //*********************** RELACHEMENT DUNE TOUCHE EN MODE EDITOR
 gboolean on_editor_keyrelease (GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
-
-	printf("Callbacks.c L3157\n");
-
 	if (! get_page_text()) return FALSE;
 	if(data==NULL){printf(" ");}
 	if(widget==NULL){printf(" ");}
@@ -3178,17 +3175,12 @@ gboolean on_editor_keyrelease (GtkWidget *widget, GdkEventKey *event, gpointer d
 	statusbar_msg(msg);
 	g_free (msg);
 
-	printf("Callbacks.c L3176\n");
-
 	preview_web_popup_line ();
-	
-	printf("Callbacks.c L3182\n");
 
 	if (event->keyval == GDK_KEY_Up){code_bg_folding();}
-	printf("Callbacks.c L3185\n");
+
 	if (event->keyval == GDK_KEY_Down){code_bg_folding();}
 
-	printf("Callbacks.c L3185\n");
 
 	return TRUE;
 }
@@ -3196,7 +3188,6 @@ gboolean on_editor_keyrelease (GtkWidget *widget, GdkEventKey *event, gpointer d
 //*********************** PRESSION DUNE TOUCHE EN MODE EDITOR
 gboolean on_editor_keypress ( GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
-	printf("Callbacks.c L3193\n");
 
 	gtk_widget_get_name(widget);
 
@@ -3241,8 +3232,6 @@ gboolean on_editor_keypress ( GtkWidget *widget, GdkEventKey *event, gpointer da
 		}
 	}
 
-	printf("Callbacks.c L3238\n");
-
 	char *extension;
 	if (event->keyval == '(')
 	{
@@ -3282,7 +3271,6 @@ gboolean on_editor_keypress ( GtkWidget *widget, GdkEventKey *event, gpointer da
 		doc_move_cursor_backw(cur_text_doc,1);
 	}
 
-	printf("Callbacks.c L3279\n");
 
 	int nbrcarac;
 
@@ -3338,7 +3326,6 @@ gboolean on_editor_keypress ( GtkWidget *widget, GdkEventKey *event, gpointer da
 		}
 	}
 
-	printf("Callbacks.c L3332\n");
 
 	if (event->keyval == '\'' && confile.use_textcompbloc == 1 && strcmp(".txt", extension) != 0)
 	{
@@ -3364,7 +3351,6 @@ gboolean on_editor_keypress ( GtkWidget *widget, GdkEventKey *event, gpointer da
 		return TRUE; 
 	}
 
-	printf("Callbacks.c L3358\n");
 
 	return FALSE;
 }
