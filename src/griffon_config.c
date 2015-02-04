@@ -766,6 +766,9 @@ void confile_reload (void)
 	if (! g_file_test (confile.tea_todo, G_FILE_TEST_EXISTS))
 		create_empty_file (confile.tea_todo, "");
 
+	if (! g_file_test (confile.tea_autocomp, G_FILE_TEST_EXISTS))
+		create_empty_file (confile.tea_autocomp, "Griffon IDE");
+
 	if (! g_file_test (confile.tea_sftp, G_FILE_TEST_EXISTS))
 		create_empty_file (confile.tea_sftp, "");
 
