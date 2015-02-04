@@ -15,3 +15,8 @@ input
 meta
 select
 textarea
+value
+name
+color
+input
+hidden
