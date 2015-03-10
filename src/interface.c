@@ -5066,11 +5066,13 @@ void new_file_cmd ()
 				if(strrchr(pathT,'.'))
 				{
 					extension = strrchr(pathT,'.');
-					if (strcmp(".pl", extension) == 0){start_perl_script();}
-					if (strcmp(".sh", extension) == 0){print_bash();}
-					if (strcmp(".php", extension) == 0){start_php_script();}
-					if (strcmp(".html", extension) == 0){on_mni_html_default_template();}
-					if (strcmp(".htm", extension) == 0){on_mni_html_default_template();}
+					if (strcmp(".pl", extension) == 0){start_perl_script();centre_perl();}
+					if (strcmp(".sh", extension) == 0){print_bash();Aide_BASH();}
+					if (strcmp(".php", extension) == 0){start_php_script();help_php_window();}
+					if (strcmp(".html", extension) == 0){on_mni_html_default_template();help_html();}
+					if (strcmp(".htm", extension) == 0){on_mni_html_default_template();help_html();}
+					if (strcmp(".css", extension) == 0){help_css();}
+					if (strcmp(".js", extension) == 0){help_javascript();}
 				}
 
 		char commande[350];
