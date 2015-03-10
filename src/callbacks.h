@@ -453,5 +453,12 @@ void insert_dialog_path_dir();
 void on_execut_diff (void);
 void on_mni_custom_term_file_open ();
 void open_todo_combo (void);
+void on_mni_html5_header ();
+void on_mni_html5_footer ();
+void on_mni_html5_menu ();
+void on_mni_html5_section ();
+void on_mni_html5_article ();
+void on_mni_html5_aside ();
+void on_mni_html5_nav ();
 
 

@@ -268,6 +268,20 @@ GtkTreeModel *create_and_fill_model_html5 (void)
   gtk_tree_store_append(treestore, &child, &toplevel);
   gtk_tree_store_set(treestore, &child,COLUMN, (_("1.1 (html5): Basic Template")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.2 (html5): Header")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.3 (html5): Footer")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.4 (html5): Menu")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.5 (html5): Section")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.6 (html5): Article")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.7 (html5): Aside")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.8 (html5): Nav")),-1);
+
 
   return GTK_TREE_MODEL(treestore);
 }
@@ -1077,6 +1091,16 @@ void  on_changed2(GtkWidget *tt, GdkEvent *eventt, gpointer *user_data)
 				if (strcmp("1.8 (html", a[0]) == 0){html_div();}	
 				if (strcmp("1.9 (html", a[0]) == 0){html_style();}
 				if (strcmp("1.10 (html", a[0]) == 0){html_favicon();}
+
+            //*************** APPEL AU FONCTION HTML5
+            if (strcmp("1.1 (html5", a[0]) == 0){on_mni_html_default_template();}
+            if (strcmp("1.2 (html5", a[0]) == 0){on_mni_html5_header();}
+            if (strcmp("1.3 (html5", a[0]) == 0){on_mni_html5_footer();}
+            if (strcmp("1.4 (html5", a[0]) == 0){on_mni_html5_menu();}
+            if (strcmp("1.5 (html5", a[0]) == 0){on_mni_html5_section();}
+            if (strcmp("1.6 (html5", a[0]) == 0){on_mni_html5_article();}
+            if (strcmp("1.7 (html5", a[0]) == 0){on_mni_html5_aside();}
+            if (strcmp("1.8 (html5", a[0]) == 0){on_mni_html5_nav();}
 
             //*************** APPEL AU FONCTION CSS
 				if (strcmp("1.1 (css", a[0]) == 0){on_mni_Markup_comment(NULL,NULL);}

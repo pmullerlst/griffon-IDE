@@ -5009,6 +5009,105 @@ void html_div ()
 	g_free (t);
 }
 
+void on_mni_html5_header ()
+{
+	if (! get_page_text()) return;
+
+	gchar *t = NULL;
+	gchar *buf = doc_get_sel (cur_text_doc);
+
+	if (! buf){doc_insert_at_cursor (cur_text_doc, "<header></header>");doc_move_cursor_backw_middle_tags (cur_text_doc);}
+	else{t = g_strconcat ("<header>\n", buf, "\n</header>", NULL);doc_rep_sel (cur_text_doc, t);doc_move_to_pos_bw_quote (cur_text_doc);}
+
+	g_free (buf);
+	g_free (t);
+}
+
+void on_mni_html5_footer ()
+{
+	if (! get_page_text()) return;
+
+	gchar *t = NULL;
+	gchar *buf = doc_get_sel (cur_text_doc);
+
+	if (! buf){doc_insert_at_cursor (cur_text_doc, "<footer></footer>");doc_move_cursor_backw_middle_tags (cur_text_doc);}
+	else{t = g_strconcat ("<footer>\n", buf, "\n</footer>", NULL);doc_rep_sel (cur_text_doc, t);doc_move_to_pos_bw_quote (cur_text_doc);}
+
+	g_free (buf);
+	g_free (t);
+}
+
+void on_mni_html5_menu ()
+{
+	if (! get_page_text()) return;
+
+	gchar *t = NULL;
+	gchar *buf = doc_get_sel (cur_text_doc);
+
+	if (! buf){doc_insert_at_cursor (cur_text_doc, "<menu></menu>");doc_move_cursor_backw_middle_tags (cur_text_doc);}
+	else{t = g_strconcat ("<menu>\n", buf, "\n</menu>", NULL);doc_rep_sel (cur_text_doc, t);doc_move_to_pos_bw_quote (cur_text_doc);}
+
+	g_free (buf);
+	g_free (t);
+}
+
+void on_mni_html5_section ()
+{
+	if (! get_page_text()) return;
+
+	gchar *t = NULL;
+	gchar *buf = doc_get_sel (cur_text_doc);
+
+	if (! buf){doc_insert_at_cursor (cur_text_doc, "<section></section>");doc_move_cursor_backw_middle_tags (cur_text_doc);}
+	else{t = g_strconcat ("<section>\n", buf, "\n</section>", NULL);doc_rep_sel (cur_text_doc, t);doc_move_to_pos_bw_quote (cur_text_doc);}
+
+	g_free (buf);
+	g_free (t);
+}
+
+void on_mni_html5_article ()
+{
+	if (! get_page_text()) return;
+
+	gchar *t = NULL;
+	gchar *buf = doc_get_sel (cur_text_doc);
+
+	if (! buf){doc_insert_at_cursor (cur_text_doc, "<article></article>");doc_move_cursor_backw_middle_tags (cur_text_doc);}
+	else{t = g_strconcat ("<article>\n", buf, "\n</article>", NULL);doc_rep_sel (cur_text_doc, t);doc_move_to_pos_bw_quote (cur_text_doc);}
+
+	g_free (buf);
+	g_free (t);
+}
+
+void on_mni_html5_aside ()
+{
+	if (! get_page_text()) return;
+
+	gchar *t = NULL;
+	gchar *buf = doc_get_sel (cur_text_doc);
+
+	if (! buf){doc_insert_at_cursor (cur_text_doc, "<aside></aside>");doc_move_cursor_backw_middle_tags (cur_text_doc);}
+	else{t = g_strconcat ("<aside>\n", buf, "\n</aside>", NULL);doc_rep_sel (cur_text_doc, t);doc_move_to_pos_bw_quote (cur_text_doc);}
+
+	g_free (buf);
+	g_free (t);
+}
+
+void on_mni_html5_nav ()
+{
+	if (! get_page_text()) return;
+
+	gchar *t = NULL;
+	gchar *buf = doc_get_sel (cur_text_doc);
+
+	if (! buf){doc_insert_at_cursor (cur_text_doc, "<nav></nav>");doc_move_cursor_backw_middle_tags (cur_text_doc);}
+	else{t = g_strconcat ("<nav>\n", buf, "\n</nav>", NULL);doc_rep_sel (cur_text_doc, t);doc_move_to_pos_bw_quote (cur_text_doc);}
+
+	g_free (buf);
+	g_free (t);
+}
+
+
 //*********************** IPTABLES HELP
 void iptables_drop_all (void){doc_insert_at_cursor (cur_text_doc, "iptables -P INPUT DROP\niptables -P OUTPUT DROP\niptables -P FORWARD DROP\n"); }
 void iptables_accept_lo (void){doc_insert_at_cursor (cur_text_doc, "iptables -A INPUT -i eth0 -p icmp -j ACCEPT\niptables -A OUTPUT -o eth0 -p icmp -j ACCEPT\n"); }
