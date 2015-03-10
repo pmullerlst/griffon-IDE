@@ -251,6 +251,28 @@ GtkTreeModel *create_and_fill_model_html (void)
   return GTK_TREE_MODEL(treestore);
 }
 
+//******************************* template tree aide HTML5
+GtkTreeModel *create_and_fill_model_html5 (void)
+{
+  GtkTreeStore *treestore;
+  GtkTreeIter toplevel, child;
+
+  treestore = gtk_tree_store_new(NUM_COLS,
+                  G_TYPE_STRING);
+
+  gtk_tree_store_append(treestore, &toplevel, NULL);
+  gtk_tree_store_set(treestore, &toplevel,
+                     COLUMN, (_("1 Base of page [HTML5]")),
+                     -1);
+
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.1 (html5): Basic Template")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+
+  return GTK_TREE_MODEL(treestore);
+}
+
+
 //******************************* template tree aide css
 GtkTreeModel *create_and_fill_model_css (void)
 {
@@ -790,7 +812,8 @@ void  on_changed(GtkWidget *widget, gpointer statusbar)
             if (strcmp("[PERL]", value) == 0){centre_perl();on_display=1;}
             if (strcmp("[PHP]", value) == 0){help_php_window();on_display=1;}
             if (strcmp("[MYSQL]", value) == 0){help_mysql();on_display=1;} 
-				if (strcmp("[HTML]", value) == 0){help_html();on_display=1;}  
+				if (strcmp("[HTML]", value) == 0){help_html();on_display=1;} 
+				if (strcmp("[HTML5]", value) == 0){help_html5();on_display=1;}  
 				if (strcmp("[CSS]", value) == 0){help_css();on_display=1;}
 				if (strcmp("[JAVASCRIPT/JQUERY]", value) == 0){help_javascript();on_display=1;}      
 				if (strcmp("[HTACCESS]", value) == 0){centre_htaccess();on_display=1;}
@@ -1250,6 +1273,7 @@ GtkWidget * create_view_and_model (char clef[50])
  if (strcmp("perl", clef) == 0){model = create_and_fill_model_perl();}
  if (strcmp("mysql", clef) == 0){model = create_and_fill_model_mysql();}
  if (strcmp("html", clef) == 0){model = create_and_fill_model_html();}
+ if (strcmp("html5", clef) == 0){model = create_and_fill_model_html5();}
  if (strcmp("css", clef) == 0){model = create_and_fill_model_css();}
  if (strcmp("javascript", clef) == 0){model = create_and_fill_model_javascript();}
  if (strcmp("htaccess", clef) == 0){model = create_and_fill_model_htaccess();}
@@ -1391,6 +1415,55 @@ GtkWidget* help_html (void)
 	  gtk_box_pack_start(GTK_BOX(vbox), scrolledWindow, TRUE, TRUE, 1);
 
   view = create_view_and_model("html");
+  gtk_widget_show (GTK_WIDGET(view));
+  selection2 = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
+	gtk_widget_show (GTK_WIDGET(selection2));
+	gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(view));
+
+  statusbar = gtk_statusbar_new();
+  gtk_box_pack_start(GTK_BOX(vbox), statusbar, FALSE, TRUE, 1);
+	gtk_widget_show (GTK_WIDGET(statusbar));
+	
+	gtk_tree_view_set_enable_tree_lines (GTK_TREE_VIEW(view),TRUE);
+	gtk_tree_view_expand_all (GTK_TREE_VIEW(view));
+	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view),TRUE);
+
+	 g_signal_connect(G_OBJECT(view), "button-release-event",  
+      G_CALLBACK(on_changed2), statusbar);
+
+	gtk_widget_grab_focus (view);
+
+  return window1;
+
+}
+
+//******************************* fenetre aide html5
+GtkWidget* help_html5 (void)
+
+{
+
+	gtk_widget_destroy(window1);
+  window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title (GTK_WINDOW (window1), _((_("Help HTML"))));
+    gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
+	gtk_window_resize (GTK_WINDOW (window1), 430, 600);
+  gtk_widget_show (GTK_WIDGET(window1));
+
+  GtkWidget *view;
+  GtkWidget *vbox;
+  GtkWidget *statusbar;
+
+  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_container_add(GTK_CONTAINER(window1), vbox);
+	gtk_widget_show (GTK_WIDGET(vbox));
+
+    GtkWidget *scrolledWindow = gtk_scrolled_window_new(NULL, NULL);
+	  gtk_widget_show (GTK_WIDGET(scrolledWindow));
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow),
+            GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	  gtk_box_pack_start(GTK_BOX(vbox), scrolledWindow, TRUE, TRUE, 1);
+
+  view = create_view_and_model("html5");
   gtk_widget_show (GTK_WIDGET(view));
   selection2 = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
 	gtk_widget_show (GTK_WIDGET(selection2));

@@ -11,6 +11,7 @@ void  on_changed(GtkWidget *widget, gpointer statusbar);
 GtkWidget *help_php_window (void);
 GtkWidget *help_mysql (void);
 GtkWidget *help_html (void);
+GtkWidget *help_html5 (void);
 GtkWidget *help_css (void);
 GtkWidget *help_javascript (void);
 GtkWidget *Aide_BASH (void);

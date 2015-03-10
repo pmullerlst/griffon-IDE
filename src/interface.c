@@ -3246,6 +3246,8 @@ static GtkTreeModel * create_and_fill_model_help (void)
 	gtk_tree_store_append(treestore, &child, &toplevel);
 	gtk_tree_store_set(treestore, &child,COLUMN, "[HTML]",-1);
 	gtk_tree_store_append(treestore, &child, &toplevel);
+	gtk_tree_store_set(treestore, &child,COLUMN, "[HTML5]",-1);
+	gtk_tree_store_append(treestore, &child, &toplevel);
 	gtk_tree_store_set(treestore, &child,COLUMN, "[CSS]",-1);
 	gtk_tree_store_append(treestore, &child, &toplevel);
 	gtk_tree_store_set(treestore, &child,COLUMN, "[JAVASCRIPT/JQUERY]",-1);
