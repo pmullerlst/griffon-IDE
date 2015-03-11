@@ -4900,7 +4900,7 @@ void start_php_script            (void)
 	time_t date;
 	date = time(NULL);
 
-	doc_insert_at_cursor (cur_text_doc, (_("<?\n\n/* \n * Script PHP Griffon: http://griffon.lasotel.fr\n * Date start script : "))); 
+	doc_insert_at_cursor (cur_text_doc, (_("<?php\n\n/* \n * Script PHP Griffon: http://griffon.lasotel.fr\n * Date start script : "))); 
 	doc_insert_at_cursor (cur_text_doc, ctime(&date)); 
 	doc_insert_at_cursor (cur_text_doc, " *\n */\n\n?>");   
 }
