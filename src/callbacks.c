@@ -5107,6 +5107,42 @@ void on_mni_html5_nav ()
 	g_free (t);
 }
 
+void html5_audio ()
+{
+	if (! get_page_text()) return;
+
+	gchar *t = NULL;
+	gchar *buf = doc_get_sel (cur_text_doc);
+
+	if (! buf){doc_insert_at_cursor (cur_text_doc, "<audio src=\"sound.mp3\" controls></audio>");doc_move_cursor_backw_middle_tags (cur_text_doc);}
+	else{t = g_strconcat ("<audio src=\"sound.mp3\" controls>\n", buf, "\n</audio>", NULL);doc_rep_sel (cur_text_doc, t);doc_move_to_pos_bw_quote (cur_text_doc);}
+
+	g_free (buf);
+	g_free (t);
+}
+
+void html5_video ()
+{
+	if (! get_page_text()) return;
+
+	gchar *t = NULL;
+	gchar *buf = doc_get_sel (cur_text_doc);
+
+	if (! buf){doc_insert_at_cursor (cur_text_doc, "<video src=\"video.mp3\" controls poster=\"img.jpg\" width=\"600\"></video>");doc_move_cursor_backw_middle_tags (cur_text_doc);}
+	else{t = g_strconcat ("<video src=\"video.mp3\" controls poster=\"img.jpg\" width=\"600\">\n", buf, "\n</video>", NULL);doc_rep_sel (cur_text_doc, t);doc_move_to_pos_bw_quote (cur_text_doc);}
+
+	g_free (buf);
+	g_free (t);
+}
+
+
+void html5_input_range (void){doc_insert_at_cursor (cur_text_doc, "<input type=\"range\" name=\"range\">"); }
+void html5_input_number (void){doc_insert_at_cursor (cur_text_doc, "<input type=\"number\" name=\"number\" min=\"1\" max=\"50\" step=\"5\""">"); }
+void html5_input_email (void){doc_insert_at_cursor (cur_text_doc, "<input type=\"email\" name=\"email\">"); }
+void html5_input_tel (void){doc_insert_at_cursor (cur_text_doc, "<input type=\"tel\" name=\"tel\">"); }
+void html5_input_required (void){doc_insert_at_cursor (cur_text_doc, "required"); }
+void html5_input_search (void){doc_insert_at_cursor (cur_text_doc, "<input type=\"search\" name=\"search\">"); }
+void html5_input_url (void){doc_insert_at_cursor (cur_text_doc, "<input type=\"url\" name=\"url\">"); }
 
 //*********************** IPTABLES HELP
 void iptables_drop_all (void){doc_insert_at_cursor (cur_text_doc, "iptables -P INPUT DROP\niptables -P OUTPUT DROP\niptables -P FORWARD DROP\n"); }
@@ -5152,6 +5188,9 @@ void css_block (void){doc_insert_at_cursor (cur_text_doc, "display:block;\n"); }
 void css_inline (void){doc_insert_at_cursor (cur_text_doc, "display:inline;\n"); }
 void css_valign_top (void){doc_insert_at_cursor (cur_text_doc, "vertical-align:top;\n"); }
 void css_valign_bottom (void){doc_insert_at_cursor (cur_text_doc, "vertical-align:bottom;\n"); }
+void css_box_shadow (void){doc_insert_at_cursor (cur_text_doc, "box-shadow: 6px 6px 6px black;\n"); }
+void css_border_radius (void){doc_insert_at_cursor (cur_text_doc, "border-radius:10px;\n"); }
+void css_media_screen (void){doc_insert_at_cursor (cur_text_doc, "/* Smartphones (portrait and landscape) ----------- */\n@media only screen \nand (min-device-width : 320px) \nand (max-device-width : 480px) {\n/* Styles */\n}\n\n/* Smartphones (landscape) ----------- */\n@media only screen \nand (min-width : 321px) {\n/* Styles */\n}\n\n/* Smartphones (portrait) ----------- */\n@media only screen \nand (max-width : 320px) {\n/* Styles */\n}\n\n/* iPads (portrait and landscape) ----------- */\n@media only screen \nand (min-device-width : 768px) \nand (max-device-width : 1024px) {\n/* Styles */\n}\n\n/* iPads (landscape) ----------- */\n@media only screen \nand (min-device-width : 768px) \nand (max-device-width : 1024px) \nand (orientation : landscape) {\n/* Styles */\n}\n\n/* iPads (portrait) ----------- */\n@media only screen \nand (min-device-width : 768px) \nand (max-device-width : 1024px) \nand (orientation : portrait) {\n/* Styles */\n}\n\n/* Desktops and laptops ----------- */\n@media only screen \nand (min-width : 1224px) {\n/* Styles */\n}\n\n/* Large screens ----------- */\n@media only screen \nand (min-width : 1824px) {\n/* Styles */\n}\n\n/* iPhone 4 ----------- */\n@media\nonly screen and (-webkit-min-device-pixel-ratio : 1.5),\nonly screen and (min-device-pixel-ratio : 1.5) {\n/* Styles */\n}\n"); }
 
 //*********************** JAVASCRIPT HELP
 void javascript_html (void){doc_insert_at_cursor (cur_text_doc, "<script type=\"text/javascript\">\n\n\n</script>\n"); }

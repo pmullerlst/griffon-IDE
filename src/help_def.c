@@ -281,7 +281,24 @@ GtkTreeModel *create_and_fill_model_html5 (void)
   gtk_tree_store_set(treestore, &child,COLUMN, (_("1.7 (html5): Aside")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
   gtk_tree_store_set(treestore, &child,COLUMN, (_("1.8 (html5): Nav")),-1);
-
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.9 (html5): Input range")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.0 (html5): Input number")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.1 (html5): Input email")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.2 (html5): Input telephone")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.3 (html5): Input search")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.4 (html5): Input URL")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.5 (html5): Input required (value)")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.6 (html5): audio player")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("2.7 (html5): video player")),-1);
 
   return GTK_TREE_MODEL(treestore);
 }
@@ -311,7 +328,13 @@ GtkTreeModel *create_and_fill_model_css (void)
   gtk_tree_store_set(treestore, &child,COLUMN, (_("1.4 (css): Style for link hover")),-1);    
   gtk_tree_store_append(treestore, &child, &toplevel);
   gtk_tree_store_set(treestore, &child,COLUMN, (_("1.5 (css): Style for div tag with ID")),-1);  
-    
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.6 (css): box shadow (border)")),-1);  
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.7 (css): border radius")),-1);  
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.8 (css): base media screen size")),-1);  
+
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
                      COLUMN, "2 Base background",
@@ -1101,6 +1124,15 @@ void  on_changed2(GtkWidget *tt, GdkEvent *eventt, gpointer *user_data)
             if (strcmp("1.6 (html5", a[0]) == 0){on_mni_html5_article();}
             if (strcmp("1.7 (html5", a[0]) == 0){on_mni_html5_aside();}
             if (strcmp("1.8 (html5", a[0]) == 0){on_mni_html5_nav();}
+            if (strcmp("1.9 (html5", a[0]) == 0){html5_input_range();}
+            if (strcmp("2.0 (html5", a[0]) == 0){html5_input_number();}
+            if (strcmp("2.1 (html5", a[0]) == 0){html5_input_email();}
+            if (strcmp("2.2 (html5", a[0]) == 0){html5_input_tel();}
+            if (strcmp("2.3 (html5", a[0]) == 0){html5_input_search();}
+            if (strcmp("2.4 (html5", a[0]) == 0){html5_input_url();}
+            if (strcmp("2.5 (html5", a[0]) == 0){html5_input_required();}
+            if (strcmp("2.6 (html5", a[0]) == 0){html5_audio();}
+            if (strcmp("2.7 (html5", a[0]) == 0){html5_video();}
 
             //*************** APPEL AU FONCTION CSS
 				if (strcmp("1.1 (css", a[0]) == 0){on_mni_Markup_comment(NULL,NULL);}
@@ -1108,6 +1140,8 @@ void  on_changed2(GtkWidget *tt, GdkEvent *eventt, gpointer *user_data)
             if (strcmp("1.3 (css", a[0]) == 0){css_link();}
             if (strcmp("1.4 (css", a[0]) == 0){css_link_hover();}
             if (strcmp("1.5 (css", a[0]) == 0){css_div();}
+            if (strcmp("1.6 (css", a[0]) == 0){css_box_shadow();}
+            if (strcmp("1.7 (css", a[0]) == 0){css_border_radius();}
 				if (strcmp("2.2 (css", a[0]) == 0){css_bg_img();}
 				if (strcmp("2.3 (css", a[0]) == 0){css_bg_img_norep();}	
 				if (strcmp("2.1 (css", a[0]) == 0){css_bg_couleur();}
@@ -1130,6 +1164,7 @@ void  on_changed2(GtkWidget *tt, GdkEvent *eventt, gpointer *user_data)
 				if (strcmp("6.3 (css", a[0]) == 0){css_inline();}
 				if (strcmp("5.9 (css", a[0]) == 0){css_valign_top();}
 				if (strcmp("5.8 (css", a[0]) == 0){css_valign_bottom();}
+				if (strcmp("1.8 (css", a[0]) == 0){css_media_screen();}
 
             //*************** APPEL AU FONCTION JAVASCRIPT JQUERY 
 				if (strcmp("1.1 (javascript", a[0]) == 0){javascript_html();}

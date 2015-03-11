@@ -460,5 +460,16 @@ void on_mni_html5_section ();
 void on_mni_html5_article ();
 void on_mni_html5_aside ();
 void on_mni_html5_nav ();
-
+void html5_input_range (void);
+void html5_input_number (void);
+void html5_input_email (void);
+void html5_input_tel (void);
+void html5_input_required (void);
+void html5_input_search (void);
+void html5_input_url (void);
+void css_box_shadow (void);
+void css_border_radius (void);
+void css_media_screen (void);
+void html5_audio ();
+void html5_video ();
 
