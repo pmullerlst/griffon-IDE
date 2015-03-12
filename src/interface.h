@@ -337,4 +337,5 @@ void window_chrono_stats_file ();
 void save_file_in_project_tab ();
 void no_gtk_theme ();
 void classic_gtk_theme ();
+void window_jabber ();
 

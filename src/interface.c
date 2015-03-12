@@ -952,6 +952,8 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("Last modified date of the file"), mni_functions_menu, window_chrono_stats_file);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_space, GDK_SHIFT_MASK,GTK_ACCEL_VISIBLE);
 
+	mni_temp = new_menu_item (_("Client chat jabber"), mni_functions_menu, window_jabber);
+
 	//*********************** MENU HTML
 	mni_temp = new_menu_item (_("Html"), menubar1, NULL);
 	mni_markup_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
@@ -7272,6 +7274,42 @@ void window_chrono_stats_file ()
 
 	webkit_web_view_load_uri(webView_doc2, uri_main);
 	}
+}
+
+//*********************** WINDOW CHAT JABBER
+void window_jabber ()
+{
+	gchar *uri_main = "http://griffon.lasotel.fr/converse/";
+
+	GtkWidget *window1;
+	GtkWidget *vbox1;
+	WebKitWebView *webView_doc2;
+
+	window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
+	gtk_window_set_title (GTK_WINDOW (window1), _((_("Griffon Chat Jabber"))));
+	gtk_window_resize (GTK_WINDOW (window1), 550, 450);
+	gtk_widget_show (GTK_WIDGET(window1));
+
+	vbox1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_widget_show (GTK_WIDGET(vbox1));
+	gtk_container_add (GTK_CONTAINER (window1), GTK_WIDGET(vbox1));
+
+	GtkWidget *scrolledwindow5 = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_show (GTK_WIDGET(scrolledwindow5));
+	gtk_box_pack_start(GTK_BOX(vbox1), GTK_WIDGET(scrolledwindow5), TRUE, TRUE, 1);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_CORNER_TOP_LEFT);
+
+	webView_doc2 = WEBKIT_WEB_VIEW(webkit_web_view_new());
+	gtk_widget_show (GTK_WIDGET(webView_doc2));
+
+	gtk_container_add(GTK_CONTAINER(scrolledwindow5), GTK_WIDGET(webView_doc2));
+
+	webkit_web_view_load_uri(webView_doc2, uri_main);
+
+	g_signal_connect(webView_doc2, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_doc2);
+	g_signal_connect(webView_doc2, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_doc2);
 }
 
 //*********************** SAVE FILE EDIT IN PROJECT TAB
