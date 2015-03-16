@@ -403,7 +403,24 @@ GtkTreeModel *create_and_fill_model_css (void)
   gtk_tree_store_set(treestore, &child,COLUMN, (_("6.2 (css) [block] display display one below the other")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
   gtk_tree_store_set(treestore, &child,COLUMN, (_("6.3 (css) [inline] View online display div")),-1);  
-                                                    
+
+  gtk_tree_store_append(treestore, &toplevel, NULL);
+  gtk_tree_store_set(treestore, &toplevel,
+                     COLUMN, (_("7 Templates")),
+                     -1);  
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("7.1 (css): Template table")),-1);  
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("7.2 (css): Template submit")),-1);  
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("7.3 (css): Template menu")),-1);  
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("7.4 (css): Template box")),-1);  
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("7.5 (css): Template input text, email, tel, textarea...")),-1); 
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("7.6 (css): Template label")),-1); 
+
   return GTK_TREE_MODEL(treestore);
 }
 
@@ -1165,6 +1182,12 @@ void  on_changed2(GtkWidget *tt, GdkEvent *eventt, gpointer *user_data)
 				if (strcmp("5.9 (css", a[0]) == 0){css_valign_top();}
 				if (strcmp("5.8 (css", a[0]) == 0){css_valign_bottom();}
 				if (strcmp("1.8 (css", a[0]) == 0){css_media_screen();}
+				if (strcmp("7.1 (css", a[0]) == 0){css_template_table();}
+				if (strcmp("7.2 (css", a[0]) == 0){css_template_submit();}
+				if (strcmp("7.3 (css", a[0]) == 0){css_template_menu();}
+				if (strcmp("7.4 (css", a[0]) == 0){css_template_box();}
+				if (strcmp("7.5 (css", a[0]) == 0){css_template_textarea();}
+				if (strcmp("7.6 (css", a[0]) == 0){css_template_label();}
 
             //*************** APPEL AU FONCTION JAVASCRIPT JQUERY 
 				if (strcmp("1.1 (javascript", a[0]) == 0){javascript_html();}

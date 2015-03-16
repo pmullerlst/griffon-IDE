@@ -472,4 +472,10 @@ void css_border_radius (void);
 void css_media_screen (void);
 void html5_audio ();
 void html5_video ();
+void css_template_table (void);
+void css_template_submit (void);
+void css_template_menu (void);
+void css_template_box (void);
+void css_template_textarea (void);
+void css_template_label (void);
 
