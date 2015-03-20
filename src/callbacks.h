@@ -478,4 +478,4 @@ void css_template_menu (void);
 void css_template_box (void);
 void css_template_textarea (void);
 void css_template_label (void);
-
+void css_template_footer (void);

@@ -420,6 +420,8 @@ GtkTreeModel *create_and_fill_model_css (void)
   gtk_tree_store_set(treestore, &child,COLUMN, (_("7.5 (css): Template input text, email, tel, textarea...")),-1); 
   gtk_tree_store_append(treestore, &child, &toplevel);
   gtk_tree_store_set(treestore, &child,COLUMN, (_("7.6 (css): Template label")),-1); 
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("7.7 (css): Template footer")),-1); 
 
   return GTK_TREE_MODEL(treestore);
 }
@@ -1188,6 +1190,7 @@ void  on_changed2(GtkWidget *tt, GdkEvent *eventt, gpointer *user_data)
 				if (strcmp("7.4 (css", a[0]) == 0){css_template_box();}
 				if (strcmp("7.5 (css", a[0]) == 0){css_template_textarea();}
 				if (strcmp("7.6 (css", a[0]) == 0){css_template_label();}
+				if (strcmp("7.7 (css", a[0]) == 0){css_template_footer();}
 
             //*************** APPEL AU FONCTION JAVASCRIPT JQUERY 
 				if (strcmp("1.1 (javascript", a[0]) == 0){javascript_html();}
