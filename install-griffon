@@ -28,6 +28,7 @@ sudo cp -rf autocomp/* /usr/local/share/griffon/autocomp/
 [ -d /usr/local/share/griffon/images ] || sudo mkdir -p /usr/local/share/griffon/images/
 sudo cp -rf pixmaps/* /usr/local/share/griffon/images/
 sudo cp -rf theme /usr/local/share/griffon/
+sudo cp -rf theme /usr/share/themes/DARK_GRIFFON
 sudo chmod -R 777 /usr/local/share/griffon/theme
 echo ""
 
@@ -109,6 +110,7 @@ fi
 	[ -d /usr/local/share/griffon/images ] || mkdir -p /usr/local/share/griffon/images/
 	cp -rf pixmaps/* /usr/local/share/griffon/images/
 	cp -rf theme /usr/local/share/griffon/
+	cp -rf theme /usr/share/themes/DARK_GRIFFON
 	chmod -R 777 /usr/local/share/griffon/theme
 		txt="Completion of the installation..."
 	fi
