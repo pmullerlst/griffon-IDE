@@ -479,3 +479,8 @@ void css_template_box (void);
 void css_template_textarea (void);
 void css_template_label (void);
 void css_template_footer (void);
+void jquery_head (void);
+void tablefilter_head (void);
+void tablefilter_source (void);
+void jquery_autocomp (void);
+void jquery_datepicker (void);

@@ -474,7 +474,17 @@ GtkTreeModel *create_and_fill_model_javascript (void)
   gtk_tree_store_set(treestore, &child,COLUMN, (_("1.3 (javascript) : Split a string into array by separating")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
   gtk_tree_store_set(treestore, &child,COLUMN, (_("1.4 (javascript) : Encoding a URL")),-1);
-     
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.5 (jquery) : Head TAG HTML for JQuery")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.6 (TableFilter) : Head TAG HTML for javascript TableFilter plugin")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.7 (TableFilter) : javascript source for TableFilter")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.8 (jquery) : jquery UI autocomp source")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("1.9 (jquery) : jquery UI datepicker source")),-1);
+
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
                      COLUMN, (_("2 Interaction with ID")),
@@ -1213,6 +1223,11 @@ void  on_changed2(GtkWidget *tt, GdkEvent *eventt, gpointer *user_data)
 				if (strcmp("1.3 (javascript", a[0]) == 0){javascript_split();}
 				if (strcmp("4.1 (javascript", a[0]) == 0){javascript_file_contenu();}
 				if (strcmp("1.4 (javascript", a[0]) == 0){javascript_urlencode();}
+				if (strcmp("1.5 (jquery", a[0]) == 0){jquery_head();}
+				if (strcmp("1.6 (TableFilter", a[0]) == 0){tablefilter_head();}
+				if (strcmp("1.7 (TableFilter", a[0]) == 0){tablefilter_source();}
+				if (strcmp("1.8 (jquery", a[0]) == 0){jquery_autocomp();}
+				if (strcmp("1.9 (jquery", a[0]) == 0){jquery_datepicker();}
 
 		char search_google[150];
 		strcpy(search_google,"https://www.google.fr/#q=");
