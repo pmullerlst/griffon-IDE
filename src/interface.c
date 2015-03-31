@@ -1429,6 +1429,7 @@ GtkWidget* create_tea_main_window (void)
 	
 	g_signal_connect(selection, "changed",  G_CALLBACK(on_changed), statusbar_help);
 
+
 	label_note5 = gtk_label_new (_("Help"));
 	gtk_widget_show (GTK_WIDGET(label_note5));
 
@@ -7357,4 +7358,5 @@ void classic_gtk_theme ()
 	save_string_to_file_add(confile.tea_theme_gtk,"\n");
 	quick_message ("Restart","You must restart Griffon to apply the changes.");
 }
+
 
