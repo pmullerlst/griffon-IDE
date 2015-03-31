@@ -484,3 +484,5 @@ void tablefilter_head (void);
 void tablefilter_source (void);
 void jquery_autocomp (void);
 void jquery_datepicker (void);
+void php_htmlentities(void);
+void php_nl2br(void);

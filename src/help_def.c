@@ -136,6 +136,10 @@ GtkTreeModel *create_and_fill_model_php (void)
   gtk_tree_store_set(treestore, &child,COLUMN, (_("4.9 (php) EXPLODE : split a string with separator and returns an array")),-1);
   gtk_tree_store_append(treestore, &child, &toplevel);
   gtk_tree_store_set(treestore, &child,COLUMN, (_("4.10 (php) ADDSLASHES : Adds backslashes in a string")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.11 (php) htmlentities : Convert all applicable characters to HTML entities")),-1);
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,COLUMN, (_("4.12 (php) nl2br : Insert a return to HTML line each new line")),-1);
 
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
@@ -1033,6 +1037,8 @@ void  on_changed2(GtkWidget *tt, GdkEvent *eventt, gpointer *user_data)
 				if (strcmp("1.9 (php", a[0]) == 0){php_count();}
 				if (strcmp("3.4 (php", a[0]) == 0){php_dir();}
 				if (strcmp("4.10 (php", a[0]) == 0){php_addslashes();}
+				if (strcmp("4.11 (php", a[0]) == 0){php_htmlentities();}
+				if (strcmp("4.12 (php", a[0]) == 0){php_nl2br();}
 				if (strcmp("7.3 (php", a[0]) == 0){php_dl_csv();}
             
             //*************** APPEL AU FONCTION BASH
