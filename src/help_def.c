@@ -1383,20 +1383,27 @@ query_tooltip_tree_view_cb (GtkWidget  *widget, gint x,gint y,gboolean keyboard_
 	GdkPixbuf *pixbuf;
 	gchar *src="/usr/local/share/griffon/images/projects/winmerge.png";
 
-/*	gchar **a = g_strsplit (tmp, ")", -1);   
-
+	gchar **a = NULL; 
+	gchar **a2 = NULL;
+ 
+	a=g_strsplit (tmp, ")", -1);
+	if(g_strv_length(a)>0)
+	{
 		if(a[1]!=NULL && a[0]!=NULL && a!=NULL)
 		{
-				gchar **a2 = g_strsplit (a[0], "(", -1);
+
 				if (strcmp("1.1 (php", a[0]) == 0){src="/usr/local/share/griffon/images/projects/development-php.png";}
 
-
-				if(a2[1]!=NULL && a2[0]!=NULL)
+				a2=g_strsplit (a[0], "(", -1);
+				if(g_strv_length(a)>0)
 				{
-					if (strcmp("php", a2[1]) == 0){src="/usr/local/share/griffon/images/projects/development-php.png";}
+					if(a2[1]!=NULL && a2[0]!=NULL)
+					{
+						if (strcmp("php", a2[1]) == 0){src="/usr/local/share/griffon/images/projects/development-php.png";}
+					}
 				}
 		}
-*/
+	}
 	pixbuf = gdk_pixbuf_new_from_file(src, NULL);
 	gtk_tooltip_set_icon (tooltip,pixbuf);
 
