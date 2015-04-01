@@ -1352,6 +1352,66 @@ gboolean util_treeview_match_all_words_callback(GtkTreeModel *pTreeModel, gint n
 	return (bMatch == FALSE);	// NOTE: we must return FALSE for matches... yeah, believe it.
 }
 
+
+//**********************TEST TTOLTIPS
+static gboolean
+query_tooltip_tree_view_cb (GtkWidget  *widget, gint x,gint y,gboolean keyboard_tip,GtkTooltip *tooltip,gpointer data)
+{
+
+	if(data==NULL){printf(" \n");}
+	GtkTreeIter iter;
+	GtkTreeView *tree_view = GTK_TREE_VIEW (widget);
+	GtkTreeModel *model = gtk_tree_view_get_model (tree_view);
+	GtkTreePath *path = NULL;
+	gchar *tmp;
+	gchar *pathstring;
+
+	char buffer[512];
+
+	if (!gtk_tree_view_get_tooltip_context (tree_view, &x, &y,keyboard_tip,&model, &path, &iter))
+	{
+	return FALSE;
+	}
+	else
+	{
+	gtk_tree_model_get (model, &iter, 0, &tmp, -1);
+	pathstring = gtk_tree_path_to_string (path);
+
+	g_snprintf (buffer, 511, "%s", tmp);
+	gtk_tooltip_set_markup (tooltip, buffer);
+
+	GdkPixbuf *pixbuf;
+	gchar *src="/usr/local/share/griffon/images/projects/winmerge.png";
+
+/*	gchar **a = g_strsplit (tmp, ")", -1);   
+
+		if(a[1]!=NULL && a[0]!=NULL && a!=NULL)
+		{
+				gchar **a2 = g_strsplit (a[0], "(", -1);
+				if (strcmp("1.1 (php", a[0]) == 0){src="/usr/local/share/griffon/images/projects/development-php.png";}
+
+
+				if(a2[1]!=NULL && a2[0]!=NULL)
+				{
+					if (strcmp("php", a2[1]) == 0){src="/usr/local/share/griffon/images/projects/development-php.png";}
+				}
+		}
+*/
+	pixbuf = gdk_pixbuf_new_from_file(src, NULL);
+	gtk_tooltip_set_icon (tooltip,pixbuf);
+
+	gtk_tree_view_set_tooltip_row (tree_view, tooltip, path);
+
+
+	gtk_tree_path_free (path);
+	g_free (pathstring);
+	g_free (tmp);
+
+	return TRUE;
+	}
+}
+//********************** FIN DE TEST
+
 //******************************* creation des models pour toutes les fenetres aide
 GtkWidget * create_view_and_model (char clef[50])
 {
@@ -1392,7 +1452,8 @@ GtkWidget * create_view_and_model (char clef[50])
   gtk_tree_view_set_model(GTK_TREE_VIEW(view), model);
   g_object_unref(model); 
 
-
+		g_object_set (view, "has-tooltip", TRUE, NULL);
+	g_signal_connect (view, "query-tooltip", G_CALLBACK (query_tooltip_tree_view_cb), NULL);
   return view;
 }
 
@@ -1441,9 +1502,13 @@ GtkWidget* help_php_window (void)
 	
 	gtk_widget_grab_focus (view);
 
+//	g_object_set (view, "has-tooltip", TRUE, NULL);
+//	g_signal_connect (view, "query-tooltip", G_CALLBACK (query_tooltip_tree_view_cb), NULL);
+
   return window1;
 
 }
+
 
 //******************************* fenetre aide mysql
 GtkWidget* help_mysql (void)

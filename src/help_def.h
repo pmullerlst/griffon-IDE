@@ -33,4 +33,4 @@ void delete_helps_custom();
 void rm_dir_cmd_help();
 void delete_helps_custom_dir();
 void  on_changed_term(GtkWidget *tt, GdkEvent *eventt, gpointer user_data);
-
+GtkWidget *get_tooltip(GtkWidget *treeview, GtkTreePath *path, GtkTreeViewColumn *column, gpointer data);
