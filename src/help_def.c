@@ -1392,8 +1392,6 @@ query_tooltip_tree_view_cb (GtkWidget  *widget, gint x,gint y,gboolean keyboard_
 		if(a[1]!=NULL && a[0]!=NULL && a!=NULL)
 		{
 
-				if (strcmp("1.1 (php", a[0]) == 0){src="/usr/local/share/griffon/images/projects/development-php.png";}
-
 				a2=g_strsplit (a[0], "(", -1);
 				if(g_strv_length(a)>0)
 				{
@@ -1402,6 +1400,13 @@ query_tooltip_tree_view_cb (GtkWidget  *widget, gint x,gint y,gboolean keyboard_
 						if (strcmp("php", a2[1]) == 0){src="/usr/local/share/griffon/images/projects/development-php.png";}
 					}
 				}
+
+				if (strcmp("7.1 (css", a[0]) == 0){src="/usr/local/share/griffon/images/css_table.png";}
+				if (strcmp("7.2 (css", a[0]) == 0){src="/usr/local/share/griffon/images/css_submit.png";}
+				if (strcmp("7.3 (css", a[0]) == 0){src="/usr/local/share/griffon/images/css_menu.png";}
+				if (strcmp("7.4 (css", a[0]) == 0){src="/usr/local/share/griffon/images/css_box.png";}
+				if (strcmp("7.5 (css", a[0]) == 0){src="/usr/local/share/griffon/images/css_input.png";}
+				if (strcmp("7.6 (css", a[0]) == 0){src="/usr/local/share/griffon/images/css_label.png";}
 		}
 	}
 	pixbuf = gdk_pixbuf_new_from_file(src, NULL);
