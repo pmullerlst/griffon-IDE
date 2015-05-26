@@ -1381,7 +1381,7 @@ query_tooltip_tree_view_cb (GtkWidget  *widget, gint x,gint y,gboolean keyboard_
 	gtk_tooltip_set_markup (tooltip, buffer);
 
 	GdkPixbuf *pixbuf;
-	gchar *src="/usr/local/share/griffon/images/projects/winmerge.png";
+	gchar *src="/usr/local/share/griffon/images/help_icon.png";
 
 	gchar **a = NULL; 
 	gchar **a2 = NULL;
@@ -1397,7 +1397,16 @@ query_tooltip_tree_view_cb (GtkWidget  *widget, gint x,gint y,gboolean keyboard_
 				{
 					if(a2[1]!=NULL && a2[0]!=NULL)
 					{
-						if (strcmp("php", a2[1]) == 0){src="/usr/local/share/griffon/images/projects/development-php.png";}
+						if (strcmp("php", a2[1]) == 0){src="/usr/local/share/griffon/images/php_icon.png";}
+						if (strcmp("perl", a2[1]) == 0){src="/usr/local/share/griffon/images/perl.png";}
+						if (strcmp("css", a2[1]) == 0){src="/usr/local/share/griffon/images/css_icon.png";}
+						if (strcmp("html", a2[1]) == 0){src="/usr/local/share/griffon/images/html_icon.png";}
+						if (strcmp("html5", a2[1]) == 0){src="/usr/local/share/griffon/images/html5_icon.png";}
+						if (strcmp("bash", a2[1]) == 0){src="/usr/local/share/griffon/images/bash_icon.png";}
+						if (strcmp("mysql", a2[1]) == 0){src="/usr/local/share/griffon/images/mysql_icon.png";}
+						if (strcmp("javascript", a2[1]) == 0){src="/usr/local/share/griffon/images/javascript_icon.png";}
+						if (strcmp("htaccess", a2[1]) == 0){src="/usr/local/share/griffon/images/htaccess_icon.png";}
+						if (strcmp("iptables", a2[1]) == 0){src="/usr/local/share/griffon/images/iptables_icon.png";}
 					}
 				}
 
