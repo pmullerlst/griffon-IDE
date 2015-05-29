@@ -993,10 +993,10 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_sep (mni_markup_menu);
 
 	mni_temp = new_menu_item (_("Preview text selection in a web popup"), mni_markup_menu, preview_web_popup);
-	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_p, GDK_CONTROL_MASK,GTK_ACCEL_VISIBLE);
+	//gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_p, GDK_CONTROL_MASK,GTK_ACCEL_VISIBLE);
 
 	mni_temp = new_menu_item (_("Preview full text in a web popup"), mni_markup_menu, preview_web_popup_full);
-	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_p, GDK_CONTROL_MASK | GDK_MOD1_MASK,GTK_ACCEL_VISIBLE);
+	//gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_p, GDK_CONTROL_MASK | GDK_MOD1_MASK,GTK_ACCEL_VISIBLE);
 
 	mni_temp = new_menu_item (_("Bold"), mni_markup_menu, on_mni_Markup_bold_activate);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_B, GDK_CONTROL_MASK | GDK_MOD1_MASK,GTK_ACCEL_VISIBLE);
@@ -6836,12 +6836,12 @@ void populate_popup(GtkTextView *view, GtkMenu *menu, gpointer user_data)
 	g_signal_connect(i, "button-release-event",G_CALLBACK(google_search), NULL);
 	gtk_widget_show(i);
 
-	i = gtk_menu_item_new_with_label("HTML Preview text selection in a web popup [Ctrl+P]");
+	i = gtk_menu_item_new_with_label("HTML Preview text selection in a web popup");
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
 	g_signal_connect(i, "button-release-event",G_CALLBACK(preview_web_popup), NULL);
 	gtk_widget_show(i);
 
-	i = gtk_menu_item_new_with_label("HTML Preview full text in a web popup [Ctrl+Alt+P]");
+	i = gtk_menu_item_new_with_label("HTML Preview full text in a web popup");
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
 	g_signal_connect(i, "button-release-event",G_CALLBACK(preview_web_popup_full), NULL);
 	gtk_widget_show(i);
