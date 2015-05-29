@@ -4451,7 +4451,7 @@ void enter_web ()
 			{
 				if (carac =='\n')
 				{
-					if (strncmp(mot,tampon_web,strlen(mot))==0 ){check=1;}
+					if (strncmp(mot,tampon_web,strlen(mot))==0 && strlen(mot)>5){check=1;}
 					mot[0]='\0';
 				}
 				else
@@ -4512,7 +4512,7 @@ void enter_myweb ()
 			{
 				if (carac =='\n')
 				{
-					if (strncmp(mot,tampon_myweb,strlen(mot))==0 ){check=1;}
+					if (strncmp(mot,tampon_myweb,strlen(mot))==0  && strlen(mot)>5){check=1;}
 					mot[0]='\0';
 				}
 				else
