@@ -2233,11 +2233,14 @@ void on_mni_edit_delete_current_line ()
 
 	itend = ittemp;
 
-	if (gtk_text_iter_forward_to_line_end (&itend))
-		while (! gtk_text_iter_starts_line (&ittemp))
-		gtk_text_iter_backward_char (&ittemp); 
+	gtk_text_iter_forward_to_line_end (&itend);
+	gtk_text_iter_starts_line (&ittemp);
 
-		if (gtk_text_iter_forward_char (&itend))
+	//	if (gtk_text_iter_forward_to_line_end (&itend))
+	//		while (! gtk_text_iter_starts_line (&ittemp))
+	//		gtk_text_iter_backward_char (&ittemp); 
+
+	//		if (gtk_text_iter_forward_char (&itend))
 		gtk_text_buffer_delete (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &ittemp, &itend);
 }
 
