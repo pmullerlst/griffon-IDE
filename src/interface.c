@@ -6831,6 +6831,11 @@ void populate_popup(GtkTextView *view, GtkMenu *menu, gpointer user_data)
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
 	gtk_widget_show(i);
 
+	i = gtk_menu_item_new_with_label("Search in file");
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
+	g_signal_connect(i, "button-release-event",G_CALLBACK(search_in_file), NULL);
+	gtk_widget_show(i);
+
 	i = gtk_menu_item_new_with_label("Search with Google [F8]");
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
 	g_signal_connect(i, "button-release-event",G_CALLBACK(google_search), NULL);
@@ -7357,6 +7362,13 @@ void classic_gtk_theme ()
 	save_string_to_file_add(confile.tea_theme_gtk,"classic");
 	save_string_to_file_add(confile.tea_theme_gtk,"\n");
 	quick_message ("Restart","You must restart Griffon to apply the changes.");
+}
+
+//*********************** Find search in text file
+void search_in_file ()
+{
+	on_mni_nav_focus_to_famous();
+	on_mni_quest_find();
 }
 
 
