@@ -49,7 +49,7 @@
 #define MAX_BUF 165536
 
 //*********************** DECLARATION
-GtkWidget *checkbutton1,*checkbutton2,*checkbutton3,*checkbutton4,*checkbutton5,*entry1,*entry2,*entry_scp1,*entry_scp2,*entry_scp3,*entry_scp4,*entry_sftp,*entry_utilisateur,*entry_chemin,*entry_ftp,*entry_utilisateur_ftp;
+GtkWidget *checkbutton1,*checkbutton2,*checkbutton3,*checkbutton4,*checkbutton5,*entry1,*entry2,*entry_scp1,*entry_scp2,*entry_scp3,*entry_scp4,*entry_sftp,*entry_utilisateur,*entry_chemin,*entry_port,*entry_ftp,*entry_utilisateur_ftp;
   GtkWidget *entry_passwd_ftp,*entry_ln1,*entry_ln2,*entry_fonction,*entry_fonction2,*entry_compress,*checkbutton1_grep,*checkbutton2_grep,*checkbutton3_grep,*checkbutton4_grep;
   GtkWidget *entry_grep1,*entry_grep2,*entry_grep3,*checkbutton_sed1,*entry_sed4,*entry_sed5,*checkbutton_sed2,*entry_sed6,*entry_sed7,*checkbutton_sed3,*checkbutton_sed4,*checkbutton_sed5;
   GtkWidget *checkbutton_sed6,*checkbutton_sed7,*entry_sed1,*entry_sed2,*entry_sed3,*spinbutton1,*checkbutton_awk1,*entry_awk3,*entry_awk1,*entry_awk4,*entry_awk5,*checkbutton_rouge;
@@ -5289,6 +5289,7 @@ void mount_sftp (void)
 	char mot2[150];
 	gchar *tampon_utilisateur;
 	gchar *tampon_chemin;
+	gchar *tampon_port;
 
 	const char *home_dir = g_getenv ("HOME");
 
@@ -5307,6 +5308,9 @@ void mount_sftp (void)
 		tampon_sftp = gtk_editable_get_chars(GTK_EDITABLE(entry_sftp),0, -1);
 		tampon_utilisateur = gtk_editable_get_chars(GTK_EDITABLE(entry_utilisateur),0, -1);
 		tampon_chemin = gtk_editable_get_chars(GTK_EDITABLE(entry_chemin),0, -1);
+		tampon_port = gtk_editable_get_chars(GTK_EDITABLE(entry_port),0, -1);
+
+		if(strlen(tampon_port)<1){tampon_port="22";}
 
 		int systemRet=0;
 		if(sshadd==NULL){systemRet =system ("ssh-add");sshadd="ok";}
@@ -5320,7 +5324,9 @@ void mount_sftp (void)
 		systemRet =system (mot2);
 		if(systemRet == -1){return;}
 
-		strcpy(mot,"sshfs ");
+		strcpy(mot,"sshfs -p ");
+		strcat(mot,tampon_port);
+		strcpy(mot," ");
 		strcat(mot,tampon_utilisateur);
 		strcat(mot,"@");				
 		strcat(mot,tampon_sftp);
@@ -5333,7 +5339,7 @@ void mount_sftp (void)
 		strcat(liste_mount,tampon_sftp);
 		strcat(liste_mount," ; ");
 
-		new_terminal_ssh (tampon_sftp,tampon_utilisateur,tampon_chemin);
+		new_terminal_ssh (tampon_sftp,tampon_utilisateur,tampon_chemin,tampon_port);
 
 	FILE *fich;
 	char carac;
@@ -5368,6 +5374,8 @@ void mount_sftp (void)
 		save_string_to_file_add(confile.tea_sftp,tampon_utilisateur);
 		save_string_to_file_add(confile.tea_sftp," ");
 		save_string_to_file_add(confile.tea_sftp,tampon_chemin);
+		save_string_to_file_add(confile.tea_sftp," ");
+		save_string_to_file_add(confile.tea_sftp,tampon_port);
 		save_string_to_file_add(confile.tea_sftp," \n");
 	}
 
@@ -5596,6 +5604,20 @@ GtkWidget* w_sftp_mount (void)
 	gtk_widget_show (GTK_WIDGET(entry_chemin));
 	gtk_box_pack_start (GTK_BOX (hbox4), entry_chemin, FALSE, FALSE, 0);
 	gtk_entry_set_text (GTK_ENTRY (entry_chemin), _("/"));
+
+	hbox4 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (GTK_WIDGET(hbox4));
+	gtk_box_pack_start (GTK_BOX (vbox1), hbox4, TRUE, TRUE, 0);
+
+	label4 = gtk_label_new (_("Port SFTP : \t"));
+	gtk_widget_show (GTK_WIDGET(label4));
+	gtk_box_pack_start (GTK_BOX (hbox4), label4, FALSE, FALSE, 0);
+	gtk_label_set_justify (GTK_LABEL (label4), GTK_JUSTIFY_LEFT);
+
+	entry_port = gtk_entry_new ();
+	gtk_widget_show (GTK_WIDGET(entry_port));
+	gtk_box_pack_start (GTK_BOX (hbox4), entry_port, FALSE, FALSE, 0);
+	gtk_entry_set_text (GTK_ENTRY (entry_port), _("22"));
 
 	hbox1 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_widget_show (GTK_WIDGET(hbox1));

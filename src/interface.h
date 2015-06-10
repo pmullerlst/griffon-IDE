@@ -263,7 +263,7 @@ void prev_term ();
 void window_debug ();
 void run_debug ();
 void clear_debug ();
-void new_terminal_ssh (gchar *serveur,gchar *user,gchar *path);
+void new_terminal_ssh (gchar *serveur,gchar *user,gchar *path,gchar *port);
 void new_dir_cmd ();
 void new_file_cmd ();
 void new_web_window ();

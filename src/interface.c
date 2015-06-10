@@ -3925,7 +3925,11 @@ void  on_changed_sftp(GtkWidget *widget,GdkEventKey *event,gpointer data)
 
 		if(sshadd==NULL){int systemRet2 =system ("ssh-add");sshadd="ok";if(systemRet2 == -1){return;}}
 
-		strcpy(mot,"sshfs ");
+		if(strlen(a[3])<1){a[3]="22";}
+
+		strcpy(mot,"sshfs -p ");
+		strcat(mot,a[3]);
+		strcat(mot," ");
 		strcat(mot,a[1]);
 		strcat(mot,"@");				
 		strcat(mot,a[0]);
@@ -3940,7 +3944,7 @@ void  on_changed_sftp(GtkWidget *widget,GdkEventKey *event,gpointer data)
 		int systemRet =system (mot); 
 		if(systemRet == -1){return;}
 
-		new_terminal_ssh (a[0],a[1],a[2]);
+		new_terminal_ssh (a[0],a[1],a[2],a[3]);
 
 		strcat(liste_mount,"fusermount -u ");
 		strcat(liste_mount,home_dir);
@@ -4896,7 +4900,7 @@ void clear_debug ()
 }
 
 //*********************** NEW TERMINAL SSH
-void new_terminal_ssh (gchar *serveur,gchar *user,gchar *path)
+void new_terminal_ssh (gchar *serveur,gchar *user,gchar *path,gchar *port)
 {
 	term_page *page_term = (term_page *) g_malloc (sizeof (term_page));
 
@@ -4937,7 +4941,9 @@ void new_terminal_ssh (gchar *serveur,gchar *user,gchar *path)
 
 	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_term), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_term), page_term->num_tab), page_term->hbox_term_tab);
 
-	vte_terminal_feed_child (VTE_TERMINAL(page_term->vte_add),"ssh ",-1);
+	vte_terminal_feed_child (VTE_TERMINAL(page_term->vte_add),"ssh -p ",-1);
+	vte_terminal_feed_child (VTE_TERMINAL(page_term->vte_add),port,-1);
+	vte_terminal_feed_child (VTE_TERMINAL(page_term->vte_add)," ",-1);
 	vte_terminal_feed_child (VTE_TERMINAL(page_term->vte_add),user,-1);
 	vte_terminal_feed_child (VTE_TERMINAL(page_term->vte_add),"@",-1);
 	vte_terminal_feed_child (VTE_TERMINAL(page_term->vte_add),serveur,-1);
@@ -5590,6 +5596,8 @@ void load_projects_list()
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[4])), -1);
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
 
+			if(strlen(a[13])<1){a[13]="22";}
+
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("[SFTP IP] \t: ")), -1);
 			if(strlen(a[8])>1){gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[8])), -1);}
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
@@ -5600,6 +5608,10 @@ void load_projects_list()
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("[SFTP PATH] \t: ")), -1);
 			if(b[1]!=NULL){gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(b[1])), -1);}
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("[SFTP PORT] \t: ")), -1);
+			if(b[1]!=NULL){gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[13])), -1);}
+			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
+
 
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("[FTP IP] \t: ")), -1);
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[10])), -1);
@@ -5761,7 +5773,6 @@ void open_project(gpointer data)
 						tampon_sftp = a[8];
 						tampon_utilisateur = b[0];
 						tampon_chemin = b[1];
-//						tampon_chemin = "/";
 
 						int systemRet=0;
 						if(sshadd==NULL){systemRet =system ("ssh-add");sshadd="ok";}
@@ -5775,7 +5786,11 @@ void open_project(gpointer data)
 						systemRet =system (mot2);
 						if(systemRet == -1){return;}
 
-						strcpy(mot3,"sshfs ");
+						if(strlen(a[13])<1){a[13]="22";}
+
+						strcpy(mot3,"sshfs -p ");
+						strcat(mot3,a[13]);
+						strcat(mot3," ");	
 						strcat(mot3,tampon_utilisateur);
 						strcat(mot3,"@");				
 						strcat(mot3,tampon_sftp);
@@ -5788,7 +5803,7 @@ void open_project(gpointer data)
 						strcat(liste_mount,tampon_sftp);
 						strcat(liste_mount," ; ");
 
-						new_terminal_ssh (tampon_sftp,tampon_utilisateur,tampon_chemin);
+						new_terminal_ssh (tampon_sftp,tampon_utilisateur,tampon_chemin,a[13]);
 
 						strcat(mot3," ");
 						strcat(mot3,home_dir);
