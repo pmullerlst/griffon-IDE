@@ -655,7 +655,7 @@ GtkWidget* create_tea_main_window (void)
 	tea_main_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_maximize (GTK_WINDOW(tea_main_window));
 	gtk_widget_set_name (tea_main_window, "tea_main_window");
-	gtk_window_set_title (GTK_WINDOW (tea_main_window), _("Griffon 1.7.6"));
+	gtk_window_set_title (GTK_WINDOW (tea_main_window), _("Griffon 1.7.7"));
 
 	//*********************** ICON MAIN WINDOW
 	gtk_window_set_icon_from_file (GTK_WINDOW(tea_main_window),"/usr/local/share/griffon/images/griffon_button.png",NULL);
@@ -1079,6 +1079,8 @@ GtkWidget* create_tea_main_window (void)
 
 	mni_temp = new_menu_item (_("Umount the last mounted server SFTP / FTP"), mni_ide_menu, umount_sftp);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_F10, GDK_SHIFT_MASK,GTK_ACCEL_VISIBLE);
+
+	mni_temp = new_menu_item (_("Add file in project session"), mni_ide_menu, save_file_in_project_tab);
 
 	//*********************** MENU TABS
 	mni_tabs = new_menu_item (_("Tabs"), menubar1, NULL);
@@ -1885,7 +1887,7 @@ gchar* tampon_todo=g_strdup_printf ("%d", nb_line_todo) ;
 gchar* tampon_bug=g_strdup_printf ("%d", nb_line_bug) ;
 gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
-	gchar *uri_main = g_strconcat("http://griffon.lasotel.fr/main.php?version=1.7.6&todo=", tampon_todo,"&bug=",tampon_bug,"&fixme=",tampon_fixme, NULL);
+	gchar *uri_main = g_strconcat("http://griffon.lasotel.fr/main.php?version=1.7.7&todo=", tampon_todo,"&bug=",tampon_bug,"&fixme=",tampon_fixme, NULL);
 
 	webkit_web_view_load_uri(webView_editor, uri_main);
 
@@ -2933,7 +2935,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
 	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);
 	tv_logmemo_set_pos (0);
-	log_to_memo ("\n\n(C)2014 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.7.6 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
+	log_to_memo ("\n\n(C)2014 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.7.7 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
 	tv_logmemo_set_pos (0);
 	tv_logmemo_set_pos (0);
 	ui_init ();
@@ -3171,7 +3173,7 @@ GtkWidget* create_about1 (void)
 	gtk_widget_show (GTK_WIDGET(image1));
 	gtk_box_pack_start (GTK_BOX (vbox1), image1, TRUE, TRUE, 0);
 
-	label1 = gtk_label_new (_("\n    Griffon IDE 1.7.6 \n\n    Auteur \t\t: Philippe Muller \n    Email \t\t: pmuller@lasotel.fr\n\n    Developer and Administrator GNU/Linux system Lasotel (Lyon).    \n\n"));
+	label1 = gtk_label_new (_("\n    Griffon IDE 1.7.7 \n\n    Auteur \t\t: Philippe Muller \n    Email \t\t: pmuller@lasotel.fr\n\n    Developer and Administrator GNU/Linux system Lasotel (Lyon).    \n\n"));
 	gtk_widget_show (GTK_WIDGET(label1));
 	gtk_box_pack_start (GTK_BOX (vbox1), label1, FALSE, FALSE, 0);
 
@@ -3549,7 +3551,7 @@ void  no_onglet_open()
 	gchar* tampon_bug=g_strdup_printf ("%d", nb_line_bug) ;
 	gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
-	gchar *uri_main = g_strconcat("http://griffon.lasotel.fr/main.php?version=1.7.6&todo=", tampon_todo,"&bug=",tampon_bug,"&fixme=",tampon_fixme, NULL);
+	gchar *uri_main = g_strconcat("http://griffon.lasotel.fr/main.php?version=1.7.7&todo=", tampon_todo,"&bug=",tampon_bug,"&fixme=",tampon_fixme, NULL);
 
 	webkit_web_view_load_uri(webView_editor, uri_main);
 
@@ -3628,7 +3630,7 @@ GtkWidget* version_window (void)
 
 	gtk_container_add(GTK_CONTAINER(scrolledwindow5), GTK_WIDGET(webView_doc));
 
-	webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/version.php?version=1.7.6");
+	webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/version.php?version=1.7.7");
 
 	GtkWidget *button_fixme = gtk_button_new_with_label (_("Update for Ubuntu/Mint/Debian"));
 	gtk_widget_show(GTK_WIDGET(button_fixme));
@@ -3670,7 +3672,7 @@ GtkWidget* rapport_window (void)
 
 	gtk_container_add(GTK_CONTAINER(vbox1), GTK_WIDGET(webView_doc));
 
-	webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/bug_rapport.php?clef=1.7.6");
+	webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/bug_rapport.php?clef=1.7.7");
 
 	return window1;
 }
@@ -6181,7 +6183,7 @@ void clear_info()
 	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
 	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);
 	tv_logmemo_set_pos (0);
-	log_to_memo ("\n\n(C)2014 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.7.6 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
+	log_to_memo ("\n\n(C)2014 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.7.7 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
 	tv_logmemo_set_pos (0);
 	tv_logmemo_set_pos (0);
 }
