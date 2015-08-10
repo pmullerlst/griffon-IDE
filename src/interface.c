@@ -5415,7 +5415,7 @@ void back_history ()
 	GtkTreeIter iter_entry;
 	FILE *fich;
 	char carac;
-	char mot[100];
+	char mot[200];
 	mot[0]='\0';
 
 	if(fopen(confile.tea_miniweb_history,"rt"))
