@@ -6893,7 +6893,7 @@ void populate_popup(GtkTextView *view, GtkMenu *menu, gpointer user_data)
 	g_signal_connect(i, "button-release-event",G_CALLBACK(window_chrono_stats_file), NULL);
 	gtk_widget_show(i);
 
-	i = gtk_menu_item_new_with_label("Open URL in the Miniweb Popup");
+	i = gtk_menu_item_new_with_label("Open a selected URL");
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
 	g_signal_connect(i, "button-release-event",G_CALLBACK(window_url_web), NULL);
 	gtk_widget_show(i);
