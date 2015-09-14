@@ -339,6 +339,6 @@ void no_gtk_theme ();
 void classic_gtk_theme ();
 void window_jabber ();
 void search_in_file ();
-
+void window_url_web ();
 
 

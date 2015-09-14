@@ -6893,6 +6893,11 @@ void populate_popup(GtkTextView *view, GtkMenu *menu, gpointer user_data)
 	g_signal_connect(i, "button-release-event",G_CALLBACK(window_chrono_stats_file), NULL);
 	gtk_widget_show(i);
 
+	i = gtk_menu_item_new_with_label("Open URL in the Miniweb Popup");
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
+	g_signal_connect(i, "button-release-event",G_CALLBACK(window_url_web), NULL);
+	gtk_widget_show(i);
+
 }
 
 //*********************** CODE FOLDING
@@ -7388,4 +7393,93 @@ void search_in_file ()
 	on_mni_quest_find();
 }
 
+//*********************** Window web via URL in text
+void window_url_web ()
+{
+	if (! get_page_text()) return;
+
+	if(doc_get_sel (cur_text_doc))
+	{
+
+	win_web *web_win = (win_web *) g_malloc (sizeof (win_web));
+
+	web_win->window_web = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_transient_for(GTK_WINDOW(web_win->window_web),GTK_WINDOW(tea_main_window));
+	gtk_window_resize (GTK_WINDOW (web_win->window_web), 770, 400);
+
+	web_win->vbox3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_container_add (GTK_CONTAINER (web_win->window_web), GTK_WIDGET(web_win->vbox3));
+
+	web_win->hbox3 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_box_pack_start (GTK_BOX (web_win->vbox3), web_win->hbox3, FALSE, TRUE, 0);
+
+	web_win->webView_w = WEBKIT_WEB_VIEW(webkit_web_view_new());
+
+
+	GtkToolItem *tool_sep;
+	GtkWidget *toolbar_myadmin;
+	toolbar_myadmin = gtk_toolbar_new ();
+
+	GtkToolItem *tool_myadmin_reload=gtk_tool_button_new(gtk_image_new_from_icon_name("view-refresh",GTK_ICON_SIZE_SMALL_TOOLBAR),"Reload");
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_myadmin_reload, -1);
+	g_signal_connect ((gpointer) tool_myadmin_reload, "clicked",G_CALLBACK (myadmin_reload_win),web_win->webView_w);
+	gtk_tool_item_set_tooltip_text(tool_myadmin_reload,_("Reload"));
+
+	GtkToolItem *tool_myadmin_back=gtk_tool_button_new(gtk_image_new_from_icon_name("edit-undo",GTK_ICON_SIZE_SMALL_TOOLBAR),"Undo");
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_myadmin_back, -1);
+	g_signal_connect ((gpointer) tool_myadmin_back, "clicked",G_CALLBACK (myadmin_back_win),web_win->webView_w);
+	gtk_tool_item_set_tooltip_text(tool_myadmin_back,_("Undo"));
+
+	GtkToolItem *tool_myadmin_prev=gtk_tool_button_new(gtk_image_new_from_icon_name("edit-redo",GTK_ICON_SIZE_SMALL_TOOLBAR),"Redo");
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_myadmin_prev, -1);
+	g_signal_connect ((gpointer) tool_myadmin_prev, "clicked",G_CALLBACK (myadmin_forward_win),web_win->webView_w);
+	gtk_tool_item_set_tooltip_text(tool_myadmin_prev,_("Redo"));
+
+	GtkToolItem *tool_myadmin_stop=gtk_tool_button_new(gtk_image_new_from_icon_name("process-stop",GTK_ICON_SIZE_SMALL_TOOLBAR),"Stop");
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_myadmin_stop, -1);
+	g_signal_connect ((gpointer) tool_myadmin_stop, "clicked",G_CALLBACK (myadmin_stop_win),web_win->webView_w);
+	gtk_tool_item_set_tooltip_text(tool_myadmin_stop,_("Stop"));
+
+	tool_sep=gtk_separator_tool_item_new();
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin ), tool_sep, -1);
+
+	GtkToolItem *tool_myadmin_source=gtk_tool_button_new(gtk_image_new_from_icon_name("document-properties",GTK_ICON_SIZE_SMALL_TOOLBAR),"Source View");
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_myadmin_source, -1);
+	g_signal_connect ((gpointer) tool_myadmin_source, "clicked",G_CALLBACK (myadmin_source_mode_get_url_win),web_win->webView_w);
+	gtk_tool_item_set_tooltip_text(tool_myadmin_source,_("Source view"));
+
+	GtkToolItem *tool_myadmin_view=gtk_tool_button_new(gtk_image_new_from_icon_name("Convert",GTK_ICON_SIZE_SMALL_TOOLBAR),"Web View");
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_myadmin_view, -1);
+	g_signal_connect ((gpointer) tool_myadmin_view, "clicked",G_CALLBACK (myadmin_view_mode_get_url_win),web_win->webView_w);
+	gtk_tool_item_set_tooltip_text(tool_myadmin_view,_("Web view"));
+
+	gtk_box_pack_start (GTK_BOX(web_win->hbox3), toolbar_myadmin, TRUE, TRUE, 0);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_myadmin), GTK_TOOLBAR_ICONS);
+
+		gtk_widget_show_all(toolbar_myadmin); 
+
+	web_win->entry_myadmin = gtk_entry_new ();
+	gtk_box_pack_start (GTK_BOX (web_win->hbox3), web_win->entry_myadmin, TRUE, TRUE, 0);
+
+	web_win->scrolledWindow = gtk_scrolled_window_new(NULL, NULL);
+	gtk_widget_show (GTK_WIDGET(web_win->scrolledWindow));
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(web_win->scrolledWindow),GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_container_add(GTK_CONTAINER(web_win->scrolledWindow), GTK_WIDGET(web_win->webView_w));
+
+	gtk_box_pack_start(GTK_BOX(web_win->vbox3), GTK_WIDGET(web_win->scrolledWindow), TRUE, TRUE, 1);
+
+	g_signal_connect ((gpointer) web_win->entry_myadmin, "activate",G_CALLBACK (enter_myweb_win),web_win->webView_w);
+	g_signal_connect(web_win->webView_w, "document-load-finished",G_CALLBACK(myadmin_get_url_win), web_win->entry_myadmin);
+	g_signal_connect(web_win->webView_w, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), web_win->webView_w);
+	g_signal_connect(web_win->webView_w, "create-web-view",G_CALLBACK(web_new_w_click_go), web_win->webView_w);
+	g_signal_connect(web_win->webView_w, "download-requested", G_CALLBACK(download_requested_cb), NULL);
+	g_signal_connect(web_win->webView_w, "web-view-ready",G_CALLBACK(web_new_w_click), web_win->window_web);
+
+	gtk_widget_show_all(web_win->window_web);
+
+	gtk_entry_set_text(GTK_ENTRY(web_win->entry_myadmin),doc_get_sel (cur_text_doc));
+	webkit_web_view_load_uri(web_win->webView_w, doc_get_sel (cur_text_doc));
+
+	}
+}
 
