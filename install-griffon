@@ -40,10 +40,10 @@ if [[ ! "$log" =~ "scons: done building targets" ]]; then
 	echo " Verify that the following package are installed : " >> install.log
 	echo "" >> install.log
 	echo " For Ubuntu/Mint" >> install.log
-	echo " # apt-get install vte-2.90-dev webkitgtk-3.0-dev gtksourceview-3.0-dev libgtk-3-dev libnotify-dev scons" >> install.log
+	echo " # apt-get install libvte-2.91-dev webkitgtk-3.0-dev gtksourceview-3.0-dev libgtk-3-dev libnotify-dev scons" >> install.log
 	echo "" >> install.log
 	echo " For Debian" >> install.log
-	echo " # apt-get install libglib2.0-dev libvte-2.90-dev libwebkitgtk-3.0-dev libgtksourceview-3.0-dev libnotify-dev scons" >> install.log
+	echo " # apt-get install libglib2.0-dev libvte-2.91-dev libwebkitgtk-3.0-dev libgtksourceview-3.0-dev libnotify-dev scons" >> install.log
 	echo "file error install.log"
 	cat install.log
 else
@@ -132,10 +132,10 @@ if [[ ! "$log" =~ "scons: done building targets" ]]; then
 	echo " Verify that the following package are installed : " >> install.log
 	echo "" >> install.log
 	echo " For Ubuntu/Mint" >> install.log
-	echo " # apt-get install vte-2.90-dev webkitgtk-3.0-dev gtksourceview-3.0-dev libgtk-3-dev libnotify-dev scons" >> install.log
+	echo " # apt-get install libvte-2.91-dev webkitgtk-3.0-dev gtksourceview-3.0-dev libgtk-3-dev libnotify-dev scons" >> install.log
 	echo "" >> install.log
 	echo " For Debian" >> install.log
-	echo " # apt-get install libglib2.0-dev libvte-2.90-dev libwebkitgtk-3.0-dev libgtksourceview-3.0-dev libnotify-dev scons" >> install.log
+	echo " # apt-get install libglib2.0-dev libvte-2.91-dev libwebkitgtk-3.0-dev libgtksourceview-3.0-dev libnotify-dev scons" >> install.log
 
 	if [ "$CMD_DIAL" = "gdialog" ]
 	then
