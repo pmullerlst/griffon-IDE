@@ -328,7 +328,7 @@ static GtkWidget* wnd_options_confirmations (void)
 }*/
 
 
-static GtkWidget* wnd_options_fonts (void)
+/*static GtkWidget* wnd_options_fonts (void)
 {
   GtkWidget *page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_widget_show (page);
@@ -344,7 +344,7 @@ static GtkWidget* wnd_options_fonts (void)
   ent_tag_type_font = tea_font_selector (page, _("Types font"), confile.tag_type_font); 
   
   return page;
-}
+}*/
 
 
 static GtkWidget* wnd_options_browsers (void)
@@ -429,7 +429,7 @@ GtkWidget* wnd_options_create (void)
   gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_functions (), gtk_label_new (_("Fonctions")));
   gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_interface (), gtk_label_new (_("Interface")));
   gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_limits (), gtk_label_new (_("Limitations")));
-  gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_fonts (), gtk_label_new (_("Fonts")));
+  //gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_fonts (), gtk_label_new (_("Fonts")));
   gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_editor (), gtk_label_new (_("Editeur")));
   gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_browsers (), gtk_label_new (_("Navigateurs")));
   //gtk_notebook_append_page (GTK_NOTEBOOK(notebook), wnd_options_colors (), gtk_label_new (_("Couleurs")));

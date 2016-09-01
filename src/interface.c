@@ -4734,11 +4734,7 @@ void new_terminal ()
 	char** startterm=NULL;
 	g_shell_parse_argv("/bin/bash", NULL, &startterm, NULL);
 
-	vte_terminal_fork_command_full(VTE_TERMINAL(page_term->vte_add),VTE_PTY_DEFAULT, NULL, startterm, NULL, (GSpawnFlags)(G_SPAWN_DO_NOT_REAP_CHILD | G_SPAWN_SEARCH_PATH),
-	NULL, 
-	NULL, 
-	NULL, 
-	NULL);
+	vte_terminal_spawn_sync (VTE_TERMINAL(page_term->vte_add),VTE_PTY_DEFAULT,NULL,startterm,NULL,(GSpawnFlags)(G_SPAWN_DO_NOT_REAP_CHILD | G_SPAWN_SEARCH_PATH),NULL,NULL,NULL,NULL,NULL);
 
 	page_term->num_tab=gtk_notebook_get_n_pages(GTK_NOTEBOOK (notebook_term));
 	if(page_term->num_tab!=0){page_term->num_tab--;}
@@ -4822,11 +4818,7 @@ void window_debug ()
 	char** startterm=NULL;
 	g_shell_parse_argv("/bin/bash", NULL, &startterm, NULL);
 
-	vte_terminal_fork_command_full(VTE_TERMINAL(vte_add),VTE_PTY_DEFAULT,NULL, startterm, NULL,  (GSpawnFlags)(G_SPAWN_DO_NOT_REAP_CHILD | G_SPAWN_SEARCH_PATH),  
-	NULL, 
-	NULL, 
-	NULL, 
-	NULL);
+	vte_terminal_spawn_sync (VTE_TERMINAL(vte_add),VTE_PTY_DEFAULT,NULL,startterm,NULL,(GSpawnFlags)(G_SPAWN_DO_NOT_REAP_CHILD | G_SPAWN_SEARCH_PATH),NULL,NULL,NULL,NULL,NULL);
 
 	vte_terminal_set_scroll_on_keystroke(VTE_TERMINAL (vte_add), TRUE);
 	gtk_container_add (GTK_CONTAINER (vbox2), GTK_WIDGET(vte_add));	
@@ -4914,16 +4906,7 @@ void new_terminal_ssh (gchar *serveur,gchar *user,gchar *path,gchar *port)
 	char** startterm=NULL;
 	g_shell_parse_argv("/bin/bash", NULL, &startterm, NULL);
 
-	vte_terminal_fork_command_full(VTE_TERMINAL(page_term->vte_add),
-	VTE_PTY_DEFAULT,
-	NULL,  
-	startterm,
-	NULL, 
-	(GSpawnFlags)(G_SPAWN_DO_NOT_REAP_CHILD | G_SPAWN_SEARCH_PATH),  
-	NULL, 
-	NULL, 
-	NULL, 
-	NULL); 
+	vte_terminal_spawn_sync (VTE_TERMINAL(page_term->vte_add),VTE_PTY_DEFAULT,NULL,startterm,NULL,(GSpawnFlags)(G_SPAWN_DO_NOT_REAP_CHILD | G_SPAWN_SEARCH_PATH),NULL,NULL,NULL,NULL,NULL);
 
 	vte_terminal_set_scroll_on_keystroke(VTE_TERMINAL (page_term->vte_add), TRUE);
 	gtk_box_pack_start(GTK_BOX(page_term->vbox2), GTK_WIDGET(page_term->vte_add), TRUE, TRUE, 1);
@@ -5990,11 +5973,7 @@ void window_make_project ()
 	char** startterm=NULL;
 	g_shell_parse_argv("/bin/bash", NULL, &startterm, NULL);
 
-	vte_terminal_fork_command_full(VTE_TERMINAL(vte_add),VTE_PTY_DEFAULT,NULL, startterm, NULL,  (GSpawnFlags)(G_SPAWN_DO_NOT_REAP_CHILD | G_SPAWN_SEARCH_PATH),  
-	NULL, 
-	NULL, 
-	NULL, 
-	NULL);
+	vte_terminal_spawn_sync (VTE_TERMINAL(vte_add),VTE_PTY_DEFAULT,NULL,startterm,NULL,(GSpawnFlags)(G_SPAWN_DO_NOT_REAP_CHILD | G_SPAWN_SEARCH_PATH),NULL,NULL,NULL,NULL,NULL);
 
 	vte_terminal_set_scroll_on_keystroke(VTE_TERMINAL (vte_add), TRUE);
 	gtk_container_add (GTK_CONTAINER (vbox2), GTK_WIDGET(vte_add));	
@@ -6075,11 +6054,7 @@ void window_debug_project ()
 	char** startterm=NULL;
 	g_shell_parse_argv("/bin/bash", NULL, &startterm, NULL);
 
-	vte_terminal_fork_command_full(VTE_TERMINAL(vte_add),VTE_PTY_DEFAULT,NULL, startterm, NULL,  (GSpawnFlags)(G_SPAWN_DO_NOT_REAP_CHILD | G_SPAWN_SEARCH_PATH),  
-	NULL, 
-	NULL, 
-	NULL, 
-	NULL);
+	vte_terminal_spawn_sync (VTE_TERMINAL(vte_add),VTE_PTY_DEFAULT,NULL,startterm,NULL,(GSpawnFlags)(G_SPAWN_DO_NOT_REAP_CHILD | G_SPAWN_SEARCH_PATH),NULL,NULL,NULL,NULL,NULL);
 
 	vte_terminal_set_scroll_on_keystroke(VTE_TERMINAL (vte_add), TRUE);
 	gtk_container_add (GTK_CONTAINER (vbox2), GTK_WIDGET(vte_add));	
@@ -6314,11 +6289,7 @@ void window_update (GtkWidget *widget,gpointer data)
 	char** startterm=NULL;
 	g_shell_parse_argv("/bin/bash", NULL, &startterm, NULL);
 
-	vte_terminal_fork_command_full(VTE_TERMINAL(vte_add),VTE_PTY_DEFAULT,NULL, startterm, NULL,  (GSpawnFlags)(G_SPAWN_DO_NOT_REAP_CHILD | G_SPAWN_SEARCH_PATH),  
-	NULL, 
-	NULL, 
-	NULL, 
-	NULL);
+	vte_terminal_spawn_sync (VTE_TERMINAL(vte_add),VTE_PTY_DEFAULT,NULL,startterm,NULL,(GSpawnFlags)(G_SPAWN_DO_NOT_REAP_CHILD | G_SPAWN_SEARCH_PATH),NULL,NULL,NULL,NULL,NULL);
 
 	vte_terminal_set_scroll_on_keystroke(VTE_TERMINAL (vte_add), TRUE);
 	gtk_container_add (GTK_CONTAINER (vbox2), GTK_WIDGET(vte_add));	

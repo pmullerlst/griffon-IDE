@@ -53,8 +53,8 @@ if not cfg.CheckPkg('gtk+-3.0'):
 	print('gtk+-3.0 not found')
 	Exit(1)
 
-if not cfg.CheckPkg('vte-2.90'):
-	print('vte-2.90 not found')
+if not cfg.CheckPkg('vte-2.91'):
+	print('vte-2.91 not found')
 	Exit(1)
 
 if not cfg.CheckPkg('webkitgtk-3.0'):
@@ -71,7 +71,7 @@ if not cfg.CheckPkg('libnotify'):
 
 env = cfg.Finish()
 
-env.ParseConfig('pkg-config --cflags --libs gtk+-3.0 vte-2.90 webkitgtk-3.0 gtksourceview-3.0 libnotify')
+env.ParseConfig('pkg-config --cflags --libs gtk+-3.0 vte-2.91 webkitgtk-3.0 gtksourceview-3.0 libnotify')
 
 env.VariantDir('work','src')
 
