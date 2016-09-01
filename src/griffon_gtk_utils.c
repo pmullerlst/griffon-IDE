@@ -104,8 +104,8 @@ GtkWidget* tea_color_selector (GtkWidget *container, gchar *caption, gchar *valu
   if (value)
      gtk_entry_set_text (GTK_ENTRY(x), value);
 
-  GdkColor color;
-  gdk_color_parse (value, &color);
+//  GdkColor color;
+//  gdk_color_parse (value, &color);
 
   return x;
 }

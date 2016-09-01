@@ -655,7 +655,7 @@ GtkWidget* create_tea_main_window (void)
 	tea_main_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_maximize (GTK_WINDOW(tea_main_window));
 	gtk_widget_set_name (tea_main_window, "tea_main_window");
-	gtk_window_set_title (GTK_WINDOW (tea_main_window), _("Griffon 1.7.8"));
+	gtk_window_set_title (GTK_WINDOW (tea_main_window), _("Griffon 1.7.9"));
 
 	//*********************** ICON MAIN WINDOW
 	gtk_window_set_icon_from_file (GTK_WINDOW(tea_main_window),"/usr/local/share/griffon/images/griffon_button.png",NULL);
@@ -1371,7 +1371,7 @@ GtkWidget* create_tea_main_window (void)
 	gtk_container_add (GTK_CONTAINER (scrolledwindow5), GTK_WIDGET(view_list));
 
 	gtk_tree_view_set_grid_lines (GTK_TREE_VIEW(view_list),GTK_TREE_VIEW_GRID_LINES_BOTH);
-	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view_list),TRUE);
+	//gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view_list),TRUE);
 
 	selection_scan = gtk_tree_view_get_selection(GTK_TREE_VIEW(view_list));
 
@@ -1639,7 +1639,7 @@ GtkWidget* create_tea_main_window (void)
 	GtkTreeSelection *selection_book;
 
 	gtk_tree_view_set_grid_lines (GTK_TREE_VIEW(view_list_book),GTK_TREE_VIEW_GRID_LINES_BOTH);
-	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view_list_book),TRUE);
+	//gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view_list_book),TRUE);
 
 	selection_book = gtk_tree_view_get_selection(GTK_TREE_VIEW(view_list_book));
 
@@ -1887,7 +1887,7 @@ gchar* tampon_todo=g_strdup_printf ("%d", nb_line_todo) ;
 gchar* tampon_bug=g_strdup_printf ("%d", nb_line_bug) ;
 gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
-	gchar *uri_main = g_strconcat("http://griffon.lasotel.fr/main.php?version=1.7.8&todo=", tampon_todo,"&bug=",tampon_bug,"&fixme=",tampon_fixme, NULL);
+	gchar *uri_main = g_strconcat("http://griffon.lasotel.fr/main.php?version=1.7.9&todo=", tampon_todo,"&bug=",tampon_bug,"&fixme=",tampon_fixme, NULL);
 
 	webkit_web_view_load_uri(webView_editor, uri_main);
 
@@ -2024,7 +2024,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	log_memo_textbuffer = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
 	tv_logmemo= gtk_source_view_new_with_buffer(log_memo_textbuffer);
 	font_desc_logmemo = pango_font_description_from_string ("mono 8");
-	gtk_widget_override_font (tv_logmemo, font_desc_logmemo);
+	//gtk_widget_override_font (tv_logmemo, font_desc_logmemo);
 	pango_font_description_free (font_desc_logmemo);
 
 	gtk_source_view_set_show_right_margin(GTK_SOURCE_VIEW(tv_logmemo),TRUE);
@@ -2203,7 +2203,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
 	sView_note = gtk_source_view_new_with_buffer(buffer_note);
 	font_desc_note = pango_font_description_from_string ("mono 8");
-	gtk_widget_override_font (sView_note, font_desc_note);
+	//gtk_widget_override_font (sView_note, font_desc_note);
 	pango_font_description_free (font_desc_note);
 
 	gtk_source_view_set_show_right_margin(GTK_SOURCE_VIEW(sView_note),TRUE);
@@ -2757,7 +2757,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_container_add (GTK_CONTAINER (scrolledwindow5), GTK_WIDGET(view_list_todo));
 
 	gtk_tree_view_set_grid_lines (GTK_TREE_VIEW(view_list_todo),GTK_TREE_VIEW_GRID_LINES_BOTH);
-	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view_list_todo),TRUE);
+	//gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view_list_todo),TRUE);
 
 	selection_scan_todo = gtk_tree_view_get_selection(GTK_TREE_VIEW(view_list_todo));
 
@@ -2841,7 +2841,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
 	sView_todo = gtk_source_view_new_with_buffer(buffer_todo);
 	font_desc_todo = pango_font_description_from_string ("mono 8");
-	gtk_widget_override_font (sView_todo, font_desc_todo);
+	//gtk_widget_override_font (sView_todo, font_desc_todo);
 	pango_font_description_free (font_desc_todo);
 
 	gtk_source_view_set_show_right_margin(GTK_SOURCE_VIEW(sView_todo),TRUE);
@@ -2935,7 +2935,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
 	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);
 	tv_logmemo_set_pos (0);
-	log_to_memo ("\n\n(C)2014 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.7.8 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
+	log_to_memo ("\n\n(C)2014 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.7.9 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
 	tv_logmemo_set_pos (0);
 	tv_logmemo_set_pos (0);
 	ui_init ();
@@ -3155,7 +3155,7 @@ GtkWidget* create_about1 (void)
 	GtkWidget *image1;
 	GtkWidget *label1;
 	GtkWidget *button1;
-	GtkWidget *alignment1;
+	//GtkWidget *alignment1;
 	GtkWidget *hbox1;
 	GtkWidget *image2;
 	GtkWidget *label2;
@@ -3173,7 +3173,7 @@ GtkWidget* create_about1 (void)
 	gtk_widget_show (GTK_WIDGET(image1));
 	gtk_box_pack_start (GTK_BOX (vbox1), image1, TRUE, TRUE, 0);
 
-	label1 = gtk_label_new (_("\n    Griffon IDE 1.7.8 \n\n    Auteur \t\t: Philippe Muller \n    Email \t\t: pmuller@lasotel.fr\n\n    Developer and Administrator GNU/Linux system Lasotel (Lyon).    \n\n"));
+	label1 = gtk_label_new (_("\n    Griffon IDE 1.7.9 \n\n    Auteur \t\t: Philippe Muller \n    Email \t\t: pmuller@lasotel.fr\n\n    Developer and Administrator GNU/Linux system Lasotel (Lyon).    \n\n"));
 	gtk_widget_show (GTK_WIDGET(label1));
 	gtk_box_pack_start (GTK_BOX (vbox1), label1, FALSE, FALSE, 0);
 
@@ -3185,13 +3185,13 @@ GtkWidget* create_about1 (void)
 	gtk_widget_show (GTK_WIDGET(button1));
 	gtk_box_pack_start (GTK_BOX (vbox1), button1, FALSE, FALSE, 0);
 
-	alignment1 = gtk_alignment_new (0.5, 0.5, 0, 0);
+	/*alignment1 = gtk_alignment_new (0.5, 0.5, 0, 0);
 	gtk_widget_show (GTK_WIDGET(alignment1));
-	gtk_container_add (GTK_CONTAINER (button1), GTK_WIDGET(alignment1));
+	gtk_container_add (GTK_CONTAINER (button1), GTK_WIDGET(alignment1));*/
 
 	hbox1 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_widget_show (GTK_WIDGET(hbox1));
-	gtk_container_add (GTK_CONTAINER (alignment1), GTK_WIDGET(hbox1));
+//	gtk_container_add (GTK_CONTAINER (alignment1), GTK_WIDGET(hbox1));
 
 	image2 = gtk_image_new_from_icon_name ("window-close", GTK_ICON_SIZE_SMALL_TOOLBAR);
 	gtk_widget_show (GTK_WIDGET(image2));
@@ -3302,7 +3302,7 @@ GtkWidget * create_view_and_model_help (void)
 	gtk_tree_view_column_pack_start(col, renderer, TRUE);
 	gtk_tree_view_column_add_attribute(col, renderer,"text", COLUMN);
 
-	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view),TRUE);
+	//gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view),TRUE);
 	gtk_tree_view_set_enable_tree_lines (GTK_TREE_VIEW(view),TRUE);
 
 	model = create_and_fill_model_help();
@@ -3403,7 +3403,7 @@ GtkWidget * create_view_and_model_myadmin (void)
 	gtk_tree_view_column_add_attribute(col, renderer, "text", COLUMN);
 
 	model = create_and_fill_model_myadmin();
-	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view_myadmin),TRUE);
+	//gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view_myadmin),TRUE);
 	gtk_tree_view_set_enable_tree_lines (GTK_TREE_VIEW(view_myadmin),TRUE);
 	gtk_tree_view_set_model(GTK_TREE_VIEW(view_myadmin), model);
 	g_object_unref(model); 
@@ -3551,7 +3551,7 @@ void  no_onglet_open()
 	gchar* tampon_bug=g_strdup_printf ("%d", nb_line_bug) ;
 	gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
-	gchar *uri_main = g_strconcat("http://griffon.lasotel.fr/main.php?version=1.7.8&todo=", tampon_todo,"&bug=",tampon_bug,"&fixme=",tampon_fixme, NULL);
+	gchar *uri_main = g_strconcat("http://griffon.lasotel.fr/main.php?version=1.7.9&todo=", tampon_todo,"&bug=",tampon_bug,"&fixme=",tampon_fixme, NULL);
 
 	webkit_web_view_load_uri(webView_editor, uri_main);
 
@@ -3630,7 +3630,7 @@ GtkWidget* version_window (void)
 
 	gtk_container_add(GTK_CONTAINER(scrolledwindow5), GTK_WIDGET(webView_doc));
 
-	webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/version.php?version=1.7.8");
+	webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/version.php?version=1.7.9");
 
 	GtkWidget *button_fixme = gtk_button_new_with_label (_("Update for Ubuntu/Mint/Debian"));
 	gtk_widget_show(GTK_WIDGET(button_fixme));
@@ -3672,7 +3672,7 @@ GtkWidget* rapport_window (void)
 
 	gtk_container_add(GTK_CONTAINER(vbox1), GTK_WIDGET(webView_doc));
 
-	webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/bug_rapport.php?clef=1.7.8");
+	webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/bug_rapport.php?clef=1.7.9");
 
 	return window1;
 }
@@ -3896,7 +3896,7 @@ GtkWidget * create_view_and_model_sftp (void)
 	gtk_tree_view_set_model(GTK_TREE_VIEW(view_sftp), model);
 	g_object_unref(model); 
 
-	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view_sftp),TRUE);
+	//gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view_sftp),TRUE);
 	gtk_tree_view_set_enable_tree_lines (GTK_TREE_VIEW(view_sftp),TRUE);
 
 	gtk_tree_view_expand_all (GTK_TREE_VIEW(view_sftp));
@@ -4050,7 +4050,7 @@ GtkWidget * create_view_and_model_ftp (void)
 	gtk_tree_view_set_model(GTK_TREE_VIEW(view_ftp), model);
 	g_object_unref(model); 
 
-	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view_ftp),TRUE);
+	//gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view_ftp),TRUE);
 	gtk_tree_view_set_enable_tree_lines (GTK_TREE_VIEW(view_ftp),TRUE);
 
 	gtk_tree_view_expand_all (GTK_TREE_VIEW(view_ftp));
@@ -5562,7 +5562,7 @@ void load_projects_list()
 
 			sView_projet2 = gtk_source_view_new_with_buffer(buffer_projet2);
 			font_desc_projet = pango_font_description_from_string ("mono 8");
-			gtk_widget_override_font ((GtkWidget *)sView_projet2, font_desc_projet);
+			//gtk_widget_override_font ((GtkWidget *)sView_projet2, font_desc_projet);
 			pango_font_description_free (font_desc_projet);
 
 			gtk_text_view_set_editable ((GtkTextView *)sView_projet2, FALSE);
@@ -6183,7 +6183,7 @@ void clear_info()
 	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
 	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);
 	tv_logmemo_set_pos (0);
-	log_to_memo ("\n\n(C)2014 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.7.8 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
+	log_to_memo ("\n\n(C)2014 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.7.9 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
 	tv_logmemo_set_pos (0);
 	tv_logmemo_set_pos (0);
 }
@@ -6239,7 +6239,7 @@ void show_changelogs()
 
 	sView_note = gtk_source_view_new_with_buffer(buffer_note2);
 	font_desc_note = pango_font_description_from_string ("mono 8");
-	gtk_widget_override_font (sView_note, font_desc_note);
+	//gtk_widget_override_font (sView_note, font_desc_note);
 	pango_font_description_free (font_desc_note);
 
 	gtk_source_view_set_show_right_margin(GTK_SOURCE_VIEW(sView_note),TRUE);
@@ -7009,7 +7009,7 @@ void code_bg_folding ()
 	GtkTextIter end;
 	GtkTextIter line_iter;
 	int controle=0;
-	gint row1=NULL,row2=NULL;
+	gint row1=0,row2=0;
 
 
 	GtkTextIter tmp1;

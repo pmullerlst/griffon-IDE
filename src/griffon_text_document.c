@@ -1403,7 +1403,7 @@ void doc_apply_settings (t_note_page *doc)
 	if (! doc) return;
 
 	PangoFontDescription *font_desc = pango_font_description_from_string (confile.editor_font);
-	gtk_widget_override_font (GTK_WIDGET(doc->text_view), font_desc);
+	//gtk_widget_override_font (GTK_WIDGET(doc->text_view), font_desc);
 	pango_font_description_free (font_desc);
 
 	g_object_set (G_OBJECT (tag_comment), "foreground", confile.tag_comment, "font", confile.tag_comment_font, NULL);
@@ -1419,11 +1419,11 @@ void doc_apply_settings (t_note_page *doc)
 	GdkColor selection;
 	GdkColor sel_text;
 
-	gdk_color_parse (confile.text_foreground, &text);
+/*	gdk_color_parse (confile.text_foreground, &text);
 	gdk_color_parse (confile.text_background, &background);
 	gdk_color_parse (confile.text_sel_background, &selection);
 	gdk_color_parse (confile.text_sel_foreground, &sel_text);
-
+*/
 	widget_set_colors (GTK_WIDGET(doc->text_view), &background, &text, &selection, &sel_text);  
 	doc_set_tabsize (doc, confile.tab_size);
 }
@@ -1438,11 +1438,11 @@ void widget_apply_colors (GtkWidget *w)
 	GdkColor selection;
 	GdkColor sel_text;
 
-	gdk_color_parse (confile.text_foreground, &text);
+/*	gdk_color_parse (confile.text_foreground, &text);
 	gdk_color_parse (confile.text_background, &background);
 	gdk_color_parse (confile.text_sel_background, &selection);
 	gdk_color_parse (confile.text_sel_foreground, &sel_text);
-  
+*/  
 	widget_set_colors (GTK_WIDGET(w), &background, &text, &selection, &sel_text);  
 }
 

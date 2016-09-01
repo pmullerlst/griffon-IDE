@@ -16,7 +16,7 @@ GtkWidget *tip_window_new (gchar *tip)
 	GtkWidget *win;
 	GtkWidget *label;
 	GtkWidget *eb;
-	PangoFontDescription *pfd;
+//	PangoFontDescription *pfd;
 
 	win = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_container_set_border_width (GTK_CONTAINER (win), 0);
@@ -28,8 +28,8 @@ GtkWidget *tip_window_new (gchar *tip)
 	label = gtk_label_new (tip);  
 	gtk_container_add (GTK_CONTAINER (eb), label);
 
-	pfd = pango_font_description_from_string ("courier");
-	gtk_widget_override_font (label, pfd);
+	//pfd = pango_font_description_from_string ("courier");
+	//gtk_widget_override_font (label, pfd);
 	return win;
 }
 
@@ -38,7 +38,7 @@ GtkWidget *tip_window_new_autocomp (gchar *tip)
 	GtkWidget *win;
 	GtkWidget *label;
 	GtkWidget *eb;
-	PangoFontDescription *pfd;
+//	PangoFontDescription *pfd;
 
 	win = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_container_set_border_width (GTK_CONTAINER (win), 0);
@@ -50,8 +50,8 @@ GtkWidget *tip_window_new_autocomp (gchar *tip)
 	label = gtk_label_new (tip);  
 	gtk_container_add (GTK_CONTAINER (eb), label);
 
-	pfd = pango_font_description_from_string ("courier");
-	gtk_widget_override_font (label, pfd);
+//	pfd = pango_font_description_from_string ("courier");
+	//gtk_widget_override_font (label, pfd);
 
 	return win;
 }
