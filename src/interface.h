@@ -59,6 +59,7 @@ typedef enum {
 } ContactCol_http2;
 
 GtkRecentManager *manager;
+GtkWidget * source_map1;
 void switch_filechooser ();
 GtkWidget *menu_vte;
 WebKitWebView *webView, *webView_myadmin, *webView_source,*webView_myadmin_traduc,*webView_myadmin_aide,*webView_editor;
@@ -322,6 +323,7 @@ void web_find_web_help ();
 gboolean preview_web_popup_line ();
 gboolean preview_web_popup_search ();
 gboolean hidden_popup ();
+gboolean map_move ();
 gboolean preview_web_popup_translate ();
 gboolean preview_web_popup_translate2 ();
 void populate_popup(GtkTextView *view, GtkMenu *menu, gpointer user_data);

@@ -20,6 +20,7 @@
 #include <strings.h>
 #include <string.h>
 #include <unistd.h>
+#include <gtksourceview/gtksource.h>
 #include <gtksourceview/gtksourceview.h>
 #include <gtksourceview/gtksourcebuffer.h>
 #include <gtksourceview/gtksourcelanguage.h>
@@ -693,6 +694,9 @@ t_note_page* page_create_new (void)
 	g_signal_connect (G_OBJECT (page->text_view), "focus-out-event",
                     G_CALLBACK (hidden_popup), page);
 
+	g_signal_connect (G_OBJECT (page->text_view), "focus-in-event",
+                    G_CALLBACK (map_move), page);
+
 /*	g_signal_connect (G_OBJECT (page->text_view), "window_popup_delete",
                     G_CALLBACK (hidden_popup), page);*/
 
@@ -747,6 +751,8 @@ t_note_page* page_create_new (void)
 	gtk_widget_show (GTK_WIDGET(page->text_view));
 	gtk_widget_show (GTK_WIDGET(page->scrolledwindow));
 	gtk_widget_grab_focus (GTK_WIDGET(page->text_view));
+
+		gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(page->text_view));
 
 	return page;
 }
@@ -1394,6 +1400,8 @@ t_note_page* doc_open_file (gchar *a_filename)
 	gtk_recent_manager_add_item (manager, uri);
 	g_free(uri);
 
+		gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(page->text_view));
+
 	return page;
 }
 
@@ -1473,6 +1481,7 @@ void page_free (t_note_page *page)
 	g_free (page);
 
 	tabs_reload ();
+		gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(page->text_view));
 }
 
 

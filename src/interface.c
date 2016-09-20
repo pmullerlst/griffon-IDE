@@ -28,6 +28,7 @@
 #include <gtk/gtk.h>
 #include <vte/vte.h>
 #include <libnotify/notify.h>
+#include <gtksourceview/gtksource.h>
 #include <gtksourceview/gtksourceview.h>
 #include <gtksourceview/gtksourcebuffer.h>
 #include <gtksourceview/gtksourcelanguage.h>
@@ -129,6 +130,7 @@ GtkWidget *view_help;
 GtkWidget *vbox_help;
 GtkWidget *statusbar_help;
 WebKitWebView *webView_doc;
+
 
 int tab_fold[19000];
 
@@ -1957,12 +1959,22 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
 	g_signal_connect ((gpointer) combo_todo_main, "changed",G_CALLBACK (open_todo_combo_main),NULL);
 
+	GtkWidget *vbox3331 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), GTK_WIDGET(vbox3331), TRUE, TRUE, 1);
+	gtk_widget_show (GTK_WIDGET(vbox3331)); 
+
 	notebook1 = gtk_notebook_new ();
 	gtk_widget_set_name (notebook1, "notebook1");
 	gtk_widget_show (GTK_WIDGET(notebook1));
 	gtk_notebook_set_scrollable (GTK_NOTEBOOK (notebook1), TRUE);
-	gtk_box_pack_start (GTK_BOX (vbox), notebook1, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox3331), notebook1, TRUE, TRUE, 0);
 	gtk_notebook_set_group_name (GTK_NOTEBOOK (notebook1), "wnote");
+
+
+	source_map1=gtk_source_map_new();
+	//gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(sView_note));
+	gtk_widget_show (GTK_WIDGET(source_map1));
+	gtk_box_pack_start(GTK_BOX(vbox3331), GTK_WIDGET(source_map1), FALSE, FALSE, 1);
 
 	label_note4 = gtk_label_new (_("Editor"));
 	gtk_widget_show (GTK_WIDGET(label_note4));
@@ -2188,9 +2200,13 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_container_add (GTK_CONTAINER (notebook_down), GTK_WIDGET(vbox3));
 	gtk_widget_show (GTK_WIDGET(vbox3));  
 
+	GtkWidget *vbox333 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_box_pack_start(GTK_BOX(vbox3), GTK_WIDGET(vbox333), TRUE, TRUE, 1);
+	gtk_widget_show (GTK_WIDGET(vbox333)); 
+
 	scrolledwindow4 = gtk_scrolled_window_new (NULL, NULL);
 	gtk_widget_show (GTK_WIDGET(scrolledwindow4));
-	gtk_box_pack_start(GTK_BOX(vbox3), GTK_WIDGET(scrolledwindow4), TRUE, TRUE, 1);
+	gtk_box_pack_start(GTK_BOX(vbox333), GTK_WIDGET(scrolledwindow4), TRUE, TRUE, 1);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow4), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow4), GTK_CORNER_TOP_LEFT);
 
@@ -2226,6 +2242,12 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
 	gtk_container_add (GTK_CONTAINER (scrolledwindow4), GTK_WIDGET(sView_note));
 	gtk_widget_show_all (GTK_WIDGET(scrolledwindow4));
+
+	GtkWidget * source_map;
+	source_map=gtk_source_map_new();
+	gtk_source_map_set_view(GTK_SOURCE_MAP(source_map),GTK_SOURCE_VIEW(sView_note));
+	gtk_widget_show (GTK_WIDGET(source_map));
+	gtk_box_pack_start(GTK_BOX(vbox333), GTK_WIDGET(source_map), FALSE, TRUE, 1);
 
 	button_note1 = gtk_button_new_with_label (_("Delete"));
 	gtk_widget_show(GTK_WIDGET(button_note1));
@@ -2950,7 +2972,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_down),0);
 	gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook2),0);
 	no_onglet_open() ;  
-
+ 
 	webkit_web_view_load_uri(webView, "http://griffon.lasotel.fr/main.html");
 	webkit_web_view_load_uri(webView_myadmin, "http://griffon.lasotel.fr/en/");
 	webkit_web_view_load_uri(webView_myadmin_traduc, "https://translate.google.fr/?hl=fr&tab=wT");
@@ -3558,6 +3580,7 @@ void  no_onglet_open()
 	}
 	else
 	{
+		gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(cur_text_doc->text_view));
 		gtk_widget_hide(GTK_WIDGET(scrolledWindow_editor));	
 		gtk_widget_hide(GTK_WIDGET(webView_editor));	
 		gtk_widget_hide(GTK_WIDGET(recent_file));	
@@ -6702,6 +6725,15 @@ gboolean hidden_popup ()
 	gtk_widget_hide(window1_popup_line);
 	win_popup_line=0;
 	}
+	return FALSE;
+}
+
+//*********************** HIDDEN POPUP
+gboolean map_move ()
+{
+	if (! get_page_text()) return FALSE;
+
+	gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(cur_text_doc->text_view));
 	return FALSE;
 }
 
