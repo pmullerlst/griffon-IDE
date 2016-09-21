@@ -121,7 +121,7 @@ void file_new (void)
 	tabs_reload ();
 	no_onglet_open();
 	statusbar_msg (_("New File [OK]"));
-	gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(cur_text_doc->text_view));
+	//gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(cur_text_doc->text_view));
 }
 
 //*********************** NEW FICHIER MENU CLICK
@@ -510,7 +510,7 @@ void on_notebook1_switch_page (GtkNotebook *notebook,guint page_num)
 		set_title (dc);
 		gtk_widget_grab_focus (GTK_WIDGET(dc->text_view));
 		last_page = gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook));
-		gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(dc->text_view));
+		//gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(dc->text_view));
 	}
 }
 
@@ -3171,7 +3171,7 @@ gboolean on_editor_keyrelease (GtkWidget *widget, GdkEventKey *event, gpointer d
 	gint row,row2, col;
 	GtkTextIter iter,iter2;
 
-		gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(cur_text_doc->text_view));
+		//gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(cur_text_doc->text_view));
 
 	gtk_text_buffer_get_end_iter(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &iter2);
 	gtk_text_buffer_get_iter_at_mark(GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&iter, gtk_text_buffer_get_insert(GTK_TEXT_BUFFER(cur_text_doc->text_buffer)));

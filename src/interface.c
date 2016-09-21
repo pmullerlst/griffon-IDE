@@ -1971,11 +1971,10 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_notebook_set_group_name (GTK_NOTEBOOK (notebook1), "wnote");
 
 
-	source_map1=gtk_source_map_new();
-	//gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(sView_note));
+/*	source_map1=gtk_source_map_new();
 	gtk_widget_show (GTK_WIDGET(source_map1));
 	gtk_box_pack_start(GTK_BOX(vbox3331), GTK_WIDGET(source_map1), FALSE, FALSE, 1);
-
+*/
 	label_note4 = gtk_label_new (_("Editor"));
 	gtk_widget_show (GTK_WIDGET(label_note4));
 
@@ -3580,7 +3579,7 @@ void  no_onglet_open()
 	}
 	else
 	{
-		gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(cur_text_doc->text_view));
+		//gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(cur_text_doc->text_view));
 		gtk_widget_hide(GTK_WIDGET(scrolledWindow_editor));	
 		gtk_widget_hide(GTK_WIDGET(webView_editor));	
 		gtk_widget_hide(GTK_WIDGET(recent_file));	
@@ -6733,7 +6732,7 @@ gboolean map_move ()
 {
 	if (! get_page_text()) return FALSE;
 
-	gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(cur_text_doc->text_view));
+	//gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(cur_text_doc->text_view));
 	return FALSE;
 }
 
