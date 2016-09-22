@@ -102,6 +102,7 @@ GtkTreeSelection *selection_myadmin ;
 GtkWidget *toolbar;
 GtkTreeSelection *selection_file; 
 GtkListStore *store;
+GtkWidget *vbox3331;
 GtkListStore *store_todo;
 GtkWidget* view_list;
 GtkWidget* view_list_todo;
@@ -590,13 +591,13 @@ GtkWidget* create_tea_main_window (void)
 	//*********************** LOAD NOTIFY
 	notify_init ("libnotify");
 
-	FILE *fich_gtk;
+/*	FILE *fich_gtk;
 	char carac_gtk;
 	char mot_gtk[100];
 	mot_gtk[0]='\0';
-
+*/
 	//*********************** LOAD THEME GTK
-	if(fopen(confile.tea_theme_gtk,"r"))
+/*	if(fopen(confile.tea_theme_gtk,"r"))
 	{
 		fich_gtk=fopen(confile.tea_theme_gtk,"r");
 			while ((carac_gtk =fgetc(fich_gtk)) != EOF)
@@ -623,7 +624,7 @@ GtkWidget* create_tea_main_window (void)
 	gtk_style_context_add_provider_for_screen(screen,GTK_STYLE_PROVIDER (css_theme),GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 	gtk_css_provider_load_from_path (css_theme,"/usr/local/share/griffon/theme/gtk-3.0/gtk.css",NULL);
 	}
-
+*/
 	FILE *fich;
 	char carac;
 	char mot2[100];
@@ -1185,11 +1186,11 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("Theme Oblivion"), mni_theme_menu, theme_oblivion );
 	mni_temp = new_menu_item (_("Theme Tango"), mni_theme_menu, theme_tango  );
 
-	mni_temp = new_menu_item (_("Themes GTK"), mni_view_menu, NULL);
+/*	mni_temp = new_menu_item (_("Themes GTK"), mni_view_menu, NULL);
 	mni_theme_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
 	mni_temp = new_menu_item (_("GTK Theme Classic Black (Default)"), mni_theme_menu, classic_gtk_theme  );   
 	mni_temp = new_menu_item (_("GTK No Theme "), mni_theme_menu, no_gtk_theme );
-
+*/
 	mni_temp = new_menu_item (_("Help"), menubar1, NULL);
 	mni_what_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
 	mni_temp = new_menu_tof (mni_what_menu);
@@ -1959,7 +1960,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
 	g_signal_connect ((gpointer) combo_todo_main, "changed",G_CALLBACK (open_todo_combo_main),NULL);
 
-	GtkWidget *vbox3331 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	vbox3331 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), GTK_WIDGET(vbox3331), TRUE, TRUE, 1);
 	gtk_widget_show (GTK_WIDGET(vbox3331)); 
 
@@ -1971,10 +1972,10 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_notebook_set_group_name (GTK_NOTEBOOK (notebook1), "wnote");
 
 
-/*	source_map1=gtk_source_map_new();
+	source_map1=gtk_source_map_new();
 	gtk_widget_show (GTK_WIDGET(source_map1));
 	gtk_box_pack_start(GTK_BOX(vbox3331), GTK_WIDGET(source_map1), FALSE, FALSE, 1);
-*/
+
 	label_note4 = gtk_label_new (_("Editor"));
 	gtk_widget_show (GTK_WIDGET(label_note4));
 
@@ -3006,6 +3007,8 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	webView_doc_line = WEBKIT_WEB_VIEW(webkit_web_view_new());
 	gtk_widget_show (GTK_WIDGET(webView_doc_line));
 
+	gtk_widget_hide(GTK_WIDGET(vbox3331));
+
 	gtk_container_add(GTK_CONTAINER(scrolledwindow5), GTK_WIDGET(webView_doc_line));
 
 	g_signal_connect (G_OBJECT (tea_main_window), "set-focus",
@@ -3469,6 +3472,7 @@ void  no_onglet_open()
 	if (! get_page_text())
 	{
 		gtk_widget_hide(GTK_WIDGET(notebook1));	
+		gtk_widget_hide(GTK_WIDGET(vbox3331));
 		gtk_widget_show(GTK_WIDGET(scrolledWindow_editor));
 		gtk_widget_show(GTK_WIDGET(webView_editor));
 		gtk_widget_show(GTK_WIDGET(recent_file));
@@ -3579,7 +3583,8 @@ void  no_onglet_open()
 	}
 	else
 	{
-		//gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(cur_text_doc->text_view));
+		gtk_widget_show(GTK_WIDGET(vbox3331));
+		gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(cur_text_doc->text_view));
 		gtk_widget_hide(GTK_WIDGET(scrolledWindow_editor));	
 		gtk_widget_hide(GTK_WIDGET(webView_editor));	
 		gtk_widget_hide(GTK_WIDGET(recent_file));	
@@ -6732,7 +6737,7 @@ gboolean map_move ()
 {
 	if (! get_page_text()) return FALSE;
 
-	//gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(cur_text_doc->text_view));
+	gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(cur_text_doc->text_view));
 	return FALSE;
 }
 

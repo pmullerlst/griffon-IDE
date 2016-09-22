@@ -773,10 +773,10 @@ void confile_reload (void)
 		create_empty_file (confile.tea_sftp, "");
 
 	if (! g_file_test (confile.tea_theme, G_FILE_TEST_EXISTS))
-		{create_empty_file (confile.tea_theme, "classic\n");confile.theme="classic";}
+		{create_empty_file (confile.tea_theme, "no_theme\n");confile.theme="no_theme";}
 
 	if (! g_file_test (confile.tea_theme_gtk, G_FILE_TEST_EXISTS))
-		{create_empty_file (confile.tea_theme_gtk, "classic\n");confile.tea_theme_gtk="classic";}
+		{create_empty_file (confile.tea_theme_gtk, "no_theme\n");confile.tea_theme_gtk="no_theme";}
 
 
 	if (! g_file_test (confile.custom_term, G_FILE_TEST_EXISTS))

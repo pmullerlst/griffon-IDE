@@ -59,7 +59,7 @@ typedef enum {
 } ContactCol_http2;
 
 GtkRecentManager *manager;
-//GtkWidget * source_map1;
+GtkWidget * source_map1;
 void switch_filechooser ();
 GtkWidget *menu_vte;
 WebKitWebView *webView, *webView_myadmin, *webView_source,*webView_myadmin_traduc,*webView_myadmin_aide,*webView_editor;

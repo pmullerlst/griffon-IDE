@@ -752,7 +752,7 @@ t_note_page* page_create_new (void)
 	gtk_widget_show (GTK_WIDGET(page->scrolledwindow));
 	gtk_widget_grab_focus (GTK_WIDGET(page->text_view));
 
-		//gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(page->text_view));
+		gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(page->text_view));
 
 	return page;
 }
@@ -1400,7 +1400,7 @@ t_note_page* doc_open_file (gchar *a_filename)
 	gtk_recent_manager_add_item (manager, uri);
 	g_free(uri);
 
-		//gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(page->text_view));
+		gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(page->text_view));
 
 	return page;
 }
@@ -1481,7 +1481,7 @@ void page_free (t_note_page *page)
 	g_free (page);
 
 	tabs_reload ();
-		//gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(page->text_view));
+		gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(page->text_view));
 }
 
 
