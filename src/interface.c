@@ -1904,7 +1904,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	manager = gtk_recent_manager_get_default ();
 	recent_file=gtk_recent_chooser_widget_new_for_manager(manager);
 
-	gtk_box_pack_start (GTK_BOX (hbox_no2), recent_file, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox_no2), recent_file, TRUE, TRUE, 0);
 	gtk_widget_show (GTK_WIDGET(recent_file));
 
 	GtkRecentFilter* filefilter2 = NULL;
@@ -1922,21 +1922,21 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
 	g_signal_connect ((gpointer) recent_file,"item-activated",G_CALLBACK (file_ok_sel_recent),NULL);
 
-	GtkWidget *label_don2=gtk_link_button_new_with_label("http://griffon.lasotel.fr/donate.html","\nDonate\n"); 
+	GtkWidget *label_don2=gtk_link_button_new_with_label("http://griffon.lasotel.fr/donate.html","\n                        Donate                        \n"); 
 	gtk_widget_show (GTK_WIDGET(label_don2));
 	gtk_box_pack_start (GTK_BOX (hbox_no2), label_don2, FALSE, FALSE, 0);
 
-	GtkWidget *image_don; 
+/*	GtkWidget *image_don; 
 	image_don = gtk_image_new_from_file("/usr/local/share/griffon/images/don_griffon.png");
 	gtk_widget_show (GTK_WIDGET(image_don));
 	gtk_box_pack_start (GTK_BOX (hbox_no2), image_don, FALSE, FALSE, 0);
-
-	GtkWidget *label_don1 = gtk_label_new (_("\n  You can make a donation,\n  to support the development of Griffon IDE.  \n\n  Thank you.\n\n  Files in todo/bug/fix list :\n"));
+*/
+/*	GtkWidget *label_don1 = gtk_label_new (_("  You can make a donation,\n  to support the development of Griffon IDE.  \n\n  Thank you.\n\n\n  Files in todo/bug/fix list :\n"));
 	gtk_widget_show (GTK_WIDGET(label_don1));
-	gtk_box_pack_start (GTK_BOX (hbox_no2), label_don1, FALSE, FALSE, 0);
-
+	gtk_box_pack_start (GTK_BOX (hbox_no2), label_don1, TRUE, TRUE, 0);
+*/
 	combo_todo_main=gtk_combo_box_text_new();
-	gtk_box_pack_start (GTK_BOX (hbox_no2), combo_todo_main, FALSE, FALSE, 0);
+//	gtk_box_pack_start (GTK_BOX (hbox_no2), combo_todo_main, FALSE, FALSE, 0);
 	gtk_widget_show (GTK_WIDGET(combo_todo_main));
 
 	gchar lecture_combo_main[1024];
