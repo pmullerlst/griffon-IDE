@@ -113,6 +113,8 @@ void theme_classic ();
 void theme_kate ();
 void theme_oblivion ();
 void theme_tango ();
+void theme_solarizedd  ();
+void theme_solarizedl  ();
 void doc_set_new_text (t_note_page *doc, GtkTextIter *itstart, GtkTextIter *itend, gchar *text);
 void doc_move_to_pos_bw_quote (t_note_page* doc);
 gint find_index_by_page (t_note_page *page);
@@ -127,3 +129,5 @@ gboolean doc_save_buffer_to_file_iconv (GtkTextBuffer *text_buffer, gchar *filen
 void doc_update_cb (gpointer data);
 gboolean find_space (gunichar ch);
 gboolean predicate_find_tag_end (gunichar ch);
+void auto_hl_griffon_sql ();
+

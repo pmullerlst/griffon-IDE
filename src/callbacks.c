@@ -3661,9 +3661,12 @@ void print_bash (void)
 {	
 	time_t date;
 	date = time(NULL);
+	gchar* nom_user = getenv("USER");
 
 	doc_insert_at_cursor (cur_text_doc, (_("#!/bin/bash\n\n# BASH script edited with Griffon: http://griffon.lasotel.fr\n# Date of creation of the script : "))); 
 	doc_insert_at_cursor (cur_text_doc, ctime(&date)); 
+	doc_insert_at_cursor (cur_text_doc, "# Autor : ");
+	doc_insert_at_cursor (cur_text_doc, nom_user);
 }
 
 //*********************** BASH HELP
@@ -4458,8 +4461,11 @@ void start_perl_script            (void)
 	time_t date;
 	date = time(NULL);
 
+	gchar* nom_user = getenv("USER");
 	doc_insert_at_cursor (cur_text_doc, (_("#!/usr/bin/perl\n\n# Script perl Griffon: http://griffon.lasotel.fr\n# Date start script : "))); 
 	doc_insert_at_cursor (cur_text_doc, ctime(&date)); 
+	doc_insert_at_cursor (cur_text_doc, "# Autor : ");
+	doc_insert_at_cursor (cur_text_doc, nom_user);
 	doc_insert_at_cursor (cur_text_doc, "\n\n");
 }
 
@@ -4898,8 +4904,8 @@ void scan_include             (void)
 
 //*********************** HELP PERL
 void perl_read (void){  doc_insert_at_cursor (cur_text_doc, (_("open (FILE, \"file_path\");\nwhile ($line=<FILE>)\n{\nprint $line;\n}\n\nclose FILE;\n\n"))); }
-void perl_writh (void){  doc_insert_at_cursor (cur_text_doc, (_("open (FILE, \">>file_path\");\nprint FILE \"Text written to the file\";\nnclose FILE;\n\n"))); }
-void perl_writh2 (void){  doc_insert_at_cursor (cur_text_doc, (_("open (FILE, \">file_name\");\nprint FILE \"Text written to the file\";\nnclose FILE;\n\n"))); }
+void perl_writh (void){  doc_insert_at_cursor (cur_text_doc, (_("open (FILE, \">>file_path\");\nprint FILE \"Text written to the file\";\n\nclose FILE;\n\n"))); }
+void perl_writh2 (void){  doc_insert_at_cursor (cur_text_doc, (_("open (FILE, \">file_name\");\nprint FILE \"Text written to the file\";\n\nclose FILE;\n\n"))); }
 void perl_regular(void){  doc_insert_at_cursor (cur_text_doc, (_("$string =~/string search/"))); }
 void perl_replace (void){  doc_insert_at_cursor (cur_text_doc, (_("$string =~ s/string search/string replacement/g;\n\n"))); }
 
@@ -4908,8 +4914,12 @@ void start_php_script            (void)
 	time_t date;
 	date = time(NULL);
 
+	gchar* nom_user = getenv("USER");
+
 	doc_insert_at_cursor (cur_text_doc, (_("<?php\n\n/* \n * Script PHP Griffon: http://griffon.lasotel.fr\n * Date start script : "))); 
 	doc_insert_at_cursor (cur_text_doc, ctime(&date)); 
+	doc_insert_at_cursor (cur_text_doc, " * Autor : ");
+	doc_insert_at_cursor (cur_text_doc, nom_user);
 	doc_insert_at_cursor (cur_text_doc, " *\n */\n\n?>");   
 }
 
@@ -6223,4 +6233,222 @@ void open_todo_combo_main (void)
 		cur_settings.selected_enc = ch_str (cur_settings.selected_enc, "UTF-8");
 		open_file_std (file_combo);
 	}
+}
+
+void csv_to_mysql(void)
+{
+	if (! get_page_text()) return;
+
+	GtkTextIter start;
+//	GtkTextIter end;
+	gchar * txt;
+	gchar *t = NULL;
+
+//	gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), & start, & end);
+	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &start);
+
+	GtkTextIter itstart, itend;
+	gint line=gtk_text_iter_get_line(&start);
+
+	gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &itstart, line);
+	gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &itend, line + 1);
+	txt=gtk_text_buffer_get_text(GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&itstart,&itend,FALSE);
+
+	txt = str_replace_all (txt, "\n", "");
+	txt = str_replace_all (txt, "\r", "");
+	txt = str_replace_all (txt, "\"", "");
+	gchar **a = g_strsplit (txt, ";", -1);
+
+	int i=0;
+
+	GtkWidget *window1;  
+
+	window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_title (GTK_WINDOW (window1), _((_("Mysql Struc"))));
+	gtk_window_set_position (GTK_WINDOW (window1), GTK_WIN_POS_CENTER);
+	gtk_widget_show(GTK_WIDGET(window1));
+	gtk_window_resize (GTK_WINDOW (window1), 900, 500);
+
+	GtkWidget *vbox3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_container_add (GTK_CONTAINER (window1), GTK_WIDGET(vbox3));
+	gtk_widget_show (GTK_WIDGET(vbox3));  
+
+	GtkWidget *scrolledwindow4 = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_show (GTK_WIDGET(scrolledwindow4));
+	gtk_box_pack_start(GTK_BOX(vbox3), GTK_WIDGET(scrolledwindow4), TRUE, TRUE, 1);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow4), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow4), GTK_CORNER_TOP_LEFT);
+
+	PangoFontDescription *font_desc_note;
+	GtkWidget *sView_note;
+	GtkSourceLanguageManager *lm_note;
+	GtkSourceLanguage *language_note = NULL;
+
+	buffer_note2 = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
+
+	sView_note = gtk_source_view_new_with_buffer(buffer_note2);
+	font_desc_note = pango_font_description_from_string ("mono 8");
+	pango_font_description_free (font_desc_note);
+
+	gtk_source_view_set_show_right_margin(GTK_SOURCE_VIEW(sView_note),TRUE);
+	gtk_source_view_set_show_line_numbers(GTK_SOURCE_VIEW(sView_note),TRUE);
+	gtk_source_view_set_highlight_current_line(GTK_SOURCE_VIEW(sView_note),TRUE);
+	gtk_source_view_set_show_line_marks(GTK_SOURCE_VIEW(sView_note),TRUE);
+
+	lm_note = gtk_source_language_manager_new();
+	g_object_ref (lm_note);
+	g_object_set_data_full ( G_OBJECT (buffer_note2), "languages-manager",lm_note, (GDestroyNotify) g_object_unref);
+
+	lm_note = g_object_get_data (G_OBJECT (buffer_note2), "languages-manager");
+	language_note = gtk_source_language_manager_get_language (lm_note,"sql");
+	gtk_source_buffer_set_language (buffer_note2, language_note);
+
+	gtk_container_add (GTK_CONTAINER (scrolledwindow4), GTK_WIDGET(sView_note));
+	gtk_widget_show_all (GTK_WIDGET(scrolledwindow4));
+
+	t = g_strconcat ("CREATE TABLE IF NOT EXISTS `name_table` (\n`id` int(10) NOT NULL AUTO_INCREMENT,\n", NULL);
+
+	for (i=0; a[i]; ++i)	
+	{
+	 t=g_strconcat (t,"`",a[i],"` varchar(200) NOT NULL,\n", NULL);
+	}
+/*	t=g_strchomp (t);*/
+
+	 t=g_strconcat (t,"PRIMARY KEY (`id`)\n) ENGINE=MyISAM DEFAULT CHARSET=utf8;\n", NULL);
+
+	//log_to_memo (t, NULL, LM_GREET);
+	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note2),g_locale_to_utf8(t, -1, NULL, NULL, NULL) , -1);
+}
+
+void csv_to_mysql_insert(void)
+{
+	if (! get_page_text()) return;
+
+	GtkTextIter start;
+//	GtkTextIter end;
+	gchar * txt;
+	gchar *t = NULL;
+	gchar *count_array=NULL;
+
+//	gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), & start, & end);
+	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &start);
+	GtkTextIter itstart, itend;
+	gint line=gtk_text_iter_get_line(&start);
+
+	gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &itstart, line);
+	gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &itend, line + 1);
+	txt=gtk_text_buffer_get_text(GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&itstart,&itend,FALSE);
+
+	txt = str_replace_all (txt, "\n", "");
+	txt = str_replace_all (txt, "\r", "");
+	txt = str_replace_all (txt, "\"", "");
+	gchar **a = g_strsplit (txt, ";", -1);
+
+	int i=0;
+
+	GtkWidget *window1;  
+
+	window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_title (GTK_WINDOW (window1), _((_("Mysql Insert"))));
+	gtk_window_set_position (GTK_WINDOW (window1), GTK_WIN_POS_CENTER);
+	gtk_widget_show(GTK_WIDGET(window1));
+	gtk_window_resize (GTK_WINDOW (window1), 900, 500);
+
+	GtkWidget *vbox3 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_container_add (GTK_CONTAINER (window1), GTK_WIDGET(vbox3));
+	gtk_widget_show (GTK_WIDGET(vbox3));  
+
+	GtkWidget *scrolledwindow4 = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_show (GTK_WIDGET(scrolledwindow4));
+	gtk_box_pack_start(GTK_BOX(vbox3), GTK_WIDGET(scrolledwindow4), TRUE, TRUE, 1);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow4), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow4), GTK_CORNER_TOP_LEFT);
+
+	PangoFontDescription *font_desc_note;
+	GtkWidget *sView_note;
+	GtkSourceLanguageManager *lm_note;
+	GtkSourceLanguage *language_note = NULL;
+
+	buffer_note2 = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
+
+	sView_note = gtk_source_view_new_with_buffer(buffer_note2);
+	font_desc_note = pango_font_description_from_string ("mono 8");
+	pango_font_description_free (font_desc_note);
+
+	gtk_source_view_set_show_right_margin(GTK_SOURCE_VIEW(sView_note),TRUE);
+	gtk_source_view_set_show_line_numbers(GTK_SOURCE_VIEW(sView_note),TRUE);
+	gtk_source_view_set_highlight_current_line(GTK_SOURCE_VIEW(sView_note),TRUE);
+	gtk_source_view_set_show_line_marks(GTK_SOURCE_VIEW(sView_note),TRUE);
+
+	lm_note = gtk_source_language_manager_new();
+	g_object_ref (lm_note);
+	g_object_set_data_full ( G_OBJECT (buffer_note2), "languages-manager",lm_note, (GDestroyNotify) g_object_unref);
+
+	lm_note = g_object_get_data (G_OBJECT (buffer_note2), "languages-manager");
+	language_note = gtk_source_language_manager_get_language (lm_note,"sql");
+	gtk_source_buffer_set_language (buffer_note2, language_note);
+
+	gtk_container_add (GTK_CONTAINER (scrolledwindow4), GTK_WIDGET(sView_note));
+	gtk_widget_show_all (GTK_WIDGET(scrolledwindow4));
+
+	int nb_info=0;
+	for (i=0; a[i]; ++i)	{nb_info++;}
+	i=0;
+	nb_info--;
+
+	t = g_strconcat ("INSERT INTO your_table (", NULL);
+
+	for (i=0; a[i]; ++i)	
+	{
+		t=g_strconcat (t,"",a[i], NULL);
+		if(i<nb_info){t=g_strconcat (t,",", NULL);}
+	}
+
+	i=0;
+	t=g_strconcat (t,") VALUES (", NULL);
+	gint z=0;
+
+	for (i=0; a[i]; ++i)	
+	{
+		count_array = g_strdup_printf (_("%d"), (gint) z);
+		t=g_strconcat (t,"\\\"array[",count_array,"]\\\"", NULL);
+		if(i<nb_info){t=g_strconcat (t,",", NULL);}
+		z++;
+	}
+
+	t=g_strconcat (t,");", NULL);
+
+	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note2),g_locale_to_utf8(t, -1, NULL, NULL, NULL) , -1);
+
+	//*********************************************** V2
+	t=g_strconcat ("\n\n____________________________________\n\n########## ARRAY\n", NULL);
+	z=0;
+	for (i=0; a[i]; ++i)	
+	{
+		count_array = g_strdup_printf (_("%d"), (gint) z);
+		t=g_strconcat (t,"$",a[i],"=$array[",count_array,"];\n", NULL);
+		z++;
+	}
+
+	t = g_strconcat (t,"\n\nINSERT INTO your_table (", NULL);
+
+	for (i=0; a[i]; ++i)	
+	{
+		t=g_strconcat (t,"",a[i], NULL);
+		if(i<nb_info){t=g_strconcat (t,",", NULL);}
+	}
+
+	i=0;
+	t=g_strconcat (t,") VALUES (", NULL);
+
+	for (i=0; a[i]; ++i)	
+	{
+		t=g_strconcat (t,"\\\"$",a[i],"\\\"", NULL);
+		if(i<nb_info){t=g_strconcat (t,",", NULL);}
+	}
+
+	t=g_strconcat (t,");", NULL);
+
+	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note2),g_locale_to_utf8(t, -1, NULL, NULL, NULL) , -1);
+
 }

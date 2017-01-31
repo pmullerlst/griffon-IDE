@@ -1344,8 +1344,12 @@ void apply_hl (t_note_page *doc)
    else
    if (strcmp (doc->hl_mode, HL_BASH) == 0)
       auto_hl_griffon_sh ();//do_hl_bash (doc);      
+	else
    if (strcmp (doc->hl_mode, HL_PO) == 0)
       auto_hl_griffon_perl ();//do_hl_po (doc);      
+	else
+   if (strcmp (doc->hl_mode, HL_SQL) == 0)
+      auto_hl_griffon_sql ();//do_hl_po (doc); 
 }
 
 

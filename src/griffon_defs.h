@@ -65,6 +65,7 @@
 #define HL_XML "XML"
 #define HL_BASH "BASH Script"
 #define HL_PO "gettext PO file"
+#define HL_SQL "SQL"
 
 #define TEA_PIX_MAINICON PACKAGE_DATA_DIR"/tea/pixmaps/tea_icon_v2.png"
 #define TEA_PIX_LGM PACKAGE_DATA_DIR"/tea/pixmaps/lgm.png"

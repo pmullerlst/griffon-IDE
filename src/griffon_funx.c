@@ -655,6 +655,9 @@ gchar* get_hl_name (gchar *file_name)
   if (check_ext (file_name, ".sh")) 
      return g_strdup (HL_BASH); 
 
+  if (check_ext (file_name, ".sql")) 
+     return g_strdup (HL_SQL); 
+
   if (is_po (file_name))
      return g_strdup (HL_PO); 
 

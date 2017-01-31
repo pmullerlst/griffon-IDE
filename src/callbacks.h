@@ -486,3 +486,6 @@ void jquery_autocomp (void);
 void jquery_datepicker (void);
 void php_htmlentities(void);
 void php_nl2br(void);
+void csv_to_mysql(void);
+void csv_to_mysql_insert(void);
+

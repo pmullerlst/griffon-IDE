@@ -957,6 +957,9 @@ GtkWidget* create_tea_main_window (void)
 
 	mni_temp = new_menu_item (_("Client chat jabber"), mni_functions_menu, window_jabber);
 
+	mni_temp = new_menu_item (_("First line CSV to mysql Struc"), mni_functions_menu, csv_to_mysql);
+	mni_temp = new_menu_item (_("CSV to mysql Insert"), mni_functions_menu, csv_to_mysql_insert);
+
 	//*********************** MENU HTML
 	mni_temp = new_menu_item (_("Html"), menubar1, NULL);
 	mni_markup_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
@@ -1167,6 +1170,7 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (HL_PYTHON, mni_hl_mode_menu, on_mni_set_hl_mode);
 	mni_temp = new_menu_item (HL_RUBY, mni_hl_mode_menu, on_mni_set_hl_mode);
 	mni_temp = new_menu_item (HL_JAVA, mni_hl_mode_menu, on_mni_set_hl_mode);
+	mni_temp = new_menu_item (HL_SQL, mni_hl_mode_menu, on_mni_set_hl_mode);
 
 	mni_temp = new_menu_item (_("Reload syntax color"), mni_view_menu, on_mni_refresh_hl);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_F5, 0,GTK_ACCEL_VISIBLE);
@@ -1185,6 +1189,8 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("Theme Kate"), mni_theme_menu, theme_kate  );
 	mni_temp = new_menu_item (_("Theme Oblivion"), mni_theme_menu, theme_oblivion );
 	mni_temp = new_menu_item (_("Theme Tango"), mni_theme_menu, theme_tango  );
+	mni_temp = new_menu_item (_("Theme Solarized light"), mni_theme_menu, theme_solarizedl  );
+	mni_temp = new_menu_item (_("Theme Solarized dark"), mni_theme_menu, theme_solarizedd  );
 
 /*	mni_temp = new_menu_item (_("Themes GTK"), mni_view_menu, NULL);
 	mni_theme_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
@@ -1926,11 +1932,11 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_widget_show (GTK_WIDGET(label_don2));
 	gtk_box_pack_start (GTK_BOX (hbox_no2), label_don2, FALSE, FALSE, 0);
 
-/*	GtkWidget *image_don; 
+	GtkWidget *image_don; 
 	image_don = gtk_image_new_from_file("/usr/local/share/griffon/images/don_griffon.png");
 	gtk_widget_show (GTK_WIDGET(image_don));
 	gtk_box_pack_start (GTK_BOX (hbox_no2), image_don, FALSE, FALSE, 0);
-*/
+
 /*	GtkWidget *label_don1 = gtk_label_new (_("  You can make a donation,\n  to support the development of Griffon IDE.  \n\n  Thank you.\n\n\n  Files in todo/bug/fix list :\n"));
 	gtk_widget_show (GTK_WIDGET(label_don1));
 	gtk_box_pack_start (GTK_BOX (hbox_no2), label_don1, TRUE, TRUE, 0);
