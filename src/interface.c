@@ -1251,17 +1251,24 @@ GtkWidget* create_tea_main_window (void)
 	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_manager2), GTK_TOOLBAR_ICONS); 
 	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_manager2),GTK_ICON_SIZE_SMALL_TOOLBAR);
 
-	GtkToolItem *tool_mkdir=gtk_tool_button_new(gtk_image_new_from_icon_name("folder",GTK_ICON_SIZE_SMALL_TOOLBAR),"Create a directory");
+	GtkToolItem *tool_reload=gtk_tool_button_new(gtk_image_new_from_icon_name("reload",GTK_ICON_SIZE_SMALL_TOOLBAR),"Reload path of the current file in the file chooser");
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_manager2), tool_reload, -1);
+	gtk_widget_show(GTK_WIDGET(tool_reload));
+	g_signal_connect ((gpointer) tool_reload, "clicked",G_CALLBACK (switch_filechooser),NULL);
+	gtk_tool_item_set_tooltip_text(tool_reload,(_("Reload path of the current file in the file chooser")));
+
+
+	GtkToolItem *tool_mkdir=gtk_tool_button_new(gtk_image_new_from_icon_name("folder",GTK_ICON_SIZE_SMALL_TOOLBAR),"Create a directory in the path of the file chooser");
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_manager2), tool_mkdir, -1);
 	gtk_widget_show(GTK_WIDGET(tool_mkdir));
 	g_signal_connect ((gpointer) tool_mkdir, "clicked",G_CALLBACK (new_dir_cmd),NULL);
-	gtk_tool_item_set_tooltip_text(tool_mkdir,(_("Create a directory")));
+	gtk_tool_item_set_tooltip_text(tool_mkdir,(_("Create a directory in the path of the file chooser")));
 
-	GtkToolItem *tool_touch=gtk_tool_button_new(gtk_image_new_from_icon_name("text-x-generic",GTK_ICON_SIZE_SMALL_TOOLBAR),"Create a File");
+	GtkToolItem *tool_touch=gtk_tool_button_new(gtk_image_new_from_icon_name("text-x-generic",GTK_ICON_SIZE_SMALL_TOOLBAR),"Create a File in the path of the file chooser");
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_manager2), tool_touch, -1);
 	gtk_widget_show(GTK_WIDGET(tool_touch));
 	g_signal_connect ((gpointer) tool_touch, "clicked",G_CALLBACK (new_file_cmd),NULL);
-	gtk_tool_item_set_tooltip_text(tool_touch,(_("Create a File")));
+	gtk_tool_item_set_tooltip_text(tool_touch,(_("Create a File in the path of the file chooser")));
 
 	GtkToolItem *item_entry2  = gtk_tool_item_new();
 
@@ -2974,6 +2981,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	g_signal_connect (notebook_myadmin, "create-window",G_CALLBACK (window_creation_function), NULL);
 	g_signal_connect (notebook_term, "create-window",G_CALLBACK (window_creation_function), NULL);
 	g_signal_connect (notebook3, "create-window",G_CALLBACK (window_creation_function), NULL);
+
 
 	gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_down),0);
 	gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook2),0);

@@ -6235,6 +6235,7 @@ void open_todo_combo_main (void)
 	}
 }
 
+//************************************ CSV TO MYSQL STRUC
 void csv_to_mysql(void)
 {
 	if (! get_page_text()) return;
@@ -6320,6 +6321,7 @@ void csv_to_mysql(void)
 	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note2),g_locale_to_utf8(t, -1, NULL, NULL, NULL) , -1);
 }
 
+//************************************ CSV TO MYSQL INSERT
 void csv_to_mysql_insert(void)
 {
 	if (! get_page_text()) return;
