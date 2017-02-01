@@ -1789,7 +1789,7 @@ GtkWidget* create_tea_main_window (void)
 	gtk_widget_show(GTK_WIDGET(tool_sep2));
 
 	icon_ok = gtk_image_new_from_file("/usr/local/share/griffon/images/griffon_ok.png");
-	gtk_widget_set_size_request (icon_ok, 35, 10);
+	gtk_widget_set_size_request (icon_ok, 35, 10); 
 	gtk_box_pack_start (GTK_BOX (hbox_bar2), icon_ok, FALSE, FALSE, 0);
 	gtk_widget_show (GTK_WIDGET(icon_ok));
 
@@ -5586,7 +5586,7 @@ void load_projects_list()
 			g_signal_connect(webView_project, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_project);
 			g_signal_connect(webView_project, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_project);
 
-			gchar *html_output_project = g_strconcat ("<table><tr><td>&nbsp;&nbsp;</td><td><img alt=\"\" src=\"file://", NULL);
+			gchar *html_output_project = g_strconcat ("<html><head><style>table{border-collapse:collapse;width:100%;min-width:400px;box-shadow:2px 2px 5px #555753;-moz-border-radius: 10px;-webkit-border-radius: 10px;border-radius: 10px;}caption{caption-side:bottom;font-weight:bold;font-style:italic;margin:4px;}td {height: 14px;padding:4px;vertical-align:middle;}table tr:nth-child(odd) td{  background-color: #F1F1F1;}</style></head><body><table><tr><td width=\"50\">&nbsp;&nbsp;</td><td width=\"150\"><img alt=\"\" src=\"file://", NULL);
 
 			if(strlen(a[6])>3)
 			{
@@ -5608,7 +5608,7 @@ void load_projects_list()
 			html_output_project = g_strconcat (html_output_project,"<tr><td>FTP</td><td><pre>: ",a[11],":",a[12],"@",a[10],"</pre></td></tr>", NULL);
 			html_output_project = g_strconcat (html_output_project,"</table>", NULL);
 
-			html_output_project = g_strconcat (html_output_project,"<hr></hr><h2>INFO project</h2><pre>",a[5],"</pre><br>URL : <a target=\"_blank\" href=\"",a[7],"\">",a[7],"</a>", NULL);
+			html_output_project = g_strconcat (html_output_project,"<hr></hr><table><tr><td><h2>Information project</h2><pre>",a[5],"</pre><br>URL : <a target=\"_blank\" href=\"",a[7],"\">",a[7],"</a>", NULL);
 
 			html_output_project = g_strconcat (html_output_project,"<hr></hr><h2>Files sessions project</h2><pre>", NULL);
 
@@ -5642,7 +5642,7 @@ void load_projects_list()
 			}
 			}
 
-			html_output_project = g_strconcat (html_output_project,"</pre>", NULL);
+			html_output_project = g_strconcat (html_output_project,"</pre><br></td></tr></table></body></html>", NULL);
 
 			gchar *uri="file://";
 			webkit_web_view_load_string (webView_project,html_output_project,NULL,NULL,uri);
