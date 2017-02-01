@@ -5508,7 +5508,6 @@ void load_projects_list()
 	gtk_widget_show (GTK_WIDGET(vbox_proj_main)); 
 
 	GtkWidget *notebook_proj,*label_note4,*hbox_note,*image2;
-	GdkPixbuf *pixbuf_icon;
 
 	notebook_proj = gtk_notebook_new ();  
 	gtk_widget_show (GTK_WIDGET(notebook_proj));  
@@ -5517,20 +5516,16 @@ void load_projects_list()
 	gtk_notebook_set_group_name (GTK_NOTEBOOK (notebook_proj), "wnote");	
 	gtk_notebook_set_scrollable(GTK_NOTEBOOK (notebook_proj),TRUE);
 
+	GdkPixbuf *pixbuf_icon;
+
 	GtkWidget *vbox_proj_main2;
 	GtkWidget *toolbar_proj;
 	GtkToolItem *tool_proj_new;
 	GtkToolItem *tool_proj_edit;
 	GtkToolItem *tool_proj_delete;
-	PangoFontDescription *font_desc_projet;
-	GtkWidget *sView_projet2;
-	GtkSourceBuffer *buffer_projet2;
 	GtkWidget *scrolledwindow4;
 	int ligne=0;
 	int ligne_tab=0;
-
-	GdkPixbuf *pixbuf;
-	GtkTextIter itFin;
 
 	if(fopen(confile.projects,"rt"))
 	{
@@ -5582,116 +5577,75 @@ void load_projects_list()
 			gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow4), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 			gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow4), GTK_CORNER_TOP_LEFT);
 
-			buffer_projet2 = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
+			WebKitWebView *webView_project;
+			webView_project = WEBKIT_WEB_VIEW(webkit_web_view_new());
+			gtk_widget_show (GTK_WIDGET(webView_project));
 
-			sView_projet2 = gtk_source_view_new_with_buffer(buffer_projet2);
-			font_desc_projet = pango_font_description_from_string ("mono 8");
-			//gtk_widget_override_font ((GtkWidget *)sView_projet2, font_desc_projet);
-			pango_font_description_free (font_desc_projet);
+			gtk_container_add(GTK_CONTAINER(scrolledwindow4), GTK_WIDGET(webView_project));
 
-			gtk_text_view_set_editable ((GtkTextView *)sView_projet2, FALSE);
-			gtk_text_view_set_cursor_visible((GtkTextView *)sView_projet2,FALSE);
+			g_signal_connect(webView_project, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_project);
+			g_signal_connect(webView_project, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_project);
 
-			gtk_source_view_set_show_right_margin((GtkSourceView *)sView_projet2,TRUE);
-			gtk_source_view_set_show_line_marks((GtkSourceView *)sView_projet2,TRUE);
-
-			gtk_container_add (GTK_CONTAINER (scrolledwindow4), (GtkWidget *)sView_projet2);
-
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n\n\t")), -1);
+			gchar *html_output_project = g_strconcat ("<table><tr><td>&nbsp;&nbsp;</td><td><img alt=\"\" src=\"file://", NULL);
 
 			if(strlen(a[6])>3)
 			{
-			pixbuf = gdk_pixbuf_new_from_file(a[6], NULL);
-			gtk_text_buffer_get_end_iter(GTK_TEXT_BUFFER(buffer_projet2), &itFin);
-			gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_projet2),&itFin,pixbuf);
+				html_output_project = g_strconcat (html_output_project,a[6],"\"></td><td>&nbsp;&nbsp;</td><td>", NULL);
 			}
 
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n\n======= [ ")), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[0])), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(" ] ======= \n\n")), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("[SOURCE DIR] \t: ")), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[1])), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("[MAKE DIR] \t: ")), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[2])), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("[RUN CMD] \t: ")), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[3])), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("[MAKE CMD] \t: ")), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[4])), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
+			html_output_project = g_strconcat (html_output_project,"<h2>",a[0],"</h2></td></tr></table>", NULL);
+			html_output_project = g_strconcat (html_output_project,"<hr></hr><table width=\"100%\">", NULL);
+			html_output_project = g_strconcat (html_output_project,"<tr><td width=\"200\">Source directory</td><td><pre>: ",a[1],"</pre></td></tr>", NULL);
+			html_output_project = g_strconcat (html_output_project,"<tr><td>Make directory</td><td><pre>: ",a[2],"</pre></td></tr>", NULL);
+			html_output_project = g_strconcat (html_output_project,"<tr><td>Run command</td><td><pre>: ",a[3],"</pre></td></tr>", NULL);
+			html_output_project = g_strconcat (html_output_project,"</table>", NULL);
 
 			if(strlen(a[13])<1){a[13]="22";}
-
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("[SFTP IP] \t: ")), -1);
-			if(strlen(a[8])>1){gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[8])), -1);}
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("[SFTP USER] \t: ")), -1);
 			if(a[9]!=NULL){b = g_strsplit (a[9], ":", -1);}
-			if(b[0]!=NULL){gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(b[0])), -1);}
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("[SFTP PATH] \t: ")), -1);
-			if(b[1]!=NULL){gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(b[1])), -1);}
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("[SFTP PORT] \t: ")), -1);
-			if(b[1]!=NULL){gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[13])), -1);}
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
 
+			html_output_project = g_strconcat (html_output_project,"<hr></hr><table width=\"100%\">", NULL);
+			html_output_project = g_strconcat (html_output_project,"<tr><td width=\"200\">SFTP</td><td><pre>: ",b[0],"@",a[8],":",a[13]," ",b[1],"</pre></td></tr>", NULL);
+			html_output_project = g_strconcat (html_output_project,"<tr><td>FTP</td><td><pre>: ",a[11],":",a[12],"@",a[10],"</pre></td></tr>", NULL);
+			html_output_project = g_strconcat (html_output_project,"</table>", NULL);
 
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("[FTP IP] \t: ")), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[10])), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("[FTP USER] \t: ")), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[11])), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("[FTP PASSWORD] \t: ")), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[12])), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
+			html_output_project = g_strconcat (html_output_project,"<hr></hr><h2>INFO project</h2><pre>",a[5],"</pre><br>URL : <a target=\"_blank\" href=\"",a[7],"\">",a[7],"</a>", NULL);
 
+			html_output_project = g_strconcat (html_output_project,"<hr></hr><h2>Files sessions project</h2><pre>", NULL);
 
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n_____________________________________________________\n\n===== [ INFO ] ===== \n\n")), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[5])), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n\n[URL/HTTP] : ")), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(a[7])), -1);
+			//***************** Ouverture des fichiers de session du projet
+			gchar *file_session = g_strconcat(confile.sessions,a[0], NULL);
 
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n\n[FILES SESSION] : \n\n")), -1);
-	//***************** Ouverture des fichiers de session du projet
-
-	gchar *file_session = g_strconcat(confile.sessions,a[0], NULL);
-
-	if (g_file_test (file_session, G_FILE_TEST_EXISTS))
-	{
-	FILE *fich_session;
-	char carac_session;
-	char mot_session[1000];
-	mot_session[0]='\0';
-
-	if(fopen(file_session,"rt"))
-	{
-	fich_session=fopen(file_session,"r");
-
-		while ((carac_session =fgetc(fich_session)) != EOF)
-		{
-			if (carac_session =='\n')
+			if (g_file_test (file_session, G_FILE_TEST_EXISTS))
 			{
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_(mot_session)), -1);
-			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet2), (_("\n")), -1);
+			FILE *fich_session;
+			char carac_session;
+			char mot_session[1000];
 			mot_session[0]='\0';
-			}
-			else
+
+			if(fopen(file_session,"rt"))
 			{
-				strncat(mot_session,&carac_session,1);
+			fich_session=fopen(file_session,"r");
+
+				while ((carac_session =fgetc(fich_session)) != EOF)
+				{
+					if (carac_session =='\n')
+					{
+					html_output_project = g_strconcat (html_output_project,mot_session,"\n", NULL);
+					mot_session[0]='\0';
+					}
+					else
+					{
+					strncat(mot_session,&carac_session,1);
+					}
+				}
+			fclose(fich_session);
 			}
-		}
-	fclose(fich_session);
-	}
-	}
+			}
 
+			html_output_project = g_strconcat (html_output_project,"</pre>", NULL);
 
-
-
-			gtk_widget_show (GTK_WIDGET(sView_projet2)); 
+			gchar *uri="file://";
+			webkit_web_view_load_string (webView_project,html_output_project,NULL,NULL,uri);
 
 			ligne_tab=ligne-1;
 			label_note4 = gtk_label_new (_(a[0]));
