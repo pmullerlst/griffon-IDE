@@ -1350,6 +1350,9 @@ void apply_hl (t_note_page *doc)
 	else
    if (strcmp (doc->hl_mode, HL_SQL) == 0)
       auto_hl_griffon_sql ();//do_hl_po (doc); 
+	else
+   if (strcmp (doc->hl_mode, HL_CSV) == 0)
+      auto_hl_griffon_csv ();//do_hl_po (doc); 
 }
 
 

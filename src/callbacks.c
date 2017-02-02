@@ -6241,11 +6241,9 @@ void csv_to_mysql(void)
 	if (! get_page_text()) return;
 
 	GtkTextIter start;
-//	GtkTextIter end;
 	gchar * txt;
 	gchar *t = NULL;
 
-//	gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), & start, & end);
 	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &start);
 
 	GtkTextIter itstart, itend;
@@ -6255,6 +6253,8 @@ void csv_to_mysql(void)
 	gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &itend, line + 1);
 	txt=gtk_text_buffer_get_text(GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&itstart,&itend,FALSE);
 
+	txt = str_replace_all (txt, " ", "_");
+	txt = str_replace_all (txt, "\'", "");
 	txt = str_replace_all (txt, "\n", "");
 	txt = str_replace_all (txt, "\r", "");
 	txt = str_replace_all (txt, "\"", "");
@@ -6311,13 +6311,10 @@ void csv_to_mysql(void)
 
 	for (i=0; a[i]; ++i)	
 	{
-	 t=g_strconcat (t,"`",a[i],"` varchar(200) NOT NULL,\n", NULL);
+		t=g_strconcat (t,"`",a[i],"` varchar(200) NOT NULL,\n", NULL);
 	}
-/*	t=g_strchomp (t);*/
 
-	 t=g_strconcat (t,"PRIMARY KEY (`id`)\n) ENGINE=MyISAM DEFAULT CHARSET=utf8;\n", NULL);
-
-	//log_to_memo (t, NULL, LM_GREET);
+	t=g_strconcat (t,"PRIMARY KEY (`id`)\n) ENGINE=MyISAM DEFAULT CHARSET=utf8;\n", NULL);
 	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note2),g_locale_to_utf8(t, -1, NULL, NULL, NULL) , -1);
 }
 
@@ -6327,12 +6324,10 @@ void csv_to_mysql_insert(void)
 	if (! get_page_text()) return;
 
 	GtkTextIter start;
-//	GtkTextIter end;
 	gchar * txt;
 	gchar *t = NULL;
 	gchar *count_array=NULL;
 
-//	gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), & start, & end);
 	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &start);
 	GtkTextIter itstart, itend;
 	gint line=gtk_text_iter_get_line(&start);
@@ -6341,6 +6336,8 @@ void csv_to_mysql_insert(void)
 	gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &itend, line + 1);
 	txt=gtk_text_buffer_get_text(GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&itstart,&itend,FALSE);
 
+	txt = str_replace_all (txt, " ", "_");
+	txt = str_replace_all (txt, "\'", "");
 	txt = str_replace_all (txt, "\n", "");
 	txt = str_replace_all (txt, "\r", "");
 	txt = str_replace_all (txt, "\"", "");
@@ -6425,32 +6422,31 @@ void csv_to_mysql_insert(void)
 	//*********************************************** V2
 	t=g_strconcat ("\n\n____________________________________\n\n########## ARRAY\n", NULL);
 	z=0;
-	for (i=0; a[i]; ++i)	
-	{
-		count_array = g_strdup_printf (_("%d"), (gint) z);
-		t=g_strconcat (t,"$",a[i],"=$array[",count_array,"];\n", NULL);
-		z++;
-	}
+
+		for (i=0; a[i]; ++i)	
+		{
+			count_array = g_strdup_printf (_("%d"), (gint) z);
+			t=g_strconcat (t,"$",a[i],"=$array[",count_array,"];\n", NULL);
+			z++;
+		}
 
 	t = g_strconcat (t,"\n\nINSERT INTO your_table (", NULL);
 
-	for (i=0; a[i]; ++i)	
-	{
-		t=g_strconcat (t,"",a[i], NULL);
-		if(i<nb_info){t=g_strconcat (t,",", NULL);}
-	}
+		for (i=0; a[i]; ++i)	
+		{
+			t=g_strconcat (t,"",a[i], NULL);
+			if(i<nb_info){t=g_strconcat (t,",", NULL);}
+		}
 
 	i=0;
 	t=g_strconcat (t,") VALUES (", NULL);
 
-	for (i=0; a[i]; ++i)	
-	{
-		t=g_strconcat (t,"\\\"$",a[i],"\\\"", NULL);
-		if(i<nb_info){t=g_strconcat (t,",", NULL);}
-	}
+		for (i=0; a[i]; ++i)	
+		{
+			t=g_strconcat (t,"\\\"$",a[i],"\\\"", NULL);
+			if(i<nb_info){t=g_strconcat (t,",", NULL);}
+		}
 
 	t=g_strconcat (t,");", NULL);
-
 	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note2),g_locale_to_utf8(t, -1, NULL, NULL, NULL) , -1);
-
 }

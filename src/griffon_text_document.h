@@ -130,4 +130,5 @@ void doc_update_cb (gpointer data);
 gboolean find_space (gunichar ch);
 gboolean predicate_find_tag_end (gunichar ch);
 void auto_hl_griffon_sql ();
+void auto_hl_griffon_csv ();
 

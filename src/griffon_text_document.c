@@ -876,6 +876,22 @@ void auto_hl_griffon_sql ()
 	gtk_source_buffer_set_language (cur_text_doc->text_buffer, language_perl);	
 }
 
+void auto_hl_griffon_csv ()
+{
+	if (! get_page_text()) return;
+	GtkSourceLanguageManager *lm_perl;
+	GtkSourceLanguage *language_perl = NULL;
+
+	lm_perl = gtk_source_language_manager_new();
+	g_object_ref (lm_perl);
+	g_object_set_data_full ( G_OBJECT (cur_text_doc->text_buffer), "languages-manager",
+                           lm_perl, (GDestroyNotify) g_object_unref);
+
+	lm_perl = g_object_get_data (G_OBJECT (cur_text_doc->text_buffer), "languages-manager");
+	language_perl = gtk_source_language_manager_get_language (lm_perl,"csv");
+	gtk_source_buffer_set_language (cur_text_doc->text_buffer, language_perl);	
+}
+
 void auto_hl_griffon_php ()
 {
 	if (! get_page_text()) return;

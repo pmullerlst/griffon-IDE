@@ -1171,6 +1171,7 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (HL_RUBY, mni_hl_mode_menu, on_mni_set_hl_mode);
 	mni_temp = new_menu_item (HL_JAVA, mni_hl_mode_menu, on_mni_set_hl_mode);
 	mni_temp = new_menu_item (HL_SQL, mni_hl_mode_menu, on_mni_set_hl_mode);
+	mni_temp = new_menu_item (HL_CSV, mni_hl_mode_menu, on_mni_set_hl_mode);
 
 	mni_temp = new_menu_item (_("Reload syntax color"), mni_view_menu, on_mni_refresh_hl);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_F5, 0,GTK_ACCEL_VISIBLE);

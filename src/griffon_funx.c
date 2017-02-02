@@ -658,6 +658,9 @@ gchar* get_hl_name (gchar *file_name)
   if (check_ext (file_name, ".sql")) 
      return g_strdup (HL_SQL); 
 
+  if (check_ext (file_name, ".csv")) 
+     return g_strdup (HL_CSV); 
+
   if (is_po (file_name))
      return g_strdup (HL_PO); 
 
