@@ -3187,7 +3187,13 @@ GtkWidget* file_preview(void)
 
 	gchar *file_selected;
 	file_selected = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER( filechooserwidget2));
-	if(file_selected==NULL){return NULL;}
+	if(file_selected==NULL){if(preview_file!=0){gtk_widget_destroy(scrolledwindow_preview);preview_file=0;}return NULL;}
+
+	FILE *fichier_sel_prev = NULL;
+	fichier_sel_prev = fopen(file_selected,  "r");
+
+	if (fichier_sel_prev == NULL){if(preview_file!=0){gtk_widget_destroy(scrolledwindow_preview);preview_file=0;}return NULL;}
+
 	if(g_strstr_len(file_selected,-1,"."))
 	{
 		char *extension;
@@ -3217,6 +3223,9 @@ GtkWidget* file_preview(void)
 			gtk_source_view_set_show_line_numbers(GTK_SOURCE_VIEW(sourceview_preview),TRUE);
 			gtk_source_view_set_highlight_current_line(GTK_SOURCE_VIEW(sourceview_preview),TRUE);
 			gtk_source_view_set_show_line_marks(GTK_SOURCE_VIEW(sourceview_preview),TRUE);
+
+			gtk_text_view_set_editable (GTK_TEXT_VIEW(sourceview_preview), FALSE);
+			gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(sourceview_preview),FALSE);
 
 			lm_note = gtk_source_language_manager_new();
 			g_object_ref (lm_note);
@@ -3281,7 +3290,6 @@ GtkWidget* create_about1 (void)
 	GtkWidget *image1;
 	GtkWidget *label1;
 	GtkWidget *button1;
-	//GtkWidget *alignment1;
 	GtkWidget *hbox1;
 	GtkWidget *image2;
 	GtkWidget *label2;
@@ -3311,13 +3319,8 @@ GtkWidget* create_about1 (void)
 	gtk_widget_show (GTK_WIDGET(button1));
 	gtk_box_pack_start (GTK_BOX (vbox1), button1, FALSE, FALSE, 0);
 
-	/*alignment1 = gtk_alignment_new (0.5, 0.5, 0, 0);
-	gtk_widget_show (GTK_WIDGET(alignment1));
-	gtk_container_add (GTK_CONTAINER (button1), GTK_WIDGET(alignment1));*/
-
 	hbox1 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_widget_show (GTK_WIDGET(hbox1));
-//	gtk_container_add (GTK_CONTAINER (alignment1), GTK_WIDGET(hbox1));
 
 	image2 = gtk_image_new_from_icon_name ("window-close", GTK_ICON_SIZE_SMALL_TOOLBAR);
 	gtk_widget_show (GTK_WIDGET(image2));
@@ -3428,7 +3431,6 @@ GtkWidget * create_view_and_model_help (void)
 	gtk_tree_view_column_pack_start(col, renderer, TRUE);
 	gtk_tree_view_column_add_attribute(col, renderer,"text", COLUMN);
 
-	//gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view),TRUE);
 	gtk_tree_view_set_enable_tree_lines (GTK_TREE_VIEW(view),TRUE);
 
 	model = create_and_fill_model_help();
@@ -3529,7 +3531,6 @@ GtkWidget * create_view_and_model_myadmin (void)
 	gtk_tree_view_column_add_attribute(col, renderer, "text", COLUMN);
 
 	model = create_and_fill_model_myadmin();
-	//gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view_myadmin),TRUE);
 	gtk_tree_view_set_enable_tree_lines (GTK_TREE_VIEW(view_myadmin),TRUE);
 	gtk_tree_view_set_model(GTK_TREE_VIEW(view_myadmin), model);
 	g_object_unref(model); 
@@ -4025,7 +4026,6 @@ GtkWidget * create_view_and_model_sftp (void)
 	gtk_tree_view_set_model(GTK_TREE_VIEW(view_sftp), model);
 	g_object_unref(model); 
 
-	//gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view_sftp),TRUE);
 	gtk_tree_view_set_enable_tree_lines (GTK_TREE_VIEW(view_sftp),TRUE);
 
 	gtk_tree_view_expand_all (GTK_TREE_VIEW(view_sftp));
@@ -4179,7 +4179,6 @@ GtkWidget * create_view_and_model_ftp (void)
 	gtk_tree_view_set_model(GTK_TREE_VIEW(view_ftp), model);
 	g_object_unref(model); 
 
-	//gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view_ftp),TRUE);
 	gtk_tree_view_set_enable_tree_lines (GTK_TREE_VIEW(view_ftp),TRUE);
 
 	gtk_tree_view_expand_all (GTK_TREE_VIEW(view_ftp));
@@ -4721,7 +4720,6 @@ void myadmin_get_url_win (WebKitWebView  *web,WebKitWebFrame *web_frame,gpointer
 	gchar *search=doc_get_sel (cur_text_doc);
 	webkit_web_view_mark_text_matches (WEBKIT_WEB_VIEW (web), search, FALSE, 0);
 	webkit_web_view_set_highlight_text_matches (WEBKIT_WEB_VIEW (web), TRUE);
-//	webkit_web_view_search_text (WEBKIT_WEB_VIEW (web), search, FALSE, TRUE, TRUE);
 	}
 
 }
