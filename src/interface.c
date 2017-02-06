@@ -305,7 +305,7 @@ gboolean myadmin_new_window (WebKitWebView *web_view,WebKitWebFrame *frame,WebKi
 	g_signal_connect ((gpointer) tool_myadmin_source, "clicked",G_CALLBACK (myadmin_source_mode_get_url_win),web_win->webView_w);
 	gtk_tool_item_set_tooltip_text(tool_myadmin_source,_("Source view"));
 
-	GtkToolItem *tool_myadmin_view=gtk_tool_button_new(gtk_image_new_from_icon_name("Convert",GTK_ICON_SIZE_SMALL_TOOLBAR),"Web View");
+	GtkToolItem *tool_myadmin_view=gtk_tool_button_new(gtk_image_new_from_icon_name("insert-image",GTK_ICON_SIZE_SMALL_TOOLBAR),"Web View");
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_myadmin_view, -1);
 	gtk_widget_show(GTK_WIDGET(tool_myadmin_view));
 	g_signal_connect ((gpointer) tool_myadmin_view, "clicked",G_CALLBACK (myadmin_view_mode_get_url_win),web_win->webView_w);
@@ -406,7 +406,7 @@ WebKitWebView * web_new_w_click_go(WebKitWebView  *web_view, WebKitWebFrame *fra
 	g_signal_connect ((gpointer) tool_myadmin_source, "clicked",G_CALLBACK (myadmin_source_mode_get_url_win),web_win->webView_w);
 	gtk_tool_item_set_tooltip_text(tool_myadmin_source,_("Source view"));
 
-	GtkToolItem *tool_myadmin_view=gtk_tool_button_new(gtk_image_new_from_icon_name("Convert",GTK_ICON_SIZE_SMALL_TOOLBAR),"Web View");
+	GtkToolItem *tool_myadmin_view=gtk_tool_button_new(gtk_image_new_from_icon_name("insert-image",GTK_ICON_SIZE_SMALL_TOOLBAR),"Web View");
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_myadmin_view, -1);
 	g_signal_connect ((gpointer) tool_myadmin_view, "clicked",G_CALLBACK (myadmin_view_mode_get_url_win),web_win->webView_w);
 	gtk_tool_item_set_tooltip_text(tool_myadmin_view,_("Web view"));
@@ -1001,10 +1001,8 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_sep (mni_markup_menu);
 
 	mni_temp = new_menu_item (_("Preview text selection in a web popup"), mni_markup_menu, preview_web_popup);
-	//gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_p, GDK_CONTROL_MASK,GTK_ACCEL_VISIBLE);
 
 	mni_temp = new_menu_item (_("Preview full text in a web popup"), mni_markup_menu, preview_web_popup_full);
-	//gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_p, GDK_CONTROL_MASK | GDK_MOD1_MASK,GTK_ACCEL_VISIBLE);
 
 	mni_temp = new_menu_item (_("Bold"), mni_markup_menu, on_mni_Markup_bold_activate);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_B, GDK_CONTROL_MASK | GDK_MOD1_MASK,GTK_ACCEL_VISIBLE);
@@ -2337,7 +2335,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	g_signal_connect ((gpointer) tool_miniweb_source, "clicked",G_CALLBACK (miniweb_source_mode_get_url),NULL);
 	gtk_tool_item_set_tooltip_text(tool_miniweb_source,_("Source View"));
 
-	GtkToolItem *tool_miniweb_view=gtk_tool_button_new(gtk_image_new_from_icon_name("Convert",GTK_ICON_SIZE_SMALL_TOOLBAR),"Web View");
+	GtkToolItem *tool_miniweb_view=gtk_tool_button_new(gtk_image_new_from_icon_name("insert-image",GTK_ICON_SIZE_SMALL_TOOLBAR),"Web View");
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_miniweb ), tool_miniweb_view, -1);
 	gtk_widget_show(GTK_WIDGET(tool_miniweb_view));
 	g_signal_connect ((gpointer) tool_miniweb_view, "clicked",G_CALLBACK (miniweb_view_mode_get_url),NULL);
@@ -2514,7 +2512,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_tool_item_set_tooltip_text(tool_myadmin_source,_("Source view"));
 
 
-	GtkToolItem *tool_myadmin_view=gtk_tool_button_new(gtk_image_new_from_icon_name("Convert",GTK_ICON_SIZE_SMALL_TOOLBAR),"Web View");
+	GtkToolItem *tool_myadmin_view=gtk_tool_button_new(gtk_image_new_from_icon_name("insert-image",GTK_ICON_SIZE_SMALL_TOOLBAR),"Web View");
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_myadmin_view, -1);
 	gtk_widget_show(GTK_WIDGET(tool_myadmin_view));
 	g_signal_connect ((gpointer) tool_myadmin_view, "clicked",G_CALLBACK (myadmin_view_mode_get_url),NULL);
@@ -5265,7 +5263,7 @@ void new_web_window ()
 	g_signal_connect ((gpointer) tool_myadmin_source, "clicked",G_CALLBACK (myadmin_source_mode_get_url_win),web_win->webView_w);
 	gtk_tool_item_set_tooltip_text(tool_myadmin_source,_("Source view"));
 
-	GtkToolItem *tool_myadmin_view=gtk_tool_button_new(gtk_image_new_from_icon_name("Convert",GTK_ICON_SIZE_SMALL_TOOLBAR),"Web View");
+	GtkToolItem *tool_myadmin_view=gtk_tool_button_new(gtk_image_new_from_icon_name("insert-image",GTK_ICON_SIZE_SMALL_TOOLBAR),"Web View");
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_myadmin_view, -1);
 	gtk_widget_show(GTK_WIDGET(tool_myadmin_view));
 	g_signal_connect ((gpointer) tool_myadmin_view, "clicked",G_CALLBACK (myadmin_view_mode_get_url_win),web_win->webView_w);
@@ -5367,7 +5365,7 @@ void new_web_window_mini ()
 	g_signal_connect ((gpointer) tool_myadmin_source, "clicked",G_CALLBACK (myadmin_source_mode_get_url_win),web_win->webView_w);
 	gtk_tool_item_set_tooltip_text(tool_myadmin_source,_("Source view"));
 
-	GtkToolItem *tool_myadmin_view=gtk_tool_button_new(gtk_image_new_from_icon_name("Convert",GTK_ICON_SIZE_SMALL_TOOLBAR),"Web View");
+	GtkToolItem *tool_myadmin_view=gtk_tool_button_new(gtk_image_new_from_icon_name("insert-image",GTK_ICON_SIZE_SMALL_TOOLBAR),"Web View");
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_myadmin_view, -1);
 	gtk_widget_show(GTK_WIDGET(tool_myadmin_view));
 	g_signal_connect ((gpointer) tool_myadmin_view, "clicked",G_CALLBACK (myadmin_view_mode_get_url_win),web_win->webView_w);
@@ -7509,7 +7507,7 @@ void window_url_web ()
 	g_signal_connect ((gpointer) tool_myadmin_source, "clicked",G_CALLBACK (myadmin_source_mode_get_url_win),web_win->webView_w);
 	gtk_tool_item_set_tooltip_text(tool_myadmin_source,_("Source view"));
 
-	GtkToolItem *tool_myadmin_view=gtk_tool_button_new(gtk_image_new_from_icon_name("Convert",GTK_ICON_SIZE_SMALL_TOOLBAR),"Web View");
+	GtkToolItem *tool_myadmin_view=gtk_tool_button_new(gtk_image_new_from_icon_name("insert-image",GTK_ICON_SIZE_SMALL_TOOLBAR),"Web View");
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_myadmin_view, -1);
 	g_signal_connect ((gpointer) tool_myadmin_view, "clicked",G_CALLBACK (myadmin_view_mode_get_url_win),web_win->webView_w);
 	gtk_tool_item_set_tooltip_text(tool_myadmin_view,_("Web view"));
