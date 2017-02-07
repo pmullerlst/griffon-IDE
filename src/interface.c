@@ -134,6 +134,7 @@ WebKitWebView *webView_doc;
 GtkWidget*vbox_preview ;
 GtkWidget *scrolledwindow_preview;
 int preview_file=0;
+WebKitWebView *webView_graph;
 
 int tab_fold[19000];
 
@@ -2750,6 +2751,19 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_container_add (GTK_CONTAINER (notebook_down), GTK_WIDGET(vbox4));
 	gtk_widget_show (GTK_WIDGET(vbox4));  
 
+	GtkWidget *scrolledwindow_graph = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_show (GTK_WIDGET(scrolledwindow_graph));
+	gtk_box_pack_start(GTK_BOX(vbox4), GTK_WIDGET(scrolledwindow_graph), TRUE, TRUE, 1);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow_graph), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow_graph), GTK_CORNER_TOP_LEFT);
+
+	webView_graph = WEBKIT_WEB_VIEW(webkit_web_view_new());
+	gtk_widget_show (GTK_WIDGET(webView_graph));
+
+	gtk_container_add(GTK_CONTAINER(scrolledwindow_graph), GTK_WIDGET(webView_graph));
+	gchar *uri_graph = g_strconcat("http://griffon.lasotel.fr/graph.php?version=1.8.0&todo=", tampon_todo,"&bug=",tampon_bug,"&fixme=",tampon_fixme, NULL);
+	webkit_web_view_load_uri(webView_graph, uri_graph);
+
 	button_include1 = gtk_button_new_with_label (_("Start searching for words: TODO, FIXME, BUG in the current file (!save the file before!)"));
 	gtk_widget_show(GTK_WIDGET(button_include1));
 	gtk_box_pack_start(GTK_BOX(vbox4), button_include1, FALSE, FALSE, 0);
@@ -2796,7 +2810,6 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_container_add (GTK_CONTAINER (scrolledwindow5), GTK_WIDGET(view_list_todo));
 
 	gtk_tree_view_set_grid_lines (GTK_TREE_VIEW(view_list_todo),GTK_TREE_VIEW_GRID_LINES_BOTH);
-	//gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view_list_todo),TRUE);
 
 	selection_scan_todo = gtk_tree_view_get_selection(GTK_TREE_VIEW(view_list_todo));
 
@@ -2839,9 +2852,16 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
 	g_signal_connect ((gpointer) button_fixme, "clicked",G_CALLBACK (add_todo_fixme),NULL);
 
+	GtkWidget *vbox_todo_action = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_box_pack_start (GTK_BOX (vbox4), vbox_todo_action, FALSE, TRUE, 0);
+	gtk_widget_show (GTK_WIDGET(vbox_todo_action)); 
+
+	GtkWidget *label_todo_open = gtk_label_new (_(" Open file :   "));
+	gtk_box_pack_start (GTK_BOX (vbox_todo_action), label_todo_open, FALSE, FALSE, 0);
+	gtk_widget_show (GTK_WIDGET(label_todo_open));
 
 	combo_todo=gtk_combo_box_text_new();
-	gtk_box_pack_start (GTK_BOX (vbox4), combo_todo, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox_todo_action), combo_todo, TRUE, TRUE, 0);
 	gtk_widget_show (GTK_WIDGET(combo_todo));
 
 	gchar lecture_combo[1024];
@@ -2856,7 +2876,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 				a = g_strsplit (lecture_combo, "\n", -1);
 				if(a[0]!=NULL)
 				{
-				gtk_combo_box_text_append ((GtkComboBoxText*)combo_todo,NULL, lecture_combo);
+				gtk_combo_box_text_append ((GtkComboBoxText*)combo_todo,NULL, a[0]);
 				}
 		}
 
@@ -2880,7 +2900,6 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
 	sView_todo = gtk_source_view_new_with_buffer(buffer_todo);
 	font_desc_todo = pango_font_description_from_string ("mono 8");
-	//gtk_widget_override_font (sView_todo, font_desc_todo);
 	pango_font_description_free (font_desc_todo);
 
 	gtk_source_view_set_show_right_margin(GTK_SOURCE_VIEW(sView_todo),TRUE);
@@ -2893,21 +2912,27 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	g_object_set_data_full ( G_OBJECT (buffer_todo), "languages-manager",lm_todo, (GDestroyNotify) g_object_unref);
 
 	lm_todo = g_object_get_data (G_OBJECT (buffer_todo), "languages-manager");
-	language_todo = gtk_source_language_manager_get_language (lm_todo,"perl");
+	language_todo = gtk_source_language_manager_get_language (lm_todo,"sh");
 	gtk_source_buffer_set_language (buffer_todo, language_todo);
 
-	gtk_source_buffer_set_style_scheme(buffer_todo, scheme);
+	//gtk_source_buffer_set_style_scheme(buffer_todo, scheme);
 	gtk_text_view_set_editable ((GtkTextView *)sView_todo, FALSE);
 	gtk_text_view_set_cursor_visible((GtkTextView *)sView_todo,FALSE);
 
 	gtk_container_add (GTK_CONTAINER (scrolledwindow4), GTK_WIDGET(sView_todo));
 	gtk_widget_show_all (GTK_WIDGET(scrolledwindow4));
 
-	GtkWidget *button_todo = gtk_button_new_with_label (_("DELETE LOGS"));
+/*	GtkWidget *button_todo = gtk_button_new_with_label (_("DELETE LOGS"));
 	gtk_widget_show(GTK_WIDGET(button_todo));
 	gtk_box_pack_start(GTK_BOX(vbox4), button_todo, FALSE, FALSE, 0);
 
-	g_signal_connect ((gpointer) button_todo, "clicked",G_CALLBACK (delete_todo),NULL);
+	g_signal_connect ((gpointer) button_todo, "clicked",G_CALLBACK (delete_todo),NULL);*/
+
+	GtkWidget *button_todo_edit = gtk_button_new_with_label (_("EDIT"));
+	gtk_widget_show(GTK_WIDGET(button_todo_edit));
+	gtk_box_pack_start(GTK_BOX(vbox4), button_todo_edit, FALSE, FALSE, 0);
+
+	g_signal_connect ((gpointer) button_todo_edit, "clicked",G_CALLBACK (edit_todo),NULL);
 
 
 	label_note3 = gtk_label_new (_("Todo list"));
@@ -3230,7 +3255,7 @@ GtkWidget* file_preview(void)
 			g_object_set_data_full ( G_OBJECT (buffer_note2), "languages-manager",lm_note, (GDestroyNotify) g_object_unref);
 
 			lm_note = g_object_get_data (G_OBJECT (buffer_note2), "languages-manager");
-			language_note = gtk_source_language_manager_get_language (lm_note,"diff");
+			language_note = gtk_source_language_manager_get_language (lm_note,"sh");
 			if (strcmp(".pl", extension) == 0){language_note = gtk_source_language_manager_get_language (lm_note,"perl");}
 			if (strcmp(".html", extension) == 0 || strcmp(".htm", extension) == 0){language_note = gtk_source_language_manager_get_language (lm_note,"html");}
 			if (strcmp(".sh", extension) == 0){language_note = gtk_source_language_manager_get_language (lm_note,"sh");}
@@ -7540,5 +7565,110 @@ void window_url_web ()
 	webkit_web_view_load_uri(web_win->webView_w, doc_get_sel (cur_text_doc));
 
 	}
+}
+
+//*********************** Reload Graph TODO
+void reload_graph_todo ()
+{
+	int nb_line_todo = 0;
+	int nb_line_bug = 0;
+	int nb_line_fixme = 0;
+	char carac;
+	FILE *fich_todo;
+
+	char motrch[100],motrch2[100],motrch3[100], mot[2000],path[100];
+	int nbapparition=0,nbcarac=0,nbmot=0,counter=0;
+	int nbligne=1;	
+
+	nbapparition=0,nbcarac=0,nbmot=0,nbligne=1;
+	mot[0]='\0';
+	motrch[0]='\0';
+	motrch2[0]='\0';
+	motrch3[0]='\0';
+	strcpy(motrch,"TODO");
+	strcpy(motrch2,"BUG");
+	strcpy(motrch3,"FIXME");
+
+	fich_todo=fopen(confile.tea_todo,"r");
+
+	while ((carac =fgetc(fich_todo)) != EOF)
+	{
+
+		if(counter==1)
+		{
+			strncat(mot,&carac,1);
+
+			if (carac =='\n' || carac =='\r')
+			{
+
+			gchar **a = g_strsplit (mot, "\"", -1);
+
+			if(a[1]!='\0')
+			{
+				strcat(path,a[1]);
+				if(g_file_test (path, G_FILE_TEST_EXISTS)){doc_open_file (path);}
+			}
+
+		path[0]='\0';
+		mot[0]='\0';
+		counter=0;		  
+			}
+		}
+
+	if (counter==0)
+	{
+		if (carac =='\n' || carac =='\r')
+		{
+			mot[0]='\0';
+			nbligne++;
+		}
+			nbcarac++;
+			if (mot[0] != '\0' && isalnum(carac) != 0){strncat(mot,&carac,1);}
+
+			if (mot[0] != '\0' && isalnum(carac) == 0)
+			{
+				if (strncmp(motrch,mot,strlen(motrch))==0)
+				{
+					nbapparition++;
+					nb_line_todo++;
+					if(nbapparition==1){nbcarac--;}
+					counter=1;      
+				}	
+
+				if (strncmp(motrch2,mot,strlen(motrch2))==0)
+				{
+					nbapparition++;
+					nb_line_bug++;
+					if(nbapparition==1){nbcarac--;}
+					counter=1;      
+				}	
+
+				if (strncmp(motrch3,mot,strlen(motrch3))==0)
+				{
+					nbapparition++;
+					nb_line_fixme++;
+					if(nbapparition==1){nbcarac--;}
+					counter=1;      
+				}	
+
+
+			}
+
+			if (mot[0] == '\0' && isalnum(carac) != 0)
+			{
+				strncat(mot,&carac,1);     
+				nbmot++;
+			}
+		}
+	}
+	fclose(fich_todo);
+	
+gchar* tampon_todo=g_strdup_printf ("%d", nb_line_todo) ;
+gchar* tampon_bug=g_strdup_printf ("%d", nb_line_bug) ;
+gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
+
+	gchar *uri_main = g_strconcat("http://griffon.lasotel.fr/graph.php?version=1.8.0&todo=", tampon_todo,"&bug=",tampon_bug,"&fixme=",tampon_fixme, NULL);
+
+	webkit_web_view_load_uri(webView_graph, uri_main);
 }
 

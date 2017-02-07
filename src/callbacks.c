@@ -233,7 +233,7 @@ void file_save (void)
 		text = gtk_text_buffer_get_text ((GtkTextBuffer *)cur_text_doc->text_buffer, &start, &end, FALSE);       
 		g_file_set_contents (confile.file_tmp, text, -1, NULL);
 		g_free (text);
-
+		on_mni_file_todolist ();
 	}
 }
 
@@ -6011,9 +6011,11 @@ void add_todo_com(void)
 		save_string_to_file_add(confile.tea_todo, cur_text_doc->file_name);
 		save_string_to_file_add(confile.tea_todo," ");
 		save_string_to_file_add(confile.tea_todo,msg);
-		save_string_to_file_add(confile.tea_todo," ");
+		save_string_to_file_add(confile.tea_todo," \"");
 		save_string_to_file_add(confile.tea_todo,ctime(&date));
+		save_string_to_file_add(confile.tea_todo,"\" #### ");
 		on_mni_file_todolist ();
+		reload_graph_todo();
 }
 
 void add_todo_bug(void)
@@ -6047,9 +6049,11 @@ void add_todo_bug(void)
 		save_string_to_file_add(confile.tea_todo, cur_text_doc->file_name);
 		save_string_to_file_add(confile.tea_todo," ");
 		save_string_to_file_add(confile.tea_todo,msg);
-		save_string_to_file_add(confile.tea_todo," ");
+		save_string_to_file_add(confile.tea_todo," \"");
 		save_string_to_file_add(confile.tea_todo,ctime(&date));
+		save_string_to_file_add(confile.tea_todo,"\" #### ");
 		on_mni_file_todolist ();
+		reload_graph_todo();
 }
 
 void add_todo_fixme(void)
@@ -6083,9 +6087,11 @@ void add_todo_fixme(void)
 		save_string_to_file_add(confile.tea_todo, cur_text_doc->file_name);
 		save_string_to_file_add(confile.tea_todo," ");
 		save_string_to_file_add(confile.tea_todo,msg);
-		save_string_to_file_add(confile.tea_todo," ");
+		save_string_to_file_add(confile.tea_todo," \"");
 		save_string_to_file_add(confile.tea_todo,ctime(&date));
+		save_string_to_file_add(confile.tea_todo,"\" #### ");
 		on_mni_file_todolist ();
+		reload_graph_todo();
 }
 
 //********************* INSERT DIALOG FILE PATH
@@ -6220,6 +6226,14 @@ void open_todo_combo (void)
 		cur_settings.selected_enc = ch_str (cur_settings.selected_enc, "UTF-8");
 		open_file_std (a[2]);
 	}
+}
+
+//*********************** OPEN FILE TODO LOG
+void edit_todo (void)
+{
+	
+	cur_settings.selected_enc = ch_str (cur_settings.selected_enc, "UTF-8");
+	open_file_std (confile.tea_todo);
 }
 
 //*********************** OPEN FILE TODO COMBO

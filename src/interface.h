@@ -343,5 +343,5 @@ void window_jabber ();
 void search_in_file ();
 void window_url_web ();
 GtkWidget* file_preview(void);
-
+void reload_graph_todo ();
 
