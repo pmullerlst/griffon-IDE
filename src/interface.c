@@ -3217,6 +3217,9 @@ GtkWidget* file_preview(void)
 
 	if (fichier_sel_prev == NULL){if(preview_file!=0){gtk_widget_destroy(scrolledwindow_preview);preview_file=0;}return NULL;}
 
+	DIR * rep_sel_prev = opendir(file_selected);
+	if (rep_sel_prev != NULL){if(preview_file!=0){gtk_widget_destroy(scrolledwindow_preview);preview_file=0;}return NULL;}
+
 	if(g_strstr_len(file_selected,-1,"."))
 	{
 		char *extension;
