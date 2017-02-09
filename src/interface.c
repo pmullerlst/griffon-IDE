@@ -1,11 +1,11 @@
 
 /***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
+ * 
+ *   This program is free software; you can redistribute it and/or modify 
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or 
+ *   (at your option) any later version. 
+ *
  ***************************************************************************/
 
 
@@ -1114,8 +1114,6 @@ GtkWidget* create_tea_main_window (void)
 	mni_nav_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
 	mni_temp = new_menu_tof (mni_nav_menu);
 
-	//mni_temp = new_menu_item (_("Scan links in the page"), mni_nav_menu,scan_links);
-
 	mni_links = new_menu_item (_("Links"), mni_nav_menu, NULL);
 	mni_links_menu = new_menu_submenu (GTK_WIDGET(mni_links));
 
@@ -1392,7 +1390,6 @@ GtkWidget* create_tea_main_window (void)
 	gtk_container_add (GTK_CONTAINER (scrolledwindow5), GTK_WIDGET(view_list));
 
 	gtk_tree_view_set_grid_lines (GTK_TREE_VIEW(view_list),GTK_TREE_VIEW_GRID_LINES_BOTH);
-	//gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view_list),TRUE);
 
 	selection_scan = gtk_tree_view_get_selection(GTK_TREE_VIEW(view_list));
 
@@ -1660,7 +1657,6 @@ GtkWidget* create_tea_main_window (void)
 	GtkTreeSelection *selection_book;
 
 	gtk_tree_view_set_grid_lines (GTK_TREE_VIEW(view_list_book),GTK_TREE_VIEW_GRID_LINES_BOTH);
-	//gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(view_list_book),TRUE);
 
 	selection_book = gtk_tree_view_get_selection(GTK_TREE_VIEW(view_list_book));
 
@@ -1940,7 +1936,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
 	g_signal_connect ((gpointer) recent_file,"item-activated",G_CALLBACK (file_ok_sel_recent),NULL);
 
-	GtkWidget *label_don2=gtk_link_button_new_with_label("http://griffon.lasotel.fr/donate.html","\n                        Donate                        \n"); 
+	GtkWidget *label_don2=gtk_link_button_new_with_label("http://griffon.lasotel.fr/donate.html","\n Donate \n"); 
 	gtk_widget_show (GTK_WIDGET(label_don2));
 	gtk_box_pack_start (GTK_BOX (hbox_no2), label_don2, FALSE, FALSE, 0);
 
@@ -1949,34 +1945,9 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_widget_show (GTK_WIDGET(image_don));
 	gtk_box_pack_start (GTK_BOX (hbox_no2), image_don, FALSE, FALSE, 0);
 
-/*	GtkWidget *label_don1 = gtk_label_new (_("  You can make a donation,\n  to support the development of Griffon IDE.  \n\n  Thank you.\n\n\n  Files in todo/bug/fix list :\n"));
+	GtkWidget *label_don1 = gtk_label_new (_("  You can make a donation,\n  to support the development of Griffon IDE.  \n\n  Thank you.\n\n\n"));
 	gtk_widget_show (GTK_WIDGET(label_don1));
 	gtk_box_pack_start (GTK_BOX (hbox_no2), label_don1, TRUE, TRUE, 0);
-*/
-	combo_todo_main=gtk_combo_box_text_new();
-//	gtk_box_pack_start (GTK_BOX (hbox_no2), combo_todo_main, FALSE, FALSE, 0);
-	gtk_widget_show (GTK_WIDGET(combo_todo_main));
-
-	gchar lecture_combo_main[1024];
-	FILE *fichier_combo_main;
-	fichier_combo_main = fopen(confile.tea_todo,"rt");
-	gchar **a_main;
-
-	if(fichier_combo_main!=NULL)
-	{
-		while(fgets(lecture_combo_main, 1024, fichier_combo_main))
-		{
-				a_main = g_strsplit (lecture_combo_main, " ", -1);
-				if(a_main[2]!=NULL)
-				{
-				gtk_combo_box_text_append ((GtkComboBoxText*)combo_todo_main,NULL, a_main[2]);
-				}
-		}
-
-		fclose(fichier_combo_main);
-	}
-
-	g_signal_connect ((gpointer) combo_todo_main, "changed",G_CALLBACK (open_todo_combo_main),NULL);
 
 	vbox3331 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), GTK_WIDGET(vbox3331), TRUE, TRUE, 1);
@@ -2054,7 +2025,6 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	log_memo_textbuffer = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
 	tv_logmemo= gtk_source_view_new_with_buffer(log_memo_textbuffer);
 	font_desc_logmemo = pango_font_description_from_string ("mono 8");
-	//gtk_widget_override_font (tv_logmemo, font_desc_logmemo);
 	pango_font_description_free (font_desc_logmemo);
 
 	gtk_source_view_set_show_right_margin(GTK_SOURCE_VIEW(tv_logmemo),TRUE);
@@ -2237,7 +2207,6 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
 	sView_note = gtk_source_view_new_with_buffer(buffer_note);
 	font_desc_note = pango_font_description_from_string ("mono 8");
-	//gtk_widget_override_font (sView_note, font_desc_note);
 	pango_font_description_free (font_desc_note);
 
 	gtk_source_view_set_show_right_margin(GTK_SOURCE_VIEW(sView_note),TRUE);
@@ -2915,7 +2884,6 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	language_todo = gtk_source_language_manager_get_language (lm_todo,"sh");
 	gtk_source_buffer_set_language (buffer_todo, language_todo);
 
-	//gtk_source_buffer_set_style_scheme(buffer_todo, scheme);
 	gtk_text_view_set_editable ((GtkTextView *)sView_todo, FALSE);
 	gtk_text_view_set_cursor_visible((GtkTextView *)sView_todo,FALSE);
 
@@ -2933,7 +2901,6 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_box_pack_start(GTK_BOX(vbox4), button_todo_edit, FALSE, FALSE, 0);
 
 	g_signal_connect ((gpointer) button_todo_edit, "clicked",G_CALLBACK (edit_todo),NULL);
-
 
 	label_note3 = gtk_label_new (_("Todo list"));
 	gtk_widget_show (GTK_WIDGET(label_note3));
@@ -6321,7 +6288,6 @@ void show_changelogs()
 
 	sView_note = gtk_source_view_new_with_buffer(buffer_note2);
 	font_desc_note = pango_font_description_from_string ("mono 8");
-	//gtk_widget_override_font (sView_note, font_desc_note);
 	pango_font_description_free (font_desc_note);
 
 	gtk_source_view_set_show_right_margin(GTK_SOURCE_VIEW(sView_note),TRUE);

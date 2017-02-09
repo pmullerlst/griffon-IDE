@@ -1,12 +1,12 @@
 
 /***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/                                  
+ *
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or
+ *   (at your option) any later version
+ *
+ ***************************************************************************/
 
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
@@ -3343,9 +3343,6 @@ gboolean on_editor_keypress ( GtkWidget *widget, GdkEventKey *event, gpointer da
 	}
 }
 
-	//if (event->keyval == GDK_KEY_Up){code_bg_folding();}
-	//if (event->keyval == GDK_KEY_Down){code_bg_folding();}
-
 	if (event->keyval == GDK_KEY_Return)
 		if (confile.use_auto_indent) 
 		{
@@ -3738,13 +3735,8 @@ GtkWidget* window_grep (void)
 	gtk_widget_show (GTK_WIDGET(checkbutton1_grep));
 	gtk_box_pack_start (GTK_BOX (vbox2), checkbutton1_grep, FALSE, FALSE, 0);
 
-//	alignment4 = gtk_alignment_new (0.5, 0.5, 0, 0);
-//	gtk_widget_show (GTK_WIDGET(alignment4));
-//	gtk_container_add (GTK_CONTAINER (checkbutton1_grep), alignment4);
-
 	hbox6 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_widget_show (GTK_WIDGET(hbox6));
-//	gtk_container_add (GTK_CONTAINER (alignment4), hbox6);
 
 	image5 = gtk_image_new_from_icon_name ("format-text-bold", GTK_ICON_SIZE_BUTTON);
 	gtk_widget_show (GTK_WIDGET(image5));
@@ -3758,13 +3750,8 @@ GtkWidget* window_grep (void)
 	gtk_widget_show (GTK_WIDGET(checkbutton2_grep));
 	gtk_box_pack_start (GTK_BOX (vbox2), checkbutton2_grep, FALSE, FALSE, 0);
 
-/*	alignment3 = gtk_alignment_new (0.5, 0.5, 0, 0);
-	gtk_widget_show (GTK_WIDGET(alignment3));
-	gtk_container_add (GTK_CONTAINER (checkbutton2_grep), alignment3);
-*/
 	hbox5 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_widget_show (GTK_WIDGET(hbox5));
-//	gtk_container_add (GTK_CONTAINER (alignment3), hbox5);
 
 	image4 = gtk_image_new_from_icon_name ("format-text-bold", GTK_ICON_SIZE_BUTTON);
 	gtk_widget_show (GTK_WIDGET(image4));
@@ -3778,13 +3765,8 @@ GtkWidget* window_grep (void)
 	gtk_widget_show (GTK_WIDGET(checkbutton3_grep));
 	gtk_box_pack_start (GTK_BOX (vbox2), checkbutton3_grep, FALSE, FALSE, 0);
 
-/*	alignment2 = gtk_alignment_new (0.5, 0.5, 0, 0);
-	gtk_widget_show (GTK_WIDGET(alignment2));
-	gtk_container_add (GTK_CONTAINER (checkbutton3_grep), alignment2);
-*/
 	hbox4 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_widget_show (GTK_WIDGET(hbox4));
-//	gtk_container_add (GTK_CONTAINER (alignment2), hbox4);
 
 	image3 = gtk_image_new_from_icon_name ("view-refresh", GTK_ICON_SIZE_BUTTON);
 	gtk_widget_show (GTK_WIDGET(image3));
@@ -3798,13 +3780,8 @@ GtkWidget* window_grep (void)
 	gtk_widget_show (GTK_WIDGET(checkbutton4_grep));
 	gtk_box_pack_start (GTK_BOX (vbox2), checkbutton4_grep, FALSE, FALSE, 0);
 
-/*	alignment1 = gtk_alignment_new (0.5, 0.5, 0, 0);
-	gtk_widget_show (GTK_WIDGET(alignment1));
-	gtk_container_add (GTK_CONTAINER (checkbutton4_grep), alignment1);
-*/
 	hbox3 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_widget_show (GTK_WIDGET(hbox3));
-//	gtk_container_add (GTK_CONTAINER (alignment1), hbox3);
 
 	image2 = gtk_image_new_from_icon_name ("document-new", GTK_ICON_SIZE_BUTTON);
 	gtk_widget_show (GTK_WIDGET(image2));
@@ -4061,7 +4038,6 @@ GtkWidget* sed (void)
 	label5 = gtk_label_new (_("File"));
 	gtk_widget_show (GTK_WIDGET(label5));
 	gtk_box_pack_start (GTK_BOX (vbox4), label5, FALSE, FALSE, 0);
-//	gtk_misc_set_alignment (GTK_MISC (label5), 0.48, 0.5);
 
 	entry_sed1 = gtk_entry_new ();
 	gtk_widget_show (GTK_WIDGET(entry_sed1));
@@ -4286,13 +4262,8 @@ GtkWidget* awk (void)
 	gtk_box_pack_start (GTK_BOX (vbox6), checkbutton_awk1, FALSE, FALSE, 0);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbutton_awk1), TRUE);
 
-/*	alignment1 = gtk_alignment_new (0.5, 0.5, 0, 0);
-	gtk_widget_show (GTK_WIDGET(alignment1));
-	gtk_container_add (GTK_CONTAINER (checkbutton_awk1), alignment1);
-*/
 	hbox3 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_widget_show (GTK_WIDGET(hbox3));
-//	gtk_container_add (GTK_CONTAINER (alignment1), hbox3);
 
 	image1 = gtk_image_new_from_icon_name ("zoom-original", GTK_ICON_SIZE_BUTTON);
 	gtk_widget_show (GTK_WIDGET(image1));
@@ -4333,7 +4304,6 @@ GtkWidget* awk (void)
 	label5 = gtk_label_new (_("Fichier"));
 	gtk_widget_show (GTK_WIDGET(label5));
 	gtk_box_pack_start (GTK_BOX (vbox4), label5, FALSE, FALSE, 0);
-//	gtk_misc_set_alignment (GTK_MISC (label5), 0.48, 0.5);
 
 	entry_awk1 = gtk_entry_new ();
 	gtk_widget_show (GTK_WIDGET(entry_awk1));
@@ -5533,7 +5503,7 @@ void umount_sftp (void)
 	{
 		int systemRet =system (liste_mount);
 		if(systemRet == -1){return;}
-
+		//fprintf(stderr,"%s\n",liste_mount);
 		liste_mount[0]='\0';
 
 		icon_log_logmemo();
