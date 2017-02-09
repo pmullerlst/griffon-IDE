@@ -482,16 +482,6 @@ static GtkWidget* create_hardcoded_toolbar (void)
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_sep, -1);
 	gtk_widget_show(GTK_WIDGET(tool_sep));
 
-	GtkToolItem *tool_pref=gtk_tool_button_new(gtk_image_new_from_icon_name("preferences-system",GTK_ICON_SIZE_SMALL_TOOLBAR),"Preferences");
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_pref, -1);
-	gtk_widget_show(GTK_WIDGET(tool_pref));
-	g_signal_connect ((gpointer) tool_pref, "clicked",G_CALLBACK (show_options),NULL);
-	gtk_tool_item_set_tooltip_text(tool_pref,(_("Preferences")));
-
-	tool_sep=gtk_separator_tool_item_new();
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_sep, -1);
-	gtk_widget_show(GTK_WIDGET(tool_sep));
-
 	GtkToolItem *tool_undo=gtk_tool_button_new(gtk_image_new_from_icon_name("edit-undo",GTK_ICON_SIZE_SMALL_TOOLBAR),"Undo");
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_undo, -1);
 	gtk_widget_show(GTK_WIDGET(tool_undo));
