@@ -530,38 +530,30 @@ static GtkWidget* create_hardcoded_toolbar (void)
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_sep, -1);
 	gtk_widget_show(GTK_WIDGET(tool_sep));
 
-	GtkToolItem *tool_doc=gtk_tool_button_new(gtk_image_new_from_icon_name("help-about",GTK_ICON_SIZE_SMALL_TOOLBAR),"Doc Gen");
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_doc, -1);
-	gtk_widget_show(GTK_WIDGET(tool_doc));
-	g_signal_connect ((gpointer) tool_doc, "clicked",G_CALLBACK (gen_doc_html),NULL);
-	gtk_tool_item_set_tooltip_text(tool_doc,(_("Generating a template code documentation in HTML")));
-	gtk_tool_button_set_label(GTK_TOOL_BUTTON(tool_doc),"Doc Gen");
+	GtkToolItem *item_entry  = gtk_tool_item_new();
 
-	tool_sep=gtk_separator_tool_item_new();
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_sep, -1);
-	gtk_widget_show(GTK_WIDGET(tool_sep));
+	cmb_famous = gtk_entry_new ();
+	ent_search = cmb_famous;
+	gtk_widget_show (GTK_WIDGET(cmb_famous));
 
-	GtkToolItem *tool_log=gtk_tool_button_new(gtk_image_new_from_icon_name("dialog-information",GTK_ICON_SIZE_SMALL_TOOLBAR),"ChangeLogs");
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_log, -1);
-	gtk_widget_show(GTK_WIDGET(tool_log));
-	g_signal_connect ((gpointer) tool_log, "clicked",G_CALLBACK (show_changelogs),NULL);
-	gtk_tool_item_set_tooltip_text(tool_log,(_("ChangeLogs for current file")));
-	gtk_tool_button_set_label(GTK_TOOL_BUTTON(tool_log),"ChangeLogs");
+	gtk_entry_set_width_chars (GTK_ENTRY(cmb_famous),30);
 
-	tool_sep=gtk_separator_tool_item_new();
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_sep, -1);
-	gtk_widget_show(GTK_WIDGET(tool_sep));
+	GtkEntryCompletion *completion_entry;
+	completion_entry = gtk_entry_completion_new();
 
-	GtkToolItem *tool_add_file_session=gtk_tool_button_new(gtk_image_new_from_icon_name("list-add",GTK_ICON_SIZE_SMALL_TOOLBAR),"File project");
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_add_file_session, -1);
-	gtk_widget_show(GTK_WIDGET(tool_add_file_session));
-	g_signal_connect ((gpointer) tool_add_file_session, "clicked",G_CALLBACK (save_file_in_project_tab),NULL);
-	gtk_tool_item_set_tooltip_text(tool_add_file_session,(_("Add file in project session")));
-	gtk_tool_button_set_label(GTK_TOOL_BUTTON(tool_add_file_session),"File project");
+	gtk_entry_completion_set_text_column(completion_entry, CONTACT_NAME);
+	gtk_entry_set_completion(GTK_ENTRY(cmb_famous), completion_entry);
 
-	tool_sep=gtk_separator_tool_item_new();
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_sep, -1);
-	gtk_widget_show(GTK_WIDGET(tool_sep));
+	model_entry = gtk_list_store_new(1, G_TYPE_STRING);
+
+	gtk_entry_completion_set_model(completion_entry, GTK_TREE_MODEL(model_entry));
+
+	gtk_container_add( GTK_CONTAINER(item_entry), GTK_WIDGET(cmb_famous) );
+	gtk_toolbar_insert( GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(item_entry), -1 );
+  gtk_widget_show (GTK_WIDGET(item_entry));
+
+	g_signal_connect ((gpointer) ent_search, "key_press_event",G_CALLBACK (on_ent_search_key_press_event),NULL);
+	g_signal_connect ((gpointer) ent_search, "key_release_event",G_CALLBACK (keyrelase_search),NULL);
 
 	GtkToolItem *tool_find=gtk_tool_button_new(gtk_image_new_from_icon_name("edit-find",GTK_ICON_SIZE_SMALL_TOOLBAR),"Find");
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_find, -1);
@@ -593,35 +585,6 @@ static GtkWidget* create_hardcoded_toolbar (void)
 	g_signal_connect ((gpointer) tool_goline, "clicked",G_CALLBACK (on_mni_goto_line),NULL);
 	gtk_tool_item_set_tooltip_text(tool_goline,(_("Go To Line")));
 
-	GtkToolItem *tool_sep2;
-	tool_sep2=gtk_separator_tool_item_new();
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_sep2, -1);
-	gtk_widget_show(GTK_WIDGET(tool_sep2));
-
-	GtkToolItem *item_entry  = gtk_tool_item_new();
-
-	cmb_famous = gtk_entry_new ();
-	ent_search = cmb_famous;
-	gtk_widget_show (GTK_WIDGET(cmb_famous));
-
-	gtk_entry_set_width_chars (GTK_ENTRY(cmb_famous),30);
-
-	GtkEntryCompletion *completion_entry;
-	completion_entry = gtk_entry_completion_new();
-
-	gtk_entry_completion_set_text_column(completion_entry, CONTACT_NAME);
-	gtk_entry_set_completion(GTK_ENTRY(cmb_famous), completion_entry);
-
-	model_entry = gtk_list_store_new(1, G_TYPE_STRING);
-
-	gtk_entry_completion_set_model(completion_entry, GTK_TREE_MODEL(model_entry));
-
-	gtk_container_add( GTK_CONTAINER(item_entry), GTK_WIDGET(cmb_famous) );
-	gtk_toolbar_insert( GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(item_entry), -1 );
-  gtk_widget_show (GTK_WIDGET(item_entry));
-
-	g_signal_connect ((gpointer) ent_search, "key_press_event",G_CALLBACK (on_ent_search_key_press_event),NULL);
-	g_signal_connect ((gpointer) ent_search, "key_release_event",G_CALLBACK (keyrelase_search),NULL);
 
 	item_icon  = gtk_tool_item_new();
 
@@ -1032,6 +995,8 @@ GtkWidget* create_tea_main_window (void)
 
 	mni_temp = new_menu_item (_("First line CSV to mysql Struc"), mni_functions_menu, csv_to_mysql);
 	mni_temp = new_menu_item (_("CSV to mysql Insert"), mni_functions_menu, csv_to_mysql_insert);
+	mni_temp = new_menu_item (_("Generating a template code documentation in HTML for the current file"), mni_functions_menu, gen_doc_html);
+	mni_temp = new_menu_item (_("ChangeLogs for current file"), mni_functions_menu, show_changelogs);
 
 	//*********************** MENU HTML
 	mni_temp = new_menu_item (_("Html"), menubar1, NULL);
@@ -1162,6 +1127,15 @@ GtkWidget* create_tea_main_window (void)
 	//*********************** MENU TABS
 	mni_tabs = new_menu_item (_("Tabs"), menubar1, NULL);
 	mni_tabs_menu = new_menu_submenu (GTK_WIDGET(mni_tabs));
+
+	//*********************** MENU TODO
+	mni_todo = new_menu_item (_("Todo"), menubar1, NULL);
+	mni_todo_menu = new_menu_submenu (GTK_WIDGET(mni_todo));
+
+	mni_temp = new_menu_tof (mni_todo_menu);
+	mni_temp = new_menu_item ("Insert TODO in the currentfile and todo list", mni_todo_menu, add_todo_com);
+	mni_temp = new_menu_item ("Insert BUG in the currentfile and todo list", mni_todo_menu, add_todo_bug);
+	mni_temp = new_menu_item ("Insert FIXME in the currentfile and todo list", mni_todo_menu, add_todo_fixme);
 
 	//*********************** MENU BROWSERS
 	mni_temp = new_menu_item (_("Browsers"), menubar1, NULL);
@@ -1300,6 +1274,7 @@ GtkWidget* create_tea_main_window (void)
 	gtk_paned_pack1 (GTK_PANED (vpaned1), notebook3, TRUE, TRUE);
 	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook3), GTK_POS_TOP);
 	gtk_notebook_set_group_name (GTK_NOTEBOOK (notebook3), "wnote");	
+	gtk_notebook_set_scrollable (GTK_NOTEBOOK (notebook3), TRUE);
 
 	vbox4 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add (GTK_CONTAINER (notebook3), GTK_WIDGET(vbox4));
@@ -1311,6 +1286,7 @@ GtkWidget* create_tea_main_window (void)
 	gtk_box_pack_start (GTK_BOX (vbox4), notebook2, TRUE, TRUE, 0);  
 	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook2), GTK_POS_TOP);
 	gtk_notebook_set_group_name (GTK_NOTEBOOK (notebook2), "wnote");	
+	gtk_notebook_set_scrollable (GTK_NOTEBOOK (notebook2), TRUE);
 
 	//*********************** ONGLET FILE CHOSE 
 	GtkWidget*vbox10 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
@@ -1980,6 +1956,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook_down), GTK_POS_TOP);
 	gtk_widget_show (GTK_WIDGET(notebook_down));  
 	gtk_box_pack_start (GTK_BOX (vbox), notebook_down, TRUE, TRUE, 0);
+	gtk_notebook_set_scrollable (GTK_NOTEBOOK (notebook_down), TRUE);
 
 	gtk_notebook_set_group_name (GTK_NOTEBOOK (notebook_down), "wnote");	
 
@@ -2776,48 +2753,11 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
 	g_signal_connect(view_list_todo, "button-release-event",G_CALLBACK(on_changed_scan), selection_scan_todo);
 
-	GtkWidget *hbox_todo = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-	gtk_container_add (GTK_CONTAINER (vbox4), GTK_WIDGET(hbox_todo));
-	gtk_widget_show (GTK_WIDGET(hbox_todo));  
-
-	GtkWidget *icon_bug = gtk_image_new_from_file("/usr/local/share/griffon/images/griffon_bug.png");
-	gtk_widget_set_size_request (icon_bug, 35, 10);
-	gtk_box_pack_start (GTK_BOX (hbox_todo), icon_bug, FALSE, FALSE, 0);
-	gtk_widget_show (GTK_WIDGET(icon_bug));
-
-	GtkWidget *button_com = gtk_button_new_with_label (_("Insert TODO in the current file and todo list"));
-	gtk_widget_show(GTK_WIDGET(button_com));
-	gtk_box_pack_start(GTK_BOX(hbox_todo), button_com, FALSE, FALSE, 0);
-
-	g_signal_connect ((gpointer) button_com, "clicked",G_CALLBACK (add_todo_com),NULL);
-
-	GtkWidget *icon_bug2 = gtk_image_new_from_file("/usr/local/share/griffon/images/griffon_advance.png");
-	gtk_widget_set_size_request (icon_bug2, 35, 10);
-	gtk_box_pack_start (GTK_BOX (hbox_todo), icon_bug2, FALSE, FALSE, 0);
-	gtk_widget_show (GTK_WIDGET(icon_bug2));
-
-	GtkWidget *button_bug = gtk_button_new_with_label (_("Insert BUG in the current file and todo list"));
-	gtk_widget_show(GTK_WIDGET(button_bug));
-	gtk_box_pack_start(GTK_BOX(hbox_todo), button_bug, FALSE, FALSE, 0);
-
-	g_signal_connect ((gpointer) button_bug, "clicked",G_CALLBACK (add_todo_bug),NULL);
-
-	GtkWidget *icon_bug3 = gtk_image_new_from_file("/usr/local/share/griffon/images/griffon_exe.png");
-	gtk_widget_set_size_request (icon_bug3, 35, 10);
-	gtk_box_pack_start (GTK_BOX (hbox_todo), icon_bug3, FALSE, FALSE, 0);
-	gtk_widget_show (GTK_WIDGET(icon_bug3));
-
-	GtkWidget *button_fixme = gtk_button_new_with_label (_("Insert FIXME in the current file and todo list"));
-	gtk_widget_show(GTK_WIDGET(button_fixme));
-	gtk_box_pack_start(GTK_BOX(hbox_todo), button_fixme, FALSE, FALSE, 0);
-
-	g_signal_connect ((gpointer) button_fixme, "clicked",G_CALLBACK (add_todo_fixme),NULL);
-
 	GtkWidget *vbox_todo_action = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start (GTK_BOX (vbox4), vbox_todo_action, FALSE, TRUE, 0);
 	gtk_widget_show (GTK_WIDGET(vbox_todo_action)); 
 
-	GtkWidget *label_todo_open = gtk_label_new (_(" Open file :   "));
+	GtkWidget *label_todo_open = gtk_label_new (_("  Open file :   "));
 	gtk_box_pack_start (GTK_BOX (vbox_todo_action), label_todo_open, FALSE, FALSE, 0);
 	gtk_widget_show (GTK_WIDGET(label_todo_open));
 
@@ -2829,6 +2769,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	FILE *fichier_combo;
 	fichier_combo = fopen(confile.tea_todo,"rt");
 	gchar **a;
+	gchar **b;
 
 	if(fichier_combo!=NULL)
 	{
@@ -2837,7 +2778,8 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 				a = g_strsplit (lecture_combo, "\n", -1);
 				if(a[0]!=NULL)
 				{
-				gtk_combo_box_text_append ((GtkComboBoxText*)combo_todo,NULL, a[0]);
+				b = g_strsplit (a[0], " LINE", -1);
+				gtk_combo_box_text_append ((GtkComboBoxText*)combo_todo,NULL, b[0]);
 				}
 		}
 
@@ -3026,7 +2968,6 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 GtkWidget* icon_affiche_ok (void)
 {
 	gtk_widget_destroy(icon_ok);
-	//gtk_widget_destroy(item_icon);
 	icon_ok = gtk_image_new_from_file("/usr/local/share/griffon/images/griffon_ok.png");
 	gtk_widget_set_size_request (icon_ok, 35, 10);
 	item_icon  = gtk_tool_item_new();
@@ -6317,7 +6258,8 @@ void show_changelogs()
 	gtk_container_add (GTK_CONTAINER (scrolledwindow4), GTK_WIDGET(sView_note));
 	gtk_widget_show_all (GTK_WIDGET(scrolledwindow4));
 
-	gchar *fname = g_path_get_basename (cur_text_doc->file_name);
+	//gchar *fname = g_path_get_basename (cur_text_doc->file_name);
+	gchar *fname = str_replace_all (cur_text_doc->file_name, "/", "_");
 	gchar *changelog_file = g_strconcat (confile.changelog,"/",fname, NULL); 
 
 	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer_note2), "", -1);
@@ -6932,15 +6874,6 @@ void populate_popup(GtkTextView *view, GtkMenu *menu, gpointer user_data)
 	g_signal_connect(i, "button-release-event",G_CALLBACK(preview_web_popup_full), NULL);
 	gtk_widget_show(i);
 
-	i = gtk_menu_item_new_with_label("Project : Make [Shift+F11]");
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
-	g_signal_connect(i, "button-release-event",G_CALLBACK(window_make_project), NULL);
-	gtk_widget_show(i);
-
-	i = gtk_menu_item_new_with_label("Project : Run [Shift+F12]");
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
-	g_signal_connect(i, "button-release-event",G_CALLBACK(window_debug_project), NULL);
-	gtk_widget_show(i);
 
 	i = gtk_menu_item_new_with_label("[BETA TEST] Code folding ALL");
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
@@ -6952,14 +6885,25 @@ void populate_popup(GtkTextView *view, GtkMenu *menu, gpointer user_data)
 	g_signal_connect(i, "button-release-event",G_CALLBACK(clear_code_folding), NULL);
 	gtk_widget_show(i);
 
-	i = gtk_menu_item_new_with_label("Last modified date of the file");
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
-	g_signal_connect(i, "button-release-event",G_CALLBACK(window_chrono_stats_file), NULL);
-	gtk_widget_show(i);
 
 	i = gtk_menu_item_new_with_label("Open a selected URL");
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
 	g_signal_connect(i, "button-release-event",G_CALLBACK(window_url_web), NULL);
+	gtk_widget_show(i);
+
+	i = gtk_menu_item_new_with_label("Insert TODO in the current file and todo list");
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
+	g_signal_connect(i, "button-release-event",G_CALLBACK(add_todo_com), NULL);
+	gtk_widget_show(i);
+
+	i = gtk_menu_item_new_with_label("Insert BUG in the current file and todo list");
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
+	g_signal_connect(i, "button-release-event",G_CALLBACK(add_todo_bug), NULL);
+	gtk_widget_show(i);
+
+	i = gtk_menu_item_new_with_label("Insert FIXME in the current file and todo list");
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
+	g_signal_connect(i, "button-release-event",G_CALLBACK(add_todo_fixme), NULL);
 	gtk_widget_show(i);
 
 }

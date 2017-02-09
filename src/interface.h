@@ -147,6 +147,8 @@ GtkWidget *combo_todo;
 GtkWidget *combo_todo_main;
 GtkWidget *mni_tabs;
 GtkWidget *mni_tabs_menu;
+GtkWidget *mni_todo;
+GtkWidget *mni_todo_menu;
 GtkWidget *notebook_down, *notebook_term;
 GtkWidget *mni_utils_menu;
 GtkWidget *mni_utils_cc_menu;

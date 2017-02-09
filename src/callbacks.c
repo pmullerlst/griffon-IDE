@@ -6113,7 +6113,8 @@ void on_execut_diff (void)
 {
 	if (! get_page_text()) return;
 
-	gchar *fname = g_path_get_basename (cur_text_doc->file_name);
+	//gchar *fname = g_path_get_basename (cur_text_doc->file_name);
+	gchar *fname = str_replace_all (cur_text_doc->file_name, "/", "_");
 	gchar *changelog_file = g_strconcat (confile.changelog,"/",fname, NULL); 
 
 	gchar *datetime = get_time (confile.date_time);
