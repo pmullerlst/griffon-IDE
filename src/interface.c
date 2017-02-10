@@ -4495,7 +4495,7 @@ void enter_web ()
 		{
 			FILE *fich;
 			char carac;
-			char mot[200];
+			char mot[900];
 			mot[0]='\0';
 			int check=0;
 	
@@ -4556,7 +4556,7 @@ void enter_myweb ()
 		{
 			FILE *fich;
 			char carac;
-			char mot[200];
+			char mot[900];
 			mot[0]='\0';
 			int check=0;
 	
@@ -5444,7 +5444,7 @@ void back_history ()
 	GtkTreeIter iter_entry;
 	FILE *fich;
 	char carac;
-	char mot[200];
+	char mot[900];
 	mot[0]='\0';
 
 	if(fopen(confile.tea_miniweb_history,"rt"))
