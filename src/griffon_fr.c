@@ -88,7 +88,7 @@ GtkWidget* create_fr (void)
 	gtk_widget_show (GTK_WIDGET(hbox1));
 	gtk_box_pack_start (GTK_BOX (vbox1), GTK_WIDGET(hbox1), TRUE, TRUE, 0);
 
-	ent_text_to_find = tea_text_entry (hbox1, _("Text to find"), NULL);
+	ent_text_to_find = tea_text_entry (hbox1, _("Text to find\t"), NULL);
 
 	gchar *ft = get_clipboard_text ();
 
@@ -97,7 +97,7 @@ GtkWidget* create_fr (void)
 
 	g_free (ft);
 
-	ent_text_to_replace = tea_text_entry (hbox1, _("Replace with"), NULL);
+	ent_text_to_replace = tea_text_entry (hbox1, _("Replace with\t"), NULL);
 
 	hbox3 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_widget_show (GTK_WIDGET(hbox3));
@@ -113,7 +113,7 @@ GtkWidget* create_fr (void)
 
 	GtkWidget *bt_replace = gtk_button_new_with_label (_("Replace")); 
 	gtk_widget_show (GTK_WIDGET(bt_replace));
-	gtk_box_pack_start (GTK_BOX (hbox4), GTK_WIDGET(bt_replace), FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox4), GTK_WIDGET(bt_replace), TRUE, TRUE, 0);
 
 	g_signal_connect ((gpointer) bt_replace, "clicked",
 	G_CALLBACK (on_button_replace),
@@ -121,7 +121,7 @@ GtkWidget* create_fr (void)
 
 	GtkWidget *bt_jmp_top = gtk_button_new_with_label (_("Jump to top")); 
 	gtk_widget_show (GTK_WIDGET(bt_jmp_top));
-	gtk_box_pack_start (GTK_BOX (hbox4), GTK_WIDGET(bt_jmp_top), FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox4), GTK_WIDGET(bt_jmp_top), TRUE, TRUE, 0);
 
 	g_signal_connect ((gpointer) bt_jmp_top, "clicked",
 	G_CALLBACK (on_button_jmp_top),
@@ -129,7 +129,7 @@ GtkWidget* create_fr (void)
 
 	GtkWidget *bt_find = gtk_button_new_with_label (_("Find")); 
 	gtk_widget_show (GTK_WIDGET(bt_find));
-	gtk_box_pack_start (GTK_BOX (hbox4), GTK_WIDGET(bt_find), FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox4), GTK_WIDGET(bt_find), TRUE, TRUE, 0);
 
 	g_signal_connect ((gpointer) bt_find, "clicked",
 	G_CALLBACK (on_button_find),
@@ -137,7 +137,7 @@ GtkWidget* create_fr (void)
 
 	GtkWidget *bt_forward = gtk_button_new_with_label (_("Find next")); 
 	gtk_widget_show (GTK_WIDGET(bt_forward));
-	gtk_box_pack_start (GTK_BOX (hbox4), GTK_WIDGET(bt_forward), FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox4), GTK_WIDGET(bt_forward), TRUE, TRUE, 0);
 
 	g_signal_connect ((gpointer) bt_forward, "clicked",
 	G_CALLBACK (on_button_find_next_f),

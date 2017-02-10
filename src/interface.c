@@ -6182,10 +6182,10 @@ void show_changelogs()
 	GtkWidget *toolbar_myadmin;
 	toolbar_myadmin = gtk_toolbar_new ();
 
-	GtkToolItem *tool_exe=gtk_tool_button_new(gtk_image_new_from_icon_name("document-save-as",GTK_ICON_SIZE_SMALL_TOOLBAR),"Save ChangeLogs");
+	GtkToolItem *tool_exe=gtk_tool_button_new(gtk_image_new_from_icon_name("document-save-as",GTK_ICON_SIZE_SMALL_TOOLBAR),"Open ChangeLogs in file");
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_exe, -1);
 	g_signal_connect ((gpointer) tool_exe, "clicked",G_CALLBACK (new_file_changelogs),NULL);
-	gtk_tool_item_set_tooltip_text(tool_exe,_("Save ChangeLogs"));
+	gtk_tool_item_set_tooltip_text(tool_exe,_("Open ChangeLogs in file"));
 
 
 	GtkToolItem *tool_chmod=gtk_tool_button_new(gtk_image_new_from_icon_name("edit-clear",GTK_ICON_SIZE_SMALL_TOOLBAR),"Clean Changelogs");
