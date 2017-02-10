@@ -3228,9 +3228,6 @@ GtkWidget* create_about1 (void)
 	GtkWidget *vbox1;
 	GtkWidget *image1;
 	GtkWidget *label1;
-	GtkWidget *button1;
-	GtkWidget *hbox1;
-	GtkWidget *image2;
 	GtkWidget *label2;
 
 	window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -3253,23 +3250,6 @@ GtkWidget* create_about1 (void)
 	label2=gtk_link_button_new_with_label("http://griffon.lasotel.fr","http://griffon.lasotel.fr\n"); 
 	gtk_widget_show (GTK_WIDGET(label2));
 	gtk_box_pack_start (GTK_BOX (vbox1), label2, FALSE, FALSE, 0);
-
-	button1 = gtk_button_new ();
-	gtk_widget_show (GTK_WIDGET(button1));
-	gtk_box_pack_start (GTK_BOX (vbox1), button1, FALSE, FALSE, 0);
-
-	hbox1 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-	gtk_widget_show (GTK_WIDGET(hbox1));
-
-	image2 = gtk_image_new_from_icon_name ("window-close", GTK_ICON_SIZE_SMALL_TOOLBAR);
-	gtk_widget_show (GTK_WIDGET(image2));
-	gtk_box_pack_start (GTK_BOX (hbox1), image2, FALSE, FALSE, 0);
-
-	label2 = gtk_label_new_with_mnemonic (_("Close"));
-	gtk_widget_show (GTK_WIDGET(label2));
-	gtk_box_pack_start (GTK_BOX (hbox1), label2, FALSE, FALSE, 0);
-
-	g_signal_connect_swapped ((gpointer) button1, "clicked",G_CALLBACK (gtk_widget_destroy),window1);
 
 	return window1;
 }
