@@ -446,6 +446,10 @@ static GtkWidget* create_hardcoded_toolbar (void)
 
 	GtkToolItem *tool_sep;
 
+	tool_sep=gtk_separator_tool_item_new();
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_sep, -1);
+	gtk_widget_show(GTK_WIDGET(tool_sep));
+
 	GtkToolItem *tool_new=gtk_tool_button_new(gtk_image_new_from_icon_name("document-new",GTK_ICON_SIZE_SMALL_TOOLBAR),"Create a new file");
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_new, -1);
 	gtk_widget_show(GTK_WIDGET(tool_new));
@@ -563,11 +567,11 @@ static GtkWidget* create_hardcoded_toolbar (void)
 	g_signal_connect ((gpointer) tool_find_r, "clicked",G_CALLBACK (on_mni_search_repall),NULL);
 	gtk_tool_item_set_tooltip_text(tool_find_r,(_("Find~Replace")));
 
-	GtkToolItem *tool_devhelp=gtk_tool_button_new(gtk_image_new_from_icon_name("help-browser",GTK_ICON_SIZE_SMALL_TOOLBAR),"Search with DevHelp");
+/*	GtkToolItem *tool_devhelp=gtk_tool_button_new(gtk_image_new_from_icon_name("help-browser",GTK_ICON_SIZE_SMALL_TOOLBAR),"Search with DevHelp");
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_devhelp, -1);
 	gtk_widget_show(GTK_WIDGET(tool_devhelp));
 	g_signal_connect ((gpointer) tool_devhelp, "clicked",G_CALLBACK (man_page),NULL);
-	gtk_tool_item_set_tooltip_text(tool_devhelp,(_("Search with DevHelp")));
+	gtk_tool_item_set_tooltip_text(tool_devhelp,(_("Search with DevHelp")));*/
 
 	GtkToolItem *tool_goline=gtk_tool_button_new(gtk_image_new_from_icon_name("go-jump",GTK_ICON_SIZE_SMALL_TOOLBAR),"Go To Line");
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_goline, -1);
@@ -974,14 +978,14 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("Google translation with text selection tab MyAdmin : EN to FR"), mni_functions_menu, google_traduction_en_fr);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_F7, 0,GTK_ACCEL_VISIBLE);
 
-	mni_temp = new_menu_item (_("Devdocs window"), mni_functions_menu, window_devdocs);
+/*	mni_temp = new_menu_item (_("Devdocs window"), mni_functions_menu, window_devdocs);
 	mni_temp = new_menu_item (_("Chrono"), mni_functions_menu, window_chrono);
-	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_space, GDK_CONTROL_MASK,GTK_ACCEL_VISIBLE);
+	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_space, GDK_CONTROL_MASK,GTK_ACCEL_VISIBLE);*/
 
 	mni_temp = new_menu_item (_("Last modified date of the file"), mni_functions_menu, window_chrono_stats_file);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_space, GDK_SHIFT_MASK,GTK_ACCEL_VISIBLE);
 
-	mni_temp = new_menu_item (_("Client chat jabber"), mni_functions_menu, window_jabber);
+	//mni_temp = new_menu_item (_("Client chat jabber"), mni_functions_menu, window_jabber);
 
 	mni_temp = new_menu_item (_("First line CSV to mysql Struc"), mni_functions_menu, csv_to_mysql);
 	mni_temp = new_menu_item (_("CSV to mysql Insert"), mni_functions_menu, csv_to_mysql_insert);
@@ -1173,7 +1177,7 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("Reload Mini Web"), mni_nav_menu, focus_web);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_R, GDK_CONTROL_MASK,GTK_ACCEL_VISIBLE);
 
-	mni_temp = new_menu_item (_("Focus and loading of the current page in the Web tab Mini"), mni_nav_menu, web_current_file);
+	mni_temp = new_menu_item (_("Focus and loading of the current page in the MiniWeb tab"), mni_nav_menu, web_current_file);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_D, GDK_CONTROL_MASK,GTK_ACCEL_VISIBLE);
 
 	mni_temp = new_menu_item (_("Focus on the text"), mni_nav_menu, on_mni_nav_focus_to_text);
@@ -3231,7 +3235,7 @@ GtkWidget* create_about1 (void)
 
 	window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
-	gtk_window_set_title (GTK_WINDOW (window1), _((_("A-propos de Griffon IDE"))));
+	gtk_window_set_title (GTK_WINDOW (window1), _((_("Griffon IDE"))));
 	gtk_widget_show (GTK_WIDGET(window1));
 
 	vbox1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
@@ -3242,7 +3246,7 @@ GtkWidget* create_about1 (void)
 	gtk_widget_show (GTK_WIDGET(image1));
 	gtk_box_pack_start (GTK_BOX (vbox1), image1, TRUE, TRUE, 0);
 
-	label1 = gtk_label_new (_("\n    Griffon IDE 1.8.0 \n\n    Auteur \t\t: Philippe Muller \n    Email \t\t: pmuller@lasotel.fr\n\n    Developer and Administrator GNU/Linux system Lasotel (Lyon).    \n\n"));
+	label1 = gtk_label_new (_("\n    Griffon IDE 1.8.0 \n\n    Autor \t\t: Philippe Muller \n    Email \t\t: pmuller@lasotel.fr\n\n    Developer and Administrator GNU/Linux system Lasotel (Lyon).    \n\n"));
 	gtk_widget_show (GTK_WIDGET(label1));
 	gtk_box_pack_start (GTK_BOX (vbox1), label1, FALSE, FALSE, 0);
 
