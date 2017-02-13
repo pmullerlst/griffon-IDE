@@ -5625,9 +5625,9 @@ GtkWidget* w_sftp_mount (void)
 	gtk_label_set_justify (GTK_LABEL (label1), GTK_JUSTIFY_LEFT);
 
 	g_signal_connect_swapped ((gpointer) button1, "clicked",G_CALLBACK (icon_affiche_ok),NULL);	
-	g_signal_connect_swapped ((gpointer) button1, "clicked",G_CALLBACK (gtk_widget_destroy),window1);
 	g_signal_connect_swapped ((gpointer) button2, "clicked",G_CALLBACK (icon_affiche_ok),NULL);	
 	g_signal_connect_swapped ((gpointer) button2, "clicked",G_CALLBACK (mount_sftp),NULL);	
+
 	g_signal_connect_swapped ((gpointer) button2, "clicked",G_CALLBACK (gtk_widget_destroy),window1);
 	g_signal_connect_swapped ((gpointer) button1, "clicked",G_CALLBACK (gtk_widget_destroy),window1);
 
@@ -5718,7 +5718,6 @@ GtkWidget* w_ftp_mount (void)
 	gtk_label_set_justify (GTK_LABEL (label1), GTK_JUSTIFY_LEFT);
 
 	g_signal_connect_swapped ((gpointer) button1, "clicked",G_CALLBACK (icon_affiche_ok),NULL);	
-	g_signal_connect_swapped ((gpointer) button1, "clicked",G_CALLBACK (gtk_widget_destroy), window1);
 	g_signal_connect_swapped ((gpointer) button2, "clicked",G_CALLBACK (icon_affiche_ok), NULL);	
 	g_signal_connect_swapped ((gpointer) button2, "clicked",G_CALLBACK (mount_ftp),NULL);	
 	g_signal_connect_swapped ((gpointer) button2, "clicked",G_CALLBACK (gtk_widget_destroy), window1);
