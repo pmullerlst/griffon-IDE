@@ -4484,6 +4484,8 @@ void enter_web ()
 	if(gtk_editable_get_chars(GTK_EDITABLE(entry_web),0, -1))
 	{	
 		tampon_web = gtk_editable_get_chars(GTK_EDITABLE(entry_web),0, -1);
+		tampon_web = str_replace_all (tampon_web, " ", "%20");
+
 		webkit_web_view_load_uri(webView, tampon_web);
 
 		if (! g_file_test (confile.tea_miniweb_history, G_FILE_TEST_EXISTS))
@@ -4504,7 +4506,7 @@ void enter_web ()
 			{
 				if (carac =='\n')
 				{
-					if (strncmp(mot,tampon_web,strlen(mot))==0 && strlen(mot)>5){check=1;}
+					if (strncmp(tampon_web,mot,strlen(tampon_web))==0 && strlen(mot)>5){check=1;}
 					mot[0]='\0';
 				}
 				else
@@ -4565,7 +4567,7 @@ void enter_myweb ()
 			{
 				if (carac =='\n')
 				{
-					if (strncmp(mot,tampon_myweb,strlen(mot))==0  && strlen(mot)>5){check=1;}
+					if (strncmp(tampon_myweb,mot,strlen(tampon_myweb))==0  && strlen(mot)>5){check=1;}
 					mot[0]='\0';
 				}
 				else
