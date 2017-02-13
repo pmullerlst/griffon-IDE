@@ -781,10 +781,12 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("main configuration"), mni_file_configs_menu , on_mni_config_open);
 	mni_temp = new_menu_item (_("Charsets configuration"), mni_file_configs_menu, on_mni_utils_add_encodings_activate);
 
-	mni_temp = new_menu_item (_("Configuration file MyAdmin"), mni_file_configs_menu, on_mni_file_myadmin);
+	mni_temp = new_menu_item (_("Configuration file MiniWeb history"), mni_file_configs_menu, on_mni_miniwebhistory_file_open);
+	mni_temp = new_menu_item (_("Configuration file MyWeb history"), mni_file_configs_menu, on_mni_mywebhistory_file_open);
+	mni_temp = new_menu_item (_("Configuration file MyWeb"), mni_file_configs_menu, on_mni_file_myadmin);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_n, GDK_MOD1_MASK,GTK_ACCEL_VISIBLE);
 
-	mni_temp = new_menu_item (_("Reload MyAdmin"), mni_file_configs_menu, myadmin);
+	mni_temp = new_menu_item (_("Reload MyWeb"), mni_file_configs_menu, myadmin);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_h, GDK_MOD1_MASK,GTK_ACCEL_VISIBLE);
 
 	mni_temp = new_menu_item (_("Preferences"), mni_file_menu, on_mni_show_options);
@@ -969,13 +971,13 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("CR/LF to LF"), mni_eol_menu, on_mni_eol_to_lf);
 	mni_temp = new_menu_item (_("LF to CR/LF"), mni_eol_menu, on_mni_eol_to_crlf);
 
-	mni_temp = new_menu_item (_("Search with google text selection tab MyAdmin"), mni_functions_menu, google_search);
+	mni_temp = new_menu_item (_("Search with google text selection tab MyWeb"), mni_functions_menu, google_search);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_F8, 0,GTK_ACCEL_VISIBLE);
 
-	mni_temp = new_menu_item (_("Google translation with text selection tab MyAdmin : FR to EN"), mni_functions_menu, google_traduction_fr_en);
+	mni_temp = new_menu_item (_("Google translation with text selection tab MyWeb : FR to EN"), mni_functions_menu, google_traduction_fr_en);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_F6, 0,GTK_ACCEL_VISIBLE);
 
-	mni_temp = new_menu_item (_("Google translation with text selection tab MyAdmin : EN to FR"), mni_functions_menu, google_traduction_en_fr);
+	mni_temp = new_menu_item (_("Google translation with text selection tab MyWeb : EN to FR"), mni_functions_menu, google_traduction_en_fr);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_F7, 0,GTK_ACCEL_VISIBLE);
 
 /*	mni_temp = new_menu_item (_("Devdocs window"), mni_functions_menu, window_devdocs);
@@ -2663,7 +2665,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
 	gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_myadmin),0);
 
-	label_note3 = gtk_label_new (_("MyAdmin"));
+	label_note3 = gtk_label_new (_("MyWeb"));
 	gtk_widget_show (GTK_WIDGET(label_note3));
 	gtk_widget_set_size_request (label_note3, 100, 20);
 
@@ -3404,7 +3406,7 @@ static GtkTreeModel * create_and_fill_model_myadmin (void)
 	treestore = gtk_tree_store_new(NUM_COLS,G_TYPE_STRING);
 
 	gtk_tree_store_append(treestore, &toplevel, NULL);
-	gtk_tree_store_set(treestore, &toplevel,COLUMN, (_("HTTP MyAdmin list                                          ")),-1);
+	gtk_tree_store_set(treestore, &toplevel,COLUMN, (_("HTTP MyWeb list                                          ")),-1);
 
 	FILE *fich;
 	char carac;
@@ -4439,7 +4441,7 @@ void google_search()
 		webkit_web_view_load_uri(webView_myadmin_aide, search_google);
 
 		gtk_entry_set_text (GTK_ENTRY (entry_find_web_help), _(doc_get_sel (cur_text_doc)));
-		griffon_notify(_("The search result is available in the tab: MyAdmin-> Help/Search"));
+		griffon_notify(_("The search result is available in the tab: MyWeb-> Help/Search"));
 	preview_web_popup_search ();
 	}
 }
@@ -4456,7 +4458,7 @@ void google_traduction_fr_en()
 		strcat(search_google,doc_get_sel (cur_text_doc));
 		webkit_web_view_load_uri(webView_myadmin_traduc, search_google);
 		preview_web_popup_translate ();
-		griffon_notify(_("The result of the translation is available in the tab::\nMyAdmin-> Translation"));
+		griffon_notify(_("The result of the translation is available in the tab::\nMyWeb-> Translation"));
 	}
 }
 
@@ -4471,7 +4473,7 @@ void google_traduction_en_fr()
 		strcpy(search_google,"https://translate.google.fr/?hl=fr&tab=wT#en/fr/");
 		strcat(search_google,doc_get_sel (cur_text_doc));
 		webkit_web_view_load_uri(webView_myadmin_traduc, search_google);
-		griffon_notify(_("The result of the translation is available in the tab :\nMyAdmin->Translation"));
+		griffon_notify(_("The result of the translation is available in the tab :\nMyWeb->Translation"));
 		preview_web_popup_translate2 ();
 	}
 }
@@ -4707,7 +4709,7 @@ void term_search_google(gpointer user_data)
 	strcat(search_google,selection);
 	webkit_web_view_load_uri(webView_myadmin_aide, search_google);
 	gtk_widget_destroy(menu_vte);
-	griffon_notify(_("Le résultat de la recherche est disponible dans l'onglet :\nMyAdmin->Aide/Recherche"));
+	griffon_notify(_("Le résultat de la recherche est disponible dans l'onglet :\nMyWeb->Aide/Recherche"));
 }
 
 //*********************** MENU POPUP TERMINAL

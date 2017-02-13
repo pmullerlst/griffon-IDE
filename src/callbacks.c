@@ -6435,3 +6435,18 @@ void csv_to_mysql_insert(void)
 	t=g_strconcat (t,");", NULL);
 	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note2),g_locale_to_utf8(t, -1, NULL, NULL, NULL) , -1);
 }
+
+//*********************** Mini WEB history
+void on_mni_miniwebhistory_file_open ()
+{
+	cur_settings.selected_enc = ch_str (cur_settings.selected_enc, "UTF-8");
+	open_file_std (confile.tea_miniweb_history);
+}
+
+//*********************** myadmin WEB history
+void on_mni_mywebhistory_file_open ()
+{
+	cur_settings.selected_enc = ch_str (cur_settings.selected_enc, "UTF-8");
+	open_file_std (confile.tea_myadmin_history);
+}
+
