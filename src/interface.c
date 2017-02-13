@@ -1268,7 +1268,7 @@ GtkWidget* create_tea_main_window (void)
 	notebook3 = gtk_notebook_new ();  
 	gtk_widget_show (GTK_WIDGET(notebook3));  
 	gtk_paned_pack1 (GTK_PANED (vpaned1), notebook3, TRUE, TRUE);
-	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook3), GTK_POS_TOP);
+	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook3), GTK_POS_LEFT);
 	gtk_notebook_set_group_name (GTK_NOTEBOOK (notebook3), "wnote");	
 	gtk_notebook_set_scrollable (GTK_NOTEBOOK (notebook3), TRUE);
 
