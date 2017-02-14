@@ -7582,6 +7582,7 @@ void on_mni_draw_spaces_on ()
 {
 	if (! get_page_text()) return;
 	gtk_source_view_set_draw_spaces((GtkSourceView *)cur_text_doc->text_view,GTK_SOURCE_DRAW_SPACES_ALL);
+	confile.use_infotext = 1;
 }
 
 //*********************** DRAW spaces 
@@ -7589,4 +7590,5 @@ void on_mni_draw_spaces_off ()
 {
 	if (! get_page_text()) return;
 	gtk_source_view_set_draw_spaces((GtkSourceView *)cur_text_doc->text_view,0);
+	confile.use_infotext = 0;
 }
