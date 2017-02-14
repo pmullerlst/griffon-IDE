@@ -2326,6 +2326,10 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_widget_show (GTK_WIDGET(entry_web));
 	gtk_box_pack_start (GTK_BOX (hbox3), entry_web, TRUE, TRUE, 0);
 
+/*
+* TODO : Add signal for load page at selection in GtkEntryCompletion
+*/
+
 	GtkEntryCompletion *completion_entry_http;
 	completion_entry_http = gtk_entry_completion_new();
 

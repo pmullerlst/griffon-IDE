@@ -5982,7 +5982,7 @@ void add_todo_com(void)
 		save_string_to_file_add(confile.tea_todo,msg);
 		save_string_to_file_add(confile.tea_todo," \"");
 		save_string_to_file_add(confile.tea_todo,ctime(&date));
-		save_string_to_file_add(confile.tea_todo,"\" #### ");
+		save_string_to_file_add(confile.tea_todo,"\" #### \n");
 		on_mni_file_todolist ();
 		reload_graph_todo();
 }
