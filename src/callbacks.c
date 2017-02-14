@@ -5311,14 +5311,14 @@ void mount_sftp (void)
 
 		strcpy(mot,"sshfs -p ");
 		strcat(mot,tampon_port);
-		strcpy(mot," ");
+		strcat(mot," ");
 		strcat(mot,tampon_utilisateur);
 		strcat(mot,"@");				
 		strcat(mot,tampon_sftp);
 		strcat(mot,":");
 		strcat(mot,tampon_chemin);	
 
-		strcat(liste_mount,"fusermount -u ");
+		strcat(liste_mount,"fusermount -u -z ");
 		strcat(liste_mount,home_dir);
 		strcat(liste_mount,"/MOUNT/");
 		strcat(liste_mount,tampon_sftp);
@@ -5434,7 +5434,7 @@ void mount_ftp (void)
 		strcat(mot,"/MOUNT/");
 		strcat(mot,tampon_sftp);
 		
-		strcat(liste_mount,"fusermount -u ");
+		strcat(liste_mount,"fusermount -u -z ");
 		strcat(liste_mount,home_dir);
 		strcat(liste_mount,"/MOUNT/");
 		strcat(liste_mount,tampon_sftp);

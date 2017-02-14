@@ -4001,7 +4001,7 @@ void  on_changed_sftp(GtkWidget *widget,GdkEventKey *event,gpointer data)
 
 		new_terminal_ssh (a[0],a[1],a[2],a[3]);
 
-		strcat(liste_mount,"fusermount -u ");
+		strcat(liste_mount,"fusermount -u -z ");
 		strcat(liste_mount,home_dir);
 		strcat(liste_mount,"/MOUNT/");
 
@@ -4144,7 +4144,7 @@ void  on_changed_ftp(GtkWidget *widget,GdkEventKey *event,gpointer data)
 		int systemRet =system (mot);
 		if(systemRet == -1){return;}
 
-		strcat(liste_mount,"fusermount -u ");
+		strcat(liste_mount,"fusermount -u -z ");
 		strcat(liste_mount,home_dir);
 		strcat(liste_mount,"/MOUNT/");
 		strcat(liste_mount,a[0]);
@@ -5789,7 +5789,7 @@ void open_project(gpointer data)
 						strcat(mot3,":");
 						strcat(mot3,tampon_chemin);	
 
-						strcat(liste_mount,"fusermount -u ");
+						strcat(liste_mount,"fusermount -u -z ");
 						strcat(liste_mount,home_dir);
 						strcat(liste_mount,"/MOUNT/");
 						strcat(liste_mount,tampon_sftp);
@@ -5864,7 +5864,7 @@ void open_project(gpointer data)
 						strcat(mot3,"/MOUNT/");
 						strcat(mot3,tampon_sftp);
 		
-						strcat(liste_mount,"fusermount -u ");
+						strcat(liste_mount,"fusermount -u -z ");
 						strcat(liste_mount,home_dir);
 						strcat(liste_mount,"/MOUNT/");
 						strcat(liste_mount,tampon_sftp);
