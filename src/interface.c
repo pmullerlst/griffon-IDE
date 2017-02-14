@@ -2873,7 +2873,16 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	win_tips_autocomp=NULL;
 
 	g_signal_connect ((gpointer) notebook1, "switch_page",G_CALLBACK (on_notebook1_switch_page),NULL);
-	g_signal_connect ((gpointer) notebook1, "focus-in-event",G_CALLBACK (switch_filechooser),NULL);
+	g_signal_connect_after ((gpointer) notebook1, "focus-in-event",G_CALLBACK (switch_filechooser),NULL);
+
+	g_signal_connect_after ((gpointer) notebook2, "focus-in-event",G_CALLBACK (switch_filechooser_diff_off),NULL);
+	g_signal_connect_after ((gpointer) notebook3, "focus-in-event",G_CALLBACK (switch_filechooser_diff_off),NULL);
+	g_signal_connect_after ((gpointer) notebook_down, "focus-in-event",G_CALLBACK (switch_filechooser_diff_off),NULL);
+
+	g_signal_connect_after ((gpointer) notebook1, "focus-out-event",G_CALLBACK (switch_filechooser_diff_off),NULL);
+	g_signal_connect_after ((gpointer) notebook2, "focus-out-event",G_CALLBACK (switch_filechooser_diff_off),NULL);
+	g_signal_connect_after ((gpointer) notebook3, "focus-out-event",G_CALLBACK (switch_filechooser_diff_off),NULL);
+	g_signal_connect_after ((gpointer) notebook_down, "focus-out-event",G_CALLBACK (switch_filechooser_diff_off),NULL);
 
 	gtk_window_add_accel_group (GTK_WINDOW (tea_main_window), accel_group);
 
@@ -4422,6 +4431,8 @@ GtkNotebook* window_creation_function (GtkNotebook *source_notebook)
 	gtk_notebook_set_scrollable (GTK_NOTEBOOK (notebook), TRUE);
 	gtk_window_set_title (GTK_WINDOW (window), _((_("Tabs"))));
 	gtk_window_set_icon_from_file (GTK_WINDOW(window),"/usr/local/share/griffon/images/griffon_ok.png",NULL);
+	g_signal_connect_after ((gpointer) notebook, "focus-in-event",G_CALLBACK (switch_filechooser_diff_off),NULL);
+	g_signal_connect_after ((gpointer) notebook, "focus-out-event",G_CALLBACK (switch_filechooser_diff_off),NULL);
 
 	gtk_widget_show_all (GTK_WIDGET(window));
 
@@ -5445,6 +5456,16 @@ void switch_filechooser ()
 	}
 }
 
+//*********************** SWITCH DONGLET ET PLACEMENT DANS LE SELECTEUR DE FICHIER
+void switch_filechooser_diff_off ()
+{
+	if (! get_page_text()) return;
+
+	 if(cur_text_doc->file_name!=NULL)
+		{
+				gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,g_path_get_dirname (cur_text_doc->file_name));
+		}
+}
 
 //*********************** RELOAD HISTORIQUE DES ENTRY
 void back_history ()
