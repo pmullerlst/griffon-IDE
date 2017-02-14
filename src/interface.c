@@ -5445,6 +5445,7 @@ void switch_filechooser ()
 	}
 }
 
+
 //*********************** RELOAD HISTORIQUE DES ENTRY
 void back_history ()
 {
