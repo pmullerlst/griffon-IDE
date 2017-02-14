@@ -3982,7 +3982,7 @@ void  on_changed_sftp(GtkWidget *widget,GdkEventKey *event,gpointer data)
 
 		if(strlen(a[3])<1){a[3]="22";}
 
-		strcpy(mot,"sshfs -p ");
+		strcpy(mot,"sshfs -o \"StrictHostKeyChecking no\" -p ");
 		strcat(mot,a[3]);
 		strcat(mot," ");
 		strcat(mot,a[1]);
@@ -5780,7 +5780,7 @@ void open_project(gpointer data)
 
 						if(strlen(a[13])<1){a[13]="22";}
 
-						strcpy(mot3,"sshfs -p ");
+						strcpy(mot3,"sshfs -o \"StrictHostKeyChecking no\" -p ");
 						strcat(mot3,a[13]);
 						strcat(mot3," ");	
 						strcat(mot3,tampon_utilisateur);

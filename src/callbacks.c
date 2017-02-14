@@ -5309,7 +5309,7 @@ void mount_sftp (void)
 		systemRet =system (mot2);
 		if(systemRet == -1){return;}
 
-		strcpy(mot,"sshfs -p ");
+		strcpy(mot,"sshfs -o \"StrictHostKeyChecking no\" -p ");
 		strcat(mot,tampon_port);
 		strcat(mot," ");
 		strcat(mot,tampon_utilisateur);
