@@ -136,6 +136,8 @@ GtkWidget *scrolledwindow_preview;
 int preview_file=0;
 WebKitWebView *webView_graph;
 GtkToolItem *item_icon;
+gdouble load_progress;
+GtkWidget *label_progress;
 
 int tab_fold[19000];
 
@@ -2336,7 +2338,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
 	gtk_entry_set_text (GTK_ENTRY (entry_web), _("http://griffon.lasotel.fr/main.html"));
 
-	button2 = gtk_button_new_with_label (" Charger l'URL ");
+	button2 = gtk_button_new_with_label ("Go");
 	gtk_widget_show (GTK_WIDGET(button2));
 	gtk_box_pack_start (GTK_BOX (hbox3), button2, FALSE, TRUE, 0);
 
@@ -2345,6 +2347,10 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_box_pack_start (GTK_BOX (hbox3), button_web_current, FALSE, TRUE, 0);
 
 	g_signal_connect ((gpointer) button_web_current, "clicked",G_CALLBACK (web_current_file),NULL);
+
+	label_progress = gtk_label_new (_(""));
+	gtk_widget_show (GTK_WIDGET(label_progress));
+	gtk_box_pack_start (GTK_BOX (hbox3), label_progress, FALSE, TRUE, 0);
 
 	webView = WEBKIT_WEB_VIEW(webkit_web_view_new());
 	gtk_widget_show (GTK_WIDGET(webView));
@@ -2363,6 +2369,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	g_signal_connect ((gpointer) button2, "clicked",G_CALLBACK (focus_web),NULL);
 	g_signal_connect ((gpointer) entry_web, "activate",G_CALLBACK (enter_web),entry_web);
 	g_signal_connect(webView, "document-load-finished",G_CALLBACK(miniweb_get_url), NULL);
+	g_signal_connect (webView, "notify::progress", G_CALLBACK (notify_progress_cb), webView);
 
 	button_web_image = gtk_button_new_with_label ((_(" Open with Gimp ")));
 	gtk_widget_show (GTK_WIDGET(button_web_image));
@@ -7614,3 +7621,17 @@ void on_mni_draw_spaces_off ()
 	gtk_source_view_set_draw_spaces((GtkSourceView *)cur_text_doc->text_view,0);
 	confile.use_infotext = 0;
 }
+
+//********************** LOAD PROGRESS MINIWEB
+void notify_progress_cb (WebKitWebView* web_view, GParamSpec* pspec, gpointer data)
+ {
+	if(pspec==NULL){return;}
+	if(data==NULL){return;}
+	load_progress = webkit_web_view_get_progress (web_view) * 100;
+	GString* string = g_string_new ("Load : ");
+	g_string_append_printf (string, "%f%%", load_progress);
+	gchar* title = g_string_free (string, FALSE);
+	gchar **a = g_strsplit (title, ",", -1);
+	title = g_strconcat (a[0],"%", NULL);
+	gtk_label_set_text (GTK_LABEL(label_progress),title);
+ }

@@ -349,3 +349,4 @@ void reload_graph_todo ();
 void on_mni_draw_spaces_on ();
 void on_mni_draw_spaces_off ();
 void switch_filechooser_diff_off ();
+void notify_progress_cb (WebKitWebView* web_view, GParamSpec* pspec, gpointer data);
