@@ -1232,6 +1232,9 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("Theme Solarized light"), mni_theme_menu, theme_solarizedl  );
 	mni_temp = new_menu_item (_("Theme Solarized dark"), mni_theme_menu, theme_solarizedd  );
 
+	mni_temp = new_menu_item (_("Draw spaces ON"), mni_view_menu, on_mni_draw_spaces_on);
+	mni_temp = new_menu_item (_("Draw spaces OFF"), mni_view_menu, on_mni_draw_spaces_off);
+
 /*	mni_temp = new_menu_item (_("Themes GTK"), mni_view_menu, NULL);
 	mni_theme_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
 	mni_temp = new_menu_item (_("GTK Theme Classic Black (Default)"), mni_theme_menu, classic_gtk_theme  );   
@@ -7574,3 +7577,16 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	webkit_web_view_load_uri(webView_graph, uri_main);
 }
 
+//*********************** DRAW spaces 
+void on_mni_draw_spaces_on ()
+{
+	if (! get_page_text()) return;
+	gtk_source_view_set_draw_spaces((GtkSourceView *)cur_text_doc->text_view,GTK_SOURCE_DRAW_SPACES_ALL);
+}
+
+//*********************** DRAW spaces 
+void on_mni_draw_spaces_off ()
+{
+	if (! get_page_text()) return;
+	gtk_source_view_set_draw_spaces((GtkSourceView *)cur_text_doc->text_view,0);
+}
