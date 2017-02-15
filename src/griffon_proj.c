@@ -259,7 +259,7 @@ GtkWidget* new_project_window (void)
 	gtk_widget_show (GTK_WIDGET(hbox2));
 	gtk_box_pack_start (GTK_BOX (vbox1), hbox2, TRUE, TRUE, 0);
 
-	label2 = gtk_label_new (_("Project name : \t\t"));
+	label2 = gtk_label_new (_("Project name : \t"));
 	gtk_widget_show (GTK_WIDGET(label2));
 	gtk_box_pack_start (GTK_BOX (hbox2), label2, FALSE, FALSE, 0);
 	gtk_label_set_justify (GTK_LABEL (label2), GTK_JUSTIFY_LEFT);
@@ -282,7 +282,7 @@ GtkWidget* new_project_window (void)
 	gtk_widget_show (GTK_WIDGET(entry_proj_path));
 	gtk_box_pack_start (GTK_BOX (hbox3), entry_proj_path, FALSE, FALSE, 0);
 
-	button_path = gtk_button_new_with_label ("_Open");
+	button_path = gtk_button_new_with_label ("Open");
 	gtk_widget_show (GTK_WIDGET(button_path));
 	gtk_box_pack_start (GTK_BOX (hbox3), button_path, TRUE, TRUE, 0);
 
@@ -299,7 +299,7 @@ GtkWidget* new_project_window (void)
 	gtk_widget_show (GTK_WIDGET(entry_proj_make_path));
 	gtk_box_pack_start (GTK_BOX (hbox4), entry_proj_make_path, FALSE, FALSE, 0);
 
-	button_make_path = gtk_button_new_with_label ("_Open");
+	button_make_path = gtk_button_new_with_label ("Open");
 	gtk_widget_show (GTK_WIDGET(button_make_path));
 	gtk_box_pack_start (GTK_BOX (hbox4), button_make_path, TRUE, TRUE, 0);
 
@@ -317,7 +317,7 @@ GtkWidget* new_project_window (void)
 	gtk_widget_show (GTK_WIDGET(entry_proj_command));
 	gtk_box_pack_start (GTK_BOX (hbox5), entry_proj_command, FALSE, FALSE, 0);
 
-	button_command = gtk_button_new_with_label ("_Open");
+	button_command = gtk_button_new_with_label ("Open");
 	gtk_widget_show (GTK_WIDGET(button_command));
 	gtk_box_pack_start (GTK_BOX (hbox5), button_command, TRUE, TRUE, 0);
 
@@ -335,7 +335,7 @@ GtkWidget* new_project_window (void)
 	gtk_widget_show (GTK_WIDGET(entry_proj_run));
 	gtk_box_pack_start (GTK_BOX (hbox6), entry_proj_run, FALSE, FALSE, 0);
 
-	button_run = gtk_button_new_with_label ("_Open");
+	button_run = gtk_button_new_with_label ("Open");
 	gtk_widget_show (GTK_WIDGET(button_run));
 	gtk_box_pack_start (GTK_BOX (hbox6), button_run, TRUE, TRUE, 0);
 
@@ -367,7 +367,7 @@ GtkWidget* new_project_window (void)
 	gtk_widget_show (GTK_WIDGET(entry_proj_icon));
 	gtk_box_pack_start (GTK_BOX (hbox8), entry_proj_icon, FALSE, FALSE, 0);
 
-	button_icon = gtk_button_new_with_label ("_Open");
+	button_icon = gtk_button_new_with_label ("Open");
 	gtk_widget_show (GTK_WIDGET(button_icon));
 	gtk_box_pack_start (GTK_BOX (hbox8), button_icon, TRUE, TRUE, 0);
 
@@ -391,7 +391,7 @@ GtkWidget* new_project_window (void)
 	gtk_widget_show (GTK_WIDGET(hbox9));
 	gtk_box_pack_start (GTK_BOX (vbox1), hbox9, TRUE, TRUE, 0);
 
-	label9 = gtk_label_new (_("SFTP IP : \t\t\t"));
+	label9 = gtk_label_new (_("SFTP IP : \t\t"));
 	gtk_widget_show (GTK_WIDGET(label9));
 	gtk_box_pack_start (GTK_BOX (hbox9), label9, FALSE, FALSE, 0);
 	gtk_label_set_justify (GTK_LABEL (label9), GTK_JUSTIFY_LEFT);
@@ -487,19 +487,17 @@ GtkWidget* new_project_window (void)
 	gtk_widget_show (GTK_WIDGET(entry_proj_ftp_pass));
 	gtk_box_pack_start (GTK_BOX (hbox9), entry_proj_ftp_pass, FALSE, FALSE, 0);
 
-
-
 	hbox1 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_widget_show (GTK_WIDGET(hbox1));
 	gtk_box_pack_start (GTK_BOX (vbox1), hbox1, FALSE, FALSE, 0);
 
-	button1 = gtk_button_new_with_label ("_Cancel");
+	button1 = gtk_button_new_with_label ("Cancel");
 	gtk_widget_show (GTK_WIDGET(button1));
 	gtk_box_pack_start (GTK_BOX (hbox1), button1, TRUE, TRUE, 0);
 	gtk_button_set_relief (GTK_BUTTON (button1), GTK_RELIEF_NONE);
 
 
-	button2 = gtk_button_new_with_label ("_Apply");
+	button2 = gtk_button_new_with_label ("Apply");
 	gtk_widget_show (GTK_WIDGET(button2));
 	gtk_box_pack_start (GTK_BOX (hbox1), button2, TRUE, TRUE, 0);
 	gtk_button_set_relief (GTK_BUTTON (button2), GTK_RELIEF_NONE);
