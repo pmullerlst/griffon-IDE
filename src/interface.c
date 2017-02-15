@@ -1782,7 +1782,7 @@ GtkWidget* create_tea_main_window (void)
 	int nb_line_fixme = 0;
 	FILE *fich_todo;
 
-	char motrch[100],motrch2[100],motrch3[100], mot[2000],path[100];
+	char motrch[100],motrch2[100],motrch3[100], mot[2000],path[1000];
 	int nbapparition=0,nbcarac=0,nbmot=0,counter=0;
 	int nbligne=1;	
 
@@ -2722,10 +2722,6 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_CORNER_TOP_LEFT);
 
-/*
-* BUG : Corriger le pb daller a la ligne si on est pas dans le bon fichier
-*/
-
 	GtkTreeModel *model_todo;
 	GtkTreeViewColumn *col_todo, *col2_todo;
 	GtkCellRenderer   *renderer_todo;
@@ -3532,7 +3528,7 @@ void  no_onglet_open()
 	int nb_line_fixme = 0;
 	FILE *fich_todo;
 
-	char motrch[100],motrch2[100],motrch3[100], mot[2000],path[100];
+	char motrch[100],motrch2[100],motrch3[100], mot[2000],path[1000];
 	int nbapparition=0,nbcarac=0,nbmot=0,counter=0;
 	int nbligne=1;	
 
@@ -4575,6 +4571,7 @@ void enter_myweb ()
 	if(gtk_editable_get_chars(GTK_EDITABLE(entry_myadmin),0, -1))
 	{
 		tampon_myweb = gtk_editable_get_chars(GTK_EDITABLE(entry_myadmin),0, -1);
+		tampon_myweb = str_replace_all (tampon_myweb, " ", "%20");
 		webkit_web_view_load_uri(webView_myadmin, tampon_myweb);
 
 		if (! g_file_test (confile.tea_myadmin_history, G_FILE_TEST_EXISTS))
@@ -7515,7 +7512,7 @@ void reload_graph_todo ()
 	char carac;
 	FILE *fich_todo;
 
-	char motrch[100],motrch2[100],motrch3[100], mot[2000],path[100];
+	char motrch[100],motrch2[100],motrch3[100], mot[2000],path[1000];
 	int nbapparition=0,nbcarac=0,nbmot=0,counter=0;
 	int nbligne=1;	
 
