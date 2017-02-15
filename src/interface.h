@@ -352,3 +352,5 @@ void switch_filechooser_diff_off ();
 void notify_progress_cb (WebKitWebView* web_view, GParamSpec* pspec, gpointer data);
 void on_match_select_miniweb(GtkEntryCompletion *widget,GtkTreeModel *model,GtkTreeIter *iter,gpointer user_data);
 void on_match_select_myweb(GtkEntryCompletion *widget,GtkTreeModel *model,GtkTreeIter *iter,gpointer user_data);
+GtkWidget *load_screen (void);
+

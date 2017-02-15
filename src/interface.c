@@ -137,7 +137,7 @@ int preview_file=0;
 WebKitWebView *webView_graph;
 GtkToolItem *item_icon;
 gdouble load_progress;
-GtkWidget *label_progress;
+GtkWidget *pProgress;
 
 int tab_fold[19000];
 
@@ -2348,10 +2348,6 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
 	g_signal_connect ((gpointer) button_web_current, "clicked",G_CALLBACK (web_current_file),NULL);
 
-	label_progress = gtk_label_new (_(""));
-	gtk_widget_show (GTK_WIDGET(label_progress));
-	gtk_box_pack_start (GTK_BOX (hbox3), label_progress, FALSE, TRUE, 0);
-
 	webView = WEBKIT_WEB_VIEW(webkit_web_view_new());
 	gtk_widget_show (GTK_WIDGET(webView));
 
@@ -2370,6 +2366,13 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	g_signal_connect ((gpointer) entry_web, "activate",G_CALLBACK (enter_web),entry_web);
 	g_signal_connect(webView, "document-load-finished",G_CALLBACK(miniweb_get_url), NULL);
 	g_signal_connect (webView, "notify::progress", G_CALLBACK (notify_progress_cb), webView);
+
+	//******* Progress BAR
+	pProgress = gtk_progress_bar_new();
+	gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(pProgress),TRUE);
+	gtk_box_pack_start(GTK_BOX(vbox3), pProgress, FALSE, TRUE, 0);
+	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(pProgress), 0.0);
+	gtk_widget_show (GTK_WIDGET(pProgress));
 
 	button_web_image = gtk_button_new_with_label ((_(" Open with Gimp ")));
 	gtk_widget_show (GTK_WIDGET(button_web_image));
@@ -3392,6 +3395,7 @@ void focus_term ()
 //*********************** RELOAD ET FOCUS SUR LE MINIWEB
 void focus_web ()
 {
+	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(pProgress), 0.0);
 	gchar *tampon_web;
 	tampon_web = gtk_editable_get_chars(GTK_EDITABLE(entry_web),0, -1);
 
@@ -4504,6 +4508,8 @@ void google_traduction_en_fr()
 void enter_web ()
 {
 	gchar *tampon_web;
+
+	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(pProgress), 0.0);
 
 	if(gtk_editable_get_chars(GTK_EDITABLE(entry_web),0, -1))
 	{	
@@ -5737,6 +5743,8 @@ void open_project(gpointer data)
 	char mot[1000];
 	mot[0]='\0';
 	int ligne=0;
+
+	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(pProgress), 0.0);
 
 	if(fopen(confile.projects,"rt"))
 	{
@@ -7635,12 +7643,15 @@ void notify_progress_cb (WebKitWebView* web_view, GParamSpec* pspec, gpointer da
 	gchar* title = g_string_free (string, FALSE);
 	gchar **a = g_strsplit (title, ",", -1);
 	title = g_strconcat (a[0],"%", NULL);
-	gtk_label_set_text (GTK_LABEL(label_progress),title);
+
+	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(pProgress),title);
+	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(pProgress), webkit_web_view_get_progress (web_view));
  }
 
 //*********************** ACTIVE LOAD URL FOR AUTOCOMPLET MINI WEB
 void on_match_select_miniweb(GtkEntryCompletion *widget,GtkTreeModel *model, GtkTreeIter *iter,gpointer user_data)
 {  
+	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(pProgress), 0.0);
 	GValue value = {0, };
 	gtk_tree_model_get_value(model, iter, CONTACT_NAME_HTTP, &value);
 	gtk_entry_set_text (GTK_ENTRY (entry_web), g_value_get_string(&value));
@@ -7675,3 +7686,4 @@ void on_match_select_myweb(GtkEntryCompletion *widget,GtkTreeModel *model, GtkTr
 	if(widget==NULL){return;}
 	if(user_data==NULL){return;}
 }  
+
