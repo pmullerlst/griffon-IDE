@@ -2337,10 +2337,10 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_entry_set_completion(GTK_ENTRY(entry_web), completion_entry_http);
 
 	model_entry_http = gtk_list_store_new(1, G_TYPE_STRING);
-
 	gtk_entry_completion_set_model(completion_entry_http, GTK_TREE_MODEL(model_entry_http));
-
 	gtk_entry_set_text (GTK_ENTRY (entry_web), _("http://griffon.lasotel.fr/main.html"));
+
+	//g_signal_connect_after ((gpointer) completion_entry_http, "match-selected",G_CALLBACK (focus_web),NULL);
 
 	button2 = gtk_button_new_with_label ("Go");
 	gtk_widget_show (GTK_WIDGET(button2));
@@ -2724,6 +2724,10 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_box_pack_start(GTK_BOX(vbox4), GTK_WIDGET(scrolledwindow5), TRUE, TRUE, 1);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_CORNER_TOP_LEFT);
+
+/*
+* BUG : Corriger le pb daller a la ligne si on est pas dans le bon fichier
+*/
 
 	GtkTreeModel *model_todo;
 	GtkTreeViewColumn *col_todo, *col2_todo;
@@ -4002,7 +4006,7 @@ void  on_changed_sftp(GtkWidget *widget,GdkEventKey *event,gpointer data)
 
 		if(strlen(a[3])<1){a[3]="22";}
 
-		strcpy(mot,"sshfs -o \"StrictHostKeyChecking no\" -p ");
+		strcpy(mot,"sshfs -p ");
 		strcat(mot,a[3]);
 		strcat(mot," ");
 		strcat(mot,a[1]);
@@ -5001,7 +5005,7 @@ void new_terminal_ssh (gchar *serveur,gchar *user,gchar *path,gchar *port)
 
 	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_term), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_term), page_term->num_tab), page_term->hbox_term_tab);
 
-	vte_terminal_feed_child (VTE_TERMINAL(page_term->vte_add),"ssh -p ",-1);
+	vte_terminal_feed_child (VTE_TERMINAL(page_term->vte_add),"ssh -o \"StrictHostKeyChecking no\" -p ",-1);
 	vte_terminal_feed_child (VTE_TERMINAL(page_term->vte_add),port,-1);
 	vte_terminal_feed_child (VTE_TERMINAL(page_term->vte_add)," ",-1);
 	vte_terminal_feed_child (VTE_TERMINAL(page_term->vte_add),user,-1);
@@ -5813,7 +5817,7 @@ void open_project(gpointer data)
 
 						if(strlen(a[13])<1){a[13]="22";}
 
-						strcpy(mot3,"sshfs -o \"StrictHostKeyChecking no\" -p ");
+						strcpy(mot3,"sshfs -p ");
 						strcat(mot3,a[13]);
 						strcat(mot3," ");	
 						strcat(mot3,tampon_utilisateur);
