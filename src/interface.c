@@ -2326,10 +2326,6 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_widget_show (GTK_WIDGET(entry_web));
 	gtk_box_pack_start (GTK_BOX (hbox3), entry_web, TRUE, TRUE, 0);
 
-/*
-* TODO : Add signal for load page at selection in GtkEntryCompletion
-*/
-
 	GtkEntryCompletion *completion_entry_http;
 	completion_entry_http = gtk_entry_completion_new();
 
@@ -2533,6 +2529,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
 	gtk_entry_set_text (GTK_ENTRY (entry_myadmin), _("http://"));
 
+	g_signal_connect ((gpointer) completion_entry_http2, "match-selected",G_CALLBACK (on_match_select_myweb),NULL);
 	g_signal_connect ((gpointer) entry_myadmin, "activate",G_CALLBACK (enter_myweb),NULL);
 
 	vbox_myadmin = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
@@ -7657,6 +7654,25 @@ void on_match_select_miniweb(GtkEntryCompletion *widget,GtkTreeModel *model, Gtk
 		tampon_web = gtk_editable_get_chars(GTK_EDITABLE(entry_web),0, -1);
 		tampon_web = str_replace_all (tampon_web, " ", "%20");
 		webkit_web_view_load_uri(webView, tampon_web);
+	}
+	g_value_unset(&value);
+	if(widget==NULL){return;}
+	if(user_data==NULL){return;}
+}  
+
+//*********************** ACTIVE LOAD URL FOR AUTOCOMPLET MINI WEB
+void on_match_select_myweb(GtkEntryCompletion *widget,GtkTreeModel *model, GtkTreeIter *iter,gpointer user_data)
+{  
+	GValue value = {0, };
+	gtk_tree_model_get_value(model, iter, CONTACT_NAME_HTTP2, &value);
+	gtk_entry_set_text (GTK_ENTRY (entry_myadmin), g_value_get_string(&value));
+	gchar *tampon_web;
+
+	if(gtk_editable_get_chars(GTK_EDITABLE(entry_myadmin),0, -1))
+	{	
+		tampon_web = gtk_editable_get_chars(GTK_EDITABLE(entry_myadmin),0, -1);
+		tampon_web = str_replace_all (tampon_web, " ", "%20");
+		webkit_web_view_load_uri(webView_myadmin, tampon_web);
 	}
 	g_value_unset(&value);
 	if(widget==NULL){return;}
