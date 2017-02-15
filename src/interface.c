@@ -2340,7 +2340,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_entry_completion_set_model(completion_entry_http, GTK_TREE_MODEL(model_entry_http));
 	gtk_entry_set_text (GTK_ENTRY (entry_web), _("http://griffon.lasotel.fr/main.html"));
 
-	//g_signal_connect_after ((gpointer) completion_entry_http, "match-selected",G_CALLBACK (focus_web),NULL);
+	g_signal_connect ((gpointer) completion_entry_http, "match-selected",G_CALLBACK (on_match_select_miniweb),NULL);
 
 	button2 = gtk_button_new_with_label ("Go");
 	gtk_widget_show (GTK_WIDGET(button2));
@@ -7643,3 +7643,22 @@ void notify_progress_cb (WebKitWebView* web_view, GParamSpec* pspec, gpointer da
 	title = g_strconcat (a[0],"%", NULL);
 	gtk_label_set_text (GTK_LABEL(label_progress),title);
  }
+
+//*********************** ACTIVE LOAD URL FOR AUTOCOMPLET MINI WEB
+void on_match_select_miniweb(GtkEntryCompletion *widget,GtkTreeModel *model, GtkTreeIter *iter,gpointer user_data)
+{  
+	GValue value = {0, };
+	gtk_tree_model_get_value(model, iter, CONTACT_NAME_HTTP, &value);
+	gtk_entry_set_text (GTK_ENTRY (entry_web), g_value_get_string(&value));
+	gchar *tampon_web;
+
+	if(gtk_editable_get_chars(GTK_EDITABLE(entry_web),0, -1))
+	{	
+		tampon_web = gtk_editable_get_chars(GTK_EDITABLE(entry_web),0, -1);
+		tampon_web = str_replace_all (tampon_web, " ", "%20");
+		webkit_web_view_load_uri(webView, tampon_web);
+	}
+	g_value_unset(&value);
+	if(widget==NULL){return;}
+	if(user_data==NULL){return;}
+}  
