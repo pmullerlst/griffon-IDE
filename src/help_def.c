@@ -1320,38 +1320,21 @@ void  on_changed_custom(GtkWidget *tt, GdkEvent *eventt)
 	}
 }
 
-
-// This is a fairly slow function... perhaps too slow for huge lists?
+//************************* SEARCH IN TREEVIEW
 gboolean util_treeview_match_all_words_callback(GtkTreeModel *pTreeModel, gint nColumn, const gchar *pszSearchText, GtkTreeIter* pIter)
 {
-	gboolean bMatch = FALSE;
+  gchar *tmp = NULL;
+  gtk_tree_model_get (pTreeModel, pIter, nColumn, &tmp, -1);
 
-	// Get the row text from the treeview
-	gchar* pszRowText = NULL;
-	gtk_tree_model_get(pTreeModel, pIter, nColumn, &pszRowText, -1);	// -1 because it's NULL terminated
-
-	// Strip markup from tree view row
-	gchar* pszRowTextClean = NULL;
-	if(pango_parse_markup(pszRowText, -1, 0, NULL, &pszRowTextClean, NULL, NULL)) {
-		// put both strings into lowercase
-		gchar* pszRowTextCleanDown = g_utf8_casefold(pszRowTextClean, -1);	// -1 because it's NULL terminated
-		gchar* pszSearchTextDown = g_utf8_casefold(pszSearchText, -1);
-
-		bMatch = util_match_all_words_in_sentence(pszSearchTextDown, pszRowTextCleanDown);
-
-		g_free(pszRowTextClean);
-		g_free(pszRowTextCleanDown);
-		g_free(pszSearchTextDown);
-	}
-	else {
-		g_warning("pango_parse_markup failed on '%s'", pszRowText);
-		// bMatch remains FALSE...
-	}
-	g_free(pszRowText);
-
-	return (bMatch == FALSE);	// NOTE: we must return FALSE for matches... yeah, believe it.
+  if (strstr (tmp, pszSearchText) != NULL)
+    {
+      g_free (tmp);
+      return FALSE;
+    } else {
+      g_free (tmp);
+      return TRUE;
+    }
 }
-
 
 //**********************TEST TTOLTIPS
 static gboolean
