@@ -2338,6 +2338,8 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
 	g_signal_connect ((gpointer) completion_entry_http, "match-selected",G_CALLBACK (on_match_select_miniweb),NULL);
 
+	gtk_entry_completion_set_match_func(completion_entry_http, (GtkEntryCompletionMatchFunc)func_entry_search, NULL, NULL);
+
 	button2 = gtk_button_new_with_label ("Go");
 	gtk_widget_show (GTK_WIDGET(button2));
 	gtk_box_pack_start (GTK_BOX (hbox3), button2, FALSE, TRUE, 0);
@@ -7688,3 +7690,14 @@ void on_match_select_myweb(GtkEntryCompletion *widget,GtkTreeModel *model, GtkTr
 	if(user_data==NULL){return;}
 }  
 
+//************************* SEARCH FUNC ENTRY COMPLET
+gboolean func_entry_search(GtkEntryCompletion *completion, const gchar *key,GtkTreeIter *iter,gpointer user_data) 
+{
+    GtkTreeModel *model = gtk_entry_completion_get_model(completion);
+    gchar *item;
+    gtk_tree_model_get(model, iter, 0, &item, -1);
+    //gboolean ans = (atoi(key) % 2 == atoi(item) % 2);
+	gboolean ans = (strstr(item, key) != NULL);
+    g_free(item);
+    return ans;
+}
