@@ -2534,6 +2534,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
 	gtk_entry_set_text (GTK_ENTRY (entry_myadmin), _("http://"));
 
+	gtk_entry_completion_set_match_func(completion_entry_http2, (GtkEntryCompletionMatchFunc)func_entry_search, NULL, NULL);
 	g_signal_connect ((gpointer) completion_entry_http2, "match-selected",G_CALLBACK (on_match_select_myweb),NULL);
 	g_signal_connect ((gpointer) entry_myadmin, "activate",G_CALLBACK (enter_myweb),NULL);
 
@@ -7693,6 +7694,7 @@ void on_match_select_myweb(GtkEntryCompletion *widget,GtkTreeModel *model, GtkTr
 //************************* SEARCH FUNC ENTRY COMPLET
 gboolean func_entry_search(GtkEntryCompletion *completion, const gchar *key,GtkTreeIter *iter,gpointer user_data) 
 {
+		if(user_data!=NULL){return FALSE;}
     GtkTreeModel *model = gtk_entry_completion_get_model(completion);
     gchar *item;
     gtk_tree_model_get(model, iter, 0, &item, -1);
