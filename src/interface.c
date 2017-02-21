@@ -7694,12 +7694,11 @@ void on_match_select_myweb(GtkEntryCompletion *widget,GtkTreeModel *model, GtkTr
 //************************* SEARCH FUNC ENTRY COMPLET
 gboolean func_entry_search(GtkEntryCompletion *completion, const gchar *key,GtkTreeIter *iter,gpointer user_data) 
 {
-		if(user_data!=NULL){return FALSE;}
-    GtkTreeModel *model = gtk_entry_completion_get_model(completion);
-    gchar *item;
-    gtk_tree_model_get(model, iter, 0, &item, -1);
-    //gboolean ans = (atoi(key) % 2 == atoi(item) % 2);
+	if(user_data!=NULL){return FALSE;}
+	GtkTreeModel *model = gtk_entry_completion_get_model(completion);
+	gchar *item;
+	gtk_tree_model_get(model, iter, 0, &item, -1);
 	gboolean ans = (strstr(item, key) != NULL);
-    g_free(item);
-    return ans;
+	g_free(item);
+	return ans;
 }
