@@ -1250,25 +1250,20 @@ void  on_changed2(GtkWidget *tt, GdkEvent *eventt, gpointer *user_data)
 //********************************* Fonction de recherche dans le treeview
 gboolean util_match_word_in_sentence(gchar* pszWord, gchar* pszSentence)
 {
-	// First see if the search string is a prefix of the text...
 	gint nWordLength = strlen(pszWord);
 	if(strncmp(pszSentence, pszWord, nWordLength) == 0) return TRUE;
 
-	// ...otherwise search inside the text, but only match to beginnings of words.
-	// A little hack here: just search for " butter"	XXX: what about eg. "-butter"?
 	gchar* pszWordWithSpace = g_strdup_printf(" %s", pszWord);
-	gboolean bMatch = (strstr(pszSentence, pszWordWithSpace) != NULL);	// if it returns a pointer, we have a match
-	g_free(pszWordWithSpace);
+	gboolean bMatch = (strstr(pszSentence, pszWordWithSpace) != NULL);
 
 	return bMatch;
+
 }
 
 gboolean util_match_all_words_in_sentence(gchar* pszWords, gchar* pszSentence)
 {
-	// Split up search string into an array of word strings
 	gchar** aWords = g_strsplit(pszWords, " ", 0);	// " " = delimeters, 0 = no max #
 
-	// Make sure all words are in the sentence (order doesn't matter)
 	gboolean bAllFound = TRUE;
 	gint i;
 	for(i = 0 ; aWords[i] != NULL ; i++) {
@@ -1277,7 +1272,6 @@ gboolean util_match_all_words_in_sentence(gchar* pszWords, gchar* pszSentence)
 			break;
 		}
 	}
-	g_strfreev(aWords);
 	return bAllFound;
 }
 
@@ -1323,17 +1317,22 @@ void  on_changed_custom(GtkWidget *tt, GdkEvent *eventt)
 //************************* SEARCH IN TREEVIEW
 gboolean util_treeview_match_all_words_callback(GtkTreeModel *pTreeModel, gint nColumn, const gchar *pszSearchText, GtkTreeIter* pIter)
 {
-  gchar *tmp = NULL;
-  gtk_tree_model_get (pTreeModel, pIter, nColumn, &tmp, -1);
+  //gchar *tmp = NULL;
+ // gtk_tree_model_get (pTreeModel, pIter, nColumn, &tmp, -1);
+	gchar *item;
+	gtk_tree_model_get(pTreeModel, pIter, nColumn, &item, -1);
+	gboolean ans = (strstr(pszSearchText,item ) != NULL);
+	//g_free(item);
+	return ans;
 
-  if (strstr (tmp, pszSearchText) != NULL)
+/*  if (strstr (tmp, pszSearchText) != NULL)
     {
       g_free (tmp);
       return FALSE;
     } else {
       g_free (tmp);
       return TRUE;
-    }
+    }*/
 }
 
 //**********************TEST TTOLTIPS

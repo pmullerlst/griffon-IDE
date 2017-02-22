@@ -6458,7 +6458,7 @@ void preview_web_popup_full ()
 	gtk_window_set_transient_for(GTK_WINDOW(window1_popup),GTK_WINDOW(tea_main_window));
 	gtk_window_set_title (GTK_WINDOW (window1_popup), _((_("Web preview"))));
 	gtk_window_set_position (GTK_WINDOW (window1_popup), GTK_WIN_POS_CENTER);
-	gtk_window_resize (GTK_WINDOW (window1_popup), 900, 700);
+	gtk_window_resize (GTK_WINDOW (window1_popup), 600, 400);
 
 	gtk_widget_show(GTK_WIDGET(window1_popup));
 
@@ -6484,6 +6484,7 @@ void preview_web_popup_full ()
 
 	g_signal_connect(webView_doc, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_doc);
 	g_signal_connect(webView_doc, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_doc);
+//	g_signal_connect(webView_doc, "focus-out-event",G_CALLBACK(window_popup_delete), NULL);
 
 	win_popup=1;
 	g_free (buf);
@@ -6649,7 +6650,7 @@ gboolean preview_web_popup_line ()
   win = gtk_text_view_get_window (GTK_TEXT_VIEW (cur_text_doc->text_view), 
                                   GTK_TEXT_WINDOW_WIDGET);
   gdk_window_get_origin (win, &x, &y);
-  gtk_window_move (GTK_WINDOW (window1_popup_line), win_x + x + 25, win_y + y + buf_loc.height - 125);
+  gtk_window_move (GTK_WINDOW (window1_popup_line), win_x + x + 145, win_y + y + buf_loc.height - 225);
 
 
 	gchar *buf=gtk_text_buffer_get_text((GtkTextBuffer *)cur_text_doc->text_buffer,&itstart,&itend,FALSE);
@@ -7638,8 +7639,8 @@ void on_mni_draw_spaces_off ()
 //********************** LOAD PROGRESS MINIWEB
 void notify_progress_cb (WebKitWebView* web_view, GParamSpec* pspec, gpointer data)
  {
-	if(pspec==NULL){return;}
-	if(data==NULL){return;}
+	if(pspec==NULL){}
+	if(data==NULL){}
 	load_progress = webkit_web_view_get_progress (web_view) * 100;
 	GString* string = g_string_new ("Load : ");
 	g_string_append_printf (string, "%f%%", load_progress);
@@ -7666,9 +7667,9 @@ void on_match_select_miniweb(GtkEntryCompletion *widget,GtkTreeModel *model, Gtk
 		tampon_web = str_replace_all (tampon_web, " ", "%20");
 		webkit_web_view_load_uri(webView, tampon_web);
 	}
-	g_value_unset(&value);
-	if(widget==NULL){return;}
-	if(user_data==NULL){return;}
+	//g_value_unset(&value);
+	if(widget==NULL){}
+	if(user_data==NULL){}
 }  
 
 //*********************** ACTIVE LOAD URL FOR AUTOCOMPLET MINI WEB
@@ -7685,20 +7686,21 @@ void on_match_select_myweb(GtkEntryCompletion *widget,GtkTreeModel *model, GtkTr
 		tampon_web = str_replace_all (tampon_web, " ", "%20");
 		webkit_web_view_load_uri(webView_myadmin, tampon_web);
 	}
-	g_value_unset(&value);
+	//g_value_unset(&value);
 	
-	if(widget==NULL){return;}
-	if(user_data==NULL){return;}
+	if(widget==NULL){}
+	if(user_data==NULL){}
 }  
 
 //************************* SEARCH FUNC ENTRY COMPLET
 gboolean func_entry_search(GtkEntryCompletion *completion, const gchar *key,GtkTreeIter *iter,gpointer user_data) 
 {
-	if(user_data!=NULL){return FALSE;}
+	if(user_data!=NULL){}
 	GtkTreeModel *model = gtk_entry_completion_get_model(completion);
 	gchar *item;
 	gtk_tree_model_get(model, iter, 0, &item, -1);
 	gboolean ans = (strstr(item, key) != NULL);
-	g_free(item);
+	//g_free(item);
 	return ans;
 }
+
