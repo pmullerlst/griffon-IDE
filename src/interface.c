@@ -245,10 +245,10 @@ static void create_completion (GtkSourceView       *source_view,		   GtkSourceCo
 gboolean myadmin_new_window (WebKitWebView *web_view,WebKitWebFrame *frame,WebKitNetworkRequest *request, WebKitWebNavigationAction *navigation_action,WebKitWebPolicyDecision *policy_decision,gpointer user_data)
 {
 
-	if(frame==NULL){return FALSE;}
-	if(policy_decision==NULL){return FALSE;}
-	if(user_data==NULL){return FALSE;}
-	if(navigation_action==NULL){return FALSE;}
+	if(frame==NULL){}
+	if(policy_decision==NULL){}
+	if(user_data==NULL){}
+	if(navigation_action==NULL){}
 
 	g_signal_stop_emission_by_name (WEBKIT_WEB_VIEW (web_view), "navigation-requested");
 
@@ -351,7 +351,7 @@ return TRUE;
 //*********************** AFFICHAGE DUN NAVIGATEUR WEB APRES CLIQUE DROIT
 gboolean web_new_w_click(WebKitWebView *web_view,gpointer user_data)
 {
-	if(web_view==NULL){return FALSE;}
+	if(web_view==NULL){}
 	gtk_widget_show_all (GTK_WIDGET(user_data));
 	return TRUE;
 }
@@ -360,9 +360,9 @@ gboolean web_new_w_click(WebKitWebView *web_view,gpointer user_data)
 WebKitWebView * web_new_w_click_go(WebKitWebView  *web_view, WebKitWebFrame *frame, gpointer user_data)
 {
 
-	if(web_view==NULL){return FALSE;}
-	if(frame==NULL){return FALSE;}
-	if(user_data==NULL){return FALSE;}
+	if(web_view==NULL){}
+	if(frame==NULL){}
+	if(user_data==NULL){}
 
 	win_web *web_win = (win_web *) g_malloc (sizeof (win_web));
 
@@ -3893,7 +3893,7 @@ void  controle_save()
 
 void  controle_save_page_icon_no()
 {
-	return;
+	//return;
 	if (! get_page_text()) return;
 	if(gtk_widget_get_visible (cur_text_doc->icon)){gtk_widget_set_visible (cur_text_doc->icon,FALSE);}
 
@@ -3901,7 +3901,7 @@ void  controle_save_page_icon_no()
 
 void  controle_save_page_icon() 
 {
-	return;
+	//return;
 	if (! get_page_text()) return;
 
 	gchar **a = g_strsplit (cur_text_doc->file_name, "_", -1);
