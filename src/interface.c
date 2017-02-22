@@ -7697,10 +7697,13 @@ gboolean func_entry_search(GtkEntryCompletion *completion, const gchar *key,GtkT
 {
 	if(user_data!=NULL){}
 	GtkTreeModel *model = gtk_entry_completion_get_model(completion);
-	gchar *item;
+	gchar *item=NULL;
 	gtk_tree_model_get(model, iter, 0, &item, -1);
-	gboolean ans = (strstr(item, key) != NULL);
+	//return ! g_strrstr (item, key);
+
+	gboolean ans = (g_strrstr(item, key) != NULL);
 	//g_free(item);
 	return ans;
+
 }
 
