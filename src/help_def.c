@@ -1317,22 +1317,9 @@ void  on_changed_custom(GtkWidget *tt, GdkEvent *eventt)
 //************************* SEARCH IN TREEVIEW
 gboolean util_treeview_match_all_words_callback(GtkTreeModel *pTreeModel, gint nColumn, const gchar *pszSearchText, GtkTreeIter* pIter)
 {
-  //gchar *tmp = NULL;
- // gtk_tree_model_get (pTreeModel, pIter, nColumn, &tmp, -1);
-	gchar *item;
-	gtk_tree_model_get(pTreeModel, pIter, nColumn, &item, -1);
-	gboolean ans = (strstr(pszSearchText,item ) != NULL);
-	//g_free(item);
-	return ans;
-
-/*  if (strstr (tmp, pszSearchText) != NULL)
-    {
-      g_free (tmp);
-      return FALSE;
-    } else {
-      g_free (tmp);
-      return TRUE;
-    }*/
+    gchar *iter_string = NULL;
+    gtk_tree_model_get (pTreeModel, pIter, nColumn, &iter_string, -1);
+    return ! g_strrstr (iter_string, pszSearchText) ;
 }
 
 //**********************TEST TTOLTIPS
