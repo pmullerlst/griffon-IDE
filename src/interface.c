@@ -1782,7 +1782,7 @@ GtkWidget* create_tea_main_window (void)
 	int nb_line_fixme = 0;
 	FILE *fich_todo;
 
-	char motrch[100],motrch2[100],motrch3[100], mot[2000],path[1000];
+	char motrch[100],motrch2[100],motrch3[100], mot[3000],path[2000];
 	int nbapparition=0,nbcarac=0,nbmot=0,counter=0;
 	int nbligne=1;	
 
@@ -2778,7 +2778,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_box_pack_start (GTK_BOX (vbox_todo_action), combo_todo, TRUE, TRUE, 0);
 	gtk_widget_show (GTK_WIDGET(combo_todo));
 
-	gchar lecture_combo[1024];
+	gchar lecture_combo[2024];
 	FILE *fichier_combo;
 	fichier_combo = fopen(confile.tea_todo,"rt");
 	gchar **a;
@@ -2786,7 +2786,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
 	if(fichier_combo!=NULL)
 	{
-		while(fgets(lecture_combo, 1024, fichier_combo))
+		while(fgets(lecture_combo, 2024, fichier_combo))
 		{
 				a = g_strsplit (lecture_combo, "\n", -1);
 				if(a[0]!=NULL)
@@ -3219,13 +3219,13 @@ GtkWidget* file_preview(void)
 			gtk_widget_show_all (GTK_WIDGET(scrolledwindow_preview));
 
 			gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer_note2), "", -1);
-			gchar lecture[1024];
+			gchar lecture[2024];
 			FILE *fichier;
 			fichier = fopen(file_selected,"rt");
 
 			if(fichier!=NULL)
 			{
-				while(fgets(lecture, 1024, fichier))
+				while(fgets(lecture, 2024, fichier))
 				{
 				gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note2),g_locale_to_utf8(lecture, -1, NULL, NULL, NULL) , -1);
 				}
@@ -3535,7 +3535,7 @@ void  no_onglet_open()
 	int nb_line_fixme = 0;
 	FILE *fich_todo;
 
-	char motrch[100],motrch2[100],motrch3[100], mot[2000],path[1000];
+	char motrch[100],motrch2[100],motrch3[100], mot[3000],path[2000];
 	int nbapparition=0,nbcarac=0,nbmot=0,counter=0;
 	int nbligne=1;	
 
@@ -4530,7 +4530,7 @@ void enter_web ()
 		{
 			FILE *fich;
 			char carac;
-			char mot[900];
+			char mot[2000];
 			mot[0]='\0';
 			int check=0;
 	
@@ -4592,7 +4592,7 @@ void enter_myweb ()
 		{
 			FILE *fich;
 			char carac;
-			char mot[900];
+			char mot[2000];
 			mot[0]='\0';
 			int check=0;
 	
@@ -5491,7 +5491,7 @@ void back_history ()
 	GtkTreeIter iter_entry;
 	FILE *fich;
 	char carac;
-	char mot[900];
+	char mot[2000];
 	mot[0]='\0';
 
 	if(fopen(confile.tea_miniweb_history,"rt"))
@@ -5671,7 +5671,7 @@ void load_projects_list()
 			{
 			FILE *fich_session;
 			char carac_session;
-			char mot_session[1000];
+			char mot_session[2000];
 			mot_session[0]='\0';
 
 			if(fopen(file_session,"rt"))
@@ -5951,7 +5951,7 @@ void open_project(gpointer data)
 	{
 	FILE *fich_session;
 	char carac_session;
-	char mot_session[1000];
+	char mot_session[2000];
 	mot_session[0]='\0';
 
 	if(fopen(file_session,"rt"))
@@ -7524,7 +7524,7 @@ void reload_graph_todo ()
 	char carac;
 	FILE *fich_todo;
 
-	char motrch[100],motrch2[100],motrch3[100], mot[2000],path[1000];
+	char motrch[100],motrch2[100],motrch3[100], mot[3000],path[2000];
 	int nbapparition=0,nbcarac=0,nbmot=0,counter=0;
 	int nbligne=1;	
 

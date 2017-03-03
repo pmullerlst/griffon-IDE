@@ -853,7 +853,7 @@ gboolean on_ent_search_key_press_event (GdkEventKey *event)
 
 			FILE *fich;
 			char carac;
-			char mot[100];
+			char mot[1000];
 			mot[0]='\0';
 			int check=0;
 	
@@ -967,7 +967,7 @@ void on_mni_search_repall ()
 
 			FILE *fich;
 			char carac;
-			char mot[100];
+			char mot[1000];
 			mot[0]='\0';
 			int check=0;
 	
@@ -2496,13 +2496,13 @@ void on_mni_file_crapbook ()
 	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("\nTo view notes [ALT+M]\n")), -1);
 	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("To integrate a selection in the note  [CTR+E]\n\n____________________________________________________________________________________________________________________________________________________\n\n")), -1);
 
-	gchar lecture[1024];
+	gchar lecture[2024];
 	FILE *fichier;
 	fichier = fopen(confile.crapbook_file,"rt");
 
 	if(fichier!=NULL)
 	{
-		while(fgets(lecture, 1024, fichier))
+		while(fgets(lecture, 2024, fichier))
 		{
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note),g_locale_to_utf8(lecture, -1, NULL, NULL, NULL) , -1);
 		}
@@ -2515,13 +2515,13 @@ void on_mni_file_crapbook ()
 void on_mni_file_todolist ()
 {
 	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer_todo), "", -1);
-	gchar lecture[1024];
+	gchar lecture[2024];
 	FILE *fichier;
 	fichier = fopen(confile.tea_todo,"rt");
 
 	if(fichier!=NULL)
 	{
-		while(fgets(lecture, 1024, fichier))
+		while(fgets(lecture, 2024, fichier))
 		{
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_todo),g_locale_to_utf8(lecture, -1, NULL, NULL, NULL) , -1);
 		}
@@ -2735,7 +2735,7 @@ void on_mni_quest_find ()
 
 			FILE *fich;
 			char carac;
-			char mot[100];
+			char mot[1000];
 			mot[0]='\0';
 			int check=0;
 	
@@ -3571,10 +3571,10 @@ void on_mni_project_open ()
 	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), filename, -1);
 	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet), "\n\n________________________________________________________________________________________________\n\n", -1);
 		
-		gchar lecture[1024];
+		gchar lecture[2024];
 		FILE *fichier;
 		fichier = fopen(filename,"rt");
-		while(fgets(lecture, 1024, fichier))
+		while(fgets(lecture, 2024, fichier))
 		{
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet),g_locale_to_utf8(lecture, -1, NULL, NULL, NULL) , -1);
 		}
@@ -4501,7 +4501,7 @@ void scan_include             (void)
 	FILE *fich;
 	char carac;
 
-	char motrch[100],motrch2[100],motrch3[100],motrch4[100],motrch5[100],motrch6[100],motrch7[100],motrch8[100],motrch9[100],motrch10[100],motrch11[100],motrch12[100],mot_autocomp[500],mot[1000],mot2[1000],ligne[10],mot3[1000],motrch13[100],motrch14[100],motrch15[100];
+	char motrch[100],motrch2[100],motrch3[100],motrch4[100],motrch5[100],motrch6[100],motrch7[100],motrch8[100],motrch9[100],motrch10[100],motrch11[100],motrch12[100],mot_autocomp[500],mot[3000],mot2[3000],ligne[10],mot3[3000],motrch13[100],motrch14[100],motrch15[100];
 	int nbapparition=0,nbcarac=0,nbmot=0,counter=0;
 	int nbligne=1;
 	char *extension;
@@ -5850,7 +5850,7 @@ void open_include             (void)
 	FILE *fich;
 	char carac;
 
-	char motrch[100],motrch2[100], mot[2000],path[100];
+	char motrch[100],motrch2[100], mot[3000],path[1000];
 	int nbapparition=0,nbcarac=0,nbmot=0,counter=0;
 	int nbligne=1;	
 	gchar *t;
@@ -5981,7 +5981,7 @@ void add_todo_com(void)
 		save_string_to_file_add(confile.tea_todo," ");
 		save_string_to_file_add(confile.tea_todo,msg);
 		save_string_to_file_add(confile.tea_todo," \"");
-		save_string_to_file_add(confile.tea_todo,ctime(&date));
+		save_string_to_file_add(confile.tea_todo,str_replace_all (ctime(&date), "\n", ""));
 		save_string_to_file_add(confile.tea_todo,"\" #### \n");
 		on_mni_file_todolist ();
 		reload_graph_todo();
@@ -6019,8 +6019,8 @@ void add_todo_bug(void)
 		save_string_to_file_add(confile.tea_todo," ");
 		save_string_to_file_add(confile.tea_todo,msg);
 		save_string_to_file_add(confile.tea_todo," \"");
-		save_string_to_file_add(confile.tea_todo,ctime(&date));
-		save_string_to_file_add(confile.tea_todo,"\" #### ");
+		save_string_to_file_add(confile.tea_todo,str_replace_all (ctime(&date), "\n", ""));
+		save_string_to_file_add(confile.tea_todo,"\" #### \n");
 		on_mni_file_todolist ();
 		reload_graph_todo();
 }
@@ -6057,8 +6057,8 @@ void add_todo_fixme(void)
 		save_string_to_file_add(confile.tea_todo," ");
 		save_string_to_file_add(confile.tea_todo,msg);
 		save_string_to_file_add(confile.tea_todo," \"");
-		save_string_to_file_add(confile.tea_todo,ctime(&date));
-		save_string_to_file_add(confile.tea_todo,"\" #### ");
+		save_string_to_file_add(confile.tea_todo,str_replace_all (ctime(&date), "\n", ""));
+		save_string_to_file_add(confile.tea_todo,"\" #### \n");
 		on_mni_file_todolist ();
 		reload_graph_todo();
 }
