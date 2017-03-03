@@ -1298,13 +1298,13 @@ void  on_changed_custom(GtkWidget *tt, GdkEvent *eventt)
 		strcat(rep_path,value);
 		//printf("%s\n",rep_path);
 
-	gchar lecture[1024];
+	gchar lecture[2024];
 	FILE *fichier;
 	fichier = fopen(rep_path,"rt");
 
 	if(fichier!=NULL)
 	{
-		while(fgets(lecture, 1024, fichier))
+		while(fgets(lecture, 2024, fichier))
 		{
 			doc_insert_at_cursor (cur_text_doc,g_locale_to_utf8(lecture, -1, NULL, NULL, NULL));
 		}
@@ -1960,14 +1960,14 @@ GtkTreeModel *create_and_fill_model_term (void)
 	char rep_path[200];
 	strcpy(rep_path,confile.custom_term);
 
-	gchar lecture[1024];
+	gchar lecture[2024];
 	FILE *fichier;
 	fichier = fopen(rep_path,"rt");
 	gchar **a;
 
 	if(fichier!=NULL)
 	{
-		while(fgets(lecture, 1024, fichier))
+		while(fgets(lecture, 2024, fichier))
 		{
 		a = g_strsplit (lecture, "\n", -1);
 		gtk_tree_store_append(treestore, &child, &toplevel);

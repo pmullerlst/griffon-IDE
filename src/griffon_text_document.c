@@ -609,12 +609,12 @@ t_note_page* page_create_new (void)
 	GtkWidget *srctmp= gtk_source_view_new_with_buffer(tmpbuffer);
 
 
-		gchar lecture[1024];
+		gchar lecture[2024];
 		FILE *fichier;
 		if(fopen(confile.tea_autocomp,"rt"))
 		{
 			fichier = fopen(confile.tea_autocomp,"rt");
-			while(fgets(lecture, 1024, fichier))
+			while(fgets(lecture, 2024, fichier))
 			{
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(tmpbuffer),g_locale_to_utf8(lecture, -1, NULL, NULL, NULL) , -1);
 			}
@@ -720,7 +720,7 @@ t_note_page* page_create_new (void)
 
 	FILE *fich;
 	char carac;
-	char mot[100];
+	char mot[1000];
 	mot[0]='\0';
 
 	if(fopen(confile.tea_theme,"r"))
@@ -1409,12 +1409,12 @@ t_note_page* doc_open_file (gchar *a_filename)
 
 	if(file_autocomp!=NULL)
 	{
-		gchar lecture[1024];
+		gchar lecture[2024];
 		FILE *fichier;
 		if(fopen(file_autocomp,"rt"))
 		{
 			fichier = fopen(file_autocomp,"rt");
-			while(fgets(lecture, 1024, fichier))
+			while(fgets(lecture, 2024, fichier))
 			{
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(tmpbuffer),g_locale_to_utf8(lecture, -1, NULL, NULL, NULL) , -1);
 			}
