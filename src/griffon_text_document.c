@@ -697,6 +697,7 @@ t_note_page* page_create_new (void)
 	g_signal_connect (G_OBJECT (page->text_view), "focus-in-event",
                     G_CALLBACK (map_move), page);
 
+
 /*	g_signal_connect (G_OBJECT (page->text_view), "window_popup_delete",
                     G_CALLBACK (hidden_popup), page);*/
 
@@ -2311,6 +2312,7 @@ void test_save_onglet ()
 		{icon_affiche_nosave ();controle_save_page_icon_no();}
 		else{icon_affiche_save ();}
 	}   
+
 }
 
 void doc_header_source_switch ()

@@ -2886,6 +2886,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
 	win_tips_autocomp=NULL;
 
+//	g_signal_connect ((gpointer) notebook1, "switch_page",G_CALLBACK (scan_include),NULL);
 	g_signal_connect ((gpointer) notebook1, "switch_page",G_CALLBACK (on_notebook1_switch_page),NULL);
 	g_signal_connect_after ((gpointer) notebook1, "focus-in-event",G_CALLBACK (switch_filechooser),NULL);
 
@@ -4428,7 +4429,7 @@ GtkNotebook* window_creation_function (GtkNotebook *source_notebook)
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_transient_for(GTK_WINDOW(window),GTK_WINDOW(tea_main_window));
-	gtk_window_set_deletable (GTK_WINDOW(window),FALSE);
+	//gtk_window_set_deletable (GTK_WINDOW(window),FALSE);
 	gtk_window_set_position(GTK_WINDOW(window),GTK_WIN_POS_MOUSE);
 
 	notebook = gtk_notebook_new ();
@@ -6761,6 +6762,7 @@ gboolean map_move ()
 	if (! get_page_text()) return FALSE;
 
 	gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(cur_text_doc->text_view));
+
 	return FALSE;
 }
 
