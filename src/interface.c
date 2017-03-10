@@ -2886,7 +2886,6 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
 	win_tips_autocomp=NULL;
 
-//	g_signal_connect ((gpointer) notebook1, "switch_page",G_CALLBACK (scan_include),NULL);
 	g_signal_connect ((gpointer) notebook1, "switch_page",G_CALLBACK (on_notebook1_switch_page),NULL);
 	g_signal_connect_after ((gpointer) notebook1, "focus-in-event",G_CALLBACK (switch_filechooser),NULL);
 
@@ -2898,6 +2897,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	g_signal_connect_after ((gpointer) notebook2, "focus-out-event",G_CALLBACK (switch_filechooser_diff_off),NULL);
 	g_signal_connect_after ((gpointer) notebook3, "focus-out-event",G_CALLBACK (switch_filechooser_diff_off),NULL);
 	g_signal_connect_after ((gpointer) notebook_down, "focus-out-event",G_CALLBACK (switch_filechooser_diff_off),NULL);
+	//g_signal_connect_after ((gpointer) notebook1, "switch_page",G_CALLBACK (scan_include_after),NULL);
 
 	gtk_window_add_accel_group (GTK_WINDOW (tea_main_window), accel_group);
 
