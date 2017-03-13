@@ -440,7 +440,7 @@ gboolean text_doc_save (t_note_page *doc, gchar *a_filename)
 
 	doc->hl_mode = ch_str (doc->hl_mode, get_hl_name (doc->file_name));
 	gtk_text_buffer_set_modified (GTK_TEXT_BUFFER(doc->text_buffer), FALSE);  
-	scan_include();
+	//scan_include();
 
 	char *extension;
 	if(strrchr(doc->file_name,'.'))
@@ -1357,7 +1357,6 @@ t_note_page* doc_open_file (gchar *a_filename)
 	controle_save_page_icon();
 
 	clear_remove_tags (cur_text_doc);
-	scan_include(); 
 
 	gtk_window_set_title (GTK_WINDOW (tea_main_window), page->file_name);
 
@@ -1449,6 +1448,8 @@ t_note_page* doc_open_file (gchar *a_filename)
 		text = gtk_text_buffer_get_text ((GtkTextBuffer *)page->text_buffer, &start, &end, FALSE);       
 		g_file_set_contents (confile.file_tmp, text, -1, NULL);
 		g_free (text);
+
+	scan_include();
 
 	//************ ADD IN HISTORY DEFAULT GTK
   gchar *uri = g_strconcat("file://", page->file_name, NULL);
@@ -2038,7 +2039,7 @@ void set_title (t_note_page *t)
 	g_free (nc);
 
 	gchar **a = g_strsplit (t->file_name, "_", -1);
-	if (strcmp("noname", a[0]) == 0){ return;}else{gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,g_path_get_dirname (t->file_name));}
+	if (strcmp("noname", a[0]) == 0){ return;}else{gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,g_path_get_dirname (t->file_name));	}
 
 }
   

@@ -6448,3 +6448,5 @@ void on_mni_mywebhistory_file_open ()
 	cur_settings.selected_enc = ch_str (cur_settings.selected_enc, "UTF-8");
 	open_file_std (confile.tea_myadmin_history);
 }
+
+

@@ -1442,11 +1442,11 @@ GtkWidget* create_tea_main_window (void)
 
 	g_signal_connect(view_list, "button-release-event",G_CALLBACK(on_changed_scan), selection_scan);
 
-	button_include1 = gtk_button_new_with_label (_("Start searching functions and variables"));
+/*	button_include1 = gtk_button_new_with_label (_("Start searching functions and variables"));
 	gtk_widget_show(GTK_WIDGET(button_include1));
 	gtk_box_pack_start(GTK_BOX(vbox4), button_include1, FALSE, FALSE, 0);
 
-	g_signal_connect ((gpointer) button_include1, "clicked",G_CALLBACK (scan_include),NULL);
+	g_signal_connect ((gpointer) button_include1, "clicked",G_CALLBACK (scan_include),NULL);*/
 
 	GtkWidget *button_include2;
 	button_include2 = gtk_button_new_with_label (_("Open files include"));
@@ -2715,11 +2715,11 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gchar *uri_graph = g_strconcat("http://griffon.lasotel.fr/graph.php?version=1.8.1&todo=", tampon_todo,"&bug=",tampon_bug,"&fixme=",tampon_fixme, NULL);
 	webkit_web_view_load_uri(webView_graph, uri_graph);
 
-	button_include1 = gtk_button_new_with_label (_("Start searching for words: TODO, FIXME, BUG in the current file (!save the file before!)"));
+/*	button_include1 = gtk_button_new_with_label (_("Start searching for words: TODO, FIXME, BUG in the current file (!save the file before!)"));
 	gtk_widget_show(GTK_WIDGET(button_include1));
 	gtk_box_pack_start(GTK_BOX(vbox4), button_include1, FALSE, FALSE, 0);
 
-	g_signal_connect ((gpointer) button_include1, "clicked",G_CALLBACK (scan_include),NULL);
+	g_signal_connect ((gpointer) button_include1, "clicked",G_CALLBACK (scan_include),NULL);*/
 
 
 	scrolledwindow5 = gtk_scrolled_window_new (NULL, NULL);
@@ -2886,6 +2886,8 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
 	win_tips_autocomp=NULL;
 
+//g_signal_connect( (gpointer)notebook1, "move-focus-out", G_CALLBACK(scan_include ), NULL );
+	//g_signal_connect ((gpointer) notebook1, "switch_page",G_CALLBACK (scan_include2),NULL);
 	g_signal_connect ((gpointer) notebook1, "switch_page",G_CALLBACK (on_notebook1_switch_page),NULL);
 	g_signal_connect_after ((gpointer) notebook1, "focus-in-event",G_CALLBACK (switch_filechooser),NULL);
 
@@ -5470,7 +5472,7 @@ void switch_filechooser ()
 				text = gtk_text_buffer_get_text ((GtkTextBuffer *)cur_text_doc->text_buffer, &start, &end, FALSE);       
 				g_file_set_contents (confile.file_tmp, text, -1, NULL);
 				g_free (text);
-
+				scan_include();
 			}
 	}
 }
