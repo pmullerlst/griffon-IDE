@@ -2334,7 +2334,7 @@ void delete_helps_custom_window()
 	rep = opendir(rep_path );
 	while ((lecture = readdir(rep))) 
 	{
-		if(strlen(lecture->d_name)>3)
+		if(strlen(lecture->d_name)>3 && lecture->d_name!=NULL)
 		{
 			gtk_combo_box_text_append ((GtkComboBoxText*)combo,NULL, lecture->d_name);
 		}
@@ -2399,7 +2399,7 @@ void rm_dir_cmd_help()
 	rep = opendir(rep_path );
 	while ((lecture = readdir(rep))) 
 	{
-		if(strlen(lecture->d_name)>3)
+		if(strlen(lecture->d_name)>3 && lecture->d_name!=NULL)
 		{
 			gtk_combo_box_text_append ((GtkComboBoxText*)combo,NULL, lecture->d_name);
 		}

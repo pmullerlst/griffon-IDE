@@ -1536,7 +1536,6 @@ void page_free (t_note_page *page)
 	g_free (page);
 
 	tabs_reload ();
-		gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(page->text_view));
 }
 
 

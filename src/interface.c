@@ -2772,7 +2772,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 				if(a[0]!=NULL)
 				{
 				b = g_strsplit (a[0], " LINE", -1);
-				gtk_combo_box_text_append ((GtkComboBoxText*)combo_todo,NULL, b[0]);
+				if (b[0]!=NULL){gtk_combo_box_text_append ((GtkComboBoxText*)combo_todo,NULL, b[0]);}
 				}
 		}
 
@@ -3615,7 +3615,7 @@ void  no_onglet_open()
 	else
 	{
 		gtk_widget_show(GTK_WIDGET(vbox3331));
-		gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(cur_text_doc->text_view));
+		if (get_page_text()){gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(cur_text_doc->text_view));}
 		gtk_widget_hide(GTK_WIDGET(scrolledWindow_editor));	
 		gtk_widget_hide(GTK_WIDGET(webView_editor));	
 		gtk_widget_hide(GTK_WIDGET(recent_file));	
@@ -5689,7 +5689,7 @@ void load_projects_list()
 			gtk_widget_show (GTK_WIDGET(hbox_note));
 			gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook_proj), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_proj), ligne_tab), hbox_note);
 
-			if(strlen(a[6])>3)
+			if(strlen(a[6])>3 && a[6]!=NULL)
 			{
 			pixbuf_icon=gdk_pixbuf_new_from_file(a[6],NULL);
 			pixbuf_icon=gdk_pixbuf_scale_simple(pixbuf_icon,20,20,GDK_INTERP_BILINEAR);
