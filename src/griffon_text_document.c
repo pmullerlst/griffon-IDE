@@ -440,7 +440,6 @@ gboolean text_doc_save (t_note_page *doc, gchar *a_filename)
 
 	doc->hl_mode = ch_str (doc->hl_mode, get_hl_name (doc->file_name));
 	gtk_text_buffer_set_modified (GTK_TEXT_BUFFER(doc->text_buffer), FALSE);  
-	//scan_include();
 
 	char *extension;
 	if(strrchr(doc->file_name,'.'))
