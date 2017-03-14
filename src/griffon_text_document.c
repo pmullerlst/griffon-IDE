@@ -1400,6 +1400,7 @@ t_note_page* doc_open_file (gchar *a_filename)
 		if (strcmp(".y", extension) == 0){page->icon = gtk_image_new_from_file("/usr/local/share/griffon/images/y.png");}
 		if (strcmp(".js", extension) == 0){page->icon = gtk_image_new_from_file("/usr/local/share/griffon/images/sh.png");}
 
+	
 		gtk_box_pack_start (GTK_BOX (page->hbox), page->icon, FALSE, FALSE, 0);
 		gtk_box_reorder_child((GtkBox *)page->hbox, page->icon,0);
 		gtk_widget_show (GTK_WIDGET(page->icon));

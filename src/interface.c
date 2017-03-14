@@ -5433,7 +5433,7 @@ void switch_filechooser ()
 {
 	if (! get_page_text()) return;
 
-	 if(cur_text_doc->file_name!=NULL)
+	 if(cur_text_doc->file_name!=NULL && gtk_widget_is_focus(notebook1))
 		{
 			gchar **a = g_strsplit (cur_text_doc->file_name, "_", -1);
 			if (strcmp("noname", a[0]) != 0 )
