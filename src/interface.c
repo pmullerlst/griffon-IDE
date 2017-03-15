@@ -6880,12 +6880,12 @@ void populate_popup(GtkTextView *view, GtkMenu *menu, gpointer user_data)
 	gtk_widget_show(i);
 
 
-	i = gtk_menu_item_new_with_label("[BETA TEST] Code folding ALL");
+	i = gtk_menu_item_new_with_label("Code folding ALL");
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
 	g_signal_connect(i, "button-release-event",G_CALLBACK(code_folding_all), NULL);
 	gtk_widget_show(i);
 
-	i = gtk_menu_item_new_with_label("[BETA TEST] Remove ALL code folding");
+	i = gtk_menu_item_new_with_label("Remove ALL code folding");
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), i);
 	g_signal_connect(i, "button-release-event",G_CALLBACK(clear_code_folding), NULL);
 	gtk_widget_show(i);
@@ -7648,7 +7648,7 @@ void on_match_select_miniweb(GtkEntryCompletion *widget,GtkTreeModel *model, Gtk
 		tampon_web = str_replace_all (tampon_web, " ", "%20");
 		webkit_web_view_load_uri(webView, tampon_web);
 	}
-	//g_value_unset(&value);
+
 	if(widget==NULL){}
 	if(user_data==NULL){}
 }  
@@ -7667,7 +7667,6 @@ void on_match_select_myweb(GtkEntryCompletion *widget,GtkTreeModel *model, GtkTr
 		tampon_web = str_replace_all (tampon_web, " ", "%20");
 		webkit_web_view_load_uri(webView_myadmin, tampon_web);
 	}
-	//g_value_unset(&value);
 	
 	if(widget==NULL){}
 	if(user_data==NULL){}
@@ -7680,10 +7679,8 @@ gboolean func_entry_search(GtkEntryCompletion *completion, const gchar *key,GtkT
 	GtkTreeModel *model = gtk_entry_completion_get_model(completion);
 	gchar *item=NULL;
 	gtk_tree_model_get(model, iter, 0, &item, -1);
-	//return ! g_strrstr (item, key);
 
 	gboolean ans = (g_strrstr(item, key) != NULL);
-	//g_free(item);
 	return ans;
 
 }
