@@ -4844,7 +4844,7 @@ void window_debug ()
 	g_signal_connect ((gpointer) tool_exe, "clicked",G_CALLBACK (run_debug),NULL);
 	gtk_tool_item_set_tooltip_text(tool_exe,_("Run script/bin"));
 
-	GtkToolItem *tool_chmod=gtk_tool_button_new(gtk_image_new_from_icon_name("media-playback-start",GTK_ICON_SIZE_SMALL_TOOLBAR),"Chmod u+x script/bin");
+	GtkToolItem *tool_chmod=gtk_tool_button_new(gtk_image_new_from_icon_name("gtk-properties",GTK_ICON_SIZE_SMALL_TOOLBAR),"Chmod u+x script/bin");
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_chmod, -1);
 	g_signal_connect ((gpointer) tool_chmod, "clicked",G_CALLBACK (exe),NULL);
 	gtk_tool_item_set_tooltip_text(tool_chmod,_("Chmod u+x script/bin"));
@@ -5965,7 +5965,7 @@ void window_make_project ()
 	g_signal_connect ((gpointer) tool_exe, "clicked",G_CALLBACK (run_make_project),NULL);
 	gtk_tool_item_set_tooltip_text(tool_exe,_("Run script/bin"));
 
-	GtkToolItem *tool_chmod=gtk_tool_button_new(gtk_image_new_from_icon_name("media-playback-start",GTK_ICON_SIZE_SMALL_TOOLBAR),"Chmod u+x script/bin");
+	GtkToolItem *tool_chmod=gtk_tool_button_new(gtk_image_new_from_icon_name("gtk-properties",GTK_ICON_SIZE_SMALL_TOOLBAR),"Chmod u+x script/bin");
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_chmod, -1);
 	g_signal_connect ((gpointer) tool_chmod, "clicked",G_CALLBACK (exe),NULL);
 	gtk_tool_item_set_tooltip_text(tool_chmod,_("Chmod u+x script/bin"));
@@ -6047,7 +6047,7 @@ void window_debug_project ()
 	g_signal_connect ((gpointer) tool_exe, "clicked",G_CALLBACK (run_debug_project),NULL);
 	gtk_tool_item_set_tooltip_text(tool_exe,_("Run script/bin"));
 
-	GtkToolItem *tool_chmod=gtk_tool_button_new(gtk_image_new_from_icon_name("media-playback-start",GTK_ICON_SIZE_SMALL_TOOLBAR),"Chmod u+x script/bin");
+	GtkToolItem *tool_chmod=gtk_tool_button_new(gtk_image_new_from_icon_name("gtk-properties",GTK_ICON_SIZE_SMALL_TOOLBAR),"Chmod u+x script/bin");
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_chmod, -1);
 	g_signal_connect ((gpointer) tool_chmod, "clicked",G_CALLBACK (exe),NULL);
 	gtk_tool_item_set_tooltip_text(tool_chmod,_("Chmod u+x script/bin"));
