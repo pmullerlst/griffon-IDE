@@ -2817,12 +2817,6 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_container_add (GTK_CONTAINER (scrolledwindow4), GTK_WIDGET(sView_todo));
 	gtk_widget_show_all (GTK_WIDGET(scrolledwindow4));
 
-/*	GtkWidget *button_todo = gtk_button_new_with_label (_("DELETE LOGS"));
-	gtk_widget_show(GTK_WIDGET(button_todo));
-	gtk_box_pack_start(GTK_BOX(vbox4), button_todo, FALSE, FALSE, 0);
-
-	g_signal_connect ((gpointer) button_todo, "clicked",G_CALLBACK (delete_todo),NULL);*/
-
 	GtkWidget *button_todo_edit = gtk_button_new_with_label (_("EDIT"));
 	gtk_widget_show(GTK_WIDGET(button_todo_edit));
 	gtk_box_pack_start(GTK_BOX(vbox4), button_todo_edit, FALSE, FALSE, 0);
@@ -2831,7 +2825,6 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
 	label_note3 = gtk_label_new (_("Todo list"));
 	gtk_widget_show (GTK_WIDGET(label_note3));
-	//gtk_widget_set_size_request (label_note3, 100, 20);
 
 	hbox_note = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_widget_show (GTK_WIDGET(hbox_note));
@@ -2879,15 +2872,10 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	g_signal_connect_after ((gpointer) notebook_down, "focus-out-event",G_CALLBACK (switch_filechooser_diff_off),NULL);
 
 	gtk_window_add_accel_group (GTK_WINDOW (tea_main_window), accel_group);
-
 	gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(log_memo_textbuffer), "lm_greet","foreground", "#6c0606", NULL);
-
 	gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(log_memo_textbuffer), "gray_bg","background", "gray", NULL);
-
 	tag_lm_error = gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(log_memo_textbuffer), "lm_error","foreground", "red", NULL);
-
 	gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(log_memo_textbuffer), "lm_normal","foreground", "gray", NULL);
-
 	gtk_text_buffer_create_tag (GTK_TEXT_BUFFER(log_memo_textbuffer), "lm_advice","foreground", "navy", NULL);
 
 	set_lm_colors ();
@@ -2913,7 +2901,6 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	g_signal_connect (notebook_myadmin, "create-window",G_CALLBACK (window_creation_function), NULL);
 	g_signal_connect (notebook_term, "create-window",G_CALLBACK (window_creation_function), NULL);
 	g_signal_connect (notebook3, "create-window",G_CALLBACK (window_creation_function), NULL);
-
 
 	gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_down),0);
 	gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook2),0);
