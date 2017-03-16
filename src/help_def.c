@@ -1299,7 +1299,7 @@ void  on_changed_custom(GtkWidget *tt, GdkEvent *eventt)
 		//printf("%s\n",rep_path);
 
 	gchar lecture[2024];
-	FILE *fichier;
+	FILE *fichier=NULL;
 	fichier = fopen(rep_path,"rt");
 
 	if(fichier!=NULL)
@@ -1961,7 +1961,7 @@ GtkTreeModel *create_and_fill_model_term (void)
 	strcpy(rep_path,confile.custom_term);
 
 	gchar lecture[2024];
-	FILE *fichier;
+	FILE *fichier=NULL;
 	fichier = fopen(rep_path,"rt");
 	gchar **a;
 
