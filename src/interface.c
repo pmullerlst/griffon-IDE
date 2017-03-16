@@ -1767,7 +1767,7 @@ GtkWidget* create_tea_main_window (void)
 	int nb_line_todo = 0;
 	int nb_line_bug = 0;
 	int nb_line_fixme = 0;
-	FILE *fich_todo;
+	FILE *fich_todo=NULL;
 
 	char motrch[100],motrch2[100],motrch3[100], mot[3000],path[2000];
 	int nbapparition=0,nbcarac=0,nbmot=0,counter=0;
@@ -1783,6 +1783,7 @@ GtkWidget* create_tea_main_window (void)
 	strcpy(motrch3,"FIXME");
 
 	fich_todo=fopen(confile.tea_todo,"r");
+	if (fich_todo == NULL){fclose(fich_todo); return NULL;}
 
 	while ((carac =fgetc(fich_todo)) != EOF)
 	{
@@ -2759,8 +2760,10 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_widget_show (GTK_WIDGET(combo_todo));
 
 	gchar lecture_combo[2024];
-	FILE *fichier_combo;
+	FILE *fichier_combo=NULL;
 	fichier_combo = fopen(confile.tea_todo,"rt");
+	if (fichier_combo == NULL){fclose(fichier_combo); return NULL;}
+
 	gchar **a;
 	gchar **b;
 
@@ -3122,6 +3125,7 @@ GtkWidget* file_preview(void)
 
 	FILE *fichier_sel_prev = NULL;
 	fichier_sel_prev = fopen(file_selected,  "r");
+	if (fichier_sel_prev == NULL){fclose(fichier_sel_prev); return NULL;}
 
 	if (fichier_sel_prev == NULL){if(preview_file!=0){gtk_widget_destroy(scrolledwindow_preview);preview_file=0;}return NULL;}
 
@@ -3408,6 +3412,8 @@ static GtkTreeModel * create_and_fill_model_myadmin (void)
 	mot[0]='\0';
 	
 	fich=fopen(confile.tea_myadmin,"r");
+	if (fich == NULL){fclose(fich); return NULL;}
+
 		while ((carac =fgetc(fich)) != EOF)
 		{
 			if (carac =='\n')
@@ -3516,6 +3522,7 @@ void  no_onglet_open()
 	strcpy(motrch3,"FIXME");
 
 	fich_todo=fopen(confile.tea_todo,"r");
+	if (fich_todo == NULL){fclose(fich_todo); return;}
 
 	while ((carac =fgetc(fich_todo)) != EOF)
 	{
@@ -3894,6 +3901,8 @@ GtkTreeModel * create_and_fill_model_sftp (void)
 	mot[0]='\0';
 	
 	fich=fopen(confile.tea_sftp,"r");
+	if (fich == NULL){fclose(fich); return NULL;}
+
 	while ((carac =fgetc(fich)) != EOF)
 	{
 		if (carac =='\n')
@@ -4047,6 +4056,8 @@ GtkTreeModel * create_and_fill_model_ftp (void)
 	mot[0]='\0';
 	
 	fich=fopen(confile.tea_ftp,"r");
+	if (fich == NULL){fclose(fich); return NULL;}
+
 	while ((carac =fgetc(fich)) != EOF)
 	{
 		if (carac =='\n')
@@ -4502,6 +4513,8 @@ void enter_web ()
 			int check=0;
 	
 			fich=fopen(confile.tea_miniweb_history,"r");
+			if (fich == NULL){fclose(fich); return;}
+
 			while ((carac =fgetc(fich)) != EOF)
 			{
 				if (carac =='\n')
@@ -4564,6 +4577,8 @@ void enter_myweb ()
 			int check=0;
 	
 			fich=fopen(confile.tea_myadmin_history,"r");
+			if (fich == NULL){fclose(fich); return;}
+
 			while ((carac =fgetc(fich)) != EOF)
 			{
 				if (carac =='\n')
@@ -7506,6 +7521,7 @@ void reload_graph_todo ()
 	strcpy(motrch3,"FIXME");
 
 	fich_todo=fopen(confile.tea_todo,"r");
+	if (fich_todo == NULL){fclose(fich_todo); return;}
 
 	while ((carac =fgetc(fich_todo)) != EOF)
 	{

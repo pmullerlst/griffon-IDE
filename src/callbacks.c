@@ -858,6 +858,8 @@ gboolean on_ent_search_key_press_event (GdkEventKey *event)
 			int check=0;
 	
 			fich=fopen(confile.tea_cmd_history,"r");
+			if (fich == NULL){fclose(fich); return FALSE;}
+
 			while ((carac =fgetc(fich)) != EOF)
 			{
 				if (carac =='\n')
@@ -972,6 +974,8 @@ void on_mni_search_repall ()
 			int check=0;
 	
 			fich=fopen(confile.tea_cmd_history,"r");
+			if (fich == NULL){fclose(fich); return;}
+
 			while ((carac =fgetc(fich)) != EOF)
 			{
 				if (carac =='\n')
@@ -1366,6 +1370,8 @@ void on_mni_goto_line ()
 			int check=0;
 	
 			fich=fopen(confile.tea_cmd_history,"r");
+			if (fich == NULL){fclose(fich); return;}
+
 			while ((carac =fgetc(fich)) != EOF)
 			{
 				if (carac =='\n')
@@ -2740,6 +2746,8 @@ void on_mni_quest_find ()
 			int check=0;
 	
 			fich=fopen(confile.tea_cmd_history,"r");
+			if (fich == NULL){fclose(fich); return;}
+
 			while ((carac =fgetc(fich)) != EOF)
 			{
 				if (carac =='\n')
@@ -3574,6 +3582,8 @@ void on_mni_project_open ()
 		gchar lecture[2024];
 		FILE *fichier;
 		fichier = fopen(filename,"rt");
+		if (fichier == NULL){fclose(fichier); return;}
+
 		while(fgets(lecture, 2024, fichier))
 		{
 			gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_projet),g_locale_to_utf8(lecture, -1, NULL, NULL, NULL) , -1);
@@ -4498,7 +4508,7 @@ void scan_include             (void)
 {	
 
 	if (! get_page_text()) return;
-	FILE *fich;
+	FILE *fich=NULL;
 	char carac;
 
 	char motrch[100],motrch2[100],motrch3[100],motrch4[100],motrch5[100],motrch6[100],motrch7[100],motrch8[100],motrch9[100],motrch10[100],motrch11[100],motrch12[100],mot_autocomp[500],mot[3000],mot2[3000],ligne[10],mot3[3000],motrch13[100],motrch14[100],motrch15[100];
@@ -4506,9 +4516,7 @@ void scan_include             (void)
 	int nbligne=1;
 	char *extension;
 	int instruction=1;
-	if (! get_page_text()) return;
 	
-	icon_affiche_bug();
 	clear_list_include ();
 	clear_list_todo ();
 
@@ -4554,6 +4562,9 @@ void scan_include             (void)
 	add_to_list_err("",0);
 
 	fich=fopen(cur_text_doc->file_name,"r");
+
+	if (fich == NULL){fclose(fich); return;}
+
 	while ((carac =fgetc(fich)) != EOF)
 	{
 
@@ -5333,6 +5344,8 @@ void mount_sftp (void)
 	int doublon=0;
 
 	fich=fopen(confile.tea_sftp,"r");
+		if (fich == NULL){fclose(fich); return;}
+
 	while ((carac =fgetc(fich)) != EOF)
 	{
 		if (carac ==' ' || carac =='\n')
@@ -5447,6 +5460,8 @@ void mount_ftp (void)
 	int doublon=0;
 
 	fich=fopen(confile.tea_ftp,"r");
+		if (fich == NULL){fclose(fich); return;}
+
 	while ((carac =fgetc(fich)) != EOF)
 	{
 		if (carac ==' ' || carac =='\n')
@@ -5864,6 +5879,8 @@ void open_include             (void)
 	strcpy(motrch,"include");
 	strcpy(motrch2,"require");
 	fich=fopen(cur_text_doc->file_name,"r");
+		if (fich == NULL){fclose(fich); return;}
+
 	while ((carac =fgetc(fich)) != EOF)
 	{
 
