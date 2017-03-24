@@ -4506,8 +4506,10 @@ void perl_ucfirst(void){doc_insert_at_cursor (cur_text_doc, (_("$string=ucfirst(
 //*********************** SCAN DE FICHIER INCLUDE
 void scan_include             (void)
 {	
+	if (! get_page_text()){ return;}
+	if (gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook1)) == -1){return;}
+	if (!cur_text_doc->file_name){return;}
 
-	if (! get_page_text()) return;
 	FILE *fich=NULL;
 	char carac;
 
@@ -5518,7 +5520,6 @@ void umount_sftp (void)
 	{
 		int systemRet =system (liste_mount);
 		if(systemRet == -1){return;}
-		//fprintf(stderr,"%s\n",liste_mount);
 		liste_mount[0]='\0';
 
 		icon_log_logmemo();
