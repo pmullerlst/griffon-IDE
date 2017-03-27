@@ -219,7 +219,7 @@ void file_save (void)
 		if (text_doc_save (cur_text_doc, cur_text_doc->file_name))
 		icon_save_logmemo();		      	
 		log_to_memo (_("%s Save File [OK]"), cur_text_doc->file_name, LM_NORMAL);
-		griffon_notify(_("Save [OK]"));
+		griffon_notify(_(g_strconcat ("Save [OK] : ",cur_text_doc->file_name,NULL)));
 		statusbar_msg (_("Save [OK]"));
 		icon_affiche_save (); 
 		on_execut_diff ();
@@ -1090,7 +1090,7 @@ void show_save_as_dlg (int mode)
 			icon_affiche_nosave ();
 			log_to_memo (_("Save error %s!!!"), cur_text_doc->file_name, LM_ERROR);
 			statusbar_msg (_("Save [ERROR]"));
-			griffon_notify(_("Save [ERROR]"));
+			griffon_notify(_(g_strconcat ("Save [ERROR] : ",cur_text_doc->file_name,NULL)));
 			return;
 		}
 
@@ -4494,7 +4494,7 @@ void exe(void)
 	icon_ok_logmemo();
 	log_to_memo (_("[chmod] %s executable script OK"), cur_text_doc->file_name, LM_NORMAL);
 	statusbar_msg (_("Chmod [OK]"));
-	griffon_notify(_("Chmod [OK]"));
+	griffon_notify(_(g_strconcat ("Chmod [OK] : ",cur_text_doc->file_name,NULL)));
 }
 
 void perl_chomp(void){doc_insert_at_cursor (cur_text_doc, "chomp('');\n\n");}
@@ -5396,7 +5396,7 @@ void mount_sftp (void)
 		icon_log_logmemo();
 		log_to_memo (_("%s mount SFTP in MOUNT/"), tampon_sftp, LM_NORMAL);
 		statusbar_msg (_("Mount [OK]"));
-		griffon_notify(_("Mount SFTP"));
+		griffon_notify(_(g_strconcat ("Mount SFTP : ",tampon_sftp,NULL)));
 		icon_affiche_net ();
 		sftp_reload();
 
@@ -5505,7 +5505,7 @@ void mount_ftp (void)
 		icon_log_logmemo();
 		log_to_memo (_("%s mount FTP in MOUNT/"), tampon_sftp, LM_NORMAL);
 		statusbar_msg (_("Mount [OK]"));
-		griffon_notify(_("Mount FTP"));
+		griffon_notify(_(g_strconcat ("Mount FTP : ",tampon_sftp,NULL)));
 		icon_affiche_net ();
 		ftp_reload();
 
@@ -5527,7 +5527,7 @@ void umount_sftp (void)
 		icon_affiche_net ();
 		tampon_sftp=NULL;
 		statusbar_msg (_("Umount [OK]"));
-		griffon_notify(_("Umount SFTP/FTP"));
+		griffon_notify(_(g_strconcat ("Umount SFTP/FTP : ",liste_mount,NULL)));
 	}
 	else
 	{

@@ -3738,7 +3738,7 @@ void  web_current_file()
 	strcat(type,cur_text_doc->file_name);
 	gtk_entry_set_text (GTK_ENTRY (entry_web), _(type));
 	focus_web ();
-	griffon_notify(_("La visualisation est disponible dans l'onglet Mini Web"));
+	griffon_notify(_("The visualization is available in the Mini Web tab"));
 }
 
 //*********************** ICON POUR LONGLET IN
@@ -4019,7 +4019,8 @@ void  on_changed_sftp(GtkWidget *widget,GdkEventKey *event,gpointer data)
 		icon_log_logmemo();
 		log_to_memo (_("%s in directory mount SFTP Griffon_MONTAGE_SFTP"), a[0], LM_NORMAL);
 		statusbar_msg (_("Mount SFTP [OK]"));
-		griffon_notify(_("Mount SFTP"));
+		
+		griffon_notify(_(g_strconcat ("Mount SFTP : ",a[0], NULL)));
 		icon_affiche_net ();
 		g_free(value);
 	}
@@ -4162,7 +4163,8 @@ void  on_changed_ftp(GtkWidget *widget,GdkEventKey *event,gpointer data)
 
 		icon_log_logmemo();
 		log_to_memo (_("%s in directory mount SFTP Griffon_MONTAGE_SFTP"), a[0], LM_NORMAL);
-		griffon_notify(_("Mount FTP"));
+		//griffon_notify(_("Mount FTP"));
+		griffon_notify(_(g_strconcat ("Mount FTP : ",a[0], NULL)));
 		icon_affiche_net ();                                                                                                 
 		g_free(value);
 		statusbar_msg (_("Mount FTP [OK]"));
@@ -4219,7 +4221,7 @@ void  switch_html_page()
 			strcat(type,cur_text_doc->file_name);
 			gtk_entry_set_text (GTK_ENTRY (entry_web), _(type));
 			focus_web ();	
-			griffon_notify(_("La visualisation est disponible dans l'onglet Mini Web"));
+			griffon_notify(_("The visualization is available in the Mini Web tab"));
 		}
 	}
 	}
@@ -4723,7 +4725,7 @@ void term_search_google(gpointer user_data)
 	strcat(search_google,selection);
 	webkit_web_view_load_uri(webView_myadmin_aide, search_google);
 	gtk_widget_destroy(menu_vte);
-	griffon_notify(_("Le résultat de la recherche est disponible dans l'onglet :\nMyWeb->Aide/Recherche"));
+	griffon_notify(_("The result of the search is available in the tab: \nMyWeb->Help"));
 }
 
 //*********************** MENU POPUP TERMINAL
@@ -5031,7 +5033,7 @@ void new_dir_cmd_help ()
 		strcat(rep_path,dir);
 		if (mkdir (rep_path, S_IRUSR | S_IWUSR | S_IXUSR) == -1){log_to_memo (_("Creat Help Custom Error."), NULL, LM_ERROR);statusbar_msg (_("Creat Help Custom [ERROR]"));}
 		else{log_to_memo (_("Creat Help Custom %s"), rep_path, LM_NORMAL); statusbar_msg (_("Creat Help Custom [OK]"));
-		griffon_notify(_("The Help Custom is created."));
+		griffon_notify(_(g_strconcat ("The Help Custom is created : ",dir, NULL)));
 
 		gtk_widget_destroy(view_help);
 		GtkTreeSelection *selection;
@@ -5079,7 +5081,8 @@ void new_dir_cmd ()
 		strcat(pathT,dir);
 		if (mkdir (pathT, S_IRUSR | S_IWUSR | S_IXUSR) == -1){log_to_memo (_("Mkdir Error."), NULL, LM_ERROR);statusbar_msg (_("Mkdir [ERROR]"));}
 		else{log_to_memo (_("Mkdir %s"), pathT, LM_NORMAL); gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,pathT); statusbar_msg (_("Mkdir [OK]"));
-		griffon_notify(_("The directory is created."));
+		//griffon_notify(_("The directory is created."));
+		griffon_notify(_(g_strconcat ("The directory is created : ",dir, NULL)));
 
 		char commande[350];
 		strcpy(commande,"chmod 755 ");
@@ -5117,7 +5120,7 @@ void new_file_cmd ()
 				create_empty_file (pathT, "");
 				log_to_memo (_("File %s"), pathT, LM_NORMAL);
 				statusbar_msg (_("File touch [OK]"));
-				griffon_notify(_("The file is created."));
+				griffon_notify(_(g_strconcat ("The file is created : ",dir, NULL)));
 				doc_open_file (pathT);
 
 				char *extension;
@@ -5754,7 +5757,7 @@ void open_project(gpointer data)
 					p_icon = a[6];
 
 					gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,p_dir_source);
-					griffon_notify(_("Opening the project"));
+					griffon_notify(_(g_strconcat ("Opening the project : ",a[0],NULL)));
 
 					//********** CHARGE URL
 					if(strlen(a[7])>4)
@@ -5837,7 +5840,7 @@ void open_project(gpointer data)
 						icon_log_logmemo();
 						log_to_memo (_("%s mount SFTP in MOUNT/"), tampon_sftp, LM_NORMAL);
 						statusbar_msg (_("Mount [OK]"));
-						griffon_notify(_("Mount SFTP"));
+						griffon_notify(_(g_strconcat ("Mount SFTP : ",tampon_sftp,NULL)));
 						icon_affiche_net ();
 						}
 					}
@@ -5906,7 +5909,7 @@ void open_project(gpointer data)
 						icon_log_logmemo();
 						log_to_memo (_("%s mount FTP in MOUNT/"), tampon_sftp, LM_NORMAL);
 						statusbar_msg (_("Mount [OK]"));
-						griffon_notify(_("Mount FTP"));
+						griffon_notify(_(g_strconcat ("Mount FTP : ",tampon_sftp,NULL)));
 						icon_affiche_net ();
 						ftp_reload();
 						}
