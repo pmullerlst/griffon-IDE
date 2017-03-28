@@ -5527,7 +5527,7 @@ void umount_sftp (void)
 		icon_affiche_net ();
 		tampon_sftp=NULL;
 		statusbar_msg (_("Umount [OK]"));
-		griffon_notify(_(g_strconcat ("Umount SFTP/FTP : ",liste_mount,NULL)));
+		griffon_notify(_(g_strconcat ("Umount : ",liste_mount,NULL)));
 	}
 	else
 	{

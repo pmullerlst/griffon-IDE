@@ -1437,7 +1437,7 @@ t_note_page* doc_open_file (gchar *a_filename)
 	g_free (filename);
 	g_free (newlabel);
 	g_free (buf);
-	griffon_notify(_(g_strconcat ("The file is open and available in the Editor tab : ",page->file_name,NULL)));
+	griffon_notify(_(g_strconcat ("File open : ",page->file_name,NULL)));
 
 		//*********** Pour le diff
 		GtkTextIter start;
