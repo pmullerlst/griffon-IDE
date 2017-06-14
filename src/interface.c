@@ -5441,7 +5441,7 @@ void switch_filechooser ()
 	 if(cur_text_doc->file_name!=NULL && gtk_widget_is_focus(notebook1))
 		{
 			gchar **a = g_strsplit (cur_text_doc->file_name, "_", -1);
-			if (strcmp("noname", a[0]) != 0 )
+			if (strcmp("noname", a[0]) != 0 && g_file_test (cur_text_doc->file_name, G_FILE_TEST_EXISTS))
 			{
 				gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,g_path_get_dirname (cur_text_doc->file_name));
 
@@ -5454,7 +5454,7 @@ void switch_filechooser ()
 				text = gtk_text_buffer_get_text ((GtkTextBuffer *)cur_text_doc->text_buffer, &start, &end, FALSE);       
 				g_file_set_contents (confile.file_tmp, text, -1, NULL);
 				g_free (text);
-				if(gtk_widget_is_focus(notebook1)){scan_include();}
+				//if(gtk_widget_is_focus(notebook1)){scan_include();}
 			}
 	}
 }
@@ -5464,7 +5464,7 @@ void switch_filechooser_diff_off ()
 {
 	if (! get_page_text()) return;
 
-	 if(cur_text_doc->file_name!=NULL)
+	 if(cur_text_doc->file_name!=NULL && g_file_test (cur_text_doc->file_name, G_FILE_TEST_EXISTS))
 		{
 				gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,g_path_get_dirname (cur_text_doc->file_name));
 		}
