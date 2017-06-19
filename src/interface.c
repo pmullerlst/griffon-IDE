@@ -3968,6 +3968,7 @@ void  on_changed_sftp(GtkWidget *widget,GdkEventKey *event,gpointer data)
 	GtkTreeModel *model;
 	char *value;
 	char mot[150];
+	char mot2[150];
 
 	if(widget==NULL){printf(" ");}
 	if(event==NULL){printf(" ");}
@@ -3998,6 +3999,13 @@ void  on_changed_sftp(GtkWidget *widget,GdkEventKey *event,gpointer data)
 		strcat(mot," ");
 		strcat(mot,home_dir);
 		strcat(mot,"/MOUNT/");
+
+		strcpy(mot2,"mkdir -p ");
+		strcat(mot2,home_dir);
+		strcat(mot2,"/MOUNT/");
+		strcat(mot2,a[0]);	
+		int systemRet2 =system (mot2); 
+		if(systemRet2 == -1){return;}
 
 		strcat(mot,a[0]);	
 		int systemRet =system (mot); 
