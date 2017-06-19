@@ -5520,7 +5520,6 @@ void umount_sftp (void)
 	{
 		int systemRet =system (liste_mount);
 		if(systemRet == -1){return;}
-		liste_mount[0]='\0';
 
 		icon_log_logmemo();
 		log_to_memo (_("%s umount FTP/SFTP"), tampon_sftp, LM_NORMAL);
@@ -5528,6 +5527,9 @@ void umount_sftp (void)
 		tampon_sftp=NULL;
 		statusbar_msg (_("Umount [OK]"));
 		griffon_notify(_(g_strconcat ("Umount : ",liste_mount,NULL)));
+		int systemRet2=system ("killall sshfs");
+		if(systemRet2 == -1){return;}
+		liste_mount[0]='\0';
 	}
 	else
 	{
