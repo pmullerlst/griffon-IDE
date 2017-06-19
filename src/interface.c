@@ -3606,7 +3606,10 @@ void  no_onglet_open()
 	gchar* tampon_bug=g_strdup_printf ("%d", nb_line_bug) ;
 	gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
-	gchar *uri_main = g_strconcat("http://griffon.lasotel.fr/main.php?version=1.8.2&todo=", tampon_todo,"&bug=",tampon_bug,"&fixme=",tampon_fixme, NULL);
+	gchar* nom_user = getenv("USER");
+	gchar *uri_main = g_strconcat("http://griffon.lasotel.fr/main.php?version=1.8.2&todo=", tampon_todo,"&bug=",tampon_bug,"&fixme=",tampon_fixme,"&user=",nom_user, NULL);
+
+//	gchar *uri_main = g_strconcat("http://griffon.lasotel.fr/main.php?version=1.8.2&todo=", tampon_todo,"&bug=",tampon_bug,"&fixme=",tampon_fixme, NULL);
 
 	webkit_web_view_load_uri(webView_editor, uri_main);
 
