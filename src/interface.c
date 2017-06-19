@@ -4132,6 +4132,7 @@ void  on_changed_ftp(GtkWidget *widget,GdkEventKey *event,gpointer data)
 	GtkTreeModel *model;
 	char *value;
 	char mot[150];
+	char mot2[150];
 
 	if(widget==NULL){printf(" ");}
 	if(event==NULL){printf(" ");}
@@ -4154,8 +4155,15 @@ void  on_changed_ftp(GtkWidget *widget,GdkEventKey *event,gpointer data)
 		strcat(mot," ");
 		strcat(mot,home_dir);
 		strcat(mot,"/MOUNT/");
-		strcat(mot,a[0]);		
-		
+		strcat(mot,a[0]);	
+
+		strcpy(mot2,"mkdir -p ");
+		strcat(mot2,home_dir);
+		strcat(mot2,"/MOUNT/");
+		strcat(mot2,a[0]);	
+		int systemRet2 =system (mot2); 
+		if(systemRet2 == -1){return;}
+
 		int systemRet =system (mot);
 		if(systemRet == -1){return;}
 
