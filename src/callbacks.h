@@ -253,7 +253,6 @@ void perl_lenght(void);
 void perl_uc(void);
 void perl_lc(void);
 void perl_ucfirst (void);
-void scan_include(void);
 void perl_writh(void);
 void perl_read(void);
 void perl_regular(void);
@@ -491,4 +490,6 @@ void csv_to_mysql_insert(void);
 void edit_todo (void);
 void on_mni_mywebhistory_file_open ();
 void on_mni_miniwebhistory_file_open ();
+gboolean scan_include_view (gchar *text,int id) ;
+void scan_var_include_all ();
 

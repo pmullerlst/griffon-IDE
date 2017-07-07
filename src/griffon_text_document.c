@@ -1450,6 +1450,7 @@ t_note_page* doc_open_file (gchar *a_filename)
 		g_free (text);
 
 	//scan_include();
+	scan_var_include_all();
 
 	//************ ADD IN HISTORY DEFAULT GTK
   gchar *uri = g_strconcat("file://", page->file_name, NULL);

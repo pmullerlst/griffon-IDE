@@ -32,6 +32,7 @@
 #include <gtksourceview/gtksourcelanguage.h>
 #include <gtksourceview/gtksourcemarkattributes.h>
 #include <vte/vte.h>
+#include <glib/gprintf.h>
 
 #include "griffon_text_document.h"
 #include "griffon_funx.h"
@@ -4503,387 +4504,6 @@ void perl_uc(void){doc_insert_at_cursor (cur_text_doc, (_("$string=uc($string);\
 void perl_lc(void){doc_insert_at_cursor (cur_text_doc, (_("$string=lc($string);\n\n")));}
 void perl_ucfirst(void){doc_insert_at_cursor (cur_text_doc, (_("$string=ucfirst($string);\n\n")));}
 
-//*********************** SCAN DE FICHIER INCLUDE
-void scan_include             (void)
-{	
-	if (! get_page_text()){ return;}
-	if (gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook1)) == -1){return;}
-	if (!cur_text_doc->file_name){return;}
-
-	FILE *fich=NULL;
-	char carac;
-
-	char motrch[100],motrch2[100],motrch3[100],motrch4[100],motrch5[100],motrch6[100],motrch7[100],motrch8[100],motrch9[100],motrch10[100],motrch11[100],motrch12[100],mot_autocomp[500],mot[3000],mot2[3000],ligne[10],mot3[3000],motrch13[100],motrch14[100],motrch15[100];
-	int nbapparition=0,nbcarac=0,nbmot=0,counter=0;
-	int nbligne=1;
-	char *extension;
-	int instruction=1;
-	
-	clear_list_include ();
-	clear_list_todo ();
-
-	nbapparition=0,nbcarac=0,nbmot=0,nbligne=1;
-	mot[0]='\0';
-	mot_autocomp[0]='\0';
-	mot2[0]='\0';
-	mot3[0]='\0';
-	motrch[0]='\0';
-	motrch2[0]='\0';
-	motrch3[0]='\0';
-	motrch4[0]='\0';
-	motrch5[0]='\0';
-	motrch6[0]='\0';
-	motrch7[0]='\0';
-	motrch8[0]='\0';
-	motrch9[0]='\0';
-	motrch10[0]='\0';
-	motrch11[0]='\0';
-	motrch12[0]='\0';
-	motrch13[0]='\0';
-	motrch14[0]='\0';
-	motrch15[0]='\0';
-
-	strcpy(motrch,"include");
-	strcpy(motrch2,"require");
-	strcpy(motrch3,"function");
-	strcpy(motrch4,"REQUEST");
-	strcpy(motrch5,"POST");
-	strcpy(motrch6,"GET");
-	strcpy(motrch7,"sub");
-	strcpy(motrch8,"if");
-	strcpy(motrch9,"while");
-	strcpy(motrch10,"for");
-	strcpy(motrch11,"case");
-	strcpy(motrch12,"unless");
-	strcpy(motrch13,"TODO");
-	strcpy(motrch14,"FIXME");
-	strcpy(motrch15,"BUG");
-	
-	GtkTextIter itstart, itend;
-
-	add_to_list_err("",0);
-
-	fich=fopen(cur_text_doc->file_name,"r");
-
-	if (fich == NULL){fclose(fich); return;}
-
-	while ((carac =fgetc(fich)) != EOF)
-	{
-
-	if (carac !='\n' && carac !='\r' && carac !='\t' && carac !=' ' && carac !='\'' && carac !='\"' && carac !='#'  && carac !='(' && carac !=')' && carac !='{' && carac !='}' && carac !=';' && carac !=',' && carac !=':' && carac !='/'){strncat(mot_autocomp,&carac,1);}else{mot_autocomp[0]='\0';}
-
-	//******************************* pour include ou require     
-	if(counter==1)
-	{
-		strncat(mot,&carac,1);
-
-			if (carac =='\n' || carac =='\r')
-			{
-				gchar **a = g_strsplit (mot, "\"", -1);	 
-				if(a[1]!='\0')
-				{
-					sprintf(ligne,"%d",nbligne); 
-					add_to_list(a[1],ligne);
-				}
-
-			mot[0]='\0';
-			ligne[0]='\0';
-			counter=0;  
-			}   
-	}
-
-	//******************************* pour fonction
-	if(counter==2)
-	{
-		strncat(mot,&carac,1);
-
-		if (carac =='\n' || carac =='\r')
-		{
-			gchar **b = g_strsplit (mot, "\n", -1);
-			gchar **a = g_strsplit (b[0], "function", -1);	 
-
-			if(a[1]!='\0')
-			{
-				sprintf(ligne,"%d",nbligne); 
-				add_to_list_fc(a[1],ligne);
-			}
-
-		mot[0]='\0';
-		ligne[0]='\0';
-		counter=0;  
-		}
-	}
-
-	//******************************* pour variable php
-	if(counter==3)
-	{
-		strncat(mot,&carac,1);
-
-		if (carac =='\n' || carac =='\r')
-		{
-			gchar **b = g_strsplit (mot, "\n", -1);
-			gchar **a = g_strsplit (b[0], "]", -1);
-			if(a[0]!='\0')
-			{
-				sprintf(ligne,"%d",nbligne); 
-				add_to_list_var(a[0],ligne);			
-			}
-
-		mot[0]='\0';
-		mot2[0]='\0';
-		ligne[0]='\0';
-		counter=0;  
-		}
-
-	}  
-
-	//******************************* pour fonction perl sub
-	if(counter==4)
-	{
-		strncat(mot,&carac,1);
-
-			if (carac =='\n' || carac =='\r')
-			{
-				gchar **b = g_strsplit (mot, "\n", -1);
-				gchar **a = g_strsplit (b[0], "sub", -1);	 
-
-			if(a[1]!='\0')
-			{
-				sprintf(ligne,"%d",nbligne); 
-				add_to_list_fc(a[1],ligne);
-			}
-
-		mot[0]='\0';
-		ligne[0]='\0';
-		counter=0;  
-			}
-	} 
-
-	//******************************* pour todolist
-	if(counter==5)
-	{
-		strncat(mot,&carac,1);
-
-		if (carac =='\n' || carac =='\r')
-		{
-			gchar **b = g_strsplit (mot, "\n", -1);
-
-			if(b[0]!='\0')
-			{
-				sprintf(ligne,"%d",nbligne); 
-				add_to_list_todo(b[0],ligne);
-			}
-
-		mot[0]='\0';
-		ligne[0]='\0';
-		counter=0;  
-		}
-	}
-
-	//******************************* pour todolist
-	if(counter==6)
-	{
-		strncat(mot,&carac,1);
-
-		if (carac =='\n' || carac =='\r')
-		{
-			gchar **b = g_strsplit (mot, "\n", -1);
-
-			if(b[0]!='\0')
-			{
-				sprintf(ligne,"%d",nbligne); 
-				add_to_list_todo_fixme(b[0],ligne);
-			}
-
-		mot[0]='\0';
-		ligne[0]='\0';
-		counter=0;  
-		}
-	}
-
-	//******************************* pour todolist
-	if(counter==7)
-	{
-		strncat(mot,&carac,1);
-
-			if (carac =='\n' || carac =='\r')
-			{
-				gchar **b = g_strsplit (mot, "\n", -1);
-
-				if(b[0]!='\0')
-				{
-					sprintf(ligne,"%d",nbligne); 
-					add_to_list_todo_bug(b[0],ligne);
-				}
-
-			mot[0]='\0';
-			ligne[0]='\0';
-			counter=0;  
-			}
-	}
-
-	if (counter==0)
-	{
-
-		if(carac=='_')
-		{
-			mot2[0]='\0';
-		}
-
-		if (carac =='\n' || carac =='\r')
-		{
-
-	//********************************* TEST ĈHECK FIN DE LIGNE
-	if(strrchr(cur_text_doc->file_name,'.'))
-	{
-		extension = strrchr(cur_text_doc->file_name,'.');
-		if(strcmp(".pl", extension) == 0 || strcmp(".php", extension) == 0 || strcmp(".c", extension) == 0 || strcmp(".h", extension) == 0)
-		{
-								size_t len = strlen(mot);
-								if(len>0)
-								{
-										if(instruction==1 && mot[len-1]==')')
-										{
-										
-											gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &itstart, nbligne);
-											gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &itend, nbligne-1);
-										 gtk_text_buffer_apply_tag_by_name (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), "err2", &itstart, &itend);
-											sprintf(ligne,"%d",nbligne);
-											add_to_list_err(mot,ligne);		
-										}
-
-								  if(mot[len-1]!='/' && mot[len-1]!=';' && mot[len-1]!='}' && mot[len-1]!=')' && mot[len-1]!=',' && mot[len-1]!=' ' && mot[len-1]!='.' && mot[len-1]!=')' && mot[len-1]!='}' && mot[0]!='#' && mot[0]!='/' && mot[0]!='*' && mot[len-1]!='\t' && strncmp(mot,"else",strlen(mot))!=0 && mot3[0]!='#' && mot3[0]!='/' && mot3[0]!='*' && mot[len-1]!='{' && mot[len-1]!='(' && mot3[0]!='<' && mot3[0]!='?' && mot3[0]!='p' && strncmp(mot,"case",strlen(mot))!=0)
-										{
-											gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &itstart, nbligne);
-											gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &itend, nbligne-1);
-										 gtk_text_buffer_apply_tag_by_name (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), "err2", &itstart, &itend);
-										}
-								}
-		}
-	}
-		
-			instruction=1;
-			mot[0]='\0';
-	 		mot2[0]='\0';
-			mot3[0]='\0';
-			nbligne++;
-	}
-
-		nbcarac++;
-		if(strlen(mot)>900){mot[0]='\0';}
-		if(strlen(mot2)>900){mot2[0]='\0';}
-		if(strlen(mot3)>900){mot3[0]='\0';}
-
-		if (mot[0] != '\0')
-		{
-		  if (carac !='\n' || carac !='\r'){strncat(mot,&carac,1);}			  				
-		}
-		
-	if (carac !='\n' && carac !='\r' && carac!='\0' && carac!=' ' && carac!='\t'){strncat(mot3,&carac,1);}	
-
-	if (mot[0] != '\0' && isalnum(carac) != 0)
-	{
-		if (carac !='\n' || carac !='\r'){strncat(mot2,&carac,1);	}		
-	}
-
-	if (mot[0] != '\0' && isalnum(carac) == 0)
-	{
-		if (strncmp(motrch,mot,strlen(motrch))==0 || strncmp(motrch2,mot,strlen(motrch2))==0) // si motrch=mot pour include 
-		{
-			nbapparition++;
-			if(nbapparition==1)
-			{
-				nbcarac--;
-			}
-			counter=1;      
-		}	
-
-			if (strncmp(motrch3,mot,strlen(motrch3))==0) 
-			{
-				nbapparition++;
-					if(nbapparition==1)
-					{
-						nbcarac--;
-					}
-
-					counter=2;// mode fonction      
-			}	
-
-		if (strncmp(motrch4,mot2,strlen(motrch4))==0 || strncmp(motrch5,mot2,strlen(motrch5))==0 || strncmp(motrch6,mot2,strlen(motrch6))==0) 
-		{
-			nbapparition++;
-			if(nbapparition==1)
-			{
-				nbcarac--;
-			}
-
-				counter=3;// mode var      
-		}	
-
-		if (strncmp(motrch7,mot,strlen(motrch7))==0) 
-		{
-			nbapparition++;
-			if(nbapparition==1)
-			{
-				nbcarac--;
-			}
-
-			counter=4;// mode fonction perl sub      
-		}
-
-			if (strncmp(motrch8,mot2,strlen(motrch8))==0 || strncmp(motrch9,mot2,strlen(motrch9))==0 || strncmp(motrch10,mot2,strlen(motrch10))==0 || strncmp(motrch11,mot2,strlen(motrch11))==0 || strncmp(motrch12,mot2,strlen(motrch12))==0) 
-			{	        
-				instruction=0;   
-			}			
-
-				//******TODO 
-			if (strncmp(motrch13,mot,strlen(motrch13))==0) 
-			{
-				nbapparition++;
-				if(nbapparition==1)
-				{
-					nbcarac--;
-				}
-
-			counter=5;// mode fonction      
-	    }	
-
-				//******TODO 
-				if (strncmp(motrch14,mot,strlen(motrch14))==0) 
-				{
-					nbapparition++;
-					if(nbapparition==1)
-					{
-						nbcarac--;
-					}
-
-					counter=6;// mode fonction      
-				}	
-
-				//******TODO 
-				if (strncmp(motrch15,mot,strlen(motrch15))==0) 
-				{
-					nbapparition++;
-					if(nbapparition==1)
-					{
-						nbcarac--;
-					}
-
-					counter=7;// mode fonction      
-				}	
-	}
-
-	if (mot[0] == '\0' && isalnum(carac) != 0)
-	{
-		strncat(mot,&carac,1);    
-		strncat(mot2,&carac,1); 
-		nbmot++;
-	}
-	}
-	}
-
-	fclose(fich);
-}
 
 //*********************** HELP PERL
 void perl_read (void){  doc_insert_at_cursor (cur_text_doc, (_("open (FILE, \"file_path\");\nwhile ($line=<FILE>)\n{\nprint $line;\n}\n\nclose FILE;\n\n"))); }
@@ -6467,6 +6087,103 @@ void on_mni_mywebhistory_file_open ()
 {
 	cur_settings.selected_enc = ch_str (cur_settings.selected_enc, "UTF-8");
 	open_file_std (confile.tea_myadmin_history);
+}
+
+//*********************** myadmin WEB history
+void scan_var_include_all ()
+{
+	clear_list_include ();
+	clear_list_todo ();
+
+	if (! get_page_text()) return;
+	char *extension;
+
+	if(strrchr(cur_text_doc->file_name,'.'))
+	{
+		extension = strrchr(cur_text_doc->file_name,'.');
+		if (strcmp(".php", extension) == 0)
+		{
+			scan_include_view("$_REQUEST",2);
+			scan_include_view("include",1);
+			scan_include_view("function ",1);
+			scan_include_view("require",1);
+			scan_include_view("$_POST",2);
+			scan_include_view("$_GET",2);
+		}
+
+		if (strcmp(".pl", extension) == 0)
+		{
+			scan_include_view("sub ",1);
+			scan_include_view("require",1);
+			scan_include_view("include",1);
+		}
+
+		if (strcmp(".c", extension) == 0)
+		{
+			scan_include_view("#include",1);
+		}
+
+		scan_include_view("TODO",3);
+		scan_include_view("FIXME",4);
+		scan_include_view("BUG",5);
+	}
+}
+
+//*********************** SCAN INCLUDE V2
+gboolean scan_include_view (gchar *text,int id) 
+{
+	/*
+	* 1 fc
+	* 2 var
+	* 3 todo
+	* 4 fixme
+	* 5 bug
+	* 6 err
+	*/
+
+	if (! get_page_text()) return FALSE;
+	if (! text) return FALSE;
+
+	gboolean result = FALSE;
+	gint line=0;
+	gchar *line_num=NULL;
+	line_num = (gchar *) g_malloc (25);
+	gchar *txt=NULL;
+
+	GtkTextIter start_find, end_find;
+	GtkTextIter start_match, end_match;
+	GtkTextIter itstart, itend;
+
+	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &start_find);
+	gtk_text_buffer_get_end_iter(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &end_find);
+
+		while ( gtk_text_iter_forward_search(&start_find, text, GTK_TEXT_SEARCH_TEXT_ONLY | GTK_TEXT_SEARCH_VISIBLE_ONLY, &start_match, &end_match, NULL) )
+		{
+			int offset = gtk_text_iter_get_offset(&end_match);
+			gtk_text_buffer_get_iter_at_offset(GTK_TEXT_BUFFER(cur_text_doc->text_buffer), 
+			&start_find, offset);
+			line=gtk_text_iter_get_line(&start_match);
+
+			gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &itstart, line);
+			gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &itend, line + 1);
+			txt=gtk_text_buffer_get_text(GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&itstart,&itend,FALSE);
+
+			txt = str_replace_all (txt, "\t", "");
+			txt = str_replace_all (txt, "\n", "");
+			txt = str_replace_all (txt, "\r", "");
+			line++;
+
+			g_sprintf(line_num,"%d",line); 
+
+			if (id==1){add_to_list_fc(txt,line_num);}
+			if (id==2){add_to_list_var(txt,line_num);}
+			if (id==3){add_to_list_todo(txt,line_num);}
+			if (id==4){add_to_list_todo_fixme(txt,line_num);}
+			if (id==5){add_to_list_todo_bug(txt,line_num);}
+			if (id==6){add_to_list_err(txt,line_num);}
+		}
+
+	return result;
 }
 
 
