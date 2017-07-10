@@ -274,7 +274,6 @@ void on_format_line_bg ();
 void mount_ftp (void);
 GtkWidget* w_ftp_mount (void);
 gchar *tampon_sftp;
-void open_include             (void);
 void gen_doc_html (void);
 gboolean on_editor_keyrelease (GtkWidget *widget, GdkEventKey *event, gpointer data);
 void delete_autocomp_tips();

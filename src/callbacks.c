@@ -5480,85 +5480,6 @@ void open_gimp (void)
 	}
 }
 
-//*********************** OPEN LES FICHIERS EN INCLUDE
-void open_include             (void)
-{	
-	if (! get_page_text()) return;
-
-	FILE *fich;
-	char carac;
-
-	char motrch[100],motrch2[100], mot[3000],path[1000];
-	int nbapparition=0,nbcarac=0,nbmot=0,counter=0;
-	int nbligne=1;	
-	gchar *t;
-	t = g_path_get_dirname (cur_text_doc->file_name);
-	strcat(t,"/");
-
-	nbapparition=0,nbcarac=0,nbmot=0,nbligne=1;
-	mot[0]='\0';
-	motrch[0]='\0';
-	motrch2[0]='\0';
-	strcpy(motrch,"include");
-	strcpy(motrch2,"require");
-	fich=fopen(cur_text_doc->file_name,"r");
-		if (fich == NULL){fclose(fich); return;}
-
-	while ((carac =fgetc(fich)) != EOF)
-	{
-
-		if(counter==1)
-		{
-			strncat(mot,&carac,1);
-
-			if (carac =='\n' || carac =='\r')
-			{
-
-			gchar **a = g_strsplit (mot, "\"", -1);
-
-			if(a[1]!='\0')
-			{
-				strcpy(path,t);
-				strcat(path,a[1]);
-				if(g_file_test (path, G_FILE_TEST_EXISTS)){doc_open_file (path);}
-			}
-
-		path[0]='\0';
-		mot[0]='\0';
-		counter=0;		  
-			}
-		}
-
-	if (counter==0)
-	{
-		if (carac =='\n' || carac =='\r')
-		{
-			mot[0]='\0';
-			nbligne++;
-		}
-			nbcarac++;
-			if (mot[0] != '\0' && isalnum(carac) != 0){strncat(mot,&carac,1);}
-
-			if (mot[0] != '\0' && isalnum(carac) == 0)
-			{
-				if (strncmp(motrch,mot,strlen(motrch))==0 || strncmp(motrch2,mot,strlen(motrch2))==0)
-				{
-					nbapparition++;
-					if(nbapparition==1){nbcarac--;}
-					counter=1;      
-				}	
-			}
-
-			if (mot[0] == '\0' && isalnum(carac) != 0)
-			{
-				strncat(mot,&carac,1);     
-				nbmot++;
-			}
-		}
-	}
-	fclose(fich);
-}
-
 //*********************** KEY RELACHE POUR RECHERCHE
 void keyrelase_search(void)
 {
@@ -6109,18 +6030,45 @@ void scan_var_include_all ()
 			scan_include_view("require",1);
 			scan_include_view("$_POST",2);
 			scan_include_view("$_GET",2);
+			scan_include_view("array",2);
+			scan_include_view("return ",6);
+			scan_include_view("exit",6);
+			scan_include_view("echo",6);
 		}
 
 		if (strcmp(".pl", extension) == 0)
 		{
 			scan_include_view("sub ",1);
-			scan_include_view("require",1);
-			scan_include_view("include",1);
+			scan_include_view("require ",1);
+			scan_include_view("use ",1);
+			scan_include_view("print",6);
+			scan_include_view("include ",1);
+			scan_include_view("return ",6);
+			scan_include_view("exit",6);
 		}
+
+		if (strcmp(".sh", extension) == 0)
+		{
+			scan_include_view("sub ",1);
+			scan_include_view("require ",1);
+			scan_include_view("use ",1);
+			scan_include_view("echo ",6);
+			scan_include_view("include ",1);
+			scan_include_view("return ",6);
+			scan_include_view("exit",6);
+		}
+
 
 		if (strcmp(".c", extension) == 0)
 		{
 			scan_include_view("#include",1);
+			scan_include_view("void ",2);
+			scan_include_view("int ",2);
+			scan_include_view("char ",2);
+			scan_include_view("gboolean ",2);
+			scan_include_view("return ",6);
+			scan_include_view("return ",6);
+			scan_include_view("print",6);
 		}
 
 		scan_include_view("TODO",3);
@@ -6171,6 +6119,7 @@ gboolean scan_include_view (gchar *text,int id)
 			txt = str_replace_all (txt, "\t", "");
 			txt = str_replace_all (txt, "\n", "");
 			txt = str_replace_all (txt, "\r", "");
+			txt = str_replace_all (txt, "  ", "");
 			line++;
 
 			g_sprintf(line_num,"%d",line); 

@@ -569,12 +569,6 @@ static GtkWidget* create_hardcoded_toolbar (void)
 	g_signal_connect ((gpointer) tool_find_r, "clicked",G_CALLBACK (on_mni_search_repall),NULL);
 	gtk_tool_item_set_tooltip_text(tool_find_r,(_("Find~Replace")));
 
-/*	GtkToolItem *tool_devhelp=gtk_tool_button_new(gtk_image_new_from_icon_name("help-browser",GTK_ICON_SIZE_SMALL_TOOLBAR),"Search with DevHelp");
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_devhelp, -1);
-	gtk_widget_show(GTK_WIDGET(tool_devhelp));
-	g_signal_connect ((gpointer) tool_devhelp, "clicked",G_CALLBACK (man_page),NULL);
-	gtk_tool_item_set_tooltip_text(tool_devhelp,(_("Search with DevHelp")));*/
-
 	GtkToolItem *tool_goline=gtk_tool_button_new(gtk_image_new_from_icon_name("go-jump",GTK_ICON_SIZE_SMALL_TOOLBAR),"Go To Line");
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_goline, -1);
 	gtk_widget_show(GTK_WIDGET(tool_goline));
@@ -623,40 +617,6 @@ GtkWidget* create_tea_main_window (void)
 	//*********************** LOAD NOTIFY
 	notify_init ("libnotify");
 
-/*	FILE *fich_gtk;
-	char carac_gtk;
-	char mot_gtk[100];
-	mot_gtk[0]='\0';
-*/
-	//*********************** LOAD THEME GTK
-/*	if(fopen(confile.tea_theme_gtk,"r"))
-	{
-		fich_gtk=fopen(confile.tea_theme_gtk,"r");
-			while ((carac_gtk =fgetc(fich_gtk)) != EOF)
-			{
-				if (carac_gtk =='\n')
-				{
-				break;
-				}
-				else
-				{
-				strncat(mot_gtk,&carac_gtk,1);
-				}
-			}
-	fclose(fich_gtk);
-	}
-	else{strcpy(mot_gtk, "classic");}
-
-	if (strncmp("classic",mot_gtk,strlen("classic"))==0 && fopen("/usr/local/share/griffon/theme/gtk-3.0/gtk.css","r"))
-	{
-	GtkCssProvider * css_theme=gtk_css_provider_new();
-	GdkDisplay *display = gdk_display_get_default ();
-	GdkScreen *screen = gdk_display_get_default_screen (display);
- 
-	gtk_style_context_add_provider_for_screen(screen,GTK_STYLE_PROVIDER (css_theme),GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-	gtk_css_provider_load_from_path (css_theme,"/usr/local/share/griffon/theme/gtk-3.0/gtk.css",NULL);
-	}
-*/
 	FILE *fich;
 	char carac;
 	char mot2[100];
@@ -982,14 +942,8 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("Google translation with text selection tab MyWeb : EN to FR"), mni_functions_menu, google_traduction_en_fr);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_F7, 0,GTK_ACCEL_VISIBLE);
 
-/*	mni_temp = new_menu_item (_("Devdocs window"), mni_functions_menu, window_devdocs);
-	mni_temp = new_menu_item (_("Chrono"), mni_functions_menu, window_chrono);
-	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_space, GDK_CONTROL_MASK,GTK_ACCEL_VISIBLE);*/
-
 	mni_temp = new_menu_item (_("Last modified date of the file"), mni_functions_menu, window_chrono_stats_file);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_space, GDK_SHIFT_MASK,GTK_ACCEL_VISIBLE);
-
-	//mni_temp = new_menu_item (_("Client chat jabber"), mni_functions_menu, window_jabber);
 
 	mni_temp = new_menu_item (_("First line CSV to mysql Struc"), mni_functions_menu, csv_to_mysql);
 	mni_temp = new_menu_item (_("CSV to mysql Insert"), mni_functions_menu, csv_to_mysql_insert);
@@ -1237,11 +1191,6 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("Draw spaces ON"), mni_view_menu, on_mni_draw_spaces_on);
 	mni_temp = new_menu_item (_("Draw spaces OFF"), mni_view_menu, on_mni_draw_spaces_off);
 
-/*	mni_temp = new_menu_item (_("Themes GTK"), mni_view_menu, NULL);
-	mni_theme_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
-	mni_temp = new_menu_item (_("GTK Theme Classic Black (Default)"), mni_theme_menu, classic_gtk_theme  );   
-	mni_temp = new_menu_item (_("GTK No Theme "), mni_theme_menu, no_gtk_theme );
-*/
 	mni_temp = new_menu_item (_("Help"), menubar1, NULL);
 	mni_what_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
 	mni_temp = new_menu_tof (mni_what_menu);
@@ -1436,14 +1385,6 @@ GtkWidget* create_tea_main_window (void)
 	selection_scan = gtk_tree_view_get_selection(GTK_TREE_VIEW(view_list));
 
 	g_signal_connect(view_list, "button-release-event",G_CALLBACK(on_changed_scan), selection_scan);
-
-/*	GtkWidget *button_include2;
-	button_include2 = gtk_button_new_with_label (_("Open files include"));
-	gtk_widget_show(GTK_WIDGET(button_include2));
-	gtk_box_pack_start(GTK_BOX(vbox4), button_include2, FALSE, FALSE, 0);
-*/
-//	g_signal_connect ((gpointer) button_include2, "clicked",G_CALLBACK (open_include),NULL);  
-//	g_signal_connect ((gpointer) button_include2, "clicked",G_CALLBACK (scan_var_include_all),NULL);  
 
 	label_note4 = gtk_label_new (_("In"));
 	gtk_widget_show (GTK_WIDGET(label_note4));
