@@ -1437,7 +1437,8 @@ t_note_page* doc_open_file (gchar *a_filename)
 	g_free (filename);
 	g_free (newlabel);
 	g_free (buf);
-	griffon_notify(_(g_strconcat ("File open : ",page->file_name,NULL)));
+	newlabel = g_path_get_basename (page->file_name);
+	griffon_notify(_(g_strconcat ("File open : ",newlabel,NULL)));
 
 		//*********** Pour le diff
 		GtkTextIter start;
