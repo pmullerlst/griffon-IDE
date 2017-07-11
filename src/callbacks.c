@@ -4961,6 +4961,10 @@ void mount_sftp (void)
 		strcat(liste_mount,tampon_sftp);
 		strcat(liste_mount," ; ");
 
+		strcat(liste_mount_simple,tampon_sftp);
+		strcat(liste_mount_simple," ");
+
+
 		new_terminal_ssh (tampon_sftp,tampon_utilisateur,tampon_chemin,tampon_port);
 
 	FILE *fich;
@@ -5079,6 +5083,10 @@ void mount_ftp (void)
 		strcat(liste_mount,tampon_sftp);
 		strcat(liste_mount," ; ");
 
+		strcat(liste_mount_simple,tampon_sftp);
+		strcat(liste_mount_simple," ");
+
+
 	FILE *fich;
 	char carac;
 	char mot_d[100];
@@ -5150,10 +5158,12 @@ void umount_sftp (void)
 		icon_affiche_net ();
 		tampon_sftp=NULL;
 		statusbar_msg (_("Umount [OK]"));
-		griffon_notify(_(g_strconcat ("Umount : ",liste_mount,NULL)));
+
+		griffon_notify(_(g_strconcat ("Umount : ",liste_mount_simple,NULL)));
 		int systemRet2=system ("killall sshfs");
 		if(systemRet2 == -1){return;}
 		liste_mount[0]='\0';
+		liste_mount_simple[0]='\0';
 	}
 	else
 	{

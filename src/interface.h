@@ -64,6 +64,7 @@ void switch_filechooser ();
 GtkWidget *menu_vte;
 WebKitWebView *webView, *webView_myadmin, *webView_source,*webView_myadmin_traduc,*webView_myadmin_aide,*webView_editor;
 char liste_mount[1000];
+char liste_mount_simple[1000];
 GtkSourceBuffer *buffer_api, *buffer_note, *buffer_scan, *log_memo_textbuffer, *buffer_include, *buffer_projet, *buffer_todo;
 GtkSourceBuffer *buffer_note2;
 GtkWidget *sr_wnd,*win_tips_autocomp;
