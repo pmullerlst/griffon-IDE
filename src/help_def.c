@@ -2106,7 +2106,7 @@ GtkWidget* centre_custom (void)
 	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_manager_help), GTK_TOOLBAR_ICONS); 
 	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_manager_help),GTK_ICON_SIZE_SMALL_TOOLBAR);
 
-	GtkToolItem *tool_rmmkdir_help = gtk_tool_button_new(gtk_image_new_from_icon_name("_Delete",GTK_ICON_SIZE_SMALL_TOOLBAR),"Delete Help Custom");
+	GtkToolItem *tool_rmmkdir_help = gtk_tool_button_new(gtk_image_new_from_icon_name("list-remove",GTK_ICON_SIZE_SMALL_TOOLBAR),"Delete Help Custom");
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_manager_help), tool_rmmkdir_help, -1);
 	gtk_widget_show(GTK_WIDGET(tool_rmmkdir_help));
 	g_signal_connect ((gpointer) tool_rmmkdir_help, "clicked",G_CALLBACK (delete_helps_custom_window),NULL);
