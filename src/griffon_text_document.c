@@ -39,7 +39,8 @@
 #include "rox_strings.h"
 #include "griffon_enc.h"
 
-static GtkSourceCompletionWords *word_provider,*word_provider2;
+//static GtkSourceCompletionWords *word_provider,*word_provider2;
+static GtkSourceCompletionWords *word_provider2;
 static GtkSourceCompletionWords *word_provider3;
 GtkSourceCompletion *completion;
 
@@ -593,7 +594,7 @@ t_note_page* page_create_new (void)
 
 	completion = gtk_source_view_get_completion ((GtkSourceView *)page->text_view);
 
-		word_provider = gtk_source_completion_words_new (NULL, NULL);
+		//word_provider = gtk_source_completion_words_new (NULL, NULL);
 
 	gtk_source_completion_words_register (word_provider,
 	                                      gtk_text_view_get_buffer (GTK_TEXT_VIEW (page->text_view)));

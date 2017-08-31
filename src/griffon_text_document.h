@@ -7,7 +7,8 @@
  *
  ***************************************************************************/
 #include <gtksourceview/gtksourcebuffer.h>
-
+#include <gtksourceview/completion-providers/words/gtksourcecompletionwords.h>
+#include <gtksourceview/gtksourcecompletion.h>
 typedef struct
 {
   gint position;
@@ -40,6 +41,8 @@ typedef struct
 GList *dox;
 
 void do_backup (gchar *file_name, gboolean do_check);
+
+GtkSourceCompletionWords *word_provider;
 
 t_note_page* doc_clear_new (void);
 t_note_page* page_create_new (void);
