@@ -1291,20 +1291,20 @@ void  on_changed_custom(GtkWidget *tt, GdkEvent *eventt)
 		
     gtk_tree_model_get(model, &iter, COLUMN, &value,  -1);
 
-		char rep_path[200];
+		char rep_path[2000];
 		strcpy(rep_path,confile.helps_dir);
 		strcat(rep_path,name_custom);
 		strcat(rep_path,"/");
 		strcat(rep_path,value);
 		//printf("%s\n",rep_path);
 
-	gchar lecture[2024];
+	gchar lecture[3024];
 	FILE *fichier=NULL;
 	fichier = fopen(rep_path,"rt");
 
 	if(fichier!=NULL)
 	{
-		while(fgets(lecture, 2024, fichier))
+		while(fgets(lecture, 3024, fichier))
 		{
 			doc_insert_at_cursor (cur_text_doc,g_locale_to_utf8(lecture, -1, NULL, NULL, NULL));
 		}
@@ -1335,7 +1335,7 @@ query_tooltip_tree_view_cb (GtkWidget  *widget, gint x,gint y,gboolean keyboard_
 	gchar *tmp;
 	gchar *pathstring;
 
-	char buffer[512];
+	char buffer[1512];
 
 	if (!gtk_tree_view_get_tooltip_context (tree_view, &x, &y,keyboard_tip,&model, &path, &iter))
 	{
@@ -1346,7 +1346,7 @@ query_tooltip_tree_view_cb (GtkWidget  *widget, gint x,gint y,gboolean keyboard_
 	gtk_tree_model_get (model, &iter, 0, &tmp, -1);
 	pathstring = gtk_tree_path_to_string (path);
 
-	g_snprintf (buffer, 511, "%s", tmp);
+	g_snprintf (buffer, 1511, "%s", tmp);
 	gtk_tooltip_set_markup (tooltip, buffer);
 
 	GdkPixbuf *pixbuf;
@@ -1403,7 +1403,7 @@ query_tooltip_tree_view_cb (GtkWidget  *widget, gint x,gint y,gboolean keyboard_
 //********************** FIN DE TEST
 
 //******************************* creation des models pour toutes les fenetres aide
-GtkWidget * create_view_and_model (char clef[50])
+GtkWidget * create_view_and_model (char clef[500])
 {
   GtkTreeViewColumn *col;
   GtkCellRenderer *renderer;
@@ -1957,17 +1957,17 @@ GtkTreeModel *create_and_fill_model_term (void)
                      COLUMN, "1 Base [Term]",
                      -1);
 
-	char rep_path[200];
+	char rep_path[2000];
 	strcpy(rep_path,confile.custom_term);
 
-	gchar lecture[2024];
+	gchar lecture[3024];
 	FILE *fichier=NULL;
 	fichier = fopen(rep_path,"rt");
 	gchar **a;
 
 	if(fichier!=NULL)
 	{
-		while(fgets(lecture, 2024, fichier))
+		while(fgets(lecture, 3024, fichier))
 		{
 		a = g_strsplit (lecture, "\n", -1);
 		gtk_tree_store_append(treestore, &child, &toplevel);
@@ -2284,7 +2284,7 @@ void new_helps_custom_window()
 void new_helps_custom()
 { 
 	gchar* dir="";
-	char rep_path[200];
+	char rep_path[2000];
 	strcpy(rep_path,confile.helps_dir);
 	strcat(rep_path,name_custom);
 	strcat(rep_path,"/");
@@ -2326,7 +2326,7 @@ void delete_helps_custom_window()
 
 	struct dirent *lecture;
 	DIR *rep;
-	char rep_path[150];
+	char rep_path[1500];
 	strcpy(rep_path,confile.helps_dir);
 	strcat(rep_path,name_custom);
 
@@ -2358,7 +2358,7 @@ void delete_helps_custom_window()
 void delete_helps_custom()
 { 
 	gchar* dir="";
-	char rep_path[200];
+	char rep_path[2000];
 	strcpy(rep_path,confile.helps_dir);
 	strcat(rep_path,name_custom);
 	strcat(rep_path,"/");
@@ -2393,7 +2393,7 @@ void rm_dir_cmd_help()
 
 	struct dirent *lecture;
 	DIR *rep;
-	char rep_path[150];
+	char rep_path[1500];
 	strcpy(rep_path,confile.helps_dir);
 
 	rep = opendir(rep_path );
@@ -2423,7 +2423,7 @@ void rm_dir_cmd_help()
 void delete_helps_custom_dir()
 { 
 	gchar* dir="";
-	char rep_path[200];
+	char rep_path[2000];
 	strcpy(rep_path,confile.helps_dir);
 
 	if(gtk_combo_box_text_get_active_text((GtkComboBoxText*)combo) != NULL)
