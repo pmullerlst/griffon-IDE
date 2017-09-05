@@ -355,4 +355,5 @@ void on_match_select_miniweb(GtkEntryCompletion *widget,GtkTreeModel *model,GtkT
 void on_match_select_myweb(GtkEntryCompletion *widget,GtkTreeModel *model,GtkTreeIter *iter,gpointer user_data);
 GtkWidget *load_screen (void);
 gboolean func_entry_search(GtkEntryCompletion *completion, const gchar *key,GtkTreeIter *iter,gpointer user_data) ;
+void save_as_pdf () ;
 

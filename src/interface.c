@@ -38,6 +38,7 @@
 #include <gtksourceview/completion-providers/words/gtksourcecompletionwords.h>
 #include <gtksourceview/gtksourcemarkattributes.h>
 #include <gtksourceview/gtksourcecompletion.h>
+#include <cairo-pdf.h>
 #include <dirent.h>
 #include "griffon_text_document.h"
 #include "callbacks.h"
@@ -138,6 +139,7 @@ WebKitWebView *webView_graph;
 GtkToolItem *item_icon;
 gdouble load_progress;
 GtkWidget *pProgress;
+GtkWidget *scrolledWindow;
 
 int tab_fold[19000];
 
@@ -949,6 +951,7 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("CSV to mysql Insert"), mni_functions_menu, csv_to_mysql_insert);
 	mni_temp = new_menu_item (_("Generating a template code documentation in HTML for the current file"), mni_functions_menu, gen_doc_html);
 	mni_temp = new_menu_item (_("ChangeLogs for current file"), mni_functions_menu, show_changelogs);
+	//mni_temp = new_menu_item (_("Tab Editor save As Pdf"), mni_functions_menu, save_as_pdf);
 
 	//*********************** MENU HTML
 	mni_temp = new_menu_item (_("Html"), menubar1, NULL);
@@ -2248,6 +2251,12 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_toolbar_insert( GTK_TOOLBAR(toolbar_miniweb), GTK_TOOL_ITEM(item_entry4), -1 );
 	gtk_widget_show (GTK_WIDGET(item_entry4));
 
+	GtkToolItem *tool_miniweb_screenshot=gtk_tool_button_new(gtk_image_new_from_icon_name("image",GTK_ICON_SIZE_SMALL_TOOLBAR),"ScreenShot MiniWeb");
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_miniweb), tool_miniweb_screenshot, -1);
+	gtk_widget_show(GTK_WIDGET(tool_miniweb_screenshot));
+	g_signal_connect ((gpointer) tool_miniweb_screenshot, "clicked",G_CALLBACK (save_as_pdf),NULL);
+	gtk_tool_item_set_tooltip_text(tool_miniweb_screenshot,_("ScreenShot MiniWeb"));
+
 	gtk_box_pack_start (GTK_BOX (vbox3), toolbar_miniweb, FALSE, FALSE, 0);
 	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_miniweb), GTK_TOOLBAR_ICONS);
 	gtk_widget_show_all (GTK_WIDGET(toolbar_miniweb)); 
@@ -2291,7 +2300,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	g_signal_connect(webView, "download-requested", G_CALLBACK(download_requested_cb), NULL);
 	g_signal_connect(webView, "create-web-view",G_CALLBACK(web_new_w_click_go), webView);
 
-	GtkWidget *scrolledWindow = gtk_scrolled_window_new(NULL, NULL);
+	scrolledWindow = gtk_scrolled_window_new(NULL, NULL);
 	gtk_widget_show (GTK_WIDGET(scrolledWindow));
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledWindow),GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_container_add(GTK_CONTAINER(scrolledWindow), GTK_WIDGET(webView));
@@ -7635,4 +7644,48 @@ gboolean func_entry_search(GtkEntryCompletion *completion, const gchar *key,GtkT
 	return ans;
 
 }
+
+//************************ TAB EDITOR WIDGET TO PDF
+void save_as_pdf () 
+{
+	//if (! get_page_text()) return;
+
+	GtkFileChooser *chooser;
+	GtkAllocation allocation;
+	GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Save File PDF"),
+	GTK_WINDOW(tea_main_window),
+	GTK_FILE_CHOOSER_ACTION_SAVE,
+	"_Cancel", GTK_RESPONSE_CANCEL,
+	"_Save PDF", GTK_RESPONSE_ACCEPT,
+	NULL);
+
+	chooser = GTK_FILE_CHOOSER (dialog);
+	gtk_file_chooser_set_current_name (chooser,_(".pdf"));
+
+	gchar *path_dir=gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2));
+
+	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), path_dir);
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+	{
+		gchar *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
+
+	//*********** notebook2 File tab notebook1 Editor
+	GtkWidget *widget=scrolledWindow;
+
+	gtk_widget_get_allocation(GTK_WIDGET(widget), &allocation);
+	cairo_surface_t *surface = cairo_pdf_surface_create( filename, allocation.width, allocation.height);
+
+	cairo_t *cr = cairo_create(surface);
+	gtk_widget_draw(widget, cr);
+	cairo_destroy(cr);
+	cairo_surface_destroy(surface);
+
+	g_free (filename);
+	}
+
+	gtk_widget_destroy (GTK_WIDGET(dialog));
+
+}
+
 
