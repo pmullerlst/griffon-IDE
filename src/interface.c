@@ -7677,7 +7677,7 @@ void save_as_pdf ()
 //	cairo_surface_t *surface = cairo_pdf_surface_create( filename, allocation.width, allocation.height);
 	cairo_surface_t *surface=cairo_image_surface_create(CAIRO_FORMAT_RGB24,allocation.width, allocation.height);
 	cairo_t *cr = cairo_create(surface);
-	cairo_translate(cr, -50.0, -50.0);  
+	//cairo_translate(cr, -50.0, -50.0);  
 
 /*	gdk_cairo_set_source_window(
 	cr,
