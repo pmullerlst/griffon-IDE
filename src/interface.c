@@ -7652,15 +7652,15 @@ void save_as_pdf ()
 
 	GtkFileChooser *chooser;
 	GtkAllocation allocation;
-	GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Save File PDF"),
+	GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Save File PNG"),
 	GTK_WINDOW(tea_main_window),
 	GTK_FILE_CHOOSER_ACTION_SAVE,
 	"_Cancel", GTK_RESPONSE_CANCEL,
-	"_Save PDF", GTK_RESPONSE_ACCEPT,
+	"_Save PNG", GTK_RESPONSE_ACCEPT,
 	NULL);
 
 	chooser = GTK_FILE_CHOOSER (dialog);
-	gtk_file_chooser_set_current_name (chooser,_(".pdf"));
+	gtk_file_chooser_set_current_name (chooser,_("image.png"));
 
 	gchar *path_dir=gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2));
 
@@ -7674,12 +7674,24 @@ void save_as_pdf ()
 	GtkWidget *widget=scrolledWindow;
 
 	gtk_widget_get_allocation(GTK_WIDGET(widget), &allocation);
-	cairo_surface_t *surface = cairo_pdf_surface_create( filename, allocation.width, allocation.height);
-
+//	cairo_surface_t *surface = cairo_pdf_surface_create( filename, allocation.width, allocation.height);
+	cairo_surface_t *surface=cairo_image_surface_create(CAIRO_FORMAT_RGB24,allocation.width, allocation.height);
 	cairo_t *cr = cairo_create(surface);
+	cairo_translate(cr, -50.0, -50.0);  
+
+/*	gdk_cairo_set_source_window(
+	cr,
+	gtk_widget_get_window(GTK_WIDGET(tea_main_window)),
+	0, 0
+	);*/
+gtk_widget_draw(widget, cr);
+//cairo_paint(cr);
+	cairo_surface_write_to_png(surface,filename);
+
+/*	cairo_t *cr = cairo_create(surface);
 	gtk_widget_draw(widget, cr);
 	cairo_destroy(cr);
-	cairo_surface_destroy(surface);
+	cairo_surface_destroy(surface);*/
 
 	g_free (filename);
 	}
