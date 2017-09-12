@@ -5616,7 +5616,7 @@ void load_projects_list()
 			g_signal_connect(webView_project, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_project);
 			g_signal_connect(webView_project, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_project);
 
-			gchar *html_output_project = g_strconcat ("<html><head><style>table{border-collapse:collapse;width:100%;min-width:400px;box-shadow:2px 2px 5px #555753;-moz-border-radius: 10px;-webkit-border-radius: 10px;border-radius: 10px;}caption{caption-side:bottom;font-weight:bold;font-style:italic;margin:4px;}td {height: 14px;padding:4px;vertical-align:middle;}table tr:nth-child(odd) td{  background-color: #F1F1F1;}</style></head><body><table><tr><td width=\"50\">&nbsp;&nbsp;</td><td width=\"150\"><img alt=\"\" src=\"file://", NULL);
+			gchar *html_output_project = g_strconcat ("<html><head><style>table{border-collapse:collapse;width:100%;min-width:400px;box-shadow:2px 2px 5px #555753;-moz-border-radius: 10px;-webkit-border-radius: 10px;border-radius: 10px;}caption{caption-side:bottom;font-weight:bold;font-style:italic;margin:4px;}td {height: 14px;padding:4px;vertical-align:middle;}table tr:nth-child(odd) td{  background-color: #f9f9f9;}</style></head><body><table><tr><td width=\"50\">&nbsp;&nbsp;</td><td width=\"150\"><img alt=\"\" src=\"file://", NULL);
 
 			if(strlen(a[6])>3)
 			{
@@ -5624,7 +5624,7 @@ void load_projects_list()
 			}
 
 			html_output_project = g_strconcat (html_output_project,"<h2>",a[0],"</h2></td></tr></table>", NULL);
-			html_output_project = g_strconcat (html_output_project,"<hr></hr><table width=\"100%\">", NULL);
+			html_output_project = g_strconcat (html_output_project,"<br><table width=\"100%\">", NULL);
 			html_output_project = g_strconcat (html_output_project,"<tr><td width=\"200\">Source directory</td><td><pre>: ",a[1],"</pre></td></tr>", NULL);
 			html_output_project = g_strconcat (html_output_project,"<tr><td>Make directory</td><td><pre>: ",a[2],"</pre></td></tr>", NULL);
 			html_output_project = g_strconcat (html_output_project,"<tr><td>Run command</td><td><pre>: ",a[3],"</pre></td></tr>", NULL);
@@ -5633,12 +5633,12 @@ void load_projects_list()
 			if(strlen(a[13])<1){a[13]="22";}
 			if(a[9]!=NULL){b = g_strsplit (a[9], ":", -1);}
 
-			html_output_project = g_strconcat (html_output_project,"<hr></hr><table width=\"100%\">", NULL);
+			html_output_project = g_strconcat (html_output_project,"<br><table width=\"100%\">", NULL);
 			html_output_project = g_strconcat (html_output_project,"<tr><td width=\"200\">SFTP</td><td><pre>: ",b[0],"@",a[8],":",a[13]," ",b[1],"</pre></td></tr>", NULL);
 			html_output_project = g_strconcat (html_output_project,"<tr><td>FTP</td><td><pre>: ",a[11],":",a[12],"@",a[10],"</pre></td></tr>", NULL);
 			html_output_project = g_strconcat (html_output_project,"</table>", NULL);
 
-			html_output_project = g_strconcat (html_output_project,"<hr></hr><table><tr><td><h2>Information project</h2><pre>",a[5],"</pre><br>URL : <a target=\"_blank\" href=\"",a[7],"\">",a[7],"</a>", NULL);
+			html_output_project = g_strconcat (html_output_project,"<br><table><tr><td><h2>Information project</h2><pre>",a[5],"</pre><br>URL : <a target=\"_blank\" href=\"",a[7],"\">",a[7],"</a>", NULL);
 
 			html_output_project = g_strconcat (html_output_project,"<hr></hr><h2>Files sessions project</h2><pre>", NULL);
 
@@ -7653,14 +7653,11 @@ gboolean func_entry_search(GtkEntryCompletion *completion, const gchar *key,GtkT
 
 	gboolean ans = (g_strrstr(item, key) != NULL);
 	return ans;
-
 }
 
 //************************ TAB EDITOR WIDGET TO PDF
 void save_as_pdf () 
 {
-	//if (! get_page_text()) return;
-
 	GtkFileChooser *chooser;
 	GtkAllocation allocation;
 	GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Save File PNG"),
@@ -7685,24 +7682,12 @@ void save_as_pdf ()
 	GtkWidget *widget=scrolledWindow;
 
 	gtk_widget_get_allocation(GTK_WIDGET(widget), &allocation);
-//	cairo_surface_t *surface = cairo_pdf_surface_create( filename, allocation.width, allocation.height);
 	cairo_surface_t *surface=cairo_image_surface_create(CAIRO_FORMAT_RGB24,allocation.width, allocation.height);
 	cairo_t *cr = cairo_create(surface);
-	//cairo_translate(cr, -50.0, -50.0);  
 
-/*	gdk_cairo_set_source_window(
-	cr,
-	gtk_widget_get_window(GTK_WIDGET(tea_main_window)),
-	0, 0
-	);*/
-gtk_widget_draw(widget, cr);
-//cairo_paint(cr);
-	cairo_surface_write_to_png(surface,filename);
-
-/*	cairo_t *cr = cairo_create(surface);
 	gtk_widget_draw(widget, cr);
-	cairo_destroy(cr);
-	cairo_surface_destroy(surface);*/
+
+	cairo_surface_write_to_png(surface,filename);
 
 	g_free (filename);
 	}
@@ -7720,7 +7705,6 @@ void listdir ()
 	dir_name=gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2));
 
 	html_dir_list="<html><head><style>body {  background:white;  font:normal normal 13px/1.4 Segoe,\"Segoe UI\",Calibri,Helmet,FreeSans,Sans-Serif;  padding:50px;}/** * Framework starts from here ... * ------------------------------ */.tree,.tree ul {  margin:0 0 0 1em; /* indentation */  padding:0;  list-style:none;  color:#369;  position:relative;}.tree ul {margin-left:.5em} /* (indentation/2) */.tree:before,.tree ul:before {  content:\"\";  display:block;  width:0;  position:absolute;  top:0;  bottom:0;  left:0;  border-left:1px solid;}.tree li {  margin:0;  padding:0 1.5em; /* indentation + .5em */  line-height:2em; /* default list item's `line-height` */  font-weight:bold;  position:relative;}.tree li:before {  content:\"\";  display:block;  width:10px; /* same with indentation */  height:0;  border-top:1px solid;  margin-top:-1px; /* border top width */  position:absolute;  top:1em; /* (line-height/2) */  left:0;}.tree li:last-child:before {  background:white; /* same with body background */  height:auto;  top:1em; /* (line-height/2) */  bottom:0;}</style></head><body><ul class=\"tree\">";
-//	html_dir_list = g_strconcat (html_dir_list,dir_name,"<br><br>", NULL);
 
 	GtkWidget *window1;
 	GtkWidget *vbox1;
@@ -7749,6 +7733,25 @@ void listdir ()
 	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_miniweb), GTK_TOOLBAR_ICONS);
 	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_miniweb),GTK_ICON_SIZE_SMALL_TOOLBAR);
 
+	GtkToolItem *tool_mini_find=gtk_tool_button_new(gtk_image_new_from_icon_name("go-next",GTK_ICON_SIZE_SMALL_TOOLBAR),"Find next");
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_miniweb), tool_mini_find, -1);
+	gtk_widget_show(GTK_WIDGET(tool_mini_find));
+	g_signal_connect ((gpointer) tool_mini_find, "clicked",G_CALLBACK (tree_view_find_files),NULL);
+	gtk_tool_item_set_tooltip_text(tool_mini_find,_("Find next"));
+
+	GtkToolItem *item_entry4  = gtk_tool_item_new();
+
+	entry_find_tree_view_files = gtk_entry_new ();     
+	gtk_widget_show (GTK_WIDGET(entry_find_tree_view_files));
+
+	g_signal_connect ((gpointer) entry_find_tree_view_files, "key_release_event",G_CALLBACK (tree_view_find_files),NULL);
+
+	gtk_entry_set_width_chars (GTK_ENTRY(entry_find_tree_view_files),50);
+
+	gtk_container_add( GTK_CONTAINER(item_entry4), GTK_WIDGET(entry_find_tree_view_files) );
+	gtk_toolbar_insert( GTK_TOOLBAR(toolbar_miniweb), GTK_TOOL_ITEM(item_entry4), -1 );
+	gtk_widget_show (GTK_WIDGET(item_entry4));
+
 	GtkToolItem *tool_miniweb_screenshot=gtk_tool_button_new(gtk_image_new_from_icon_name("image",GTK_ICON_SIZE_SMALL_TOOLBAR),"ScreenShot MiniWeb");
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_miniweb), tool_miniweb_screenshot, -1);
 	gtk_widget_show(GTK_WIDGET(tool_miniweb_screenshot));
@@ -7776,15 +7779,14 @@ void listdir ()
 	html_dir_list = g_strconcat (html_dir_list,"</ul></body></html>", NULL);
 	gchar *uri="file://";
 	webkit_web_view_load_string (webView_dir,html_dir_list,NULL,NULL,uri);
-	//webkit_web_view_set_view_source_mode (webView_dir,TRUE);
 }
 
 //********************************************* HTML LIST DIR
 void list_dir(const char * dir_name, int nbr)
 {
 	html_dir_list = g_strconcat (html_dir_list,"<li>", NULL);
-	int nbr_tab;
 	nbr++;
+	if (nbr==100){return ;}
 	DIR * d;
 	d = opendir (dir_name);
 	char *extension;
@@ -7802,22 +7804,13 @@ void list_dir(const char * dir_name, int nbr)
 	const char * d_name;
 
 	nbr_files++;
-	if (nbr_files==50){return ;}
+	if (nbr_files==100){return ;}
 	entry = readdir (d);
 	if (! entry) {
 	break;
 	}
 
 	d_name = entry->d_name;
-
-#if 0
-
-	if (! (entry->d_type & DT_DIR)) {
-		printf ("*********** %s\n", dir_name, d_name);
-	}
-
-#endif /* 0 */
-
 
 	if (entry->d_type & DT_DIR) {
 	if (strcmp (d_name, "..") != 0 &&
@@ -7828,20 +7821,11 @@ void list_dir(const char * dir_name, int nbr)
 	path_length = snprintf (path, PATH_MAX,
 	"%s/%s", dir_name, d_name);
 
-	nbr_tab=1;
-	while (nbr_tab!=nbr)
-	{
-		nbr_tab++;
-		//printf("|\t");
-//		html_dir_list = g_strconcat (html_dir_list,"|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", NULL);
-	}
-
-	//printf ("|______[%s]\n", d_name);
 	html_dir_list = g_strconcat (html_dir_list,"<li><img src=\"/usr/local/share/griffon/images/projects/document-open-folder.png\" style=\"width:20px;\">&nbsp;&nbsp;",d_name,"<ul>", NULL);
 
 	if (path_length >= PATH_MAX) {
 	fprintf (stderr, "Path length has got too long.\n");
-	exit (EXIT_FAILURE);
+	return;
 	}
 
 	list_dir (path,nbr);
@@ -7851,18 +7835,6 @@ void list_dir(const char * dir_name, int nbr)
 else{
 	if (strcmp (d_name, "..") != 0 && strcmp (d_name, ".") != 0) 
 	{
-
-		nbr_tab=1;
-			while (nbr_tab!=nbr)
-			{
-				nbr_tab++;
-				//printf("|\t");
-//				html_dir_list = g_strconcat (html_dir_list,"|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", NULL);
-			}
-
-//			if (nbr_tab!=1)
-//			{
-				//printf ("|\t|--------%s\n", d_name);
 
 	if(strrchr(d_name,'.'))
 	{
@@ -7879,11 +7851,6 @@ else{
 		if (strcmp(".css", extension) == 0){html_dir_list = g_strconcat (html_dir_list,"<li><img src=\"/usr/local/share/griffon/images/css.png\" style=\"width:20px;\">&nbsp;&nbsp;",d_name,"</li>", NULL);}
 		}
 	}else{html_dir_list = g_strconcat (html_dir_list,"<li><img src=\"/usr/local/share/griffon/images/projects/edit.png\" style=\"width:20px;\">&nbsp;&nbsp;",d_name,"</li>", NULL);}
-/*			}else
-			{
-				//printf ("|--------%s\n", d_name);
-				html_dir_list = g_strconcat (html_dir_list,"<li><img src=\"/usr/local/share/griffon/images/projects/edit.png\" style=\"width:20px;\">&nbsp;&nbsp;",d_name,"</li>", NULL);
-			}*/
 	}
 }
 
@@ -7935,7 +7902,15 @@ void save_tree_as_png ()
 	}
 
 	gtk_widget_destroy (GTK_WIDGET(dialog));
-
 }
 
+//*********************** FIND WEB TREEVIEW FILES
+void tree_view_find_files ()
+{
+	webkit_web_view_unmark_text_matches(WEBKIT_WEB_VIEW (webView_dir));
+	gchar *search=gtk_editable_get_chars(GTK_EDITABLE(entry_find_tree_view_files),0, -1);
+	webkit_web_view_mark_text_matches (WEBKIT_WEB_VIEW (webView_dir), search, FALSE, 0);
+	webkit_web_view_set_highlight_text_matches (WEBKIT_WEB_VIEW (webView_dir), TRUE);
+	webkit_web_view_search_text (WEBKIT_WEB_VIEW (webView_dir), search, FALSE, TRUE, TRUE);
+}
 

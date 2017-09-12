@@ -79,6 +79,7 @@ GtkWidget *cmb_famous_help;
 GtkWidget *ent_search2;
 GtkWidget *entry_find_web;
 GtkWidget *entry_find_web_mini;
+GtkWidget *entry_find_tree_view_files;
 GtkWidget *entry_find_web_help;
 GtkWidget *dlg_colorsel;
 GtkWidget *notebook1;
@@ -359,3 +360,5 @@ void save_as_pdf () ;
 void listdir();
 void list_dir(const char * dir_name,int nbr);
 void save_tree_as_png () ;
+void tree_view_find_files ();
+
