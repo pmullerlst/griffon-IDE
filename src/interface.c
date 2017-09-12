@@ -7792,12 +7792,17 @@ void list_dir(const char * dir_name, int nbr)
 	if (! d) {
 	fprintf (stderr, "Cannot open directory '%s': %s\n",
 	dir_name, strerror (errno));
-	exit (EXIT_FAILURE);
+	return;
 	}
+
+	int nbr_files=0;
+
 	while (1) {
 	struct dirent * entry;
 	const char * d_name;
 
+	nbr_files++;
+	if (nbr_files==50){return ;}
 	entry = readdir (d);
 	if (! entry) {
 	break;
@@ -7888,7 +7893,7 @@ else{
 	if (closedir (d)) {
 	fprintf (stderr, "Could not close '%s': %s\n",
 	dir_name, strerror (errno));
-	exit (EXIT_FAILURE);
+	return;
 	}
 }
 
