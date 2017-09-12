@@ -40,6 +40,7 @@
 #include <gtksourceview/gtksourcecompletion.h>
 #include <cairo-pdf.h>
 #include <dirent.h>
+#include <errno.h>
 #include "griffon_text_document.h"
 #include "callbacks.h"
 #include "griffon_defs.h"
@@ -140,6 +141,10 @@ GtkToolItem *item_icon;
 gdouble load_progress;
 GtkWidget *pProgress;
 GtkWidget *scrolledWindow;
+WebKitWebView *webView_dir;
+gchar *html_dir_list;
+GtkWidget *scrolledwindow_tree;
+
 
 int tab_fold[19000];
 
@@ -951,7 +956,7 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("CSV to mysql Insert"), mni_functions_menu, csv_to_mysql_insert);
 	mni_temp = new_menu_item (_("Generating a template code documentation in HTML for the current file"), mni_functions_menu, gen_doc_html);
 	mni_temp = new_menu_item (_("ChangeLogs for current file"), mni_functions_menu, show_changelogs);
-	//mni_temp = new_menu_item (_("Tab Editor save As Pdf"), mni_functions_menu, save_as_pdf);
+/*	mni_temp = new_menu_item (_("Listing Dir Projet"), mni_functions_menu, listdir);*/
 
 	//*********************** MENU HTML
 	mni_temp = new_menu_item (_("Html"), menubar1, NULL);
@@ -1273,6 +1278,12 @@ GtkWidget* create_tea_main_window (void)
 	gtk_container_add( GTK_CONTAINER(item_entry2), GTK_WIDGET(cmb_famous2) );
 	gtk_toolbar_insert( GTK_TOOLBAR(toolbar_manager2), GTK_TOOL_ITEM(item_entry2), -1 );
 	gtk_widget_show (GTK_WIDGET(item_entry2));
+
+	GtkToolItem *tool_list_dir=gtk_tool_button_new(gtk_image_new_from_icon_name("view-fullscreen",GTK_ICON_SIZE_SMALL_TOOLBAR),"Files tree view ");
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_manager2), tool_list_dir, -1);
+	gtk_widget_show(GTK_WIDGET(tool_list_dir));
+	g_signal_connect ((gpointer) tool_list_dir, "clicked",G_CALLBACK (listdir),NULL);
+	gtk_tool_item_set_tooltip_text(tool_list_dir,(_("Files tree view")));
 
 	gtk_toolbar_set_show_arrow (GTK_TOOLBAR(toolbar_manager2),FALSE);
 	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_manager2), GTK_TOOLBAR_ICONS); 
@@ -7672,6 +7683,240 @@ void save_as_pdf ()
 
 	//*********** notebook2 File tab notebook1 Editor
 	GtkWidget *widget=scrolledWindow;
+
+	gtk_widget_get_allocation(GTK_WIDGET(widget), &allocation);
+//	cairo_surface_t *surface = cairo_pdf_surface_create( filename, allocation.width, allocation.height);
+	cairo_surface_t *surface=cairo_image_surface_create(CAIRO_FORMAT_RGB24,allocation.width, allocation.height);
+	cairo_t *cr = cairo_create(surface);
+	//cairo_translate(cr, -50.0, -50.0);  
+
+/*	gdk_cairo_set_source_window(
+	cr,
+	gtk_widget_get_window(GTK_WIDGET(tea_main_window)),
+	0, 0
+	);*/
+gtk_widget_draw(widget, cr);
+//cairo_paint(cr);
+	cairo_surface_write_to_png(surface,filename);
+
+/*	cairo_t *cr = cairo_create(surface);
+	gtk_widget_draw(widget, cr);
+	cairo_destroy(cr);
+	cairo_surface_destroy(surface);*/
+
+	g_free (filename);
+	}
+
+	gtk_widget_destroy (GTK_WIDGET(dialog));
+
+}
+
+//************************ LIST DIR FUNCTIONS
+void listdir () 
+{
+	gchar* dir_name="";
+	dir_name=gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2));
+
+	html_dir_list="<html><head><style>body {  background:white;  font:normal normal 13px/1.4 Segoe,\"Segoe UI\",Calibri,Helmet,FreeSans,Sans-Serif;  padding:50px;}/** * Framework starts from here ... * ------------------------------ */.tree,.tree ul {  margin:0 0 0 1em; /* indentation */  padding:0;  list-style:none;  color:#369;  position:relative;}.tree ul {margin-left:.5em} /* (indentation/2) */.tree:before,.tree ul:before {  content:\"\";  display:block;  width:0;  position:absolute;  top:0;  bottom:0;  left:0;  border-left:1px solid;}.tree li {  margin:0;  padding:0 1.5em; /* indentation + .5em */  line-height:2em; /* default list item's `line-height` */  font-weight:bold;  position:relative;}.tree li:before {  content:\"\";  display:block;  width:10px; /* same with indentation */  height:0;  border-top:1px solid;  margin-top:-1px; /* border top width */  position:absolute;  top:1em; /* (line-height/2) */  left:0;}.tree li:last-child:before {  background:white; /* same with body background */  height:auto;  top:1em; /* (line-height/2) */  bottom:0;}</style></head><body><ul class=\"tree\">";
+//	html_dir_list = g_strconcat (html_dir_list,dir_name,"<br><br>", NULL);
+
+	GtkWidget *window1;
+	GtkWidget *vbox1;
+
+	window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
+	gtk_window_set_title (GTK_WINDOW (window1), _((_(dir_name))));
+	gtk_window_resize (GTK_WINDOW (window1), 630, 745);
+	gtk_widget_show (GTK_WIDGET(window1));
+
+	vbox1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_widget_show (GTK_WIDGET(vbox1));
+	gtk_container_add (GTK_CONTAINER (window1), GTK_WIDGET(vbox1));
+
+	GtkWidget* toolbar_manager2 = gtk_toolbar_new ();
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_manager2), GTK_TOOLBAR_ICONS); 
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_manager2),GTK_ICON_SIZE_SMALL_TOOLBAR);
+	gtk_toolbar_set_show_arrow (GTK_TOOLBAR(toolbar_manager2),FALSE);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_manager2), GTK_TOOLBAR_ICONS); 
+	gtk_box_pack_start (GTK_BOX (vbox1), toolbar_manager2, FALSE , FALSE, 0);
+	gtk_widget_show_all(GTK_WIDGET(toolbar_manager2));
+
+	GtkWidget *toolbar_miniweb;
+	toolbar_miniweb = gtk_toolbar_new ();
+
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_miniweb), GTK_TOOLBAR_ICONS);
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_miniweb),GTK_ICON_SIZE_SMALL_TOOLBAR);
+
+	GtkToolItem *tool_miniweb_screenshot=gtk_tool_button_new(gtk_image_new_from_icon_name("image",GTK_ICON_SIZE_SMALL_TOOLBAR),"ScreenShot MiniWeb");
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_miniweb), tool_miniweb_screenshot, -1);
+	gtk_widget_show(GTK_WIDGET(tool_miniweb_screenshot));
+	g_signal_connect ((gpointer) tool_miniweb_screenshot, "clicked",G_CALLBACK (save_tree_as_png),NULL);
+	gtk_tool_item_set_tooltip_text(tool_miniweb_screenshot,_("ScreenShot Files tree view"));
+
+	gtk_box_pack_start (GTK_BOX (vbox1), toolbar_miniweb, FALSE, FALSE, 0);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_miniweb), GTK_TOOLBAR_ICONS);
+	gtk_widget_show_all (GTK_WIDGET(toolbar_miniweb)); 
+
+	scrolledwindow_tree = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_show (GTK_WIDGET(scrolledwindow_tree));
+	gtk_box_pack_start(GTK_BOX(vbox1), GTK_WIDGET(scrolledwindow_tree), TRUE, TRUE, 1);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow_tree), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_placement (GTK_SCROLLED_WINDOW (scrolledwindow_tree), GTK_CORNER_TOP_LEFT);
+
+
+	webView_dir = WEBKIT_WEB_VIEW(webkit_web_view_new());
+	gtk_widget_show (GTK_WIDGET(webView_dir));
+
+	gtk_container_add(GTK_CONTAINER(scrolledwindow_tree), GTK_WIDGET(webView_dir));
+
+	list_dir(dir_name,0);
+
+	html_dir_list = g_strconcat (html_dir_list,"</ul></body></html>", NULL);
+	gchar *uri="file://";
+	webkit_web_view_load_string (webView_dir,html_dir_list,NULL,NULL,uri);
+	//webkit_web_view_set_view_source_mode (webView_dir,TRUE);
+}
+
+//********************************************* HTML LIST DIR
+void list_dir(const char * dir_name, int nbr)
+{
+	html_dir_list = g_strconcat (html_dir_list,"<li>", NULL);
+	int nbr_tab;
+	nbr++;
+	DIR * d;
+	d = opendir (dir_name);
+	char *extension;
+
+	if (! d) {
+	fprintf (stderr, "Cannot open directory '%s': %s\n",
+	dir_name, strerror (errno));
+	exit (EXIT_FAILURE);
+	}
+	while (1) {
+	struct dirent * entry;
+	const char * d_name;
+
+	entry = readdir (d);
+	if (! entry) {
+	break;
+	}
+
+	d_name = entry->d_name;
+
+#if 0
+
+	if (! (entry->d_type & DT_DIR)) {
+		printf ("*********** %s\n", dir_name, d_name);
+	}
+
+#endif /* 0 */
+
+
+	if (entry->d_type & DT_DIR) {
+	if (strcmp (d_name, "..") != 0 &&
+	strcmp (d_name, ".") != 0 && strncmp(d_name,".git",strlen(d_name))!=0 && strncmp(d_name,"js",strlen(d_name))!=0 && strncmp(d_name,"images",strlen(d_name))!=0 && strncmp(d_name,"javascripts",strlen(d_name))!=0 && strncmp(d_name,"pixmaps",strlen(d_name))!=0 && strncmp(d_name,"fonts",strlen(d_name))!=0 && strncmp(d_name,"graph",strlen(d_name))!=0 && strncmp(d_name,"css",strlen(d_name))!=0 && strncmp(d_name,"img",strlen(d_name))!=0 && strncmp(d_name,"lst_photos_profils",strlen(d_name))!=0) {
+	int path_length;
+	char path[PATH_MAX];
+
+	path_length = snprintf (path, PATH_MAX,
+	"%s/%s", dir_name, d_name);
+
+	nbr_tab=1;
+	while (nbr_tab!=nbr)
+	{
+		nbr_tab++;
+		//printf("|\t");
+//		html_dir_list = g_strconcat (html_dir_list,"|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", NULL);
+	}
+
+	//printf ("|______[%s]\n", d_name);
+	html_dir_list = g_strconcat (html_dir_list,"<li><img src=\"/usr/local/share/griffon/images/projects/document-open-folder.png\" style=\"width:20px;\">&nbsp;&nbsp;",d_name,"<ul>", NULL);
+
+	if (path_length >= PATH_MAX) {
+	fprintf (stderr, "Path length has got too long.\n");
+	exit (EXIT_FAILURE);
+	}
+
+	list_dir (path,nbr);
+	html_dir_list = g_strconcat (html_dir_list,"</ul>", NULL);
+			}
+		}
+else{
+	if (strcmp (d_name, "..") != 0 && strcmp (d_name, ".") != 0) 
+	{
+
+		nbr_tab=1;
+			while (nbr_tab!=nbr)
+			{
+				nbr_tab++;
+				//printf("|\t");
+//				html_dir_list = g_strconcat (html_dir_list,"|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", NULL);
+			}
+
+//			if (nbr_tab!=1)
+//			{
+				//printf ("|\t|--------%s\n", d_name);
+
+	if(strrchr(d_name,'.'))
+	{
+		extension = strrchr(d_name,'.');
+		if (extension != NULL)
+		{
+		if (strcmp(".png", extension) == 0 || strcmp(".gif", extension) == 0 || strcmp(".jpg", extension) == 0){html_dir_list = g_strconcat (html_dir_list,"<li><img src=\"/usr/local/share/griffon/images/projects/insert-image-2.png\" style=\"width:20px;\">&nbsp;&nbsp;",d_name,"</li>", NULL);}
+		if (strcmp(".php", extension) == 0){html_dir_list = g_strconcat (html_dir_list,"<li><img src=\"/usr/local/share/griffon/images/php.png\" style=\"width:20px;\">&nbsp;&nbsp;",d_name,"</li>", NULL);}
+		if (strcmp(".pl", extension) == 0){html_dir_list = g_strconcat (html_dir_list,"<li><img src=\"/usr/local/share/griffon/images/pl.png\" style=\"width:20px;\">&nbsp;&nbsp;",d_name,"</li>", NULL);}
+		if (strcmp(".c", extension) == 0){html_dir_list = g_strconcat (html_dir_list,"<li><img src=\"/usr/local/share/griffon/images/c.png\" style=\"width:20px;\">&nbsp;&nbsp;",d_name,"</li>", NULL);}
+		if (strcmp(".py", extension) == 0){html_dir_list = g_strconcat (html_dir_list,"<li><img src=\"/usr/local/share/griffon/images/py.png\" style=\"width:20px;\">&nbsp;&nbsp;",d_name,"</li>", NULL);}
+		if (strcmp(".sh", extension) == 0){html_dir_list = g_strconcat (html_dir_list,"<li><img src=\"/usr/local/share/griffon/images/sh.png\" style=\"width:20px;\">&nbsp;&nbsp;",d_name,"</li>", NULL);}
+		if (strcmp(".html", extension) == 0){html_dir_list = g_strconcat (html_dir_list,"<li><img src=\"/usr/local/share/griffon/images/html.png\" style=\"width:20px;\">&nbsp;&nbsp;",d_name,"</li>", NULL);}
+		if (strcmp(".css", extension) == 0){html_dir_list = g_strconcat (html_dir_list,"<li><img src=\"/usr/local/share/griffon/images/css.png\" style=\"width:20px;\">&nbsp;&nbsp;",d_name,"</li>", NULL);}
+		}
+	}else{html_dir_list = g_strconcat (html_dir_list,"<li><img src=\"/usr/local/share/griffon/images/projects/edit.png\" style=\"width:20px;\">&nbsp;&nbsp;",d_name,"</li>", NULL);}
+/*			}else
+			{
+				//printf ("|--------%s\n", d_name);
+				html_dir_list = g_strconcat (html_dir_list,"<li><img src=\"/usr/local/share/griffon/images/projects/edit.png\" style=\"width:20px;\">&nbsp;&nbsp;",d_name,"</li>", NULL);
+			}*/
+	}
+}
+
+	}
+
+	html_dir_list = g_strconcat (html_dir_list,"</li>", NULL);
+	if (closedir (d)) {
+	fprintf (stderr, "Could not close '%s': %s\n",
+	dir_name, strerror (errno));
+	exit (EXIT_FAILURE);
+	}
+}
+
+//************************ TAB EDITOR WIDGET TO PNG
+void save_tree_as_png () 
+{
+	//if (! get_page_text()) return;
+
+	GtkFileChooser *chooser;
+	GtkAllocation allocation;
+	GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Save File PNG"),
+	GTK_WINDOW(tea_main_window),
+	GTK_FILE_CHOOSER_ACTION_SAVE,
+	"_Cancel", GTK_RESPONSE_CANCEL,
+	"_Save PNG", GTK_RESPONSE_ACCEPT,
+	NULL);
+
+	chooser = GTK_FILE_CHOOSER (dialog);
+	gtk_file_chooser_set_current_name (chooser,_("image.png"));
+
+	gchar *path_dir=gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2));
+
+	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), path_dir);
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+	{
+		gchar *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
+
+	//*********** notebook2 File tab notebook1 Editor
+	GtkWidget *widget=scrolledwindow_tree;
 
 	gtk_widget_get_allocation(GTK_WIDGET(widget), &allocation);
 //	cairo_surface_t *surface = cairo_pdf_surface_create( filename, allocation.width, allocation.height);
