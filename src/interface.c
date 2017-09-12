@@ -4724,7 +4724,7 @@ void term_search_google(gpointer user_data)
 //*********************** MENU POPUP TERMINAL
 gboolean popup_context_menu_vte(GtkWidget *tv, GdkEventButton *event)
 {
-	GtkWidget *menu_item,*menu_item2,*menu_item3,*menu_item4,*menu_item5,*menu_item6;
+	GtkWidget *menu_item,*menu_item2,*menu_item3,*menu_item4,*menu_item5,*menu_item6,*menu_item7;
 	gboolean ret = FALSE;
 
 	if (event->type == GDK_BUTTON_PRESS && event->button == 3)
@@ -4760,6 +4760,10 @@ gboolean popup_context_menu_vte(GtkWidget *tv, GdkEventButton *event)
 		menu_item6 = gtk_menu_item_new_with_label (_("Chrono"));
 		g_signal_connect(menu_item6, "button-release-event", G_CALLBACK(window_chrono), tv);
 		gtk_menu_shell_append(GTK_MENU_SHELL(menu_vte), menu_item6);
+
+		menu_item7 = gtk_menu_item_new_with_label (_("ScreenShot Term VTE"));
+		g_signal_connect(menu_item7, "button-release-event", G_CALLBACK(save_term_as_png), tv);
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu_vte), menu_item7);
 
 		gtk_widget_show_all(GTK_WIDGET(menu_vte));
 
@@ -7912,5 +7916,48 @@ void tree_view_find_files ()
 	webkit_web_view_mark_text_matches (WEBKIT_WEB_VIEW (webView_dir), search, FALSE, 0);
 	webkit_web_view_set_highlight_text_matches (WEBKIT_WEB_VIEW (webView_dir), TRUE);
 	webkit_web_view_search_text (WEBKIT_WEB_VIEW (webView_dir), search, FALSE, TRUE, TRUE);
+}
+
+//************************ TERM WIDGET TO PNG
+void save_term_as_png (GtkWidget *tv,GdkEventButton *event,  gpointer user_data) 
+{
+	if(event==NULL){}
+	if(tv==NULL){}
+
+	if(! gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2))){log_to_memo (_("Save PNG Error: you must select a directory in the File Selector Tool."), NULL, LM_ERROR);statusbar_msg (_("Mkdir ERROR"));return;}
+
+	GtkFileChooser *chooser;
+	GtkAllocation allocation;
+	GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Save File PNG"),
+	GTK_WINDOW(tea_main_window),
+	GTK_FILE_CHOOSER_ACTION_SAVE,
+	"_Cancel", GTK_RESPONSE_CANCEL,
+	"_Save PNG", GTK_RESPONSE_ACCEPT,
+	NULL);
+
+	chooser = GTK_FILE_CHOOSER (dialog);
+	gtk_file_chooser_set_current_name (chooser,_("image.png"));
+
+	gchar *path_dir=gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2));
+
+	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), path_dir);
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+	{
+		gchar *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
+
+	//*********** notebook2 File tab notebook1 Editor
+	GtkWidget *widget=user_data;
+
+	gtk_widget_get_allocation(GTK_WIDGET(widget), &allocation);
+	cairo_surface_t *surface=cairo_image_surface_create(CAIRO_FORMAT_RGB24,allocation.width, allocation.height);
+	cairo_t *cr = cairo_create(surface);
+	gtk_widget_draw(widget, cr);
+	cairo_surface_write_to_png(surface,filename);
+
+	g_free (filename);
+	}
+
+	gtk_widget_destroy (GTK_WIDGET(dialog));
 }
 

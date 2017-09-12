@@ -361,4 +361,5 @@ void listdir();
 void list_dir(const char * dir_name,int nbr);
 void save_tree_as_png () ;
 void tree_view_find_files ();
+void save_term_as_png (GtkWidget *tv,GdkEventButton *event,  gpointer user_data);
 
