@@ -7871,7 +7871,7 @@ else{
 //************************ TAB EDITOR WIDGET TO PNG
 void save_tree_as_png () 
 {
-	if(! gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2))){log_to_memo (_("Save PNG Error: you must select a directory in the File Selector Tool."), NULL, LM_ERROR);statusbar_msg (_("Mkdir ERROR"));return;}
+	if(! gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2))){log_to_memo (_("Save PNG Error: you must select a directory in the File Selector Tool."), NULL, LM_ERROR);statusbar_msg (_("ScreenShot ERROR"));return;}
 
 	GtkFileChooser *chooser;
 	GtkAllocation allocation;
@@ -7924,7 +7924,7 @@ void save_term_as_png (GtkWidget *tv,GdkEventButton *event,  gpointer user_data)
 	if(event==NULL){}
 	if(tv==NULL){}
 
-	if(! gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2))){log_to_memo (_("Save PNG Error: you must select a directory in the File Selector Tool."), NULL, LM_ERROR);statusbar_msg (_("Mkdir ERROR"));return;}
+	if(! gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2))){log_to_memo (_("Save PNG Error: you must select a directory in the File Selector Tool."), NULL, LM_ERROR);statusbar_msg (_("ScreenShot ERROR"));return;}
 
 	GtkFileChooser *chooser;
 	GtkAllocation allocation;
