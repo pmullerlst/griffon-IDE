@@ -7714,6 +7714,8 @@ gtk_widget_draw(widget, cr);
 //************************ LIST DIR FUNCTIONS
 void listdir () 
 {
+	if(! gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2))){log_to_memo (_("tree view Error: you must select a directory in the File Selector Tool."), NULL, LM_ERROR);statusbar_msg (_("tree view ERROR"));return;}
+
 	gchar* dir_name="";
 	dir_name=gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2));
 
@@ -7893,7 +7895,7 @@ else{
 //************************ TAB EDITOR WIDGET TO PNG
 void save_tree_as_png () 
 {
-	//if (! get_page_text()) return;
+	if(! gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2))){log_to_memo (_("Save PNG Error: you must select a directory in the File Selector Tool."), NULL, LM_ERROR);statusbar_msg (_("Mkdir ERROR"));return;}
 
 	GtkFileChooser *chooser;
 	GtkAllocation allocation;
@@ -7919,24 +7921,10 @@ void save_tree_as_png ()
 	GtkWidget *widget=scrolledwindow_tree;
 
 	gtk_widget_get_allocation(GTK_WIDGET(widget), &allocation);
-//	cairo_surface_t *surface = cairo_pdf_surface_create( filename, allocation.width, allocation.height);
 	cairo_surface_t *surface=cairo_image_surface_create(CAIRO_FORMAT_RGB24,allocation.width, allocation.height);
 	cairo_t *cr = cairo_create(surface);
-	//cairo_translate(cr, -50.0, -50.0);  
-
-/*	gdk_cairo_set_source_window(
-	cr,
-	gtk_widget_get_window(GTK_WIDGET(tea_main_window)),
-	0, 0
-	);*/
-gtk_widget_draw(widget, cr);
-//cairo_paint(cr);
-	cairo_surface_write_to_png(surface,filename);
-
-/*	cairo_t *cr = cairo_create(surface);
 	gtk_widget_draw(widget, cr);
-	cairo_destroy(cr);
-	cairo_surface_destroy(surface);*/
+	cairo_surface_write_to_png(surface,filename);
 
 	g_free (filename);
 	}
