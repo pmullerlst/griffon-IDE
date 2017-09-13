@@ -958,7 +958,7 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("CSV to mysql Insert"), mni_functions_menu, csv_to_mysql_insert);
 	mni_temp = new_menu_item (_("Generating a template code documentation in HTML for the current file"), mni_functions_menu, gen_doc_html);
 	mni_temp = new_menu_item (_("ChangeLogs for current file"), mni_functions_menu, show_changelogs);
-	mni_temp = new_menu_item (_("Listing Dir Projet"), mni_functions_menu, listdir_autocomp);
+/*	mni_temp = new_menu_item (_("Listing Dir Projet"), mni_functions_menu, listdir_autocomp);*/
 
 	//*********************** MENU HTML
 	mni_temp = new_menu_item (_("Html"), menubar1, NULL);
