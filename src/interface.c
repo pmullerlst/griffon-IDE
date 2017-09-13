@@ -241,7 +241,9 @@ static void test_provider_init (TestProvider *self)
 
 static void create_completion (GtkSourceView       *source_view,		   GtkSourceCompletion *completion)
 {
-	word_provider = gtk_source_completion_words_new (NULL, NULL);
+	GdkPixbuf *pixbuf;
+	pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/images/griffon_bug.png", NULL);
+	word_provider = gtk_source_completion_words_new ("Files", pixbuf);
 	gtk_source_completion_words_register (word_provider,gtk_text_view_get_buffer (GTK_TEXT_VIEW (source_view)));
 	gtk_source_completion_add_provider (completion,GTK_SOURCE_COMPLETION_PROVIDER (word_provider),NULL);
 
@@ -7976,6 +7978,7 @@ void list_dir_autocomp(const char * dir_name, int nbr)
 	static GtkSourceCompletionWords *word_provider4;
 	GtkSourceBuffer *tmpbuffer = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
 	GtkWidget *srctmp= gtk_source_view_new_with_buffer(tmpbuffer);
+	GdkPixbuf *pixbuf;
 
 	gchar* dir_path="";
 	char *extension;
@@ -8061,8 +8064,10 @@ else{
 
 	}
 
+		pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/images/griffon_man.png", NULL);
+
 		GtkSourceCompletion *completion = gtk_source_view_get_completion ((GtkSourceView *)cur_text_doc->text_view);
-		word_provider4 = gtk_source_completion_words_new ("Files in dir source", NULL);
+		word_provider4 = gtk_source_completion_words_new ("Files in dir source", pixbuf);
 		gtk_source_completion_words_register (word_provider4,gtk_text_view_get_buffer (GTK_TEXT_VIEW (srctmp)));
 		gtk_source_completion_add_provider (completion,GTK_SOURCE_COMPLETION_PROVIDER (word_provider4),NULL);
 		g_object_set (word_provider4, "priority", 10, NULL);

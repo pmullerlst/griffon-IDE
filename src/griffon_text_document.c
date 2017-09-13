@@ -620,7 +620,9 @@ t_note_page* page_create_new (void)
 			}
 		fclose(fichier);
 
-		word_provider2 = gtk_source_completion_words_new ("My AutoComp", NULL);
+		GdkPixbuf *pixbuf;
+		pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/images/griffon-advance.png", NULL);
+		word_provider2 = gtk_source_completion_words_new ("My AutoComp", pixbuf);
 
 	gtk_source_completion_words_register (word_provider2,
 	                                      gtk_text_view_get_buffer (GTK_TEXT_VIEW (srctmp)));
@@ -1421,7 +1423,10 @@ t_note_page* doc_open_file (gchar *a_filename)
 			}
 			fclose(fichier);
 
-		word_provider3 = gtk_source_completion_words_new (titre_autocomp, NULL);
+		GdkPixbuf *pixbuf;
+		pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/images/griffon_note.png", NULL);
+
+		word_provider3 = gtk_source_completion_words_new (titre_autocomp, pixbuf);
 
 		gtk_source_completion_words_register (word_provider3,
 	                                      gtk_text_view_get_buffer (GTK_TEXT_VIEW (srctmp)));
