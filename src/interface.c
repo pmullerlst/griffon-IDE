@@ -2243,12 +2243,6 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_miniweb ), tool_sep, -1);
 	gtk_widget_show(GTK_WIDGET(tool_sep));
 
-	GtkToolItem *tool_mini_find=gtk_tool_button_new(gtk_image_new_from_icon_name("go-next",GTK_ICON_SIZE_SMALL_TOOLBAR),"Find next");
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_miniweb), tool_mini_find, -1);
-	gtk_widget_show(GTK_WIDGET(tool_mini_find));
-	g_signal_connect ((gpointer) tool_mini_find, "clicked",G_CALLBACK (web_find_mini),NULL);
-	gtk_tool_item_set_tooltip_text(tool_mini_find,_("Find next"));
-
 	GtkToolItem *item_entry4  = gtk_tool_item_new();
 
 	entry_find_web_mini = gtk_entry_new ();     
@@ -2261,6 +2255,12 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_container_add( GTK_CONTAINER(item_entry4), GTK_WIDGET(entry_find_web_mini) );
 	gtk_toolbar_insert( GTK_TOOLBAR(toolbar_miniweb), GTK_TOOL_ITEM(item_entry4), -1 );
 	gtk_widget_show (GTK_WIDGET(item_entry4));
+
+	GtkToolItem *tool_mini_find=gtk_tool_button_new(gtk_image_new_from_icon_name("go-next",GTK_ICON_SIZE_SMALL_TOOLBAR),"Find next");
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_miniweb), tool_mini_find, -1);
+	gtk_widget_show(GTK_WIDGET(tool_mini_find));
+	g_signal_connect ((gpointer) tool_mini_find, "clicked",G_CALLBACK (web_find_mini),NULL);
+	gtk_tool_item_set_tooltip_text(tool_mini_find,_("Find next"));
 
 	GtkToolItem *tool_miniweb_screenshot=gtk_tool_button_new(gtk_image_new_from_icon_name("image",GTK_ICON_SIZE_SMALL_TOOLBAR),"ScreenShot MiniWeb");
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_miniweb), tool_miniweb_screenshot, -1);
@@ -2448,12 +2448,6 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin ), tool_sep, -1);
 	gtk_widget_show(GTK_WIDGET(tool_sep));
 
-	GtkToolItem *tool_myadmin_find=gtk_tool_button_new(gtk_image_new_from_icon_name("go-next",GTK_ICON_SIZE_SMALL_TOOLBAR),"Find next");
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_myadmin_find, -1);
-	gtk_widget_show(GTK_WIDGET(tool_myadmin_find));
-	g_signal_connect ((gpointer) tool_myadmin_find, "clicked",G_CALLBACK (web_find_myadmin),NULL);
-	gtk_tool_item_set_tooltip_text(tool_myadmin_find,_("Find next"));
-
 	GtkToolItem *item_entry3  = gtk_tool_item_new();
 
 	entry_find_web = gtk_entry_new ();     
@@ -2467,6 +2461,11 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_toolbar_insert( GTK_TOOLBAR(toolbar_myadmin), GTK_TOOL_ITEM(item_entry3), -1 );
 	gtk_widget_show (GTK_WIDGET(item_entry3));
 
+	GtkToolItem *tool_myadmin_find=gtk_tool_button_new(gtk_image_new_from_icon_name("go-next",GTK_ICON_SIZE_SMALL_TOOLBAR),"Find next");
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_myadmin), tool_myadmin_find, -1);
+	gtk_widget_show(GTK_WIDGET(tool_myadmin_find));
+	g_signal_connect ((gpointer) tool_myadmin_find, "clicked",G_CALLBACK (web_find_myadmin),NULL);
+	gtk_tool_item_set_tooltip_text(tool_myadmin_find,_("Find next"));
 
 	gtk_box_pack_start (GTK_BOX (hbox_myadmin), toolbar_myadmin, FALSE, FALSE, 0);
 	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_myadmin), GTK_TOOLBAR_ICONS);
@@ -2578,12 +2577,6 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_help), GTK_TOOLBAR_ICONS);
 	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_help),GTK_ICON_SIZE_SMALL_TOOLBAR);
 
-	GtkToolItem *tool_help_find=gtk_tool_button_new(gtk_image_new_from_icon_name("go-next",GTK_ICON_SIZE_SMALL_TOOLBAR),"Find next");
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_help), tool_help_find, -1);
-	gtk_widget_show(GTK_WIDGET(tool_help_find));
-	g_signal_connect ((gpointer) tool_help_find, "clicked",G_CALLBACK (web_find_web_help),NULL);
-	gtk_tool_item_set_tooltip_text(tool_help_find,_("Find next"));
-
 	GtkToolItem *item_entry5  = gtk_tool_item_new();
 
 	entry_find_web_help = gtk_entry_new ();     
@@ -2596,6 +2589,12 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_container_add( GTK_CONTAINER(item_entry5), GTK_WIDGET(entry_find_web_help) );
 	gtk_toolbar_insert( GTK_TOOLBAR(toolbar_help), GTK_TOOL_ITEM(item_entry5), -1 );
 	gtk_widget_show (GTK_WIDGET(item_entry5));
+
+	GtkToolItem *tool_help_find=gtk_tool_button_new(gtk_image_new_from_icon_name("go-next",GTK_ICON_SIZE_SMALL_TOOLBAR),"Find next");
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_help), tool_help_find, -1);
+	gtk_widget_show(GTK_WIDGET(tool_help_find));
+	g_signal_connect ((gpointer) tool_help_find, "clicked",G_CALLBACK (web_find_web_help),NULL);
+	gtk_tool_item_set_tooltip_text(tool_help_find,_("Find next"));
 
 	gtk_box_pack_start (GTK_BOX (vbox_bar), toolbar_help, FALSE, FALSE, 0);
 	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_help), GTK_TOOLBAR_ICONS);
@@ -7737,12 +7736,6 @@ void listdir ()
 	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_miniweb), GTK_TOOLBAR_ICONS);
 	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_miniweb),GTK_ICON_SIZE_SMALL_TOOLBAR);
 
-	GtkToolItem *tool_mini_find=gtk_tool_button_new(gtk_image_new_from_icon_name("go-next",GTK_ICON_SIZE_SMALL_TOOLBAR),"Find next");
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_miniweb), tool_mini_find, -1);
-	gtk_widget_show(GTK_WIDGET(tool_mini_find));
-	g_signal_connect ((gpointer) tool_mini_find, "clicked",G_CALLBACK (tree_view_find_files),NULL);
-	gtk_tool_item_set_tooltip_text(tool_mini_find,_("Find next"));
-
 	GtkToolItem *item_entry4  = gtk_tool_item_new();
 
 	entry_find_tree_view_files = gtk_entry_new ();     
@@ -7755,6 +7748,12 @@ void listdir ()
 	gtk_container_add( GTK_CONTAINER(item_entry4), GTK_WIDGET(entry_find_tree_view_files) );
 	gtk_toolbar_insert( GTK_TOOLBAR(toolbar_miniweb), GTK_TOOL_ITEM(item_entry4), -1 );
 	gtk_widget_show (GTK_WIDGET(item_entry4));
+
+	GtkToolItem *tool_mini_find=gtk_tool_button_new(gtk_image_new_from_icon_name("go-next",GTK_ICON_SIZE_SMALL_TOOLBAR),"Find next");
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_miniweb), tool_mini_find, -1);
+	gtk_widget_show(GTK_WIDGET(tool_mini_find));
+	g_signal_connect ((gpointer) tool_mini_find, "clicked",G_CALLBACK (tree_view_find_files),NULL);
+	gtk_tool_item_set_tooltip_text(tool_mini_find,_("Find next"));
 
 	GtkToolItem *tool_miniweb_screenshot=gtk_tool_button_new(gtk_image_new_from_icon_name("image",GTK_ICON_SIZE_SMALL_TOOLBAR),"ScreenShot MiniWeb");
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_miniweb), tool_miniweb_screenshot, -1);
