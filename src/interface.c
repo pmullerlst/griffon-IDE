@@ -956,7 +956,7 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("CSV to mysql Insert"), mni_functions_menu, csv_to_mysql_insert);
 	mni_temp = new_menu_item (_("Generating a template code documentation in HTML for the current file"), mni_functions_menu, gen_doc_html);
 	mni_temp = new_menu_item (_("ChangeLogs for current file"), mni_functions_menu, show_changelogs);
-/*	mni_temp = new_menu_item (_("Listing Dir Projet"), mni_functions_menu, listdir);*/
+	mni_temp = new_menu_item (_("Listing Dir Projet"), mni_functions_menu, listdir_autocomp);
 
 	//*********************** MENU HTML
 	mni_temp = new_menu_item (_("Html"), menubar1, NULL);
@@ -7958,5 +7958,119 @@ void save_term_as_png (GtkWidget *tv,GdkEventButton *event,  gpointer user_data)
 	}
 
 	gtk_widget_destroy (GTK_WIDGET(dialog));
+}
+
+//************************ LIST DIR AUTOCOMP FUNCTIONS
+void listdir_autocomp () 
+{
+	if(! gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2))){return;}
+
+	gchar* dir_name="";
+	dir_name=gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2));
+	list_dir_autocomp(dir_name,0);
+}
+
+//********************************************* LIST DIR FOR AUTOCOMP
+void list_dir_autocomp(const char * dir_name, int nbr)
+{
+	static GtkSourceCompletionWords *word_provider4;
+	GtkSourceBuffer *tmpbuffer = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
+	GtkWidget *srctmp= gtk_source_view_new_with_buffer(tmpbuffer);
+
+	gchar* dir_path="";
+	char *extension;
+	gchar lecture[2024];
+	FILE *fichier;
+
+	nbr++;
+	if (nbr==100){return ;}
+	DIR * d;
+	d = opendir (dir_name);
+
+	if (! d) {
+	fprintf (stderr, "Cannot open directory '%s': %s\n",
+	dir_name, strerror (errno));
+	return;
+	}
+
+	int nbr_files=0;
+
+	while (1) {
+	struct dirent * entry;
+	const char * d_name;
+
+	nbr_files++;
+	if (nbr_files==100){return ;}
+	entry = readdir (d);
+	if (! entry) {
+	break;
+	}
+
+	d_name = entry->d_name;
+
+	if (entry->d_type & DT_DIR) {
+	if (strcmp (d_name, "..") != 0 && strcmp (d_name, ".") != 0 && strncmp(d_name,".git",strlen(d_name))!=0) {
+	int path_length;
+	char path[PATH_MAX];
+
+	path_length = snprintf (path, PATH_MAX,
+	"%s/%s", dir_name, d_name);
+
+	//********** DIR
+		gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(tmpbuffer),g_locale_to_utf8(d_name, -1, NULL, NULL, NULL) , -1);
+		gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(tmpbuffer),g_locale_to_utf8(" ", -1, NULL, NULL, NULL) , -1);
+
+	if (path_length >= PATH_MAX) {
+	fprintf (stderr, "Path length has got too long.\n");
+	return;
+	}
+
+			}
+		}
+else{
+	if (strcmp (d_name, "..") != 0 && strcmp (d_name, ".") != 0) 
+	{
+		//********FILE
+		gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(tmpbuffer),g_locale_to_utf8(d_name, -1, NULL, NULL, NULL) , -1);
+		gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(tmpbuffer),g_locale_to_utf8(" ", -1, NULL, NULL, NULL) , -1);
+
+	if(strrchr(d_name,'.'))
+	{
+		extension = strrchr(d_name,'.');
+		if (extension != NULL)
+		{
+			if (strcmp(".html", extension) == 0 || strcmp(".c", extension) == 0 || strcmp(".php", extension) == 0 || strcmp(".pl", extension) == 0 || strcmp(".sh", extension) == 0 || strcmp(".h", extension) == 0)
+			{
+
+				dir_path = g_strconcat (dir_name,"/",d_name, NULL);
+
+				if(fopen(dir_path,"rt"))
+				{
+					fichier = fopen(dir_path,"rt");
+						while(fgets(lecture, 2024, fichier))
+						{
+							gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(tmpbuffer),g_locale_to_utf8(lecture, -1, NULL, NULL, NULL) , -1);
+						}
+					fclose(fichier);
+				}
+			}
+		}
+	}
+}
+}
+
+	}
+
+		GtkSourceCompletion *completion = gtk_source_view_get_completion ((GtkSourceView *)cur_text_doc->text_view);
+		word_provider4 = gtk_source_completion_words_new ("Files in dir source", NULL);
+		gtk_source_completion_words_register (word_provider4,gtk_text_view_get_buffer (GTK_TEXT_VIEW (srctmp)));
+		gtk_source_completion_add_provider (completion,GTK_SOURCE_COMPLETION_PROVIDER (word_provider4),NULL);
+		g_object_set (word_provider4, "priority", 10, NULL);
+
+	if (closedir (d)) {
+	fprintf (stderr, "Could not close '%s': %s\n",
+	dir_name, strerror (errno));
+	return;
+	}
 }
 

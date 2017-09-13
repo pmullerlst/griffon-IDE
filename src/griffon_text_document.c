@@ -1460,6 +1460,7 @@ t_note_page* doc_open_file (gchar *a_filename)
 	g_free(uri);
 
 		gtk_source_map_set_view(GTK_SOURCE_MAP(source_map1),GTK_SOURCE_VIEW(page->text_view));
+		listdir_autocomp ();
 
 	return page;
 }
