@@ -7978,6 +7978,10 @@ void list_dir_autocomp(const char * dir_name, int nbr)
 	static GtkSourceCompletionWords *word_provider4;
 	GtkSourceBuffer *tmpbuffer = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
 	GtkWidget *srctmp= gtk_source_view_new_with_buffer(tmpbuffer);
+
+	GtkSourceBuffer *tmpbuffer2 = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
+	GtkWidget *srctmp2= gtk_source_view_new_with_buffer(tmpbuffer2);
+
 	GdkPixbuf *pixbuf;
 
 	gchar* dir_path="";
@@ -8052,16 +8056,24 @@ else{
 					fichier = fopen(dir_path,"rt");
 						while(fgets(lecture, 2024, fichier))
 						{
-							gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(tmpbuffer),g_locale_to_utf8(lecture, -1, NULL, NULL, NULL) , -1);
+							gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(tmpbuffer2),g_locale_to_utf8(lecture, -1, NULL, NULL, NULL) , -1);
 						}
 					fclose(fichier);
+
+		pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/images/griffon_man.png", NULL);
+		GtkSourceCompletion *completion = gtk_source_view_get_completion ((GtkSourceView *)cur_text_doc->text_view);
+		word_provider4 = gtk_source_completion_words_new (d_name, pixbuf);
+		gtk_source_completion_words_register (word_provider4,gtk_text_view_get_buffer (GTK_TEXT_VIEW (srctmp2)));
+		gtk_source_completion_add_provider (completion,GTK_SOURCE_COMPLETION_PROVIDER (word_provider4),NULL);
+		g_object_set (word_provider4, "priority", 10, NULL);
 				}
 			}
 		}
 	}
 }
 }
-
+tmpbuffer2 = GTK_SOURCE_BUFFER (gtk_source_buffer_new (NULL));
+srctmp2= gtk_source_view_new_with_buffer(tmpbuffer2);
 	}
 
 		pixbuf = gdk_pixbuf_new_from_file("/usr/local/share/griffon/images/griffon_man.png", NULL);
