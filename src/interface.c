@@ -958,7 +958,7 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (_("CSV to mysql Insert"), mni_functions_menu, csv_to_mysql_insert);
 	mni_temp = new_menu_item (_("Generating a template code documentation in HTML for the current file"), mni_functions_menu, gen_doc_html);
 	mni_temp = new_menu_item (_("ChangeLogs for current file"), mni_functions_menu, show_changelogs);
-/*	mni_temp = new_menu_item (_("Listing Dir Projet"), mni_functions_menu, listdir_autocomp);*/
+	mni_temp = new_menu_item (_("Listing Dir Projet"), mni_functions_menu, listdir);
 
 	//*********************** MENU HTML
 	mni_temp = new_menu_item (_("Html"), menubar1, NULL);
@@ -7791,7 +7791,7 @@ void list_dir(const char * dir_name, int nbr)
 {
 	html_dir_list = g_strconcat (html_dir_list,"<li>", NULL);
 	nbr++;
-	if (nbr==100){return ;}
+	if (nbr==10){return ;}
 	DIR * d;
 	d = opendir (dir_name);
 	char *extension;
@@ -7809,7 +7809,7 @@ void list_dir(const char * dir_name, int nbr)
 	const char * d_name;
 
 	nbr_files++;
-	if (nbr_files==100){return ;}
+	if (nbr_files==50){return ;}
 	entry = readdir (d);
 	if (! entry) {
 	break;
@@ -7965,6 +7965,7 @@ void save_term_as_png (GtkWidget *tv,GdkEventButton *event,  gpointer user_data)
 //************************ LIST DIR AUTOCOMP FUNCTIONS
 void listdir_autocomp () 
 {
+	if (! get_page_text()) return;
 	if(! gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(filechooserwidget2))){return;}
 
 	gchar* dir_name="";
