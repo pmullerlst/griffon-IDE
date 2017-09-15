@@ -2267,7 +2267,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	GtkToolItem *tool_miniweb_screenshot=gtk_tool_button_new(gtk_image_new_from_icon_name("image",GTK_ICON_SIZE_SMALL_TOOLBAR),"ScreenShot MiniWeb");
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_miniweb), tool_miniweb_screenshot, -1);
 	gtk_widget_show(GTK_WIDGET(tool_miniweb_screenshot));
-	g_signal_connect ((gpointer) tool_miniweb_screenshot, "clicked",G_CALLBACK (save_as_pdf),NULL);
+	g_signal_connect ((gpointer) tool_miniweb_screenshot, "clicked",G_CALLBACK (save_as_miniweb_png),NULL);
 	gtk_tool_item_set_tooltip_text(tool_miniweb_screenshot,_("ScreenShot MiniWeb"));
 
 	gtk_box_pack_start (GTK_BOX (vbox3), toolbar_miniweb, FALSE, FALSE, 0);
@@ -7669,7 +7669,7 @@ gboolean func_entry_search(GtkEntryCompletion *completion, const gchar *key,GtkT
 }
 
 //************************ TAB EDITOR WIDGET TO PDF
-void save_as_pdf () 
+void save_as_miniweb_png () 
 {
 	GtkFileChooser *chooser;
 	GtkAllocation allocation;
