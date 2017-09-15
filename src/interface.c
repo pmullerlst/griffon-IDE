@@ -7657,6 +7657,14 @@ gboolean func_entry_search(GtkEntryCompletion *completion, const gchar *key,GtkT
 	gtk_tree_model_get(model, iter, 0, &item, -1);
 
 	gboolean ans = (g_strrstr(item, key) != NULL);
+
+	//********* FOR UPPERCASE
+	if(ans==FALSE)
+	{
+		gchar *key2= g_utf8_strup(key,-1);
+		ans = (g_strrstr(item, key2) != NULL);
+	}
+
 	return ans;
 }
 
