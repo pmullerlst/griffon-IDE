@@ -2160,7 +2160,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_widget_show(GTK_WIDGET(button_note1));
 	gtk_box_pack_start(GTK_BOX(vbox3), button_note1, FALSE, FALSE, 0);
 
-	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("\nTo view notes [ALT+M]\n")), -1);
+	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("\n")), -1);
 	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("To integrate a selection in the note  [CTR+E]\n\n____________________________________________________________________________________________________________________________________________________\n\n")), -1);
 
 	label_note3 = gtk_label_new (_("Note"));
@@ -3067,7 +3067,7 @@ GtkWidget* clear_note (void)
 {
 	save_string_to_file_vide(confile.crapbook_file,"");
 	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer_note), "", -1);
-	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("\nTo view notes [ALT+M]\n")), -1);
+	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("\n")), -1);
 	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("To integrate a selection in the note  [CTR+E]\n\n____________________________________________________________________________________________________________________________________________________\n\n")), -1);
 	return NULL;
 }
