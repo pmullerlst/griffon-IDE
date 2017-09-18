@@ -6504,7 +6504,7 @@ void window_tweeter_info ()
 
 	window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
-	gtk_window_set_title (GTK_WINDOW (window1), _((_("Griffon IDE Version"))));
+	gtk_window_set_title (GTK_WINDOW (window1), _((_("Griffon IDE Tweeter"))));
 	gtk_window_resize (GTK_WINDOW (window1), 530, 645);
 	gtk_widget_show (GTK_WIDGET(window1));
 
@@ -6541,7 +6541,7 @@ void window_devdocs ()
 
 	window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
-	gtk_window_set_title (GTK_WINDOW (window1), _((_("Griffon IDE Version"))));
+	gtk_window_set_title (GTK_WINDOW (window1), _((_("Griffon IDE DevDoc"))));
 	gtk_window_resize (GTK_WINDOW (window1), 900, 700);
 	gtk_widget_show (GTK_WIDGET(window1));
 
@@ -7305,7 +7305,7 @@ void window_chrono_stats_file ()
 
 	window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_transient_for(GTK_WINDOW(window1),GTK_WINDOW(tea_main_window));
-	gtk_window_set_title (GTK_WINDOW (window1), _((_("Griffon IDE Version"))));
+	gtk_window_set_title (GTK_WINDOW (window1), _((_("Griffon IDE Chrono"))));
 	gtk_window_resize (GTK_WINDOW (window1), 550, 150);
 	gtk_widget_show (GTK_WIDGET(window1));
 
