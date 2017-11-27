@@ -8147,9 +8147,11 @@ void do_printing ()
 	GtkPrintOperation *operation;	
 
 	compositor = gtk_source_print_compositor_new_from_view (GTK_SOURCE_VIEW(cur_text_doc->text_view));
+	gtk_source_print_compositor_set_header_format (compositor,TRUE,"%x", g_path_get_basename (cur_text_doc->file_name),"Page %N/%Q");
+	gtk_source_print_compositor_set_print_header (compositor,TRUE);
 	operation = gtk_print_operation_new ();
 
-  	g_signal_connect (operation, "paginate",  G_CALLBACK (paginate), compositor);
+	g_signal_connect (operation, "paginate",  G_CALLBACK (paginate), compositor);
 	g_signal_connect (operation, "draw-page", G_CALLBACK (draw_page), compositor);
 	g_signal_connect (operation, "end-print", G_CALLBACK (end_print), compositor);
 
