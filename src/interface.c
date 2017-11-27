@@ -27,7 +27,6 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 #include <vte/vte.h>
-#include <math.h>
 #include <libnotify/notify.h>
 #include <gtksourceview/gtksource.h>
 #include <gtksourceview/gtksourceview.h>
