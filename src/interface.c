@@ -27,6 +27,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 #include <vte/vte.h>
+#include <math.h>
 #include <libnotify/notify.h>
 #include <gtksourceview/gtksource.h>
 #include <gtksourceview/gtksourceview.h>
@@ -493,6 +494,12 @@ static GtkWidget* create_hardcoded_toolbar (void)
 	g_signal_connect ((gpointer) tool_save_as, "clicked",G_CALLBACK (file_save_as),NULL);
 	gtk_tool_item_set_tooltip_text(tool_save_as,(_("Save under another name")));
 
+	GtkToolItem *tool_print=gtk_tool_button_new(gtk_image_new_from_icon_name("document-print",GTK_ICON_SIZE_SMALL_TOOLBAR),"Print File");
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_print, -1);
+	gtk_widget_show(GTK_WIDGET(tool_print));
+	g_signal_connect ((gpointer) tool_print, "clicked",G_CALLBACK (do_printing),NULL);
+	gtk_tool_item_set_tooltip_text(tool_print,(_("Print File")));
+
 	tool_sep=gtk_separator_tool_item_new();
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tool_sep, -1);
 	gtk_widget_show(GTK_WIDGET(tool_sep));
@@ -694,6 +701,9 @@ GtkWidget* create_tea_main_window (void)
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_M, GDK_MOD1_MASK,GTK_ACCEL_VISIBLE);
 
 	mni_temp = new_menu_item (_("Doc Gen"), mni_file_menu, gen_doc_html);
+	mni_temp = new_menu_sep (mni_file_menu);
+
+	mni_temp = new_menu_item (_("Print"), mni_file_menu, do_printing);
 	mni_temp = new_menu_sep (mni_file_menu);
 
 	mni_temp = new_menu_item (_("Open"), mni_file_menu, on_mni_file_open_activate);
@@ -8099,4 +8109,56 @@ srctmp2= gtk_source_view_new_with_buffer(tmpbuffer2);
 	return;
 	}
 }
+
+//************************************** PAGINATION POUR PRINT SOURCEVIEW
+gboolean paginate (GtkPrintOperation *operation,GtkPrintContext *context, GtkSourcePrintCompositor *compositor)
+{
+	if (gtk_source_print_compositor_paginate (compositor, context))
+	{
+		gint n_pages;
+
+		n_pages = gtk_source_print_compositor_get_n_pages (compositor);
+		gtk_print_operation_set_n_pages (operation, n_pages);
+
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+//************************************ DRAW PRINT PAGE SOURCEVIEW
+void draw_page (GtkPrintOperation *operation,GtkPrintContext *context,gint page_nr,GtkSourcePrintCompositor *compositor)
+{
+	if(operation==NULL){}
+	gtk_source_print_compositor_draw_page (compositor, context, page_nr);
+}
+
+void end_print (GtkPrintOperation *operation,GtkPrintContext *context, GtkSourcePrintCompositor *compositor)
+{
+	if(context==NULL){}
+	if(operation==NULL){}
+	g_object_unref (compositor);
+}
+
+//********************************* PRINT GTKSOURCEVIEW
+void do_printing ()
+{
+	if (! get_page_text()) return;
+	GtkSourcePrintCompositor *compositor;
+	GtkPrintOperation *operation;	
+
+	compositor = gtk_source_print_compositor_new_from_view (GTK_SOURCE_VIEW(cur_text_doc->text_view));
+	operation = gtk_print_operation_new ();
+
+  	g_signal_connect (operation, "paginate",  G_CALLBACK (paginate), compositor);
+	g_signal_connect (operation, "draw-page", G_CALLBACK (draw_page), compositor);
+	g_signal_connect (operation, "end-print", G_CALLBACK (end_print), compositor);
+
+	gtk_print_operation_run (operation,
+				 GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
+				 NULL, NULL);
+
+	g_object_unref (operation);
+}
+
 
