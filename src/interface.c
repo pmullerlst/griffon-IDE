@@ -7605,7 +7605,9 @@ void notify_progress_cb (WebKitWebView* web_view, GParamSpec* pspec, gpointer da
 	g_string_append_printf (string, "%f%%", load_progress);
 	gchar* title = g_string_free (string, FALSE);
 	gchar **a = g_strsplit (title, ",", -1);
-	title = g_strconcat (a[0],"%", NULL);
+
+	const gchar *page_title=webkit_web_view_get_title (web_view);
+	title = g_strconcat (a[0],"%"," : ",page_title, NULL);
 
 	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(pProgress),title);
 	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(pProgress), webkit_web_view_get_progress (web_view));
