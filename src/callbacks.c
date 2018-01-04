@@ -5466,34 +5466,6 @@ void on_format_line_bg ()
 
 }
 
-//*********************** OUVERTURE DIMAGE AVEC GIMP DEPUIS LE MINIWEB
-void open_gimp (void)
-{
-
-	FILE *fichier = NULL;
-	fichier = fopen("/usr/bin/gimp",  "r");
-	
-	if (fichier == NULL)
-	{
-		icon_stop_logmemo();
-		log_to_memo (_("You must install the gimp to use the edition image"), NULL, LM_ERROR);
-		statusbar_msg (_("You must install the gimp to use the edition image"));
-	}
-	else
-	{
-		fclose(fichier); 
-		char mot[150];
-		gchar *tampon_web;
-		tampon_web = gtk_editable_get_chars(GTK_EDITABLE(entry_web),0, -1);
-		strcpy(mot,"gimp ");
-		strcat(mot,tampon_web);
-		strcat(mot," &");
-		fclose(fichier);
-		int systemRet =system (mot);
-		if(systemRet == -1){return;}
-	}
-}
-
 //*********************** KEY RELACHE POUR RECHERCHE
 void keyrelase_search(void)
 {

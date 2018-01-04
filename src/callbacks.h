@@ -263,7 +263,6 @@ GtkWidget* help_mysql(void);
 GtkWidget* Aide_BASH (void);
 GtkWidget* w_sftp_mount (void);
 void on_format_button_clicked ();
-void open_gimp (void);
 void umount_sftp (void);
 void on_mni_file_todo ();
 void on_mni_file_myadmin ();

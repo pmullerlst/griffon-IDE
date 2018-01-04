@@ -2341,13 +2341,6 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(pProgress), 0.0);
 	gtk_widget_show (GTK_WIDGET(pProgress));
 
-	button_web_image = gtk_button_new_with_label ((_(" Open with Gimp ")));
-	gtk_widget_show (GTK_WIDGET(button_web_image));
-	gtk_box_pack_start (GTK_BOX (vbox3), button_web_image, FALSE, TRUE, 0);
-	gtk_widget_hide (GTK_WIDGET(button_web_image));
-
-	g_signal_connect ((gpointer) button_web_image, "clicked",G_CALLBACK (open_gimp),NULL);
-
 	button_web_image2 = gtk_button_new_with_label ((_(" Insert the name of the image file in the current page ")));
 	gtk_widget_show (GTK_WIDGET(button_web_image2));
 	gtk_box_pack_start (GTK_BOX (vbox3), button_web_image2, FALSE, TRUE, 0);
@@ -3360,10 +3353,10 @@ void focus_web ()
 			{
 			if (strcmp(".jpg", extension) == 0 || strcmp(".png", extension) == 0 || strcmp(".gif", extension) == 0  || strcmp(".jpeg", extension) == 0)
 			{
-				gtk_widget_show (GTK_WIDGET(button_web_image));
+				//gtk_widget_show (GTK_WIDGET(button_web_image));
 				gtk_widget_show (GTK_WIDGET(button_web_image2));
 			}else{
-				gtk_widget_hide (GTK_WIDGET(button_web_image));
+				//gtk_widget_hide (GTK_WIDGET(button_web_image));
 				gtk_widget_hide (GTK_WIDGET(button_web_image2));
 						}
 			}
@@ -8161,5 +8154,4 @@ void do_printing ()
 
 	g_object_unref (operation);
 }
-
 
