@@ -2335,14 +2335,6 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	g_signal_connect ((gpointer) button2, "clicked",G_CALLBACK (focus_web),NULL);
 	g_signal_connect ((gpointer) entry_web, "activate",G_CALLBACK (enter_web),entry_web);
 	g_signal_connect(webView, "document-load-finished",G_CALLBACK(miniweb_get_url), NULL);
-	g_signal_connect (webView, "notify::progress", G_CALLBACK (notify_progress_cb), webView);
-
-	//******* Progress BAR
-	pProgress = gtk_progress_bar_new();
-	gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(pProgress),TRUE);
-	gtk_box_pack_start(GTK_BOX(vbox3), pProgress, FALSE, TRUE, 0);
-	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(pProgress), 0.0);
-	gtk_widget_show (GTK_WIDGET(pProgress));
 
 	button_web_image2 = gtk_button_new_with_label ((_(" Insert the name of the image file in the current page ")));
 	gtk_widget_show (GTK_WIDGET(button_web_image2));
@@ -2370,6 +2362,8 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_box_pack_start(GTK_BOX(hbox_note), pProgress, FALSE, TRUE, 0);
 	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(pProgress), 0.0);
 	gtk_widget_show (GTK_WIDGET(pProgress));
+
+	g_signal_connect (webView, "notify::progress", G_CALLBACK (notify_progress_cb), webView);
 
 	gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook_down), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_down), 4), TRUE);
 
@@ -2532,17 +2526,6 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	g_signal_connect(webView_myadmin, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_myadmin);
 	g_signal_connect(webView_myadmin, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_myadmin);
 	g_signal_connect(webView_myadmin, "download-requested", G_CALLBACK(download_requested_cb), NULL);
-
-
-	//******* Progress BAR
-	pProgress_myweb = gtk_progress_bar_new();
-	gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(pProgress_myweb),TRUE);
-	gtk_box_pack_start(GTK_BOX(hbox_myadmin), pProgress_myweb, FALSE, TRUE, 0);
-	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(pProgress_myweb), 0.0);
-	gtk_widget_show (GTK_WIDGET(pProgress_myweb));
-
-	g_signal_connect (webView_myadmin, "notify::progress", G_CALLBACK (notify_progress_cb_myadmin), webView_myadmin);
-
 
 	label_note3 = gtk_label_new (_("Web"));
 	gtk_widget_show (GTK_WIDGET(label_note3));
@@ -7632,7 +7615,7 @@ void notify_progress_cb (WebKitWebView* web_view, GParamSpec* pspec, gpointer da
 	if(pspec==NULL){}
 	if(data==NULL){}
 	load_progress = webkit_web_view_get_progress (web_view) * 100;
-	GString* string = g_string_new ("Load : ");
+	GString* string = g_string_new ("");
 	g_string_append_printf (string, "%f%%", load_progress);
 	gchar* title = g_string_free (string, FALSE);
 	gchar **a = g_strsplit (title, ",", -1);
@@ -7650,7 +7633,7 @@ void notify_progress_cb_myadmin (WebKitWebView* web_view, GParamSpec* pspec, gpo
 	if(pspec==NULL){}
 	if(data==NULL){}
 	load_progress = webkit_web_view_get_progress (web_view) * 100;
-	GString* string = g_string_new ("Load : ");
+	GString* string = g_string_new ("");
 	g_string_append_printf (string, "%f%%", load_progress);
 	gchar* title = g_string_free (string, FALSE);
 	gchar **a = g_strsplit (title, ",", -1);
