@@ -365,4 +365,5 @@ void save_term_as_png (GtkWidget *tv,GdkEventButton *event,  gpointer user_data)
 void listdir_autocomp();
 void list_dir_autocomp(const char * dir_name,int nbr);
 void do_printing ();
+void notify_progress_cb_myadmin (WebKitWebView* web_view, GParamSpec* pspec, gpointer data);
 

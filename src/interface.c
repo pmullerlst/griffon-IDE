@@ -140,6 +140,7 @@ WebKitWebView *webView_graph;
 GtkToolItem *item_icon;
 gdouble load_progress;
 GtkWidget *pProgress;
+GtkWidget *pProgress_myweb;
 GtkWidget *scrolledWindow;
 WebKitWebView *webView_dir;
 gchar *html_dir_list;
@@ -2318,6 +2319,8 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	webView = WEBKIT_WEB_VIEW(webkit_web_view_new());
 	gtk_widget_show (GTK_WIDGET(webView));
 
+	/*webkit_web_view_set_editable (webView,TRUE);*/
+
 	g_signal_connect(webView, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView);
 	g_signal_connect(webView, "download-requested", G_CALLBACK(download_requested_cb), NULL);
 	g_signal_connect(webView, "create-web-view",G_CALLBACK(web_new_w_click_go), webView);
@@ -2360,6 +2363,13 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_widget_show (GTK_WIDGET(image2));
 	gtk_box_pack_start (GTK_BOX (hbox_note), image2, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox_note), label_note3, TRUE, TRUE, 0);		
+
+	//******* Progress BAR
+	pProgress = gtk_progress_bar_new();
+	gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(pProgress),TRUE);
+	gtk_box_pack_start(GTK_BOX(hbox_note), pProgress, FALSE, TRUE, 0);
+	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(pProgress), 0.0);
+	gtk_widget_show (GTK_WIDGET(pProgress));
 
 	gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (notebook_down), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook_down), 4), TRUE);
 
@@ -2523,6 +2533,17 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	g_signal_connect(webView_myadmin, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_myadmin);
 	g_signal_connect(webView_myadmin, "download-requested", G_CALLBACK(download_requested_cb), NULL);
 
+
+	//******* Progress BAR
+	pProgress_myweb = gtk_progress_bar_new();
+	gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(pProgress_myweb),TRUE);
+	gtk_box_pack_start(GTK_BOX(hbox_myadmin), pProgress_myweb, FALSE, TRUE, 0);
+	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(pProgress_myweb), 0.0);
+	gtk_widget_show (GTK_WIDGET(pProgress_myweb));
+
+	g_signal_connect (webView_myadmin, "notify::progress", G_CALLBACK (notify_progress_cb_myadmin), webView_myadmin);
+
+
 	label_note3 = gtk_label_new (_("Web"));
 	gtk_widget_show (GTK_WIDGET(label_note3));
 
@@ -2553,6 +2574,16 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	g_signal_connect(webView_myadmin_traduc, "new-window-policy-decision-requested",G_CALLBACK(myadmin_new_window), webView_myadmin_traduc);
 	g_signal_connect(webView_myadmin_traduc, "download-requested", G_CALLBACK(download_requested_cb), NULL);
 	g_signal_connect(webView_myadmin_traduc, "create-web-view",G_CALLBACK(web_new_w_click_go), webView_myadmin_traduc);
+
+	//******* Progress BAR
+	pProgress_myweb = gtk_progress_bar_new();
+	gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(pProgress_myweb),TRUE);
+	gtk_box_pack_start(GTK_BOX(hbox_note), pProgress_myweb, FALSE, TRUE, 0);
+	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(pProgress_myweb), 0.0);
+	gtk_widget_show (GTK_WIDGET(pProgress_myweb));
+
+	g_signal_connect (webView_myadmin, "notify::progress", G_CALLBACK (notify_progress_cb_myadmin), webView_myadmin);
+
 
 	label_note3 = gtk_label_new (_("Translation"));
 	gtk_widget_show (GTK_WIDGET(label_note3));
@@ -7612,6 +7643,25 @@ void notify_progress_cb (WebKitWebView* web_view, GParamSpec* pspec, gpointer da
 	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(pProgress),title);
 	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(pProgress), webkit_web_view_get_progress (web_view));
  }
+
+//********************** LOAD PROGRESS MINIWEB
+void notify_progress_cb_myadmin (WebKitWebView* web_view, GParamSpec* pspec, gpointer data)
+ {
+	if(pspec==NULL){}
+	if(data==NULL){}
+	load_progress = webkit_web_view_get_progress (web_view) * 100;
+	GString* string = g_string_new ("Load : ");
+	g_string_append_printf (string, "%f%%", load_progress);
+	gchar* title = g_string_free (string, FALSE);
+	gchar **a = g_strsplit (title, ",", -1);
+
+	const gchar *page_title=webkit_web_view_get_title (web_view);
+	title = g_strconcat (a[0],"%"," : ",page_title, NULL);
+
+	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(pProgress_myweb),title);
+	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(pProgress_myweb), webkit_web_view_get_progress (web_view));
+ }
+
 
 //*********************** ACTIVE LOAD URL FOR AUTOCOMPLET MINI WEB
 void on_match_select_miniweb(GtkEntryCompletion *widget,GtkTreeModel *model, GtkTreeIter *iter,gpointer user_data)
