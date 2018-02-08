@@ -836,6 +836,23 @@ void theme_solarizedd  ()
 	gtk_source_buffer_set_style_scheme(buffer_projet , scheme);
 }
 
+void theme_select  (GtkMenuItem *menuitem)
+{
+	if (! get_page_text()) return;
+
+	const gchar *t =  gtk_widget_get_name (GTK_WIDGET(menuitem));
+	if (! t) 
+		return;
+
+	gchar *confile_theme_insert=g_strconcat (t,"\n", NULL);
+	GtkSourceStyleSchemeManager* sm = gtk_source_style_scheme_manager_new();
+	GtkSourceStyleScheme* scheme = gtk_source_style_scheme_manager_get_scheme(sm, t);
+	gtk_source_buffer_set_style_scheme(cur_text_doc->text_buffer , scheme);
+	create_empty_file (confile.tea_theme, confile_theme_insert);
+	confile.theme = t;
+	gtk_source_buffer_set_style_scheme(buffer_projet , scheme);
+}
+
 void theme_solarizedl  ()
 {
 	if (! get_page_text()) return;

@@ -1200,13 +1200,42 @@ GtkWidget* create_tea_main_window (void)
 
 	mni_temp = new_menu_item (_("Themes"), mni_view_menu, NULL);
 	mni_theme_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
-	mni_temp = new_menu_item (_("Theme Classic (Default)"), mni_theme_menu, theme_classic  );   
+/*	mni_temp = new_menu_item (_("Theme Classic (Default)"), mni_theme_menu, theme_classic  );   
 	mni_temp = new_menu_item (_("Theme Cobalt"), mni_theme_menu, theme_cobalt );
 	mni_temp = new_menu_item (_("Theme Kate"), mni_theme_menu, theme_kate  );
 	mni_temp = new_menu_item (_("Theme Oblivion"), mni_theme_menu, theme_oblivion );
 	mni_temp = new_menu_item (_("Theme Tango"), mni_theme_menu, theme_tango  );
 	mni_temp = new_menu_item (_("Theme Solarized light"), mni_theme_menu, theme_solarizedl  );
 	mni_temp = new_menu_item (_("Theme Solarized dark"), mni_theme_menu, theme_solarizedd  );
+*/
+
+	struct dirent *lecture_theme;
+	DIR *rep_theme;
+	char rep_path_theme[950]="/usr/share/gtksourceview-3.0/styles/";
+	const gchar* label_theme;
+	char *extension;
+
+	rep_theme = opendir(rep_path_theme );
+	if(rep_theme!=NULL)
+	{
+		while ((lecture_theme = readdir(rep_theme))) 
+		{
+			if(strrchr(lecture_theme->d_name,'.'))
+			{
+				extension = strrchr(lecture_theme->d_name,'.');
+
+				if (strcmp(".xml", extension) == 0)
+				{
+					if(strlen(lecture_theme->d_name)>3)
+					{
+						label_theme = str_replace_all (lecture_theme->d_name, ".xml", "");
+						mni_temp = new_menu_item (label_theme, mni_theme_menu, theme_select);
+					}
+				}
+			}
+		}
+	}
+	closedir(rep_theme); 
 
 	mni_temp = new_menu_item (_("Draw spaces ON"), mni_view_menu, on_mni_draw_spaces_on);
 	mni_temp = new_menu_item (_("Draw spaces OFF"), mni_view_menu, on_mni_draw_spaces_off);

@@ -42,7 +42,7 @@ typedef struct
 	gchar *tea_myadmin;
 	gchar *current_movie;
 	gchar *cm_mplayer;
-	gchar *theme;
+	const gchar *theme;
 	gchar *custom_term;
 	gchar *projects;
 	gchar *iconv_file;

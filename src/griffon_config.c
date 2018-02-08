@@ -191,7 +191,7 @@ void confile_free (void)
 	g_free (confile.tea_cmd_history);
 	g_free (confile.tea_theme);
 	g_free (confile.tea_theme_gtk);  
-	g_free (confile.theme);
+	//g_free (confile.theme);
 	g_free (confile.custom_term);
 	g_free (confile.projects);
 	g_free (confile.tea_ftp);

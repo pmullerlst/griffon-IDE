@@ -6121,4 +6121,3 @@ gboolean scan_include_view (gchar *text,int id)
 	return result;
 }
 
-
