@@ -139,6 +139,7 @@ int preview_file=0;
 WebKitWebView *webView_graph;
 GtkToolItem *item_icon;
 gdouble load_progress;
+gdouble load_progress_myweb;
 GtkWidget *pProgress;
 GtkWidget *pProgress_myweb;
 GtkWidget *scrolledWindow;
@@ -4596,6 +4597,7 @@ void enter_web ()
 //*********************** LOAD URL MYADMIN
 void enter_myweb ()
 {
+	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(pProgress_myweb), 0.0);
 	gchar *tampon_myweb;
 
 	if(gtk_editable_get_chars(GTK_EDITABLE(entry_myadmin),0, -1))
@@ -4676,6 +4678,7 @@ void myadmin_view_mode_get_url_win (GtkWidget *widget,gpointer user_data){gtk_wi
 void enter_myweb_win (GtkWidget* entry, gpointer user_data)
 {
 	gchar *tampon_myweb;
+	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(pProgress_myweb), 0.0);
 
 	if(gtk_editable_get_chars(GTK_EDITABLE(entry),0, -1))
 	{
@@ -4864,6 +4867,11 @@ void new_terminal ()
 
 	g_signal_connect (page_term->vte_add, "button-press-event", G_CALLBACK (popup_context_menu_vte), NULL);
 	g_signal_connect (page_term->vte_add, "child-exited", G_CALLBACK (on_button_close_term), NULL);
+
+	//************************ FORGROUND GREEN
+	GdkRGBA colour;
+	gdk_rgba_parse(&colour,"#4e9a06");
+	vte_terminal_set_color_foreground(VTE_TERMINAL(page_term->vte_add) ,&colour);
 
 	gtk_notebook_set_current_page(GTK_NOTEBOOK (notebook_term), page_term->num_tab);
 }
@@ -7661,9 +7669,9 @@ void notify_progress_cb_myadmin (WebKitWebView* web_view, GParamSpec* pspec, gpo
  {
 	if(pspec==NULL){}
 	if(data==NULL){}
-	load_progress = webkit_web_view_get_progress (web_view) * 100;
+	load_progress_myweb = webkit_web_view_get_progress (web_view) * 100;
 	GString* string = g_string_new ("");
-	g_string_append_printf (string, "%f%%", load_progress);
+	g_string_append_printf (string, "%f%%", load_progress_myweb);
 	gchar* title = g_string_free (string, FALSE);
 	gchar **a = g_strsplit (title, ",", -1);
 
