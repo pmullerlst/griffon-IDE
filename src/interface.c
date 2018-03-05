@@ -1543,6 +1543,41 @@ GtkWidget* create_tea_main_window (void)
 	gtk_container_add (GTK_CONTAINER (notebook2), GTK_WIDGET(vbox_sftp));
 	gtk_widget_show (GTK_WIDGET(vbox_sftp)); 
 
+	//*********************** TOOLBAR SFTP
+	GtkWidget *toolbar_sftp;
+	toolbar_sftp = gtk_toolbar_new ();
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_sftp), GTK_TOOLBAR_ICONS);
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_sftp),GTK_ICON_SIZE_SMALL_TOOLBAR);
+
+	GtkToolItem *tool_sftp_mount=gtk_tool_button_new(gtk_image_new_from_icon_name("list-add",GTK_ICON_SIZE_SMALL_TOOLBAR),"Mount a server");
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_sftp), tool_sftp_mount, -1);
+	gtk_widget_show(GTK_WIDGET(tool_sftp_mount));
+	g_signal_connect ((gpointer) tool_sftp_mount, "clicked",G_CALLBACK (w_sftp_mount),NULL);
+	gtk_tool_item_set_tooltip_text(tool_sftp_mount,_("Mount a server"));
+
+	GtkToolItem *tool_sftp_umount=gtk_tool_button_new(gtk_image_new_from_icon_name("list-remove",GTK_ICON_SIZE_SMALL_TOOLBAR),"Umount all servers");
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_sftp), tool_sftp_umount, -1);
+	gtk_widget_show(GTK_WIDGET(tool_sftp_umount));
+	g_signal_connect ((gpointer) tool_sftp_umount, "clicked",G_CALLBACK (umount_sftp),NULL);
+	gtk_tool_item_set_tooltip_text(tool_sftp_umount,_("Umount a server"));
+
+	GtkToolItem *tool_sep_sftp;
+	tool_sep_sftp=gtk_separator_tool_item_new();
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_sftp ), tool_sep_sftp, -1);
+	gtk_widget_show(GTK_WIDGET(tool_sep_sftp));
+
+	GtkToolItem *tool_sftp_clean=gtk_tool_button_new(gtk_image_new_from_icon_name("edit-clear",GTK_ICON_SIZE_SMALL_TOOLBAR),"Clean history");
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_sftp), tool_sftp_clean, -1);
+	gtk_widget_show(GTK_WIDGET(tool_sftp_clean));
+	g_signal_connect ((gpointer) tool_sftp_clean, "clicked",G_CALLBACK (vide_configuration_sftp),NULL);
+	gtk_tool_item_set_tooltip_text(tool_sftp_clean,_("Clean History"));
+
+	gtk_box_pack_start (GTK_BOX (vbox_sftp), toolbar_sftp, FALSE, FALSE, 0);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_sftp), GTK_TOOLBAR_ICONS);
+	gtk_widget_show_all (GTK_WIDGET(toolbar_sftp)); 
+
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_sftp),GTK_ICON_SIZE_SMALL_TOOLBAR);
+
 	search_sftp = gtk_entry_new ();
 	gtk_widget_show (GTK_WIDGET(search_sftp));
 	gtk_box_pack_start (GTK_BOX (vbox_sftp), search_sftp, FALSE, FALSE, 0);
@@ -1558,24 +1593,6 @@ GtkWidget* create_tea_main_window (void)
 	gtk_container_add(GTK_CONTAINER(scrolledWindow_sftp), GTK_WIDGET(view_sftp));
 
 	g_signal_connect(view_sftp, "button-release-event",G_CALLBACK(on_changed_sftp), selection_sftp);
-
-	GtkWidget *button_vide_sftp = gtk_button_new_with_label (_("Clear history"));
-	gtk_widget_show(GTK_WIDGET(button_vide_sftp));
-	gtk_box_pack_start(GTK_BOX(vbox_sftp), button_vide_sftp, FALSE, FALSE, 0);
-
-	g_signal_connect ((gpointer) button_vide_sftp, "clicked",G_CALLBACK (vide_configuration_sftp),NULL);
-
-	GtkWidget *button_m_sftp = gtk_button_new_with_label (_("Mount a server"));
-	gtk_widget_show(GTK_WIDGET(button_m_sftp));
-	gtk_box_pack_start(GTK_BOX(vbox_sftp), button_m_sftp, FALSE, FALSE, 0);
-
-	g_signal_connect ((gpointer) button_m_sftp, "clicked",G_CALLBACK (w_sftp_mount),NULL);
-
-	GtkWidget *button_umount = gtk_button_new_with_label (_("Umount a server"));
-	gtk_widget_show(GTK_WIDGET(button_umount));
-	gtk_box_pack_start(GTK_BOX(vbox_sftp), button_umount, FALSE, FALSE, 0);
-
-	g_signal_connect ((gpointer) button_umount, "clicked",G_CALLBACK (umount_sftp),NULL);
 
 	label_note6 = gtk_label_new (_("SFTP"));
 	gtk_widget_show (GTK_WIDGET(label_note6));
@@ -1598,6 +1615,41 @@ GtkWidget* create_tea_main_window (void)
 	gtk_container_add (GTK_CONTAINER (notebook2), GTK_WIDGET(vbox_ftp));
 	gtk_widget_show (GTK_WIDGET(vbox_ftp)); 
 
+	//*********************** TOOLBAR SFTP
+	GtkWidget *toolbar_ftp;
+	toolbar_ftp = gtk_toolbar_new ();
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_ftp), GTK_TOOLBAR_ICONS);
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_ftp),GTK_ICON_SIZE_SMALL_TOOLBAR);
+
+	GtkToolItem *tool_ftp_mount=gtk_tool_button_new(gtk_image_new_from_icon_name("list-add",GTK_ICON_SIZE_SMALL_TOOLBAR),"Mount a server");
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_ftp), tool_ftp_mount, -1);
+	gtk_widget_show(GTK_WIDGET(tool_ftp_mount));
+	g_signal_connect ((gpointer) tool_ftp_mount, "clicked",G_CALLBACK (w_ftp_mount),NULL);
+	gtk_tool_item_set_tooltip_text(tool_ftp_mount,_("Mount a server"));
+
+	GtkToolItem *tool_ftp_umount=gtk_tool_button_new(gtk_image_new_from_icon_name("list-remove",GTK_ICON_SIZE_SMALL_TOOLBAR),"Umount all servers");
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_ftp), tool_ftp_umount, -1);
+	gtk_widget_show(GTK_WIDGET(tool_ftp_umount));
+	g_signal_connect ((gpointer) tool_ftp_umount, "clicked",G_CALLBACK (umount_sftp),NULL);
+	gtk_tool_item_set_tooltip_text(tool_ftp_umount,_("Umount a server"));
+
+	GtkToolItem *tool_sep_ftp;
+	tool_sep_ftp=gtk_separator_tool_item_new();
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_ftp ), tool_sep_ftp, -1);
+	gtk_widget_show(GTK_WIDGET(tool_sep_ftp));
+
+	GtkToolItem *tool_ftp_clean=gtk_tool_button_new(gtk_image_new_from_icon_name("edit-clear",GTK_ICON_SIZE_SMALL_TOOLBAR),"Clean history");
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_ftp), tool_ftp_clean, -1);
+	gtk_widget_show(GTK_WIDGET(tool_ftp_clean));
+	g_signal_connect ((gpointer) tool_ftp_clean, "clicked",G_CALLBACK (vide_configuration_ftp),NULL);
+	gtk_tool_item_set_tooltip_text(tool_ftp_clean,_("Clean History"));
+
+	gtk_box_pack_start (GTK_BOX (vbox_ftp), toolbar_ftp, FALSE, FALSE, 0);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_ftp), GTK_TOOLBAR_ICONS);
+	gtk_widget_show_all (GTK_WIDGET(toolbar_ftp)); 
+
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_ftp),GTK_ICON_SIZE_SMALL_TOOLBAR);
+
 	search_ftp = gtk_entry_new ();
 	gtk_widget_show (GTK_WIDGET(search_ftp));
 	gtk_box_pack_start (GTK_BOX (vbox_ftp), search_ftp, FALSE, FALSE, 0);
@@ -1613,24 +1665,6 @@ GtkWidget* create_tea_main_window (void)
 	gtk_container_add(GTK_CONTAINER(scrolledWindow_ftp), GTK_WIDGET(view_ftp));
 
 	g_signal_connect(view_ftp, "button-release-event",G_CALLBACK(on_changed_ftp), selection_ftp);
-
-	GtkWidget *button_vide_ftp = gtk_button_new_with_label (_("Clear history"));
-	gtk_widget_show(GTK_WIDGET(button_vide_ftp));
-	gtk_box_pack_start(GTK_BOX(vbox_ftp), button_vide_ftp, FALSE, FALSE, 0);
-
-	g_signal_connect ((gpointer) button_vide_ftp, "clicked",G_CALLBACK (vide_configuration_ftp),NULL);
-
-	GtkWidget *button_m_ftp = gtk_button_new_with_label (_("Mount a server"));
-	gtk_widget_show(GTK_WIDGET(button_m_ftp));
-	gtk_box_pack_start(GTK_BOX(vbox_ftp), button_m_ftp, FALSE, FALSE, 0);
-
-	g_signal_connect ((gpointer) button_m_ftp, "clicked",G_CALLBACK (w_ftp_mount),NULL);
-
-	GtkWidget *button_umount2 = gtk_button_new_with_label (_("Umount a server"));
-	gtk_widget_show(GTK_WIDGET(button_umount2));
-	gtk_box_pack_start(GTK_BOX(vbox_ftp), button_umount2, FALSE, FALSE, 0);
-
-	g_signal_connect ((gpointer) button_umount2, "clicked",G_CALLBACK (umount_sftp),NULL);
 
 	label_note6 = gtk_label_new (_("FTP"));
 	gtk_widget_show (GTK_WIDGET(label_note6));
@@ -1651,6 +1685,23 @@ GtkWidget* create_tea_main_window (void)
 	GtkWidget* vbox_book = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add (GTK_CONTAINER (notebook2), GTK_WIDGET(vbox_book));
 	gtk_widget_show (GTK_WIDGET(vbox_book));  
+
+	GtkWidget *toolbar_mark;
+	toolbar_mark = gtk_toolbar_new ();
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_mark), GTK_TOOLBAR_ICONS);
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_mark),GTK_ICON_SIZE_SMALL_TOOLBAR);
+
+	GtkToolItem *tool_mark_remove=gtk_tool_button_new(gtk_image_new_from_icon_name("edit-clear",GTK_ICON_SIZE_SMALL_TOOLBAR),"Remove BookMark");
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_mark), tool_mark_remove, -1);
+	gtk_widget_show(GTK_WIDGET(tool_mark_remove));
+	g_signal_connect ((gpointer) tool_mark_remove, "clicked",G_CALLBACK (del_book),NULL);
+	gtk_tool_item_set_tooltip_text(tool_mark_remove,_("Remove BookMark"));
+
+	gtk_box_pack_start (GTK_BOX (vbox_book), toolbar_mark, FALSE, FALSE, 0);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_mark), GTK_TOOLBAR_ICONS);
+	gtk_widget_show_all (GTK_WIDGET(toolbar_mark)); 
+
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_mark),GTK_ICON_SIZE_SMALL_TOOLBAR);
 
 	GtkWidget* scrolledwindow_book = gtk_scrolled_window_new (NULL, NULL);
 	gtk_widget_show (GTK_WIDGET(scrolledwindow_book));
@@ -1696,12 +1747,6 @@ GtkWidget* create_tea_main_window (void)
 	selection_book = gtk_tree_view_get_selection(GTK_TREE_VIEW(view_list_book));
 
 	g_signal_connect(selection_book, "changed",G_CALLBACK(on_changed_book), NULL);
-
-	GtkWidget *button_del_book = gtk_button_new_with_label (_("Remove BookMark"));
-	gtk_widget_show(GTK_WIDGET(button_del_book));
-	gtk_box_pack_start(GTK_BOX(vbox_book), button_del_book, FALSE, FALSE, 0);
-
-	g_signal_connect ((gpointer) button_del_book, "clicked",G_CALLBACK (del_book),NULL);
 
 	label_note4 = gtk_label_new (_("Mark"));
 	gtk_widget_show (GTK_WIDGET(label_note4));
@@ -2148,6 +2193,24 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_container_add (GTK_CONTAINER (notebook_down), GTK_WIDGET(vbox3));
 	gtk_widget_show (GTK_WIDGET(vbox3));  
 
+	GtkWidget *toolbar_note;
+	toolbar_note = gtk_toolbar_new ();
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_note), GTK_TOOLBAR_ICONS);
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_note),GTK_ICON_SIZE_SMALL_TOOLBAR);
+
+	GtkToolItem *tool_note_clean=gtk_tool_button_new(gtk_image_new_from_icon_name("edit-clear",GTK_ICON_SIZE_SMALL_TOOLBAR),"Clear Note");
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_note), tool_note_clean, -1);
+	gtk_widget_show(GTK_WIDGET(tool_note_clean));
+	g_signal_connect ((gpointer) tool_note_clean, "clicked",G_CALLBACK (clear_note),NULL);
+	gtk_tool_item_set_tooltip_text(tool_note_clean,_("Clean Note"));
+
+	gtk_box_pack_start (GTK_BOX (vbox3), toolbar_note, FALSE, FALSE, 0);
+	gtk_toolbar_set_style (GTK_TOOLBAR(toolbar_note), GTK_TOOLBAR_ICONS);
+	gtk_widget_show_all (GTK_WIDGET(toolbar_note)); 
+
+	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar_note),GTK_ICON_SIZE_SMALL_TOOLBAR);
+
+
 	GtkWidget *vbox333 = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start(GTK_BOX(vbox3), GTK_WIDGET(vbox333), TRUE, TRUE, 1);
 	gtk_widget_show (GTK_WIDGET(vbox333)); 
@@ -2196,9 +2259,6 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_widget_show (GTK_WIDGET(source_map));
 	gtk_box_pack_start(GTK_BOX(vbox333), GTK_WIDGET(source_map), FALSE, TRUE, 1);
 
-	button_note1 = gtk_button_new_with_label (_("Delete"));
-	gtk_widget_show(GTK_WIDGET(button_note1));
-	gtk_box_pack_start(GTK_BOX(vbox3), button_note1, FALSE, FALSE, 0);
 
 	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("\n")), -1);
 	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer_note), (_("To integrate a selection in the note  [CTR+E]\n\n____________________________________________________________________________________________________________________________________________________\n\n")), -1);
@@ -2911,7 +2971,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	tv_logmemo_set_pos (0);
 	ui_init ();
 
-	g_signal_connect ((gpointer) button_note1, "clicked",G_CALLBACK (clear_note),NULL);
+//	g_signal_connect ((gpointer) button_note1, "clicked",G_CALLBACK (clear_note),NULL);
 	g_signal_connect (notebook_down, "create-window",G_CALLBACK (window_creation_function), NULL);
 	g_signal_connect (notebook2, "create-window",G_CALLBACK (window_creation_function), NULL);
 	g_signal_connect (notebook_myadmin, "create-window",G_CALLBACK (window_creation_function), NULL);
