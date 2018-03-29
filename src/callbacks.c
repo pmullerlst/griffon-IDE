@@ -6078,6 +6078,13 @@ gboolean scan_include_view (gchar *text,int id)
 	if (! get_page_text()) return FALSE;
 	if (! text) return FALSE;
 
+	GdkPixbuf *	pixbuf_fc = gdk_pixbuf_new_from_file("/usr/local/share/griffon/images/griffon_exe.png", NULL);
+	GdkPixbuf *	pixbuf_var = gdk_pixbuf_new_from_file("/usr/local/share/griffon/images/griffon_package.png", NULL);
+	GdkPixbuf *	pixbuf_err = gdk_pixbuf_new_from_file("/usr/local/share/griffon/images/griffon_stop.png", NULL);
+	GdkPixbuf *	pixbuf_todo = gdk_pixbuf_new_from_file("/usr/local/share/griffon/images/griffon_bug.png", NULL);
+	GdkPixbuf *	pixbuf_bug = gdk_pixbuf_new_from_file("/usr/local/share/griffon/images/griffon_advance.png", NULL);
+	GdkPixbuf *	pixbuf_fixme = gdk_pixbuf_new_from_file("/usr/local/share/griffon/images/griffon_exe.png", NULL);
+
 	gboolean result = FALSE;
 	gint line=0;
 	gchar *line_num=NULL;
@@ -6102,6 +6109,8 @@ gboolean scan_include_view (gchar *text,int id)
 			gtk_text_buffer_get_iter_at_line (GTK_TEXT_BUFFER(cur_text_doc->text_buffer), &itend, line + 1);
 			txt=gtk_text_buffer_get_text(GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&itstart,&itend,FALSE);
 
+		//gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&start_find,pixbuf_find);
+
 			txt = str_replace_all (txt, "\t", "");
 			txt = str_replace_all (txt, "\n", "");
 			txt = str_replace_all (txt, "\r", "");
@@ -6110,12 +6119,12 @@ gboolean scan_include_view (gchar *text,int id)
 
 			g_sprintf(line_num,"%d",line); 
 
-			if (id==1){add_to_list_fc(txt,line_num);}
-			if (id==2){add_to_list_var(txt,line_num);}
-			if (id==3){add_to_list_todo(txt,line_num);}
-			if (id==4){add_to_list_todo_fixme(txt,line_num);}
-			if (id==5){add_to_list_todo_bug(txt,line_num);}
-			if (id==6){add_to_list_err(txt,line_num);}
+			if (id==1){add_to_list_fc(txt,line_num); gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&start_find,pixbuf_fc);}
+			if (id==2){add_to_list_var(txt,line_num);gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&start_find,pixbuf_var);}
+			if (id==3){add_to_list_todo(txt,line_num);gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&start_find,pixbuf_todo);}
+			if (id==4){add_to_list_todo_fixme(txt,line_num);gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&start_find,pixbuf_fixme);}
+			if (id==5){add_to_list_todo_bug(txt,line_num);gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&start_find,pixbuf_bug);}
+			if (id==6){add_to_list_err(txt,line_num);gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(cur_text_doc->text_buffer),&start_find,pixbuf_err);}
 		}
 
 	return result;
