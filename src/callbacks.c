@@ -5173,6 +5173,8 @@ void umount_sftp (void)
 		statusbar_msg (_("Umount [Error]"));
 	}
 
+	if (confile.use_def_open_dir){gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,confile.def_open_dir);}
+
 		gtk_tree_selection_unselect_all(GTK_TREE_SELECTION(selection_sftp)); 
 		gtk_tree_selection_unselect_all(GTK_TREE_SELECTION(selection_ftp)); 
 }
