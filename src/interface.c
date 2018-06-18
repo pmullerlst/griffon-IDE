@@ -5584,8 +5584,20 @@ void switch_filechooser ()
 			gchar **a = g_strsplit (cur_text_doc->file_name, "_", -1);
 			if (strcmp("noname", a[0]) != 0 && g_file_test (cur_text_doc->file_name, G_FILE_TEST_EXISTS))
 			{
-				gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,g_path_get_dirname (cur_text_doc->file_name));
 
+				DIR *rep_test;
+				rep_test = opendir(g_path_get_dirname (cur_text_doc->file_name));
+				if(rep_test!=NULL)
+				{
+				gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,g_path_get_dirname (cur_text_doc->file_name));
+				}
+				else
+				{
+					if (confile.use_def_open_dir){gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,confile.def_open_dir);}
+				}
+
+				closedir(rep_test);
+ 
 				//*********** Pour le diff
 				GtkTextIter start;
 				GtkTextIter end;
@@ -5607,7 +5619,19 @@ void switch_filechooser_diff_off ()
 
 	 if(cur_text_doc->file_name!=NULL && g_file_test (cur_text_doc->file_name, G_FILE_TEST_EXISTS))
 		{
+				DIR *rep_test;
+				rep_test = opendir(g_path_get_dirname (cur_text_doc->file_name));
+				if(rep_test!=NULL)
+				{
 				gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,g_path_get_dirname (cur_text_doc->file_name));
+				}
+				else
+				{
+					if (confile.use_def_open_dir){gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,confile.def_open_dir);}
+				}
+
+				closedir(rep_test);
+ 
 		}
 }
 
