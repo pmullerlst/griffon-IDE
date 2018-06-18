@@ -5589,7 +5589,7 @@ void switch_filechooser ()
 				rep_test = opendir(g_path_get_dirname (cur_text_doc->file_name));
 				if(rep_test!=NULL)
 				{
-				gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,g_path_get_dirname (cur_text_doc->file_name));
+					gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,g_path_get_dirname (cur_text_doc->file_name));
 				}
 				else
 				{
@@ -5619,19 +5619,18 @@ void switch_filechooser_diff_off ()
 
 	 if(cur_text_doc->file_name!=NULL && g_file_test (cur_text_doc->file_name, G_FILE_TEST_EXISTS))
 		{
-				DIR *rep_test;
-				rep_test = opendir(g_path_get_dirname (cur_text_doc->file_name));
-				if(rep_test!=NULL)
-				{
-				gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,g_path_get_dirname (cur_text_doc->file_name));
-				}
-				else
-				{
-					if (confile.use_def_open_dir){gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,confile.def_open_dir);}
-				}
+			DIR *rep_test;
+			rep_test = opendir(g_path_get_dirname (cur_text_doc->file_name));
 
-				closedir(rep_test);
- 
+			if(rep_test!=NULL)
+			{
+				gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,g_path_get_dirname (cur_text_doc->file_name));
+			}
+			else
+			{
+				if (confile.use_def_open_dir){gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(filechooserwidget2) ,confile.def_open_dir);}
+			}
+		closedir(rep_test);
 		}
 }
 
