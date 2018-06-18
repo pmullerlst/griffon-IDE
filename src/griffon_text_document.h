@@ -135,4 +135,5 @@ gboolean predicate_find_tag_end (gunichar ch);
 void auto_hl_griffon_sql ();
 void auto_hl_griffon_csv ();
 void theme_select  (GtkMenuItem *menuitem);
+void color_select_hl  (GtkMenuItem *menuitem);
 

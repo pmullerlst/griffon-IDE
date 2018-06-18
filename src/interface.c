@@ -667,7 +667,7 @@ GtkWidget* create_tea_main_window (void)
 	tea_main_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_maximize (GTK_WINDOW(tea_main_window));
 	gtk_widget_set_name (tea_main_window, "tea_main_window");
-	gtk_window_set_title (GTK_WINDOW (tea_main_window), _("Griffon 1.8.6"));
+	gtk_window_set_title (GTK_WINDOW (tea_main_window), _("Griffon 1.8.7"));
 
 	//*********************** ICON MAIN WINDOW
 	gtk_window_set_icon_from_file (GTK_WINDOW(tea_main_window),"/usr/local/share/griffon/images/griffon_button.png",NULL);
@@ -1172,8 +1172,8 @@ GtkWidget* create_tea_main_window (void)
 
 	mni_temp = new_menu_item (_("Syntax Color"), mni_view_menu, NULL);
 	mni_hl_mode_menu = new_menu_submenu (GTK_WIDGET(mni_temp));
-	mni_temp = new_menu_item (HL_NONE, mni_hl_mode_menu, on_mni_set_hl_mode);
-	mni_temp = new_menu_item (HL_MARKUP, mni_hl_mode_menu, on_mni_set_hl_mode);
+	mni_temp = new_menu_item (HL_NONE, mni_hl_mode_menu, auto_hl_griffon_none);
+/*	mni_temp = new_menu_item (HL_MARKUP, mni_hl_mode_menu, on_mni_set_hl_mode);
 	mni_temp = new_menu_item (HL_JAVASCRIPT, mni_hl_mode_menu, on_mni_set_hl_mode);
 	mni_temp = new_menu_item (HL_XML, mni_hl_mode_menu, on_mni_set_hl_mode);
 	mni_temp = new_menu_item (HL_CSS, mni_hl_mode_menu, on_mni_set_hl_mode);
@@ -1188,6 +1188,36 @@ GtkWidget* create_tea_main_window (void)
 	mni_temp = new_menu_item (HL_JAVA, mni_hl_mode_menu, on_mni_set_hl_mode);
 	mni_temp = new_menu_item (HL_SQL, mni_hl_mode_menu, on_mni_set_hl_mode);
 	mni_temp = new_menu_item (HL_CSV, mni_hl_mode_menu, on_mni_set_hl_mode);
+*/
+
+//************************* FILE COLOR SYNTAX FILES
+	struct dirent *lecture_color_hl;
+	DIR *rep_color_hl;
+	char rep_path_color_hl[950]="/usr/share/gtksourceview-3.0/language-specs/";
+	const gchar* label_color_hl;
+	char *extension_hl;
+
+	rep_color_hl = opendir(rep_path_color_hl );
+	if(rep_color_hl!=NULL)
+	{
+		while ((lecture_color_hl = readdir(rep_color_hl))) 
+		{
+			if(strrchr(lecture_color_hl->d_name,'.'))
+			{
+				extension_hl = strrchr(lecture_color_hl->d_name,'.');
+
+				if (strcmp(".lang", extension_hl) == 0)
+				{
+					if(strlen(lecture_color_hl->d_name)>3)
+					{
+						label_color_hl = str_replace_all (lecture_color_hl->d_name, ".lang", "");
+						mni_temp = new_menu_item (label_color_hl, mni_hl_mode_menu, color_select_hl);
+					}
+				}
+			}
+		}
+	}
+	closedir(rep_color_hl); 
 
 	mni_temp = new_menu_item (_("Reload syntax color"), mni_view_menu, on_mni_refresh_hl);
 	gtk_widget_add_accelerator (mni_temp, "activate", accel_group,GDK_KEY_F5, 0,GTK_ACCEL_VISIBLE);
@@ -1908,7 +1938,7 @@ gchar* tampon_bug=g_strdup_printf ("%d", nb_line_bug) ;
 gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
 	gchar* nom_user = getenv("USER");
-	gchar *uri_main = g_strconcat("http://griffon.lasotel.fr/main.php?version=1.8.6&todo=", tampon_todo,"&bug=",tampon_bug,"&fixme=",tampon_fixme,"&user=",nom_user, NULL);
+	gchar *uri_main = g_strconcat("http://griffon.lasotel.fr/main.php?version=1.8.7&todo=", tampon_todo,"&bug=",tampon_bug,"&fixme=",tampon_fixme,"&user=",nom_user, NULL);
 
 	webkit_web_view_load_uri(webView_editor, uri_main);
 
@@ -2773,7 +2803,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_widget_show (GTK_WIDGET(webView_graph));
 
 	gtk_container_add(GTK_CONTAINER(scrolledwindow_graph), GTK_WIDGET(webView_graph));
-	gchar *uri_graph = g_strconcat("http://griffon.lasotel.fr/graph.php?version=1.8.6&todo=", tampon_todo,"&bug=",tampon_bug,"&fixme=",tampon_fixme, NULL);
+	gchar *uri_graph = g_strconcat("http://griffon.lasotel.fr/graph.php?version=1.8.7&todo=", tampon_todo,"&bug=",tampon_bug,"&fixme=",tampon_fixme, NULL);
 	webkit_web_view_load_uri(webView_graph, uri_graph);
 
 	scrolledwindow5 = gtk_scrolled_window_new (NULL, NULL);
@@ -2966,7 +2996,7 @@ gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
 	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);
 	tv_logmemo_set_pos (0);
-	log_to_memo ("\n\n(C)2014 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.8.6 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
+	log_to_memo ("\n\n(C)2014 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.8.7 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
 	tv_logmemo_set_pos (0);
 	tv_logmemo_set_pos (0);
 	ui_init ();
@@ -3317,7 +3347,7 @@ GtkWidget* create_about1 (void)
 	gtk_widget_show (GTK_WIDGET(image1));
 	gtk_box_pack_start (GTK_BOX (vbox1), image1, TRUE, TRUE, 0);
 
-	label1 = gtk_label_new (_("\n    Griffon IDE 1.8.6 \n\n    Autor \t\t: Philippe Muller \n    Email \t\t: pmuller@lasotel.fr\n\n    Developer and Administrator GNU/Linux system Lasotel (Lyon).    \n\n"));
+	label1 = gtk_label_new (_("\n    Griffon IDE 1.8.7 \n\n    Autor \t\t: Philippe Muller \n    Email \t\t: pmuller@lasotel.fr\n\n    Developer and Administrator GNU/Linux system Lasotel (Lyon).    \n\n"));
 	gtk_widget_show (GTK_WIDGET(label1));
 	gtk_box_pack_start (GTK_BOX (vbox1), label1, FALSE, FALSE, 0);
 
@@ -3677,9 +3707,9 @@ void  no_onglet_open()
 	gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
 	gchar* nom_user = getenv("USER");
-	gchar *uri_main = g_strconcat("http://griffon.lasotel.fr/main.php?version=1.8.6&todo=", tampon_todo,"&bug=",tampon_bug,"&fixme=",tampon_fixme,"&user=",nom_user, NULL);
+	gchar *uri_main = g_strconcat("http://griffon.lasotel.fr/main.php?version=1.8.7&todo=", tampon_todo,"&bug=",tampon_bug,"&fixme=",tampon_fixme,"&user=",nom_user, NULL);
 
-//	gchar *uri_main = g_strconcat("http://griffon.lasotel.fr/main.php?version=1.8.6&todo=", tampon_todo,"&bug=",tampon_bug,"&fixme=",tampon_fixme, NULL);
+//	gchar *uri_main = g_strconcat("http://griffon.lasotel.fr/main.php?version=1.8.7&todo=", tampon_todo,"&bug=",tampon_bug,"&fixme=",tampon_fixme, NULL);
 
 	webkit_web_view_load_uri(webView_editor, uri_main);
 
@@ -3760,7 +3790,7 @@ GtkWidget* version_window (void)
 
 	gtk_container_add(GTK_CONTAINER(scrolledwindow5), GTK_WIDGET(webView_doc));
 
-	webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/version.php?version=1.8.6");
+	webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/version.php?version=1.8.7");
 
 	GtkWidget *button_fixme = gtk_button_new_with_label (_("Update for Ubuntu/Mint/Debian"));
 	gtk_widget_show(GTK_WIDGET(button_fixme));
@@ -3802,7 +3832,7 @@ GtkWidget* rapport_window (void)
 
 	gtk_container_add(GTK_CONTAINER(vbox1), GTK_WIDGET(webView_doc));
 
-	webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/bug_rapport.php?clef=1.8.6");
+	webkit_web_view_load_uri(webView_doc, "http://griffon.lasotel.fr/bug_rapport.php?clef=1.8.7");
 
 	return window1;
 }
@@ -6311,7 +6341,7 @@ void clear_info()
 	gtk_text_buffer_get_start_iter(GTK_TEXT_BUFFER(buffer_img), &itFin);
 	gtk_text_buffer_insert_pixbuf (GTK_TEXT_BUFFER(buffer_img),&itFin,pixbuf);
 	tv_logmemo_set_pos (0);
-	log_to_memo ("\n\n(C)2014 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.8.6 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
+	log_to_memo ("\n\n(C)2014 Philippe Muller <pmuller@lasotel.fr>\n Griffon 1.8.7 - http://griffon.lasotel.fr\n\n", NULL, LM_GREET); 
 	tv_logmemo_set_pos (0);
 	tv_logmemo_set_pos (0);
 }
@@ -7685,7 +7715,7 @@ gchar* tampon_todo=g_strdup_printf ("%d", nb_line_todo) ;
 gchar* tampon_bug=g_strdup_printf ("%d", nb_line_bug) ;
 gchar* tampon_fixme=g_strdup_printf ("%d", nb_line_fixme) ;
 
-	gchar *uri_main = g_strconcat("http://griffon.lasotel.fr/graph.php?version=1.8.6&todo=", tampon_todo,"&bug=",tampon_bug,"&fixme=",tampon_fixme, NULL);
+	gchar *uri_main = g_strconcat("http://griffon.lasotel.fr/graph.php?version=1.8.7&todo=", tampon_todo,"&bug=",tampon_bug,"&fixme=",tampon_fixme, NULL);
 
 	webkit_web_view_load_uri(webView_graph, uri_main);
 }
